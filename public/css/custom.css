@@ -1,0 +1,66 @@
+.content {
+    min-height: 250px;
+    padding: 15px;
+    margin-right: auto;
+    margin-top: 50px;
+   
+}
+
+.dots:after{ 
+    content: '\f141' !important;
+    font-family: FontAwesome !important;
+ font-size:20px !important;
+    color:black !important;
+ 
+ 
+ } 
+ .edit{
+ margin: 6px -100px 0 !important;
+ min-width:100px !important;
+ }
+
+ .content-header>.breadcrumb {
+    float: left !important;
+    background: transparent;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    padding: 7px 5px;
+    position: absolute;
+    top: 15px;
+    left: 10px !important;
+    border-radius: 2px;
+}
+
+.box-color {
+    border-top: 0 !important;
+    box-shadow: 0 !important;;
+}
+
+.products {
+    border: 1px solid #d2d6de !important;
+    padding: 20px;
+    border-radius: 20px !important;
+}
+
+.content-header>.breadcrumb1 {
+    float: right;
+    background: transparent;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    padding: 7px 5px;
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    border-radius: 2px;
+}
+
+.sorting_1 > img {
+    display: block;
+    margin: 0 auto !important;
+}
+
+tr {
+    cursor: pointer !important;
+}
