@@ -18,10 +18,13 @@ class CreateCompaniesTable extends Migration
             $table->string('code');
             $table->integer('status');
             $table->string('name');
+            $table->string('country');
             $table->string('city');
             $table->string('zip_code');
             $table->string('address');
             $table->string('complement')->nullable();
+            $table->string('email');
+            $table->string('tel');
             $table->string('comment')->nullable();
             $table->string('logo');
 

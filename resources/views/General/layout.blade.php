@@ -3,5 +3,4 @@
 
 @yield('content')
 
-  @include('General.footer')
-  
+@include('General.footer')

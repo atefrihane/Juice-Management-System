@@ -12,9 +12,18 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+
         User::create([
             'email'=>'test@test.fr',
-            'password'=>bcrypt('123456')
+            'code'=> 't1158',
+            'nom' => 'nom',
+            'prenom'=> 'prenom',
+            'civilite'=> 'homme',
+            'telephone'=> '55612719',
+            'accessCode'=>'ji5848',
+            'password'=>bcrypt('123456'),
+            'child_type' => \App\Modules\Admin\Models\Admin::class,
+            'child_id' => '1'
         ]);
     }
 }
