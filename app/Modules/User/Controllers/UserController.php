@@ -4,6 +4,7 @@ namespace App\Modules\User\Controllers;
 
 use Alert;
 use App\Http\Controllers\Controller;
+use App\Modules\Admin\Models\Admin;
 use App\Modules\User\Models\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -36,5 +37,9 @@ class UserController extends Controller
     {
         Auth::logout();
         return redirect()->route('showLogin');
+    }
+
+    public function getUsers(){
+        return User::query()->where('id','=',1)->with('child')->get();
     }
 }
