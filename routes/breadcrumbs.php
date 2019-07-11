@@ -10,6 +10,21 @@ Breadcrumbs::for('company', function ($trail) {
     $trail->parent('home');
     $trail->push('Ajouter une societé', route('showAddCompany'));
 });
+// Home
+Breadcrumbs::for('admin', function ($trail) {
+    $trail->push('Liste des admins', route('admin'));
+});
+
+// Home > Societé
+Breadcrumbs::for('addAdmin', function ($trail) {
+    $trail->parent('admin');
+    $trail->push('Ajouter un admin', route('addAdmin'));
+});
+// Home > Societé
+Breadcrumbs::for('editAdmin', function ($trail) {
+    $trail->parent('admin');
+    $trail->push('Modifier un admin', route('editAdmin', ''));
+});
 
 Breadcrumbs::for('detail', function ($trail, $company) {
     $trail->parent('home');

@@ -19,6 +19,7 @@ class CreateCompaniesTable extends Migration
             $table->integer('status');
             $table->string('name');
             $table->string('country');
+            $table->string('designation');
             $table->string('city');
             $table->string('zip_code');
             $table->string('address');

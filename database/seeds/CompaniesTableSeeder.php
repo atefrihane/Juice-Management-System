@@ -25,6 +25,8 @@ class CompaniesTableSeeder extends Seeder
             'complement' => 'lorem',
             'comment' => 'lorem',
             'logo' => 'Carefour.png',
+            'email'=> 'email@email.com',
+            'tel'=> '55612719'
 
         ]);
 
@@ -40,6 +42,8 @@ class CompaniesTableSeeder extends Seeder
             'logo' => 'Auchan.png',
             'designation'=> 'des',
             'country' =>'country',
+            'email'=> 'email@email.com',
+            'tel'=> '55612719'
 
         ]);
 
@@ -57,7 +61,8 @@ class CompaniesTableSeeder extends Seeder
             'logo' => 'Cora.png',
             'designation'=> 'des',
             'country' =>'country',
-
+            'email'=> 'email@email.com',
+            'tel'=> '55612719'
         ]);
 
 
@@ -74,6 +79,8 @@ class CompaniesTableSeeder extends Seeder
             'logo' => 'Geant.png',
             'designation'=> 'des',
             'country' =>'country',
+            'email'=> 'email@email.com',
+            'tel'=> '55612719'
         ]);
 
 
@@ -89,6 +96,8 @@ class CompaniesTableSeeder extends Seeder
             'logo' => 'Hyper.png',
             'designation'=> 'des',
             'country' =>'country',
+            'email'=> 'email@email.com',
+            'tel'=> '55612719'
         ]);
 
 
@@ -104,6 +113,8 @@ class CompaniesTableSeeder extends Seeder
             'logo' => 'Intermarche.png',
             'designation'=> 'des',
             'country' =>'country',
+            'email'=> 'email@email.com',
+            'tel'=> '55612719'
         ]);
 
 
@@ -120,6 +131,8 @@ class CompaniesTableSeeder extends Seeder
             'logo' => 'Leclerc.png',
             'designation'=> 'des',
             'country' =>'country',
+            'email'=> 'email@email.com',
+            'tel'=> '55612719'
 
         ]);
 

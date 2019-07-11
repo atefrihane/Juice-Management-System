@@ -1,0 +1,5 @@
+<?php
+
+/**
+ *	MachineHistory Helper  
+ */

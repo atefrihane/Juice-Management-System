@@ -144,6 +144,7 @@
               <li class="user-footer">
                 <div class="pull-left">
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="{{route('admin')}}" class="btn btn-default btn-flat">Admins</a>
                 </div>
                 <div class="pull-right">
                   <a href="{{route('handleSignOut')}}" class="btn btn-default btn-flat">Déconnexion</a>
