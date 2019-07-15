@@ -36,7 +36,7 @@ min-width:100px;
                   <ul class="dropdown-menu edit" role="menu">
                     <li><a href="#">Modifier</a></li>
       
-                    <li><a href="#">Supprimer</a></li>
+                    <li><a href="">Supprimer</a></li>
                    
                   </ul>
     
@@ -45,7 +45,7 @@ min-width:100px;
 <section class="content">
 <div class="row">
 <div class="col-md-4">
-<img src="{{ asset('/img/' . $company->logo) }}" style="width:100%;padding:40px;">
+<img src="{{ asset( $company->logo) }}" style="width:100%;padding:40px;">
 </div>
 <div class="col-md-8">
 <form>
@@ -53,32 +53,27 @@ min-width:100px;
 <div class="col-md-6">
 <div class="form-group">
     <label for="exampleInputEmail1">Code</label>
-    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Code..">
+    <input type="text" class="form-control" value="{{$company->code}}" readonly aria-describedby="emailHelp" placeholder="Code..">
   
   </div>
 </div>
 <div class="col-md-6">
 <div class="form-group">
     <label for="exampleInputPassword1">Statut</label>
-    <select class="form-control">
-                    <option>option 1</option>
-                    <option>option 2</option>
-                    <option>option 3</option>
-                    <option>option 4</option>
-                    <option>option 5</option>
-                  </select>
-  </div>
+    <input type="text" class="form-control"  value="{{$company->status}}" readonly  placeholder="Nom du groupe">
+
+</div>
 </div>
 </div>
  
 <div class="form-group">
     <label for="exampleInputPassword1">Nom du groupe</label>
-    <input type="text" class="form-control"  placeholder="Nom du groupe">
+    <input type="text" class="form-control" value="{{$company->name}}" readonly  placeholder="Nom du groupe">
   </div>
 
   <div class="form-group">
     <label for="exampleInputPassword1">Désignation</label>
-    <input type="text" class="form-control"  placeholder="Désignation">
+    <input type="text" class="form-control"  value="{{$company->designation}}" readonly  placeholder="Désignation">
   </div>
  
 
@@ -86,33 +81,33 @@ min-width:100px;
 <div class="col-md-6">
 <div class="form-group">
     <label for="exampleInputEmail1">Ville</label>
-    <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Ville">
+    <input type="text" class="form-control"  value="{{$company->city}}" readonly  aria-describedby="emailHelp" placeholder="Ville">
 
   </div>
 </div>
 <div class="col-md-6">
 <div class="form-group">
     <label for="exampleInputPassword1">Code Postal</label>
-    <input type="text" class="form-control"  placeholder="Code Postal">
+    <input type="text" class="form-control"  value="{{$company->zip_code}}" readonly  placeholder="Code Postal">
   </div>
 </div>
 </div>
 
   <div class="form-group">
     <label for="exampleInputPassword1">Adresse de siége</label>
-    <input type="text" class="form-control"  placeholder="Adresse de siége">
+    <input type="text" class="form-control"  value="{{$company->address}}" readonly  placeholder="Adresse de siége">
   </div>
  
 
 
    <div class="form-group">
     <label for="exampleInputPassword1">Complément addresse (optionnel )</label>
-    <input type="text" class="form-control"  placeholder="Complément addresse">
+    <input type="text" class="form-control"  value="{{$company->complement}}" readonly  placeholder="Complément addresse">
   </div>
 
     <div class="form-group">
                   <label>Commentaires (optionnel)</label>
-                  <textarea class="form-control" rows="3" placeholder="Commentaires"></textarea>
+                  <textarea class="form-control" rows="3"   readonly placeholder="Commentaires">{{$company->comment}}</textarea>
                 </div>
  
 

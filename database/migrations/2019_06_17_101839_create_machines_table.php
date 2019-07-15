@@ -23,7 +23,7 @@ class CreateMachinesTable extends Migration
             $table->integer('number_bacs');
             $table->boolean('display_tablet');
             $table->double('price_month');
-            $table->string('comment');
+            $table->string('comment')->nullable();
             $table->string('photo_url');
 
             $table->timestamps();

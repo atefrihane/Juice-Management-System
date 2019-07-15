@@ -24,6 +24,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
+                <form name="form">
               <table  class="table table-bordered table-hover example2" style="width:100%;">
                 <thead>
                 <tr>
@@ -43,23 +44,17 @@
                   <td  data-url="{{route('showCompany',$company->id)}}">{{$company->zip_code}}</td>
                   <td  data-url="{{route('showCompany',$company->id)}}">5</td>
                   <td  data-url="{{route('showCompany',$company->id)}}">{{$company->status}}</td>
-                  <td class="not-this">
-
-                      <div class="btn-group">
-                      <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-                  <ul class="dropdown-menu edit" role="menu">
-                    <li><a href="#">Modifier</a></li>
-                    <li><a href="#">Annuler</a></li>
-                    <li><a href="#">Supprimer</a></li>
-                   
-                  </ul>
-                </div>
-  
-                 
-
-                    
-                  </div>
-                  </td>
+                    <td class="not-this">
+                        <div class="btn-group">
+                            <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                            <ul class="dropdown-menu edit" role="menu">
+                                <li><a href="{{route('editCompany', $company->id)}}">Modifier</a></li>
+                                <li>
+                                    <a data-toggle="modal" data-target="#modal-default" onclick="setIdToDelete({{$company->id}})"  >Supprimer</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
                   
                 </tr>
 
@@ -74,7 +69,7 @@
                 </tbody>
 
               </table>
-
+                  </form>
             </div>
             <!-- /.box-body -->
           </div>
@@ -87,5 +82,34 @@
     </section>
 
   </div>
+    <div class="modal fade" id="modal-default" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Vous voulez vraiment supprimer cette societé ?</h4>
+                </div>
+                <div class="modal-body">
+                    <p> Ce processus ne peut pas être annulé.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal"  >Close</button>
+                    <button type="button" class="btn btn-primary" onclick="deleteCompany()">Supprimer</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <script>
+        var idToDelete;
+        function setIdToDelete(id){
+            idToDelete = id;
+        }
+        function deleteCompany(){
+         location.replace('/company/delete/'+ idToDelete);
+        }
+    </script>
 
  @endsection

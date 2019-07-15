@@ -194,7 +194,7 @@
         <li class="{{ Route::is('showCompany',$company->id) ? 'active' : '' }}"><a href="{{route('showCompany',$company->id)}}"><i class="fa fa-question-circle""></i> <span>Informations</span></a></li>
         <li class="{{ Route::is('showStores',$company->id) ? 'active' : '' }}"><a href="{{route('showStores',$company->id)}}"><i class="fa fa-building"></i> <span>Magasins</span></a></li>
         <li class="{{ Route::is('showContacts',$company->id) ? 'active' : '' }}"><a href="{{route('showContacts',$company->id)}}"><i class="fa fa-male"></i> <span>Contacts</span></a></li>
-        <li class="{{ Route::is('showRentedMachines',$company->id) ? 'active' : '' }}"><a href="{{route('showRentedMachines',$company->id)}}""><i class="fa fa-plug"></i> <span>Machines en location</span></a></li>
+        <li class="{{ Route::is('showRentedMachines',$company->id) ? 'active' : '' }}"><a href="{{route('showRentedMachines',$company->id)}}"><i class="fa fa-plug"></i> <span>Machines en location</span></a></li>
         <li class="{{ Route::is('showCustomProducts',$company->id) ? 'active' : '' }}"><a href="{{route('showCustomProducts',$company->id)}}"><i class="fa fa-dollar"></i> <span>Tarifs produits</span></a></li>
   
       </ul>

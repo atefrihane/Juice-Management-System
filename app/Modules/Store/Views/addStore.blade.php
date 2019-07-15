@@ -1,186 +1,243 @@
 @extends('General.layoutCompany') @section('pageTitle', 'Ajouter un magasin') @section('content')
 
 
-<div class="content-wrapper">
+    <div class="content-wrapper">
 
-    <section class="content-header">
+        <section class="content-header">
 
-        {{ Breadcrumbs::render('addStore',$company) }}
-    </section>
+            {{ Breadcrumbs::render('addStore',$company) }}
+        </section>
 
-    <section class="content" style="margin-top:20px;">
-        <div class="row">
-            <div class="container">
+        <section class="content" style="margin-top:20px;">
+            <div class="row">
+                <div class="container">
 
-                <div class="box box-primary">
+                    <div class="box box-primary">
 
-                    <div class="box-header">
-                        <h3 class="box-title"> Ajouter un magasin</h3>
+                        <div class="box-header">
+                            <h3 class="box-title"> Ajouter un magasin</h3>
 
-                    </div>
+                        </div>
 
-                    <form role="form">
-                        <div class="box-body">
-                            <div class="row">
+                        <form role="form" action="{{route('addStore', $company->id)}}" method="post" enctype="multipart/form-data">
+                            {{csrf_field()}}
+                            <div class="box-body">
+                                <div class="row">
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">ID</label>
-                                        <input class="form-control" id="disabledInput" type="text" placeholder="ID" disabled>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">ID</label>
+                                            <input class="form-control" id="disabledInput" type="text" placeholder="ID" value="{{$lastStoreId}}" disabled>
 
+                                        </div>
                                     </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Code</label>
+                                            <input type="text" class="form-control" name="code" id="exampleInputEmail1" placeholder="Code..">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Etat</label>
+                                            <select name="status" class="form-control">
+                                                <option value="actif">Actif</option>
+                                                <option value="non-actif">Non Actif</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                 </div>
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Code</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Code..">
-                                    </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Nom Societé</label>
+                                    <input class="form-control" id="disabledInput" value="{{$company->name}}" type="text" placeholder="Groupe">
+
                                 </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Désignation</label>
+                                    <input class="form-control" id="disabledInput" type="text" name="designation" placeholder="Nom Magasin">
 
-                                         <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Activité</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Activité..">
-                                    </div>
                                 </div>
-
-                            </div>
-
-                              <div class="form-group">
-                                        <label for="exampleInputEmail1">Groupe</label>
-                                        <input class="form-control" id="disabledInput" type="text" placeholder="Groupe">
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Nom Magasin</label>
-                                        <input class="form-control" id="disabledInput" type="text" placeholder="Nom Magasin">
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Enseigne</label>
-                                        <select class="form-control">
-                                        <option>option 1</option>
-                                        <option>option 2</option>
-                                        <option>option 3</option>
-                                        <option>option 4</option>
-                                        <option>option 5</option>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Enseigne</label>
+                                    <select class="form-control" name="sign">
+                                        <option value="Franprix">Franprix</option>
+                                        <option value="G20">G20</option>
+                                        <option value="Shopi">Shopi</option>
+                                        <option value="LECLERC">LECLERC</option>
+                                        <option value="Restaurant">Restaurant</option>
+                                        <option value="Stand">Stand</option>
                                     </select>
 
 
+                                </div>
+
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Pays</label>
+                                            <select class="form-control" name="country">
+                                                <option value="France">France</option>
+                                            </select>
+
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Désignaiton</label>
-                                        <input class="form-control" id="disabledInput" type="text" placeholder="aa">
+                                </div>
+                                <div class="row">
 
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Ville</label>
+                                            <select class="form-control" name="city">
+                                                <option value="Paris">Paris</option>
+                                                <option value="Lion">Lion</option>
+                                            </select>
+                                        </div>
                                     </div>
 
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Code Postal</label>
+                                            <input class="form-control" name="zip_code" id="disabledInput" type="number" placeholder="Code Postal">
 
-                            <div class="row">
+                                        </div>
+                                    </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Ville</label>
-                                        <select class="form-control">
-                                            <option>option 1</option>
-                                            <option>option 2</option>
-                                            <option>option 3</option>
-                                            <option>option 4</option>
-                                            <option>option 5</option>
-                                        </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Adresse du magasin</label>
+                                    <input class="form-control" id="disabledInput" type="text" name="address" placeholder="Nom Magasin">
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Complement(optionnel)</label>
+                                    <input class="form-control" id="disabledInput" type="text" name="complement" placeholder="Nom Magasin">
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Email</label>
+                                    <input class="form-control" id="disabledInput" type="email" name="email" placeholder="Nom Magasin">
+
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Telephone</label>
+                                            <input class="form-control" name="cc"  type="text" placeholder="Code pays" value="+33" maxlength="4">
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1" style="color: transparent">*</label>
+                                            <input type="number" name="tel" class="form-control" id="exampleInputEmail1" placeholder="Telephone">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Commentaires (optionnel)</label>
+                                    <textarea class="form-control" rows="3" name="comment" placeholder="Commentaires"></textarea>
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <label for="exampleInputFile"> photo du magasion (optionnel)</label>
+                                    <input type="file" name="photo" id="exampleInputFile">
+                                </div>
+                                <label > Facturation</label>
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Type d'envoi des factures</label>
+                                            <select class="form-control" name="bill_type">
+                                                <option value="Email">Email</option>
+                                                <option value="Papier">Papier</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Facture addressée vers</label>
+                                            <select class="form-control" name="bill_to">
+                                                <option value="Magasin">Magasin</option>
+                                                <option value="Societé">Societé</option>
+                                                <option value="Magasin et Societé">Magasin et Societé</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                {{--<div class="row">--}}
+
+                                    {{--<div class="col-md-6">--}}
+                                        {{--<div class="form-group">--}}
+                                            {{--<label>Heure d'ouverture</label>--}}
+
+                                            {{--<div class="input-group bootstrap-timepicker">--}}
+                                                {{--<input type="text" class="form-control timepicker ">--}}
+
+                                                {{--<div class="input-group-addon">--}}
+                                                    {{--<i class="fa fa-clock-o"></i>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                            {{--<!-- /.input group -->--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+
+                                    {{--<div class="col-md-6">--}}
+                                        {{--<div class="form-group">--}}
+                                            {{--<label>Heure de fermeture</label>--}}
+
+                                            {{--<div class="input-group bootstrap-timepicker">--}}
+                                                {{--<input type="text" class="form-control timepicker">--}}
+
+                                                {{--<div class="input-group-addon">--}}
+                                                    {{--<i class="fa fa-clock-o"></i>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                            {{--<!-- /.input group -->--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+
+                                {{--</div>--}}
+
+                                <div class="form-group">
+                                    <label>Recommendation pour livreur (optionnel)</label>
+                                    <textarea class="form-control" rows="3" name="deliveryRec" placeholder="Recommendarion pour liveruer ..."></textarea>
+                                </div>
+
+                                <div class="row">
+                                    <div class="container text-center">
+
+                                        <a href="" class="btn btn-danger pl-1">Annuler</a>
+                                        <button  class="btn btn-success pl-1" type="submit">Confirmer</button>
 
                                     </div>
                                 </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Code Postal</label>
-                                        <input class="form-control" id="disabledInput" type="number" placeholder="Code Postal">
-
-                                    </div>
-                                </div>
-
                             </div>
 
-                            <div class="row">
-
-                            <div class="col-md-6">
-                            <div class="form-group">
-                  <label>Heure d'ouverture</label>
-
-                  <div class="input-group bootstrap-timepicker">
-                    <input type="text" class="form-control timepicker ">
-
-                    <div class="input-group-addon">
-                      <i class="fa fa-clock-o"></i>
+                        </form>
                     </div>
-                  </div>
-                  <!-- /.input group -->
-                </div>
-                            </div>
 
-                            <div class="col-md-6">
-                            <div class="form-group">
-                  <label>Heure de fermeture</label>
-
-                  <div class="input-group bootstrap-timepicker">
-                    <input type="text" class="form-control timepicker">
-
-                    <div class="input-group-addon">
-                      <i class="fa fa-clock-o"></i>
-                    </div>
-                  </div>
-                  <!-- /.input group -->
-                </div>
-                            </div>
-
-                            </div>
-
-
-   <div class="form-group">
-                                        <label for="exampleInputEmail1">Adresse du magasin</label>
-                                        <input class="form-control" id="disabledInput" type="text" placeholder="Adresse du magasin">
-
-                                    </div>
-
-                                       <div class="form-group">
-                                        <label for="exampleInputEmail1">Complement d'adresse</label>
-                                        <input class="form-control" id="disabledInput" type="text" placeholder="Complement d'adresse">
-
-                                    </div>
-
-
-                                 <div class="form-group">
-                  <label>Commentaires (optionnel)</label>
-                  <textarea class="form-control" rows="3" placeholder="Commentaires"></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputFile">Logo du societé (optionnel)</label>
-                  <input type="file" id="exampleInputFile">
-
-  
+                    <!-- /.col -->
                 </div>
 
-                  <div class="row">
-                <div class="container text-center">
-                
-                <a href="" class="btn btn-danger pl-1">Annuler</a>
-                <a href="" class="btn btn-success pl-1">Confirmer</a>
-                
-                </div>
-</div>
-
-
-                    </form>
-                </div>
-
-                <!-- /.col -->
             </div>
 
-        </div>
+        </section>
 
-    </section>
-
-</div>
+    </div>
 
 @endsection
