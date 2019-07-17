@@ -2,6 +2,9 @@
 
 namespace App\Modules\User\Models;
 
+use App\Modules\Diractor\Models\Diractor;
+use App\Modules\Responsable\Models\Responsable;
+use App\Modules\SuperVisor\Models\SuperVisor;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -47,5 +50,14 @@ class User extends Authenticatable
 
     public function child(){
         return $this->morphTo();
+    }
+    public function getType(){
+        $type = '';
+        switch ($this->child_type){
+            case Responsable::class : return 'responsable';break;
+            case SuperVisor::class : return 'superviseur';break;
+            case Diractor::class : return 'directeur';break;
+        }
+        return 'admin';
     }
 }
