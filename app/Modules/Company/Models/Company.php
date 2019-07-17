@@ -2,10 +2,18 @@
 
 namespace App\Modules\Company\Models;
 
+use App\Modules\Diractor\Models\Diractor;
+use App\Modules\Store\Models\Store;
 use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model {
 
 protected $fillable = ['code','status','name','country','email','tel','designation','city','zip_code','address','complement','comment','logo'];
 
+public function stores(){
+    return $this->hasMany(Store::class);
+}
+public function director(){
+   return $this->hasOne(Diractor::class)->with('user');
+}
 }

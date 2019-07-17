@@ -19,6 +19,7 @@ class AdminController extends Controller
     public function index()
     {
         $admins = Admin::query()->with('user')->with('role')->get();
+       // dd($admins);
         return view("Admin::index", compact('admins'));
     }
 
