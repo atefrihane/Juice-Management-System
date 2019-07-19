@@ -19,11 +19,21 @@
 
                     </div>
 
-                    <form role="form">
+                    <form role="form" method="post" enctype="multipart/form-data" action="{{route('storeMachine')}}">
+                        {{csrf_field()}}
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="box-body">
                             <div class="row">
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">ID</label>
                                         <input class="form-control" id="disabledInput" type="text" placeholder="aa" disabled>
@@ -31,10 +41,20 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Code</label>
-                                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Code..">
+                                        <input type="text" name="code" class="form-control" id="exampleInputEmail1" placeholder="Code..">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Etat</label>
+                                        <select class="form-control" name="status">
+                                            <option value="Fonctionnelle">Fonctionnelle</option>
+                                            <option value="En-panne">En panne</option>
+                                        </select>
                                     </div>
                                 </div>
 
@@ -42,7 +62,7 @@
 
                                 <div class="form-group">
                                         <label for="exampleInputEmail1">Code à barres</label>
-                                        <input class="form-control" id="disabledInput" type="text" placeholder="Code à barres">
+                                        <input class="form-control" name="barcode" id="disabledInput" type="text" placeholder="Code à barres">
 
                                     </div>
 
@@ -50,7 +70,7 @@
 
                                         <div class="form-group">
                                         <label for="exampleInputEmail1">Désignation</label>
-                                        <input class="form-control" id="disabledInput" type="text" placeholder="Désignation">
+                                        <input class="form-control" name="designation" id="disabledInput" type="text" placeholder="Désignation">
 
                                     </div>
 
@@ -59,12 +79,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Type</label>
-                                        <select class="form-control">
-                                        <option>option 1</option>
-                                        <option>option 2</option>
-                                        <option>option 3</option>
-                                        <option>option 4</option>
-                                        <option>option 5</option>
+                                        <select class="form-control" name="type">
+                                        <option value="Jus-granité">Jus et ganité</option>
+                                        <option value="Autre">Autre</option>
                                     </select>
 
 
@@ -73,14 +90,9 @@
 
                                       <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Nbr de bacs</label>
-                                        <select class="form-control">
-                                        <option>option 1</option>
-                                        <option>option 2</option>
-                                        <option>option 3</option>
-                                        <option>option 4</option>
-                                        <option>option 5</option>
-                                    </select>
+                                        <label for="exampleInputEmail1">Nombre de bacs</label>
+                                        <input class="form-control" name="number_bacs" id="disabledInput" type="number" placeholder="Nombre de bacs">
+
 
 
                                     </div>
@@ -88,51 +100,31 @@
 
 
                             </div>
-
-
                                  <div class="form-group">
-                                        <label for="exampleInputEmail1">Nbr de bacs</label>
-                                        <select class="form-control">
-                                        <option>option 1</option>
-                                        <option>option 2</option>
-                                        <option>option 3</option>
-                                        <option>option 4</option>
-                                        <option>option 5</option>
-                                    </select>
-
-
-                                    </div>
-
-
-
-                                         <div class="form-group">
                                         <label for="exampleInputEmail1">Affichage tablette</label>
-                                        <select class="form-control">
-                                        <option>option 1</option>
-                                        <option>option 2</option>
-                                        <option>option 3</option>
-                                        <option>option 4</option>
-                                        <option>option 5</option>
-                                    </select>
+                                        <select class="form-control" name="display_tablet">
+                                                 <option value="true">Oui</option>
+                                                 <option value="false">Non</option>
+                                         </select>
 
 
                                     </div>
 
                                          <div class="form-group">
                                         <label for="exampleInputEmail1">Prix de location mensuelle ( en euros )</label>
-                                        <input class="form-control" id="disabledInput" type="number" placeholder="Prix de location mensuelle ( en euros )">
+                                        <input class="form-control" id="disabledInput" name="price_month" type="number" placeholder="Prix de location mensuelle ( en euros )">
 
                                     </div>
 
 
                                         <div class="form-group">
                                         <label>Commentaires (optionnel)</label>
-                                        <textarea class="form-control" rows="3" placeholder="Commentaires"></textarea>
+                                        <textarea class="form-control" rows="3" name="comment" placeholder="Commentaires"></textarea>
                                         </div>
                                 
                                         <div class="form-group">
-                                    <label for="exampleInputFile">Logo du societé (optionnel)</label>
-                                    <input type="file" id="exampleInputFile">
+                                    <label for="exampleInputFile">Photo du machine (Optionnel)</label>
+                                    <input type="file" name="photo" id="exampleInputFile">
 
   
                                              </div>
@@ -140,8 +132,8 @@
                                     <div class="row">
                                     <div class="container text-center">
                                     
-                                    <a href="" class="btn btn-danger pl-1">Annuler</a>
-                                    <a href="" class="btn btn-success pl-1">Confirmer</a>
+                                    <a href="{{route('showMachines')}}" class="btn btn-danger pl-1" style="margin: 1em">Annuler</a>
+                                    <button type="submit" class="btn btn-success pl-1" style="margin: 1em">Confirmer</button>
                                     
                                     </div>
                                     </div>

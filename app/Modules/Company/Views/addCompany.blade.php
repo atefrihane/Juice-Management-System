@@ -25,6 +25,15 @@
        
             <form role="form" action="{{route('handleAddCompany')}}" method="post" enctype="multipart/form-data">
                 {{csrf_field()}}
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
               <div class="box-body">
               <div class="row">
 
@@ -144,8 +153,8 @@
                 <div class="row">
                 <div class="container text-center">
                 
-                <a href="" class="btn btn-danger pl-1">Annuler</a>
-                <button type="submit" class="btn btn-success pl-1">Ajouter</button>
+                <a href="" class="btn btn-danger pl-1" style="margin: 1em">Annuler</a>
+                <button type="submit" class="btn btn-success pl-1" style="margin: 1em">Ajouter</button>
                 
                 </div>
 </div>

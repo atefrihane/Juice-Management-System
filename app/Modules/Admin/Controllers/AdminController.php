@@ -45,7 +45,30 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         //
-      $admin =  Admin::create([
+      $val = $request->validate([
+          'code' => 'required',
+          'nom' => 'required',
+          'prenom' => 'required',
+          'sexe' => 'required',
+          'telephone' => 'required',
+          'email' => 'required|email|unique:users',
+          'accessCode' => 'required',
+          'password' => 'required',
+      ], [
+          'code.required' => 'le champs code est obligatoire',
+          'nom.required' => 'le champs nom est obligatoire',
+          'prenom.required' => 'le champs prenom est obligatoire',
+          'sexe.required' => 'le champs civilite est obligatoire',
+          'telephone.required' => 'le champs telephone est obligatoire',
+          'email.required' => 'le champs email est obligatoire',
+          'email.email' => 'vous devez saisir un email valide ',
+          'email.unique' => 'email deja existant ',
+          'accessCode.required' => 'le champs code d\'acces est obligatoire',
+          'password.required' => 'le champs mot de passe est obligatoire',
+
+          ]);
+
+        $admin =  Admin::create([
             'role_id'=> $request->role
         ]);
        $user = User::create([
@@ -83,6 +106,7 @@ class AdminController extends Controller
     public function edit($id)
     {
         //
+
         $admin = Admin::query()->where('id' ,'=', $id)->with('user')->get()->first();
         $roles = Role::all();
         return view("Admin::updateAdmin", compact('admin', 'roles'));
@@ -98,10 +122,35 @@ class AdminController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $val = $request->validate([
+            'code' => 'required',
+            'nom' => 'required',
+            'prenom' => 'required',
+            'sexe' => 'required',
+            'telephone' => 'required',
+            'email' => 'required|email',
+            'accessCode' => 'required',
+            'password' => 'required',
+        ], [
+            'code.required' => 'le champs code est obligatoire',
+            'nom.required' => 'le champs nom est obligatoire',
+            'prenom.required' => 'le champs prenom est obligatoire',
+            'sexe.required' => 'le champs civilite est obligatoire',
+            'telephone.required' => 'le champs telephone est obligatoire',
+            'email.required' => 'le champs email est obligatoire',
+            'email.email' => 'vous devez saisir un email valide ',
+            'email.unique' => 'email deja existant ',
+            'accessCode.required' => 'le champs code d\'acces est obligatoire',
+
+        ]);
         $admin = Admin::find($id);
         $admin->role_id = $request->role;
         $admin->save();
-
+        $user = User::find($admin->user->id);
+        if($request->password != null)
+            $password = bcrypt($request->passsword);
+        else
+            $password = $user->password;
         User::where('id', '=', $admin->user->id)->update([
             'email'         =>   $request->email,
             'code'          =>    $request->code,
@@ -110,7 +159,7 @@ class AdminController extends Controller
             'civilite'          =>    $request->sexe,
             'telephone'         =>   $request->telephone,
             'accessCode'            =>  $request->accessCode,
-            'password'          =>bcrypt( $request->password),
+            'password'          =>$password,
             'child_type'             => Admin::class,
             'child_id'           => $id
         ]);

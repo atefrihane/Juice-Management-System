@@ -26,6 +26,7 @@ class MachineRentalController extends Controller
     public function create()
     {
         //
+
     }
 
     /**

@@ -30,6 +30,30 @@ class StoreController extends Controller
     }
 
     public function store($company_id, Request $request){
+        $val = $request->validate([
+            'code'=>'required',
+            'sign'=>'required',
+            'designation'=>'required',
+            'zip_code'=> 'required',
+            'address'=>'required',
+            'email'=> 'required|email|unique:companies',
+            'tel'=> 'required',
+            'cc'=> 'required',
+
+        ], [
+            'code.required' => 'le champs code est obligatoire',
+            'sign.required' => 'le champs enseigne  est obligatoire',
+            'designation.required' => 'le champs designation est obligatoire',
+            'address.required' => 'le champs addresse est obligatoire',
+            'zip_code.required' => 'le champs code postale est obligatoire',
+            'email.required' => 'le champs email est obligatoire',
+            'email.unique' => 'email deja existant',
+            'email.email' => 'email non valide',
+            'cc.required' => 'le premier champs telephone est obligatoire',
+            'tel.required' => 'le deuxieme champs telephone est obligatoire',
+
+        ]);
+
         $path = $request->file('photo')->store('img', 'public');
         $telephone = $request->cc." ".$request->tel;
         $insertable = $request->all();
@@ -50,6 +74,28 @@ class StoreController extends Controller
     }
 
     public function update($id, Request $request){
+        $val = $request->validate([
+            'code'=>'required',
+            'sign'=>'required',
+            'designation'=>'required',
+            'zip_code'=> 'required',
+            'address'=>'required',
+            'email'=> 'required|email',
+            'tel'=> 'required',
+            'cc'=> 'required',
+
+        ], [
+            'code.required' => 'le champs code est obligatoire',
+            'sign.required' => 'le champs enseigne  est obligatoire',
+            'designation.required' => 'le champs designation est obligatoire',
+            'address.required' => 'le champs addresse est obligatoire',
+            'zip_code.required' => 'le champs code postale est obligatoire',
+            'email.required' => 'le champs email est obligatoire',
+            'email.email' => 'email non valide',
+            'cc.required' => 'le premier champs telephone est obligatoire',
+            'tel.required' => 'le deuxieme champs telephone est obligatoire',
+
+        ]);
         $updateable = $request->all();
         $store = Store::find($id);
         unset($updateable['_token']);

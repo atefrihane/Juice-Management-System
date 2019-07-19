@@ -1,4 +1,4 @@
-@extends('General.layoutCompany') @section('pageTitle', 'Ajouter un magasin') @section('content')
+@extends('General.layoutCompany') @section('pageTitle', 'Modifier un magasin') @section('content')
 
 
     <div class="content-wrapper">
@@ -15,12 +15,21 @@
                     <div class="box box-primary">
 
                         <div class="box-header">
-                            <h3 class="box-title"> Ajouter un magasin</h3>
+                            <h3 class="box-title"> Modifier un magasin</h3>
 
                         </div>
 
                         <form role="form" action="{{route('updateStore', $store->id)}}" method="post" enctype="multipart/form-data">
                             {{csrf_field()}}
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             <div class="box-body">
                                 <div class="row">
 
@@ -280,8 +289,8 @@
                                 <div class="row">
                                     <div class="container text-center">
 
-                                        <a href="" class="btn btn-danger pl-1">Annuler</a>
-                                        <button  class="btn btn-success pl-1" type="submit">Confirmer</button>
+                                        <a href="{{route('showStores', $company->id)}}" class="btn btn-danger pl-1" style="margin: 1em">Annuler</a>
+                                        <button  class="btn btn-success pl-1" type="submit" style="margin: 1em">Confirmer</button>
 
                                     </div>
                                 </div>

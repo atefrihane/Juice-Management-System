@@ -21,6 +21,15 @@
 
                         <form role="form" action="{{route('addStore', $company->id)}}" method="post" enctype="multipart/form-data">
                             {{csrf_field()}}
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             <div class="box-body">
                                 <div class="row">
 
@@ -53,7 +62,7 @@
 
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Nom Societé</label>
-                                    <input class="form-control" id="disabledInput" value="{{$company->name}}" type="text" placeholder="Groupe">
+                                    <input class="form-control" id="disabledInput" readonly value="{{$company->name}}" type="text" placeholder="Groupe">
 
                                 </div>
                                 <div class="form-group">
@@ -111,17 +120,17 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Adresse du magasin</label>
-                                    <input class="form-control" id="disabledInput" type="text" name="address" placeholder="Nom Magasin">
+                                    <input class="form-control" id="disabledInput" type="text" name="address" placeholder="Adresse du Magasin">
 
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Complement(optionnel)</label>
-                                    <input class="form-control" id="disabledInput" type="text" name="complement" placeholder="Nom Magasin">
+                                    <input class="form-control" id="disabledInput" type="text" name="complement" placeholder="Complement">
 
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Email</label>
-                                    <input class="form-control" id="disabledInput" type="email" name="email" placeholder="Nom Magasin">
+                                    <input class="form-control" id="disabledInput" type="email" name="email" placeholder="Email">
 
                                 </div>
                                 <div class="row">
@@ -221,8 +230,8 @@
                                 <div class="row">
                                     <div class="container text-center">
 
-                                        <a href="" class="btn btn-danger pl-1">Annuler</a>
-                                        <button  class="btn btn-success pl-1" type="submit">Confirmer</button>
+                                        <a href="{{route('showStores', $company->id)}}" class="btn btn-danger pl-1" style="margin: 1em">Annuler</a>
+                                        <button  class="btn btn-success pl-1" type="submit" style="margin: 1em">Confirmer</button>
 
                                     </div>
                                 </div>
