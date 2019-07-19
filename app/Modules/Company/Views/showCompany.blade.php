@@ -34,11 +34,12 @@ min-width:100px;
       <div class="btn-group breadcrumb1">
                       <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                   <ul class="dropdown-menu edit" role="menu">
-                    <li><a href="#">Modifier</a></li>
+                    <li><a href="{{route('editCompany', $company->id)}}">Modifier</a></li>
       
-                    <li><a href="">Supprimer</a></li>
+                    <li><a href="{{route('deleteCompany', $company->id)}}">Supprimer</a></li>
                    
                   </ul>
+          </div>
     
     </section>
 
@@ -48,6 +49,8 @@ min-width:100px;
 <img src="{{ asset( $company->logo) }}" style="width:100%;padding:40px;">
 </div>
 <div class="col-md-8">
+    <div class="box box-primary">
+        <div class="box-body">
 <form>
 <div class="row">
 <div class="col-md-6">
@@ -115,7 +118,8 @@ min-width:100px;
 
 
 </form>
-
+        </div>
+    </div>
 </div>
 </div>
 

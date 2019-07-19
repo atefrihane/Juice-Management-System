@@ -49,10 +49,35 @@ class UserController extends Controller
     }
 
     public function storeClient($id, Request $request){
+        $rules = [
+            'code' => 'required',
+            'nom' => 'required',
+            'prenom' => 'required',
+            'sexe' => 'required',
+            'telephone' => 'required',
+            'email' => 'required|email|unique:users',
+            'accessCode' => 'required',
+            'password' => 'required',
+        ];
+        $messages = [
+            'code.required' => 'le champs code est obligatoire',
+            'nom.required' => 'le champs nom est obligatoire',
+            'prenom.required' => 'le champs prenom est obligatoire',
+            'sexe.required' => 'le champs civilite est obligatoire',
+            'telephone.required' => 'le champs telephone est obligatoire',
+            'email.required' => 'le champs email est obligatoire',
+            'email.email' => 'vous devez saisir un email valide ',
+            'email.unique' => 'email deja existant ',
+            'accessCode.required' => 'le champs code d\'acces est obligatoire',
+            'password.required' => 'le champs mot de passe est obligatoire',
+
+        ];
+
         switch ($request->type){
             case 'director' :
                 $user = $request->all();
                 unset($user['type'], $user['_token']);
+                $val = $request->validate($rules, $messages);
                 $director = Diractor::create(['company_id' => $id]);
                 $user['child_type'] = Diractor::class;
                 $user['child_id'] = $director->id;
@@ -62,7 +87,9 @@ class UserController extends Controller
             case 'supervisor' :
                 $user = $request->all();
                 unset($user['type'], $user['_token'], $user['stores']);
-
+                $rules['stores'] = 'required';
+                $messages['stores.required'] = 'selectionner au moin un magasin pour le superviseur';
+                $val = $request->validate($rules, $messages);
                 $supervisor = SuperVisor::create([]);
                 $user['child_type'] = SuperVisor::class;
                 $user['child_id'] = $supervisor->id;
@@ -72,6 +99,10 @@ class UserController extends Controller
                 } break;
             case 'responsable' :
                 $user = $request->all();
+
+                $rules['store'] = 'required';
+                $messages['store.required'] = 'selectionner un magasin pour le responsable';
+                $val = $request->validate($rules, $messages);
                 unset($user['type'], $user['_token'],$user['store']);
                 $responsable = Responsable::create(['store_id' => $request->store]);
                 $user['child_type'] = Responsable::class;
@@ -88,6 +119,26 @@ class UserController extends Controller
         return view("User::editClient", compact('user','company'));
     }
     public function updateClient($cid,$id, Request $request){
+        $val = $request->validate([
+            'code' => 'required',
+            'nom' => 'required',
+            'prenom' => 'required',
+            'civilite' => 'required',
+            'telephone' => 'required',
+            'email' => 'required|email',
+            'accessCode' => 'required',
+        ], [
+            'code.required' => 'le champs code est obligatoire',
+            'nom.required' => 'le champs nom est obligatoire',
+            'prenom.required' => 'le champs prenom est obligatoire',
+            'civilite.required' => 'le champs sexe est obligatoire',
+            'telephone.required' => 'le champs telephone est obligatoire',
+            'email.required' => 'le champs email est obligatoire',
+            'email.email' => 'vous devez saisir un email valide ',
+            'accessCode.required' => 'le champs code d\'acces est obligatoire',
+
+        ]);
+
         $user = $request->all();
         unset($user['_token']);
         if($user['password'] != '')

@@ -37,93 +37,32 @@
                 </tr>
                 </thead>
                 <tbody>
+                @forelse($machines as $machine)
                 <tr>
-                  <td>    <img src="{{asset('/img/user2-160x160.jpg')}}" class="user-image" alt="User Image"> </td>
-                  <td>CMD016</td>
-                  <td>Machine A</td>
-                  <td>3</td>
-                  <td>50€</td>
-                  <td> En location</td>
-                  <td>Panne</td>
-                  <td class="not-this">
-       <div class="btn-group">
-                      <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-                  <ul class="dropdown-menu edit" role="menu">
-                    <li><a href="#">Commencer location</a></li>
-                    <li><a href="#">Changer etat</a></li>
-                    <li><a href="#">Modifier</a></li>
-                    <li><a href="#">Supprimer</a></li>
-                   
-                  </ul>
-                </div>
-  
-                 
+                    <td>    <img src="{{$machine->photo_url}}" height="80" class="user-image" alt="User Image"> </td>
+                    <td>{{$machine->code}}</td>
+                    <td>{{$machine->designation}}</td>
+                    <td>{{$machine->number_bacs}}</td>
+                    <td>{{$machine->price_month}}</td>
+                    <td>Libre</td>
+                    <td>{{$machine->status}}</td>
+                    <td class="not-this">
+                        <div class="btn-group">
+                            <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                            <ul class="dropdown-menu edit" role="menu">
+                                <li><a href="#">Commencer location</a></li>
+                                <li><a href="#">Changer etat</a></li>
+                                <li><a href="{{route('editMachine', $machine->id)}}">Modifier</a></li>
+                                <li><a href="{{route('deleteMachine', $machine->id)}}">Supprimer</a></li>
 
-                    
-                  </div>
-                  </td>
+                            </ul>
+                        </div>
+
+                    </td>
                 </tr>
-
-
-                   <tr>
-                   <td>    <img src="{{asset('/img/user2-160x160.jpg')}}" class="user-image" alt="User Image"> </td>
-                  <td>CMD017</td>
-                  <td>Machine B</td>
-                  <td>4</td>
-                  <td>50€</td>
-                  <td> En location</td>
-                  <td>Fonctionnelle</td>
-                  <td class="not-this">
-
-                  <div class="btn-group">
-                      <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-                  <ul class="dropdown-menu edit" role="menu">
-                    <li><a href="#">Commencer location</a></li>
-                    <li><a href="#">Changer etat</a></li>
-                    <li><a href="#">Modifier</a></li>
-                    <li><a href="#">Supprimer</a></li>
-                   
-                  </ul>
-                </div>
-  
-                 
-
-                    
-                  </div>
-                  </td>
-                </tr>
-
-
-                   <tr>
-                   <td>    <img src="{{asset('/img/user2-160x160.jpg')}}" class="user-image" alt="User Image"> </td>
-                  <td>CMD017</td>
-                  <td>Machine C</td>
-                  <td>5</td>
-                  <td>50€</td>
-                  <td> Libre</td>
-                  <td>Fonctionnelle</td>
-                  <td class="not-this">
-
-                      <div class="btn-group">
-                      <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-                  <ul class="dropdown-menu edit" role="menu">
-                    <li><a href="#">Commencer location</a></li>
-                    <li><a href="#">Changer etat</a></li>
-                    <li><a href="#">Modifier</a></li>
-                    <li><a href="#">Supprimer</a></li>
-                   
-                  </ul>
-                </div>
-  
-                 
-
-                    
-                  </div>
-                  </td>
-                </tr>
-           
-           
-
+                    @empty
+                    <tr>Aucune machine ! </tr>
+                @endforelse
 
 
                 </tbody>

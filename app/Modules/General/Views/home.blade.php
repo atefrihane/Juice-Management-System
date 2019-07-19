@@ -28,6 +28,7 @@
               <table  class="table table-bordered table-hover example2" style="width:100%;">
                 <thead>
                 <tr>
+                    <th>Logo</th>
                   <th>Nom societé</th>
                   <th>Code</th>
                   <th>Code Postal</th>
@@ -39,11 +40,12 @@
                 @forelse($companies as $company)
 
                 <tr class="table-tr">
-                  <td data-url="{{route('showCompany',$company->id)}}">{{$company->name}}</td>
-                  <td  data-url="{{route('showCompany',$company->id)}}">{{$company->code}}</td>
-                  <td  data-url="{{route('showCompany',$company->id)}}">{{$company->zip_code}}</td>
-                  <td  data-url="{{route('showCompany',$company->id)}}">5</td>
-                  <td  data-url="{{route('showCompany',$company->id)}}">{{$company->status}}</td>
+                    <td data-url="{{route('showStores',$company->id)}}" style="width: 60px"><img src="{{$company->logo}}" height="50" alt=""></td>
+                  <td data-url="{{route('showStores',$company->id)}}">{{$company->name}}</td>
+                  <td  data-url="{{route('showStores',$company->id)}}">{{$company->code}}</td>
+                  <td  data-url="{{route('showStores',$company->id)}}">{{$company->zip_code}}</td>
+                  <td  data-url="{{route('showStores',$company->id)}}">{{$company->getNbrStores()}}</td>
+                  <td  data-url="{{route('showStores',$company->id)}}">{{$company->status}}</td>
                     <td class="not-this">
                         <div class="btn-group">
                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>

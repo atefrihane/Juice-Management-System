@@ -25,6 +25,15 @@
 
                         <form role="form" action="{{route('updateCompany', $company->id)}}" method="post" enctype="multipart/form-data">
                             {{csrf_field()}}
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             <div class="box-body">
                                 <div class="row">
 
@@ -122,7 +131,7 @@
 
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1"></label>
+                                            <label for="exampleInputEmail1">Téléphone</label>
                                             <input type="text" name="tel" value="{{$company->tel}}" class="form-control" id="exampleInputEmail1" placeholder="Telephone">
                                         </div>
                                     </div>
@@ -148,8 +157,8 @@
                                     <div class="row">
                                         <div class="container text-center">
 
-                                            <a href="" class="btn btn-danger pl-1">Annuler</a>
-                                            <button type="submit" class="btn btn-success pl-1">Modifier</button>
+                                            <a href="" class="btn btn-danger pl-1" style="margin: 1em">Annuler</a>
+                                            <button type="submit" class="btn btn-success pl-1" style="margin: 1em">Modifier</button>
 
                                         </div>
                                     </div>

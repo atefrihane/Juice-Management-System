@@ -16,4 +16,8 @@ public function stores(){
 public function director(){
    return $this->hasOne(Diractor::class)->with('user');
 }
+
+public function getNbrStores(){
+    return sizeof($this->stores);
+}
 }
