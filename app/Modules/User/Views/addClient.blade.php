@@ -180,7 +180,7 @@
                                 <div class="row">
                                     <div class="container text-center">
 
-                                        <a href="{{route('showClients', $company->id)}}" class="btn btn-danger pl-1" style="margin: 1em">Annuler</a>
+                                        <a href="{{route('showContacts', $company->id)}}" class="btn btn-danger pl-1" style="margin: 1em">Annuler</a>
                                         <button type="submit" class="btn btn-success pl-1" style="margin: 1em">Confirmer</button>
 
                                     </div>
