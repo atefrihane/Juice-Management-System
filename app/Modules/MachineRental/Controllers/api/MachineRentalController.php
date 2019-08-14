@@ -2,6 +2,7 @@
 
 namespace App\Modules\MachineRental\Controllers\api;
 
+use App\Modules\Machine\Models\Machine;
 use App\Modules\MachineRental\Models\MachineRental;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -43,6 +44,7 @@ class MachineRentalController extends Controller
         //
         $rental = $request->all();
         unset($rental['company_id']);
+        Machine::where('id', $rental['machine_id'])->update(['rented'=> true]);
         return MachineRental::create($rental);
 
     }
