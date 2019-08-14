@@ -1,7 +1,7 @@
 <?php
 
-Route::group(['module' => 'Company', 'middleware' => ['api'], 'namespace' => 'App\Modules\Company\Controllers'], function() {
+Route::group(['module' => 'Company', 'middleware' => ['api'], 'namespace' => 'App\Modules\Company\Controllers\api'], function() {
 
-    Route::resource('Company', 'CompanyController');
-
+    //Route::prefix('api')->resource('Company', 'CompanyController');
+    Route::get('api/companies/{id}', 'CompanyController@show');
 });

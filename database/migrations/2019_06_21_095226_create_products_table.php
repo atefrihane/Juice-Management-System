@@ -15,6 +15,27 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('code');
+            $table->string('status');
+            $table->string('type');
+            $table->string('nom');
+            $table->string('designation');
+            $table->string('barcode');
+            $table->string('version');
+            $table->string('composition');
+            $table->string('color');
+            $table->double('weight');
+            $table->double('height');
+            $table->double('width');
+            $table->double('depth');
+            $table->double('public_price');
+            $table->integer('period_of_validity');
+            $table->integer('validity_after_opening');
+            $table->text('comment')->nullable();
+            $table->string('photo_url')->nullable();
+            $table->integer('unit_by_display');
+            $table->integer('unit_per_package');
+            $table->integer('packing');
             $table->timestamps();
         });
     }

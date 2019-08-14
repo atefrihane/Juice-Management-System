@@ -19,6 +19,9 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
+       // \App\Http\Middleware\Cors::class,
+        \Barryvdh\Cors\HandleCors::class,
+
     ];
 
     /**
@@ -34,14 +37,19 @@ class Kernel extends HttpKernel
             // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
-  
-   
+
+            \App\Http\Middleware\Cors::class,
+
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
         'api' => [
             'throttle:60,1',
             'bindings',
+            \App\Http\Middleware\Cors::class,
+            \Barryvdh\Cors\HandleCors::class,
+
+
         ],
     ];
 
@@ -63,8 +71,9 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'isAuth' => \App\Http\Middleware\isAuth::class,
-        'isGuest' => \App\Http\Middleware\isGuest::class
-     
+        'isGuest' => \App\Http\Middleware\isGuest::class,
+        'cors' => \App\Http\Middleware\Cors::class, // <-- add this line
+
 
     ];
 

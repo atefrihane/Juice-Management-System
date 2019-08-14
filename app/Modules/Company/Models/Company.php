@@ -3,6 +3,7 @@
 namespace App\Modules\Company\Models;
 
 use App\Modules\Diractor\Models\Diractor;
+use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Store\Models\Store;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,5 +20,16 @@ public function director(){
 
 public function getNbrStores(){
     return sizeof($this->stores);
+}
+public function rentedMachines(){
+    $rentedMachines= [];
+
+    foreach ($this->stores as $store){
+        foreach(MachineRental::where('store_id', $store->id)->get() as $machine){
+            $rentedMachines[] = $machine;
+
+        }
+    }
+    return $rentedMachines;
 }
 }

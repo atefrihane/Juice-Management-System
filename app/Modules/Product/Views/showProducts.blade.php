@@ -5,7 +5,7 @@
     <div class="content-wrapper">
 
 <section class="content-header">
-   
+
       {{ Breadcrumbs::render('product') }}
     </section>
 
@@ -17,8 +17,8 @@
             <div class="box-header">
               <h3 class="box-title">Liste des produits</h3>
               <a href="{{route('showAddProduct')}}" class="btn btn-primary pull-right">Ajouter un produit</a>
-            
-     
+
+
               <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
             </div>
             <!-- /.box-header -->
@@ -26,109 +26,41 @@
               <table class="table table-bordered table-hover example2">
                 <thead>
                 <tr>
-                  <th></th>
-                  <th>Nom Produit</th>
-                  <th>Type</th>
-                  <th>Désignation</th>
-                  <th>Prix unitaire de base</th>
-                  <th>Etat</th>
-                  <th></th>
+
+                    <th>Nom Produit</th>
+                    <th>Type</th>
+                    <th>Désignation</th>
+                    <th>Prix unitaire de base</th>
+                    <th>Etat</th>
+                    <th></th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                  <td>    <img src="{{asset('/img/user2-160x160.jpg')}}" class="user-image" alt="User Image"> </td>
-                  <td>Produit</td>
-                  <td>Consommable</td>
-                  <td>Machine A</td>
-                
-                  <td>50€</td>
-                  <td> Disponible</td>
-         
-                  <td class="not-this">
-       <div class="btn-group">
-                      <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-                  <ul class="dropdown-menu edit" role="menu">
-                 
-                    <li><a href="#">Changer etat vers non disponible</a></li>
-                    <li><a href="#">Modifier</a></li>
-                    <li><a href="#">Supprimer</a></li>
-                   
-                  </ul>
-                </div>
-  
-                 
+                  <tbody>
+                  @forelse($products as $product)
+                  <tr>
+                      <td>{{$product->nom}}</td>
+                      <td>{{$product->type}}</td>
+                      <td>{{$product->designation}}</td>
 
-                    
-                  </div>
-                  </td>
-                </tr>
+                      <td>{{$product->public_price}}</td>
+                      <td> {{$product->status}}</td>
 
+                      <td class="not-this">
+                          <div class="btn-group">
+                              <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                              <ul class="dropdown-menu edit" role="menu">
 
-                   <tr>
-                   <td>    <img src="{{asset('/img/user2-160x160.jpg')}}" class="user-image" alt="User Image"> </td>
-                  <td>Produit</td>
-                  <td>Consommable</td>
-                  
-                  <td>Machine B</td>
-               
-          
-                  <td>50€</td>
-                  <td> Non Disponible</td>
-            
-                  <td class="not-this">
+                                  <li><a href="#">Changer etat vers non disponible</a></li>
+                                  <li><a href="#">Modifier</a></li>
+                                  <li><a href="#">Supprimer</a></li>
 
-                 <div class="btn-group">
-                      <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-                  <ul class="dropdown-menu edit" role="menu">
-                 
-                    <li><a href="#">Changer etat vers non disponible</a></li>
-                    <li><a href="#">Modifier</a></li>
-                    <li><a href="#">Supprimer</a></li>
-                   
-                  </ul>
-                </div>
-  
-                 
-
-                    
-                  </div>
-                  </td>
-                </tr>
-
-
-                   <tr>
-                   <td>    <img src="{{asset('/img/user2-160x160.jpg')}}" class="user-image" alt="User Image"> </td>
-                   <td>Produit</td>
-                  <td>Consommable</td>
-                  
-                  <td>Machine C</td>
-                  <td>50€</td>
-                  <td> Disponible</td>
-             
-                  <td class="not-this">
-                  <div class="btn-group">
-                      <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-                  <ul class="dropdown-menu edit" role="menu">
-                 
-                    <li><a href="#">Changer etat vers non disponible</a></li>
-                    <li><a href="#">Modifier</a></li>
-                    <li><a href="#">Supprimer</a></li>
-                   
-                  </ul>
-                </div>
-  
-                 
-
-                    
-                  </div>
-                  </td>
-                </tr>
-           
-           
-
-
-
+                              </ul>
+                          </div>
+                      </td>
+                  </tr>
+                      @empty
+                      <tr>aucun produit !!! </tr>
+                  @endforelse
                 </tbody>
 
               </table>

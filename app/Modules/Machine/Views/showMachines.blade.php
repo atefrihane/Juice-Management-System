@@ -5,7 +5,7 @@
     <div class="content-wrapper">
 
 <section class="content-header">
-   
+
       {{ Breadcrumbs::render('machine') }}
     </section>
 
@@ -17,16 +17,16 @@
             <div class="box-header">
               <h3 class="box-title">Liste des machines</h3>
               <a href="{{route('showAddMachine')}}" class="btn btn-primary pull-right">Ajouter une machine</a>
-            
-     
+
+
               <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <table class="table table-bordered table-hover example2">
+              <table class="table table-bordered table-hover example2" >
                 <thead>
-                <tr>
-                  <th></th>
+                <tr >
+                  <th ></th>
                   <th>Code</th>
                   <th>Désignation</th>
                   <th>Nbr de bacs</th>
@@ -44,13 +44,18 @@
                     <td>{{$machine->designation}}</td>
                     <td>{{$machine->number_bacs}}</td>
                     <td>{{$machine->price_month}}</td>
-                    <td>Libre</td>
+                    <td>{{$machine->rented ? 'En location' : 'Libre'}}</td>
                     <td>{{$machine->status}}</td>
                     <td class="not-this">
                         <div class="btn-group">
                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                             <ul class="dropdown-menu edit" role="menu">
-                                <li><a href="#">Commencer location</a></li>
+                                @if($machine->rented==false)
+                                    <li><a href="{{route('startRental', $machine->id).'?machine=true'}}">Commencer location</a></li>
+                                @else
+                                    <li><a href="{{route('startRental', $machine->id).'?machine=true'}}">Arreter location</a></li>
+                                @endif
+
                                 <li><a href="#">Changer etat</a></li>
                                 <li><a href="{{route('editMachine', $machine->id)}}">Modifier</a></li>
                                 <li><a href="{{route('deleteMachine', $machine->id)}}">Supprimer</a></li>
@@ -80,5 +85,4 @@
     </section>
 
   </div>
-
  @endsection

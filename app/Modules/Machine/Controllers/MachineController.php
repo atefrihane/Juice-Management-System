@@ -5,6 +5,7 @@ namespace App\Modules\Machine\Controllers;
 use App\Http\Controllers\Controller;
 use App\Modules\Company\Models\Company;
 use App\Modules\Machine\Models\Machine;
+use App\Modules\Product\Models\Product;
 use Illuminate\Http\Request;
 
 class MachineController extends Controller
@@ -26,8 +27,9 @@ class MachineController extends Controller
     public function showRentedMachines($id)
     {
         $company = Company::find($id);
+        $machines = $company->rentedMachines();
         if ($company) {
-            return view('Machine::showRentedMachines', compact('company'));
+            return view('Machine::showRentedMachines', compact('company', 'machines'));
         }
         return view('General::notFound');
 
@@ -103,6 +105,15 @@ class MachineController extends Controller
         $machine = Machine::find($id);
         $machine->delete();
         return redirect(route('showMachines'));
+    }
+    public function startRentalMachine($id){
+        if($_GET['machine'])
+            $machine = Machine::find($id);
+            $machines = Machine::where('rented', false)->get();
+            $companies = Company::all();
+            $products = Product::all();
+
+        return view('Machine::startRentalMachine', compact('machine' ,'machines', 'companies', 'products'));
     }
 
 

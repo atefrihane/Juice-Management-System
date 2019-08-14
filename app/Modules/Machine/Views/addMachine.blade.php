@@ -121,20 +121,20 @@
                                         <label>Commentaires (optionnel)</label>
                                         <textarea class="form-control" rows="3" name="comment" placeholder="Commentaires"></textarea>
                                         </div>
-                                
-                                        <div class="form-group">
+
+                                    <div class="form-group">
                                     <label for="exampleInputFile">Photo du machine (Optionnel)</label>
                                     <input type="file" name="photo" id="exampleInputFile">
 
-  
-                                             </div>
+
+                                     </div>
 
                                     <div class="row">
                                     <div class="container text-center">
-                                    
+
                                     <a href="{{route('showMachines')}}" class="btn btn-danger pl-1" style="margin: 1em">Annuler</a>
                                     <button type="submit" class="btn btn-success pl-1" style="margin: 1em">Confirmer</button>
-                                    
+
                                     </div>
                                     </div>
 

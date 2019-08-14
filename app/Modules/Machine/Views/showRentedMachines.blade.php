@@ -37,67 +37,32 @@
                 </tr>
                 </thead>
                 <tbody>
+                @forelse($machines as $machine)
                 <tr>
-                  <td>    <img src="{{asset('/img/user2-160x160.jpg')}}" class="user-image" alt="User Image"> </td>
-                  <td>CMD016</td>
-                  <td>Machine A</td>
-                  <td>3</td>
+                    <td>    <img src="{{asset('/img/user2-160x160.jpg')}}" class="user-image" alt="User Image"> </td>
+                    <td>{{$machine->machine->code}}</td>
+                    <td>{{$machine->machine->designation}}</td>
+                    <td>{{$machine->machine->number_bacs}}</td>
 
-                  <td> Magasin 1</td>
-                  <td>Panne</td>
-                  <td class="not-this">
-       <div class="btn-group">
-                      <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-                  <ul class="dropdown-menu edit" role="menu">
-                    <li><a href="#">Commencer location</a></li>
-                    <li><a href="#">Changer etat</a></li>
-                    <li><a href="#">Modifier</a></li>
-                    <li><a href="#">Supprimer</a></li>
+                    <td>{{$machine->store->designation}}</td>
+                    <td>{{$machine->machine->status}}</td>
+                    <td class="not-this">
+                        <div class="btn-group">
+                            <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                            <ul class="dropdown-menu edit" role="menu">
+                                <li><a href="#">Commencer location</a></li>
+                                <li><a href="#">Changer etat</a></li>
+                                <li><a href="#">Modifier</a></li>
+                                <li><a href="#">Supprimer</a></li>
 
-                  </ul>
-                </div>
+                            </ul>
+                        </div>
 
-
-
-
-                  </div>
-                  </td>
+                    </td>
                 </tr>
-
-
-
-                    <tr>
-                  <td>    <img src="{{asset('/img/user2-160x160.jpg')}}" class="user-image" alt="User Image"> </td>
-                  <td>CMD017</td>
-                  <td>Machine A</td>
-                  <td>3</td>
-
-                  <td> Magasin 2</td>
-                  <td>Panne</td>
-                  <td class="not-this">
-       <div class="btn-group">
-                      <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-                  <ul class="dropdown-menu edit" role="menu">
-                    <li><a href="#">Commencer location</a></li>
-                    <li><a href="#">Changer etat</a></li>
-                    <li><a href="#">Modifier</a></li>
-                    <li><a href="#">Supprimer</a></li>
-
-                  </ul>
-                </div>
-
-
-
-
-                  </div>
-                  </td>
-                </tr>
-
-
-
-
-
-
+                    @empty
+                    <tr>aucune machine en location !!</tr>
+                    @endforelse
 
                 </tbody>
 

@@ -153,9 +153,10 @@
         </ul>
       </div>
     </nav>
+
   </header>
   <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
+  <aside class="main-sidebar"  id="app">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- Sidebar user panel -->
@@ -176,8 +177,9 @@
  
             
 
+        <li class="{{ Route::is('showHome') ? 'active' : '' }}"><a href="{{route('showHome')}}"><i class="fa fa-building "></i> <span>@{{body}}</span></a></li>
         <li class="{{ Route::is('showHome') ? 'active' : '' }}"><a href="{{route('showHome')}}"><i class="fa fa-building "></i> <span>Societés</span></a></li>
-        <li class="{{ Route::is('showOrders') ? 'active' : '' }}"><a href="{{route('showOrders')}}"><i class="fa fa-shopping-bag""></i> <span>Commandes</span></a></li>
+        <li class="{{ Route::is('showOrders') ? 'active' : '' }}"><a href="{{route('showOrders')}}"><i class="fa fa-shopping-bag"></i> <span>Commandes</span></a></li>
         <li class="{{ Route::is('showMachines') ? 'active' : '' }}"><a href="{{route('showMachines')}}"><i class="fa fa-plug"></i> <span>Machines</span></a></li>
         <li class="{{ Route::is('showProducts') ? 'active' : '' }}"><a href="{{route('showProducts')}}"><i class="fa fa-cubes"></i> <span>Produits</span></a></li>
       </ul>
@@ -186,3 +188,9 @@
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
+    <script src="{{ mix('js/app.js') }}"></script>
+
+    <script>
+
+
+    </script>

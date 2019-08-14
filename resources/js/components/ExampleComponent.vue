@@ -5,7 +5,7 @@
                 <div class="card">
                     <div class="card-header">Example Component</div>
 
-                    <div class="card-body">
+                    <div class="card-body" v-if="true">
                         I'm an example component.
                     </div>
                 </div>
