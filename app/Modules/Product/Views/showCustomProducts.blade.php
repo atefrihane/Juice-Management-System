@@ -37,20 +37,20 @@
                 </thead>
                 <tbody>
                    <tr>
-
-                  <td>Nom</td>
+                   @foreach($company_prices as $company_price)
+                  <td>{{$company_price->product->nom}}</td>
                   <td>CMD017</td>
                   <td>Directeur</td>
                   <td>50</td>
                   <td>20</td>
                   <td class="not-this">
 
-<div class="btn-group">
-<a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-<ul class="dropdown-menu edit" role="menu">
-<li><a href="#">Modifier</a></li>
-<li><a href="#">Supprimer</a></li>
-
+                    <div class="btn-group">
+                    <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                    <ul class="dropdown-menu edit" role="menu">
+                    <li><a href="#">Modifier</a></li>
+                    <li><a href="#">Supprimer</a></li>
+                 @endforeach
 </ul>
 </div>
 

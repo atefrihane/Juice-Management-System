@@ -20,21 +20,18 @@ class ProductController extends Controller
     public function showAddProduct()
     {
 
-        return view('Product::addProduct');}
+        return view('Product::addProduct');
+    }
 
     public function showCustomProducts($id)
     {
 
 
         $company = Company::find($id);
+        $company_prices = CompanyPrice::where('company_id',$company->id)->get();
 
-
-        $comp_prices = CompanyPrice::where('product_id',10)->get();
-        dd($comp_prices);
         if ($company) {
-
-
-            return view('Product::showCustomProducts', compact('company'));
+            return view('Product::showCustomProducts', compact('company','company_prices'));
         }
         return view('General::notFound');
 
