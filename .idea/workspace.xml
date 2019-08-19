@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8f058890-c5db-49cc-9d43-5dd3cad141a1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Modules/CompanyPrice/Models/CompanyPrice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/CompanyPrice/Models/CompanyPrice.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Modules/Product/Controllers/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Product/Controllers/ProductController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Modules/Product/Views/showCustomProducts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Product/Views/showCustomProducts.blade.php" afterDir="false" />
     </list>
@@ -270,7 +269,7 @@
       <workItem from="1565772364945" duration="9571000" />
       <workItem from="1565788183518" duration="8743000" />
       <workItem from="1566219793244" duration="137000" />
-      <workItem from="1566220903756" duration="6529000" />
+      <workItem from="1566220903756" duration="7137000" />
     </task>
     <task id="LOCAL-00001" summary="From Atef repository">
       <created>1562667925341</created>
@@ -349,7 +348,14 @@
       <option name="project" value="LOCAL" />
       <updated>1566225511555</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="table edit">
+      <created>1566227722023</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1566227722023</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -380,6 +386,7 @@
     <MESSAGE value="rental commit" />
     <MESSAGE value="add client fix" />
     <MESSAGE value="devs" />
-    <option name="LAST_COMMIT_MESSAGE" value="devs" />
+    <MESSAGE value="table edit" />
+    <option name="LAST_COMMIT_MESSAGE" value="table edit" />
   </component>
 </project>

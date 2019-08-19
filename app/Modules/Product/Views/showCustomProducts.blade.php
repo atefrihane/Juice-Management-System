@@ -39,10 +39,10 @@
                    <tr>
                    @foreach($company_prices as $company_price)
                   <td>{{$company_price->product->nom}}</td>
-                  <td>CMD017</td>
-                  <td>Directeur</td>
-                  <td>50</td>
-                  <td>20</td>
+                  <td>{{$company_price->product->code}}</td>
+                  <td>{{$company_price->product->type}}</td>
+                   <td>{{$company_price->product->public_price}}</td>
+                  <td>{{$company_price->price}}</td>
                   <td class="not-this">
 
                     <div class="btn-group">
@@ -50,7 +50,7 @@
                     <ul class="dropdown-menu edit" role="menu">
                     <li><a href="#">Modifier</a></li>
                     <li><a href="#">Supprimer</a></li>
-                 @endforeach
+
 </ul>
 </div>
 
@@ -63,8 +63,10 @@
 
 
                 </tr>
+              @endforeach
 
-                   <tr>
+
+              <tr>
 
 <td>Nom</td>
 <td>CMD018</td>
