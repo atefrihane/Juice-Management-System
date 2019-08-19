@@ -191,7 +191,7 @@ var apep = new Vue({
         }
 
         axios.post(BaseUrl.url + 'xbacs', apep.bacs).then(function (res) {
-          return console.log(res);
+          history.back();
         });
       });
     },

@@ -2,6 +2,8 @@
 
 namespace App\Modules\MachineRental\Controllers;
 
+use App\Modules\Machine\Models\Machine;
+use App\Modules\MachineRental\Models\MachineRental;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -49,6 +51,16 @@ class MachineRentalController extends Controller
     public function show($id)
     {
         //
+        $rental = MachineRental::find($id);
+        return view('MachineRental::detailRentalMachine', compact('rental'));
+    }
+
+    public function showAllRentals($id){
+        if($_GET['machine'])
+           $rentals =  MachineRental::where('machine_id', $id)->get();
+        else
+            $rentals = MachineRental::where('store_id', $id)->get();
+        return view('MachineRental::listRentals', compact('rentals'));
     }
 
     /**
@@ -83,5 +95,19 @@ class MachineRentalController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function endMachineRental($id){
+        $rental = MachineRental::find($id);
+        return view('MachineRental::stopRental', compact('rental'));
+    }
+
+    public function endRental(Request $request, $id){
+
+        MachineRental::where('id', $id)->update(['end_reason'=> $request->end_reason, 'date_fin'=> $request->date_fin,'active'=> false, 'Comment' => $request->comment]);
+        $rental = MachineRental::find($id);
+        Machine::where('id', $rental->machine_id)->update(['rented'=> false]);
+        return redirect(route('showMachines'));
+
     }
 }

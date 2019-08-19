@@ -5,6 +5,7 @@ namespace App\Modules\Machine\Controllers;
 use App\Http\Controllers\Controller;
 use App\Modules\Company\Models\Company;
 use App\Modules\Machine\Models\Machine;
+use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Product\Models\Product;
 use Illuminate\Http\Request;
 
@@ -115,6 +116,8 @@ class MachineController extends Controller
 
         return view('Machine::startRentalMachine', compact('machine' ,'machines', 'companies', 'products'));
     }
+
+
 
 
 

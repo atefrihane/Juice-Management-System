@@ -83,7 +83,9 @@ const apep = new Vue({
                     for (let i = 0 ; i <apep.bacs.length; i++){
                         apep.bacs[i].product_id = apep.bacs[i].product.id;
                     }
-                    axios.post(BaseUrl.url +'xbacs', apep.bacs).then(res => console.log(res));
+                    axios.post(BaseUrl.url +'xbacs', apep.bacs).then(res =>{
+                        history.back();
+                    });
                 })
         },
         mounted () {

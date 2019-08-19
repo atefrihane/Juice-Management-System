@@ -15,33 +15,25 @@
                     <div class="box box-primary" id="apep">
 
                         <div class="box-header">
-                            <h3 class="box-title">Début location machine </h3>
+                            <h3 class="box-title">Détail location machine </h3>
 
                         </div>
 
                         <form role="form" method="post" enctype="multipart/form-data" >
                             {{csrf_field()}}
-
                             <div class="box-body">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Code Machine</label>
-                                            <select class="form-control" name="machine_id"  v-bind:value="rental.machine_id" v-on:change="getMachine($event.target.value)">
-                                                @foreach($machines as $mach )
-                                                    <option value="{{$mach->id}}" {{$mach->id == $machine->id ? 'selected': '' }}>{{  $mach->code }}</option>
-                                                @endforeach
-                                            </select>
+                                            <input type="text" class="form-control" value="{{$rental->machine->code}}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Désignation Machine</label>
-                                            <select class="form-control" name="machine_id" v-bind:value="rental.machine_id" v-on:change="rental.machine_id= $event.target.value">
-                                                @foreach($machines as $mach )
-                                                    <option value="{{$mach->id}}" {{$mach->id == $machine->id ? 'selected': '' }}>{{  $mach->designation }}</option>
-                                                @endforeach
-                                            </select>
+                                            <input type="text" class="form-control" value="{{$rental->machine->designation}}" readonly>
+
                                         </div>
                                     </div>
 
@@ -55,22 +47,13 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Societé</label>
-                                            <select class="form-control" name="machine_id"   v-on:change="getStores($event.target.value)">
-                                                <option ></option>
-                                                @foreach($companies as $mach )
-                                                    <option value="{{$mach->id}}" >{{  $mach->name }}</option>
-                                                @endforeach
-                                            </select>
+                                            <input type="text" class="form-control" readonly value="{{$rental->store->company->name}}">
                                         </div>
                                     </div>
-                                    <div class="col-md-4" v-if="stores.length > 0">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Magasin</label>
-                                            <select class="form-control" v-model="rental.store_id" >
-
-                                                <option v-for="store in stores" :value="store.id">@{{  store.designation }}</option>
-
-                                            </select>
+                                            <input type="text" class="form-control" readonly value="{{$rental->store->designation}}">
                                         </div>
                                     </div>
                                 </div>
@@ -78,13 +61,13 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Date du début de location</label>
-                                            <input class="form-control"  id="disabledInput" v-model="rental.date_debut" type="date" >
+                                            <input class="form-control" readonly value="{{$rental->date_debut}}" id="disabledInput"  type="date" >
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Date de fin de location</label>
-                                            <input class="form-control"  id="disabledInput" v-model="rental.date_fin" type="date" >
+                                            <input class="form-control"  id="disabledInput" readonly value="{{$rental->date_fin}}"  type="date" >
                                         </div>
                                     </div>
                                 </div>
@@ -92,7 +75,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Prix location mensuel</label>
-                                            <input class="form-control" name="designation" id="disabledInput" v-model="rental.price" type="number" placeholder="Prix">
+                                            <input class="form-control" value="{{$rental->public}}" readonly name="designation"  type="number" placeholder="Prix">
 
                                         </div>
                                     </div>
@@ -101,7 +84,7 @@
                                     <div class="col-md-8">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Localisation</label>
-                                            <textarea class="form-control" rows="2" name="location" v-model="rental.location" placeholder="localisation"></textarea>
+                                            <textarea class="form-control" readonly rows="2" name="location"  placeholder="localisation">{{$rental->location}}</textarea>
 
                                         </div>
                                     </div>
@@ -110,61 +93,42 @@
                                     <div class="col-md-8">
                                         <div class="form-group">
                                             <label>Commentaires (optionnel)</label>
-                                            <textarea class="form-control" rows="3" v-model="rental.comment" name="comment" placeholder="Commentaires"></textarea>
+                                            <textarea class="form-control"  readonly rows="3"  name="comment" placeholder="Commentaires">{{$rental->Comment}}</textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="container-fluid " style="background-color: #e4e4e4; margin: 16px; padding: 24px" v-for="bac in bacs">
+                                @foreach($rental->machine->bacs as $bac)
+                                <div class="container-fluid " style="background-color: #e4e4e4; margin: 16px; padding: 24px">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group d-flex">
                                                 <label class="col-10">numero du bac: </label>
-                                                <input type="number"   class="form-group col-2" readonly  v-model="bac.order">
+                                                <input type="number"   class="form-control col-2" readonly  value="{{$bac->order}}">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group d-flex">
                                                 <label class="col-4">Etat </label>
-                                                <select  class="form-group" v-model="bac.status" >
-                                                    <option value="fonctionnelle">Fonctionnelle</option>
-                                                    <option value="en-panne">En panne</option>
-                                                </select>
+                                                <input type="text" class="form-control" readonly value="{{$bac->status}}">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group d-flex">
                                                 <label class="col-4">Produit en bac  </label>
-                                                <select  class="form-group" v-model="bac.product">
+                                                <input type="text" class="form-control" readonly value="{{$bac->product->nom}}">
 
-                                                    <option v-for="product in products" :value="product">@{{product.nom}}</option>
-
-                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
-                                            <div class="form-group d-flex" v-if="bac.product">
+                                            <div class="form-group d-flex" >
                                                 <label class="col-4">Melange par defaut </label>
-                                                <select  class="form-group" v-model="bac.mixture_id" >
-                                                    <option v-for="mixture in bac.product.mixtures" :value="mixture.id">@{{ mixture.name }}</option>
-                                                </select>
+                                                <input type="text" readonly value="{{$bac->mixture->name}}"  class="form-control">
                                             </div>
                                         </div>
                                     </div>
 
                                 </div>
-
-                                <div class="row">
-                                    <div class="container text-center">
-
-                                        <a href="{{route('showMachines')}}" class="btn btn-danger pl-1" style="margin: 1em">Annuler</a>
-                                        <button type="button" class="btn btn-success pl-1" style="margin: 1em" v-on:click="saveRental">Confirmer</button>
-
-                                    </div>
-                                </div>
-
-
-
-
+                                @endforeach
                             </div>
 
                         </form>
@@ -178,43 +142,8 @@
         </section>
 
     </div>
-    <script>
-        localStorage.setItem('machine_id', {{$machine->id}});
-    </script>
+
     <script src="{{mix('js/machine.js')}}">
 
-    </script>
-@endsection
-@section('dynamicProduct.script')
-    <script>
-        $
-        $('document').ready(function(){
-
-            var newProduct=$('.box-color').html();
-            var newButton=$('.clicked').html();
-            $('.clicked').click(function(){
-// var html="";
-// html+= '<div class="box-tools pull-right">';
-// html+='<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>';
-// html+=' <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>';
-// html+='</div>';
-// $(newProduct).prepend(html);
-
-                $('.box-color').append(newProduct);
-                $('.products').each(function(i, obj) {
-                    if (i!=0) {
-                        $(this).children(":first").css("display","block");
-
-
-                    }
-                });
-
-            });
-
-            $(document).on('click', '.removed', function(){
-                $(this).parent().parent().slideUp();
-            });
-
-        });
     </script>
 @endsection
