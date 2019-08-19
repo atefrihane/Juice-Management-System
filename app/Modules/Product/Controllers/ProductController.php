@@ -35,8 +35,13 @@ class ProductController extends Controller
     public function showAddCustomProduct($id)
     {
         $company = Company::find($id);
+        $products = Product::all();
         if ($company) {
-            return view('Product::addCustomProduct', compact('company'));
+
+
+            return view('Product::addCustomProduct', compact('company','products'));
+
+
         }
         return view('General::notFound');
 

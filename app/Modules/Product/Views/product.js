@@ -83,55 +83,94 @@ var mixture = new Vue({
 const apep = new Vue({
     el: '#prod',
     data() {
-       return { body:'dddo',
-           mixtures:[
-              {name: null, final_amount: 15,needed_weight: null, water_amount: null, glass_size: null, number_of_glasses: null, product_id:null}
-           ],
+        return { body:'dddo',
+            mixtures:[
+                {name: null, final_amount: 15,needed_weight: null, water_amount: null, glass_size: null, number_of_glasses: null, product_id:null}
+            ],
             product: {
 
 
-            code: 'aaa',
-            status: '',
-            type:'',
-            nom:'',
-            designation:'',
-            barcode:'',
-            version:'',
-            composition:'',
-            color:'',
-            weight:'',
-            height:'',
-            width:0,
-            depth:'',
-            public_price:0,
-            period_of_validity:0,
-            validity_after_opening:0,
-            comment: '',
-            photo_url: null,
-            unit_by_display: 0,
-            unit_per_package:0,
-            packing: this.unit_by_display * this.unit_per_package
+                code: 'aaa',
+                status: '',
+                type:'',
+                nom:'',
+                designation:'',
+                barcode:'',
+                version:'',
+                composition:'',
+                color:'',
+                weight:'',
+                height:'',
+                width:0,
+                depth:'',
+                public_price:0,
+                period_of_validity:0,
+                validity_after_opening:0,
+                comment: '',
+                photo_url: null,
+                unit_by_display: 0,
+                unit_per_package:0,
+                packing: this.unit_by_display * this.unit_per_package
 
-    }}
+            }}
 
     },
     methods:{
-    save: function(){
-        axios.post(BaseUrl.url + 'products', this.product).then(res => {
-            console.log(res);
-            for(let i = 0 ; i<this.mixtures.length; i++){
-                this.mixtures[i].product_id = res.data.id;
-            }
-            console.log(this.mixtures);
-            axios.post(BaseUrl.url + 'mixtures', this.mixtures).then(rs => window.location.replace( "/products"));
+        save: function(){
+            axios.post(BaseUrl.url + 'products', this.product).then(res => {
+                console.log(res);
+                for(let i = 0 ; i<this.mixtures.length; i++){
+                    this.mixtures[i].product_id = res.data.id;
+                }
+                console.log(this.mixtures);
+                axios.post(BaseUrl.url + 'mixtures', this.mixtures).then(rs => window.location.replace( "/products"));
 
-        })
-    },
+            })
+        },
         pushMixture(){
-        this.mixtures.push(   {name: null, final_amount: null,needed_weight: null, water_amount: null, glass_size: null, number_of_glasses: null, product_id:null});
+            this.mixtures.push(   {name: null, final_amount: null,needed_weight: null, water_amount: null, glass_size: null, number_of_glasses: null, product_id:null});
         }
     }
 
 });
 
+const apap = new Vue({
+
+    el: '#customprod',
+    data:{
+        products: [],
+        product:{
+            nom: null,
+            code: null,
+            barcode: null,
+            public_price: null,
+            prix_societe: null,
+            comp_id:null,
+        },
+        company_id: FORM.companyId,
+    },
+    "methods": {
+        getProducts: ()=> {
+            axios.get(BaseUrl.url + 'products').then(res => {
+
+                apap.products = res.data;
+                console.log(res.data);
+
+            })
+        },
+        saveProduct: ()=>{
+
+            console.log(apap.product);
+            delete apap.product["mixtures"];
+            apap.comp_id = apap.company_id;
+            axios.post(BaseUrl.url +'product/price',apap.product).then(res => {
+                location.replace("http://127.0.0.1:8000/products/custom/1");
+
+                console.log("test bar");
+                console.log(res.status);
+            })
+        }
+    }
+});
+apap.getProducts();
 

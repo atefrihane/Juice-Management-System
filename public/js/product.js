@@ -244,6 +244,40 @@ var apep = new Vue({
     }
   }
 });
+var apap = new Vue({
+  el: '#customprod',
+  data: {
+    products: [],
+    product: {
+      nom: null,
+      code: null,
+      barcode: null,
+      public_price: null,
+      prix_societe: null,
+      comp_id: null
+    },
+    company_id: FORM.companyId
+  },
+  "methods": {
+    getProducts: function getProducts() {
+      axios.get(BaseUrl.url + 'products').then(function (res) {
+        apap.products = res.data;
+        console.log(res.data);
+      });
+    },
+    saveProduct: function saveProduct() {
+      console.log(apap.product);
+      delete apap.product["mixtures"];
+      apap.comp_id = apap.company_id;
+      axios.post(BaseUrl.url + 'product/price', apap.product).then(function (res) {
+        location.replace("http://127.0.0.1:8000/products/custom/1");
+        console.log("test bar");
+        console.log(res.status);
+      });
+    }
+  }
+});
+apap.getProducts();
 
 /***/ }),
 
@@ -49233,7 +49267,7 @@ module.exports = JSON.parse("{\"api\":{\"url\":\"http://localhost:8000/api/\"}}"
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Degla\Desktop\current work\juice-app\app\Modules\Product\Views\product.js */"./app/Modules/Product/Views/product.js");
+module.exports = __webpack_require__(/*! C:\wamp64\www\wizefresh\app\Modules\Product\Views\product.js */"./app/Modules/Product/Views/product.js");
 
 
 /***/ })

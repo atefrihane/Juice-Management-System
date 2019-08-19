@@ -49192,7 +49192,7 @@ module.exports = JSON.parse("{\"api\":{\"url\":\"http://localhost:8000/api/\"}}"
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Degla\Desktop\current work\juice-app\app\Modules\Machine\Views\machine.js */"./app/Modules/Machine/Views/machine.js");
+module.exports = __webpack_require__(/*! C:\wamp64\www\wizefresh\app\Modules\Machine\Views\machine.js */"./app/Modules/Machine/Views/machine.js");
 
 
 /***/ })
