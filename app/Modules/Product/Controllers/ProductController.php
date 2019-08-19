@@ -5,7 +5,7 @@ namespace App\Modules\Product\Controllers;
 use App\Http\Controllers\Controller;
 use App\Modules\Company\Models\Company;
 use App\Modules\Product\Models\Product;
-
+use App\Modules\CompanyPrice\Models\CompanyPrice;
 class ProductController extends Controller
 {
 
@@ -24,8 +24,16 @@ class ProductController extends Controller
 
     public function showCustomProducts($id)
     {
+
+
         $company = Company::find($id);
+
+
+        $comp_prices = CompanyPrice::where('product_id',10)->get();
+        dd($comp_prices);
         if ($company) {
+
+
             return view('Product::showCustomProducts', compact('company'));
         }
         return view('General::notFound');

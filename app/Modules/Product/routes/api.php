@@ -2,7 +2,7 @@
 
 Route::group(['module' => 'Product', 'middleware' => ['api'], 'namespace' => 'App\Modules\Product\Controllers\api'], function() {
 
-  //  Route::resource('Product', 'ProductController');
-    route::post('api/products', 'ProductController@store');
-    route::get('api/products', 'ProductController@index');
+    Route::post('api/products', 'ProductController@store');
+    Route::get('api/products', 'ProductController@index');
+    Route::post('api/product/price','ProductController@handleAddProduct');
 });

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8f058890-c5db-49cc-9d43-5dd3cad141a1" name="Default Changelist" comment="crud machine and adjusts">
+    <list default="true" id="8f058890-c5db-49cc-9d43-5dd3cad141a1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/CompanyPrice/Models/CompanyPrice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/CompanyPrice/Models/CompanyPrice.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Modules/Product/Controllers/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Product/Controllers/ProductController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Modules/Product/Views/addCustomProduct.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Product/Views/addCustomProduct.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Modules/Product/Views/product.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Product/Views/product.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/Product/Controllers/api/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Product/Controllers/api/ProductController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/Product/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Product/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/Product/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Product/routes/web.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -172,7 +174,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="database.console.LAST_STATE" value="false" />
     <property name="editor.config.ad.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ignite" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -264,7 +266,7 @@
       <workItem from="1565772364945" duration="9571000" />
       <workItem from="1565788183518" duration="8743000" />
       <workItem from="1566219793244" duration="137000" />
-      <workItem from="1566220903756" duration="661000" />
+      <workItem from="1566220903756" duration="4316000" />
     </task>
     <task id="LOCAL-00001" summary="From Atef repository">
       <created>1562667925341</created>
@@ -329,7 +331,14 @@
       <option name="project" value="LOCAL" />
       <updated>1565793787563</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="devs">
+      <created>1566221745684</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1566221745684</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -359,6 +368,7 @@
     <MESSAGE value="crud machine and adjusts" />
     <MESSAGE value="rental commit" />
     <MESSAGE value="add client fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="add client fix" />
+    <MESSAGE value="devs" />
+    <option name="LAST_COMMIT_MESSAGE" value="devs" />
   </component>
 </project>

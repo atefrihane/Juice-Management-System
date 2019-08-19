@@ -6,7 +6,7 @@
     <div class="content-wrapper">
 
 <section class="content-header">
-   
+
 {{ Breadcrumbs::render('customProduct', $company) }}
     </section>
 
@@ -18,8 +18,8 @@
             <div class="box-header">
               <h3 class="box-title">Tarif Societé - Liste des produits</h3>
               <a href="{{route('showAddCustomProduct',$company->id)}}" class="btn btn-primary pull-right">Ajouter un produit</a>
-            
-     
+
+
               <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
             </div>
             <!-- /.box-header -->
@@ -32,14 +32,10 @@
                   <th>Type de produit</th>
                   <th>Prix unitaire de base</th>
                   <th>Prix unitaire pour societé</th>
-               
                 </tr>
-          
+
                 </thead>
                 <tbody>
-             
-
-
                    <tr>
 
                   <td>Nom</td>
@@ -63,9 +59,9 @@
 
 </div>
 </td>
-                
-             
-              
+
+
+
                 </tr>
 
                    <tr>
@@ -125,7 +121,6 @@
 </tr>
 
 
-    
 
 
 
@@ -137,8 +132,9 @@
 
 
 
-           
-           
+
+
+
 
 
 
