@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>@yield('pageTitle')</title> 
+  <title>@yield('pageTitle')</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -17,7 +17,7 @@
 
   <link href="{{ asset('/css/font-awesome.min.css') }}" rel="stylesheet">
   <!-- Ionicons -->
-  
+
   <link href="{{ asset('/css/ionicons.min.css') }}" rel="stylesheet">
   <!-- Theme style -->
 
@@ -76,7 +76,7 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
- 
+
           <!-- Notifications: style can be found in dropdown.less -->
           <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -119,24 +119,24 @@
               <li class="footer"><a href="#">View all</a></li>
             </ul>
           </li>
-   
+
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
- 
+
               <span class="hidden-xs">{{Auth::user()->email}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-           
+
 
                 <p>
                  {{Auth::user()->email}}
                 </p>
               </li>
               <!-- Menu Body -->
-            
+
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
@@ -160,7 +160,7 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- Sidebar user panel -->
- 
+
       <!-- search form -->
       <form action="#" method="get" class="sidebar-form">
         <div class="input-group">
@@ -174,8 +174,8 @@
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
- 
-            
+
+
 
         <li class="{{ Route::is('showHome') ? 'active' : '' }}"><a href="{{route('showHome')}}"><i class="fa fa-building "></i> <span>@{{body}}</span></a></li>
         <li class="{{ Route::is('showHome') ? 'active' : '' }}"><a href="{{route('showHome')}}"><i class="fa fa-building "></i> <span>Societés</span></a></li>

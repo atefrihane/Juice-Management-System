@@ -6,7 +6,7 @@
     <div class="content-wrapper">
 
 <section class="content-header">
-  
+
       {{ Breadcrumbs::render('home') }}
     </section>
 
@@ -18,8 +18,8 @@
             <div class="box-header">
               <h3 class="box-title">Liste des societés</h3>
               <a href="{{route('showAddCompany')}}" class="btn btn-primary pull-right">Ajouter une societé</a>
-            
-     
+
+
               <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
             </div>
             <!-- /.box-header -->
@@ -46,9 +46,10 @@
                   <td  data-url="{{route('showStores',$company->id)}}">{{$company->zip_code}}</td>
                   <td  data-url="{{route('showStores',$company->id)}}">{{$company->getNbrStores()}}</td>
                   <td  data-url="{{route('showStores',$company->id)}}">{{$company->status}}</td>
-                    <td class="not-this">
+
+                    <td class="not-this" data-url="javascript:void(0)">
                         <div class="btn-group">
-                            <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                            <a class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                             <ul class="dropdown-menu edit" role="menu">
                                 <li><a href="{{route('editCompany', $company->id)}}">Modifier</a></li>
                                 <li>
@@ -57,7 +58,7 @@
                             </ul>
                         </div>
                     </td>
-                  
+
                 </tr>
 
                 @empty

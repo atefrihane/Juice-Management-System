@@ -287,7 +287,7 @@
 
 </div>
 <script src="{{mix('js/product.js')}}"></script>
-<script src="{{mix('js/app.js')}}"></script>
+{{--<script src="{{mix('js/app.js')}}"></script>--}}
 
 @endsection
 {{--@section('dynamicProduct.script')--}}
