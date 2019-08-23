@@ -38,7 +38,6 @@
                 </thead>
                 <tbody>
                 @forelse($companies as $company)
-
                 <tr class="table-tr">
                     <td data-url="{{route('showStores',$company->id)}}" style="width: 60px"><img src="{{$company->logo}}" height="50" alt=""></td>
                   <td data-url="{{route('showStores',$company->id)}}">{{$company->name}}</td>
