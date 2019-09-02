@@ -17,7 +17,15 @@ public function stores(){
 public function director(){
    return $this->hasOne(Diractor::class)->with('user');
 }
-
+public function getStatus(){
+    $status = '';
+    switch($this->status){
+        case 0 : $status = 'Fermé';break;
+        case 1 : $status = ' En sommeil';break;
+        case 2 : $status = 'Active';break;
+    }
+    return $status;
+}
 public function getNbrStores(){
     return sizeof($this->stores);
 }

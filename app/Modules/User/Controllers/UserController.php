@@ -12,6 +12,7 @@ use App\Modules\Store\Models\Store;
 use App\Modules\SuperVisor\Models\SuperVisor;
 use App\Modules\User\Models\User;
 use Auth;
+use App\Modules\User\Controllers\api\UserController as UserRestController;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -27,9 +28,12 @@ class UserController extends Controller
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             Auth::user();
+            $token =  UserRestController::login($request);
+           $token = json_decode(json_encode($token))->original->token;
 
-            alert()->success('Succés!', 'Bienvenue!');
-            return redirect()->route('showHome');
+           // alert()->success('Succés!', 'Bienvenue!');
+
+            return redirect()->route('showHome')->with('token', $token);
 
         } else {
             alert()->error('Oups!', 'Email ou Mot de passe incorrect !');
@@ -53,7 +57,7 @@ class UserController extends Controller
             'code' => 'required',
             'nom' => 'required',
             'prenom' => 'required',
-            'sexe' => 'required',
+            'civilite' => 'required',
             'telephone' => 'required',
             'email' => 'required|email|unique:users',
             'accessCode' => 'required',
@@ -63,7 +67,7 @@ class UserController extends Controller
             'code.required' => 'le champs code est obligatoire',
             'nom.required' => 'le champs nom est obligatoire',
             'prenom.required' => 'le champs prenom est obligatoire',
-            'sexe.required' => 'le champs civilite est obligatoire',
+            'civilite.required' => 'le champs civilite est obligatoire',
             'telephone.required' => 'le champs telephone est obligatoire',
             'email.required' => 'le champs email est obligatoire',
             'email.email' => 'vous devez saisir un email valide ',
@@ -81,7 +85,7 @@ class UserController extends Controller
                 $director = Diractor::create(['company_id' => $id]);
                 $user['child_type'] = Diractor::class;
                 $user['child_id'] = $director->id;
-
+                $user['password'] = bcrypt($user['password']);
                $user =  User::create($user);break;
 
             case 'supervisor' :

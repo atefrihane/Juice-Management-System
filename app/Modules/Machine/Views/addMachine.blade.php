@@ -80,9 +80,10 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Type</label>
                                         <select class="form-control" name="type">
-                                        <option value="Jus-granité">Jus et ganité</option>
-                                        <option value="Autre">Autre</option>
-                                    </select>
+                                            <option value="Jus-granité">Jus </option>
+                                            <option value="Jus-granité">Granité</option>
+                                        <option value="Jus-granité">Jus et granité</option>
+                                        </select>
 
 
                                     </div>
@@ -91,8 +92,13 @@
                                       <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nombre de bacs</label>
-                                        <input class="form-control" name="number_bacs" id="disabledInput" type="number" placeholder="Nombre de bacs">
-
+                                        <select name="number_bacs" class="form-control">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
 
 
                                     </div>

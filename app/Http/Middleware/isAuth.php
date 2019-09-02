@@ -16,7 +16,7 @@ class isAuth
      */
     public function handle($request, Closure $next)
     {
- 
+
         if (Auth::check()){
         return $next($request); }
         else{

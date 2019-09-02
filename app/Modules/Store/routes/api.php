@@ -1,7 +1,7 @@
 <?php
 
-Route::group(['module' => 'Store', 'middleware' => ['api'], 'namespace' => 'App\Modules\Store\Controllers'], function() {
+Route::group(['module' => 'Store', 'middleware' => ['api'], 'namespace' => 'App\Modules\Store\Controllers\api'], function() {
 
-    Route::resource('Store', 'StoreController');
+    Route::get('api/stores/{id}', 'StoreController@show');
 
 });

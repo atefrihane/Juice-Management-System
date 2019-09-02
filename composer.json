@@ -14,6 +14,7 @@
         "davejamesmiller/laravel-breadcrumbs": "5.x",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.7.*",
+        "laravel/passport": "^7.4",
         "laravel/tinker": "^1.0",
         "spatie/laravel-cors": "^1.5",
         "uxweb/sweet-alert": "^2.0"

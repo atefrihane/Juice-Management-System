@@ -1,7 +1,9 @@
 <?php
 
-Route::group(['module' => 'User', 'middleware' => ['api'], 'namespace' => 'App\Modules\User\Controllers'], function() {
+Route::group(['module' => 'User', 'middleware' => ['api'], 'namespace' => 'App\Modules\User\Controllers\api'], function() {
 
-    Route::resource('User', 'UserController');
+
     route::get('users/all', "UserController@getUsers");
+
+    route::post('api/login', 'UserController@login');
 });

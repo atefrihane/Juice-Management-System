@@ -19,10 +19,10 @@
 
             <div class="box-header">
               <h3 class="box-title"> Ajouter une societé</h3>
-  
+
             </div>
-       
-       
+
+
             <form role="form" action="{{route('handleAddCompany')}}" method="post" enctype="multipart/form-data">
                 {{csrf_field()}}
                 @if ($errors->any())
@@ -40,15 +40,15 @@
               <div class="col-md-4">
               <div class="form-group">
                   <label for="exampleInputEmail1">ID</label>
-                  <input class="form-control" id="disabledInput" type="text" placeholder="{{$lastCompanyId}}" disabled>
-     
+                  <input  required class="form-control" id="disabledInput" type="text" placeholder="{{$lastCompanyId}}" disabled>
+
                 </div>
               </div>
 
               <div class="col-md-4">
               <div class="form-group">
                   <label for="exampleInputEmail1">Code</label>
-                  <input type="text" class="form-control" name="code" id="exampleInputEmail1" placeholder="Code..">
+                  <input  required type="text" class="form-control"  name="code" id="exampleInputEmail1" placeholder="Code">
                 </div>
               </div>
 
@@ -56,22 +56,23 @@
               <div class="form-group">
                   <label for="exampleInputEmail1">Statut</label>
                   <select class="form-control" name="status">
-                    <option value="1">Active</option>
-                    <option value="0">Inactive</option>
+                    <option value="2">Active</option>
+                    <option value="1">En sommeil</option>
+                    <option value="0">Fermé</option>
                   </select>
                 </div>
               </div>
 
               </div>
 
-             
+
                 <div class="form-group">
                   <label for="exampleInputPassword1">Nom du groupe</label>
-                  <input type="text" class="form-control" name="name" id="exampleInputPassword1" placeholder="Nom du groupe">
+                  <input  required type="text" class="form-control" name="name" id="exampleInputPassword1" placeholder="Nom du groupe">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Désignation</label>
-                  <input type="text" class="form-control" name="designation" id="exampleInputPassword1" placeholder="Désignation">
+                  <input  required type="text" class="form-control" name="designation" id="exampleInputPassword1" placeholder="Désignation">
                 </div>
 
                 <div class="row">
@@ -97,38 +98,38 @@
                 <div class="col-md-6">
                 <div class="form-group">
                   <label for="exampleInputPassword1">Code Postal</label>
-                  <input type="number" name="zip_code" class="form-control" id="exampleInputPassword1" placeholder="Code Postal">
+                  <input  required type="number" name="zip_code" class="form-control" id="exampleInputPassword1" placeholder="Code Postal">
                 </div>
-                
+
                 </div>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Addresse du siege</label>
-                  <input type="text" name="address" class="form-control" id="exampleInputPassword1" placeholder="Addresse du siege">
+                  <input  required type="text" name="address" class="form-control" id="exampleInputPassword1" placeholder="Addresse du siege">
                 </div>
 
                 <div class="form-group">
                   <label for="exampleInputPassword1">Complement addresse (optionnel)</label>
-                  <input type="text" name="complement" class="form-control" id="exampleInputPassword1" placeholder="Complement addresse">
+                  <input   type="text" name="complement" class="form-control" id="exampleInputPassword1" placeholder="Complement addresse">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Email</label>
-                  <input type="email" name="email" class="form-control" id="exampleInputPassword1" placeholder="Email">
+                  <input  required type="email" name="email" class="form-control" id="exampleInputPassword1" placeholder="Email">
                 </div>
                   <div class="row">
 
                       <div class="col-md-2">
                           <div class="form-group">
                               <label for="exampleInputEmail1">Telephone</label>
-                              <input class="form-control" name="cc"  type="text" placeholder="Code pays" value="+33" maxlength="4">
+                              <input  required class="form-control" name="cc"  type="text" placeholder="Code pays" value="+33" maxlength="4">
 
                           </div>
                       </div>
 
                       <div class="col-md-10">
                           <div class="form-group">
-                              <label for="exampleInputEmail1"></label>
-                              <input type="number" name="tel" class="form-control" id="exampleInputEmail1" placeholder="Telephone">
+                              <label for="exampleInputEmail1" style="color: transparent">Telephone</label>
+                              <input  required type="tel" name="tel" class="form-control" id="exampleInputEmail1" placeholder="Telephone">
                           </div>
                       </div>
                   </div>
@@ -139,35 +140,35 @@
                 </div>
                 <div class="row">
                 <div class="container">
-                
+
                 </div>
                 </div>
                 <div class="container center-block">
                 <div class="form-group">
                   <label for="exampleInputFile">Logo du societé (optionnel)</label>
-                  <input type="file" name="logo" id="exampleInputFile">
+                  <input   type="file" name="logo" id="exampleInputFile">
 
-  
+
                 </div>
 
                 <div class="row">
                 <div class="container text-center">
-                
-                <a href="" class="btn btn-danger pl-1" style="margin: 1em">Annuler</a>
+
+                <a onclick="history.back()" class="btn btn-danger pl-1" style="margin: 1em">Annuler</a>
                 <button type="submit" class="btn btn-success pl-1" style="margin: 1em">Ajouter</button>
-                
+
                 </div>
 </div>
 
-                
-               
+
+
 
 
               </div>
               </div>
             </form>
           </div>
- 
+
     <!-- /.col -->
   </div>
 

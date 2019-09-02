@@ -3,14 +3,14 @@
  @section('content')
 <style>
 
- .dots:after{ 
+ .dots:after{
    content: '\f141';
    font-family: FontAwesome;
 font-size:20px;
    color:black;
 
 
-} 
+}
 .edit{
 margin: 6px -20px 0 !important;
 min-width:100px;
@@ -20,7 +20,7 @@ min-width:100px;
     <div class="content-wrapper">
 
 <section class="content-header">
-   
+
 {{ Breadcrumbs::render('store', $company) }}
     </section>
 
@@ -32,8 +32,8 @@ min-width:100px;
             <div class="box-header">
               <h3 class="box-title">Liste des Magasins</h3>
               <a href="{{route('showAddStore',$company->id)}}" class="btn btn-primary pull-right">Ajouter un magasin</a>
-            
-     
+
+
               <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
             </div>
             <!-- /.box-header -->
@@ -114,7 +114,8 @@ min-width:100px;
         idToDelete = id;
     }
     function deleteStore(){
-        location.replace('/store/delete/'+ idToDelete);
+        let baseurl = '{{env('APP_URL')}}';
+        location.replace(baseurl + 'store/delete/'+ idToDelete);
     }
 </script>
  @endsection

@@ -4,14 +4,16 @@ namespace App\Modules\User\Models;
 
 use App\Modules\Diractor\Models\Diractor;
 use App\Modules\Responsable\Models\Responsable;
+use App\Modules\Role\Models\Role;
 use App\Modules\SuperVisor\Models\SuperVisor;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable,HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -37,7 +39,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-  
+
 
     /**
      * The attributes that should be cast to native types.
@@ -60,4 +62,5 @@ class User extends Authenticatable
         }
         return 'admin';
     }
+    protected $hidden = ['password'];
 }

@@ -13,7 +13,7 @@ class GeneralController extends Controller
 
         $companies = Company::all();
 
-        return view('General::home', compact('companies'));
+        return view('General::home', compact('companies'))->withCookie(cookie('idtodelete', '', 120));
     }
 
 }

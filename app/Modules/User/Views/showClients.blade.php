@@ -38,6 +38,7 @@
                                 </thead>
                                 <tbody>
                                 @forelse($contacts as $contact)
+                                    @if($contact != null)
                                     @switch($contact->user->getType())
                                         @case('directeur')
                                 <tr>
@@ -111,6 +112,7 @@
                                         </tr>
                                  @break
                                  @endswitch
+                                    @endif
                                  @empty
                                 <tr>Aucun contact</tr>
                                  @endforelse

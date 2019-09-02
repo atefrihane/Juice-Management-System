@@ -50,7 +50,12 @@ class CompanyController extends Controller
             'tel.required' => 'le deuxieme champs telephone est obligatoire',
 
         ]);
-        $path = $request->file('logo')->store('img', 'public');
+        if($request->file('logo') != null){
+            $path = $request->file('logo')->store('img', 'public');
+
+        }else{
+            $path =  'img/company-placeholder.png';
+        }
         $telephone = $request->cc.$request->tel;
         $insertable = $request->all();
         $insertable['tel'] = $telephone;

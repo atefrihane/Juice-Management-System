@@ -44,7 +44,7 @@
                   <td  data-url="{{route('showStores',$company->id)}}">{{$company->code}}</td>
                   <td  data-url="{{route('showStores',$company->id)}}">{{$company->zip_code}}</td>
                   <td  data-url="{{route('showStores',$company->id)}}">{{$company->getNbrStores()}}</td>
-                  <td  data-url="{{route('showStores',$company->id)}}">{{$company->status}}</td>
+                  <td  data-url="{{route('showStores',$company->id)}}">{{$company->getStatus()}}</td>
 
                     <td class="not-this" data-url="javascript:void(0)">
                         <div class="btn-group">
@@ -102,15 +102,20 @@
             </div>
             <!-- /.modal-content -->
         </div>
+
         <!-- /.modal-dialog -->
     </div>
     <script>
+        localStorage.setItem('token','{{session('token')}}' );</script>
+    <script>
         var idToDelete;
+
         function setIdToDelete(id){
             idToDelete = id;
         }
         function deleteCompany(){
-         location.replace('/company/delete/'+ idToDelete);
+            let baseurl = '{{env('APP_URL')}}';
+         location.replace( baseurl + 'company/delete/' + idToDelete);
         }
     </script>
 

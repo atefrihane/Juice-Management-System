@@ -27,7 +27,6 @@ class ContactController extends Controller
             }
         }
         $contacts = array_unique($contacts);
-
         if ($company) {
             return view('User::showClients', compact('company', 'contacts'));
         }

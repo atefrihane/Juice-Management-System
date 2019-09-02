@@ -177,10 +177,15 @@ class AdminController extends Controller
     {
         //
       $admin =   Admin::find($id);
-      $user = $admin->user;
+      $user =  $admin->user;
+      if($admin->role->id != 1)
+      {$admin->delete();
+          $user->delete();
 
-      $admin->delete();
-      $user->delete();
+      }else{
+          alert()->error('Oups!', 'DBO ne peut pas etre supprimer');
+      }
+
       return redirect('/admin');
     }
 }
