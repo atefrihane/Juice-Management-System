@@ -64,14 +64,11 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>LT</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Admin</b>LTE</span>
+      <span class="logo-lg"><b>Wize </b>Admin</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
       <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-        <span class="sr-only">Toggle navigation</span>
-      </a>
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
@@ -79,10 +76,7 @@
 
           <!-- Notifications: style can be found in dropdown.less -->
           <li class="dropdown notifications-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">10</span>
-            </a>
+
             <ul class="dropdown-menu">
               <li class="header">You have 10 notifications</li>
               <li>
@@ -162,22 +156,13 @@
       <!-- Sidebar user panel -->
 
       <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Chercher...">
-          <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
+
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
 
 
 
-        <li class="{{ Route::is('showHome') ? 'active' : '' }}"><a href="{{route('showHome')}}"><i class="fa fa-building "></i> <span>@{{body}}</span></a></li>
         <li class="{{ Route::is('showHome') ? 'active' : '' }}"><a href="{{route('showHome')}}"><i class="fa fa-building "></i> <span>Societés</span></a></li>
         <li class="{{ Route::is('showOrders') ? 'active' : '' }}"><a href="{{route('showOrders')}}"><i class="fa fa-shopping-bag"></i> <span>Commandes</span></a></li>
         <li class="{{ Route::is('showMachines') ? 'active' : '' }}"><a href="{{route('showMachines')}}"><i class="fa fa-plug"></i> <span>Machines</span></a></li>

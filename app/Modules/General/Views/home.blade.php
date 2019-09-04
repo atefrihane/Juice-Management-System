@@ -24,8 +24,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-                <form name="form">
-              <table  class="table table-bordered table-hover example2" style="width:100%;">
+              <table  class="table table-bordered table-hover example2" >
                 <thead>
                 <tr>
                     <th>Logo</th>
@@ -71,7 +70,6 @@
                 </tbody>
 
               </table>
-                  </form>
             </div>
             <!-- /.box-body -->
           </div>
@@ -106,7 +104,9 @@
         <!-- /.modal-dialog -->
     </div>
     <script>
+        @if(!empty(session('token')))
         localStorage.setItem('token','{{session('token')}}' );</script>
+        @endif
     <script>
         var idToDelete;
 

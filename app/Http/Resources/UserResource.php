@@ -20,9 +20,9 @@ class UserResource extends JsonResource
     {
         $type ='';
         switch ($this->child_type){
-            case Diractor::class : $type = 'Directeur';break;
-            case Responsable::class : $type = 'Responsable';break;
-            case SuperVisor::class : $type = 'Superviseur';break;
+            case Diractor::class : $type = 'Directeur'; $tab['stores'] = $this->child->company->stores; break;
+            case Responsable::class : $type = 'Responsable';$tab['store'] = $this->child->store ; break;
+            case SuperVisor::class : $type = 'Superviseur'; $tab['stores'] = $this->child->stores; break;
             case Admin::class : $type = 'Admin';break;
         }
         $tab = parent::toArray($request);

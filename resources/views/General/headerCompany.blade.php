@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>@yield('pageTitle')</title> 
+  <title>@yield('pageTitle')</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -16,7 +16,7 @@
 
   <link href="{{ asset('/css/font-awesome.min.css') }}" rel="stylesheet">
   <!-- Ionicons -->
-  
+
   <link href="{{ asset('/css/ionicons.min.css') }}" rel="stylesheet">
   <!-- Theme style -->
 
@@ -64,7 +64,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>LT</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Admin</b>LTE</span>
+      <span class="logo-lg"><b>Wize </b>Admin</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -76,60 +76,20 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
- 
+
           <!-- Notifications: style can be found in dropdown.less -->
-          <li class="dropdown notifications-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">10</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 10 notifications</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
-                      page and may cause design problems
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-users text-red"></i> 5 new members joined
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-user text-red"></i> You changed your username
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="footer"><a href="#">View all</a></li>
-            </ul>
-          </li>
-   
+
+
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
- 
+
               <span class="hidden-xs">{{Auth::user()->email}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-           
+
 
                 <p>
                     {{Auth::user()->email}}
@@ -159,29 +119,21 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- Sidebar user panel -->
- 
+
       <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
-          <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
+
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-    
 
-          <li><a href="{{route('showHome')}}"><i class="fa fa-arrow-left"></i> <span>Retour Menu Principal</span></a></li>
+
+          <li style="margin-bottom: 30px"><a href="{{route('showHome')}}"><i class="fa fa-arrow-left"></i> <span>Retour Menu Principal</span></a></li>
         <li class="{{ Route::is('showCompany',$company->id) ? 'active' : '' }}"><a href="{{route('showCompany',$company->id)}}"><i class="fa fa-question-circle""></i> <span>Informations</span></a></li>
         <li class="{{ Route::is('showStores',$company->id) ? 'active' : '' }}"><a href="{{route('showStores',$company->id)}}"><i class="fa fa-building"></i> <span>Magasins</span></a></li>
         <li class="{{ Route::is('showContacts',$company->id) ? 'active' : '' }}"><a href="{{route('showContacts',$company->id)}}"><i class="fa fa-male"></i> <span>Contacts</span></a></li>
         <li class="{{ Route::is('showRentedMachines',$company->id) ? 'active' : '' }}"><a href="{{route('showRentedMachines',$company->id)}}"><i class="fa fa-plug"></i> <span>Machines en location</span></a></li>
         <li class="{{ Route::is('showCustomProducts',$company->id) ? 'active' : '' }}"><a href="{{route('showCustomProducts',$company->id)}}"><i class="fa fa-dollar"></i> <span>Tarifs produits</span></a></li>
-  
+
       </ul>
     </section>
     <!-- /.sidebar -->

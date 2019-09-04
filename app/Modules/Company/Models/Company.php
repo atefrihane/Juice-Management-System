@@ -33,7 +33,7 @@ public function rentedMachines(){
     $rentedMachines= [];
 
     foreach ($this->stores as $store){
-        foreach(MachineRental::where('store_id', $store->id)->get() as $machine){
+        foreach(MachineRental::where('store_id', $store->id)->where('active', true)->get() as $machine){
             $rentedMachines[] = $machine;
 
         }

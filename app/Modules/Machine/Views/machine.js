@@ -43,7 +43,11 @@ const apep = new Vue({
     methods: {
             getStores: (id)=>{
 
-                axios.get(BaseUrl.url+'companies/'+id).then(res => {
+                axios.get(BaseUrl.url+'companies/'+id,  {
+                    headers: {
+                        Authorization: "Bearer "+ localStorage.token
+                    }
+                }).then(res => {
                     apep.rental.company_id = id;
                     apep.stores = res.data.stores;
                     console.log(res.data.stores);
@@ -54,7 +58,7 @@ const apep = new Vue({
         getMachine: (id)=> {
                 apep.rental.machine_id = id;
                 axios.get(BaseUrl.url + 'machines/' + id).then(res => {
-
+                    apep.rental.price = res.data.price_month
                     apep.machine = res.data;
                     console.log(res.data);
                     apep.initBacs();
@@ -74,7 +78,7 @@ const apep = new Vue({
                 console.log(apep.machine.number_bacs);
                 console.log(apep.machine.number_bacs);
             for (let i = 0 ; i < apep.machine.number_bacs; i++){
-                apep.bacs.push({order: i +1 , status: '', product: null, mixture_id: null, machine_id: apep.machine.id});
+                apep.bacs.push({order: i +1 , status: 'fonctionnelle', product: null, mixture_id: null, machine_id: apep.machine.id});
             }
         },
         saveRental: ()=>{
@@ -84,7 +88,7 @@ const apep = new Vue({
                         apep.bacs[i].product_id = apep.bacs[i].product.id;
                     }
                     axios.post(BaseUrl.url +'xbacs', apep.bacs).then(res =>{
-                        history.back();
+                        window.location=document.referrer;
                     });
                 })
         },

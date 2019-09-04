@@ -44,8 +44,9 @@ class MachineRentalController extends Controller
         //
         $rental = $request->all();
         unset($rental['company_id']);
-        Machine::where('id', $rental['machine_id'])->update(['rented'=> true]);
-        return MachineRental::create($rental);
+        $machineRental = MachineRental::create($rental);
+        Machine::where('id', $rental['machine_id'])->update(['rented'=> true,'machine_rental_id' => $machineRental->id]);
+        return ;
 
     }
 

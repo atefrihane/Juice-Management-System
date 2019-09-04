@@ -54,7 +54,10 @@ class StoreController extends Controller
 
         ]);
 
+        if($request->file('photo') != null)
         $path = $request->file('photo')->store('img', 'public');
+        else
+            $path = 'img/company-placeholder.png';
         $telephone = $request->cc." ".$request->tel;
         $insertable = $request->all();
         $insertable['tel'] = $telephone;

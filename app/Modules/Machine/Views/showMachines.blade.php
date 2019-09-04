@@ -53,8 +53,8 @@
                                 @if($machine->rented==false)
                                     <li><a href="{{route('startRental', $machine->id).'?machine=true'}}">Commencer location</a></li>
                                 @else
-                                    <li><a href="{{route('showEndRental', $machine->machine_rental_id)}}">Arreter location</a></li>
-                                    <li><a href="{{route('showRental', $machine->machine_rental_id)}}">Voir location</a></li>
+                                    <li><a href="{{route('showEndRental', ['id' =>$machine->machine_rental_id])}}">Arreter location</a></li>
+                                    <li><a href="{{route('showRental', ['id' => $machine->machine_rental_id])}}">Voir location</a></li>
                                 @endif
                                 <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">voir list location</a></li>
                                 <li><a href="#">Changer etat</a></li>

@@ -10,7 +10,12 @@ use Illuminate\Http\Request;
 class StoreController extends Controller
 {
    public function show($id){
-       return Store::where('id', $id)->with('stores')->first();
+       return Store::find($id);
    }
+
+   public function index(){
+       return Store::all();
+   }
+
 
 }

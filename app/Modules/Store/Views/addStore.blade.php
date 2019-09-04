@@ -36,7 +36,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">ID</label>
-                                            <input class="form-control" id="disabledInput" type="text" placeholder="ID" value="{{$lastStoreId}}" disabled>
+                                            <input required class="form-control" id="disabledInput" type="text" placeholder="ID" value="{{$lastStoreId}}" disabled>
 
                                         </div>
                                     </div>
@@ -44,7 +44,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Code</label>
-                                            <input type="text" class="form-control" name="code" id="exampleInputEmail1" placeholder="Code..">
+                                            <input required  required type="text" class="form-control" name="code" id="exampleInputEmail1" placeholder="Code..">
                                         </div>
                                     </div>
 
@@ -62,12 +62,12 @@
 
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Nom Societé</label>
-                                    <input class="form-control" id="disabledInput" readonly value="{{$company->name}}" type="text" placeholder="Groupe">
+                                    <input required class="form-control" id="disabledInput" readonly value="{{$company->name}}" type="text" placeholder="Groupe">
 
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Désignation</label>
-                                    <input class="form-control" id="disabledInput" type="text" name="designation" placeholder="Nom Magasin">
+                                    <input required class="form-control" id="disabledInput" type="text" name="designation" placeholder="Nom Magasin">
 
                                 </div>
                                 <div class="form-group">
@@ -112,7 +112,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Code Postal</label>
-                                            <input class="form-control" name="zip_code" id="disabledInput" type="number" placeholder="Code Postal">
+                                            <input required class="form-control" name="zip_code" id="disabledInput" type="text" placeholder="Code Postal">
 
                                         </div>
                                     </div>
@@ -120,17 +120,17 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Adresse du magasin</label>
-                                    <input class="form-control" id="disabledInput" type="text" name="address" placeholder="Adresse du Magasin">
+                                    <input required class="form-control" id="disabledInput" type="text" name="address" placeholder="Adresse du Magasin">
 
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Complement(optionnel)</label>
-                                    <input class="form-control" id="disabledInput" type="text" name="complement" placeholder="Complement">
+                                    <input required class="form-control" id="disabledInput" type="text" name="complement" placeholder="Complement">
 
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Email</label>
-                                    <input class="form-control" id="disabledInput" type="email" name="email" placeholder="Email">
+                                    <input required class="form-control" id="disabledInput" type="email" name="email" placeholder="Email">
 
                                 </div>
                                 <div class="row">
@@ -138,7 +138,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Telephone</label>
-                                            <input class="form-control" name="cc"  type="text" placeholder="Code pays" value="+33" maxlength="4">
+                                            <input required class="form-control" name="cc"  type="text" placeholder="Code pays" value="+33" maxlength="4">
 
                                         </div>
                                     </div>
@@ -146,7 +146,7 @@
                                     <div class="col-md-10">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1" style="color: transparent">*</label>
-                                            <input type="number" name="tel" class="form-control" id="exampleInputEmail1" placeholder="Telephone">
+                                            <input required type="text" name="tel" class="form-control" id="exampleInputEmail1" placeholder="Telephone">
                                         </div>
                                     </div>
                                 </div>
@@ -158,10 +158,10 @@
 
 
                                 <div class="form-group">
-                                    <label for="exampleInputFile"> photo du magasion (optionnel)</label>
-                                    <input type="file" name="photo" id="exampleInputFile">
+                                    <label for="exampleInputFile"> Photo du magasion (optionnel)</label>
+                                    <input  type="file" name="photo" id="exampleInputFile">
                                 </div>
-                                <label > Facturation</label>
+                                <label style="font-size: 24px; margin-top: 24px; font-weight: bold;" > Facturation</label>
                                 <div class="row">
 
                                     <div class="col-md-6">
@@ -195,7 +195,7 @@
                                             {{--<label>Heure d'ouverture</label>--}}
 
                                             {{--<div class="input-group bootstrap-timepicker">--}}
-                                                {{--<input type="text" class="form-control timepicker ">--}}
+                                                {{--<input required type="text" class="form-control timepicker ">--}}
 
                                                 {{--<div class="input-group-addon">--}}
                                                     {{--<i class="fa fa-clock-o"></i>--}}
@@ -210,7 +210,7 @@
                                             {{--<label>Heure de fermeture</label>--}}
 
                                             {{--<div class="input-group bootstrap-timepicker">--}}
-                                                {{--<input type="text" class="form-control timepicker">--}}
+                                                {{--<input required type="text" class="form-control timepicker">--}}
 
                                                 {{--<div class="input-group-addon">--}}
                                                     {{--<i class="fa fa-clock-o"></i>--}}

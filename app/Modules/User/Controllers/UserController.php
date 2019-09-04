@@ -97,6 +97,8 @@ class UserController extends Controller
                 $supervisor = SuperVisor::create([]);
                 $user['child_type'] = SuperVisor::class;
                 $user['child_id'] = $supervisor->id;
+                $user['password'] = bcrypt($user['password']);
+
                 $user =  User::create($user);
                 foreach ($request->stores as $storeId){
                     Store::where('id',$storeId)->update(['super_visor_id' => $supervisor->id]);
@@ -111,6 +113,8 @@ class UserController extends Controller
                 $responsable = Responsable::create(['store_id' => $request->store]);
                 $user['child_type'] = Responsable::class;
                 $user['child_id'] = $responsable->id;
+                $user['password'] = bcrypt($user['password']);
+
 
                 $user =  User::create($user);break;
         }
