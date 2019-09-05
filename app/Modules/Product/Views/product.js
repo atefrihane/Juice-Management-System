@@ -117,7 +117,11 @@ const apep = new Vue({
     },
     methods:{
     save: function(){
-        axios.post(BaseUrl.url + 'products', this.product).then(res => {
+        axios.post(BaseUrl.url + 'products', this.product, {
+            headers: {
+                Authorization: localStorage.getItem('token')
+            }
+        }).then(res => {
             console.log(res);
             for(let i = 0 ; i<this.mixtures.length; i++){
                 this.mixtures[i].product_id = res.data.id;

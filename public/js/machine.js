@@ -152,7 +152,11 @@ var apep = new Vue({
     },
     getMachine: function getMachine(id) {
       apep.rental.machine_id = id;
-      axios.get(BaseUrl.url + 'machines/' + id).then(function (res) {
+      axios.get(BaseUrl.url + 'machines/' + id, {
+        headers: {
+          Authorization: localStorage.getItem('token')
+        }
+      }).then(function (res) {
         apep.rental.price = res.data.price_month;
         apep.machine = res.data;
         console.log(res.data);
@@ -168,7 +172,11 @@ var apep = new Vue({
       });
     },
     getProducts: function getProducts() {
-      axios.get(BaseUrl.url + 'products').then(function (res) {
+      axios.get(BaseUrl.url + 'products', {
+        headers: {
+          Authorization: localStorage.getItem('token')
+        }
+      }).then(function (res) {
         apep.products = res.data;
       });
     },
@@ -188,14 +196,22 @@ var apep = new Vue({
       }
     },
     saveRental: function saveRental() {
-      axios.post(BaseUrl.url + 'rentals', apep.rental).then(function (res) {
+      axios.post(BaseUrl.url + 'rentals', apep.rental, {
+        headers: {
+          Authorization: localStorage.getItem('token')
+        }
+      }).then(function (res) {
         console.log(res);
 
         for (var i = 0; i < apep.bacs.length; i++) {
           apep.bacs[i].product_id = apep.bacs[i].product.id;
         }
 
-        axios.post(BaseUrl.url + 'xbacs', apep.bacs).then(function (res) {
+        axios.post(BaseUrl.url + 'xbacs', apep.bacs, {
+          headers: {
+            Authorization: localStorage.getItem('token')
+          }
+        }).then(function (res) {
           window.location = document.referrer;
         });
       });

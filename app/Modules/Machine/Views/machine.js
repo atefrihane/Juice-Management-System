@@ -57,7 +57,11 @@ const apep = new Vue({
             },
         getMachine: (id)=> {
                 apep.rental.machine_id = id;
-                axios.get(BaseUrl.url + 'machines/' + id).then(res => {
+                axios.get(BaseUrl.url + 'machines/' + id, {
+                    headers: {
+                        Authorization: localStorage.getItem('token')
+                    }
+                }).then(res => {
                     apep.rental.price = res.data.price_month
                     apep.machine = res.data;
                     console.log(res.data);
@@ -69,7 +73,11 @@ const apep = new Vue({
                 apep.mixtures.push({1 : {'hey' : numbac}});
                 },
         getProducts: ()=> {
-                axios.get(BaseUrl.url + 'products').then(res => {
+                axios.get(BaseUrl.url + 'products', {
+                    headers: {
+                        Authorization: localStorage.getItem('token')
+                    }
+                }).then(res => {
                     apep.products = res.data;
                 })
         },
@@ -82,12 +90,20 @@ const apep = new Vue({
             }
         },
         saveRental: ()=>{
-                axios.post(BaseUrl.url+ 'rentals', apep.rental).then(res => {
+                axios.post(BaseUrl.url+ 'rentals', apep.rental, {
+                    headers: {
+                        Authorization: localStorage.getItem('token')
+                    }
+                }).then(res => {
                     console.log(res);
                     for (let i = 0 ; i <apep.bacs.length; i++){
                         apep.bacs[i].product_id = apep.bacs[i].product.id;
                     }
-                    axios.post(BaseUrl.url +'xbacs', apep.bacs).then(res =>{
+                    axios.post(BaseUrl.url +'xbacs', apep.bacs, {
+                    headers: {
+                        Authorization: localStorage.getItem('token')
+                    }
+                }).then(res =>{
                         window.location=document.referrer;
                     });
                 })

@@ -218,7 +218,11 @@ var apep = new Vue({
     save: function save() {
       var _this = this;
 
-      axios.post(BaseUrl.url + 'products', this.product).then(function (res) {
+      axios.post(BaseUrl.url + 'products', this.product, {
+        headers: {
+          Authorization: localStorage.getItem('token')
+        }
+      }).then(function (res) {
         console.log(res);
 
         for (var i = 0; i < _this.mixtures.length; i++) {
