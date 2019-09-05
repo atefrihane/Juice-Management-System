@@ -105,8 +105,9 @@
     </div>
     <script>
         @if(!empty(session('token')))
-        localStorage.setItem('token','{{session('token')}}' );</script>
+        localStorage.setItem('token','{{session('token')}}' );
         @endif
+    </script>
     <script>
         var idToDelete;
 
