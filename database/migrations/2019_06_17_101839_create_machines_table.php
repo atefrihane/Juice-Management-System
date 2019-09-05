@@ -25,6 +25,9 @@ class CreateMachinesTable extends Migration
             $table->double('price_month');
             $table->string('comment')->nullable();
             $table->string('photo_url');
+            $table->boolean('rented');
+            $table->integer('machine_rental_id')->unsigned()->nullable();
+
 
             $table->timestamps();
         });

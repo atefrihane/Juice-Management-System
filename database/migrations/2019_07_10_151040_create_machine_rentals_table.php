@@ -21,6 +21,10 @@ class CreateMachineRentalsTable extends Migration
             $table->foreign('machine_id')->references('id')->on('machines');
             $table->date('date_debut');
             $table->date('date_fin');
+            $table->text('location')->nullable();
+            $table->text('Comment')->nullable();
+            $table->string('end_reason');
+            $table->boolean('active')->default(true);
 
             $table->timestamps();
         });
