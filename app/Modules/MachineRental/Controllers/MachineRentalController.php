@@ -2,6 +2,7 @@
 
 namespace App\Modules\MachineRental\Controllers;
 
+use App\Modules\Bac\Models\Bac;
 use App\Modules\Machine\Models\Machine;
 use App\Modules\MachineRental\Models\MachineRental;
 use Illuminate\Http\Request;
@@ -107,6 +108,7 @@ class MachineRentalController extends Controller
         MachineRental::where('id', $id)->update(['end_reason'=> $request->end_reason, 'date_fin'=> $request->date_fin,'active'=> false, 'Comment' => $request->comment]);
         $rental = MachineRental::find($id);
         Machine::where('id', $rental->machine_id)->update(['rented'=> false]);
+        Bac::where('machine_id', $rental->machine_id)->delete();
         return redirect(route('showMachines'));
 
     }

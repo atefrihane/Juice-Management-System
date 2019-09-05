@@ -3,6 +3,8 @@
 namespace App\Modules\Store\Models;
 
 use App\Modules\Company\Models\Company;
+use App\Modules\Machine\Models\Machine;
+use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Responsable\Models\Responsable;
 use App\Modules\SuperVisor\Models\SuperVisor;
 use Illuminate\Database\Eloquent\Model;
@@ -21,5 +23,26 @@ class Store extends Model {
     public function company(){
         return $this->belongsTo(Company::class);
     }
+
+    public function rentals(){
+        return $this->hasMany(MachineRental::class);
+    }
+
+    public function machines(){
+        $machines = [];
+        foreach ($this->rentals as $rental){
+            if($rental->active){
+                $machine = $rental->machine;
+                $machine['bacs'] = $machine->bacs;
+                foreach($machine['bacs'] as $bac){
+                    $bac['product'] =$bac->product;
+                }
+                $machines[] = $machine;
+            }
+
+            }
+        return $machines;
+    }
+
 
 }
