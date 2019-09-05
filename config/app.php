@@ -53,7 +53,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
-
+    'base_url'=>'hbjn',
     'asset_url' => env('ASSET_URL', null),
 
     /*

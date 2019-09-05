@@ -116,7 +116,7 @@ min-width:100px;
         idToDelete = id;
     }
     function deleteStore(){
-        let baseurl = '{{   config('url')}}';
+        let baseurl = '{{   config('app.url')}}';
         location.replace(baseurl + 'store/delete/'+ idToDelete);
     }
 </script>
