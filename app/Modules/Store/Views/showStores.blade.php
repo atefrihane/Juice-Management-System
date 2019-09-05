@@ -76,7 +76,7 @@ min-width:100px;
                 </tbody>
 
               </table>
-                {{env("APP_URL")}}
+
 
             </div>
 
@@ -116,7 +116,7 @@ min-width:100px;
         idToDelete = id;
     }
     function deleteStore(){
-        let baseurl = '{{   env('APP_URL')}}';
+        let baseurl = '{{   config('url')}}';
         location.replace(baseurl + 'store/delete/'+ idToDelete);
     }
 </script>
