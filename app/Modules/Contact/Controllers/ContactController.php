@@ -37,7 +37,7 @@ class ContactController extends Controller
     {
         $company = Company::find($id);
         if ($company) {
-            return view('Contact::AddClient', compact('company'));
+            return view('Contact::addClient', compact('company'));
         }
         return view('General::notFound');
     }
