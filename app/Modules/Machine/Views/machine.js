@@ -38,7 +38,8 @@ const apep = new Vue({
         },
         bacs: [{status: ''}, {status: ''},{ status: ''}],
         mixtures: [],
-        products: []
+        products: [],
+        error: false
     },
     methods: {
             getStores: (id)=>{
@@ -97,6 +98,7 @@ const apep = new Vue({
                 }).then(res => {
                     console.log(res);
                     for (let i = 0 ; i <apep.bacs.length; i++){
+                        if(apep.bacs[i].product !=null )
                         apep.bacs[i].product_id = apep.bacs[i].product.id;
                     }
                     axios.post(BaseUrl.url +'xbacs', apep.bacs, {
@@ -106,7 +108,7 @@ const apep = new Vue({
                 }).then(res =>{
                         window.location=document.referrer;
                     });
-                })
+                }, err => apep.error = true)
         },
         mounted () {
                 console.log('im created');

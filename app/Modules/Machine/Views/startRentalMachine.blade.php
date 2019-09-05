@@ -30,12 +30,17 @@
                                     </ul>
                                 </div>
                             @endif
+                            <div class="alert alert-danger" v-if="error">
+                                <ul>
+                                    <li>verifier les champs</li>
+                                </ul>
+                            </div>
                             <div class="box-body">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Code Machine</label>
-                                            <select class="form-control" name="machine_id"  v-bind:value="rental.machine_id" v-on:change="getMachine($event.target.value)">
+                                            <select class="form-control" name="machine_id" required  v-bind:value="rental.machine_id" v-on:change="getMachine($event.target.value)">
                                                 @foreach($machines as $mach )
                                                     <option value="{{$mach->id}}" {{$mach->id == $machine->id ? 'selected': '' }}>{{  $mach->code }}</option>
                                                 @endforeach
@@ -45,7 +50,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Désignation Machine</label>
-                                            <select class="form-control" name="machine_id" v-bind:value="rental.machine_id" v-on:change="rental.machine_id= $event.target.value">
+                                            <select class="form-control" name="machine_id" required v-bind:value="rental.machine_id" v-on:change="rental.machine_id= $event.target.value">
                                                 @foreach($machines as $mach )
                                                     <option value="{{$mach->id}}" {{$mach->id == $machine->id ? 'selected': '' }}>{{  $mach->designation }}</option>
                                                 @endforeach
@@ -63,7 +68,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Societé</label>
-                                            <select class="form-control" name="machine_id"   v-on:change="getStores($event.target.value)">
+                                            <select class="form-control" name="machine_id" required   v-on:change="getStores($event.target.value)">
                                                 <option ></option>
                                                 @foreach($companies as $mach )
                                                     <option value="{{$mach->id}}" >{{  $mach->name }}</option>
@@ -74,7 +79,7 @@
                                     <div class="col-md-4" >
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Magasin</label>
-                                            <select class="form-control" v-model="rental.store_id" >
+                                            <select class="form-control" v-model="rental.store_id" required>
 
                                                     <option v-if="stores.length > 0" v-for="store in stores" :value="store.id">@{{  store.designation }}</option>
 
@@ -86,13 +91,13 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Date du début de location</label>
-                                            <input class="form-control"  id="disabledInput" v-model="rental.date_debut" type="date" >
+                                            <input class="form-control" required  id="disabledInput" v-model="rental.date_debut" type="date" >
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Date de fin de location</label>
-                                            <input class="form-control"  id="disabledInput" v-model="rental.date_fin" type="date" >
+                                            <input class="form-control" required  id="disabledInput" v-model="rental.date_fin" type="date" >
                                         </div>
                                     </div>
                                 </div>
@@ -100,7 +105,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Prix location mensuel</label>
-                                            <input class="form-control"  name="designation" id="disabledInput" v-model="rental.price" type="number" placeholder="Prix">
+                                            <input class="form-control" required  name="designation" id="disabledInput" v-model="rental.price" type="number" placeholder="Prix">
 
                                         </div>
                                     </div>
@@ -109,7 +114,7 @@
                                     <div class="col-md-8">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Localisation</label>
-                                            <textarea class="form-control" rows="2" name="location" v-model="rental.location" placeholder="localisation"></textarea>
+                                            <textarea class="form-control" required rows="2" name="location" v-model="rental.location" placeholder="localisation"></textarea>
 
                                         </div>
                                     </div>

@@ -16,7 +16,6 @@
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">Machines en location pour la  societé  &nbsp;&nbsp; <small>  {{$company->name}}</small></h3>
-              <a href="#œ" class="btn btn-primary pull-right">Ajouter une machine en location</a>
 
 
               <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
@@ -39,7 +38,7 @@
                 <tbody>
                 @forelse($machines as $machine)
                 <tr>
-                    <td>    <img src="{{asset('/img/user2-160x160.jpg')}}" class="user-image" alt="User Image"> </td>
+                    <td>    <img src="../../{{$machine->machine->photo_url}}" height="80" class="user-image" alt="User Image"> </td>
                     <td>{{$machine->machine->code}}</td>
                     <td>{{$machine->machine->designation}}</td>
                     <td>{{$machine->machine->number_bacs}}</td>
