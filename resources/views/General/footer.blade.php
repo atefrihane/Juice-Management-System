@@ -87,97 +87,7 @@ $('.table-tr > td:not(:nth-child(6))').click(function(){
 <script src="{{ asset('/js/jquery.inputmask.js') }}" ></script>
 <script src="{{ asset('/js/jquery.inputmask.date.extensions.js') }}" ></script>
 <script src="{{ asset('/js/jquery.inputmask.extensions.js') }}" ></script>
-<script>
-  $(function () {
-    //Initialize Select2 Elements
-    $('.select2').select2()
 
-    //Datemask dd/mm/yyyy
-    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
-    //Datemask2 mm/dd/yyyy
-    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-    //Money Euro
-    $('[data-mask]').inputmask()
-
-    //Date range picker
-    $('#reservation').daterangepicker()
-    //Date range picker with time picker
-    $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, locale: { format: 'MM/DD/YYYY hh:mm A' }})
-    //Date range as a button
-    $('#daterange-btn').daterangepicker(
-      {
-        ranges   : {
-          'Today'       : [moment(), moment()],
-          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
-          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
-          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        },
-        startDate: moment().subtract(29, 'days'),
-        endDate  : moment()
-      },
-      function (start, end) {
-        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
-      }
-    )
-
-    //Date picker
-    $('#datepicker').datepicker({
-      autoclose: true
-    })
-
-
-
-
-
-    //Timepicker
-    $('.timepicker').timepicker({
-    showInputs: false
-  });
-
-  })
-</script>
-
-<script>
-
-  $(function () {
-
-
-  $('.example2').DataTable({
-  "language": {
-    "sProcessing": "Traitement en cours ...",
-    "sLengthMenu": "Afficher _MENU_ lignes",
-    "sZeroRecords": "Aucun résultat trouvé",
-    "sEmptyTable": "Aucune donnée disponible",
-    "sInfo": "Lignes _START_ à _END_ sur _TOTAL_",
-    "sInfoEmpty": "Aucune ligne affichée",
-    "sInfoFiltered": "(Filtrer un maximum de_MAX_)",
-    "sInfoPostFix": "",
-    "sSearch": "Chercher:",
-    "sUrl": "",
-    "sInfoThousands": ",",
-    "sLoadingRecords": "Chargement...",
-    "oPaginate": {
-      "sFirst": "Premier", "sLast": "Dernier", "sNext": "Suivant", "sPrevious": "Précédent"
-    },
-    "oAria": {
-      "sSortAscending": ": Trier par ordre croissant", "sSortDescending": ": Trier par ordre décroissant"
-    }
-  },
-
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : false,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : true,
-
-});
-  })
-
-
-</script>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
@@ -185,6 +95,7 @@ $('.table-tr > td:not(:nth-child(6))').click(function(){
 <!-- Include this after the sweet alert js file -->
 @include('sweet::alert')
 
+<script src="{{asset('/js/app.js')}}"></script>
 
 </body>
 
