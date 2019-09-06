@@ -26,5 +26,7 @@
         "vue-template-compiler": "^2.6.10",
         "webpack-livereload-plugin": "^1.2.0"
     },
-    "dependencies": {}
+    "dependencies": {
+        "sweetalert2": "^8.17.1"
+    }
 }
