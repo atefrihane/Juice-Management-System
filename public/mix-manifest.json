@@ -1,6 +1,6 @@
 {
-    "/js/app.js": "/js/app.js?id=ae13334b89280f54cb94",
-    "/css/app.css": "/css/app.css?id=577fcf1b727f3ba9d298",
-    "/js/machine.js": "/js/machine.js?id=1ae87834e658aa4d6f4a",
-    "/js/product.js": "/js/product.js?id=bf0cd160d297bbe61cd3"
+    "/js/app.js": "/wizefresh/public/js/app.js?id=ae13334b89280f54cb94",
+    "/css/app.css": "/wizefresh/public/css/app.css?id=577fcf1b727f3ba9d298",
+    "/js/machine.js": "/wizefresh/public/js/machine.js?id=1ae87834e658aa4d6f4a",
+    "/js/product.js": "/wizefresh/public/js/product.js?id=bf0cd160d297bbe61cd3"
 }
