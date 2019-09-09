@@ -40234,6 +40234,7 @@ var render = function() {
                 id: "disabledInput",
                 type: "number",
                 placeholder: "Prix unitaire pour societé (euro)",
+                min: "0",
                 required: ""
               },
               domProps: { value: _vm.companyPrice },
