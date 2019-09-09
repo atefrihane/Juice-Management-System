@@ -173,7 +173,7 @@
         <li class="{{ Route::is('showOrders') ? 'active' : '' }}"><a href="{{route('showOrders')}}"><i class="fa fa-shopping-bag"></i> <span>Commandes</span></a></li>
         <li class="{{ Route::is('showMachines') ? 'active' : '' }}"><a href="{{route('showMachines')}}"><i class="fa fa-plug"></i> <span>Machines</span></a></li>
         <li class="{{ Route::is('showProducts') ? 'active' : '' }}"><a href="{{route('showProducts')}}"><i class="fa fa-cubes"></i> <span>Produits</span></a></li>
-        <li class="treeview">
+        <!-- <li class="treeview">
           <a href="#">
             <i class="fa fa-tasks"></i>
             <span>Entrepot</span>
@@ -186,7 +186,7 @@
           <li class="{{ Route::is('showWarehouseProducts') ? 'active' : '' }}"><a href="{{route('showWarehouseProducts')}}"><i class="fa fa-cubes"></i> <span>Produits entrepot</span></a></li>
           <li class="{{ Route::is('showWarehouses') ? 'active' : '' }}"><a href="{{route('showWarehouses')}}"><i class="fa fa-filter "></i> <span>Nos entrepots</span></a></li>
           </ul>
-        </li>
+        </li> -->
       </ul>
     </section>
     <!-- /.sidebar -->
