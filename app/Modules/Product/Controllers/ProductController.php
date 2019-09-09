@@ -25,6 +25,7 @@ class ProductController extends Controller
     public function showCustomProducts($id)
     {
         $company = Company::find($id);
+
         if ($company) {
             return view('Product::showCustomProducts', compact('company'));
         }
@@ -35,6 +36,7 @@ class ProductController extends Controller
     public function showAddCustomProduct($id)
     {
         $company = Company::find($id);
+
         if ($company) {
             return view('Product::addCustomProduct', compact('company'));
         }
