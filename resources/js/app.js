@@ -12,7 +12,7 @@ import swal from 'sweetalert2'
 window.swal = swal;
 
 Vue.component('product-price', require('./components/ProductPrice.vue'));
-axios.defaults.baseURL = 'http://localhost/wizefresh/public/'
+axios.defaults.baseURL = 'wizefresh/public/'
 const app = new Vue({
     el: '#app',
     components: {
