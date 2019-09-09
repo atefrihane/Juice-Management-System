@@ -72,18 +72,15 @@ Breadcrumbs::for('addMachine', function ($trail) {
     $trail->push('Ajouter une  machine', route('showAddMachine'));
 });
 
-
 Breadcrumbs::for('product', function ($trail) {
 
     $trail->push('Liste des produits', route('showProducts'));
 });
 
-
 Breadcrumbs::for('addProduct', function ($trail) {
     $trail->parent('product');
     $trail->push('Ajouter un produit', route('showAddProduct'));
 });
-
 
 Breadcrumbs::for('rentedMachine', function ($trail, $company) {
     $trail->parent('detail', $company);
@@ -99,3 +96,20 @@ Breadcrumbs::for('addCustomProduct', function ($trail, $company) {
     $trail->parent('customProduct', $company);
     $trail->push('Ajouter un produit ', route('showRentedMachines', $company));
 });
+
+Breadcrumbs::for('productWarehouse', function ($trail) {
+    $trail->push('Liste des produits', route('showWarehouseProducts'));
+});
+
+Breadcrumbs::for('productQuantity', function ($trail) {
+    $trail->parent('productWarehouse');
+    $trail->push('Ajouter une quantité de produit', route('showAddProductQuantity'));
+});
+Breadcrumbs::for('warhouses', function ($trail) {
+    $trail->push('Liste des entrepots', route('showWarehouses'));
+});
+Breadcrumbs::for('addWarhouse', function ($trail) {
+    $trail->parent('warhouses');
+    $trail->push('Ajotuer un entrepot', route('showAddWarehouse'));
+});
+
