@@ -15,13 +15,13 @@ class CompanyPrice extends Model
 
     public function company()
     {
-        return $this->belongsTo(' App\Modules\Company\Models\Company', 'company_id');
+        return $this->belongsTo(' \App\Modules\Company\Models\Company', 'company_id');
 
     }
 
     public function product()
     {
-        return $this->belongsTo(' App\Modules\Product\Models\Product', 'product_id');
+        return $this->belongsTo('\App\Modules\Product\Models\Product', 'product_id');
 
     }
 
