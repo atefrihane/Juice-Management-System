@@ -2,17 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8f058890-c5db-49cc-9d43-5dd3cad141a1" name="Default Changelist" comment="crud machine and adjusts">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/240650f1-b6d5-4cd4-80e0-3a23be0a63f7.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/juice-app.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Modules/MachineRental/Controllers/api/MachineRentalController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/MachineRental/Controllers/api/MachineRentalController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Modules/Product/Views/update.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/juice-app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/juice-app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/Company/Views/addCompany.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Company/Views/addCompany.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/Company/Views/showCompany.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Company/Views/showCompany.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/Company/Views/updateCompany.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Company/Views/updateCompany.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/General/Views/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/General/Views/home.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/Machine/Controllers/MachineController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Machine/Controllers/MachineController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/Product/Controllers/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Product/Controllers/ProductController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/Product/Views/showProducts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Product/Views/showProducts.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/Product/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Product/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/Store/Views/addStore.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Store/Views/addStore.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/Store/Views/editStore.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Store/Views/editStore.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/User/Views/detail.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/User/Views/detail.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -169,6 +173,13 @@
       <path value="$PROJECT_DIR$/vendor/asm89/stack-cors" />
       <path value="$PROJECT_DIR$/vendor/barryvdh/laravel-cors" />
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-cors" />
+      <path value="$PROJECT_DIR$/vendor/defuse/php-encryption" />
+      <path value="$PROJECT_DIR$/vendor/league/event" />
+      <path value="$PROJECT_DIR$/vendor/league/oauth2-server" />
+      <path value="$PROJECT_DIR$/vendor/laravel/passport" />
+      <path value="$PROJECT_DIR$/vendor/symfony/psr-http-message-bridge" />
+      <path value="$PROJECT_DIR$/vendor/firebase/php-jwt" />
+      <path value="$PROJECT_DIR$/vendor/phpseclib/phpseclib" />
     </include_path>
   </component>
   <component name="ProjectId" id="1P7zqDiN1XYzaZZRJ6UM5UYQLkH" />
@@ -224,17 +235,7 @@
     <option name="allServicesViewState">
       <serviceView>
         <treeState>
-          <expand>
-            <path>
-              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@58113505" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-            </path>
-            <path>
-              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@58113505" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@3dcc9dc7" type="9fbbdea:ServiceModel$ServiceNode" />
-            </path>
-          </expand>
+          <expand />
           <select />
         </treeState>
       </serviceView>
@@ -270,6 +271,7 @@
       <workItem from="1565720887784" duration="2125000" />
       <workItem from="1565772364945" duration="9571000" />
       <workItem from="1565788183518" duration="8743000" />
+      <workItem from="1568024215712" duration="11598000" />
     </task>
     <task id="LOCAL-00001" summary="From Atef repository">
       <created>1562667925341</created>
@@ -334,7 +336,14 @@
       <option name="project" value="LOCAL" />
       <updated>1565793787563</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="update app js">
+      <created>1568025346643</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1568025346643</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -364,6 +373,7 @@
     <MESSAGE value="crud machine and adjusts" />
     <MESSAGE value="rental commit" />
     <MESSAGE value="add client fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="add client fix" />
+    <MESSAGE value="update app js" />
+    <option name="LAST_COMMIT_MESSAGE" value="update app js" />
   </component>
 </project>
