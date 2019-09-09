@@ -10,7 +10,7 @@
                 <div class="box box-primary">
 
                     <div class="box-header">
-                        <div class="box-title"><h1>Detail contact</h1> </div>
+                        <div class="box-title"><h1>Details du contact</h1> </div>
 
                     </div>
 

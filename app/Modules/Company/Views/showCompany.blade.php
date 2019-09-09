@@ -3,14 +3,14 @@
 @section('content')
 <style>
 
- .dots:after{ 
+ .dots:after{
    content: '\f141';
    font-family: FontAwesome;
 font-size:20px;
    color:black;
 
 
-} 
+}
 .edit{
 margin: 6px -20px 0 !important;
 min-width:100px;
@@ -22,7 +22,7 @@ min-width:100px;
 
 <section class="content-header">
 {{ Breadcrumbs::render('detail', $company) }}
-    
+
     </section>
 
 <div class="container" style="margin-top:50px;">
@@ -35,12 +35,12 @@ min-width:100px;
                       <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                   <ul class="dropdown-menu edit" role="menu">
                     <li><a href="{{route('editCompany', $company->id)}}">Modifier</a></li>
-      
+
                     <li><a href="{{route('deleteCompany', $company->id)}}">Supprimer</a></li>
-                   
+
                   </ul>
           </div>
-    
+
     </section>
 
 <section class="content">
@@ -56,63 +56,63 @@ min-width:100px;
 <div class="col-md-6">
 <div class="form-group">
     <label for="exampleInputEmail1">Code</label>
-    <input type="text" class="form-control" value="{{$company->code}}" readonly aria-describedby="emailHelp" placeholder="Code..">
-  
+    <input  type="text" class="form-control" value="{{$company->code}}" readonly aria-describedby="emailHelp" placeholder="Code..">
+
   </div>
 </div>
 <div class="col-md-6">
 <div class="form-group">
     <label for="exampleInputPassword1">Statut</label>
-    <input type="text" class="form-control"  value="{{$company->status}}" readonly  placeholder="Nom du groupe">
+    <input  type="text" class="form-control"  value="{{$company->status == 0 ? 'Fermé' :  $company->status == 1 ?'En sommeil': 'Active'   }}" readonly   placeholder="Nom du groupe">
 
 </div>
 </div>
 </div>
- 
+
 <div class="form-group">
     <label for="exampleInputPassword1">Nom du groupe</label>
-    <input type="text" class="form-control" value="{{$company->name}}" readonly  placeholder="Nom du groupe">
+    <input  type="text" class="form-control" value="{{$company->name}}" readonly  placeholder="Nom du groupe">
   </div>
 
   <div class="form-group">
     <label for="exampleInputPassword1">Désignation</label>
-    <input type="text" class="form-control"  value="{{$company->designation}}" readonly  placeholder="Désignation">
+    <input  type="text" class="form-control"  value="{{$company->designation}}" readonly  placeholder="Désignation">
   </div>
- 
+
 
  <div class="row">
 <div class="col-md-6">
 <div class="form-group">
     <label for="exampleInputEmail1">Ville</label>
-    <input type="text" class="form-control"  value="{{$company->city}}" readonly  aria-describedby="emailHelp" placeholder="Ville">
+    <input  type="text" class="form-control"  value="{{$company->city}}" readonly  aria-describedby="emailHelp" placeholder="Ville">
 
   </div>
 </div>
 <div class="col-md-6">
 <div class="form-group">
     <label for="exampleInputPassword1">Code Postal</label>
-    <input type="text" class="form-control"  value="{{$company->zip_code}}" readonly  placeholder="Code Postal">
+    <input  type="text" class="form-control"  value="{{$company->zip_code}}" readonly  placeholder="Code Postal">
   </div>
 </div>
 </div>
 
   <div class="form-group">
     <label for="exampleInputPassword1">Adresse de siége</label>
-    <input type="text" class="form-control"  value="{{$company->address}}" readonly  placeholder="Adresse de siége">
+    <input  type="text" class="form-control"  value="{{$company->address}}" readonly  placeholder="Adresse de siége">
   </div>
- 
+
 
 
    <div class="form-group">
     <label for="exampleInputPassword1">Complément addresse (optionnel )</label>
-    <input type="text" class="form-control"  value="{{$company->complement}}" readonly  placeholder="Complément addresse">
+    <input  type="text" class="form-control"  value="{{$company->complement}}" readonly  placeholder="Complément addresse">
   </div>
 
     <div class="form-group">
                   <label>Commentaires (optionnel)</label>
                   <textarea class="form-control" rows="3"   readonly placeholder="Commentaires">{{$company->comment}}</textarea>
                 </div>
- 
+
 
 
 

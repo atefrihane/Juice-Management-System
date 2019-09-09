@@ -56,14 +56,10 @@
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Statut</label>
                                             <select class="form-control" name="status">
-                                                <option value="1"
-                                                @if ($company->status == 1 )
-                                                    selected
-                                                @endif
-                                                >Active</option>
-                                                <option value="0" @if ($company->status == 0)
-                                                    selected
-                                                @endif>Inactive</option>
+
+                                                <option {{$company->status == 2 ? 'selected': ''}} value="2">Active</option>
+                                                <option {{$company->status == 1 ? 'selected': ''}} value="1">En sommeil</option>
+                                                <option {{$company->status == 0 ? 'selected': ''}} value="0">Fermé</option>
                                             </select>
                                         </div>
                                     </div>
@@ -98,9 +94,9 @@
                                                 <option value="Paris" @if ($company->city == "Paris")
                                                     selected
                                                 @endif>  Paris  </option>
-                                                <option value="Lion" @if ($company->city == "Lion")
+                                                <option value="Lyon" @if ($company->city == "Lyon")
                                                     selected
-                                                @endif>  Lion  </option>
+                                                @endif>  Lyon  </option>
                                             </select>
                                         </div>
                                     </div>

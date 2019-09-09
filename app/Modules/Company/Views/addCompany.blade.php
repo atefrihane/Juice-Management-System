@@ -91,7 +91,7 @@
                   <label>Ville</label>
                   <select class="form-control" name="city">
                     <option value="Paris">  Paris  </option>
-                    <option value="Lion">  Lion  </option>
+                    <option value="Lyon">  Lyon  </option>
                   </select>
                 </div>
                 </div>

@@ -111,11 +111,14 @@ class MachineController extends Controller
         if($_GET['machine'])
             $machine = Machine::find($id);
             $machines = Machine::where('rented', false)->get();
+
             $companies = Company::all();
             $products = Product::all();
 
         return view('Machine::startRentalMachine', compact('machine' ,'machines', 'companies', 'products'));
     }
+
+
 
 
 

@@ -104,7 +104,7 @@
                                             <label for="exampleInputEmail1">Ville</label>
                                             <select class="form-control" name="city">
                                                 <option value="Paris">Paris</option>
-                                                <option value="Lion">Lion</option>
+                                                <option value="Lyon">Lyon</option>
                                             </select>
                                         </div>
                                     </div>
@@ -125,7 +125,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Complement(optionnel)</label>
-                                    <input required class="form-control" id="disabledInput" type="text" name="complement" placeholder="Complement">
+                                    <input  class="form-control" id="disabledInput" type="text" name="complement" placeholder="Complement">
 
                                 </div>
                                 <div class="form-group">

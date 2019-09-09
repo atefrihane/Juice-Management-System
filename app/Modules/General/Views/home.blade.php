@@ -115,7 +115,7 @@
             idToDelete = id;
         }
         function deleteCompany(){
-            let baseurl = '{{env('APP_URL')}}';
+            let baseurl = '{{config('app.url')}}';
          location.replace( baseurl + 'company/delete/' + idToDelete);
         }
     </script>

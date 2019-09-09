@@ -51,7 +51,7 @@
                               <ul class="dropdown-menu edit" role="menu">
 
                                   <li><a href="#">Changer etat vers non disponible</a></li>
-                                  <li><a href="#">Modifier</a></li>
+                                  <li><a href="{{route('editProduct', $product->id)}}">Modifier</a></li>
                                   <li><a href="#">Supprimer</a></li>
 
                               </ul>

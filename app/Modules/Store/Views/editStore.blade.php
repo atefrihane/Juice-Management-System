@@ -139,11 +139,11 @@
                                                     selected
                                                 @endif
                                                 >Paris</option>
-                                                <option value="Lion"
-                                                @if($store->city == 'Lion')
+                                                <option value="Lyon"
+                                                @if($store->city == 'Lyon')
                                                     selected
                                                 @endif
-                                                >Lion</option>
+                                                >Lyon</option>
                                             </select>
                                         </div>
                                     </div>
