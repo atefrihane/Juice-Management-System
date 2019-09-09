@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8f058890-c5db-49cc-9d43-5dd3cad141a1" name="Default Changelist" comment="crud machine and adjusts">
-      <change afterPath="$PROJECT_DIR$/app/Modules/Product/Views/update.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/juice-app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/juice-app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Modules/Company/Views/addCompany.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Company/Views/addCompany.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Modules/Company/Views/showCompany.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Company/Views/showCompany.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Modules/Company/Views/updateCompany.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Company/Views/updateCompany.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Modules/General/Views/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/General/Views/home.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Modules/Machine/Controllers/MachineController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Machine/Controllers/MachineController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Modules/Product/Controllers/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Product/Controllers/ProductController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Modules/Product/Views/showProducts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Product/Views/showProducts.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Modules/Product/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Product/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Modules/Store/Views/addStore.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Store/Views/addStore.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Modules/Store/Views/editStore.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Store/Views/editStore.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Modules/User/Views/detail.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/User/Views/detail.blade.php" afterDir="false" />
-    </list>
+    <list default="true" id="8f058890-c5db-49cc-9d43-5dd3cad141a1" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -271,7 +255,7 @@
       <workItem from="1565720887784" duration="2125000" />
       <workItem from="1565772364945" duration="9571000" />
       <workItem from="1565788183518" duration="8743000" />
-      <workItem from="1568024215712" duration="11598000" />
+      <workItem from="1568024215712" duration="12426000" />
     </task>
     <task id="LOCAL-00001" summary="From Atef repository">
       <created>1562667925341</created>
@@ -343,7 +327,21 @@
       <option name="project" value="LOCAL" />
       <updated>1568025346643</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="updates">
+      <created>1568045761753</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1568045761754</updated>
+    </task>
+    <task id="LOCAL-00012" summary="updates">
+      <created>1568045797758</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1568045797758</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -374,6 +372,18 @@
     <MESSAGE value="rental commit" />
     <MESSAGE value="add client fix" />
     <MESSAGE value="update app js" />
-    <option name="LAST_COMMIT_MESSAGE" value="update app js" />
+    <MESSAGE value="updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="updates" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/app/Modules/User/Views/detail.blade.php</url>
+          <line>24</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
