@@ -1797,15 +1797,24 @@ __webpack_require__.r(__webpack_exports__);
 
       var id = event.target.value;
       this.productId = id;
-      axios.get('/api/product/' + id).then(function (response) {
-        _this2.productCode = response.data.code;
-        _this2.barCode = response.data.barcode;
-        _this2.productPrice = response.data.public_price;
-      })["catch"](function (error) {
-        console.log(error);
-      });
+
+      if (id != '') {
+        axios.get('/api/product/' + id).then(function (response) {
+          _this2.productCode = response.data.code;
+          _this2.barCode = response.data.barcode;
+          _this2.productPrice = response.data.public_price;
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      } else {
+        this.productCode = '';
+        this.barCode = '';
+        this.productPrice = '';
+      }
     },
     submitProductPrice: function submitProductPrice() {
+      var _this3 = this;
+
       if (this.companyPrice == '') {
         swal.fire({
           type: 'error',
@@ -1828,6 +1837,9 @@ __webpack_require__.r(__webpack_exports__);
               showConfirmButton: false,
               timer: 1500
             });
+            setTimeout(function () {
+              return window.location = '/wizefresh/public/products/custom/' + _this3.companyId;
+            }, 2000);
           } else {
             swal.fire({
               type: 'error',
@@ -40222,6 +40234,7 @@ var render = function() {
                 id: "disabledInput",
                 type: "number",
                 placeholder: "Prix unitaire pour societé (euro)",
+                min: "0",
                 required: ""
               },
               domProps: { value: _vm.companyPrice },
@@ -52444,7 +52457,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 window.swal = sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a;
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('product-price', __webpack_require__(/*! ./components/ProductPrice.vue */ "./resources/js/components/ProductPrice.vue"));
-axios.defaults.baseURL = 'wizefresh/public/';
+axios.defaults.baseURL = '/wizefresh/public/';
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   components: {

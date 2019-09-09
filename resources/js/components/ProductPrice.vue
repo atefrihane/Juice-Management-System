@@ -48,7 +48,7 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Prix unitaire pour societé (euro)</label>
                         <input class="form-control" id="disabledInput" type="number"
-                            placeholder="Prix unitaire pour societé (euro)" v-model="companyPrice" required>
+                            placeholder="Prix unitaire pour societé (euro)" min="0" v-model="companyPrice" required>
                     </div>
 
 
@@ -103,18 +103,24 @@
             getProductData(event) {
                 let id = event.target.value;
                 this.productId = id;
+                if (id != '') {
+                    axios.get('/api/product/' + id)
+                        .then((response) => {
 
-                axios.get('/api/product/' + id)
-                    .then((response) => {
-                    
-                        this.productCode = response.data.code;
-                        this.barCode = response.data.barcode;
-                        this.productPrice = response.data.public_price;
+                            this.productCode = response.data.code;
+                            this.barCode = response.data.barcode;
+                            this.productPrice = response.data.public_price;
 
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                } else {
+                    this.productCode = '';
+                    this.barCode = '';
+                    this.productPrice = '';
+
+                }
 
 
             },
@@ -146,6 +152,9 @@
                                     timer: 1500
 
                                 });
+                                setTimeout(() => window.location = '/wizefresh/public/products/custom/' + this
+                                    .companyId, 2000);
+
                             } else {
                                 swal.fire({
                                     type: 'error',
