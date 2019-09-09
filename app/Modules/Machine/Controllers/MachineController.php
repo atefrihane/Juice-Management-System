@@ -46,7 +46,7 @@ class MachineController extends Controller
         ], [
             'code.required' => 'le champ code est obligatoire',
             'barcode.required' => ' le champ code a barres est obligatoire',
-            'designation.required'=> 'le champ designation est obligatoitre',
+            'designation.required'=> 'le champ designation est obligatoire',
             'number_bacs.required'=> 'le champ nombre de bacs est obligatoire',
             'number_bacs.numeric'=> 'le champ nombre de bacs doit etre un nombre',
             'price_month.required' => 'le champ prix de location mensuel est obligatoire',

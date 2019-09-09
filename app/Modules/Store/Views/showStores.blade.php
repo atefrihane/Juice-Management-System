@@ -70,7 +70,7 @@ min-width:100px;
                     </tr>
                     @empty
                     <tr>
-                        <p>Aucune Magasin !</p>
+                        <p>Aucun Magasin !</p>
                     </tr>
                 @endforelse
                 </tbody>
