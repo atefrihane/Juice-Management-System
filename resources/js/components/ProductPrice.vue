@@ -48,7 +48,7 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Prix unitaire pour societé (euro)</label>
                         <input class="form-control" id="disabledInput" type="number"
-                            placeholder="Prix unitaire pour societé (euro)" v-model="companyPrice" required>
+                            placeholder="Prix unitaire pour societé (euro)" min="0" v-model="companyPrice" required>
                     </div>
 
 

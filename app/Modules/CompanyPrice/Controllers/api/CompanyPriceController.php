@@ -16,19 +16,30 @@ class CompanyPriceController extends Controller
             ->where('company_id', $id)
             ->first();
         if ($checkCompany) {
-            $checkCompany->update(['price' => $request->price]);
+            $validatedData = $request->validate([
+                'price' => 'required|integer|min:0',
+            ]);
+            if ($validatedData) {
+
+                $checkCompany->update(['price' => $request->price]);
+
+            }
+            return response()->json(['status' => 400]);
 
         } else {
-
-            $CompanyPrice = CompanyPrice::create([
-                'product_id' => $request->productId,
-                'company_id' => $id,
-                'price' => $request->price,
+            $validatedData = $request->validate([
+                'price' => 'required|integer|min:0',
             ]);
-            if ($CompanyPrice) {
-                return response()->json(['status' => 200]);
-            }
+            if ($validatedData) {
+                $CompanyPrice = CompanyPrice::create([
+                    'product_id' => $request->productId,
+                    'company_id' => $id,
+                    'price' => $request->price,
+                ]);
 
+                return response()->json(['status' => 200]);
+
+            }
         }
 
         return response()->json(['status' => 400]);
