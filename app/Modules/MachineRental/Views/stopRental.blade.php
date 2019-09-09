@@ -71,9 +71,10 @@
                                             <div class="form-group">
                                                 <label>Raison fin de location</label>
                                                 <select name="end_reason">
-                                                    <option value="a">a</option>
-                                                    <option value="b">b</option>
-                                                    <option value="c">c</option>
+                                                    <option value="Fin du contrat de location">Fin du contrat de location</option>
+                                                    <option value="Machine non rentable">Machine non rentable</option>
+                                                    <option value="Machine en panne">Machine en panne</option>
+                                                    <option value="Autre">Autre</option>
                                                 </select>
                                             </div>
                                         </div>

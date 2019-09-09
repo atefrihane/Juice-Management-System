@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8f058890-c5db-49cc-9d43-5dd3cad141a1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/Modules/Machine/Controllers/MachineController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Machine/Controllers/MachineController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/MachineRental/Views/stopRental.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/MachineRental/Views/stopRental.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -183,15 +184,15 @@
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Degla\Desktop\current work\juice-app\app\Modules\MachineRental\Views" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Degla\Desktop\current work\juice-app\app\Modules\Bac\Controllers\api" />
       <recent name="C:\Users\Degla\Desktop\current work\juice-app\app\Modules\MachineRental\Controllers\api" />
       <recent name="C:\Users\Degla\Desktop\current work\juice-app\app\Modules\Machine\Controllers\api" />
       <recent name="C:\Users\Degla\Desktop\current work\juice-app\app\Modules\Company\Controllers\api" />
       <recent name="E:\work\juice-app\app\Modules\Product\Controllers\api" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Degla\Desktop\current work\juice-app\app\Modules\MachineRental\Views" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -257,7 +258,7 @@
       <workItem from="1565720887784" duration="2125000" />
       <workItem from="1565772364945" duration="9571000" />
       <workItem from="1565788183518" duration="8743000" />
-      <workItem from="1568024215712" duration="13088000" />
+      <workItem from="1568024215712" duration="14280000" />
     </task>
     <task id="LOCAL-00001" summary="From Atef repository">
       <created>1562667925341</created>
@@ -350,7 +351,14 @@
       <option name="project" value="LOCAL" />
       <updated>1568047088780</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="updates">
+      <created>1568049506328</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1568049506328</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
