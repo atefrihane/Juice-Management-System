@@ -135,8 +135,7 @@
 
                 }
 
-
-                if (this.productId != '') {
+                    if (this.productId != '') {
                     axios.post('api/product/custom/' + this.companyId, {
                             productId: this.productId,
                             companyId: this.companyId,
