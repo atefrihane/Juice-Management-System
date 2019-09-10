@@ -19,11 +19,11 @@ class CreateBacsTable extends Migration
             $table->string('status')->nullable();
             $table->dateTime('last_refill_time')->nullable();
             $table->integer('machine_id')->unsigned();
-            $table->foreign('machine_id')->references('id')->on('machines');
+            $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
             $table->integer('product_id')->unsigned()->nullable();
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->integer('mixture_id')->unsigned()->nullable();
-            $table->foreign('mixture_id')->references('id')->on('mixtures');
+            $table->foreign('mixture_id')->references('id')->on('mixtures')->onDelete('cascade');
             $table->timestamps();
         });
     }

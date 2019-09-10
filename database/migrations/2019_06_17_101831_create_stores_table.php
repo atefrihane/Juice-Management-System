@@ -35,9 +35,9 @@ class CreateStoresTable extends Migration
             $table->json('closedDays')->nullable();
             $table->text('deliveryRec')->nullable();
             $table->integer('super_visor_id')->unsigned()->nullable();
-            $table->foreign('super_visor_id')->references('id')->on('super_visors');
+            $table->foreign('super_visor_id')->references('id')->on('super_visors')->onDelete('cascade');
             $table->integer('company_id')->unsigned();
-            $table->foreign('company_id')->references('id')->on('companies');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
 
             $table->timestamps();
         });

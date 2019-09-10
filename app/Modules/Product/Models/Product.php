@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
 
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'created_at', 'updated_at'];
 
     public function mixtures()
     {
@@ -18,6 +18,11 @@ class Product extends Model
     public function productPrices()
     {
         return $this->hasMany('\App\Modules\CompanyPrice\Models\CompanyPrice');
+
+    }
+    public function orders()
+    {
+        return $this->belongsToMany('App\Modules\Order\Models\Order','order_product');
 
     }
 }

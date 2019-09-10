@@ -16,7 +16,7 @@ class CreateDiractorsTable extends Migration
         Schema::create('diractors', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('company_id')->unsigned()->unique();
-            $table->foreign('company_id')->references('id')->on('companies');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->timestamps();
         });
     }

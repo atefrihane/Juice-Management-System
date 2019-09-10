@@ -16,7 +16,7 @@ class CreateResponsablesTable extends Migration
         Schema::create('responsables', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('store_id')->unsigned();
-            $table->foreign('store_id')->references('id')->on('stores');
+            $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
             $table->timestamps();
         });
     }
