@@ -26,16 +26,18 @@ class CompanyController extends Controller
 
     }
 
-    public function handleAddCompany(Request $request){
+    public function handleAddCompany(Request $request)
+    {
         $val = $request->validate([
-            'code'=>'required',
-            'name'=>'required',
-            'designation'=>'required',
-            'zip_code'=> 'required',
-            'address'=>'required',
-            'email'=> 'required|email|unique:companies',
-            'tel'=> 'required',
-            'cc'=> 'required',
+            'code' => 'required',
+            'name' => 'required',
+            'designation' => 'required',
+            'zip_code' => 'required',
+            'address' => 'required',
+            'email' => 'required|email|unique:companies',
+            'tel' => 'required',
+            'cc' => 'required',
+            'logo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
 
         ], [
             'code.required' => 'le champs code est obligatoire',
@@ -44,44 +46,50 @@ class CompanyController extends Controller
             'address.required' => 'le champs addresse est obligatoire',
             'zip_code.required' => 'le champs code postale est obligatoire',
             'email.required' => 'le champs email est obligatoire',
-            'email.unique' => 'email deja existant',
-            'email.email' => 'email non valide',
+            'email.unique' => 'Email deja existant',
+            'email.email' => 'Email non valide',
             'cc.required' => 'le premier champs telephone est obligatoire',
             'tel.required' => 'le deuxieme champs telephone est obligatoire',
+            'logo.image' => 'Le format du logo importé est non supporté ',
+            'logo.mimes' => 'Le format du logo importé est non supporté ',
+            'logo.max' => 'Logo importé est volumineux ! ',
 
         ]);
-        if($request->file('logo') != null){
+
+        if ($request->file('logo') != null) {
             $path = $request->file('logo')->store('img', 'public');
 
-        }else{
-            $path =  'img/company-placeholder.png';
+        } else {
+            $path = 'img/company-placeholder.png';
         }
-        $telephone = $request->cc.$request->tel;
+        $telephone = $request->cc . $request->tel;
         $insertable = $request->all();
         $insertable['tel'] = $telephone;
         $insertable['cc'] = null;
-        $insertable['logo'] = 'files/'.$path;
+        $insertable['logo'] = 'files/' . $path;
 
         Company::create($insertable);
-    return redirect('/');
+        return redirect('/');
 
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $company = Company::find($id);
 
         return view('Company::updateCompany', compact('company'));
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $val = $request->validate([
-            'code'=>'required',
-            'name'=>'required',
-            'designation'=>'required',
-            'zip_code'=> 'required',
-            'address'=>'required',
-            'email'=> 'required|email',
-            'tel'=> 'required',
+            'code' => 'required',
+            'name' => 'required',
+            'designation' => 'required',
+            'zip_code' => 'required',
+            'address' => 'required',
+            'email' => 'required|email',
+            'tel' => 'required',
 
         ], [
             'code.required' => 'le champs code est obligatoire',
@@ -96,18 +104,19 @@ class CompanyController extends Controller
         ]);
         $updateable = $request->all();
         unset($updateable['_token']);
-        if($request->file('logo') != null){
+        if ($request->file('logo') != null) {
             $path = $request->file('logo')->store('img', 'public');
-            $updateable['logo'] = 'files/'.$path;
-        }else {
+            $updateable['logo'] = 'files/' . $path;
+        } else {
             unset($updateable['logo']);
         }
 
-        Company::query()->where('id',$id)->update($updateable);
+        Company::query()->where('id', $id)->update($updateable);
         return redirect('/');
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $company = Company::find($id);
         $company->delete();
         return redirect('/');
