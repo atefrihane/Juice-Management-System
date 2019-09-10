@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCompanyPricesTable extends Migration
+class CreateProductWarehouse extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,17 @@ class CreateCompanyPricesTable extends Migration
      */
     public function up()
     {
-        Schema::create('company_prices', function (Blueprint $table) {
+        Schema::create('product_warehouse', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('packing');
+            $table->float('quantity');
+            $table->text('comment')->nullable();
+            $table->date('creation_date');
+            $table->date('expiration_date');
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->integer('company_id')->unsigned();
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-            $table->double('price');
+            $table->integer('warehouse_id')->unsigned();
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -31,6 +35,6 @@ class CreateCompanyPricesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_prices');
+        Schema::dropIfExists('product_warehouse');
     }
 }

@@ -16,9 +16,9 @@ class CreateMachineRentalsTable extends Migration
         Schema::create('machine_rentals', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('store_id')->unsigned();
-            $table->foreign('store_id')->references('id')->on('stores');
+            $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
             $table->integer('machine_id')->unsigned();
-            $table->foreign('machine_id')->references('id')->on('machines');
+            $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
             $table->date('date_debut');
             $table->date('date_fin');
             $table->text('location')->nullable();

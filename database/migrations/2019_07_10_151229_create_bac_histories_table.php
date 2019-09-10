@@ -17,9 +17,9 @@ class CreateBacHistoriesTable extends Migration
             $table->increments('id');
             $table->string('action');
             $table->integer('bac_id')->unsigned();
-            $table->foreign('bac_id')->references('id')->on('bacs');
+            $table->foreign('bac_id')->references('id')->on('bacs')->onDelete('cascade');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
