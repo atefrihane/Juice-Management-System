@@ -2,8 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8f058890-c5db-49cc-9d43-5dd3cad141a1" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Modules/MachineHistory/Views/statusChange.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Modules/MachineRental/Views/stopRental.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/MachineRental/Views/stopRental.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/Machine/Controllers/api/MachineController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Machine/Controllers/api/MachineController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/Machine/Views/addMachine.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Machine/Views/addMachine.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/Machine/Views/showMachines.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Machine/Views/showMachines.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/MachineHistory/Controllers/MachineHistoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/MachineHistory/Controllers/MachineHistoryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/MachineHistory/Views/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/MachineHistory/Views/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/MachineHistory/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/MachineHistory/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/Product/Controllers/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Product/Controllers/ProductController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/Product/Views/showProducts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Product/Views/showProducts.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/Product/Views/update.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Product/Views/update.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Modules/Product/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Modules/Product/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_07_08_050841_create_mixtures_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_07_08_050841_create_mixtures_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_07_10_151203_create_machine_histories_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_07_10_151203_create_machine_histories_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -184,15 +197,15 @@
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Degla\Desktop\current work\juice-app\app\Modules\MachineRental\Views" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Degla\Desktop\current work\juice-app\app\Modules\Bac\Controllers\api" />
       <recent name="C:\Users\Degla\Desktop\current work\juice-app\app\Modules\MachineRental\Controllers\api" />
       <recent name="C:\Users\Degla\Desktop\current work\juice-app\app\Modules\Machine\Controllers\api" />
       <recent name="C:\Users\Degla\Desktop\current work\juice-app\app\Modules\Company\Controllers\api" />
       <recent name="E:\work\juice-app\app\Modules\Product\Controllers\api" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Degla\Desktop\current work\juice-app\app\Modules\MachineRental\Views" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -222,7 +235,22 @@
     <option name="allServicesViewState">
       <serviceView>
         <treeState>
-          <expand />
+          <expand>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@7a6460d0" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+            </path>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@7a6460d0" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@4d0fb64" type="9fbbdea:ServiceModel$ServiceNode" />
+            </path>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@7a6460d0" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@27029199" type="9fbbdea:ServiceModel$ServiceNode" />
+            </path>
+          </expand>
           <select />
         </treeState>
       </serviceView>
@@ -259,6 +287,7 @@
       <workItem from="1565772364945" duration="9571000" />
       <workItem from="1565788183518" duration="8743000" />
       <workItem from="1568024215712" duration="14280000" />
+      <workItem from="1568107185733" duration="13233000" />
     </task>
     <task id="LOCAL-00001" summary="From Atef repository">
       <created>1562667925341</created>

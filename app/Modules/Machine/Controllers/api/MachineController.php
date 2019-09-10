@@ -12,10 +12,9 @@ class MachineController extends Controller
 
     public function show($id)
     {
-
-        return Machine::find($id);
-
+        return Machine::where('id', $id)->with('bacs.product')->first();
     }
+
 
 
 }

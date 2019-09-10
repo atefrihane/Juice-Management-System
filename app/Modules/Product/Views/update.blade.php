@@ -17,8 +17,8 @@
                         <div class="box-header" >
                             <h3 class="box-title"> Modifier un produit</h3>
                         </div>
-
-                        <form role="form">
+                        <form role="form" method="post" enctype="multipart/form-data" action="{{route('updateProduct', $product->id)}}">
+                            {{csrf_field()}}
                             <div class="box-body">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Poids (en kg)</label>
-                                    <input class="form-control" name="weight" {{$product->weight}} id="disabledInput" type="number" placeholder="Poids">
+                                    <input class="form-control" name="weight" value="{{$product->weight}}" id="disabledInput" type="number" placeholder="Poids">
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">

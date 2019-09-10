@@ -2,11 +2,18 @@
 
 namespace App\Modules\MachineHistory\Controllers;
 
+use App\Modules\Machine\Models\Machine;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class MachineHistoryController extends Controller
 {
+
+
+    public function handleStatusChange($id){
+        $machine= Machine::find($id);
+        return view ('MachineHistory::statusChange', compact('machine'));
+    }
 
     /**
      * Display a listing of the resource.
@@ -17,6 +24,7 @@ class MachineHistoryController extends Controller
     {
         return view("MachineHistory::index");
     }
+
 
     /**
      * Show the form for creating a new resource.

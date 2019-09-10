@@ -7,5 +7,7 @@ Route::group(['module' => 'Product', 'middleware' => ['web'], 'namespace' => 'Ap
     Route::get('products/custom/{id}', 'ProductController@showCustomProducts')->name('showCustomProducts');
     Route::get('product/custom/add/{id}', 'ProductController@showAddCustomProduct')->name('showAddCustomProduct');
     Route::get('product/edit/{id}', 'ProductController@edit')->name('editProduct');
+    Route::get('product/delete/{id}', 'ProductController@delete')->name('deleteProduct');
+    Route::post('product/update/{id}', 'ProductController@update')->name('updateProduct');
 
 });

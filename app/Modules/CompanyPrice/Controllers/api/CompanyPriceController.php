@@ -17,7 +17,7 @@ class CompanyPriceController extends Controller
             ->first();
         if ($checkCompany) {
             $validatedData = $request->validate([
-                'price' => 'required|integer|min:0',
+                'price' => 'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/|min:0',
             ]);
             if ($validatedData) {
 

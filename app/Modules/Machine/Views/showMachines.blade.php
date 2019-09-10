@@ -57,7 +57,7 @@
                                     <li><a href="{{route('showRental', ['id' => $machine->machine_rental_id])}}">Voir location</a></li>
                                 @endif
                                 <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">voir list location</a></li>
-                                <li><a href="#">Changer etat</a></li>
+                                <li><a href="{{route('machineStatusEdit', $machine->id)}}">Changer etat</a></li>
                                 <li><a href="{{route('editMachine', $machine->id)}}">Modifier</a></li>
                                 <li><a href="{{route('deleteMachine', $machine->id)}}">Supprimer</a></li>
 

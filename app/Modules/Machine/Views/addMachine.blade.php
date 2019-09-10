@@ -53,7 +53,9 @@
                                         <label for="exampleInputEmail1">Etat</label>
                                         <select class="form-control" name="status">
                                             <option value="Fonctionnelle">Fonctionnelle</option>
-                                            <option value="En-panne">En panne</option>
+                                            <option value="Non utilisé">Non utilisé</option>
+
+                                            <option value="En panne">En panne</option>
                                         </select>
                                     </div>
                                 </div>

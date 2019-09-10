@@ -52,7 +52,22 @@ class ProductController extends Controller
 
     public function update(Request $request, $id){
         $updateable = $request->all();
+        if($request->file('photo') != null){
+            $path = $request->file('logo')->store('img', 'public');
+            $updateable['photo_url'] = 'files/'.$path;
+        }
+         unset($updateable['photo'], $updateable['_token']);
+        Product::where('id',$id)->update($updateable);
+        alert()->success('Succés!', 'Produit modifier');
+        return redirect('/products');
 
+    }
+
+    public function delete($id){
+       $product =  Product::find($id);
+       $product->delete();
+        alert()->success('Succés!', 'Produit supprimé');
+        return redirect('/products');
     }
 
 }
