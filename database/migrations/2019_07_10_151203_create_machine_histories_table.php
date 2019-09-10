@@ -16,6 +16,7 @@ class CreateMachineHistoriesTable extends Migration
         Schema::create('machine_histories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('event');
+            $table->text('comment')->nullable();
             $table->integer('machine_id')->unsigned()->nullable();
             $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
             $table->integer('user_id')->unsigned()->nullable();
