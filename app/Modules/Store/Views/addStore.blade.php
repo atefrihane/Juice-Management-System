@@ -44,7 +44,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Code</label>
-                                            <input required  required type="text" class="form-control" name="code" id="exampleInputEmail1" placeholder="Code..">
+                                            <input required  required type="text" class="form-control" name="code" id="exampleInputEmail1" placeholder="Code">
                                         </div>
                                     </div>
 

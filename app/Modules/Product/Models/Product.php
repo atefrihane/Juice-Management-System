@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
 
-    protected $fillable = ['id', 'created_at', 'updated_at'];
+    protected $fillable = ['code', 'status', 'type', 'nom', 'designation', 'barcode', 'version', 'composition', 'color', 'weight', 'height', 'width', 'depth', 'public_price', 'period_of_validity', 'validity_after_opening', 'comment', 'photo_url', 'unit_by_display', 'unit_per_package', 'packing'];
 
     public function mixtures()
     {
@@ -22,7 +22,13 @@ class Product extends Model
     }
     public function orders()
     {
-        return $this->belongsToMany('App\Modules\Order\Models\Order','order_product');
+        return $this->belongsToMany('App\Modules\Order\Models\Order', 'order_product');
+
+    }
+
+    public function warehouses()
+    {
+        return $this->belongsToMany('App\Modules\Warehouse\Models\Warehouse', 'product_warehouse');
 
     }
 }

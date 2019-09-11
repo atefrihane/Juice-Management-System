@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
+use App\Modules\Admin\Models\Admin;
+use App\Modules\Role\Models\Role;
 use App\Modules\User\Models\User;
+use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
 {
@@ -14,16 +16,19 @@ class UsersTableSeeder extends Seeder
     {
 
         User::create([
-            'email'=>'test@test.fr',
-            'code'=> 't1158',
+            'email' => 'test@test.fr',
+            'code' => 't1158',
             'nom' => 'nom',
-            'prenom'=> 'prenom',
-            'civilite'=> 'homme',
-            'telephone'=> '55612719',
-            'accessCode'=>'ji5848',
-            'password'=>bcrypt('123456'),
+            'prenom' => 'prenom',
+            'civilite' => 'homme',
+            'telephone' => '55612719',
+            'accessCode' => 'ji5848',
+            'password' => bcrypt('123456'),
             'child_type' => \App\Modules\Admin\Models\Admin::class,
-            'child_id' => '1'
+            'child_id' => '1',
         ]);
+
+   
+
     }
 }

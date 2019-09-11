@@ -6,5 +6,6 @@ Route::group(['module' => 'Warehouse', 'middleware' => ['web','isAuth'], 'namesp
    Route::get('/warehouses','WarehouseController@showWarehouses')->name('showWarehouses');
    Route::get('/product/quantity','WarehouseController@showAddProductQuantity')->name('showAddProductQuantity');
    Route::get('/warehouse/add','WarehouseController@showAddWarehouse')->name('showAddWarehouse');
+   Route::post('/warehouse/add','WarehouseController@handleAddWarehouse')->name('handleAddWarehouse');
    Route::get('/warehouse/detail','WarehouseController@showWarehouseDetail')->name('showWarehouseDetail');
 });

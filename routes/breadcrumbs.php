@@ -72,6 +72,11 @@ Breadcrumbs::for('addMachine', function ($trail) {
     $trail->push('Ajouter une  machine', route('showAddMachine'));
 });
 
+Breadcrumbs::for('editMachine', function ($trail) {
+    $trail->parent('machine');
+    $trail->push('Modifier une  machine');
+});
+
 Breadcrumbs::for('product', function ($trail) {
 
     $trail->push('Liste des produits', route('showProducts'));
@@ -110,6 +115,6 @@ Breadcrumbs::for('warhouses', function ($trail) {
 });
 Breadcrumbs::for('addWarhouse', function ($trail) {
     $trail->parent('warhouses');
-    $trail->push('Ajotuer un entrepot', route('showAddWarehouse'));
+    $trail->push('Ajouter un entrepot', route('showAddWarehouse'));
 });
 

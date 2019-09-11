@@ -16,14 +16,14 @@ class CreateWarehousesTable extends Migration
         Schema::create('warehouses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('code');
-            $table->string('designaton');
+            $table->string('designation');
             $table->string('city');
             $table->string('postal_code');
             $table->string('surface');
             $table->string('address');
-            $table->string('complement_address');
-            $table->text('comment');
-            $table->string('photo');
+            $table->string('complement_address')->nullable();
+            $table->text('comment')->nullable();
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
     }

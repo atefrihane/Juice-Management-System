@@ -1,194 +1,197 @@
-@extends('General.layout') @section('pageTitle', 'Ajouter une machine') @section('content')
+@extends('General.layout') @section('pageTitle', 'Modifier une machine') @section('content')
 
 
-    <div class="content-wrapper">
+<div class="content-wrapper">
 
-        <section class="content-header">
+    <section class="content-header">
 
-            {{ Breadcrumbs::render('addMachine') }}
-        </section>
+        {{ Breadcrumbs::render('editMachine') }}
+    </section>
 
-        <section class="content">
-            <div class="row">
-                <div class="container">
+    <section class="content">
+        <div class="row">
+            <div class="container">
 
-                    <div class="box box-primary">
+                <div class="box box-primary">
 
-                        <div class="box-header">
-                            <h3 class="box-title"> Ajouter une machine</h3>
+                    <div class="box-header">
+                        <h3 class="box-title"> Modifier une machine</h3>
 
+                    </div>
+
+                    <form role="form" method="post" enctype="multipart/form-data"
+                        action="{{route('updateMachine', $machine->id)}}">
+                        {{csrf_field()}}
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
+                        @endif
+                        <div class="box-body">
+                            <div class="row">
 
-                        <form role="form" method="post" enctype="multipart/form-data" action="{{route('updateMachine', $machine->id)}}">
-                            {{csrf_field()}}
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
-                            <div class="box-body">
-                                <div class="row">
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">ID</label>
-                                            <input class="form-control" id="disabledInput" type="text" placeholder="aa" value="{{$machine->id}}" disabled>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Code</label>
-                                            <input type="text" name="code" class="form-control" value="{{$machine->code}}" id="exampleInputEmail1" placeholder="Code..">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Etat</label>
-                                            <select class="form-control" name="status">
-                                                <option value="Fonctionnelle"
-                                                {{$machine->status == 'Fonctionnelle' ? 'selected': ''}}
-                                                >Fonctionnelle</option>
-                                                <option value="En-panne"
-                                                {{$machine->status == 'En-panne' ? 'selected': ''}}
-                                                >En panne</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Code à barres</label>
-                                    <input class="form-control" name="barcode" value="{{$machine->barcode}}" id="disabledInput" type="text" placeholder="Code à barres">
-
-                                </div>
-
-
-
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Désignation</label>
-                                    <input class="form-control" value="{{$machine->designation}}" name="designation" id="disabledInput" type="text" placeholder="Désignation">
-
-                                </div>
-
-                                <div class="row">
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Type</label>
-                                            <select class="form-control" name="type">
-                                                <option value="Jus-granité" {{$machine->type == 'Jus-granité' ? 'selected':''}}>Jus et ganité</option>
-                                                <option value="Autre" {{$machine->type == 'Autre' ? 'selected':''}}>Autre</option>
-                                            </select>
-
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Nombre de bacs</label>
-                                            <input class="form-control" value="{{$machine->number_bacs}}" name="number_bacs" id="disabledInput" type="number" placeholder="Nombre de bacs">
-
-
-
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Affichage tablette</label>
-                                    <select class="form-control" name="display_tablet">
-                                        <option value="true" {{$machine->display_tablet  ? 'selected':''}}>Oui</option>
-                                        <option value="false" {{!$machine->display_tablet ? 'selected':''}}>Non</option>
-                                    </select>
-
-
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Prix de location mensuelle ( en euros )</label>
-                                    <input class="form-control" value="{{$machine->price_month}}" id="disabledInput" name="price_month" type="number" placeholder="Prix de location mensuelle ( en euros )">
-
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label>Commentaires (optionnel)</label>
-                                    <textarea class="form-control" rows="3" name="comment" placeholder="Commentaires">{{$machine->comment}}</textarea>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleInputFile">Photo du machine (Optionnel)</label>
-                                    <input type="file" name="photo" id="exampleInputFile">
-
-
-                                </div>
-
-                                <div class="row">
-                                    <div class="container text-center">
-
-                                        <a href="{{route('showMachines')}}" class="btn btn-danger pl-1" style="margin: 1em">Annuler</a>
-                                        <button type="submit" class="btn btn-success pl-1" style="margin: 1em">Confirmer</button>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">ID</label>
+                                        <input class="form-control" id="disabledInput" type="text" placeholder="aa"
+                                            value="{{$machine->id}}" disabled>
 
                                     </div>
                                 </div>
 
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Code</label>
+                                        <input type="text" name="code" class="form-control" value="{{$machine->code}}"
+                                            id="exampleInputEmail1" placeholder="Code..">
+                                    </div>
+                                </div>
 
 
 
                             </div>
 
-                        </form>
-                    </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Code à barres</label>
+                                <input class="form-control" name="barcode" value="{{$machine->barcode}}"
+                                    id="disabledInput" type="text" placeholder="Code à barres">
 
-                    <!-- /.col -->
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Désignation</label>
+                                <input class="form-control" value="{{$machine->designation}}" name="designation"
+                                    id="disabledInput" type="text" placeholder="Désignation">
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Type</label>
+                                        <select class="form-control" name="type">
+                                            <option value="Jus-granité"
+                                                {{$machine->type == 'Jus-granité' ? 'selected':''}}>Jus et ganité
+                                            </option>
+                                            <option value="Autre" {{$machine->type == 'Autre' ? 'selected':''}}>Autre
+                                            </option>
+                                        </select>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Nombre de bacs</label>
+                                        <input class="form-control" value="{{$machine->number_bacs}}" name="number_bacs"
+                                            id="disabledInput" type="number" placeholder="Nombre de bacs">
+
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Affichage tablette</label>
+                                <select class="form-control" name="display_tablet">
+                                    <option value="true" {{$machine->display_tablet  ? 'selected':''}}>Oui</option>
+                                    <option value="false" {{!$machine->display_tablet ? 'selected':''}}>Non</option>
+                                </select>
+
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Prix de location mensuelle ( en euros )</label>
+                                <input class="form-control" value="{{$machine->price_month}}" id="disabledInput"
+                                    name="price_month" type="number"
+                                    placeholder="Prix de location mensuelle ( en euros )">
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>Commentaires (optionnel)</label>
+                                <textarea class="form-control" rows="3" name="comment"
+                                    placeholder="Commentaires">{{$machine->comment}}</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputFile">Photo du machine (Optionnel)</label>
+                                <input type="file" name="photo" id="exampleInputFile">
+
+
+                            </div>
+
+                            <div class="row">
+                                <div class="container text-center">
+
+                                    <a href="{{route('showMachines')}}" class="btn btn-danger pl-1"
+                                        style="margin: 1em">Annuler</a>
+                                    <button type="submit" class="btn btn-success pl-1"
+                                        style="margin: 1em">Confirmer</button>
+
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+
+                    </form>
                 </div>
 
+                <!-- /.col -->
             </div>
 
-        </section>
+        </div>
 
-    </div>
+    </section>
+
+</div>
 
 @endsection
 @section('dynamicProduct.script')
-    <script>
-        $('document').ready(function(){
+<script>
+    $('document').ready(function () {
 
-            var newProduct=$('.box-color').html();
-            var newButton=$('.clicked').html();
-            $('.clicked').click(function(){
-// var html="";
-// html+= '<div class="box-tools pull-right">';
-// html+='<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>';
-// html+=' <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>';
-// html+='</div>';
-// $(newProduct).prepend(html);
+        var newProduct = $('.box-color').html();
+        var newButton = $('.clicked').html();
+        $('.clicked').click(function () {
+            // var html="";
+            // html+= '<div class="box-tools pull-right">';
+            // html+='<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>';
+            // html+=' <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>';
+            // html+='</div>';
+            // $(newProduct).prepend(html);
 
-                $('.box-color').append(newProduct);
-                $('.products').each(function(i, obj) {
-                    if (i!=0) {
-                        $(this).children(":first").css("display","block");
+            $('.box-color').append(newProduct);
+            $('.products').each(function (i, obj) {
+                if (i != 0) {
+                    $(this).children(":first").css("display", "block");
 
 
-                    }
-                });
-
-            });
-
-            $(document).on('click', '.removed', function(){
-                $(this).parent().parent().slideUp();
+                }
             });
 
         });
-    </script>
+
+        $(document).on('click', '.removed', function () {
+            $(this).parent().parent().slideUp();
+        });
+
+    });
+
+</script>
 @endsection

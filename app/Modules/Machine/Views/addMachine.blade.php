@@ -44,14 +44,14 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Code</label>
-                                        <input type="text" name="code" class="form-control" id="exampleInputEmail1" placeholder="Code..">
+                                        <input type="text" name="code" class="form-control" id="exampleInputEmail1" placeholder="Code" required>
                                     </div>
                                 </div>
 
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Etat</label>
-                                        <select class="form-control" name="status">
+                                        <select class="form-control" name="status" required>
                                             <option value="Fonctionnelle">Fonctionnelle</option>
                                             <option value="Non utilisé">Non utilisé</option>
 
@@ -64,7 +64,7 @@
 
                                 <div class="form-group">
                                         <label for="exampleInputEmail1">Code à barres</label>
-                                        <input class="form-control" name="barcode" id="disabledInput" type="text" placeholder="Code à barres">
+                                        <input class="form-control" name="barcode" id="disabledInput" type="text" placeholder="Code à barres" required>
 
                                     </div>
 
@@ -72,7 +72,7 @@
 
                                         <div class="form-group">
                                         <label for="exampleInputEmail1">Désignation</label>
-                                        <input class="form-control" name="designation" id="disabledInput" type="text" placeholder="Désignation">
+                                        <input class="form-control" name="designation" id="disabledInput" type="text" placeholder="Désignation" required>
 
                                     </div>
 
@@ -120,7 +120,7 @@
 
                                          <div class="form-group">
                                         <label for="exampleInputEmail1">Prix de location mensuelle ( en euros )</label>
-                                        <input class="form-control" id="disabledInput" name="price_month" type="number" placeholder="Prix de location mensuelle ( en euros )">
+                                        <input class="form-control" id="disabledInput" name="price_month" type="number" placeholder="Prix de location mensuelle ( en euros )" required>
 
                                     </div>
 

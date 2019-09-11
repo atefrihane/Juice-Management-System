@@ -30,9 +30,11 @@
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Nom de produit</label>
                                     <select class="form-control" name="name">
-                                        <option value="Jus-granité">Jus </option>
-                                        <option value="Jus-granité">Granité</option>
-                                        <option value="Jus-granité">Jus et granité</option>
+                                    @forelse($products as $product)
+                                        <option value="{{$product->nom}}">{{$product->nom}} </option>
+                                        @empty
+                                        <option value="0">Aucun produit</option>
+                                        @endforelse
                                     </select>
                                 </div>
                             </div>
@@ -67,7 +69,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" class="form-control pull-right" id="datepicker">
+                                            <input type="date" class="form-control pull-right" id="datepicker">
                                         </div>
                                         <!-- /.input group -->
                                     </div>
@@ -102,7 +104,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" class="form-control pull-right" id="datepicker">
+                                            <input type="date" class="form-control pull-right" id="datepicker">
                                         </div>
                                         <!-- /.input group -->
                                     </div>
@@ -119,9 +121,11 @@
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Entrepot</label>
                                     <select class="form-control" name="name">
-                                        <option value="Jus-granité">A </option>
-                                        <option value="Jus-granité">B</option>
-                                        <option value="Jus-granité">C</option>
+                                      @forelse($warehouses as $warehouse)
+                                      <option value="{{$warehouse->designaton}}"> {{$warehouse->designaton}}</option>
+                                      @empty 
+                                      <option value=""> Aucun entrepot !</option>
+                                      @endforelse     
                                     </select>
                                 </div>
                             </div>

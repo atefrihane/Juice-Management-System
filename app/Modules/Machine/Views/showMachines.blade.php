@@ -52,12 +52,15 @@
                             <ul class="dropdown-menu edit" role="menu">
                                 @if($machine->rented==false)
                                     <li><a href="{{route('startRental', $machine->id).'?machine=true'}}">Commencer location</a></li>
+                                    <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">Voir historique des locations</a></li>
+                                    <li><a href="{{route('showRental', ['id' => $machine->machine_rental_id])}}">Voir détails location de la machine</a></li>
                                 @else
                                     <li><a href="{{route('showEndRental', ['id' =>$machine->machine_rental_id])}}">Arreter location</a></li>
-                                    <li><a href="{{route('showRental', ['id' => $machine->machine_rental_id])}}">Voir location</a></li>
+                                    <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">Voir historique des locations</a></li>
+                                    <li><a href="{{route('showRental', ['id' => $machine->machine_rental_id])}}">Voir détails location de la  machine</a></li>
                                 @endif
-                                <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">voir list location</a></li>
-                                <li><a href="{{route('machineStatusEdit', $machine->id)}}">Changer etat</a></li>
+                            
+                                <li><a href="{{route('machineStatusEdit', $machine->id)}}">Mettre à jour état</a></li>
                                 <li><a href="{{route('editMachine', $machine->id)}}">Modifier</a></li>
                                 <li><a href="{{route('deleteMachine', $machine->id)}}">Supprimer</a></li>
 

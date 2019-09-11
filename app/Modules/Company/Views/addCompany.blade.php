@@ -171,7 +171,7 @@
                                         <a onclick="history.back()" class="btn btn-danger pl-1"
                                             style="margin: 1em">Annuler</a>
                                         <button type="submit" class="btn btn-success pl-1"
-                                            style="margin: 1em">Ajouter</button>
+                                            style="margin: 1em">Confirmer</button>
 
                                     </div>
                                 </div>

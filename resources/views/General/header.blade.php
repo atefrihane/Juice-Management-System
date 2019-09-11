@@ -57,7 +57,12 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <link href="{{ asset('/css/custom.css') }}" rel="stylesheet">
- 
+ <style>
+ .btn-width {
+   width:200px;
+   margin-bottom:10px;
+ }
+ </style>
 </head>
 
 
@@ -124,27 +129,30 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 
-              <span class="hidden-xs">{{Auth::user()->email}}</span>
+              <span class="hidden-xs">    {{ucfirst(Auth::user()->nom)}} {{ucfirst(Auth::user()->prenom)}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-
+                
 
                 <p>
-                 {{Auth::user()->email}}
+                  {{ucfirst(Auth::user()->nom)}} {{ucfirst(Auth::user()->prenom)}} - {{ucfirst(Auth::user()->child->role->role_name)}}
+                  <small>{{Auth::user()->email}}</small>
                 </p>
               </li>
               <!-- Menu Body -->
-
+              
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                  <a href="{{route('admin')}}" class="btn btn-default btn-flat">Admins</a>
+                <div class="text-center">
+                  <a href="#" class="btn btn-default btn-flat btn-width">Informations du compte</a>
                 </div>
-                <div class="pull-right">
-                  <a href="{{route('handleSignOut')}}" class="btn btn-default btn-flat">Déconnexion</a>
+                <div class="text-center">
+                  <a href="#" class="btn btn-default btn-flat btn-width">Gestion des comptes</a>
+                </div>
+                <div class="text-center">
+                  <a href="{{route('handleSignOut')}}" class="btn btn-default btn-flat btn-width">Déconnexion</a>
                 </div>
               </li>
             </ul>
@@ -173,7 +181,7 @@
         <li class="{{ Route::is('showOrders') ? 'active' : '' }}"><a href="{{route('showOrders')}}"><i class="fa fa-shopping-bag"></i> <span>Commandes</span></a></li>
         <li class="{{ Route::is('showMachines') ? 'active' : '' }}"><a href="{{route('showMachines')}}"><i class="fa fa-plug"></i> <span>Machines</span></a></li>
         <li class="{{ Route::is('showProducts') ? 'active' : '' }}"><a href="{{route('showProducts')}}"><i class="fa fa-cubes"></i> <span>Produits</span></a></li>
-        <!-- <li class="treeview">
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-tasks"></i>
             <span>Entrepot</span>
@@ -184,9 +192,9 @@
           <ul class="treeview-menu">
           
           <li class="{{ Route::is('showWarehouseProducts') ? 'active' : '' }}"><a href="{{route('showWarehouseProducts')}}"><i class="fa fa-cubes"></i> <span>Produits entrepot</span></a></li>
-          <li class="{{ Route::is('showWarehouses') ? 'active' : '' }}"><a href="{{route('showWarehouses')}}"><i class="fa fa-filter "></i> <span>Nos entrepots</span></a></li>
+          <li class="{{ Route::is('showWarehouses') ? 'active' : '' }}"><a href="{{route('showWarehouses')}}"><i class="fa fa-building "></i> <span>Nos entrepots</span></a></li>
           </ul>
-        </li> -->
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->
