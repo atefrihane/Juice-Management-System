@@ -21,7 +21,7 @@
 
                     </div>
 
-                    <form role="form" method="post" enctype="multipart/form-data" action="{{route('storeMachine')}}">
+                    <form role="form" method="post" enctype="multipart/form-data" action="{{route('handleAddWarehouse')}}">
                         {{csrf_field()}}
 
 
@@ -30,11 +30,11 @@
 
                                 <div class="col-md-6">
                                     <label for="exampleInputEmail1">ID</label>
-                                    <input type="text" name="id" class="form-control" disabled>
+                                    <input type="text" name="id" class="form-control" value="{{$count}}" disabled>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="exampleInputEmail1">Code</label>
-                                    <input type="text" name="code" class="form-control" placeholder="Code">
+                                    <input type="text" name="code" class="form-control" placeholder="ENTP{{$count}}" value="ENTP{{$count}}" required>
                                 </div>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Désignation</label>
-                                    <input type="number" name="photo" class="form-control" placeholder="Désignation">
+                                    <input type="text" name="designation" class="form-control" placeholder="Désignation" required>
                                 </div>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
 
                                 <div class="col-md-6">
                                     <label for="exampleInputEmail1">Ville</label>
-                                    <select class="form-control" name="name">
+                                    <select class="form-control" name="city">
                                         <option value="bourg">Bour-en-Bresse (01)</option>
                                         <option value="laon">Laon (02)</option>
                                         <option value="moulins">Moulins (03)</option>
@@ -156,7 +156,7 @@
 
                                 <div class="col-md-6">
                                     <label for="exampleInputEmail1">Code Postal</label>
-                                    <input type="number" name="photo" class="form-control" placeholder="Code Postal">
+                                    <input type="text" name="zipCode" class="form-control" placeholder="Code Postal">
                                 </div>
                             </div>
                         </div>
@@ -165,7 +165,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Surface ( en m²)</label>
-                                    <input type="number" name="photo" class="form-control" placeholder="Surface">
+                                    <input type="number" name="surface" class="form-control" placeholder="Surface" required>
                                 </div>
                             </div>
                         </div>
@@ -174,8 +174,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Addresse</label>
-                                    <input type="number" name="photo" class="form-control"
-                                        placeholder="Addresse">
+                                    <input type="text" name="address" class="form-control"
+                                        placeholder="Addresse" required>
                                 </div>
                             </div>
                         </div>
@@ -185,7 +185,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Complement d'addresse</label>
-                                    <input type="number" name="photo" class="form-control"
+                                    <input type="text" name="complement" class="form-control"
                                         placeholder="Complement d'addresse">
                                 </div>
                             </div>
@@ -195,7 +195,7 @@
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label for="exampleInputEmail1">Commentaire</label>
+                                    <label for="exampleInputEmail1">Commentaire(optionnel)</label>
                                     <textarea class="form-control" rows="3" name="comment"
                                         placeholder="Commentaire"></textarea>
                                 </div>
@@ -209,7 +209,7 @@
 
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Photo de l'entrepot (optionnelle)</label>
-                                    <input type="file" class="form-control">
+                                    <input type="file" class="form-control" name="photo">
                                 </div>
                             </div>
                         </div>

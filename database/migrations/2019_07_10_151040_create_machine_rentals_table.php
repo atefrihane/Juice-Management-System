@@ -23,7 +23,8 @@ class CreateMachineRentalsTable extends Migration
             $table->date('date_fin');
             $table->text('location')->nullable();
             $table->text('Comment')->nullable();
-            $table->string('end_reason');
+            $table->string('end_reason')->nullable();
+            $table->float('price');
             $table->boolean('active')->default(true);
 
             $table->timestamps();

@@ -6,8 +6,8 @@
 
     <section class="content-header">
 
- 
-    {{ Breadcrumbs::render('warhouses') }}
+
+        {{ Breadcrumbs::render('warhouses') }}
     </section>
 
 
@@ -17,7 +17,8 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Liste des entrepôts</h3>
-                        <a href="{{route('showAddWarehouse')}}" class="btn btn-primary pull-right">Ajouter un entrepôt</a>
+                        <a href="{{route('showAddWarehouse')}}" class="btn btn-primary pull-right">Ajouter un
+                            entrepôt</a>
 
 
                         <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
@@ -36,38 +37,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-
+                                @forelse($warehouses as $warehouse)
                                 <tr>
-                                    <td>Jus fraise</td>
-                                    <td>250</td>
-                                    <td>B</td>
-                                    <td>02/10/2018</td>
-                       
-                                    <td class="not-this">
-                                        <div class="btn-group">
-                                            <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false"></a>
-                                            <ul class="dropdown-menu edit" role="menu">
-                                                <li><a href="#">Voir detail produit</a></li>
-                                                <li><a href="#">Modifier</a></li>
-                                                <li><a href="#">Supprimer</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>Jus fraise</td>
-                                    <td>350</td>
-                                    <td>C</td>
-                                    <td>03/10/2018</td>
+                                    <td>{{$warehouse->code}}</td>
+                                    <td>{{$warehouse->designation}}</td>
+                                    <td>{{$warehouse->city}}</td>
+                                    <td>{{$warehouse->postal_code}}</td>
                                     <td class="not-this">
                                         <div class="btn-group">
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
 
-                                                <li><a href="#">Voir detail produit</a></li>
+
                                                 <li><a href="#">Modifier</a></li>
                                                 <li><a href="#">Supprimer</a></li>
 
@@ -75,28 +57,14 @@
                                         </div>
                                     </td>
                                 </tr>
-
-
-
+                                @empty
                                 <tr>
-                                    <td>Jus fraise</td>
-                                    <td>150</td>
-                                    <td>A</td>
-                                    <td>04/10/2018</td>
-                                    <td class="not-this">
-                                        <div class="btn-group">
-                                            <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false"></a>
-                                            <ul class="dropdown-menu edit" role="menu">
-
-                                                <li><a href="#">Voir detail produit</a></li>
-                                                <li><a href="#">Modifier</a></li>
-                                                <li><a href="#">Supprimer</a></li>
-
-                                            </ul>
-                                        </div>
+                                    <td colspan="4" class="text-center">
+                                        <h4>Aucun entrepot existant !</h4>
                                     </td>
                                 </tr>
+
+                                @endforelse
 
                             </tbody>
 
@@ -114,11 +82,12 @@
 
 </div>
 <script>
-$('document').ready(function(){
+    $('document').ready(function () {
 
-  $('.treeview-menu').css('display','block');
+        $('.treeview-menu').css('display', 'block');
 
-});
+    });
+
 </script>
 
 

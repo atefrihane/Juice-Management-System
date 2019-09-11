@@ -97,7 +97,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @foreach($rental->machine->bacs as $bac)
+                                @forelse($rental->machine->bacs as $bac)
                                 <div class="container-fluid " style="background-color: #e4e4e4; margin: 16px; padding: 24px">
                                     <div class="row">
                                         <div class="col-md-4">
@@ -112,6 +112,7 @@
                                                 <input type="text" class="form-control" readonly value="{{$bac->status}}">
                                             </div>
                                         </div>
+                                        @if($bac->product)
                                         <div class="col-md-12">
                                             <div class="form-group d-flex">
                                                 <label class="col-4">Produit en bac  </label>
@@ -119,6 +120,8 @@
 
                                             </div>
                                         </div>
+                                        @endif
+                                        @if($bac->mixture)
                                         <div class="col-md-12">
                                             <div class="form-group d-flex" >
                                                 <label class="col-4">Melange par defaut </label>
@@ -126,9 +129,12 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @endif
 
                                 </div>
-                                @endforeach
+                                @empty
+                                inheritAttrszeig    
+                                @endforelse
                             </div>
 
                         </form>

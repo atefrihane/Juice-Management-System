@@ -24,8 +24,8 @@ class CreateMachinesTable extends Migration
             $table->boolean('display_tablet');
             $table->double('price_month');
             $table->string('comment')->nullable();
-            $table->string('photo_url');
-            $table->boolean('rented');
+            $table->string('photo_url')->nullable();
+            $table->boolean('rented')->default(0);
             $table->integer('machine_rental_id')->unsigned()->nullable();
 
 
