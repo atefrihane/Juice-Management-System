@@ -41,7 +41,7 @@ class WarehouseController extends Controller
     public function handleAddWarehouse(Request $request)
     {
         $checkWarehouse = Warehouse::where('code', $request->code)->first();
-        $path=null;
+        $path = null;
         if ($checkWarehouse) {
             alert()->error('Oups!', 'Un entrepot de ce code existe déja  !');
             return redirect()->back();
@@ -77,6 +77,47 @@ class WarehouseController extends Controller
     public function showWarehouseDetail()
     {
         return view('Warehouse::showWarehouseDetail');
+
+    }
+
+    public function handleDeleteWarehouse($id)
+    {
+        $checkWarehouse=Warehouse::find($id);
+
+        if($checkWarehouse)
+        {
+            $checkWarehouse->delete();
+            alert()->success('Succés!', 'Entrepot a été supprimé avec succés !');
+            return redirect()->back();
+        }
+        return view('General::notFound');
+
+    }
+
+    public function showUpdateWarehouse($id)
+    {
+        $checkWarehouse=Warehouse::find($id);
+
+        if($checkWarehouse)
+        {
+           return view('Warehouse::showUpdateWarehouse',compact('warehouse'));
+        }
+        return view('General::notFound');
+
+    }
+
+
+    public function handleUpdateWarehouse($id)
+    {
+        $checkWarehouse=Warehouse::find($id);
+
+        if($checkWarehouse)
+        {
+            $checkWarehouse->update($request->all());
+            alert()->success('Succés!', 'Entrepot a été modifié avec succés !');
+            return redirect()->back();
+        }
+        return view('General::notFound');
 
     }
 
