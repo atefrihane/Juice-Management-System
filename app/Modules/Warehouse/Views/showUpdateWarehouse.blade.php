@@ -1,12 +1,12 @@
 @extends('General.layout')
-@section('pageTitle', 'Ajouter une quantité de produit')
+@section('pageTitle', 'Modifier un entrepot')
 @section('content')
 
 <div class="content-wrapper">
 
     <section class="content-header">
 
-        {{ Breadcrumbs::render('addWarhouse') }}
+        {{ Breadcrumbs::render('updateWarhouse') }}
     </section>
 
 
@@ -22,7 +22,7 @@
                     </div>
 
                     <form role="form" method="post" enctype="multipart/form-data"
-                        action="{{route('handleUpdateWarehouse')}}">
+                        action="{{route('handleUpdateWarehouse',$checkWarehouse->id)}}">
                         {{csrf_field()}}
 
 
@@ -31,13 +31,13 @@
 
                                 <div class="col-md-6">
                                     <label for="exampleInputEmail1">ID</label>
-                                    <input type="text" name="id" class="form-control" value="{{$warehouse->id}}"
+                                    <input type="text" name="id" class="form-control" value="{{$checkWarehouse->id}}"
                                         disabled>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="exampleInputEmail1">Code</label>
                                     <input type="text" name="code" class="form-control"
-                                        placeholder="ENTP{{$warehouse->id}}" value="ENTP{{$warehouse->id}}" required>
+                                        placeholder="ENTP{{$checkWarehouse->id}}" value="ENTP{{$checkWarehouse->id}}" required>
                                 </div>
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Désignation</label>
                                     <input type="text" name="designation" class="form-control" placeholder="Désignation"
-                                        value="{{$warehouse->id}}" required>
+                                        value="{{$checkWarehouse->id}}" required>
                                 </div>
                             </div>
                         </div>
@@ -58,7 +58,7 @@
 
                                 <div class="col-md-6">
                                     <label for="exampleInputEmail1">Ville</label>
-                                    <select class="form-control" name="city" value="{{$warehouse->city}}">
+                                    <select class="form-control" name="city" value="{{$checkWarehouse->city}}">
                                         <option value="bourg">Bour-en-Bresse (01)</option>
                                         <option value="laon">Laon (02)</option>
                                         <option value="moulins">Moulins (03)</option>
@@ -160,8 +160,8 @@
 
                                 <div class="col-md-6">
                                     <label for="exampleInputEmail1">Code Postal</label>
-                                    <input type="text" name="zipCode" class="form-control" placeholder="Code Postal"
-                                        value="{{$warehouse->postal_code}}">
+                                    <input type="text" name="postal_code" class="form-control" placeholder="Code Postal"
+                                        value="{{$checkWarehouse->postal_code}}">
                                 </div>
                             </div>
                         </div>
@@ -171,7 +171,7 @@
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Surface ( en m²)</label>
                                     <input type="number" name="surface" class="form-control" placeholder="Surface"
-                                        value="{{$warehouse->surface}}" required>
+                                        value="{{$checkWarehouse->surface}}" required>
                                 </div>
                             </div>
                         </div>
@@ -181,7 +181,7 @@
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Addresse</label>
                                     <input type="text" name="address" class="form-control" placeholder="Addresse"
-                                        value="{{$warehouse->address}}" required>
+                                        value="{{$checkWarehouse->address}}" required>
                                 </div>
                             </div>
                         </div>
@@ -191,8 +191,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Complement d'addresse</label>
-                                    <input type="text" name="complement" class="form-control"
-                                        placeholder="Complement d'addresse" value="{{$warehouse->complementa_address}}">
+                                    <input type="text" name="complement_address" class="form-control"
+                                        placeholder="Complement d'addresse" value="{{$checkWarehouse->complementa_address}}">
                                 </div>
                             </div>
                         </div>
@@ -203,7 +203,7 @@
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Commentaire(optionnel)</label>
                                     <textarea class="form-control" rows="3" name="comment" placeholder="Commentaire"
-                                        value="{{$warehouse->comment}}">{{$warehouse->comment}}</textarea>
+                                        value="{{$checkWarehouse->comment}}">{{$checkWarehouse->comment}}</textarea>
                                 </div>
                             </div>
                         </div>

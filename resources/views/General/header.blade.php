@@ -191,8 +191,8 @@
           </a>
           <ul class="treeview-menu">
           
-          <li class="{{ Route::is('showWarehouseProducts') ? 'active' : '' }}"><a href="{{route('showWarehouseProducts')}}"><i class="fa fa-cubes"></i> <span>Produits entrepot</span></a></li>
-          <li class="{{ Route::is('showWarehouses') ? 'active' : '' }}"><a href="{{route('showWarehouses')}}"><i class="fa fa-building "></i> <span>Nos entrepots</span></a></li>
+          <li class="{{ Route::is('showWarehouseProducts') ? 'active' : '' }}"><a href="{{route('showWarehouseProducts')}}"><i class="fa fa-cubes"></i> <span>Produits des entrepôts</span></a></li>
+          <li class="{{ Route::is('showWarehouses') ? 'active' : '' }}"><a href="{{route('showWarehouses')}}"><i class="fa fa-building "></i> <span>Nos Entrepôts</span></a></li>
           </ul>
         </li>
       </ul>

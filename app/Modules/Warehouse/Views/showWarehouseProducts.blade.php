@@ -16,7 +16,8 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Liste des produits</h3>
-                        <a href="{{route('showAddProductQuantity')}}" class="btn btn-primary pull-right">Ajouter une quantité de produit</a>
+                        <a href="{{route('showAddProductQuantity')}}" class="btn btn-primary pull-right">Ajouter une
+                            entrée</a>
 
 
                         <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
@@ -29,78 +30,82 @@
 
                                     <th>Nom Produit</th>
                                     <th>Quantité(nbr des unités)</th>
-                                    <th>Entrepot</th>
+                                    <th>Entrepôt</th>
                                     <th>Date de fabrication</th>
                                     <th>Date d'expiration</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-
+                                @forelse($warehouseProducts as $warehouseProduct)
                                 <tr>
-                                    <td>Jus fraise</td>
-                                    <td>250</td>
-                                    <td>B</td>
-                                    <td>02/10/2018</td>
-                                    <td>02/10/2019</td>
+                                    <td>{{$warehouseProduct->product->nom}}</td>
+                                    <td>{{$warehouseProduct->quantity}}</td>
+                                    <td>{{$warehouseProduct->warehouse->designation}}</td>
+                                    <td>{{$warehouseProduct->creation_date}}</td>
+                                    <td>{{$warehouseProduct->expiration_date}}</td>
                                     <td class="not-this">
                                         <div class="btn-group">
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
 
-                                                <li><a href="#">Voir detail produit</a></li>
+                                                <li><a
+                                                        href="{{route('showEditProductQuantity',$warehouseProduct->id)}}">Voir
+                                                        detail produit</a></li>
                                                 <li><a href="#">Modifier</a></li>
-                                                <li><a href="#">Supprimer</a></li>
+                                                <li><a href="#" data-toggle="modal"
+                                                        data-target="#modal-default{{$warehouseProduct->id}}">Supprimer</a>
+                                                </li>
 
                                             </ul>
                                         </div>
                                     </td>
-                                </tr>
 
+
+                                    <div class="modal fade" id="modal-default{{$warehouseProduct->id}}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">×</span></button>
+                                                    <h4 class="modal-title">Vous voulez vraiment supprimer ce
+                                                        produit ?</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p> Ce processus ne peut pas être annulé.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <div class="text-center">
+                                                        <form
+                                                            action="{{ route('handleDeleteProductQuantity',$warehouseProduct->id) }}"
+                                                            method="post">
+                                                            {{csrf_field()}}
+                                                            <button type="submit"
+                                                                class="btn btn-success">Supprimer</button>
+                                                            <a href="#" class="btn btn-danger"
+                                                                data-dismiss="modal">Annuler</a>
+
+
+                                                        </form>
+
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
+                                    </div>
+                                </tr>
+                                @empty
                                 <tr>
-                                    <td>Jus fraise</td>
-                                    <td>350</td>
-                                    <td>C</td>
-                                    <td>03/10/2018</td>
-                                    <td>03/10/2019</td>
-                                    <td class="not-this">
-                                        <div class="btn-group">
-                                            <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false"></a>
-                                            <ul class="dropdown-menu edit" role="menu">
-
-                                                <li><a href="#">Voir detail produit</a></li>
-                                                <li><a href="#">Modifier</a></li>
-                                                <li><a href="#">Supprimer</a></li>
-
-                                            </ul>
-                                        </div>
-                                    </td>
+                                    <td colspan="5" class="text-center"> Aucun produit déja existant !</td>
                                 </tr>
 
-
-
-                                <tr>
-                                    <td>Jus fraise</td>
-                                    <td>150</td>
-                                    <td>A</td>
-                                    <td>04/10/2018</td>
-                                    <td>03/10/2019</td>
-                                    <td class="not-this">
-                                        <div class="btn-group">
-                                            <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false"></a>
-                                            <ul class="dropdown-menu edit" role="menu">
-
-                                                <li><a href="#">Voir detail produit</a></li>
-                                                <li><a href="#">Modifier</a></li>
-                                                <li><a href="#">Supprimer</a></li>
-
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @endforelse
 
                             </tbody>
 
@@ -119,11 +124,12 @@
 </div>
 
 <script>
-$('document').ready(function(){
+    $('document').ready(function () {
 
-  $('.treeview-menu').css('display','block');
+        $('.treeview-menu').css('display', 'block');
 
-});
+    });
+
 </script>
 
 

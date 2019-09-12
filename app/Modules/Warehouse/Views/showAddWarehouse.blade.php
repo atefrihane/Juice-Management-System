@@ -1,5 +1,5 @@
 @extends('General.layout')
-@section('pageTitle', 'Ajouter une quantité de produit')
+@section('pageTitle', 'Ajouter un entrepot')
 @section('content')
 
 <div class="content-wrapper">
@@ -21,7 +21,8 @@
 
                     </div>
 
-                    <form role="form" method="post" enctype="multipart/form-data" action="{{route('handleAddWarehouse')}}">
+                    <form role="form" method="post" enctype="multipart/form-data"
+                        action="{{route('handleAddWarehouse')}}">
                         {{csrf_field()}}
 
 
@@ -34,7 +35,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="exampleInputEmail1">Code</label>
-                                    <input type="text" name="code" class="form-control" placeholder="ENTP{{$count}}" value="ENTP{{$count}}" required>
+                                    <input type="text" name="code" class="form-control" placeholder="ENTP{{$count}}"
+                                        value="ENTP{{$count}}" required>
                                 </div>
                             </div>
                         </div>
@@ -43,7 +45,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Désignation</label>
-                                    <input type="text" name="designation" class="form-control" placeholder="Désignation" required>
+                                    <input type="text" name="designation" class="form-control" placeholder="Désignation"
+                                        required>
                                 </div>
                             </div>
                         </div>
@@ -165,7 +168,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Surface ( en m²)</label>
-                                    <input type="number" name="surface" class="form-control" placeholder="Surface" required>
+                                    <input type="number" name="surface" class="form-control" placeholder="Surface"
+                                        required>
                                 </div>
                             </div>
                         </div>
@@ -174,8 +178,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Addresse</label>
-                                    <input type="text" name="address" class="form-control"
-                                        placeholder="Addresse" required>
+                                    <input type="text" name="address" class="form-control" placeholder="Addresse"
+                                        required>
                                 </div>
                             </div>
                         </div>
@@ -244,6 +248,8 @@
 
 </section>
 </div>
+
+
 
 
 @endsection

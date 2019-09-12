@@ -9,7 +9,7 @@ class ProductWarehouse extends Model
 {
 
     protected $fillable = ['packing', 'quantity', 'creation_date', 'expiration_date', 'comment', 'product_id', 'warehouse_id'];
-
+    protected $table = "product_warehouse";
     public function orderproducts()
     {
         return $this->belongsToMany('App\Modules\Order\Models\OrderProduct', 'product_prepare');
