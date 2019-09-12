@@ -23,7 +23,7 @@
                         </div>
 
 
-                        <form role="form" action="{{route('handleAddCompany')}}" method="post" enctype="multipart/form-data">
+                        <form role="form" action="{{route('handleUpdateState',$machine->id)}}" method="post" enctype="multipart/form-data">
                             {{csrf_field()}}
                             @if ($errors->any())
                                 <div class="alert alert-danger">

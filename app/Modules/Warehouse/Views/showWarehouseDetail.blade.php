@@ -1,5 +1,5 @@
 @extends('General.layout')
-@section('pageTitle', 'Ajouter une entrée')
+@section('pageTitle', 'Ajouter une Entrée en stock')
 @section('content')
 
 <div class="content-wrapper">

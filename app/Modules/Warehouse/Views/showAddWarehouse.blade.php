@@ -159,7 +159,7 @@
 
                                 <div class="col-md-6">
                                     <label for="exampleInputEmail1">Code Postal</label>
-                                    <input type="text" name="zipCode" class="form-control" placeholder="Code Postal">
+                                    <input type="text" name="zipCode" class="form-control" placeholder="Code Postal" required>
                                 </div>
                             </div>
                         </div>
@@ -171,7 +171,7 @@
                                     <input type="number" name="surface" class="form-control" placeholder="Surface"
                                         required>
                                 </div>
-                            </div>
+                            </div>z
                         </div>
 
                         <div class="box-body">

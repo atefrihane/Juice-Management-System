@@ -4,6 +4,7 @@ namespace App\Modules\Machine\Models;
 
 use App\Modules\Bac\Models\Bac;
 use App\Modules\MachineRental\Models\MachineRental;
+use App\Modules\Machine\Models\MachineHistory;
 use Illuminate\Database\Eloquent\Model;
 
 class Machine extends Model
@@ -18,5 +19,10 @@ class Machine extends Model
     public function bacs()
     {
         return $this->hasMany(Bac::class);
+    }
+
+    public function histories()
+    {
+        return $this->hasMany(MachineHistory::class);
     }
 }

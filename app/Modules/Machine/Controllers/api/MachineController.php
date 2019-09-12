@@ -3,9 +3,7 @@
 namespace App\Modules\Machine\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Modules\Company\Models\Company;
 use App\Modules\Machine\Models\Machine;
-use Illuminate\Http\Request;
 
 class MachineController extends Controller
 {
@@ -15,6 +13,17 @@ class MachineController extends Controller
         return Machine::where('id', $id)->with('bacs.product')->first();
     }
 
+    public function showMachineStates($id)
+    {
 
+        $checkMachine = Machine::find($id);
+        if ($checkMachine) {
+
+            return response()->json(['status' => 200, 'machineHistory' => $checkMachine->histories]);
+
+        }
+        return response()->json(['status' => 404]);
+
+    }
 
 }
