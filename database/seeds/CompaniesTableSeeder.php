@@ -1,8 +1,11 @@
 <?php
 
 use App\Modules\Company\Models\Company;
+use App\Modules\Diractor\Models\Diractor;
 use App\Modules\Machine\Models\Machine;
+use App\Modules\Responsable\Models\Responsable;
 use App\Modules\Store\Models\Store;
+use App\Modules\User\Models\User;
 use Illuminate\Database\Seeder;
 
 class CompaniesTableSeeder extends Seeder
@@ -130,7 +133,7 @@ class CompaniesTableSeeder extends Seeder
 
         ]);
 
-        Store::create([
+        $storeOne = Store::create([
             'code' => 'MGS0224',
             'status' => 'actif',
             'designation' => 'Magasin carrefour ile de france',
@@ -151,7 +154,7 @@ class CompaniesTableSeeder extends Seeder
 
         ]);
 
-        Store::create([
+        $storeTwo = Store::create([
             'code' => 'MG20147',
             'status' => 'actif',
             'designation' => 'Magasin carefour city',
@@ -172,7 +175,7 @@ class CompaniesTableSeeder extends Seeder
 
         ]);
 
-        Machine::create([
+        $machineOne = Machine::create([
             'code' => 'MCH01457',
             'status' => 'Fonctionnelle',
             'barcode' => '59972846385498',
@@ -187,7 +190,7 @@ class CompaniesTableSeeder extends Seeder
 
         ]);
 
-        Machine::create([
+        $machineTwo = Machine::create([
             'code' => 'MCH02589',
             'status' => 'Fonctionnelle',
             'barcode' => '87964215387996',
@@ -200,6 +203,40 @@ class CompaniesTableSeeder extends Seeder
             'photo_url' => 'files/img/H1oA0MsCDqumhkYvzddm1WAMAfShQyUGeYgsGWqG.png',
             'rented' => 0,
 
+        ]);
+
+        Responsable::create([
+            'store_id' => $storeOne->id,
+        ]);
+
+        Diractor::create([
+            'company_id' => $carrefour->id,
+        ]);
+
+        $director = User::create([
+            'email' => 'directeur@directeur.fr',
+            'code' => 't1158',
+            'nom' => 'nom',
+            'prenom' => 'prenom',
+            'civilite' => 'homme',
+            'telephone' => '55612719',
+            'accessCode' => 'ji5848',
+            'password' => bcrypt('123456'),
+            'child_type' => \App\Modules\Diractor\Models\Diractor::class,
+            'child_id' => '1',
+        ]);
+
+        $responsible = User::create([
+            'email' => 'responsable@resposnable.fr',
+            'code' => 't1158',
+            'nom' => 'nom',
+            'prenom' => 'prenom',
+            'civilite' => 'homme',
+            'telephone' => '55612719',
+            'accessCode' => 'ji5848',
+            'password' => bcrypt('123456'),
+            'child_type' => \App\Modules\Responsable\Models\Responsable::class,
+            'child_id' => '1',
         ]);
 
     }

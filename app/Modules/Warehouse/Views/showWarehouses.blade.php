@@ -50,7 +50,7 @@
                                             <ul class="dropdown-menu edit" role="menu">
 
 
-                                                <li><a href="#">Modifier</a></li>
+                                                <li><a href="">Modifier</a></li>
                                                 <li><a href="#">Supprimer</a></li>
 
                                             </ul>
