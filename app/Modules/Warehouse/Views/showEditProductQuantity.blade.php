@@ -6,7 +6,7 @@
 
     <section class="content-header">
 
-        {{ Breadcrumbs::render('productQuantity') }}
+        {{ Breadcrumbs::render('productQuantityEdit') }}
     </section>
 
 
@@ -17,12 +17,12 @@
                 <div class="box box-primary">
 
                     <div class="box-header">
-                        <h3 class="box-title"> Ajouter une entrée</h3>
+                        <h3 class="box-title"> Modifier une entrée</h3>
 
                     </div>
 
                     <form role="form" method="post" enctype="multipart/form-data"
-                        action="{{route('handleAddProductQuantity')}}">
+                        action="{{route('handleEditProductQuantity',$productQuantity->id)}}">
                         {{csrf_field()}}
 
                         <div class="box-body">

@@ -4,6 +4,7 @@ namespace App\Modules\Warehouse\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Product\Models\Product;
+use App\Modules\Product\Models\ProductWarehouse;
 use App\Modules\Warehouse\Models\Warehouse;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,8 @@ class WarehouseController extends Controller
 
     public function showWarehouseProducts()
     {
-        return view('Warehouse::showWarehouseProducts');
+        $warehouseProducts = ProductWarehouse::all();
+        return view('Warehouse::showWarehouseProducts', compact('warehouseProducts'));
     }
 
     public function showWarehouses()
@@ -74,7 +76,7 @@ class WarehouseController extends Controller
 
     }
 
-    public function showWarehouseDetail()
+    public function showWarehouseDetail($id)
     {
         return view('Warehouse::showWarehouseDetail');
 
@@ -82,10 +84,9 @@ class WarehouseController extends Controller
 
     public function handleDeleteWarehouse($id)
     {
-        $checkWarehouse=Warehouse::find($id);
+        $checkWarehouse = Warehouse::find($id);
 
-        if($checkWarehouse)
-        {
+        if ($checkWarehouse) {
             $checkWarehouse->delete();
             alert()->success('Succés!', 'Entrepot a été supprimé avec succés !');
             return redirect()->back();
@@ -96,29 +97,95 @@ class WarehouseController extends Controller
 
     public function showUpdateWarehouse($id)
     {
-        $checkWarehouse=Warehouse::find($id);
 
-        if($checkWarehouse)
-        {
-           return view('Warehouse::showUpdateWarehouse',compact('warehouse'));
+        $checkWarehouse = Warehouse::find($id);
+
+        if ($checkWarehouse) {
+            return view('Warehouse::showUpdateWarehouse', compact('checkWarehouse'));
         }
         return view('General::notFound');
 
     }
 
-
-    public function handleUpdateWarehouse($id)
+    public function handleUpdateWarehouse($id, Request $request)
     {
-        $checkWarehouse=Warehouse::find($id);
+        $checkWarehouse = Warehouse::find($id);
 
-        if($checkWarehouse)
-        {
+        if ($checkWarehouse) {
             $checkWarehouse->update($request->all());
             alert()->success('Succés!', 'Entrepot a été modifié avec succés !');
-            return redirect()->back();
+            return redirect()->route('showWarehouses');
         }
         return view('General::notFound');
 
+    }
+
+    public function handleAddProductQuantity(Request $request)
+    {
+
+        if ($request->product_id == 0) {
+            alert()->error('Oups!', 'Veuillez selectionner un produit ! !');
+            return redirect()->back();
+        }
+        if ($request->warehouse_id == 0) {
+            alert()->error('Oups!', 'Veuillez selectionner un entrepôt ! !');
+            return redirect()->back();
+
+        }
+        ProductWarehouse::create($request->all());
+        alert()->success('Succés!', 'Le produit a été ajouté avec succés ! !');
+        return redirect()->route('showWarehouseProducts');
+
+    }
+
+    public function showEditProductQuantity($id)
+    {
+        $productQuantity = ProductWarehouse::find($id);
+        if ($productQuantity) {
+            $products = Product::all();
+            $warehouses = Warehouse::all();
+            return view('Warehouse::showEditProductQuantity', compact('productQuantity', 'products', 'warehouses'));
+
+        }
+        return view('General::notFound');
+
+    }
+
+    public function handleEditProductQuantity($id, Request $request)
+    {
+
+        if ($request->product_id == 0) {
+            alert()->error('Oups!', 'Veuillez selectionner un produit ! !');
+            return redirect()->back();
+        }
+        if ($request->warehouse_id == 0) {
+            alert()->error('Oups!', 'Veuillez selectionner un entrepôt ! !');
+            return redirect()->back();
+
+        }
+        $productWarehouse = ProductWarehouse::find($id);
+        if ($productWarehouse) {
+            $productWarehouse->update($request->all());
+            alert()->success('Succés!', 'Le produit a été modifié avec succés ! !');
+            return redirect()->route('showWarehouseProducts');
+        }
+
+        return view('General::notFound');
+
+    }
+
+    public function handleDeleteProductQuantity($id)
+    {
+
+        $productWarehouse = ProductWarehouse::find($id);
+        if ($productWarehouse) {
+
+            $productWarehouse->delete();
+
+            alert()->success('Succés!', 'Le produit a été supprimé avec succés !');
+            return redirect()->back();
+        }
+        return view('General::notFound');
     }
 
 }

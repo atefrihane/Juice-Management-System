@@ -50,10 +50,51 @@
                                             <ul class="dropdown-menu edit" role="menu">
 
 
-                                                <li><a href="">Modifier</a></li>
-                                                <li><a href="#">Supprimer</a></li>
+                                                <li><a
+                                                        href="{{ route('showUpdateWarehouse',$warehouse->id) }}">Modifier</a>
+                                                </li>
+                                                <li><a data-toggle="modal"
+                                                        data-target="#modal-default{{$warehouse->id}}">Supprimer</a>
+                                                </li>
 
                                             </ul>
+
+                                            <div class="modal fade" id="modal-default{{$warehouse->id}}">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">×</span></button>
+                                                            <h4 class="modal-title">Vous voulez vraiment supprimer cet
+                                                            entrepôt ?</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p> Ce processus ne peut pas être annulé.</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <div class="text-center">
+                                                                <form
+                                                                    action="{{ route('handleDeleteWarehouse',$warehouse->id) }}"
+                                                                    method="post">
+                                                                    {{csrf_field()}}
+                                                                    <button type="submit"
+                                                                        class="btn btn-success">Supprimer</button>
+                                                                    <a href="#" class="btn btn-danger"
+                                                                        data-dismiss="modal">Annuler</a>
+
+
+                                                                </form>
+
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.modal-content -->
+                                                </div>
+                                                <!-- /.modal-dialog -->
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>

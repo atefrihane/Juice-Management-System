@@ -108,13 +108,23 @@ Breadcrumbs::for('productWarehouse', function ($trail) {
 
 Breadcrumbs::for('productQuantity', function ($trail) {
     $trail->parent('productWarehouse');
-    $trail->push('Ajouter une quantité de produit', route('showAddProductQuantity'));
+    $trail->push('Ajouter une entrée', route('showAddProductQuantity'));
+});
+
+Breadcrumbs::for('productQuantityEdit', function ($trail) {
+    $trail->parent('productWarehouse');
+    $trail->push('Modifier une entrée', route('showAddProductQuantity'));
 });
 Breadcrumbs::for('warhouses', function ($trail) {
-    $trail->push('Liste des entrepots', route('showWarehouses'));
+    $trail->push('Liste des entrepôts', route('showWarehouses'));
 });
 Breadcrumbs::for('addWarhouse', function ($trail) {
     $trail->parent('warhouses');
-    $trail->push('Ajouter un entrepot', route('showAddWarehouse'));
+    $trail->push('Ajouter un entrepôt', route('showAddWarehouse'));
+});
+
+Breadcrumbs::for('updateWarhouse', function ($trail) {
+    $trail->parent('warhouses');
+    $trail->push('Modifier un entrepôt', route('showAddWarehouse'));
 });
 
