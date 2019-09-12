@@ -7,7 +7,7 @@
 
         <section class="content-header">
 
-            {{ Breadcrumbs::render('company') }}
+            {{ Breadcrumbs::render('editMachineState') }}
         </section>
 
 

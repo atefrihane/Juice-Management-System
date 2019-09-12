@@ -30,6 +30,8 @@ class MachineController extends Controller
     {
         $company = Company::find($id);
         $machines = $company->rentedMachines();
+  
+
         if ($company) {
             return view('Machine::showRentedMachines', compact('company', 'machines'));
         }

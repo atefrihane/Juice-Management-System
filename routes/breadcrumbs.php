@@ -77,6 +77,11 @@ Breadcrumbs::for('editMachine', function ($trail) {
     $trail->push('Modifier une  machine');
 });
 
+Breadcrumbs::for('editMachineState', function ($trail) {
+    $trail->parent('machine');
+    $trail->push('Mise à jour état machine');
+});
+
 Breadcrumbs::for('product', function ($trail) {
 
     $trail->push('Liste des produits', route('showProducts'));
