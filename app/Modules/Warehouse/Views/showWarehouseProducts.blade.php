@@ -1,5 +1,5 @@
 @extends('General.layout')
-@section('pageTitle', 'Liste des produits')
+@section('pageTitle', 'Liste des produits en stock')
 @section('content')
 
 <div class="content-wrapper">
@@ -15,7 +15,7 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Liste des produits</h3>
+                        <h3 class="box-title">Liste des produits en stock</h3>
                         <a href="{{route('showAddProductQuantity')}}" class="btn btn-primary pull-right">Ajouter une
                             entrée</a>
 

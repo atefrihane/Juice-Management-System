@@ -103,12 +103,12 @@ Breadcrumbs::for('addCustomProduct', function ($trail, $company) {
 });
 
 Breadcrumbs::for('productWarehouse', function ($trail) {
-    $trail->push('Liste des produits', route('showWarehouseProducts'));
+    $trail->push('Liste des produits en stock', route('showWarehouseProducts'));
 });
 
 Breadcrumbs::for('productQuantity', function ($trail) {
     $trail->parent('productWarehouse');
-    $trail->push('Ajouter une entrée', route('showAddProductQuantity'));
+    $trail->push('Ajouter une Entrée en stock', route('showAddProductQuantity'));
 });
 
 Breadcrumbs::for('productQuantityEdit', function ($trail) {

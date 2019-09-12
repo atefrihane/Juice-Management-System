@@ -1,5 +1,5 @@
 @extends('General.layout')
-@section('pageTitle', 'Ajouter une entrée')
+@section('pageTitle', 'Ajouter une Entrée en stock')
 @section('content')
 
 <div class="content-wrapper">
@@ -17,7 +17,7 @@
                 <div class="box box-primary">
 
                     <div class="box-header">
-                        <h3 class="box-title"> Ajouter une entrée</h3>
+                        <h3 class="box-title"> Ajouter une Entrée en stock</h3>
 
                     </div>
 
