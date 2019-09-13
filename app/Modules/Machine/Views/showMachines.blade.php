@@ -53,7 +53,7 @@
                     <td class="not-this">
                         <div class="btn-group">
                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-                            <ul class="dropdown-menu edit" role="menu">
+                            <ul class="dropdown-menu edit" role="menu" style="margin-left:-175px !important;">
                                 @if($machine->rented==false)
                                     <li><a href="{{route('startRental', $machine->id).'?machine=true'}}">Commencer location</a></li>
                                     
@@ -61,7 +61,7 @@
                                     <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">Voir historique machine</a></li>
                                   
                                 @else
-                                <li><a href="{{route('showRental', ['id' => $machine->machine_rental_id])}}">Voir détails location</a></li>
+                             
                                     <li><a href="{{route('showEndRental', ['id' =>$machine->machine_rental_id])}}">Arreter location</a></li>
                                     <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">Voir historique des locations</a></li>
                                     <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">Voir historique machine</a></li>

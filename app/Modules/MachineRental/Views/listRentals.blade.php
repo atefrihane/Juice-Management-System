@@ -1,12 +1,12 @@
 @extends('General.layout')
-@section('pageTitle', 'Liste des machines')
+@section('pageTitle', 'Historique des machines')
 @section('content')
 
     <div class="content-wrapper">
 
         <section class="content-header">
 
-            {{ Breadcrumbs::render('machine') }}
+            {{ Breadcrumbs::render('historyMachine',$rentals->first()->machine) }}
         </section>
 
 
@@ -15,7 +15,7 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Liste des Locations</h3>
+                            <h3 class="box-title">Historique des Locations</h3>
 
 
 
