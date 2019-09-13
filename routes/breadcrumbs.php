@@ -94,6 +94,13 @@ Breadcrumbs::for('editMachineState', function ($trail) {
     $trail->push('Mise à jour état machine');
 });
 
+Breadcrumbs::for('machineHistory', function ($trail,$machine) {
+    $trail->parent('machine');
+    $trail->push($machine->code);
+    $trail->push('Historique machine');
+});
+
+
 Breadcrumbs::for('product', function ($trail) {
 
     $trail->push('Liste des produits', route('showProducts'));

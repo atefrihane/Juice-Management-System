@@ -41,7 +41,7 @@
                                 <tr>
                                     <td>{{$warehouse->code}}</td>
                                     <td>{{$warehouse->designation}}</td>
-                                    <td>{{$warehouse->city}}</td>
+                                    <td>{{ucfirst($warehouse->city)}}</td>
                                     <td>{{$warehouse->postal_code}}</td>
                                     <td class="not-this">
                                         <div class="btn-group">
