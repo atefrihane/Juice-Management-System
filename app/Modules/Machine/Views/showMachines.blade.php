@@ -25,7 +25,7 @@
             <div class="box-body">
               <table class="table table-bordered table-hover example2" >
                 <thead>
-                <tr >
+                <tr>
                   <th ></th>
                   <th>Code</th>
                   <th>Désignation</th>
@@ -58,13 +58,12 @@
                                     <li><a href="{{route('startRental', $machine->id).'?machine=true'}}">Commencer location</a></li>
                                     
                                     <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">Voir historique des locations</a></li>
-                                    <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">Voir historique machine</a></li>
-                                  
+                                    <li><a href="{{route('showHistoryMachine',$machine->id)}}">Voir historique machine</a></li>
                                 @else
                              
                                     <li><a href="{{route('showEndRental', ['id' =>$machine->machine_rental_id])}}">Arreter location</a></li>
                                     <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">Voir historique des locations</a></li>
-                                    <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">Voir historique machine</a></li>
+                                    <li><a href="{{route('showHistoryMachine',$machine->id)}}">Voir historique machine</a></li>
                                 @endif
                             
                                 <li><a href="{{route('machineStatusEdit', $machine->id)}}">Mettre à jour état</a></li>

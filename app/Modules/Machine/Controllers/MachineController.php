@@ -30,7 +30,6 @@ class MachineController extends Controller
     {
         $company = Company::find($id);
         $machines = $company->rentedMachines();
-  
 
         if ($company) {
             return view('Machine::showRentedMachines', compact('company', 'machines'));
@@ -158,6 +157,17 @@ class MachineController extends Controller
         }
         return view('General::notFound');
 
+    }
+
+    public function showHistoryMachine($id)
+    {
+        $machine = Machine::find($id);
+
+        if ($machine) {
+
+            return view('Machine::showHistoryMachine', compact('machine'));
+        }
+        return view('General::notFound');
     }
 
 }

@@ -45,15 +45,21 @@
                         <div class="box-body">
                             <div class="row">
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1">Code produit</label>
                                     <input type="text" name="photo" class="form-control" placeholder="Code produit"
                                         id="productCode" disabled>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1">Code à barre</label>
                                     <input type="text" name="photo" class="form-control" placeholder="Code à barre"
                                         id="barCode" disabled>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="exampleInputEmail1">Colisage</label>
+                                    <input type="number" name="" class="form-control" placeholder="Colisage"
+                                        id="packing" disabled>
                                 </div>
 
 
@@ -63,7 +69,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Colisage</label>
-                                    <input type="number" name="packing" class="form-control" placeholder="Colisage" required>
+                                    <input type="number" name="packing" class="form-control" placeholder="Colisage"
+                                        required>
                                 </div>
                             </div>
                         </div>
@@ -199,11 +206,10 @@
             var id = this.value;
             var url = {!!json_encode(url('/')) !!}
                
-          
             if (id == 0) {
                 $('#productCode').val('');
                 $('#barCode').val('');
-   
+                $('#packing').val('');
 
             }
             $.ajax({
@@ -214,7 +220,7 @@
                     var response = JSON.parse(JSON.stringify(data));
                     $('#productCode').val(response['code']);
                     $('#barCode').val(response['barcode']);
-                  
+                    $('#packing').val(response['packing']);
                 },
                 error: function (data) {
                     console.log(data);
