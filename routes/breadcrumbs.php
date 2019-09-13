@@ -65,7 +65,7 @@ Breadcrumbs::for('machine', function ($trail) {
 });
 Breadcrumbs::for('rental', function ($trail, $machine) {
     $trail->parent('machine');
-    $trail->push('Debut location machine', route('startRental', $machine));
+    $trail->push('Commencer location machine', route('startRental', $machine));
 });
 Breadcrumbs::for('addMachine', function ($trail) {
     $trail->parent('machine');
@@ -77,6 +77,18 @@ Breadcrumbs::for('editMachine', function ($trail) {
     $trail->push('Modifier une  machine');
 });
 
+Breadcrumbs::for('endRental', function ($trail) {
+    $trail->parent('machine');
+    $trail->push('Arrêter location machine');
+});
+
+
+Breadcrumbs::for('historyMachine', function ($trail,$machine) {
+    $trail->parent('machine');
+    $trail->push($machine->code);
+    $trail->push('Historique des locations');
+   
+});
 Breadcrumbs::for('editMachineState', function ($trail) {
     $trail->parent('machine');
     $trail->push('Mise à jour état machine');

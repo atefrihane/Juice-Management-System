@@ -1,11 +1,11 @@
-@extends('General.layout') @section('pageTitle', 'Ajouter une machine') @section('content')
+@extends('General.layout') @section('pageTitle', 'Arrêter location machine') @section('content')
 
 
     <div class="content-wrapper">
 
         <section class="content-header">
 
-            {{ Breadcrumbs::render('addMachine') }}
+            {{ Breadcrumbs::render('endRental') }}
         </section>
 
         <section class="content">
@@ -15,7 +15,7 @@
                     <div class="box box-primary" >
 
                         <div class="box-header">
-                            <h3 class="box-title">Détail location machine </h3>
+                            <h3 class="box-title">Arrêter location machine </h3>
 
                         </div>
 

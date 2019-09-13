@@ -2,10 +2,10 @@
 
 namespace App\Modules\MachineRental\Controllers\api;
 
-use App\Modules\Machine\Models\Machine;
-use App\Modules\MachineRental\Models\MachineRental;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Modules\MachineRental\Models\MachineRental;
+use App\Modules\Machine\Models\Machine;
+use Illuminate\Http\Request;
 
 class MachineRentalController extends Controller
 {
@@ -29,8 +29,6 @@ class MachineRentalController extends Controller
     {
         //
 
-
-
     }
 
     /**
@@ -43,13 +41,16 @@ class MachineRentalController extends Controller
     {
         //
         $rental = $request->all();
+
         unset($rental['company_id']);
-        $machineRental = MachineRental::create($rental);
-        Machine::where('id', $rental['machine_id'])->update(['rented'=> true,'machine_rental_id' => $machineRental->id]);
-        return $machineRental ;
-
+        $checkRental = MachineRental::where('machine_id', $rental['machine_id'])->where('active', 1)->first();
+        if (!$checkRental) {
+            $machineRental = MachineRental::create($rental);
+            Machine::where('id', $rental['machine_id'])->update(['rented' => true, 'machine_rental_id' => $machineRental->id]);
+            return $machineRental;
+        }
+        return response()->json(['status ' => '400']);
     }
-
 
     /**
      * Display the specified resource.

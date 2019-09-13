@@ -15,11 +15,11 @@ class MachineController extends Controller
 
     public function showMachineStates($id)
     {
+        $checkMachine = Machine::with('histories.user')->where('id', $id)->first();
 
-        $checkMachine = Machine::find($id);
         if ($checkMachine) {
 
-            return response()->json(['status' => 200, 'machineHistory' => $checkMachine->histories]);
+            return response()->json(['status' => 200, 'machineHistory' => $checkMachine]);
 
         }
         return response()->json(['status' => 404]);
