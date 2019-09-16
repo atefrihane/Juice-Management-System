@@ -2,49 +2,20 @@
 
 namespace App\Modules\Bac\Controllers\api;
 
-use App\Modules\Bac\Models\Bac;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Modules\BacHistory\Models\BacHistory;
+use App\Modules\Bac\Models\Bac;
+use App\Modules\Product\Models\Product;
+use Illuminate\Http\Request;
 
 class BacController extends Controller
 {
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function storeAll(Request $request)
     {
-        return view("Bac::index");
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-
-    }
-
-    public function storeAll(Request $request){
         $bacs = $request->all();
         $rbacs = [];
-        foreach($bacs as $bac){
+        foreach ($bacs as $bac) {
             unset($bac['product']);
             $rbacs[] = Bac::create($bac);
 
@@ -52,48 +23,73 @@ class BacController extends Controller
         return $rbacs;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function handleCleanBac($id, Request $request)
     {
-        //
+        if (!$request->input('status') || !$request->input('userId')) {
+            return response()->json(['status' => 400]);
+        }
+        $checkBac = Bac::find($id);
+        if (!$checkBac) {
+            return response()->json(['status' => 404]);
+
+        }
+
+        if ($checkBac) {
+
+            $checkBac->update([
+                'status' => $request->input('status'),
+
+            ]);
+            BacHistory::create([
+                'action' => 'vidange',
+                'bac_id' => $id,
+                'user_id' => $request->input('userId'),
+            ]);
+
+        }
+        return response()->json(['status' => 200]);
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function handleRefillBac($id, Request $request)
     {
-        //
+        if (!$request->input('refillDate') || !$request->input('status') || !$request->input('userId')) {
+            return response()->json(['status' => 400]);
+        }
+
+        $validatedData = $request->validate([
+            'refillDate' => 'date_format:Y-m-d H:i:s',
+        ]);
+
+        if ($request->input('productId')) {
+            $checkProduct = Product::find($request->input('productId'));
+            if (!$checkProduct) {
+                return response()->json(['status' => 404]);
+
+            }
+        }
+
+        $checkBac = Bac::find($id);
+        if (!$checkBac) {
+            return response()->json(['status' => 404]);
+
+        }
+        if ($checkBac) {
+
+            $checkBac->update([
+                'last_refill_time' => $request->input('refillDate'),
+                'status' => $request->input('status'),
+                'product_id' => $request->input('productId') ? $request->input('productId') : $checkBac->product_id,
+            ]);
+            BacHistory::create([
+                'action' => 'Recharge',
+                'bac_id' => $id,
+                'user_id' => $request->input('userId'),
+            ]);
+
+        }
+        return response()->json(['status' => 200]);
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
