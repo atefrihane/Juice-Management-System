@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Modules\BacHistory\Models\BacHistory;
 use App\Modules\Bac\Models\Bac;
 use App\Modules\Product\Models\Product;
+use App\Modules\User\Models\User;
 use Illuminate\Http\Request;
 
 class BacController extends Controller
@@ -30,7 +31,13 @@ class BacController extends Controller
         }
         $checkBac = Bac::find($id);
         if (!$checkBac) {
-            return response()->json(['status' => 404]);
+            return response()->json(['status' => 404, 'Bac not found']);
+
+        }
+
+        $checkUser = User::find($request->input('userId'));
+        if (!$checkUser) {
+            return response()->json(['status' => 404, 'user' => 'User not found']);
 
         }
 
@@ -61,17 +68,23 @@ class BacController extends Controller
             'refillDate' => 'date_format:Y-m-d H:i:s',
         ]);
 
+        $checkUser = User::find($request->input('userId'));
+        if (!$checkUser) {
+            return response()->json(['status' => 404, 'user' => 'User not found']);
+
+        }
+
         if ($request->input('productId')) {
             $checkProduct = Product::find($request->input('productId'));
             if (!$checkProduct) {
-                return response()->json(['status' => 404]);
+                return response()->json(['status' => 404,'product' => 'Product not found']);
 
             }
         }
 
         $checkBac = Bac::find($id);
         if (!$checkBac) {
-            return response()->json(['status' => 404]);
+            return response()->json(['status' => 404,'Bac' => 'Bac not found']);
 
         }
         if ($checkBac) {
