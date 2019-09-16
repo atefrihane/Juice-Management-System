@@ -68,13 +68,49 @@
                             
                                 <li><a href="{{route('machineStatusEdit', $machine->id)}}">Mettre à jour état</a></li>
                                 <li><a href="{{route('editMachine', $machine->id)}}">Modifier</a></li>
-                                <li><a href="{{route('deleteMachine', $machine->id)}}">Supprimer</a></li>
+                                <li><a href="" data-toggle="modal"  data-target="#modal-default{{$machine->id}}">Supprimer</a></li>
 
                             </ul>
                         </div>
 
                     </td>
                 </tr>
+
+                <div class="modal fade" id="modal-default{{$machine->id}}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">×</span></button>
+                                                <h4 class="modal-title">Vous voulez vraiment supprimer cette machine ?
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p> Ce processus ne peut pas être annulé.</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="text-center">
+                                                    <form action="{{route('deleteMachine', $machine->id)}}"
+                                                        method="post">
+                                                        {{csrf_field()}}
+                                                        <button type="submit" class="btn btn-success">Supprimer</button>
+                                                        <a href="#" class="btn btn-danger"
+                                                            data-dismiss="modal">Annuler</a>
+
+
+                                                    </form>
+
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+
+                                    <!-- /.modal-dialog -->
+                                </div>
                     @empty
                     <tr>Aucune machine ! </tr>
                 @endforelse

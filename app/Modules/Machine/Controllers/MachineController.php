@@ -122,6 +122,7 @@ class MachineController extends Controller
     {
         $machine = Machine::find($id);
         $machine->delete();
+        alert()->success('Succés!', 'La machine a été supprimé avec succés ');
         return redirect(route('showMachines'));
     }
     public function startRentalMachine($id)

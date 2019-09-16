@@ -10,6 +10,6 @@ Route::group(['module' => 'Machine', 'middleware' => ['web','isAuth'], 'namespac
     Route::post('machine/store', 'MachineController@store')->name('storeMachine');
     Route::post('machine/update/{id}', 'MachineController@update')->name('updateMachine');
     Route::post('machine/state/update/{id}', 'MachineController@handleUpdateState')->name('handleUpdateState');
-    route::get('machine/delete/{id}', 'MachineController@delete')->name('deleteMachine');
+    route::post('machine/delete/{id}', 'MachineController@delete')->name('deleteMachine');
     route::get('machine/rental/{id}', 'MachineController@startRentalMachine')->name('startRental');
 });
