@@ -31,4 +31,10 @@ class Product extends Model
         return $this->belongsToMany('App\Modules\Warehouse\Models\Warehouse', 'product_warehouse');
 
     }
+
+    public function bacs()
+    {
+        return $this->hasMany('\App\Modules\Bac\Models\Bac');
+
+    }
 }
