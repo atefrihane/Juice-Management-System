@@ -22,7 +22,9 @@ class MachineController extends Controller
     public function showAddMachine()
     {
 
-        return view('Machine::addMachine');
+        $nextMachine = Machine::all()->last()->id + 1;
+
+        return view('Machine::addMachine', compact('nextMachine'));
 
     }
 
@@ -70,6 +72,7 @@ class MachineController extends Controller
             'comment' => $request->comment,
             'machine_id' => $machine->id,
             'user_id' => Auth::id(),
+
         ]);
 
         alert()->success('Succés!', 'une nouvelle machine a été crée avec succés !');
@@ -144,11 +147,14 @@ class MachineController extends Controller
                 'status' => $request->status,
                 'comment' => $request->comment,
             ]);
+            $rental = $checkMachine->machineRentals->where('active', 1)->first();
+
             MachineHistory::create([
                 'event' => $request->status,
                 'comment' => $request->comment,
                 'machine_id' => $checkMachine->id,
                 'user_id' => Auth::id(),
+                'rental_id' => $rental ? $rental->id : null,
             ]);
 
             alert()->success('Succés!', 'Le nouveau etat  de la machine est bien à jour !');
@@ -170,5 +176,4 @@ class MachineController extends Controller
         return view('General::notFound');
     }
 
-    
 }
