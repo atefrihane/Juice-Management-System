@@ -27,6 +27,7 @@ class MachineController extends Controller
            
             $history = MachineHistory::where('machine_id', $id)
                 ->where('rental_id', $machineRental->id)
+                ->with('user')
                 ->get();
 
             return response()->json(['status' => 200, 'machineHistory' => $history]);

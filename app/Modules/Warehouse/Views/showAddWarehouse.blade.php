@@ -171,7 +171,7 @@
                                     <input type="number" name="surface" class="form-control" placeholder="Surface"
                                         required>
                                 </div>
-                            </div>z
+                            </div>
                         </div>
 
                         <div class="box-body">
