@@ -58,4 +58,11 @@ class ProductController extends Controller
 
     }
 
+    public function handleGetAllProduct()
+    {
+        $products = Product::all();
+        return response()->json(['status' => '200', 'products' => $products]);
+
+    }
+
 }
