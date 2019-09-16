@@ -6,5 +6,6 @@ Route::group(['module' => 'Product', 'middleware' => ['api'], 'namespace' => 'Ap
     route::post('api/products', 'ProductController@store');
     route::get('api/products', 'ProductController@index');
     route::get('api/product/{id}', 'ProductController@handleGetProductById');
-
+    route::get('api/product/name/{name}', 'ProductController@handleGetProductByName');
+    route::get('api/product/barcode/{barcode}', 'ProductController@handleGetProductByBarcode');
 });
