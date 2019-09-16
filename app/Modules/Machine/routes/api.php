@@ -5,4 +5,5 @@ Route::group(['module' => 'Machine', 'middleware' => ['api'], 'namespace' => 'Ap
 //    Route::resource('Machine', 'MachineController');
     Route::get('api/machines/{id}', 'MachineController@show');
     Route::get('api/machine/states/{id}', 'MachineController@showMachineStates');
+    Route::post('api/machine/statut/{id}', 'MachineController@handleMachineStatut');
 });
