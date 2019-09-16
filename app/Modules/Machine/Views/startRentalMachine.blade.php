@@ -211,14 +211,14 @@
 <script>
     localStorage.setItem('machine_id', {
         {
-            $machine - > id
+            $machine->id
         }
     });
 
 </script>
-<script src="{{mix('js/machine.js')}}">
+<script src="{{mix('js/machine.js')}}"></script>
 
-</script>
+
 @endsection
 @section('dynamicProduct.script')
 <script>

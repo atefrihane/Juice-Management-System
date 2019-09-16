@@ -7,6 +7,6 @@ Route::group(['module' => 'Company', 'middleware' => ['web'], 'namespace' => 'Ap
     Route::post('/company/update/{id}','CompanyController@update')->name('updateCompany');
     Route::get('/company/{id}','CompanyController@showCompany')->name('showCompany');
     Route::get('/company/edit/{id}','CompanyController@edit')->name('editCompany');
-    Route::get('/company/delete/{id}','CompanyController@destroy')->name('deleteCompany');
+    Route::post('/company/delete/{id}','CompanyController@destroy')->name('deleteCompany');
 
 });

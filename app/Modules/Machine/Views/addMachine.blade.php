@@ -36,7 +36,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">ID</label>
-                                        <input class="form-control" id="disabledInput" type="text" placeholder="aa" disabled>
+                                        <input class="form-control" id="disabledInput" type="text" placeholder="{{$nextMachine}}" disabled>
 
                                     </div>
                                 </div>
