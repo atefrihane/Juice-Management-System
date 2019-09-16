@@ -54,7 +54,12 @@
     <!-- Google Font -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
+        <style>
+ .btn-width {
+   width:200px;
+   margin-bottom:10px;
+ }
+ </style>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
