@@ -22,7 +22,7 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Liste des produits</h3>
-                        <a href="{{route('showAddProduct')}}" class="btn btn-primary pull-right" disabled>Ajouter un
+                        <a href="#" class="btn btn-primary pull-right" disabled>Ajouter un
                             produit</a>
 
 
@@ -94,9 +94,10 @@
                                                     <form action="{{route('deleteMachine', $product->id)}}"
                                                         method="post">
                                                         {{csrf_field()}}
-                                                        <button type="submit" class="btn btn-success">Confirmer</button>
                                                         <a href="#" class="btn btn-danger"
                                                             data-dismiss="modal">Annuler</a>
+                                                        <button type="submit" class="btn btn-success">Confirmer</button>
+                                                       
                                                  </form>
 
                                                 </div>
@@ -118,7 +119,7 @@
                                                     aria-label="Close">
                                                     <span aria-hidden="true">×</span></button>
                                                 @if($product-> status == 'disponible')
-                                                <h4 class="modal-title">Vous voulez rendre ce produit indisponible ?
+                                                <h4 class="modal-title">Vous voulez rendre ce produit non disponible ?
                                                 </h4>
                                                 @else
                                                 <h4 class="modal-title">Vous voulez rendre ce produit disponible ?</h4>

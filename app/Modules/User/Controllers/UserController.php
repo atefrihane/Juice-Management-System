@@ -166,6 +166,7 @@ class UserController extends Controller
             case Diractor::class : $director = Diractor::find($user->child_id);  $director->delete();break;
         }
         $user->delete();
+        alert()->success('Succés',' Le contact a été supprimé avec succés !');
         return redirect(route('showContacts', $cid));
     }
 

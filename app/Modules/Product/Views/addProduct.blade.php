@@ -42,7 +42,7 @@
                                         <label for="exampleInputEmail1">Etat</label>
                                         <select class="form-control" v-model="product.status">
                                             <option>disponible</option>
-                                            <option>non disponible</option>
+                                            <option>inddisponible</option>
                                         </select>
                                     </div>
                                 </div>
