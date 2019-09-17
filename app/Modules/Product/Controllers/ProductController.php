@@ -20,7 +20,7 @@ class ProductController extends Controller
 
     public function showAddProduct()
     {
-        
+
         return view('Product::addProduct');
     }
 
@@ -72,6 +72,21 @@ class ProductController extends Controller
         $product->delete();
         alert()->success('Succés!', 'Produit supprimé');
         return redirect('/products');
+    }
+
+    public function handleUpdateStatus($id, Request $request)
+    {
+
+        $product = Product::find($id);
+        if ($product) {
+            $product->update([
+                'status' => $request->status == 'disponible' ? 'indisponible' : 'disponible',
+            ]);
+            alert()->success('Succés!', 'Etat produit modifié');
+            return redirect()->back();
+        }
+        return view('General::notFound');
+
     }
 
 }
