@@ -153,7 +153,7 @@
                                     <div class="row">
                                         <div class="container text-center">
 
-                                            <a href="" class="btn btn-danger pl-1" style="margin: 1em">Annuler</a>
+                                            <a href="{{route('showHome')}}" class="btn btn-danger pl-1" style="margin: 1em">Annuler</a>
                                             <button type="submit" class="btn btn-success pl-1" style="margin: 1em">Modifier</button>
 
                                         </div>

@@ -44,7 +44,7 @@
                                     <td>{{$warehouseProduct->warehouse->designation}}</td>
                                     <td>{{$warehouseProduct->creation_date}}</td>
                                     <td>{{$warehouseProduct->expiration_date}}</td>
-                                    <td class="not-this">
+                                    <td class="not-this text-center">
                                         <div class="btn-group">
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>

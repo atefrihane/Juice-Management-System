@@ -112,17 +112,18 @@ class CompanyController extends Controller
         }
 
         Company::query()->where('id', $id)->update($updateable);
-        return redirect('/');
+        alert()->success('Succés!', 'La societé a été modifié avec succés ');
+        return redirect()->route('showHome');
+
     }
 
     public function destroy($id)
     {
         $company = Company::find($id);
-        if($company)
-        {
-        $company->delete();
-        alert()->success('Succés!', 'La societé a été supprimé avec succés ');
-        return redirect()->back();
+        if ($company) {
+            $company->delete();
+            alert()->success('Succés!', 'La societé a été supprimé avec succés ');
+            return redirect()->back();
         }
         alert()->error('Succés!', 'Societé introuvable !');
         return redirect()->back();

@@ -1,209 +1,225 @@
-
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="csrf-token" content="aaa">
- 
-
-  <title>@yield('pageTitle')</title>
-
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.7 -->
-
-  <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">
-
-  <!-- Font Awesome -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="csrf-token" content="aaa">
 
 
-  <link href="{{ asset('/css/font-awesome.min.css') }}" rel="stylesheet">
-  <!-- Ionicons -->
+    <title>@yield('pageTitle')</title>
 
-  <link href="{{ asset('/css/ionicons.min.css') }}" rel="stylesheet">
-  <!-- Theme style -->
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
 
-  <link href="{{ asset('/css/AdminLTE.min.css') }}" rel="stylesheet">
-  <!-- AdminLTE Skins. Choose a skin from the css/skins
+    <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+  
+    <!-- Font Awesome -->
+
+
+    <link href="{{ asset('/css/font-awesome.min.css') }}" rel="stylesheet">
+    <!-- Ionicons -->
+
+    <link href="{{ asset('/css/ionicons.min.css') }}" rel="stylesheet">
+    <!-- Theme style -->
+
+    <link href="{{ asset('/css/AdminLTE.min.css') }}" rel="stylesheet">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
 
-  <link href="{{ asset('/css/_all-skins.min.css') }}" rel="stylesheet">
-  <!-- Morris chart -->
+    <link href="{{ asset('/css/_all-skins.min.css') }}" rel="stylesheet">
+    <!-- Morris chart -->
 
-  <link href="{{ asset('/css/morris.css') }}" rel="stylesheet">
-  <!-- jvectormap -->
+    <link href="{{ asset('/css/morris.css') }}" rel="stylesheet">
+    <!-- jvectormap -->
 
-  <link href="{{ asset('/css/jquery-jvectormap.css') }}" rel="stylesheet">
-  <!-- Date Picker -->
-
-
-
-  <link href="{{ asset('/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
-  <!-- Daterange picker -->
-
-  <link href="{{ asset('/css/daterangepicker.css') }}" rel="stylesheet">
-  <!-- bootstrap wysihtml5 - text editor -->
+    <link href="{{ asset('/css/jquery-jvectormap.css') }}" rel="stylesheet">
+    <!-- Date Picker -->
 
 
-  <link href="{{ asset('/css/bootstrap3-wysihtml5.min.css') }}" rel="stylesheet">
-  <link href="{{ asset('/css/blue.css') }}" rel="stylesheet">
 
-  <link href="{{ asset('/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
-  <!-- <link href="{{ asset('/css/dataTables.custom.css') }}" rel="stylesheet"> -->
+    <link href="{{ asset('/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+    <!-- Daterange picker -->
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.css">
+    <link href="{{ asset('/css/daterangepicker.css') }}" rel="stylesheet">
+    <!-- bootstrap wysihtml5 - text editor -->
 
-  <!-- Google Font -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  <link href="{{ asset('/css/custom.css') }}" rel="stylesheet">
- <style>
- .btn-width {
-   width:200px;
-   margin-bottom:10px;
- }
- </style>
+
+    <link href="{{ asset('/css/bootstrap3-wysihtml5.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/blue.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+    <!-- <link href="{{ asset('/css/dataTables.custom.css') }}" rel="stylesheet"> -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.css">
+
+    <!-- Google Font -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link href="{{ asset('/css/custom.css') }}" rel="stylesheet">
+    <style>
+        .btn-width {
+            width: 200px;
+            margin-bottom: 10px;
+        }
+
+    </style>
 </head>
 
 
 <body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
+    <div class="wrapper">
 
-  <header class="main-header">
-    <!-- Logo -->
-    <a href="{{route('showHome')}}" class="logo">
-      <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>W</b>F</span>
-      <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Wize </b>Admin</span>
-    </a>
-    <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top">
-      <!-- Sidebar toggle button-->
-
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          <!-- Messages: style can be found in dropdown.less-->
-
-          <!-- Notifications: style can be found in dropdown.less -->
-          <li class="dropdown notifications-menu">
-
-            <ul class="dropdown-menu">
-              <li class="header">You have 10 notifications</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
-                      page and may cause design problems
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-users text-red"></i> 5 new members joined
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-user text-red"></i> You changed your username
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="footer"><a href="#">View all</a></li>
-            </ul>
-          </li>
-
-          <!-- User Account: style can be found in dropdown.less -->
-          <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-
-              <span class="hidden-xs">    {{ucfirst(Auth::user()->nom)}} {{ucfirst(Auth::user()->prenom)}}</span>
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="{{route('showHome')}}" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>W</b>F</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>Wize </b>Admin</span>
             </a>
-            <ul class="dropdown-menu">
-              <!-- User image -->
-              <li class="user-header">
-                
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
 
-                <p>
-                  {{ucfirst(Auth::user()->nom)}} {{ucfirst(Auth::user()->prenom)}} - {{ucfirst(Auth::user()->child->role->role_name)}}
-                  <small>{{Auth::user()->email}}</small>
-                </p>
-              </li>
-              <!-- Menu Body -->
-              
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="text-center">
-                  <a href="#" class="btn btn-default btn-flat btn-width">Informations du compte</a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- Messages: style can be found in dropdown.less-->
+
+                        <!-- Notifications: style can be found in dropdown.less -->
+                        <li class="dropdown notifications-menu">
+
+                            <ul class="dropdown-menu">
+                                <li class="header">You have 10 notifications</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu">
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-warning text-yellow"></i> Very long description here
+                                                that may not fit into the
+                                                page and may cause design problems
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-users text-red"></i> 5 new members joined
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-shopping-cart text-green"></i> 25 sales made
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-user text-red"></i> You changed your username
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="footer"><a href="#">View all</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+                                <span class="hidden-xs"> {{ucfirst(Auth::user()->nom)}}
+                                    {{ucfirst(Auth::user()->prenom)}}</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+
+
+                                    <p>
+                                        {{ucfirst(Auth::user()->nom)}} {{ucfirst(Auth::user()->prenom)}} -
+                                        {{ucfirst(Auth::user()->child->role->role_name)}}
+                                        <small>{{Auth::user()->email}}</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="text-center">
+                                        <a href="#" class="btn btn-default btn-flat btn-width">Informations du
+                                            compte</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a href="#" class="btn btn-default btn-flat btn-width">Gestion des comptes</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a href="{{route('handleSignOut')}}"
+                                            class="btn btn-default btn-flat btn-width">Déconnexion</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
                 </div>
-                <div class="text-center">
-                  <a href="#" class="btn btn-default btn-flat btn-width">Gestion des comptes</a>
-                </div>
-                <div class="text-center">
-                  <a href="{{route('handleSignOut')}}" class="btn btn-default btn-flat btn-width">Déconnexion</a>
-                </div>
-              </li>
-            </ul>
-          </li>
+            </nav>
 
-        </ul>
-      </div>
-    </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- Sidebar user panel -->
 
-  </header>
-  <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-      <!-- Sidebar user panel -->
+                <!-- search form -->
 
-      <!-- search form -->
-
-      <!-- /.search form -->
-      <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu" data-widget="tree">
+                <!-- /.search form -->
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu" data-widget="tree">
 
 
 
-        <li class="{{ Route::is('showHome') ? 'active' : '' }}"><a href="{{route('showHome')}}"><i class="fa fa-building "></i> <span>Societés</span></a></li>
-        <li class="{{ Route::is('showOrders') ? 'active' : '' }}"><a href="{{route('showOrders')}}"><i class="fa fa-shopping-bag"></i> <span>Commandes</span></a></li>
-        <li class="{{ Route::is('showMachines') ? 'active' : '' }}"><a href="{{route('showMachines')}}"><i class="fa fa-plug"></i> <span>Machines</span></a></li>
-        <li class="{{ Route::is('showProducts') ? 'active' : '' }}"><a href="{{route('showProducts')}}"><i class="fa fa-cubes"></i> <span>Produits</span></a></li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-tasks"></i>
-            <span>Entrepot</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-          
-          <li class="{{ Route::is('showWarehouseProducts') ? 'active' : '' }}"><a href="{{route('showWarehouseProducts')}}"><i class="fa fa-cubes"></i> <span>Produits en stock</span></a></li>
-          <li class="{{ Route::is('showWarehouses') ? 'active' : '' }}"><a href="{{route('showWarehouses')}}"><i class="fa fa-building "></i> <span>Nos Entrepôts</span></a></li>
-          </ul>
-        </li>
-      </ul>
-    </section>
-    <!-- /.sidebar -->
-  </aside>
+                    <li class="{{ Route::is('showHome') ? 'active' : '' }}"><a href="{{route('showHome')}}"><i
+                                class="fa fa-building "></i> <span>Societés</span></a></li>
+                    <li class="{{ Route::is('showOrders') ? 'active' : '' }}"><a href="{{route('showOrders')}}"><i
+                                class="fa fa-shopping-bag"></i> <span>Commandes</span></a></li>
+                    <li class="{{ Route::is('showMachines') ? 'active' : '' }}"><a href="{{route('showMachines')}}"><i
+                                class="fa fa-plug"></i> <span>Machines</span></a></li>
+                    <li class="{{ Route::is('showProducts') ? 'active' : '' }}"><a href="{{route('showProducts')}}"><i
+                                class="fa fa-cubes"></i> <span>Produits</span></a></li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-tasks"></i>
+                            <span>Entrepot</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
 
-  <!-- Content Wrapper. Contains page content -->
-    <script src="{{ mix('js/app.js') }}"></script>
-    <script src="{{asset('/js/app.js')}}"></script>
-    <script>
+                            <li class="{{ Route::is('showWarehouseProducts') ? 'active' : '' }}"><a
+                                    href="{{route('showWarehouseProducts')}}"><i class="fa fa-cubes"></i> <span>Produits
+                                        en stock</span></a></li>
+                            <li class="{{ Route::is('showWarehouses') ? 'active' : '' }}"><a
+                                    href="{{route('showWarehouses')}}"><i class="fa fa-building "></i> <span>Nos
+                                        Entrepôts</span></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <script src="{{ mix('js/app.js') }}"></script>
+        <script src="{{asset('/js/app.js')}}"></script>
+        <script>
 
 
-    </script>
+        </script>

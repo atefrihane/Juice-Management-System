@@ -47,7 +47,7 @@
 
                                     <td>{{$machine->store->designation}}</td>
                                     <td>{{$machine->machine->status}}</td>
-                                    <td class="not-this">
+                                    <td class="not-this text-center">
                                         <div class="btn-group">
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>

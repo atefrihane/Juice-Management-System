@@ -79,6 +79,7 @@
                                         <option value="LECLERC">LECLERC</option>
                                         <option value="Restaurant">Restaurant</option>
                                         <option value="Stand">Stand</option>
+                                        <option value="casino">Casino</option>
                                     </select>
 
 

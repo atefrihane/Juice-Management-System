@@ -45,7 +45,7 @@
                       <td>{{$product->public_price}}</td>
                       <td> {{$product->status}}</td>
 
-                      <td class="not-this">
+                      <td class="not-this text-center">
                           <div class="btn-group">
                               <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                               <ul class="dropdown-menu edit" role="menu">

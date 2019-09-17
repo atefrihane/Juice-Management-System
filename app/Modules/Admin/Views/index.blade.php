@@ -43,7 +43,7 @@
                                         <td >{{$admin->user->prenom}}</td>
                                         <td >{{$admin->user->email}}</td>
                                         <td >{{$admin->role->role_name}}</td>
-                                        <td class="not-this">
+                                        <td class="not-this text-center">
 
                                             <div class="btn-group">
                                                 <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
