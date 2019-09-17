@@ -115,6 +115,12 @@ Breadcrumbs::for('addProduct', function ($trail) {
     $trail->push('Ajouter un produit', route('showAddProduct'));
 });
 
+Breadcrumbs::for('editProduct', function ($trail,$product) {
+    $trail->parent('product');
+    $trail->push('Modifier un produit', route('showAddProduct'));
+    $trail->push($product->nom);
+});
+
 Breadcrumbs::for('rentedMachine', function ($trail, $company) {
     $trail->parent('detail', $company);
     $trail->push('Liste des machines en location ', route('showRentedMachines', $company));

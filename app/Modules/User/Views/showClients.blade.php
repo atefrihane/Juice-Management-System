@@ -55,12 +55,50 @@
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
                                                 <li><a href="{{route('editClient', [$company->id, $contact->user->id])}}">Modifier</a></li>
-                                                <li><a href="{{route('deleteContact',  [$company->id, $contact->user->id])}}">Supprimer</a></li>
+                                                <li><a data-toggle="modal"
+                                                        data-target="#modal-default{{$contact->user->id}}" href="{{route('deleteContact',  [$company->id, $contact->user->id])}}">Supprimer</a></li>
 
                                             </ul>
                                         </div>
                                     </td>
                                 </tr>
+                                <div class="modal fade" id="modal-default{{$contact->user->id}}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">×</span></button>
+                                                    <h4 class="modal-title">Vous voulez vraiment supprimer ce
+                                                        produit ?</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p> Ce processus ne peut pas être annulé.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <div class="text-center">
+                                                        <form
+                                                            action="{{route('deleteContact',  [$company->id, $contact->user->id])}}"
+                                                            method="post">
+                                                            {{csrf_field()}}
+                                                            <a href="#" class="btn btn-danger"
+                                                                data-dismiss="modal">Annuler</a>
+
+                                                            <button type="submit"
+                                                                class="btn btn-success">Confirmer</button>
+                                                        
+
+                                                        </form>
+
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
+                                    </div>
                                     @break
                                     @case('superviseur')
                                         <tr>
@@ -83,12 +121,50 @@
                                                     <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                                                     <ul class="dropdown-menu edit" role="menu">
                                                         <li><a href="{{route('editClient', [$company->id, $contact->user->id])}}">Modifier</a></li>
-                                                        <li><a href="{{route('deleteContact',  [$company->id, $contact->user->id])}}">Supprimer</a></li>
+                                                        <li><a data-toggle="modal"
+                                                        data-target="#modal-default{{$contact->user->id}}">Supprimer</a></li>
 
                                                     </ul>
                                                 </div>
                                             </td>
                                         </tr>
+                                        <div class="modal fade" id="modal-default{{$contact->user->id}}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">×</span></button>
+                                                    <h4 class="modal-title">Vous voulez vraiment supprimer ce
+                                                        produit ?</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p> Ce processus ne peut pas être annulé.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <div class="text-center">
+                                                        <form
+                                                            action="{{route('deleteContact',  [$company->id, $contact->user->id])}}"
+                                                            method="post">
+                                                            {{csrf_field()}}
+                                                            <a href="#" class="btn btn-danger"
+                                                                data-dismiss="modal">Annuler</a>
+
+                                                            <button type="submit"
+                                                                class="btn btn-success">Confirmer</button>
+                                                        
+
+                                                        </form>
+
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
+                                    </div>
                                 @break
                                 @case('responsable')
                                         <tr>
@@ -104,12 +180,51 @@
                                                     <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                                                     <ul class="dropdown-menu edit" role="menu">
                                                         <li><a href="{{route('editClient', [$company->id, $contact->user->id])}}">Modifier</a></li>
-                                                        <li><a href="{{route('deleteContact',  [$company->id, $contact->user->id])}}">Supprimer</a></li>
+                                                        <li><a data-toggle="modal"
+                                                        data-target="#modal-default{{$contact->user->id}}">Supprimer</a></li>
 
                                                     </ul>
                                                 </div>
                                             </td>
                                         </tr>
+                                        <div class="modal fade" id="modal-default{{$contact->user->id}}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">×</span></button>
+                                                    <h4 class="modal-title">Vous voulez vraiment supprimer ce
+                                                        produit ?</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p> Ce processus ne peut pas être annulé.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <div class="text-center">
+                                                        <form
+                                                            action="{{route('deleteContact',  [$company->id, $contact->user->id])}}"
+                                                            method="post">
+                                                            {{csrf_field()}}
+                                                            <a href="#" class="btn btn-danger"
+                                                                data-dismiss="modal">Annuler</a>
+
+                                                            <button type="submit"
+                                                                class="btn btn-success">Confirmer</button>
+                                                        
+
+                                                        </form>
+
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
+                                    </div>
+                                        
                                  @break
                                  @endswitch
                                     @endif

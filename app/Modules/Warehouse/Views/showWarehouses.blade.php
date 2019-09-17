@@ -78,10 +78,11 @@
                                                                     action="{{ route('handleDeleteWarehouse',$warehouse->id) }}"
                                                                     method="post">
                                                                     {{csrf_field()}}
-                                                                    <button type="submit"
-                                                                        class="btn btn-success">Supprimer</button>
                                                                     <a href="#" class="btn btn-danger"
                                                                         data-dismiss="modal">Annuler</a>
+                                                                    <button type="submit"
+                                                                        class="btn btn-success">Confirmer</button>
+                                                                  
 
 
                                                                 </form>

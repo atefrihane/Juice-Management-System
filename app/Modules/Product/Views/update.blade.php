@@ -5,7 +5,7 @@
 
         <section class="content-header">
 
-            {{ Breadcrumbs::render('addProduct') }}
+            {{ Breadcrumbs::render('editProduct',$product) }}
         </section>
 
         <section class="content" id="prod">
@@ -19,6 +19,15 @@
                         </div>
                         <form role="form" method="post" enctype="multipart/form-data" action="{{route('updateProduct', $product->id)}}">
                             {{csrf_field()}}
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             <div class="box-body">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -37,12 +46,12 @@
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Etat</label>
                                             <select class="form-control" name="status">
-                                                <option
+                                                <option>
                                                 {{$product->status == 'disponible' ? 'selected': ''}}
                                                 value="disonible" >disponible</option>
-                                                <option
+                                                <option>
                                                 {{$product->status != 'disponible' ? 'selected': ''}}
-                                               value="non disonible"   >non disponible</option>
+                                               value="non disponible">non disponible</option>
                                             </select>
                                         </div>
                                     </div>
@@ -136,7 +145,7 @@
 
                                 <div class="form-group">
                                     <label for="exampleInputFile">Photo du produit (optionnel)</label>
-                                    <input type="file" name="photo" id="exampleInputFile">
+                                    <input type="file" name="photo_url" id="exampleInputFile">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Nombre d'unitée par display</label>

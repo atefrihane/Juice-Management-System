@@ -12,9 +12,11 @@ class ContactController extends Controller
     public function showContacts($id)
     {
         $company = Company::find($id);
+       
         $contacts[] =$company->director;
+ 
         $stores = $company->stores;
-
+ 
         foreach($stores as $store){
             if($store->super_visor_id != null){
                 $supervisor = SuperVisor::find($store->super_visor_id);
@@ -27,6 +29,7 @@ class ContactController extends Controller
             }
         }
         $contacts = array_unique($contacts);
+      
         if ($company) {
             return view('User::showClients', compact('company', 'contacts'));
         }

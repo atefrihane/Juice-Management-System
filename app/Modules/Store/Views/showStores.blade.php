@@ -88,7 +88,7 @@
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">×</span></button>
-                                                <h4 class="modal-title">Vous voulez vraiment supprimer cette Magasin ?
+                                                <h4 class="modal-title">Vous voulez vraiment supprimer ce Magasin ?
                                                 </h4>
                                             </div>
                                             <div class="modal-body">
@@ -98,9 +98,10 @@
                                                 <div class="text-center">
                                                     <form action="{{ route('deleteStore',$store->id) }}" method="post">
                                                         {{csrf_field()}}
-                                                        <button type="submit" class="btn btn-success">Supprimer</button>
                                                         <a href="#" class="btn btn-danger"
                                                             data-dismiss="modal">Annuler</a>
+                                                        <button type="submit" class="btn btn-success">Confirmer</button>
+                                                  
                                                     </form>
 
                                                 </div>

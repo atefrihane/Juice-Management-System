@@ -54,14 +54,49 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        $updateable = $request->all();
-        if ($request->file('photo') != null) {
-            $path = $request->file('logo')->store('img', 'public');
-            $updateable['photo_url'] = 'files/' . $path;
+
+        $file = $request->photo_url;
+        $path = null;
+
+        $validate = $request->validate([
+            'photo_url' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
+            ], [
+            'photo_url.image' => 'Le format de la photo importé est non supporté ',
+            'photo_url.mimes' => 'Le format de la photo importé est non supporté ',
+            'photo_url.max' => 'La photo importé est volumineuse ! ',
+
+        ]);
+ 
+
+        if ($file) {
+            $path = $file->getClientOriginalName();
+
+            $file->move('img', $file->getClientOriginalName());
+
         }
-        unset($updateable['photo'], $updateable['_token']);
-        Product::where('id', $id)->update($updateable);
-        alert()->success('Succés!', 'Produit modifier');
+
+        Product::where('id', $id)->update([
+            'status' => $request->status,
+            'nom' => $request->nom,
+            'type' => $request->type,
+            'version' => $request->version,
+            'barcode' => $request->barcode,
+            'composition' => $request->composition,
+            'color' => $request->color,
+            'width' => $request->width,
+            'height' => $request->height,
+            'depth' => $request->depth,
+            'public_price' => $request->public_price,
+            'period_of_validity' => $request->period_of_validity,
+            'validity_after_opening' => $request->validity_after_opening,
+            'comment' => $request->comment,
+            'unit_by_display' => $request->unit_by_display,
+            'unit_per_package' => $request->unit_per_package,
+            'packing' => $request->packing,
+            'photo_url' => $path,
+
+        ]);
+        alert()->success('Succés!', 'Produit modifié');
         return redirect('/products');
 
     }
@@ -80,7 +115,7 @@ class ProductController extends Controller
         $product = Product::find($id);
         if ($product) {
             $product->update([
-                'status' => $request->status == 'disponible' ? 'indisponible' : 'disponible',
+                'status' => $request->status == 'disponible' ? 'non disponible' : 'disponible',
             ]);
             alert()->success('Succés!', 'Etat produit modifié');
             return redirect()->back();
