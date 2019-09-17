@@ -51,6 +51,10 @@ Breadcrumbs::for('addContact', function ($trail, $company) {
     $trail->push('Ajouter un contact', route('showAddContact', $company));
 });
 
+Breadcrumbs::for('showContact', function ($trail, $company,$user) {
+    $trail->parent('contact', $company);
+    $trail->push(ucfirst($user->nom).' '.ucfirst($user->prenom));
+});
 Breadcrumbs::for('order', function ($trail) {
     $trail->push('Liste des commandes', route('showOrders'));
 });
