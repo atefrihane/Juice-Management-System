@@ -4,10 +4,14 @@
     </div>
 
     <div class="content-wrapper" >
+    <section class="content-header">
+
+{{ Breadcrumbs::render('showContact',$company,$user) }}
+</section>
         <div class="row">
             <div class="container">
 
-                <div class="box box-primary">
+                <div class="box box-primary" style="margin-top:50px;">
 
                     <div class="box-header">
                         <div class="box-title"><h1>Details du contact</h1> </div>
@@ -22,6 +26,7 @@
 
                     </div>
                     <div class="col-md-10">
+                    <div>Nom et Prénom</div>
                         <h3>
                         @if($user->civilite == 'Homme')
                             M.

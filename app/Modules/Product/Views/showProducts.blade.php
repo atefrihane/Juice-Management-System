@@ -26,7 +26,7 @@
               <table class="table table-bordered table-hover example2">
                 <thead>
                 <tr>
-
+                    <th>Photo</th>
                     <th>Nom Produit</th>
                     <th>Type</th>
                     <th>Désignation</th>
@@ -38,6 +38,11 @@
                   <tbody>
                   @forelse($products as $product)
                   <tr>
+                  @if($product->photo_url)
+                    <td>    <img src="{{asset('/img')}}/{{$product->photo_url}}" height="80" class="user-image" alt="User Image"> </td>
+                    @else
+                    <td>    <img src="{{asset('/img')}}/no-logo.png" height="80" class="user-image" alt="User Image"> </td>
+                    @endif
                       <td>{{$product->nom}}</td>
                       <td>{{$product->type}}</td>
                       <td>{{$product->designation}}</td>
