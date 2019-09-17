@@ -70,7 +70,7 @@
                                                         aria-label="Close">
                                                         <span aria-hidden="true">×</span></button>
                                                     <h4 class="modal-title">Vous voulez vraiment supprimer ce
-                                                        produit ?</h4>
+                                                    contact ?</h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     <p> Ce processus ne peut pas être annulé.</p>
@@ -136,7 +136,7 @@
                                                         aria-label="Close">
                                                         <span aria-hidden="true">×</span></button>
                                                     <h4 class="modal-title">Vous voulez vraiment supprimer ce
-                                                        produit ?</h4>
+                                                    contact ?</h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     <p> Ce processus ne peut pas être annulé.</p>
@@ -195,7 +195,7 @@
                                                         aria-label="Close">
                                                         <span aria-hidden="true">×</span></button>
                                                     <h4 class="modal-title">Vous voulez vraiment supprimer ce
-                                                        produit ?</h4>
+                                                    contact ?</h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     <p> Ce processus ne peut pas être annulé.</p>
