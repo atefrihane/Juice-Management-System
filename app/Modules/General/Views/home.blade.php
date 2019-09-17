@@ -12,6 +12,8 @@
 
 
     <section class="content">
+
+
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
@@ -24,7 +26,9 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <table class="table table-bordered table-hover example2">
+
+
+                        <table  class="table table-bordered table-hover example2">
                             <thead>
                                 <tr>
                                     <th>Logo</th>
@@ -47,7 +51,7 @@
                                     <td data-url="{{route('showStores',$company->id)}}">{{$company->getNbrStores()}}
                                     </td>
                                     <td data-url="{{route('showStores',$company->id)}}">{{$company->getStatus()}}</td>
-                                    <td class="not-this" data-url="javascript:void(0)">
+                                    <td class="not-this text-center" data-url="javascript:void(0)">
                                         <div class="btn-group">
                                             <a class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>

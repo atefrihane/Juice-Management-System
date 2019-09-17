@@ -151,7 +151,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Code Postal</label>
-                                            <input class="form-control" name="zip_code" id="disabledInput" value="{{$store->zip_code}}" type="number" placeholder="Code Postal">
+                                            <input class="form-control" name="zip_code" id="disabledInput" value="{{$store->zip_code}}" type="text" placeholder="Code Postal">
 
                                         </div>
                                     </div>

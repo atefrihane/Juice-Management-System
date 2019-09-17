@@ -119,7 +119,7 @@ class StoreController extends Controller
         $store = Store::find($id);
         $companyId= $store->company_id;
         $store->delete();
-
+        alert()->success('Succés!', 'Le magasin  a été supprimé avec succés ');
         return redirect(route('showStores', $companyId));
     }
 

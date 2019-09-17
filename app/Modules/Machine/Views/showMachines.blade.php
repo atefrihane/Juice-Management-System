@@ -26,8 +26,9 @@
               <table class="table table-bordered table-hover example2" >
                 <thead>
                 <tr>
-                  <th ></th>
+                  <th>Photo</th>
                   <th>Code</th>
+                  <th>Codes à barres </th>
                   <th>Désignation</th>
                   <th>Nbr de bacs</th>
                   <th>Prix loc mens</th>
@@ -45,12 +46,13 @@
                     <td>    <img src="{{asset('/img')}}/no-logo.png" height="80" class="user-image" alt="User Image"> </td>
                     @endif
                     <td>{{$machine->code}}</td>
+                    <td>{{$machine->barcode}}</td>
                     <td>{{$machine->designation}}</td>
                     <td>{{$machine->number_bacs}}</td>
                     <td>{{$machine->price_month}}</td>
                     <td>{{$machine->rented ? 'En location' : 'Libre'}}</td>
                     <td>{{$machine->status}}</td>
-                    <td class="not-this">
+                    <td class="not-this text-center">
                         <div class="btn-group">
                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                             <ul class="dropdown-menu edit" role="menu" style="margin-left:-175px !important;">
