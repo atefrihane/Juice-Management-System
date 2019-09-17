@@ -93,7 +93,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="text-center">
-                                                    <form action="{{route('deleteMachine', $machine->id)}}"
+                                                    <form action="{{route('handleUpdateStatus', $machine->id)}}"
                                                         method="post">
                                                         {{csrf_field()}}
                                                         <button type="submit" class="btn btn-success">Supprimer</button>
