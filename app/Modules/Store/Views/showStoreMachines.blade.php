@@ -53,12 +53,12 @@
                                                 <ul class="dropdown-menu edit" role="menu"
                                                 style="margin-left:-175px !important;">
                                                 @if($rental->machine->rented==false)
-                                                <li><a href="{{route('startRental', $machine->id).'?machine=true'}}">Commencer
+                                                <li><a href="{{route('startRental', $rental->id).'?machine=true'}}">Commencer
                                                         location</a></li>
 
-                                                <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">Voir
+                                                <li><a href="{{route('showListRental', $rental->id).'?machine=true'}}">Voir
                                                         historique des locations</a></li>
-                                                <li><a href="{{route('showHistoryMachine',$machine->id)}}">Voir
+                                                <li><a href="{{route('showHistoryMachine',$rental->machine->id)}}">Voir
                                                         historique machine</a></li>
                                                 @else
 
