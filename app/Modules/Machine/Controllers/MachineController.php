@@ -21,8 +21,13 @@ class MachineController extends Controller
 
     public function showAddMachine()
     {
+        $checkMachine = Machine::count();
+        if ($checkMachine > 0) {
+            $nextMachine = Machine::all()->last()->id + 1;
 
-        $nextMachine = Machine::all()->last()->id + 1;
+        } else {
+            $nextMachine = 1;
+        }
 
         return view('Machine::addMachine', compact('nextMachine'));
 
@@ -114,6 +119,7 @@ class MachineController extends Controller
         $updatable['display_tablet'] = $updatable['display_tablet'] == 'true';
 
         Machine::where('id', $id)->update($updatable);
+        alert()->success('Succés!', 'La machine a été modifiée avec succés ');
         return redirect(route('showMachines'));
 
     }

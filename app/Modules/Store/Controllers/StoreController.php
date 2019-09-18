@@ -144,7 +144,9 @@ class StoreController extends Controller
     public function showStoreRentals($id, $idStore)
     {$store = Store::find($idStore);
         if ($store) {
-            $rentals = MachineRental::where('store_id', $idStore)->get();
+            $rentals = MachineRental::where('store_id', $idStore)
+            ->where('active',1)
+            ->get();
             return view('Store::showStoreMachines', compact('rentals', 'store'));
         }
         return view('General::notFound');

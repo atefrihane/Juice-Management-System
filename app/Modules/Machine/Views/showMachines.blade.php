@@ -128,7 +128,9 @@
                                     <!-- /.modal-dialog -->
                                 </div>
                                 @empty
-                                <tr>Aucune machine ! </tr>
+                                <tr>
+                                <td colspan="8" class="text-center"> <h4>  Aucune machine ! </h4></td>  </tr>
+                            
                                 @endforelse
 
 
