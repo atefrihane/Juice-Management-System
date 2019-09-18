@@ -7,5 +7,6 @@ Route::group(['module' => 'Store', 'middleware' => ['web','isAuth'], 'namespace'
     Route::post('store/delete/{id}', 'StoreController@delete')->name('deleteStore');
     Route::post('company/{company_id}/store/add', 'StoreController@store')->name('addStore');
     Route::post('store/{id}/update', 'StoreController@update')->name('updateStore');
-
+    Route::get('company/{company_id}/stores/{store_id}', 'StoreController@showStore')->name('showStore');
+    Route::get('company/{company_id}/stores/{store_id}/rentals', 'StoreController@showStoreRentals')->name('showStoreRentals');
 });

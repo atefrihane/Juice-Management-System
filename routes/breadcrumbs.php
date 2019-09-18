@@ -41,6 +41,17 @@ Breadcrumbs::for('addStore', function ($trail, $company) {
     $trail->push('Ajouter un magasin', route('showStores', $company));
 });
 
+Breadcrumbs::for('detailStore', function ($trail,$company,$store) {
+    $trail->parent('store',$company);
+    $trail->push($store);
+});
+
+Breadcrumbs::for('detailStoreMachines', function ($trail,$company,$store) {
+    $trail->parent('store',$company);
+    $trail->push($store);
+    $trail->push('Location des machines');
+});
+
 Breadcrumbs::for('contact', function ($trail, $company) {
     $trail->parent('detail', $company);
     $trail->push('Contacts', route('showContacts', $company));

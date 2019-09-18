@@ -14,7 +14,7 @@
 <!-- <script src="{{ asset('/js/morris.min.js') }}" ></script>  -->
 
 <script>
-    $('.table-tr > td:not(:nth-child(6))').click(function () {
+    $('.table-tr > td:not(:last-child').click(function () {
         window.location = $(this).data("url");
     });
 
@@ -90,7 +90,11 @@ var oTable = $('.table').DataTable( {
     "language": {
       "url": "http://cdn.datatables.net/plug-ins/a5734b29083/i18n/French.json"
     },
-    "bLengthChange": false 
+    "bLengthChange": false ,
+    "columnDefs": [ {
+    "targets": -1,
+    "orderable": false
+    } ]
 } );
 </script>
 
