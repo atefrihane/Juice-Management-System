@@ -1,5 +1,5 @@
 @extends('General.layoutStore')
-@section('pageTitle', 'Liste des entrepots')
+@section('pageTitle', 'Liste des locations machines')
 @section('content')
 
 <div class="content-wrapper">
@@ -86,8 +86,8 @@
                                                             <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
                                                                 <span aria-hidden="true">×</span></button>
-                                                            <h4 class="modal-title">Vous voulez vraiment supprimer cet
-                                                            entrepôt ?</h4>
+                                                            <h4 class="modal-title">Vous voulez vraiment supprimer cette
+                                                            machine ?</h4>
                                                         </div>
                                                         <div class="modal-body">
                                                             <p> Ce processus ne peut pas être annulé.</p>
@@ -95,7 +95,7 @@
                                                         <div class="modal-footer">
                                                             <div class="text-center">
                                                                 <form
-                                                                    action=""
+                                                                    action="{{route('deleteMachine', $rental->machine->id)}}"
                                                                     method="post">
                                                                     {{csrf_field()}}
                                                                     <a href="#" class="btn btn-danger"
@@ -122,7 +122,7 @@
                                 @empty
                                 <tr>
                                     <td colspan="4" class="text-center">
-                                        <h4>Aucun entrepot existant !</h4>
+                                        <h4>Aucune machine existants !</h4>
                                     </td>
                                 </tr>
 
