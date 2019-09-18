@@ -63,7 +63,7 @@
                                                 @else
 
                                                 <li><a
-                                                        href="{{route('showEndRental', ['id' =>$rental->machine->machine_rental_id])}}">Arreter
+                                                        href="{{route('showEndRental', $rental->id)}}">Arreter
                                                         location</a></li>
                                                 <li><a href="{{route('showListRental', $rental->machine->id).'?machine=true'}}">Voir
                                                         historique des locations</a></li>
@@ -121,8 +121,8 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="4" class="text-center">
-                                        <h4>Aucune machine existants !</h4>
+                                    <td colspan="6" class="text-center">
+                                        <h4>Aucune machine existante !</h4>
                                     </td>
                                 </tr>
 
