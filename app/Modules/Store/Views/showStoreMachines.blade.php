@@ -25,8 +25,9 @@
                                     <th>Photo</th>
                                     <th>Code</th>
                                     <th>Désignation</th>
-                                    <th>Date de début</th>
-                                    <th>Date de fin</th>
+                                    <th>Affichage Tablette</th>
+                                    <th>Nombre de bacs</th>
+                                    <th>Etat</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -42,25 +43,43 @@
                                             @endif
                                     <td>{{$rental->machine->code}}</td>
                                     <td>{{$rental->machine->designation}}</td>
-                                    <td>{{ucfirst($rental->date_debut)}}</td>
-                                    <td>{{$rental->date_fin}}</td>
+                                    <td>{{$rental->display_table == 1 ? 'Oui' : 'Non'}}</td>
+                                    <td>{{$rental->machine->bacs->count()}}</td>
+                                    <td>{{$rental->machine->status}}</td>
                                     <td class="not-this text-center">
                                         <div class="btn-group">
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
-                                            <ul class="dropdown-menu edit" role="menu">
+                                                <ul class="dropdown-menu edit" role="menu"
+                                                style="margin-left:-175px !important;">
+                                                @if($rental->machine->rented==false)
+                                                <li><a href="{{route('startRental', $machine->id).'?machine=true'}}">Commencer
+                                                        location</a></li>
 
+                                                <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">Voir
+                                                        historique des locations</a></li>
+                                                <li><a href="{{route('showHistoryMachine',$machine->id)}}">Voir
+                                                        historique machine</a></li>
+                                                @else
 
                                                 <li><a
-                                                        href="">Modifier</a>
-                                                </li>
-                                                <li><a data-toggle="modal"
-                                                        data-target="#modal-default{{$rental->id}}">Supprimer</a>
-                                                </li>
+                                                        href="{{route('showEndRental', ['id' =>$rental->machine->machine_rental_id])}}">Arreter
+                                                        location</a></li>
+                                                <li><a href="{{route('showListRental', $rental->machine->id).'?machine=true'}}">Voir
+                                                        historique des locations</a></li>
+                                                <li><a href="{{route('showHistoryMachine',$rental->machine->id)}}">Voir
+                                                        historique machine</a></li>
+                                                @endif
+
+                                                <li><a href="{{route('machineStatusEdit', $rental->machine->id)}}">Mettre à jour
+                                                        état</a></li>
+                                                <li><a href="{{route('editMachine', $rental->machine->id)}}">Modifier</a></li>
+                                                <li><a href="" data-toggle="modal"
+                                                        data-target="#modal-default{{$rental->machine->id}}">Supprimer</a></li>
 
                                             </ul>
 
-                                            <div class="modal fade" id="modal-default{{$rental->id}}">
+                                            <div class="modal fade" id="modal-default{{$rental->machine->id}}">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">

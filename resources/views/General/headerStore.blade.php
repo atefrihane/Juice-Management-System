@@ -67,7 +67,7 @@
 
         <header class="main-header">
             <!-- Logo -->
-            <a href="" class="logo">
+            <a href="{{route('showHome')}}" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>W</b>F</span>
                 <!-- logo for regular state and mobile devices -->
@@ -140,7 +140,7 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
 
-                    <li style="margin-bottom: 30px"><a href="{{route('showHome')}}"><i class="fa fa-arrow-left"></i><span>Retour Menu Societé</span></a></li>
+                    <li style="margin-bottom: 30px"><a href="{{route('showStores',$store->company->id)}}"><i class="fa fa-arrow-left"></i><span>Retour Menu Societé</span></a></li>
                     <li class=""><a href="{{route('showStore',['company_id'=>$store->company->id,'store_id'=>$store->id])}}"><i class="fa fa-question-circle""></i> <span>Informations</span></a></li>
                     <li class=""><a href="{{route('showStoreRentals',['company_id'=>$store->company->id,'store_id'=>$store->id])}}"><i class=" fa fa-plug"></i><span>Machines</span></a></li>
                     <li class=""><a href=""><i class="fa fa-truck"></i><span>Commandes</span></a></li>

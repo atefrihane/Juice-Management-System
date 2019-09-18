@@ -66,7 +66,7 @@
 
         <header class="main-header">
             <!-- Logo -->
-            <a href="{{route('showCompany',$company->id)}}" class="logo">
+            <a href="{{route('showHome')}}" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>W</b>F</span>
                 <!-- logo for regular state and mobile devices -->
