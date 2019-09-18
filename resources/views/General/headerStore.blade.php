@@ -2,13 +2,14 @@
 <html>
 
 <head>
-   <!-- Tell the browser to be responsive to screen width -->
-   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
     <title>@yield('pageTitle')</title>
+
     <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
-  
+
     <!-- Font Awesome -->
 
 
@@ -66,7 +67,7 @@
 
         <header class="main-header">
             <!-- Logo -->
-            <a href="{{route('showCompany',$company->id)}}" class="logo">
+            <a href="" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>W</b>F</span>
                 <!-- logo for regular state and mobile devices -->
@@ -139,23 +140,12 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
 
-
-                    <li style="margin-bottom: 30px"><a href="{{route('showHome')}}"><i class="fa fa-arrow-left"></i>
-                            <span>Retour Menu Principal</span></a></li>
-                    <li class="{{ Route::is('showCompany',$company->id) ? 'active' : '' }}"><a
-                            href="{{route('showCompany',$company->id)}}"><i class="fa fa-question-circle""></i> <span>Informations</span></a></li>
-        <li class=" {{ Route::is('showStores',$company->id) ? 'active' : '' }}"><a
-                                    href="{{route('showStores',$company->id)}}"><i class="fa fa-building"></i>
-                                    <span>Magasins</span></a></li>
-                    <li class="{{ Route::is('showContacts',$company->id) ? 'active' : '' }}"><a
-                            href="{{route('showContacts',$company->id)}}"><i class="fa fa-male"></i>
-                            <span>Contacts</span></a></li>
-                    <li class="{{ Route::is('showRentedMachines',$company->id) ? 'active' : '' }}"><a
-                            href="{{route('showRentedMachines',$company->id)}}"><i class="fa fa-plug"></i>
-                            <span>Machines en location</span></a></li>
-                    <li class="{{ Route::is('showCustomProducts',$company->id) ? 'active' : '' }}"><a
-                            href="{{route('showCustomProducts',$company->id)}}"><i class="fa fa-dollar"></i>
-                            <span>Tarifs produits</span></a></li>
+                    <li style="margin-bottom: 30px"><a href="{{route('showHome')}}"><i class="fa fa-arrow-left"></i><span>Retour Menu Societé</span></a></li>
+                    <li class=""><a href="{{route('showStore',['company_id'=>$store->company->id,'store_id'=>$store->id])}}"><i class="fa fa-question-circle""></i> <span>Informations</span></a></li>
+                    <li class=""><a href="{{route('showStoreRentals',['company_id'=>$store->company->id,'store_id'=>$store->id])}}"><i class=" fa fa-plug"></i><span>Machines</span></a></li>
+                    <li class=""><a href=""><i class="fa fa-truck"></i><span>Commandes</span></a></li>
+                    <li class=""><a href=""><i class="fa fa-database"></i><span>Stock</span></a></li>
+                    
 
                 </ul>
             </section>

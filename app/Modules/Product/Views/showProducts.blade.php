@@ -150,7 +150,9 @@
                                     <!-- /.modal-dialog -->
                                 </div>
                                 @empty
-                                <tr>aucun produit !!! </tr>
+                                <tr>
+                                <td colspan="6" class="text-center"> Aucun produit existant </td>  
+                                </tr>
                                 @endforelse
                             </tbody>
 

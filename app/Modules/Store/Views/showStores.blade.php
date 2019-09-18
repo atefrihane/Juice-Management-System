@@ -54,18 +54,18 @@
                             </thead>
                             <tbody>
                                 @forelse($stores as $store)
-                                <tr>
+                                <tr class="table-tr">
                                 @if($store->photo)
-                    <td>    <img src="{{asset('/')}}/{{$store->photo}}" height="80" class="user-image" alt="User Image"> </td>
+                    <td data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}">    <img src="{{asset('/')}}/{{$store->photo}}" height="80" class="user-image" alt="User Image"> </td>
                     @else
-                    <td>    <img src="{{asset('/img')}}/no-logo.png" height="80" class="user-image" alt="User Image"> </td>
+                    <td data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}">    <img src="{{asset('/img')}}/no-logo.png" height="80" class="user-image" alt="User Image"> </td>
                     @endif
-                                    <td>{{$store->code}}</td>
-                                    <td>{{$store->designation}}</td>
-                                    <td>{{$store->city}}</td>
-                                    <td>{{$store->zip_code}}</td>
-                                    <td> {{$store->status}}</td>
-                                    <td class="not-this text-center">
+                                    <td data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->code}}</td>
+                                    <td data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->designation}}</td>
+                                    <td data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->city}}</td>
+                                    <td data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->zip_code}}</td>
+                                    <td data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}"> {{$store->status}}</td>
+                                    <td  class="not-this text-center">
                                         <div class="btn-group">
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
