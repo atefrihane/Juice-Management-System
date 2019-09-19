@@ -49,7 +49,7 @@ Breadcrumbs::for('detailStore', function ($trail,$company,$store) {
 Breadcrumbs::for('detailStoreMachines', function ($trail,$company,$store) {
     $trail->parent('store',$company);
     $trail->push($store);
-    $trail->push('Location des machines');
+    $trail->push('Machines en location');
 });
 
 Breadcrumbs::for('contact', function ($trail, $company) {
