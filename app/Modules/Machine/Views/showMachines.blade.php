@@ -69,6 +69,13 @@
                                                 <li><a href="{{route('showHistoryMachine',$machine->id)}}">Voir
                                                         historique machine</a></li>
                                                 @else
+                                                @forelse($machine->machineRentals as $rental)
+                                                @if($rental->active == 1)
+                                                <li><a href="{{route('showRental',$rental->id)}}">Voir détails location</a></li>
+                                                @endif
+                                                @empty
+                                                @endforelse
+                                             
 
                                                 <li><a
                                                         href="{{route('showEndRental', ['id' =>$machine->machine_rental_id])}}">Arreter

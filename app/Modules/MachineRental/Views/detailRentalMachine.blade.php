@@ -1,11 +1,11 @@
-@extends('General.layout') @section('pageTitle', 'Ajouter une machine') @section('content')
+@extends('General.layoutStore') @section('pageTitle', 'Ajouter une machine') @section('content')
 
 
     <div class="content-wrapper">
 
         <section class="content-header">
 
-            {{ Breadcrumbs::render('addMachine') }}
+            {{ Breadcrumbs::render('detailRentMachine',$rental->machine->code) }}
         </section>
 
         <section class="content">

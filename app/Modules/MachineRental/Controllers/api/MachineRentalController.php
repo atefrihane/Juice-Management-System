@@ -62,6 +62,7 @@ class MachineRentalController extends Controller
     {
         //
         $rental = MachineRental::find($id);
+      
         return view('MachineRental::detailRentalMachine', compact('rental'));
     }
 

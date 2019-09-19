@@ -39,8 +39,13 @@
                             <tbody>
                                 @forelse($machines as $machine)
                                 <tr>
-                                    <td> <img src="../../{{$machine->machine->photo_url}}" height="80"
+                                @if($machine->machine->photo_url)
+                                    <td> <img src="{{asset('/')}}{{$machine->machine->photo_url}}" height="80"
                                             class="user-image" alt="User Image"> </td>
+                                            @else
+                                            <td> <img src="{{asset('/img')}}/no-logo.png" height="80"
+                                            class="user-image" alt="User Image"> </td>
+                                            @endif
                                     <td>{{$machine->machine->code}}</td>
                                     <td>{{$machine->machine->designation}}</td>
                                     <td>{{$machine->machine->number_bacs}}</td>
