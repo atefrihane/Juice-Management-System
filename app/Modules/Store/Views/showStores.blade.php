@@ -60,11 +60,11 @@
                     @else
                     <td data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}">    <img src="{{asset('/img')}}/no-logo.png" height="80" class="user-image" alt="User Image"> </td>
                     @endif
-                                    <td data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->code}}</td>
-                                    <td data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->designation}}</td>
-                                    <td data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->city}}</td>
-                                    <td data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->zip_code}}</td>
-                                    <td data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}"> {{$store->status}}</td>
+                                    <td data-url="{{route('showStoreRentals',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->code}}</td>
+                                    <td data-url="{{route('showStoreRentals',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->designation}}</td>
+                                    <td data-url="{{route('showStoreRentals',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->city}}</td>
+                                    <td data-url="{{route('showStoreRentals',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->zip_code}}</td>
+                                    <td data-url="{{route('showStoreRentals',['company_id'=>$company->id,'store_id'=>$store->id])}}"> {{$store->status}}</td>
                                     <td  class="not-this text-center">
                                         <div class="btn-group">
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"

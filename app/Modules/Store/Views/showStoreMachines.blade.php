@@ -52,6 +52,7 @@
                                                 aria-expanded="false"></a>
                                                 <ul class="dropdown-menu edit" role="menu"
                                                 style="margin-left:-175px !important;">
+                                                <li><a href="{{route('showRental', $rental->id)}}">Voir détails location</a></li>
                                                 @if($rental->machine->rented==false)
                                                 <li><a href="{{route('startRental', $rental->id).'?machine=true'}}">Commencer
                                                         location</a></li>
