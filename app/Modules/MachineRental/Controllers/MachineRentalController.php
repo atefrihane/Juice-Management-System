@@ -5,6 +5,7 @@ namespace App\Modules\MachineRental\Controllers;
 use App\Modules\Bac\Models\Bac;
 use App\Modules\Machine\Models\Machine;
 use App\Modules\MachineRental\Models\MachineRental;
+use App\Modules\Store\Models\Store;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -51,9 +52,13 @@ class MachineRentalController extends Controller
      */
     public function show($id)
     {
-        //
         $rental = MachineRental::find($id);
-        return view('MachineRental::detailRentalMachine', compact('rental'));
+        if($rental)
+        {
+        $store=Store::find($rental->store_id);
+        return view('MachineRental::detailRentalMachine', compact('rental','store'));
+        }
+        return view('General::notFound');
     }
 
     public function showAllRentals($id){

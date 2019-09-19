@@ -76,7 +76,7 @@
             <nav class="navbar navbar-static-top">
                 <!-- Sidebar toggle button-->
                 <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-                    <span class="sr-only">Toggle navigation</span>
+                    <span class="sr-only">Toggle navigation</span> &nbsp; <small>{{$company->name}}</small>
                 </a>
 
                 <div class="navbar-custom-menu">

@@ -92,6 +92,11 @@ Breadcrumbs::for('editMachine', function ($trail) {
     $trail->push('Modifier une  machine');
 });
 
+Breadcrumbs::for('detailRentMachine', function ($trail,$rent) {
+    $trail->push('Détail location machine');
+    $trail->push($rent);
+});
+
 Breadcrumbs::for('endRental', function ($trail) {
     $trail->parent('machine');
     $trail->push('Arrêter location machine');

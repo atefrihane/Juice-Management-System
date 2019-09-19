@@ -48,7 +48,7 @@
                                             <select class="form-control" name="status">
                                                 <option>
                                                 {{$product->status == 'disponible' ? 'selected': ''}}
-                                                value="disonible" >disponible</option>
+                                                value="disponible" >disponible</option>
                                                 <option>
                                                 {{$product->status != 'disponible' ? 'selected': ''}}
                                                value="non disponible">non disponible</option>
