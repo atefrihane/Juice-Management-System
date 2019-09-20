@@ -6,7 +6,7 @@
 
         <section class="content-header">
 
-            {{ Breadcrumbs::render('historyMachine',$rentals->first()->machine) }}
+            {{ Breadcrumbs::render('historyMachine',$machine->code) }}
         </section>
 
 
@@ -48,7 +48,9 @@
                                         <td data-url="{{route('showRental', $rental->id)}}" >{{$rental->date_fin}}</td>
                                     </tr>
                                 @empty
-                                    <tr>Aucune machine ! </tr>
+                                    <tr>
+                                    <td colspan="7"><h4 colspan="7" class="text-center">Aucune location trouvée  !</h4></td>
+                                    </tr>
                                 @endforelse
 
 

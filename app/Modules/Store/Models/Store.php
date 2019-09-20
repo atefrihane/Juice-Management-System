@@ -18,7 +18,7 @@ class Store extends Model {
         return $this->hasMany(Responsable::class)->with('user');
     }
     public function supervisor() {
-        return $this->belongsTo(SuperVisor::class);
+        return $this->belongsTo(SuperVisor::class,'super_visor_id');
     }
     public function company(){
         return $this->belongsTo(Company::class);

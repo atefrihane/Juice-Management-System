@@ -4,15 +4,14 @@ namespace App\Modules\User\Controllers;
 
 use Alert;
 use App\Http\Controllers\Controller;
-use App\Modules\Admin\Models\Admin;
 use App\Modules\Company\Models\Company;
 use App\Modules\Diractor\Models\Diractor;
 use App\Modules\Responsable\Models\Responsable;
 use App\Modules\Store\Models\Store;
 use App\Modules\SuperVisor\Models\SuperVisor;
+use App\Modules\User\Controllers\api\UserController as UserRestController;
 use App\Modules\User\Models\User;
 use Auth;
-use App\Modules\User\Controllers\api\UserController as UserRestController;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -28,10 +27,10 @@ class UserController extends Controller
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             Auth::user();
-            $token =  UserRestController::login($request);
-           $token = json_decode(json_encode($token))->original->token;
+            $token = UserRestController::login($request);
+            $token = json_decode(json_encode($token))->original->token;
 
-           // alert()->success('Succés!', 'Bienvenue!');
+            // alert()->success('Succés!', 'Bienvenue!');
 
             return redirect()->route('showHome')->with('token', $token);
 
@@ -48,11 +47,13 @@ class UserController extends Controller
         return redirect()->route('showLogin');
     }
 
-    public function getUsers(){
-        return User::query()->where('id','=',1)->with('child')->get();
+    public function getUsers()
+    {
+        return User::query()->where('id', '=', 1)->with('child')->get();
     }
 
-    public function storeClient($id, Request $request){
+    public function storeClient($id, Request $request)
+    {
         $rules = [
             'code' => 'required',
             'nom' => 'required',
@@ -77,19 +78,33 @@ class UserController extends Controller
 
         ];
 
-        switch ($request->type){
-            case 'director' :
+        switch ($request->type) {
+            case 'director':
                 $user = $request->all();
+                $checkDirector = Diractor::where('company_id', $id)->first();
+                if ($checkDirector) {
+                    alert()->error('Oups!', 'La societé a déja un directeur')->persistent("Fermer");
+                    return redirect()->back()->withInput();
+                }
                 unset($user['type'], $user['_token']);
                 $val = $request->validate($rules, $messages);
                 $director = Diractor::create(['company_id' => $id]);
                 $user['child_type'] = Diractor::class;
                 $user['child_id'] = $director->id;
                 $user['password'] = bcrypt($user['password']);
-               $user =  User::create($user);break;
+                $user = User::create($user);
+                break;
 
-            case 'supervisor' :
+            case 'supervisor':
                 $user = $request->all();
+                foreach ($request->stores as $store) {
+                $checkStore = Store::find($store);
+                    if ($checkStore->supervisor) {
+                        alert()->error('Oups!', ucfirst($checkStore->designation) . ' a déja un superviseur')->persistent("Fermer");
+                        return redirect()->back()->withInput();
+
+                    }
+                }
                 unset($user['type'], $user['_token'], $user['stores']);
                 $rules['stores'] = 'required';
                 $messages['stores.required'] = 'selectionner au moin un magasin pour le superviseur';
@@ -99,34 +114,44 @@ class UserController extends Controller
                 $user['child_id'] = $supervisor->id;
                 $user['password'] = bcrypt($user['password']);
 
-                $user =  User::create($user);
-                foreach ($request->stores as $storeId){
-                    Store::where('id',$storeId)->update(['super_visor_id' => $supervisor->id]);
-                } break;
-            case 'responsable' :
+                $user = User::create($user);
+                foreach ($request->stores as $storeId) {
+                    Store::where('id', $storeId)->update(['super_visor_id' => $supervisor->id]);
+                }break;
+            case 'responsable':
                 $user = $request->all();
+
+                $checkStore = Responsable::where('store_id', $request->store)->first();
+
+                if ($checkStore) {
+                    alert()->error('Oups!', 'La societé a déja un responsable')->persistent("Fermer");
+                    return redirect()->back()->withInput();
+                }
 
                 $rules['store'] = 'required';
                 $messages['store.required'] = 'selectionner un magasin pour le responsable';
                 $val = $request->validate($rules, $messages);
-                unset($user['type'], $user['_token'],$user['store']);
+                unset($user['type'], $user['_token'], $user['store']);
                 $responsable = Responsable::create(['store_id' => $request->store]);
                 $user['child_type'] = Responsable::class;
                 $user['child_id'] = $responsable->id;
                 $user['password'] = bcrypt($user['password']);
 
-
-                $user =  User::create($user);break;
+                $user = User::create($user);
+                break;
         }
-        return redirect(route('showContacts',$id));
+        alert()->success('Succés!', 'Le contact a été ajouté avec succés!')->persistent("Fermer");
+        return redirect(route('showContacts', $id));
     }
 
-    public function edit($cid, $id){
+    public function edit($cid, $id)
+    {
         $company = Company::find($cid);
         $user = User::find($id);
-        return view("User::editClient", compact('user','company'));
+        return view("User::editClient", compact('user', 'company'));
     }
-    public function updateClient($cid,$id, Request $request){
+    public function updateClient($cid, $id, Request $request)
+    {
         $val = $request->validate([
             'code' => 'required',
             'nom' => 'required',
@@ -149,31 +174,40 @@ class UserController extends Controller
 
         $user = $request->all();
         unset($user['_token']);
-        if($user['password'] != '')
-        $user['password'] = bcrypt($user['password']);
-        else
+        if ($user['password'] != '') {
+            $user['password'] = bcrypt($user['password']);
+        } else {
             unset($user['password']);
+        }
+
         User::where('id', $id)->update($user);
         return redirect(route('showContacts', $cid));
 
     }
 
-    public function deleteClient($cid, $id){
+    public function deleteClient($cid, $id)
+    {
         $user = User::find($id);
-        switch ($user->child_type){
-            case Responsable::class : $responsable = Responsable::find($user->child_id);  $responsable->delete();break;
-            case SuperVisor::class : $supervisor = SuperVisor::find($user->child_id);  $supervisor->delete();break;
-            case Diractor::class : $director = Diractor::find($user->child_id);  $director->delete();break;
+        switch ($user->child_type) {
+            case Responsable::class:$responsable = Responsable::find($user->child_id);
+                $responsable->delete();
+                break;
+            case SuperVisor::class:$supervisor = SuperVisor::find($user->child_id);
+                $supervisor->delete();
+                break;
+            case Diractor::class:$director = Diractor::find($user->child_id);
+                $director->delete();
+                break;
         }
         $user->delete();
-        alert()->success('Succés',' Le contact a été supprimé avec succés !');
+        alert()->success('Succés', ' Le contact a été supprimé avec succés !');
         return redirect(route('showContacts', $cid));
     }
 
-    public function detailClient($cid,$id){
+    public function detailClient($cid, $id)
+    {
         $user = User::find($id);
         $company = Company::find($cid);
-
 
         return view('User::detail', compact('user', 'company'));
     }

@@ -44,7 +44,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Code</label>
-                                            <input type="text" name="code" class="form-control" id="exampleInputEmail1" placeholder="Code..">
+                                            <input type="text" name="code" class="form-control" id="exampleInputEmail1" placeholder="Code.." value="{{ old('code') }}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -66,7 +66,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Nom</label>
-                                            <input class="form-control" name="nom" id="disabledInput" type="text" placeholder="Nom">
+                                            <input class="form-control" name="nom" id="disabledInput" type="text" placeholder="Nom" value="{{old('nom')}}">
 
                                         </div>
                                     </div>
@@ -74,7 +74,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Prénom</label>
-                                            <input class="form-control" name="prenom" id="disabledInput" type="text" placeholder="Prénom">
+                                            <input class="form-control" name="prenom" id="disabledInput" type="text" placeholder="Prénom" value="{{old('prenom')}}">
 
                                         </div>
                                     </div>
@@ -83,7 +83,7 @@
 
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Sexe</label>
-                                    <select class="form-control" name="civilite">
+                                    <select class="form-control" name="civilite" value="{{old('civilite')}}">
                                         <option value="Homme">Homme</option>
                                         <option value="Femme">Femme</option>
                                     </select>
@@ -94,7 +94,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Email</label>
-                                            <input class="form-control"  name="email" id="disabledInput" type="email" placeholder="Nom">
+                                            <input class="form-control"  name="email" id="disabledInput" type="Email" placeholder="Email" value="{{old('email')}}">
 
                                         </div>
                                     </div>
@@ -102,7 +102,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Téléphone</label>
-                                            <input class="form-control" name="telephone" id="disabledInput" type="phone" placeholder="Téléphone">
+                                            <input class="form-control" name="telephone" id="disabledInput" type="phone" placeholder="Téléphone" value="{{old('telephone')}}">
 
                                         </div>
                                     </div>
@@ -112,7 +112,7 @@
 
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Type de contact</label>
-                                    <select class="form-control" onchange="changeInputs(this)" name="type">
+                                    <select class="form-control" onchange="changeInputs(this)" name="type" value="{{old('type')}}">
                                         <option value="responsable" >Responsable</option>
                                         <option value="supervisor" >Superviseur</option>
                                         <option value="director" >Directeur</option>
@@ -166,13 +166,13 @@
 
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Code d'accés</label>
-                                    <input class="form-control" name="accessCode" id="disabledInput" type="text" placeholder="Code d'accés">
+                                    <input class="form-control" name="accessCode" id="disabledInput" type="text" placeholder="Code d'accés" value="{{old('accessCode')}}">
 
                                 </div>
 
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Mot de passe</label>
-                                    <input class="form-control" name="password" id="disabledInput" type="password" placeholder="Mot de passe">
+                                    <input class="form-control" name="password" id="disabledInput" type="password" placeholder="Mot de passe" value="{{old('password')}}">
 
                                 </div>
 

@@ -44,7 +44,7 @@
                                 <tr>
                                     <td ><a href="{{route('detailClient',[$company->id, $contact->user->id])}}">{{$contact->user->code}}</a></td>
                                     <td>{{$contact->user->nom.' '. $contact->user->prenom}}</td>
-                                    <td>{{$contact->user->getType()}}</td>
+                                    <td>{{ucfirst($contact->user->getType())}}</td>
 
                                     <td>
                                         tout
@@ -104,18 +104,9 @@
                                         <tr>
                                             <td ><a href="{{route('detailClient',[$company->id, $contact->user->id])}}">{{$contact->user->code}}</a></td>
                                             <td >{{$contact->user->nom.' '. $contact->user->prenom}}</td>
-                                            <td >{{$contact->user->getType()}}</td>
-
-                                                <td >
-                                                    <ul>
-                                                        @foreach($contact->stores as $store)
-                                                            <li>{{$store->designation}}</li>
-                                                        @endforeach
-                                                    </ul>
-
-                                                </td>
-
-                                            <td class="not-this text-center">
+                                            <td >{{ucfirst($contact->user->getType())}}</td>
+                                            <td>{{$contact->stores->count()}} Magasins </td>
+                                             <td class="not-this text-center">
 
                                                 <div class="btn-group">
                                                     <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
@@ -170,7 +161,7 @@
                                         <tr>
                                             <td ><a href="{{route('detailClient',[$company->id, $contact->user->id])}}">{{$contact->user->code}}</a></td>
                                             <td >{{$contact->user->nom.' '. $contact->user->prenom}}</td>
-                                            <td >{{$contact->user->getType()}}</td>
+                                            <td >{{ucfirst($contact->user->getType())}}</td>
 
                                                 <td>{{$contact->store->designation}}</td>
 
