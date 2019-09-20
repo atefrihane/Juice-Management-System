@@ -15,6 +15,7 @@ class CreateSuperVisorsTable extends Migration
     {
         Schema::create('super_visors', function (Blueprint $table) {
             $table->increments('id');
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }

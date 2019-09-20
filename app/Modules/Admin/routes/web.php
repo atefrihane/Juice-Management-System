@@ -9,5 +9,5 @@ Route::group(['module' => 'Admin', 'middleware' => ['web'], 'namespace' => 'App\
     route::get('/admin/edit/{id}', "AdminController@edit")->name('editAdmin');
     route::post('/admin/update/{id}', "AdminController@update")->name('updateAdmin');
     route::post('/admin/store', "AdminController@store")->name('adminStore');
-    route::get('/admin/delete/{id}',"AdminController@destroy")->name('deleteAdmin');
+    route::post('/admin/delete/{id}',"AdminController@destroy")->name('deleteAdmin');
 });

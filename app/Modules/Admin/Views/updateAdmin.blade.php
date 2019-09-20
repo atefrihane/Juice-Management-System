@@ -91,16 +91,16 @@
                                         <div class="form-group">
                                             <label>Civilité</label>
                                             <select class="form-control" name="sexe">
-                                                <option value="homme"
-                                                        @if($admin->user->civilite == 'homme')
+                                                <option value="MM"
+                                                        @if($admin->user->civilite == 'MM')
                                                         selected
                                                     @endif
-                                                >Homme</option>
-                                                <option value="femme"
-                                                        @if($admin->user->civilite == 'femme')
+                                                >MM</option>
+                                                <option value="MME"
+                                                        @if($admin->user->civilite == 'MME')
                                                         selected
                                                     @endif
-                                                >Femme</option>
+                                                >MME</option>
                                             </select>
                                         </div>
                                     </div>

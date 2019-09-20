@@ -17,6 +17,7 @@ class CreateDiractorsTable extends Migration
             $table->increments('id');
             $table->integer('company_id')->unsigned()->unique();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }

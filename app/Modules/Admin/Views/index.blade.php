@@ -50,12 +50,48 @@
                                                 <ul class="dropdown-menu edit" role="menu">
                                                     <li><a href="{{route('editAdmin', $admin->id)}}">Modifier</a></li>
                                                     <li><a href="#">Annuler</a></li>
-                                                    <li><a href="{{route('deleteAdmin', $admin->id)}}">Supprimer</a></li>
+                                                    <li><a  data-toggle="modal" data-target="#modal-default{{$admin->id}}"> Supprimer</a></li>
 
                                                 </ul>
                                             </div>
 
+                                            <div class="modal fade" id="modal-default{{$admin->id}}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">×</span></button>
+                                                    <h4 class="modal-title">Vous voulez vraiment supprimer cet
+                                                    admin ?</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p> Ce processus ne peut pas être annulé.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <div class="text-center">
+                                                        <form
+                                                            action="{{route('deleteAdmin',$admin->id)}}"
+                                                            method="post">
+                                                            {{csrf_field()}}
+                                                            <a href="#" class="btn btn-danger"
+                                                                data-dismiss="modal">Annuler</a>
 
+                                                            <button type="submit"
+                                                                class="btn btn-success">Confirmer</button>
+                                                        
+
+                                                        </form>
+
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
+                                    </div>
 
 
                         </div>

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Diractor extends Model {
 
     //
-    protected $fillable = ['company_id'];
+    protected $fillable = ['company_id','comment'];
 
     public function user(){
         return $this->morphOne(User::class,'child');

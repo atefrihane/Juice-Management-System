@@ -88,7 +88,7 @@ class UserController extends Controller
                 }
                 unset($user['type'], $user['_token']);
                 $val = $request->validate($rules, $messages);
-                $director = Diractor::create(['company_id' => $id]);
+                $director = Diractor::create(['company_id' => $id,'comment'=>$request->comment]);
                 $user['child_type'] = Diractor::class;
                 $user['child_id'] = $director->id;
                 $user['password'] = bcrypt($user['password']);
@@ -109,7 +109,7 @@ class UserController extends Controller
                 $rules['stores'] = 'required';
                 $messages['stores.required'] = 'selectionner au moin un magasin pour le superviseur';
                 $val = $request->validate($rules, $messages);
-                $supervisor = SuperVisor::create([]);
+                $supervisor = SuperVisor::create(['comment'=>$request->comment]);
                 $user['child_type'] = SuperVisor::class;
                 $user['child_id'] = $supervisor->id;
                 $user['password'] = bcrypt($user['password']);
@@ -132,7 +132,7 @@ class UserController extends Controller
                 $messages['store.required'] = 'selectionner un magasin pour le responsable';
                 $val = $request->validate($rules, $messages);
                 unset($user['type'], $user['_token'], $user['store']);
-                $responsable = Responsable::create(['store_id' => $request->store]);
+                $responsable = Responsable::create(['store_id' => $request->store,'comment'=>$request->comment]);
                 $user['child_type'] = Responsable::class;
                 $user['child_id'] = $responsable->id;
                 $user['password'] = bcrypt($user['password']);
