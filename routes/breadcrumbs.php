@@ -105,7 +105,7 @@ Breadcrumbs::for('endRental', function ($trail) {
 
 Breadcrumbs::for('historyMachine', function ($trail,$machine) {
     $trail->parent('machine');
-    $trail->push($machine->code);
+    $trail->push($machine);
     $trail->push('Historique des locations');
    
 });

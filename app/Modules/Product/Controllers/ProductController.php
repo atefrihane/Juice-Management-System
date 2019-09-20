@@ -96,7 +96,7 @@ class ProductController extends Controller
             'photo_url' => $path,
 
         ]);
-        alert()->success('Succés!', 'Produit modifié');
+        alert()->success('Succés!', 'Produit modifié')->persistent("Fermer");
         return redirect('/products');
 
     }
@@ -105,7 +105,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         $product->delete();
-        alert()->success('Succés!', 'Produit supprimé');
+        alert()->success('Succés!', 'Produit supprimé')->persistent("Fermer");
         return redirect('/products');
     }
 
@@ -117,7 +117,7 @@ class ProductController extends Controller
             $product->update([
                 'status' => $request->status == 'disponible' ? 'non disponible' : 'disponible',
             ]);
-            alert()->success('Succés!', 'Etat produit modifié');
+            alert()->success('Succés!', 'Etat produit modifié')->persistent("Fermer");
             return redirect()->back();
         }
         return view('General::notFound');

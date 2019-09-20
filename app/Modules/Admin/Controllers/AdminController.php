@@ -183,7 +183,7 @@ class AdminController extends Controller
           $user->delete();
 
       }else{
-          alert()->error('Oups!', 'DBO ne peut pas etre supprimer');
+          alert()->error('Oups!', 'DBO ne peut pas etre supprimer')->persistent("Fermer");
       }
 
       return redirect('/admin');

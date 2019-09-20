@@ -64,10 +64,17 @@
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
-
+                                                @if($product->status == 'disponible')
                                                 <li><a data-toggle="modal"
                                                         data-target="#modal-default-statut{{$product->id}}">Changer etat
                                                         vers non disponible</a></li>
+                                                        @else
+
+                                                        <li><a data-toggle="modal"
+                                                        data-target="#modal-default-statut{{$product->id}}">Changer etat
+                                                        vers disponible</a></li>
+
+                                                        @endif
                                                 <li><a href="{{route('editProduct', $product->id)}}">Modifier</a></li>
                                                 <li>
                                                     <a data-toggle="modal"
@@ -118,7 +125,7 @@
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">×</span></button>
-                                                @if($product-> status == 'disponible')
+                                                @if($product->status == 'disponible')
                                                 <h4 class="modal-title">Vous voulez rendre ce produit non disponible ?
                                                 </h4>
                                                 @else

@@ -45,13 +45,9 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Etat</label>
-                                            <select class="form-control" name="status">
-                                                <option>
-                                                {{$product->status == 'disponible' ? 'selected': ''}}
-                                                value="disponible" >disponible</option>
-                                                <option>
-                                                {{$product->status != 'disponible' ? 'selected': ''}}
-                                               value="non disponible">non disponible</option>
+                                            <select class="form-control" name="status" value="{{$product->status}}">
+                                                <option value="disponible">disponible</option>
+                                                <option value="non disponible">non disponible</option>
                                             </select>
                                         </div>
                                     </div>

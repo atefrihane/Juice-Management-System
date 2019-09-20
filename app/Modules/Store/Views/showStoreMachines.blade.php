@@ -123,7 +123,8 @@
                                 @empty
                                 <tr>
                                     <td colspan="6" class="text-center">
-                                        <h4>Aucune machine existante !</h4>
+                           
+                                        <a href="{{route('showMachines')}}" class="btn btn-primary btn-lg">Commencer une location</a>
                                     </td>
                                 </tr>
 

@@ -1,66 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.7 -->
-    <title>@yield('pageTitle')</title>
-
-    <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
-
-    <!-- Font Awesome -->
-
-
-    <link href="{{ asset('/css/font-awesome.min.css') }}" rel="stylesheet">
-    <!-- Ionicons -->
-
-    <link href="{{ asset('/css/ionicons.min.css') }}" rel="stylesheet">
-    <!-- Theme style -->
-
-    <link href="{{ asset('/css/AdminLTE.min.css') }}" rel="stylesheet">
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-       folder instead of downloading all of them to reduce the load. -->
-
-    <link href="{{ asset('/css/_all-skins.min.css') }}" rel="stylesheet">
-    <!-- Morris chart -->
-
-    <link href="{{ asset('/css/morris.css') }}" rel="stylesheet">
-    <!-- jvectormap -->
-
-    <link href="{{ asset('/css/jquery-jvectormap.css') }}" rel="stylesheet">
-    <!-- Date Picker -->
-
-
-
-    <link href="{{ asset('/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
-    <!-- Daterange picker -->
-
-    <link href="{{ asset('/css/daterangepicker.css') }}" rel="stylesheet">
-    <!-- bootstrap wysihtml5 - text editor -->
-
-
-    <link href="{{ asset('/css/bootstrap3-wysihtml5.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/blue.css') }}" rel="stylesheet">
-
-    <link href="{{ asset('/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
-    <!-- <link href="{{ asset('/css/dataTables.custom.css') }}" rel="stylesheet"> -->
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.css">
-
-    <!-- Google Font -->
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-    <link href="{{ asset('/css/custom.css') }}" rel="stylesheet">
-    <style>
-        .btn-width {
-            width: 200px;
-            margin-bottom: 10px;
-        }
-
-    </style>
-</head>
+@include('General.head')
 
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
@@ -77,7 +18,8 @@
             <nav class="navbar navbar-static-top">
                 <!-- Sidebar toggle button-->
                 <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-                    <span class="sr-only">Toggle navigation</span> &nbsp; <small>{{$store->designation}}</small>
+                    <span class="sr-only">Toggle navigation</span> &nbsp; 
+                    <span class="hidden-xs"> {{$store->designation}}</span>
                 </a>
 
                 <div class="navbar-custom-menu">

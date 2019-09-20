@@ -80,7 +80,7 @@
                                 @empty
                                 <tr>
                                     <td colspan="5" class="text-center">
-                                        <h4>Aucune machine louée !</h4>
+                                    <a href="{{route('showMachines')}}" class="btn btn-primary btn-lg">Commencer une location</a>
                                     </td>
                                 </tr>
                                 @endforelse
