@@ -6,15 +6,18 @@ use App\Modules\Store\Models\Store;
 use App\Modules\User\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
-class Responsable extends Model {
+class Responsable extends Model
+{
 
     //
-    protected $fillable = ['store_id'];
+    protected $fillable = ['store_id', 'comment'];
 
-    public function user(){
-        return $this->morphOne(User::class,'child');
+    public function user()
+    {
+        return $this->morphOne(User::class, 'child');
     }
-    public function store(){
+    public function store()
+    {
         return $this->belongsTo(Store::class);
     }
 

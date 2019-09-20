@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SuperVisor extends Model {
 
-    //
+    protected $fillable=['comment'];
 
     public function user(){
         return $this->morphOne(User::class,'child');

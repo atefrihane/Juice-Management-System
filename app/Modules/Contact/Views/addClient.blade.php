@@ -82,10 +82,10 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Sexe</label>
+                                    <label for="exampleInputEmail1">Civilité</label>
                                     <select class="form-control" name="civilite" value="{{old('civilite')}}">
-                                        <option value="Homme">Homme</option>
-                                        <option value="Femme">Femme</option>
+                                        <option value="MM">MM</option>
+                                        <option value="MMe">MMe</option>
                                     </select>
 
                                 </div>
@@ -175,6 +175,12 @@
                                     <input class="form-control" name="password" id="disabledInput" type="password" placeholder="Mot de passe" value="{{old('password')}}">
 
                                 </div>
+
+                                <div class="form-group">
+                                <label>Commentaire (optionnel)</label>
+                                <textarea class="form-control" rows="3" name="comment" placeholder="Commentaires"
+                                    >{{old('comment')}}</textarea>
+                            </div>
 
 
                                 <div class="row">

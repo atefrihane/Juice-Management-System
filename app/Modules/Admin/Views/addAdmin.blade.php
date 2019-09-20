@@ -46,7 +46,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Role</label>
-                                            <select class="form-control" name="role">
+                                            <select class="form-control" name="role" required>
                                                 @foreach($roles as $role)
                                                     @if($role->id != 1)
                                                     <option value="{{$role->id}}">
@@ -61,7 +61,7 @@
                                         <div class="form-group">
 
                                             <label for="exampleInputEmail1">Code</label>
-                                            <input type="text" class="form-control" name="code" id="exampleInputEmail1" placeholder="Code..">
+                                            <input type="text" class="form-control" name="code" id="exampleInputEmail1" placeholder="Code.." value="{{old('code')}}" required>
                                         </div>
                                     </div>
 
@@ -72,13 +72,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Nom</label>
-                                            <input type="text" class="form-control" name="nom" id="exampleInputPassword1" placeholder="Nom">
+                                            <input type="text" class="form-control" name="nom" id="exampleInputPassword1" placeholder="Nom" value="{{old('nom')}}" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Prenom</label>
-                                            <input type="text" class="form-control" name="prenom" id="exampleInputPassword1" placeholder="Prenom">
+                                            <input type="text" class="form-control" name="prenom" id="exampleInputPassword1" placeholder="Prenom" value="{{old('prenom')}}" required>
                                         </div>
                                     </div>
                                 </div>
@@ -89,9 +89,10 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Civilité</label>
-                                            <select class="form-control" name="sexe">
-                                                <option value="homme">Homme</option>
-                                                <option value="femme">Femme</option>
+                                            <select class="form-control" name="sexe" value="{{old('sexe')}}" required>
+                                                <option value="M">M</option>
+                                                <option value="Mme">Mme</option>
+                                                
                                             </select>
                                         </div>
                                     </div>
@@ -101,13 +102,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Email</label>
-                                            <input type="email" class="form-control" name="email" id="exampleInputPassword1" placeholder="Email">
+                                            <input type="email" class="form-control" name="email" id="exampleInputPassword1" placeholder="Email" value="{{old('email')}}" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Telephone</label>
-                                            <input type="text" class="form-control" name="telephone" id="exampleInputPassword1" placeholder="Telephone">
+                                            <input type="text" class="form-control" name="telephone" id="exampleInputPassword1" placeholder="Telephone" value="{{old('telephone')}}" required>
                                         </div>
                                     </div>
                                 </div>
@@ -115,7 +116,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Code d'accés</label>
-                                            <input type="text" class="form-control" name="accessCode" id="exampleInputPassword1" placeholder="Code d'accés">
+                                            <input type="text" class="form-control" name="accessCode" id="exampleInputPassword1" placeholder="Code d'accés" value="{{old('accessCode')}}" required>
                                         </div>
                                     </div>
 
@@ -124,7 +125,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Mot de passe</label>
-                                            <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Mot de passe">
+                                            <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Mot de passe" value="{{old('password')}}" required>
                                         </div>
                                     </div>
 

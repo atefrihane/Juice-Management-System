@@ -17,6 +17,7 @@ class CreateResponsablesTable extends Migration
             $table->increments('id');
             $table->integer('store_id')->unsigned();
             $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }

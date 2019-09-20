@@ -2,11 +2,11 @@
 
 namespace App\Modules\Admin\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Modules\Admin\Models\Admin;
 use App\Modules\Role\Models\Role;
 use App\Modules\User\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
@@ -19,7 +19,7 @@ class AdminController extends Controller
     public function index()
     {
         $admins = Admin::query()->with('user')->with('role')->get();
-       // dd($admins);
+        // dd($admins);
         return view("Admin::index", compact('admins'));
     }
 
@@ -33,7 +33,7 @@ class AdminController extends Controller
         //
         $roles = Role::all();
         $lastAdminId = Admin::all()->last()->id + 1;
-        return view('Admin::addAdmin', compact("roles","lastAdminId"));
+        return view('Admin::addAdmin', compact("roles", "lastAdminId"));
     }
 
     /**
@@ -45,44 +45,45 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         //
-      $val = $request->validate([
-          'code' => 'required',
-          'nom' => 'required',
-          'prenom' => 'required',
-          'sexe' => 'required',
-          'telephone' => 'required',
-          'email' => 'required|email|unique:users',
-          'accessCode' => 'required',
-          'password' => 'required',
-      ], [
-          'code.required' => 'le champs code est obligatoire',
-          'nom.required' => 'le champs nom est obligatoire',
-          'prenom.required' => 'le champs prenom est obligatoire',
-          'sexe.required' => 'le champs civilite est obligatoire',
-          'telephone.required' => 'le champs telephone est obligatoire',
-          'email.required' => 'le champs email est obligatoire',
-          'email.email' => 'vous devez saisir un email valide ',
-          'email.unique' => 'email deja existant ',
-          'accessCode.required' => 'le champs code d\'acces est obligatoire',
-          'password.required' => 'le champs mot de passe est obligatoire',
+        $val = $request->validate([
+            'code' => 'required',
+            'nom' => 'required',
+            'prenom' => 'required',
+            'sexe' => 'required',
+            'telephone' => 'required',
+            'email' => 'required|email|unique:users',
+            'accessCode' => 'required',
+            'password' => 'required',
+        ], [
+            'code.required' => 'le champs code est obligatoire',
+            'nom.required' => 'le champs nom est obligatoire',
+            'prenom.required' => 'le champs prenom est obligatoire',
+            'sexe.required' => 'le champs civilite est obligatoire',
+            'telephone.required' => 'le champs telephone est obligatoire',
+            'email.required' => 'le champs email est obligatoire',
+            'email.email' => 'vous devez saisir un email valide ',
+            'email.unique' => 'email deja existant ',
+            'accessCode.required' => 'le champs code d\'acces est obligatoire',
+            'password.required' => 'le champs mot de passe est obligatoire',
 
-          ]);
-
-        $admin =  Admin::create([
-            'role_id'=> $request->role
         ]);
-       $user = User::create([
-        'email'         =>   $request->email,
-        'code'          =>    $request->code,
-        'nom'           =>    $request->nom,
-        'prenom'            =>  $request->prenom,
-        'civilite'          =>    $request->sexe,
-        'telephone'         =>   $request->telephone,
-        'accessCode'            =>  $request->accessCode,
-        'password'          =>bcrypt( $request->password),
-        'child_type'             => Admin::class,
-        'child_id'           => $admin->id
-    ]);
+
+        $admin = Admin::create([
+            'role_id' => $request->role,
+        ]);
+        $user = User::create([
+            'email' => $request->email,
+            'code' => $request->code,
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'civilite' => $request->sexe,
+            'telephone' => $request->telephone,
+            'accessCode' => $request->accessCode,
+            'password' => bcrypt($request->password),
+            'child_type' => Admin::class,
+            'child_id' => $admin->id,
+        ]);
+        alert()->success('Succés!', 'Admin ajouté avec succés')->persistent('Fermer');
         return redirect('/admin');
     }
 
@@ -107,8 +108,12 @@ class AdminController extends Controller
     {
         //
 
-        $admin = Admin::query()->where('id' ,'=', $id)->with('user')->get()->first();
+        $admin = Admin::query()->where('id', '=', $id)->with('user')->get()->first();
         $roles = Role::all();
+        if(!$admin)
+        {
+            return view('General::notFound');
+        }
         return view("Admin::updateAdmin", compact('admin', 'roles'));
     }
 
@@ -141,29 +146,43 @@ class AdminController extends Controller
             'email.email' => 'vous devez saisir un email valide ',
             'email.unique' => 'email deja existant ',
             'accessCode.required' => 'le champs code d\'acces est obligatoire',
+            'password.required' => 'le mot de passe est requis',
 
         ]);
         $admin = Admin::find($id);
+        if(!$admin)
+        {
+            return view('General::notFound');
+        }
+        $checkEmail = User::where('email', $request->email)->first();
+        if ($checkEmail) {
+            alert()->error('Oups!', 'Email existe déja')->persistent('Fermer');
+            return redirect()->back();
+
+        }
         $admin->role_id = $request->role;
         $admin->save();
         $user = User::find($admin->user->id);
-        if($request->password != null)
+        if ($request->password != null) {
             $password = bcrypt($request->passsword);
-        else
+        } else {
             $password = $user->password;
+        }
+
         User::where('id', '=', $admin->user->id)->update([
-            'email'         =>   $request->email,
-            'code'          =>    $request->code,
-            'nom'           =>    $request->nom,
-            'prenom'            =>  $request->prenom,
-            'civilite'          =>    $request->sexe,
-            'telephone'         =>   $request->telephone,
-            'accessCode'            =>  $request->accessCode,
-            'password'          =>$password,
-            'child_type'             => Admin::class,
-            'child_id'           => $id
+            'email' => $request->email,
+            'code' => $request->code,
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'civilite' => $request->sexe,
+            'telephone' => $request->telephone,
+            'accessCode' => $request->accessCode,
+            'password' => $password,
+            'child_type' => Admin::class,
+            'child_id' => $id,
         ]);
         $user = Admin::find($id)->user;
+        alert()->success('Succés!', 'Admin modifié avec succés')->persistent('Fermer');
         return redirect('/admin');
     }
 
@@ -176,16 +195,15 @@ class AdminController extends Controller
     public function destroy($id)
     {
         //
-      $admin =   Admin::find($id);
-      $user =  $admin->user;
-      if($admin->role->id != 1)
-      {$admin->delete();
-          $user->delete();
+        $admin = Admin::find($id);
+        $user = $admin->user;
+        if ($admin->role->id != 1) {$admin->delete();
+            $user->delete();
 
-      }else{
-          alert()->error('Oups!', 'DBO ne peut pas etre supprimer')->persistent("Fermer");
-      }
-
-      return redirect('/admin');
+        } else {
+            alert()->error('Oups!', 'DBO ne peut pas etre supprimer')->persistent("Fermer");
+        }
+        alert()->success('Succés!', 'Admin supprimé avec succés')->persistent('Fermer');
+        return redirect('/admin');
     }
 }
