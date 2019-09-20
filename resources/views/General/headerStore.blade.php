@@ -56,7 +56,7 @@
                                             compte</a>
                                     </div>
                                     <div class="text-center">
-                                    <a href="{{route('addAdmin'}}" class="btn btn-default btn-flat btn-width">Gestion des comptes</a>
+                                    <a href="{{route('addAdmin')}}" class="btn btn-default btn-flat btn-width">Gestion des comptes</a>
                                     </div>
                                     <div class="text-center">
                                         <a href="{{route('handleSignOut')}}"
