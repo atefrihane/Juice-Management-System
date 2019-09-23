@@ -41,7 +41,7 @@
                                 @forelse($machines as $machine)
                                 <tr>
                                     @if($machine->photo_url)
-                                    <td> <img src="{{$machine->photo_url}}" height="80" class="user-image"
+                                    <td> <img src="{{$machine->photo_url}}" height="70" class="user-image"
                                             alt="User Image"> </td>
                                     @else
                                     <td> <img src="{{asset('/img')}}/no-logo.png" height="80" class="user-image"

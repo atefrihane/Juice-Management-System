@@ -30,7 +30,7 @@
                                     <th>Code</th>
                                     <th>Nom Et Prénom</th>
                                     <th>Type de compte</th>
-                                    <th>Magasin</th>
+                                    <th>Nbr de Magasins</th>
                                     <th></th>
 
                                 </tr>

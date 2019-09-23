@@ -56,8 +56,9 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Type de Produit</label>
                 <select class="form-control" v-model="type">
-                    <option selected>alimentaire</option>
-                    <option>autre</option>
+                    <option selected>Alimentaire</option>
+                    <option>Jettable</option>
+                    <option>Autre</option>
 
                 </select>
 
@@ -107,7 +108,8 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Poids (en kg)</label>
 
-                <input class="form-control" id="disabledInput" type="number" placeholder="Poids" v-model="weight">
+                <input class="form-control" id="disabledInput" type="number" step="0.01" placeholder="Poids"
+                    v-model="weight">
 
 
             </div>
@@ -115,7 +117,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Hauteur(cm)</label>
-                        <input class="form-control" id="disabledInput" type="number" placeholder="hauteur"
+                        <input class="form-control" id="disabledInput" type="number" step="0.01" placeholder="hauteur"
                             v-model="height">
                     </div>
                 </div>
@@ -123,7 +125,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Largeur(cm)</label>
-                        <input class="form-control" id="disabledInput" type="number" placeholder="Largeur"
+                        <input class="form-control" id="disabledInput" type="number" step="0.01" placeholder="Largeur"
                             v-model="width">
                     </div>
                 </div>
@@ -132,14 +134,14 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Profondeur(cm)</label>
-                        <input class="form-control" id="disabledInput" type="number" placeholder="Profondeur"
-                            v-model="depth">
+                        <input class="form-control" id="disabledInput" type="number" step="0.01"
+                            placeholder="Profondeur" v-model="depth">
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Prix publique</label>
-                <input class="form-control" id="disabledInput" type="number" placeholder="Prix publique"
+                <input class="form-control" id="disabledInput" type="number" step="0.01" placeholder="Prix publique"
                     v-model="publicPrice">
             </div>
             <div class="form-group">
@@ -198,7 +200,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Quantité de produit fini(en litre)</label>
-                                <input class="form-control" id="disabledInput" type="number"
+                                <input class="form-control" id="disabledInput" type="number" step="0.01"
                                     placeholder="Quantité de produit fini.." v-model="mixture.endQuantityProduct">
                             </div>
                         </div>
@@ -209,20 +211,20 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Poids necessaire du produit (en kg)</label>
                                 <input class="form-control" id="disabledInput" type="number" placeholder="Poids.."
-                                    v-model="mixture.necessaryWeight">
+                                    step="0.01" v-model="mixture.necessaryWeight">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Quantité d'eau (en litre)</label>
-                                <input class="form-control" id="disabledInput" type="number"
+                                <input class="form-control" id="disabledInput" type="number" step="0.01"
                                     placeholder="Quantité eau..." v-model="mixture.waterQuantity">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Quantité de sucre (en kg)</label>
-                                <input class="form-control" id="disabledInput" type="number"
+                                <input class="form-control" id="disabledInput" type="number" step="0.01"
                                     placeholder="Quantité sucre..." v-model="mixture.sugarQuantity">
                             </div>
                         </div>
@@ -232,7 +234,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Volume de verre (en cl)</label>
-                                <input class="form-control" id="disabledInput" type="number"
+                                <input class="form-control" id="disabledInput" type="number" step="0.01"
                                     placeholder="Volume de verre..." v-model="mixture.glassVolume">
                             </div>
                         </div>
@@ -258,7 +260,7 @@
 
                         <button href="" class="btn btn-danger pl-1">Annuler</button>
                         <button class="btn btn-success pl-1" type="button"
-                            @click.prevent="submitProduct()">Confirmer</button>
+                            @click="submitProduct()">Confirmer</button>
 
                     </div>
                 </div>
@@ -288,7 +290,7 @@
                 state: 'disponible',
                 name: '',
                 version: '',
-                type: 'alimentaire',
+                type: 'Alimentaire',
                 barcode: '',
                 designation: '',
                 composition: '',
@@ -306,20 +308,19 @@
                 packing: '',
                 comment: '',
                 productId: product.productId,
-                error:0,
+                error: 0,
 
                 mixtures: [{
-                        endQuantityProduct: '',
-                        necessaryWeight: '',
-                        waterQuantity: '',
-                        sugarQuantity: '',
-                        glassVolume: '',
-                        glassNumber: ''
-                        }
-                        ],
+                    endQuantityProduct: '',
+                    necessaryWeight: '',
+                    waterQuantity: '',
+                    sugarQuantity: '',
+                    glassVolume: '',
+                    glassNumber: ''
+                }],
                 errors: []
-                }
-            },
+            }
+        },
         mounted() {
 
         },
@@ -364,23 +365,16 @@
                                 if (response.data.status == 200) {
                                     this.photo = response.data.path;
 
-                                } else {
-                                    this.errors.push(response.data.message);
-                                    window.scrollTo(0, 0);
-                                    this.error=1;
-                                  
-                                  
                                 }
 
                             })
                             .catch(function (error) {
                                 console.log(error);
                             });
-                            }
+                    }
 
-                     if(this.error == 0)
-                     {
-                    
+
+
 
                     axios.post('/api/products', {
 
@@ -428,7 +422,7 @@
                             console.log(error);
                         });
 
-                     }    
+
 
 
                 }
