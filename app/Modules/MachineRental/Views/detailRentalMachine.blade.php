@@ -133,7 +133,7 @@
 
                                 </div>
                                 @empty
-                                inheritAttrszeig    
+                                    
                                 @endforelse
                             </div>
 
@@ -149,7 +149,7 @@
 
     </div>
 
-    <script src="{{mix('js/machine.js')}}">
+
 
     </script>
 @endsection

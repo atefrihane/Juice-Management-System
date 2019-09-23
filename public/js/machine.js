@@ -49205,7 +49205,7 @@ if (token) {
 /*! exports provided: api, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"api\":{\"url\":\"http://vps683731.ovh.net/wizefresh/public/api/\"}}");
+module.exports = JSON.parse("{\"api\":{\"url\":\"http://localhost/wizefresh/public/api/\"}}");
 
 /***/ }),
 

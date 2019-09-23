@@ -5,7 +5,7 @@
 
         <section class="content-header">
 
-            {{ Breadcrumbs::render('addStore',$company) }}
+            {{ Breadcrumbs::render('editStore',$company) }}
         </section>
 
         <section class="content" style="margin-top:20px;">
@@ -69,7 +69,7 @@
 
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Nom Societé</label>
-                                    <input class="form-control" id="disabledInput" value="{{$company->name}}" type="text" placeholder="Groupe">
+                                    <input class="form-control" id="disabledInput" value="{{$company->name}}" type="text" placeholder="Groupe" disabled>
 
                                 </div>
                                 <div class="form-group">

@@ -88,15 +88,15 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Date du début de location</label>
-                                        <input class="form-control" required id="disabledInput"
-                                            v-model="rental.date_debut" type="date">
+                                        <input class="form-control" required id="startDate"
+                                            v-model="rental.date_debut" type="date" min="" >
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Date de fin de location</label>
-                                        <input class="form-control" required id="disabledInput"
-                                            v-model="rental.date_fin" type="date">
+                                        <input class="form-control" required id="endDate"
+                                            v-model="rental.date_fin" type="date" min="">
                                     </div>
                                 </div>
                             </div>
@@ -208,49 +208,10 @@
     </section>
 
 </div>
-<script>
-    localStorage.setItem('machine_id', {
-        {
-            $machine->id
-        }
-    });
 
-</script>
-<script src="{{mix('js/machine.js')}}"></script>
 
 
 @endsection
-@section('dynamicProduct.script')
-<script>
-    $
-    $('document').ready(function () {
-
-        var newProduct = $('.box-color').html();
-        var newButton = $('.clicked').html();
-        $('.clicked').click(function () {
-            // var html="";
-            // html+= '<div class="box-tools pull-right">';
-            // html+='<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>';
-            // html+=' <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>';
-            // html+='</div>';
-            // $(newProduct).prepend(html);
-
-            $('.box-color').append(newProduct);
-            $('.products').each(function (i, obj) {
-                if (i != 0) {
-                    $(this).children(":first").css("display", "block");
 
 
-                }
-            });
 
-        });
-
-        $(document).on('click', '.removed', function () {
-            $(this).parent().parent().slideUp();
-        });
-
-    });
-
-</script>
-@endsection

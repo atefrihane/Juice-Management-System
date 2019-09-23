@@ -27,6 +27,7 @@
         "webpack-livereload-plugin": "^1.2.0"
     },
     "dependencies": {
-        "sweetalert2": "^8.17.1"
+        "sweetalert2": "^8.17.1",
+        "vue-color": "^2.7.0"
     }
 }

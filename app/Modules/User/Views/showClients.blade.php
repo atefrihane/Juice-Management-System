@@ -47,7 +47,7 @@
                                     <td>{{ucfirst($contact->user->getType())}}</td>
 
                                     <td>
-                                        tout
+                                        {{$contact->company->stores->count()}}
                                     </td>
                                     <td class="not-this text-center">
 
@@ -105,7 +105,7 @@
                                             <td ><a href="{{route('detailClient',[$company->id, $contact->user->id])}}">{{$contact->user->code}}</a></td>
                                             <td >{{$contact->user->nom.' '. $contact->user->prenom}}</td>
                                             <td >{{ucfirst($contact->user->getType())}}</td>
-                                            <td>{{$contact->stores->count()}} Magasins </td>
+                                            <td>{{$contact->stores->count()}}  </td>
                                              <td class="not-this text-center">
 
                                                 <div class="btn-group">
@@ -163,7 +163,7 @@
                                             <td >{{$contact->user->nom.' '. $contact->user->prenom}}</td>
                                             <td >{{ucfirst($contact->user->getType())}}</td>
 
-                                                <td>{{$contact->store->designation}}</td>
+                                                <td>1</td>
 
                                             <td class="not-this text-center" >
 

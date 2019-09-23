@@ -76,10 +76,13 @@
                                                 @empty
                                                 @endforelse
                                              
-
+                                                @foreach($machine->machineRentals as $rental)
+                                                @if($rental->active == 1)
                                                 <li><a
-                                                        href="{{route('showEndRental', ['id' =>$machine->machine_rental_id])}}">Arreter
+                                                        href="{{route('showEndRental', ['id' =>$rental->id])}}">Arreter
                                                         location</a></li>
+                                                        @endif
+                                                        @endforeach
                                                 <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">Voir
                                                         historique des locations</a></li>
                                                 <li><a href="{{route('showHistoryMachine',$machine->id)}}">Voir

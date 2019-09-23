@@ -106,10 +106,11 @@
                 if (id != '') {
                     axios.get('/api/product/' + id)
                         .then((response) => {
+                        
 
-                            this.productCode = response.data.code;
-                            this.barCode = response.data.barcode;
-                            this.productPrice = response.data.public_price;
+                            this.productCode = response.data.product.code;
+                            this.barCode = response.data.product.barcode;
+                            this.productPrice = response.data.product.public_price;
 
                         })
                         .catch((error) => {
@@ -143,6 +144,7 @@
 
                         })
                         .then((response) => {
+                          
                             if (response.data.status != 200) {
                                 swal.fire({
                                     type: 'success',

@@ -1,6 +1,7 @@
 <head>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="csrf-token" content="{{csrf_token()}}">
     <!-- Bootstrap 3.3.7 -->
     <title>@yield('pageTitle')</title>
 
@@ -50,6 +51,7 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     <link href="{{ asset('/css/custom.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <style>
         .btn-width {
             width: 200px;
@@ -60,9 +62,13 @@
             text-align: center !important;
         }
         .table-tr > td > img {
-            width:80px;
-            height:80px;
+            display:block;
+            width:70%;
+            height:auto;
         }
 
+        .swal2-popup { font-size: 1.6rem !important; }
+
     </style>
+
 </head>

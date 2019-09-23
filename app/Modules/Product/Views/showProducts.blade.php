@@ -22,7 +22,7 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Liste des produits</h3>
-                        <a href="#" class="btn btn-primary pull-right" disabled>Ajouter un
+                        <a href="{{route('showAddProduct')}}" class="btn btn-primary pull-right" >Ajouter un
                             produit</a>
 
 
@@ -98,7 +98,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="text-center">
-                                                    <form action="{{route('deleteMachine', $product->id)}}"
+                                                    <form action="{{route('deleteProduct', $product->id)}}"
                                                         method="post">
                                                         {{csrf_field()}}
                                                         <a href="#" class="btn btn-danger"

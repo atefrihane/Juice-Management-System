@@ -110,7 +110,7 @@
 
     </div>
 
-    <script src="{{mix('js/machine.js')}}">
+ 
 
     </script>
 @endsection

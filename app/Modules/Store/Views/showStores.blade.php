@@ -56,9 +56,9 @@
                                 @forelse($stores as $store)
                                 <tr class="table-tr">
                                 @if($store->photo)
-                    <td data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}">    <img src="{{asset('/')}}/{{$store->photo}}" height="80" class="user-image" alt="User Image"> </td>
+                    <td data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}" style="width:150px;">    <img src="{{asset('/')}}/{{$store->photo}}" height="80" class="user-image" alt="User Image"> </td>
                     @else
-                    <td data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}">    <img src="{{asset('/img')}}/no-logo.png" height="80" class="user-image" alt="User Image"> </td>
+                    <td data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}" style="width:150px;">    <img src="{{asset('/img')}}/no-logo.png" height="80" class="user-image" alt="User Image"> </td>
                     @endif
                                     <td data-url="{{route('showStoreRentals',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->code}}</td>
                                     <td data-url="{{route('showStoreRentals',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->designation}}</td>

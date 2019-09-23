@@ -1,6 +1,5 @@
 {
-    "/js/app.js": "/wizefresh/public/js/app.js?id=cba24733ecab5a3249ca",
-    "/css/app.css": "/wizefresh/public/css/app.css?id=b729501f884a0b48c2da",
-    "/js/machine.js": "/wizefresh/public/js/machine.js?id=068c2aba4f6003fca76e",
-    "/js/product.js": "/wizefresh/public/js/product.js?id=722fe918b8cc277a78eb"
+    "/js/app.js": "/js/app.js?id=cba24733ecab5a3249ca",
+    "/css/app.css": "/css/app.css?id=b729501f884a0b48c2da"
+
 }

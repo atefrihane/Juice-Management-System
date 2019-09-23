@@ -85,6 +85,8 @@
 <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js">
 </script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script>
 var oTable = $('.table').DataTable( {
     "language": {
@@ -93,9 +95,28 @@ var oTable = $('.table').DataTable( {
     "bLengthChange": false ,
     "columnDefs": [ {
     "targets": -1,
-    "orderable": false
-    } ]
+    "orderable": false,
+
+    } ],
+    "pageLength": 5
 } );
 </script>
+<script>
+$(function() {
+  $('.dates').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: true,
+    minDate: new Date(new Date().setFullYear(new Date().getFullYear()))
+  }, function(start, end, label) {
+   
+  });
+
+  
+});
+
+
+
+</script>
+
 
 </html>

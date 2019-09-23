@@ -20,8 +20,18 @@ class ProductController extends Controller
 
     public function showAddProduct()
     {
+        $product = 0;
+        $count = Product::count();
 
-        return view('Product::addProduct');
+        if ($count > 0) {
+            $product = Product::all()->last()->id + 1;
+
+        } else {
+            $product = 1;
+        }
+  
+
+        return view('Product::addProduct',compact('product'));
     }
 
     public function showCustomProducts($id)
@@ -60,13 +70,12 @@ class ProductController extends Controller
 
         $validate = $request->validate([
             'photo_url' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
-            ], [
+        ], [
             'photo_url.image' => 'Le format de la photo importé est non supporté ',
             'photo_url.mimes' => 'Le format de la photo importé est non supporté ',
             'photo_url.max' => 'La photo importé est volumineuse ! ',
 
         ]);
- 
 
         if ($file) {
             $path = $file->getClientOriginalName();

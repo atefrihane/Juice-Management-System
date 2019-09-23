@@ -84,8 +84,9 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Civilité</label>
                                     <select class="form-control" name="civilite" value="{{old('civilite')}}">
-                                        <option value="MM">MM</option>
-                                        <option value="MMe">MMe</option>
+                                        <option value="MM">M.</option>
+                                        <option value="MMe">Mme.</option>
+                                        <option value="Mlle">Mlle.</option>
                                     </select>
 
                                 </div>

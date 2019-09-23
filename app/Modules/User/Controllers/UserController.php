@@ -120,14 +120,6 @@ class UserController extends Controller
                 }break;
             case 'responsable':
                 $user = $request->all();
-
-                $checkStore = Responsable::where('store_id', $request->store)->first();
-
-                if ($checkStore) {
-                    alert()->error('Oups!', 'La societé a déja un responsable')->persistent("Fermer");
-                    return redirect()->back()->withInput();
-                }
-
                 $rules['store'] = 'required';
                 $messages['store.required'] = 'selectionner un magasin pour le responsable';
                 $val = $request->validate($rules, $messages);

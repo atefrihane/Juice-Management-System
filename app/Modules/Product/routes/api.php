@@ -9,4 +9,5 @@ Route::group(['module' => 'Product', 'middleware' => ['api'], 'namespace' => 'Ap
     route::get('api/product/name/{name}', 'ProductController@handleGetProductByName');
     route::get('api/product/barcode/{barcode}', 'ProductController@handleGetProductByBarcode');
     route::get('api/products/all', 'ProductController@handleGetAllProduct');
+    route::post('api/image', 'ProductController@handleUploadImage');
 });
