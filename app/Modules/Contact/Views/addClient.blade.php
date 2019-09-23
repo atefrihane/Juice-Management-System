@@ -73,7 +73,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Prénom</label>
+                                            <label for="exampleInputEmail1">Prénomm</label>
                                             <input class="form-control" name="prenom" id="disabledInput" type="text" placeholder="Prénom" value="{{old('prenom')}}">
 
                                         </div>
