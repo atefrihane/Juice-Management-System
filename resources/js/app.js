@@ -10,9 +10,8 @@ import Vue from 'vue'
 import ProductPrice from './components/ProductPrice.vue'
 import ProductAdd from './components/ProductAdd.vue'
 import swal from 'sweetalert2'
-import VueColor from 'vue-color'
 window.swal = swal;
-window.VueColor = require('vue-color');
+
 
 Vue.component('product-price', require('./components/ProductPrice.vue'));
 Vue.component('product-add', require('./components/ProductAdd.vue'));
@@ -22,8 +21,8 @@ const app = new Vue({
     el: '#app',
     components: {
         ProductPrice,
-        ProductAdd,
-        VueColor
+        'product-add': ProductAdd,
+
     },
 
 
