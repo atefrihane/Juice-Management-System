@@ -1,4 +1,4 @@
-@extends('General.layout') @section('pageTitle', 'Ajouter une machine') @section('content')
+@extends('General.layout') @section('pageTitle', 'Ajouter un produit') @section('content')
 
 
 <div class="content-wrapper" id="app">

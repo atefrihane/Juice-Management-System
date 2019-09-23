@@ -158,8 +158,7 @@
 
                                 <div class="row">
                                     <div class="container text-center">
-
-                                        <button href="" class="btn btn-danger pl-1">Annuler</button>
+                                        <a href="{{route('showProducts')}}" class="btn btn-danger pl-1">Annuler</a>
                                         <button  class="btn btn-success pl-1" type="submit">Confirmer</button>
 
                                     </div>
@@ -175,35 +174,3 @@
    
 
 @endsection
-{{--@section('dynamicProduct.script')--}}
-{{--<script>--}}
-{{--$('document').ready(function(){--}}
-
-{{--  var newProduct=$('.box-color').html();--}}
-{{--  var newButton=$('.clicked').html();--}}
-{{--$('.clicked').click(function(){--}}
-{{--// var html="";--}}
-{{--// html+= '<div class="box-tools pull-right">';--}}
-{{--// html+='<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>';--}}
-{{--// html+=' <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>';--}}
-{{--// html+='</div>';--}}
-{{--// $(newProduct).prepend(html);--}}
-
-{{--$('.box-color').append(newProduct);--}}
-{{--$('.products').each(function(i, obj) {--}}
-{{--   if (i!=0) {--}}
-{{--    $(this).children(":first").css("display","block");--}}
-
-
-{{--      }--}}
-{{--});--}}
-
-{{--});--}}
-
-{{--   $(document).on('click', '.removed', function(){--}}
-{{--    $(this).parent().parent().slideUp();--}}
-{{--});--}}
-
-{{--});--}}
-{{--</script>--}}
-{{--@endsection--}}

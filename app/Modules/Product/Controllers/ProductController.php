@@ -65,8 +65,10 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
 
+        $product=Product::find($id);
+
         $file = $request->photo_url;
-        $path = null;
+        $path =$product->photo_url;
 
         $validate = $request->validate([
             'photo_url' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
@@ -84,7 +86,7 @@ class ProductController extends Controller
 
         }
 
-        Product::where('id', $id)->update([
+      $product->update([
             'status' => $request->status,
             'nom' => $request->nom,
             'type' => $request->type,
