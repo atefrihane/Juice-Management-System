@@ -117,6 +117,22 @@ $(function() {
 
 
 </script>
+<script>
+$('document').ready(function(){
+$('.not-this > .btn-group > .dots').click(function(){
+
+  if ($(this).parent().hasClass('open')){
+     ($(this).parent().removeClass('open'));
+  }
+else {
+  ($(this).parent().addClass('open'));
+
+}
+
+})
+
+});
+</script>
 
 
 </html>

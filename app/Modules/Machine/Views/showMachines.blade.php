@@ -67,7 +67,7 @@
                                                 <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">Voir
                                                         historique des locations</a></li>
                                                 <li><a href="{{route('showHistoryMachine',$machine->id)}}">Voir
-                                                        historique machine</a></li>
+                                                        détail machine</a></li>
                                                 @else
                                                 @forelse($machine->machineRentals as $rental)
                                                 @if($rental->active == 1)
@@ -85,8 +85,7 @@
                                                         @endforeach
                                                 <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">Voir
                                                         historique des locations</a></li>
-                                                <li><a href="{{route('showHistoryMachine',$machine->id)}}">Voir
-                                                        historique machine</a></li>
+                                                <li><a href="{{route('showHistoryMachine',$machine->id)}}">Voir détail machine</a></li>
                                                 @endif
 
                                                 <li><a href="{{route('machineStatusEdit', $machine->id)}}">Mettre à jour
@@ -116,7 +115,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="text-center">
-                                                    <form action="{{route('handleUpdateStatus', $machine->id)}}"
+                                                    <form action="{{route('deleteMachine', $machine->id)}}"
                                                         method="post">
                                                         {{csrf_field()}}
                                                         <a href="#" class="btn btn-danger"

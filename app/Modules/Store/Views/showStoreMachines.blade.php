@@ -59,8 +59,7 @@
 
                                                 <li><a href="{{route('showListRental', $rental->id).'?machine=true'}}">Voir
                                                         historique des locations</a></li>
-                                                <li><a href="{{route('showHistoryMachine',$rental->machine->id)}}">Voir
-                                                        historique machine</a></li>
+                                                <li><a href="{{route('showHistoryMachine',$rental->machine->id)}}">Voir détail machine</a></li>
                                                 @else
 
                                                 <li><a
@@ -68,8 +67,7 @@
                                                         location</a></li>
                                                 <li><a href="{{route('showListRental', $rental->machine->id).'?machine=true'}}">Voir
                                                         historique des locations</a></li>
-                                                <li><a href="{{route('showHistoryMachine',$rental->machine->id)}}">Voir
-                                                        historique machine</a></li>
+                                                <li><a href="{{route('showHistoryMachine',$rental->machine->id)}}">Voir détail machine</a></li>
                                                 @endif
 
                                                 <li><a href="{{route('machineStatusEdit', $rental->machine->id)}}">Mettre à jour
