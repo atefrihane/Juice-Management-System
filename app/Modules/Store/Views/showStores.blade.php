@@ -46,7 +46,7 @@
                                     <th>Photo</th>
                                     <th>Code</th>
                                     <th>Désignation</th>
-                                    <th>Désignation</th>
+                                  
                                     <th>Ville</th>
                                     <th>Code Postal</th>
                                     <th>Etat</th>
