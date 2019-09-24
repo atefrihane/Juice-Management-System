@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Modules\MachineRental\Controllers\api;
-
+use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Machine\Models\Machine;
@@ -39,17 +39,43 @@ class MachineRentalController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $rental = $request->all();
+        $checkMachine=Machine::find($request->id);
+        if($checkMachine)
+        {
+            $checkMachine->update(['rented' => 1]);
 
-        unset($rental['company_id']);
-        $checkRental = MachineRental::where('machine_id', $rental['machine_id'])->where('active', 1)->first();
-        if (!$checkRental) {
-            $machineRental = MachineRental::create($rental);
-            Machine::where('id', $rental['machine_id'])->update(['rented' => true, 'machine_rental_id' => $machineRental->id]);
-            return $machineRental;
         }
-        return response()->json(['status ' => '400']);
+        $checkRenal=MachineRental::where('machine_id',$checkMachine->id)
+        ->where('active',1)
+        ->first();
+        if($checkRenal)
+        {
+            return response()->json(['status'=>400]);
+
+
+        }
+        $parsedStartDate = Carbon::parse($request->startDate)->toDateTimeString();
+        $parsedEndDate =   Carbon::parse($request->endDate)->toDateTimeString();
+
+        if($parsedEndDate < $parsedStartDate) {
+
+            return response()->json(['status'=>405]);
+        }
+   
+        MachineRental::create([
+            'date_debut'=>$parsedStartDate,
+            'date_fin'=>$parsedEndDate,
+            'location'=>$request->location,
+            'Comment'=>$request->comment,
+            'price'=>$request->price,
+            'active'=>$request->active,
+            'store_id'=>$request->storeId,
+            'machine_id'=>$request->id,
+
+        ]);
+
+            return response()->json(['status'=>200]);
+       
     }
 
     /**

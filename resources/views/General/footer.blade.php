@@ -129,7 +129,10 @@ else {
 
 }
 
-})
+});
+
+$('.vdp-datepicker > div > input').addClass('form-control');
+$(".vdp-datepicker > div > input").attr("placeholder", "Sélectionner une date");
 
 });
 </script>

@@ -25,7 +25,7 @@
                         <div class="box-body">
                             <div class="row">
 
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     @if($machine->photo_url)
                                     <img class="img-responsive" src="{{asset('/')}}/{{$machine->photo_url}}"
                                         alt="Photo">
@@ -34,7 +34,7 @@
                                     @endif
                                 </div>
 
-                                <div class="col-md-8">
+                                <div class="col-md-10">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Code</label>
                                         <input type="text" name="code" class="form-control" id="exampleInputEmail1"

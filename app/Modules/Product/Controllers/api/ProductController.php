@@ -81,15 +81,17 @@ class ProductController extends Controller
 
     public function index()
     {
-        return Product::with('mixtures')->get();
+        return Product::all();
     }
 
     public function handleGetProductById($id)
     {
+      
         $checkProduct = Product::find($id);
+       
         if ($checkProduct) {
 
-            return response()->json(['status' => 'status', 'product' => $checkProduct]);
+            return response()->json(['status' => 'status', 'product' => $checkProduct->mixtures]);
 
         } else {
             return response()->json(['status' => '404', 'product' => 'Product not found']);

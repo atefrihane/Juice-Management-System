@@ -10,7 +10,17 @@ use Illuminate\Database\Eloquent\Model;
 class MachineRental extends Model {
 
     //
-   protected $guarded = ['id', 'updated_at', 'created_at'];
+   protected $fillable = [
+        'date_debut', 
+        'date_fin',
+        'store_id',
+        'machine_id',
+        'location',
+        'Comment',
+        'end_reason',
+        'price',
+        'active'
+        ];
 
    public function machine(){
        return $this->belongsTo(Machine::class);
