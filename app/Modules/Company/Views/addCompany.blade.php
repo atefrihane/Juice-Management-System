@@ -226,7 +226,7 @@
 
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Telephone</label>
+                                        <label for="exampleInputEmail1">Téléphone</label>
                                         <input required class="form-control" name="cc" type="text"
                                             placeholder="Code pays" value="+33" maxlength="4" value="{{old('cc')}}">
 
@@ -235,9 +235,9 @@
 
                                 <div class="col-md-10">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1" style="color: transparent">Telephone</label>
+                                        <label for="exampleInputEmail1" style="opacity: 0">Téléphone</label>
                                         <input required type="tel" name="tel" class="form-control"
-                                            id="exampleInputEmail1" placeholder="Telephone" value="{{old('tel')}}">
+                                            id="exampleInputEmail1" placeholder="Téléphone" value="{{old('tel')}}">
                                     </div>
                                 </div>
                             </div>

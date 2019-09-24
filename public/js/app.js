@@ -2184,7 +2184,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       if (!this.publicPrice) {
-        this.errors.push('Le champs prix publique  est  requis.');
+        this.errors.push('Le champs prix unitaire de vente  est  requis.');
         window.scrollTo(0, 0);
         return false;
       }
@@ -41167,7 +41167,7 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-            _vm._v("Prix publique")
+            _vm._v("Prix unitaire de vente  ")
           ]),
           _vm._v(" "),
           _c("input", {

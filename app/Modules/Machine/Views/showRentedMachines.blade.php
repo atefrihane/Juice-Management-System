@@ -65,7 +65,7 @@
                                                 <li><a href="{{route('showListRental', $machine->machine->id).'?machine=true'}}">Voir
                                                         historique des locations</a></li>
                                                 <li><a href="{{route('showListRental', $machine->machine->id).'?machine=true'}}">Voir
-                                                        historique machine</a></li>
+                                                        détail machine</a></li>
                                                 <li><a href="{{route('machineStatusEdit', $machine->machine->id)}}">Mettre à jour
                                                         état</a></li>
                                                 <li><a href="{{route('editMachine', $machine->machine->id)}}">Modifier</a></li>

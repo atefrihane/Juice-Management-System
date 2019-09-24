@@ -3,177 +3,282 @@
 
 @section('content')
 
-    <div class="content-wrapper">
+<div class="content-wrapper">
 
-        <section class="content-header">
+    <section class="content-header">
 
-            {{ Breadcrumbs::render('company') }}
-        </section>
-
-
-        <section class="content">
-            <div class="row">
-                <div class="container">
-
-                    <div class="box box-primary">
-
-                        <div class="box-header">
-                            <h3 class="box-title"> Modifier societé</h3>
-
-                        </div>
+        {{ Breadcrumbs::render('company') }}
+    </section>
 
 
-                        <form role="form" action="{{route('updateCompany', $company->id)}}" method="post" enctype="multipart/form-data">
-                            {{csrf_field()}}
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
-                            <div class="box-body">
-                                <div class="row">
+    <section class="content">
+        <div class="row">
+            <div class="container">
 
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">ID</label>
-                                            <input class="form-control" id="disabledInput" type="text" value="{{$company->id}}" disabled>
+                <div class="box box-primary">
 
-                                        </div>
-                                    </div>
+                    <div class="box-header">
+                        <h3 class="box-title"> Modifier societé</h3>
 
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Code</label>
-                                            <input type="text" class="form-control"  value="{{$company->code}}" name="code" id="exampleInputEmail1" placeholder="Code..">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Statut</label>
-                                            <select class="form-control" name="status">
-
-                                                <option {{$company->status == 2 ? 'selected': ''}} value="2">Active</option>
-                                                <option {{$company->status == 1 ? 'selected': ''}} value="1">En sommeil</option>
-                                                <option {{$company->status == 0 ? 'selected': ''}} value="0">Fermé</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Nom du groupe</label>
-                                    <input type="text" class="form-control" value="{{$company->name}}" name="name" id="exampleInputPassword1" placeholder="Nom du groupe">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Désignation</label>
-                                    <input type="text" class="form-control" name="designation" value="{{$company->designation}}" id="exampleInputPassword1" placeholder="Désignation">
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Pays</label>
-                                            <select class="form-control" name="country">
-                                                <option value="France">France</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Ville</label>
-                                            <select class="form-control" name="city">
-                                                <option value="Paris" @if ($company->city == "Paris")
-                                                    selected
-                                                @endif>  Paris  </option>
-                                                <option value="Lyon" @if ($company->city == "Lyon")
-                                                    selected
-                                                @endif>  Lyon  </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputPassword1">Code Postal</label>
-                                            <input type="text" name="zip_code" value="{{$company->zip_code}}" class="form-control" id="exampleInputPassword1" placeholder="Code Postal">
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Addresse du siege</label>
-                                    <input type="text" name="address" value="{{$company->address}}" class="form-control" id="exampleInputPassword1" placeholder="Addresse du siege">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Complement addresse (optionnel)</label>
-                                    <input type="text" name="complement" value="{{$company->complement}}" class="form-control" id="exampleInputPassword1" placeholder="Complement addresse">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Email</label>
-                                    <input type="email" name="email" value="{{$company->email}}" class="form-control" id="exampleInputPassword1" placeholder="Email">
-                                </div>
-                                <div class="row">
-
-
-
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Téléphone</label>
-                                            <input type="text" name="tel" value="{{$company->tel}}" class="form-control" id="exampleInputEmail1" placeholder="Telephone">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Commentaires (optionnel)</label>
-                                    <textarea class="form-control" rows="3"  name="comment" placeholder="Commentaires">{{$company->comment}}</textarea>
-                                </div>
-                                <div class="row">
-                                    <div class="container">
-
-                                    </div>
-                                </div>
-                                <div class="container center-block">
-                                    <div class="form-group">
-                                        <label for="exampleInputFile">Logo du societé (optionnel)</label>
-                                        <input type="file" name="logo" id="exampleInputFile">
-
-
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="container text-center">
-
-                                            <a href="{{route('showHome')}}" class="btn btn-danger pl-1" style="margin: 1em">Annuler</a>
-                                            <button type="submit" class="btn btn-success pl-1" style="margin: 1em">Modifier</button>
-
-                                        </div>
-                                    </div>
-
-
-
-
-
-                                </div>
-
-                        </form>
                     </div>
 
-                    <!-- /.col -->
+
+                    <form role="form" action="{{route('updateCompany', $company->id)}}" method="post"
+                        enctype="multipart/form-data">
+                        {{csrf_field()}}
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
+                        <div class="box-body">
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">ID</label>
+                                        <input class="form-control" id="disabledInput" type="text"
+                                            value="{{$company->id}}" disabled>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Code</label>
+                                        <input type="text" class="form-control" value="{{$company->code}}" name="code"
+                                            id="exampleInputEmail1" placeholder="Code..">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Statut</label>
+                                        <select class="form-control" name="status">
+
+                                            <option {{$company->status == 2 ? 'selected': ''}} value="2">Active</option>
+                                            <option {{$company->status == 1 ? 'selected': ''}} value="1">En sommeil
+                                            </option>
+                                            <option {{$company->status == 0 ? 'selected': ''}} value="0">Fermé</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Nom du groupe</label>
+                                <input type="text" class="form-control" value="{{$company->name}}" name="name"
+                                    id="exampleInputPassword1" placeholder="Nom du groupe">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Désignation</label>
+                                <input type="text" class="form-control" name="designation"
+                                    value="{{$company->designation}}" id="exampleInputPassword1"
+                                    placeholder="Désignation">
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Pays</label>
+                                        <select class="form-control" name="country">
+                                            <option value="France">France</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Ville</label>
+                                        <select class="form-control" name="city">
+                                            <option value="bourg">Bour-en-Bresse (01)</option>
+                                            <option value="laon">Laon (02)</option>
+                                            <option value="moulins">Moulins (03)</option>
+                                            <option value="digne">Digne (04)</option>
+                                            <option value="gap">Gap (05)</option>
+                                            <option value="nice">Nice (06)</option>
+                                            <option value="privas">Privas (07)</option>
+                                            <option value="charleville">Charleville-Mézières (08)</option>
+                                            <option value="foix">Foix (09)</option>
+                                            <option value="troyes">Troyes (10)</option>
+                                            <option value="carcassonne">Carcassonne (11)</option>
+                                            <option value="rodez">Rodez (12)</option>
+                                            <option value="marseille">Marseille (13)</option>
+                                            <option value="caen">Caen (14)</option>
+                                            <option value="aurillac">Aurilac (15)</option>
+                                            <option value="angouleme">Angoulême (16)</option>
+                                            <option value="larochelle">La Rochelle (17)</option>
+                                            <option value="bourges">Bourges (18)</option>
+                                            <option value="tulle">Tulle (19)</option>
+                                            <option value="ajaccio">Ajaccio (2A)</option>
+                                            <option value="bastia">Bastia (2B)</option>
+                                            <option value="dijon">Dijon (21)</option>
+                                            <option value="saintbrieuc">Saint-Brieuc (22)</option>
+                                            <option value="gueret">Guéret (23)</option>
+                                            <option value="perigueux">Périgueux (24)</option>
+                                            <option value="besancon">Besançon (25)</option>
+                                            <option value="lille">Valence (26)</option>
+                                            <option value="evreux">Evreux (27)</option>
+                                            <option value="chartres">Chartres (28)</option>
+                                            <option value="quimper">Quimper (29)</option>
+                                            <option value="nimes">Nîmes (30)</option>
+                                            <option value="toulouse">Toulouse (31)</option>
+                                            <option value="auch">Auch (32)</option>
+                                            <option value="bordeaux">Bordeaux (33)</option>
+                                            <option value="montpellier">Montpellier (34)</option>
+                                            <option value="rennes">Rennes (35)</option>
+                                            <option value="chateauroux">chateauroux (36)</option>
+                                            <option value="tours">Tours (37)</option>
+                                            <option value="grenoble">Grenoble (38)</option>
+                                            <option value="lons">Lons-le-Saunier (39)</option>
+                                            <option value="montdemarsan">Mont-de-Marsan (40)</option>
+                                            <option value="blois">Blois (41)</option>
+                                            <option value="saintetienne">Saint-Etienne (42)</option>
+                                            <option value="lepuyenvelay">Le Puy-en-Velay (43)</option>
+                                            <option value="nantes">Nantes (44)</option>
+                                            <option value="orleans">Orléans (45)</option>
+                                            <option value="cahors">Cahors (46)</option>
+                                            <option value="agen">Agen (47)</option>
+                                            <option value="mende">Mende (48)</option>
+                                            <option value="angers">Angers (49)</option>
+                                            <option value="saintlo">Saint-Lô (50)</option>
+                                            <option value="chalons">Châlons-en-Champagne (51)</option>
+                                            <option value="chaumont">Chaumont (52)</option>
+                                            <option value="laval">Laval (53)</option>
+                                            <option value="nancy">Nancy (54)</option>
+                                            <option value="barleduc">Bar-le-Duc (55)</option>
+                                            <option value="vannes">Vannes (56)</option>
+                                            <option value="metz">Metz (57)</option>
+                                            <option value="nevers">Nevers (58)</option>
+                                            <option value="lille">Lille (59)</option>
+                                            <option value="beauvais">Beauvais (60)</option>
+                                            <option value="alencon">Alençon (61)</option>
+                                            <option value="arras">Arras (62)</option>
+                                            <option value="clermont">Clermont-Ferrand (63)</option>
+                                            <option value="pau">Pau (64)</option>
+                                            <option value="tarbes">Tarbes (65)</option>
+                                            <option value="perpignan">Perpignan (66)</option>
+                                            <option value="strasbourg">Strasbourg (67)</option>
+                                            <option value="colmar">Colmar (68)</option>
+                                            <option value="lyon">Lyon (69)</option>
+                                            <option value="vesoul">Vesoul (70)</option>
+                                            <option value="macon">Mâcon (71)</option>
+                                            <option value="lemans">Le Mans (72)</option>
+                                            <option value="chambery">Chambéry (73)</option>
+                                            <option value="annecy">Annecy (74)</option>
+                                            <option value="paris">Paris (75)</option>
+                                            <option value="rouen">Rouen (76)</option>
+                                            <option value="melun">Melun (77)</option>
+                                            <option value="versailles">Versailles (78)</option>
+                                            <option value="niort">Niort (79)</option>
+                                            <option value="amiens">Amiens (80)</option>
+                                            <option value="albi">Albi (81)</option>
+                                            <option value="montauban">Montauban (82)</option>
+                                            <option value="toulon">Toulon (83)</option>
+                                            <option value="avignon">Avignon (84)</option>
+                                            <option value="larochesuryon">La-Roche-sur-Yon (85)</option>
+                                            <option value="poitiers">Poitiers (86)</option>
+                                            <option value="limoges">Limoges (87)</option>
+                                            <option value="epinal">Epinal (88)</option>
+                                            <option value="auxerre">Auxerre (89)</option>
+                                            <option value="belfort">Belfort (90)</option>
+                                            <option value="evry">Evry (91)</option>
+                                            <option value="nanterre">Nanterre (92)</option>
+                                            <option value="bobigny">Bobigny (93)</option>
+                                            <option value="creteil">Créteil (94)</option>
+                                            <option value="pontoise">Pontoise (95)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Code Postal</label>
+                                        <input type="text" name="zip_code" value="{{$company->zip_code}}"
+                                            class="form-control" id="exampleInputPassword1" placeholder="Code Postal">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Addresse du siege</label>
+                                <input type="text" name="address" value="{{$company->address}}" class="form-control"
+                                    id="exampleInputPassword1" placeholder="Addresse du siege">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Complement addresse (optionnel)</label>
+                                <input type="text" name="complement" value="{{$company->complement}}"
+                                    class="form-control" id="exampleInputPassword1" placeholder="Complement addresse">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Email</label>
+                                <input type="email" name="email" value="{{$company->email}}" class="form-control"
+                                    id="exampleInputPassword1" placeholder="Email">
+                            </div>
+                            <div class="row">
+
+
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Téléphone</label>
+                                        <input type="text" name="tel" value="{{$company->tel}}" class="form-control"
+                                            id="exampleInputEmail1" placeholder="Telephone">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Commentaires (optionnel)</label>
+                                <textarea class="form-control" rows="3" name="comment"
+                                    placeholder="Commentaires">{{$company->comment}}</textarea>
+                            </div>
+                            <div class="row">
+                                <div class="container">
+
+                                </div>
+                            </div>
+                            <div class="container center-block">
+                                <div class="form-group">
+                                    <label for="exampleInputFile">Logo du societé (optionnel)</label>
+                                    <input type="file" name="logo" id="exampleInputFile">
+
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="container text-center">
+
+                                        <a href="{{route('showHome')}}" class="btn btn-danger pl-1"
+                                            style="margin: 1em">Annuler</a>
+                                        <button type="submit" class="btn btn-success pl-1"
+                                            style="margin: 1em">Modifier</button>
+
+                                    </div>
+                                </div>
+
+
+
+
+
+                            </div>
+
+                    </form>
                 </div>
 
+                <!-- /.col -->
             </div>
 
-        </section>
+        </div>
 
-    </div>
+    </section>
+
+</div>
 @endsection

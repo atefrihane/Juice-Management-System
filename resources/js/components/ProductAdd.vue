@@ -140,7 +140,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Prix publique</label>
+                <label for="exampleInputEmail1">Prix unitaire de vente  </label>
                 <input class="form-control" id="disabledInput" type="number" step="0.01" placeholder="Prix publique"
                     v-model="publicPrice">
             </div>
@@ -517,7 +517,7 @@
                 }
 
                 if (!this.publicPrice) {
-                    this.errors.push('Le champs prix publique  est  requis.');
+                    this.errors.push('Le champs prix unitaire de vente  est  requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }

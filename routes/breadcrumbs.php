@@ -122,7 +122,7 @@ Breadcrumbs::for('editMachineState', function ($trail) {
 Breadcrumbs::for('machineHistory', function ($trail,$machine) {
     $trail->parent('machine');
     $trail->push($machine->code);
-    $trail->push('Historique machine');
+    $trail->push('Détails machine');
 });
 
 
