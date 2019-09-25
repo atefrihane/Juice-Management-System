@@ -46,10 +46,11 @@
                                     <th>Photo</th>
                                     <th>Code</th>
                                     <th>Désignation</th>
-                                  
+
                                     <th>Ville</th>
                                     <th>Code Postal</th>
                                     <th>Etat</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -101,7 +102,7 @@
                                                         <a href="#" class="btn btn-danger"
                                                             data-dismiss="modal">Annuler</a>
                                                         <button type="submit" class="btn btn-success">Confirmer</button>
-                                                  
+
                                                     </form>
 
                                                 </div>
@@ -139,18 +140,5 @@
 
 </div>
 
-<script>
-    var idToDelete;
 
-    function setIdToDelete(id) {
-        idToDelete = id;
-    }
-
-    function deleteStore() {
-        let baseurl = '{{   config('
-        app.url ')}}';
-        location.replace(baseurl + 'store/delete/' + idToDelete);
-    }
-
-</script>
 @endsection

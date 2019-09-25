@@ -4,6 +4,7 @@ namespace App\Modules\Bac\Models;
 
 use App\Modules\Mixture\Models\Mixture;
 use App\Modules\Product\Models\Product;
+use App\Modules\Machine\Models\Machine;
 use Illuminate\Database\Eloquent\Model;
 
 class Bac extends Model
@@ -20,5 +21,10 @@ class Bac extends Model
     public function mixture()
     {
         return $this->belongsTo(Mixture::class);
+    }
+
+    public function machine()
+    {
+        return $this->belongsTo(Machine::class);
     }
 }

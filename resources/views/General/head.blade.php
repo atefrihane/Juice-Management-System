@@ -64,7 +64,7 @@
         .table-tr > td > img {
             display:block;
             width:70%;
-            height:auto;
+            height:100px;
         }
 
         .swal2-popup { font-size: 1.6rem !important; }

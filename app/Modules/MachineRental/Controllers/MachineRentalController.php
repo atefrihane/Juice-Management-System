@@ -53,6 +53,9 @@ class MachineRentalController extends Controller
     public function show($id)
     {
         $rental = MachineRental::find($id);
+        $bacs =Bac::where('rental_id',$rental->id)
+        ->get();
+
         if ($rental) {
             $store = Store::find($rental->store_id);
             return view('MachineRental::detailRentalMachine', compact('rental', 'store'));

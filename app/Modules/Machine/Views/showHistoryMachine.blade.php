@@ -80,7 +80,7 @@
                                         <label for="exampleInputEmail1">Type</label>
                                         <input class="form-control" name="type" id="disabledInput" type="text"
                                     placeholder="type" value="{{$machine->type}}" disabled>
-                                      
+
 
                                     </div>
                                 </div>
@@ -131,11 +131,12 @@
                                             <table class="table table-bordered table-hover example2">
                                                 <thead>
                                                     <tr>
-
+                                                        <th>Date et Heure</th>
                                                         <th>Etat</th>
-                                                        <th>Commentaire</th>
-                                                        <th>Machine</th>
                                                         <th>Effectué par</th>
+                                                        <th>Commentaire</th>
+
+
 
 
                                                     </tr>
@@ -145,10 +146,10 @@
                                                     @forelse($machine->histories as $machineHistory)
                                                     <tr class="table-tr">
 
-                                                        <td>{{$machineHistory->event}}</td>
-                                                        <td>{{$machineHistory->comment}}</td>
-                                                        <td>{{$machine->code}}</td>
-                                                        <td>{{$machineHistory->user->nom}}</td>
+                                                             <td>{{$machine->created_at}}</td>
+                                                            <td>{{$machineHistory->event}}</td>
+                                                            <td>{{$machineHistory->user->nom}}</td>
+                                                            <td>{{$machineHistory->comment}}</td>
 
                                                     </tr>
                                                     @empty
