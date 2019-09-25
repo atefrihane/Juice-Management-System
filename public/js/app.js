@@ -1894,6 +1894,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -1927,13 +1930,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       stores: [],
       startDate: '',
       endDate: '',
-      price: '',
+      price: data.machine.price_month,
       localisation: '',
       comment: '',
       countBacs: data.machine.number_bacs,
       storeId: '',
       companySelected: ''
-    }, _defineProperty(_ref, "price", ''), _defineProperty(_ref, "localisation", ''), _defineProperty(_ref, "bacs", []), _defineProperty(_ref, "errors", []), _ref;
+    }, _defineProperty(_ref, "localisation", ''), _defineProperty(_ref, "bacs", []), _defineProperty(_ref, "errors", []), _ref;
   }),
   methods: {
     getCompanies: function getCompanies() {
@@ -1990,6 +1993,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           mixtureId: ''
         });
       }
+    },
+    cancelRental: function cancelRental() {
+      window.location = '/wizefresh/public/machines';
     },
     validateForm: function validateForm() {
       var _this5 = this;
@@ -2069,7 +2075,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           localisation: this.localisation,
           comment: this.comment,
           storeId: this.storeId,
-          active: 1
+          active: 1,
+          bacs: this.bacs
         }).then(function (response) {
           if (response.data.status == 200) {
             swal.fire({
@@ -41708,13 +41715,18 @@ var render = function() {
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "container text-center" }, [
         _c(
-          "a",
+          "button",
           {
             staticClass: "btn btn-danger pl-1",
             staticStyle: { margin: "1em" },
-            attrs: { href: "" }
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                return _vm.cancelRental()
+              }
+            }
           },
-          [_vm._v("Annuler")]
+          [_vm._v("\n                Annuler")]
         ),
         _vm._v(" "),
         _c(
@@ -58041,8 +58053,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /opt/lampp/htdocs/wizefresh/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /opt/lampp/htdocs/wizefresh/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\wizefresh\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\wizefresh\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

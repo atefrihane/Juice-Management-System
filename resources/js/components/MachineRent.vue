@@ -66,7 +66,7 @@
                         <label for="exampleInputEmail1">Date du début de location</label>
 
                         <Datepicker v-model="startDate" :disabledDates="{ to: new Date(Date.now() - 8640000) }"
-                            placeholder=""></Datepicker>
+                        placeholder=""></Datepicker>
                     </div>
                 </div>
 
@@ -174,7 +174,10 @@
         <div class="row">
             <div class="container text-center">
 
-                <a href="" class="btn btn-danger pl-1" style="margin: 1em">Annuler</a>
+
+                <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelRental()">
+                    Annuler</button>
+
                 <button type="button" class="btn btn-success pl-1" style="margin: 1em" @click="submitRental()">
                     Confirmer</button>
 
@@ -216,13 +219,12 @@
                 stores: [],
                 startDate: '',
                 endDate: '',
-                price: '',
+                price: data.machine.price_month,
                 localisation: '',
                 comment: '',
                 countBacs: data.machine.number_bacs,
                 storeId: '',
                 companySelected: '',
-                price: '',
                 localisation: '',
                 bacs: [],
                 errors: []
@@ -302,6 +304,11 @@
                 }
 
             },
+            cancelRental()
+            {
+        window.location = '/wizefresh/public/machines';
+
+            },
             validateForm() {
 
                 this.errors = [];
@@ -346,7 +353,7 @@
                     return false;
                 }
 
-             
+
 
                 var x=true;
                 this.bacs.forEach((bac) => {
@@ -381,7 +388,7 @@
 
             submitRental() {
                 var x = this.validateForm()
-        
+
                 if(x == true)
                 {
 
@@ -394,6 +401,7 @@
                         comment: this.comment,
                         storeId: this.storeId,
                         active: 1,
+                        bacs:this.bacs
 
                     })
                     .then((response) => {
@@ -438,15 +446,15 @@
                     .catch(function (error) {
                         console.log(error);
                     })
+                 }
 
-
-
-            }
                 }
-           
 
 
-        }
+
+
+        },
+
     }
 
 </script>

@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Machine\Models\Machine;
+use App\Modules\Bac\Models\Bac;
 use Illuminate\Http\Request;
 
 class MachineRentalController extends Controller
@@ -39,30 +40,32 @@ class MachineRentalController extends Controller
      */
     public function store(Request $request)
     {
+        $parsedStartDate = Carbon::parse($request->startDate)->toDateString();
+        $parsedEndDate =   Carbon::parse($request->endDate)->toDateString();
+
         $checkMachine=Machine::find($request->id);
         if($checkMachine)
         {
-            $checkMachine->update(['rented' => 1]);
 
-        }
-        $checkRenal=MachineRental::where('machine_id',$checkMachine->id)
+        $checkRenal=MachineRental::where('date_debut','=',$parsedStartDate)
+        ->where('date_fin','=',$parsedEndDate)
         ->where('active',1)
         ->first();
+
         if($checkRenal)
         {
             return response()->json(['status'=>400]);
 
 
         }
-        $parsedStartDate = Carbon::parse($request->startDate)->toDateTimeString();
-        $parsedEndDate =   Carbon::parse($request->endDate)->toDateTimeString();
+
 
         if($parsedEndDate < $parsedStartDate) {
 
             return response()->json(['status'=>405]);
         }
-   
-        MachineRental::create([
+
+        $rental=MachineRental::create([
             'date_debut'=>$parsedStartDate,
             'date_fin'=>$parsedEndDate,
             'location'=>$request->location,
@@ -73,9 +76,26 @@ class MachineRentalController extends Controller
             'machine_id'=>$request->id,
 
         ]);
+            $checkMachine->update(['rented' => 1]);
+
+        }
+
+        foreach($request->bacs as $key=>$bac)
+        {
+            Bac::create([
+                'order'=>$key+1,
+                'status'=>$bac['status'],
+                'machine_id'=>$checkMachine->id,
+                'product_id'=>$bac['productId'],
+                'mixture_id'=>$bac['mixtures'][0][0]['id'],
+                'rental_id'=>$rental->id
+            ]);
+
+
+        }
 
             return response()->json(['status'=>200]);
-       
+
     }
 
     /**
@@ -88,7 +108,7 @@ class MachineRentalController extends Controller
     {
         //
         $rental = MachineRental::find($id);
-      
+
         return view('MachineRental::detailRentalMachine', compact('rental'));
     }
 
