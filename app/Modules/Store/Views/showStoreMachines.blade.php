@@ -16,6 +16,8 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Liste des machines en location </h3>
+
+                        <a href="{{route('showMachines')}}" class="btn btn-primary pull-right">Commencer une location</a>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -101,7 +103,7 @@
                                                                         data-dismiss="modal">Annuler</a>
                                                                     <button type="submit"
                                                                         class="btn btn-success">Confirmer</button>
-                                                                  
+
 
 
                                                                 </form>
@@ -121,8 +123,8 @@
                                 @empty
                                 <tr>
                                     <td colspan="6" class="text-center">
-                           
-                                        <a href="{{route('showMachines')}}" class="btn btn-primary btn-lg">Commencer une location</a>
+                                    <h4>Aucune location trouvée !</h4>
+
                                     </td>
                                 </tr>
 
