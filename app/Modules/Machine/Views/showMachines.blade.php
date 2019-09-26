@@ -69,20 +69,25 @@
                                                 <li><a href="{{route('showHistoryMachine',$machine->id)}}">Voir
                                                         détail machine</a></li>
                                                 @else
+
                                                 @forelse($machine->machineRentals as $rental)
                                                 @if($rental->active == 1)
                                                 <li><a href="{{route('showRental',$rental->id)}}">Voir détails location</a></li>
                                                 @break;
                                                 @endif
+
+
                                                 @empty
                                                 @endforelse
-
-
-                                                @if($machine->machineRentals->first()->active == 1)
+                                                @foreach($machine->machineRentals as $rental)
+                                                @if($rental->active == 1)
                                                 <li><a
-                                                        href="{{route('showEndRental', ['id' =>$machine->machineRentals->first()-id])}}">Arreter
+                                                        href="{{route('showEndRental', ['id' =>$rental->id])}}">Arreter
                                                         location</a></li>
+                                                        @break;
                                                         @endif
+                                                        @endforeach
+
 
                                                 <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">Voir
                                                         historique des locations</a></li>
