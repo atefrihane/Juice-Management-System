@@ -38,8 +38,8 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Etat</label>
                         <select class="form-control" v-model="state">
-                            <option>disponible</option>
-                            <option>indisponible</option>
+                            <option>Disponible</option>
+                            <option>Non disponible</option>
                         </select>
                     </div>
                 </div>
@@ -141,7 +141,7 @@
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Prix unitaire de vente  </label>
-                <input class="form-control" id="disabledInput" type="number" step="0.01" placeholder="Prix publique"
+                <input class="form-control" id="disabledInput" type="number" step="0.01" placeholder="Prix unitaire de vente "
                     v-model="publicPrice">
             </div>
             <div class="form-group">
@@ -287,7 +287,7 @@
 
             return {
                 code: '',
-                state: 'disponible',
+                state: 'Disponible',
                 name: '',
                 version: '',
                 type: 'Alimentaire',

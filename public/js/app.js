@@ -2414,7 +2414,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       code: '',
-      state: 'disponible',
+      state: 'Disponible',
       name: '',
       version: '',
       type: 'Alimentaire',
@@ -41894,9 +41894,9 @@ var render = function() {
                   }
                 },
                 [
-                  _c("option", [_vm._v("disponible")]),
+                  _c("option", [_vm._v("Disponible")]),
                   _vm._v(" "),
-                  _c("option", [_vm._v("indisponible")])
+                  _c("option", [_vm._v("Non disponible")])
                 ]
               )
             ])
@@ -42299,7 +42299,7 @@ var render = function() {
               id: "disabledInput",
               type: "number",
               step: "0.01",
-              placeholder: "Prix publique"
+              placeholder: "Prix unitaire de vente "
             },
             domProps: { value: _vm.publicPrice },
             on: {

@@ -59,7 +59,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Date de fin de location</label>
-                                            <input class="form-control"  id="disabledInput" name="date_fin"  value="{{$rental->date_fin}}"  type="date" >
+                                            <input class="form-control"  id="disabledInput" name="date_fin"  value="{{$rental->date_fin}}"  type="date" required >
                                         </div>
                                     </div>
 
@@ -110,7 +110,7 @@
 
     </div>
 
- 
+
 
     </script>
 @endsection

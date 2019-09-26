@@ -116,6 +116,11 @@ class MachineRentalController extends Controller
 
     public function endRental(Request $request, $id)
     {
+        if(!$request->date_fin)
+        {
+            alert()->error('Oups!','Veuillez renseigner une date de fin')->persistent('Femer');
+            return redirect()->back();
+        }
 
         MachineRental::where('id', $id)->update(['end_reason' => $request->end_reason, 'date_fin' => $request->date_fin, 'active' => false, 'Comment' => $request->comment]);
         $rental = MachineRental::find($id);
