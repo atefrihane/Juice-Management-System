@@ -155,74 +155,78 @@
                                     <label for="exampleInputEmail1">colisage</label>
                                     <input class="form-control" name="packing" value="{{$product->packing}}" id="disabledInput" type="number" placeholder="duree de validité apres ouverture">
                                 </div>
-            @forelse($product->mixtures as $key=>$mixture)
-            <div class="box" style="border:1px solid rgb(228, 228, 228);background:rgb(228, 228, 228);">
-                <div class="box-body">
-                    <input type="hidden" name="mixtures[{{$key}}][]"  required value="{{$mixture->id}}">
-                        <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Nom du mélange</label>
-                                <input class="form-control" id="disabledInput" type="text" placeholder="Nom du mélange"
-                                value="{{$mixture->name}}" name="mixtures[{{$key}}][]"  required>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Quantité de produit fini(en litre)</label>
-                                <input class="form-control" id="disabledInput" type="number" step="0.01"
-                                    placeholder="Quantité de produit fini.."  value="{{$mixture->final_amount}}" name="mixtures[{{$key}}][]"  required>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Poids necessaire du produit (en kg)</label>
-                                <input class="form-control" id="disabledInput" type="number" placeholder="Poids.."
-                                    step="0.01"  value="{{$mixture->needed_weight}}" name="mixtures[{{$key}}][]"  required>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Quantité d'eau (en litre)</label>
-                                <input class="form-control" id="disabledInput" type="number" step="0.01"
-                                    placeholder="Quantité eau..."  value="{{$mixture->water_amount}}" name="mixtures[{{$key}}][]"  required>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Quantité de sucre (en kg)</label>
-                                <input class="form-control" id="disabledInput" type="number" step="0.01"
-                                    placeholder="Quantité sucre..."  value="{{$mixture->sugar_amount}}" name="mixtures[{{$key}}][]"  required>
-                            </div>
-                        </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Possibilités de mélange</label>
+                                </div>
+                                @forelse($product->mixtures as $key=>$mixture)
+                                <div class="box" style="border:1px solid rgb(228, 228, 228);background:rgb(228, 228, 228);">
+                                    <div class="box-body">
+                                        <input type="hidden" name="mixtures[{{$key}}][]"  required value="{{$mixture->id}}">
+                                            <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Nom du mélange</label>
+                                                    <input class="form-control" id="disabledInput" type="text" placeholder="Nom du mélange"
+                                                    value="{{$mixture->name}}" name="mixtures[{{$key}}][]"  required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Quantité de produit fini(en litre)</label>
+                                                    <input class="form-control" id="disabledInput" type="number" step="0.01"
+                                                        placeholder="Quantité de produit fini.."  value="{{$mixture->final_amount}}" name="mixtures[{{$key}}][]"  required>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Volume de verre (en cl)</label>
-                                <input class="form-control" id="disabledInput" type="number" step="0.01"
-                                    placeholder="Volume de verre..."  value="{{$mixture->glass_size}}" name="mixtures[{{$key}}][]"  required>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Nombre de verre obtenu </label>
-                                <input class="form-control" id="disabledInput" type="number"
-                                    placeholder="Nombre de verre.."  value="{{$mixture->number_of_glasses}}" name="mixtures[{{$key}}][]"  required>
-                            </div>
-                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Poids necessaire du produit (en kg)</label>
+                                                    <input class="form-control" id="disabledInput" type="number" placeholder="Poids.."
+                                                        step="0.01"  value="{{$mixture->needed_weight}}" name="mixtures[{{$key}}][]"  required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Quantité d'eau (en litre)</label>
+                                                    <input class="form-control" id="disabledInput" type="number" step="0.01"
+                                                        placeholder="Quantité eau..."  value="{{$mixture->water_amount}}" name="mixtures[{{$key}}][]"  required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Quantité de sucre (en kg)</label>
+                                                    <input class="form-control" id="disabledInput" type="number" step="0.01"
+                                                        placeholder="Quantité sucre..."  value="{{$mixture->sugar_amount}}" name="mixtures[{{$key}}][]"  required>
+                                                </div>
+                                            </div>
 
-                    </div>
-                </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Volume de verre (en cl)</label>
+                                                    <input class="form-control" id="disabledInput" type="number" step="0.01"
+                                                        placeholder="Volume de verre..."  value="{{$mixture->glass_size}}" name="mixtures[{{$key}}][]"  required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Nombre de verre obtenu </label>
+                                                    <input class="form-control" id="disabledInput" type="number"
+                                                        placeholder="Nombre de verre.."  value="{{$mixture->number_of_glasses}}" name="mixtures[{{$key}}][]"  required>
+                                                </div>
+                                            </div>
 
-                <!-- box-footer -->
-            </div>
-                @empty
-                @endforelse
+                                        </div>
+                                    </div>
+
+                                    <!-- box-footer -->
+                                </div>
+                                    @empty
+                                    @endforelse
 
 
                                 <div class="row">

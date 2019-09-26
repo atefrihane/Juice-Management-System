@@ -112,7 +112,7 @@ Breadcrumbs::for('historyMachine', function ($trail,$machine) {
     $trail->parent('machine');
     $trail->push($machine);
     $trail->push('Historique des locations');
-   
+
 });
 Breadcrumbs::for('editMachineState', function ($trail) {
     $trail->parent('machine');
@@ -138,7 +138,7 @@ Breadcrumbs::for('addProduct', function ($trail) {
 
 Breadcrumbs::for('editProduct', function ($trail,$product) {
     $trail->parent('product');
-    $trail->push('Modifier un produit', route('showAddProduct'));
+    $trail->push('Modifier un produit', route('editProduct',$product->id));
     $trail->push($product->nom);
 });
 
