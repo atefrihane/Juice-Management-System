@@ -124,7 +124,7 @@
                             <label>Etat : </label>
 
                             <select class="form-control" v-model="bac.status">
-
+                                <option value="" v-if="bacs.length > 0"> Séléctionner un Etat</option>
                                 <option value="fonctionnelle">Fonctionnelle</option>
                                 <option value="en panne">En panne</option>
                                 <option value="en sommeil">En Sommeil</option>
@@ -356,7 +356,7 @@
 
 
                 var x=true;
-                this.bacs.forEach((bac) => {
+                this.bacs.forEach((bac,index) => {
 
                     if (!bac.status) {
                         this.errors.push('Veuillez sélectionner un etat pour le bac');

@@ -72,17 +72,18 @@
                                                 @forelse($machine->machineRentals as $rental)
                                                 @if($rental->active == 1)
                                                 <li><a href="{{route('showRental',$rental->id)}}">Voir détails location</a></li>
+                                                @break;
                                                 @endif
                                                 @empty
                                                 @endforelse
-                                             
-                                                @foreach($machine->machineRentals as $rental)
-                                                @if($rental->active == 1)
+
+
+                                                @if($machine->machineRentals->first()->active == 1)
                                                 <li><a
-                                                        href="{{route('showEndRental', ['id' =>$rental->id])}}">Arreter
+                                                        href="{{route('showEndRental', ['id' =>$machine->machineRentals->first()-id])}}">Arreter
                                                         location</a></li>
                                                         @endif
-                                                        @endforeach
+
                                                 <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">Voir
                                                         historique des locations</a></li>
                                                 <li><a href="{{route('showHistoryMachine',$machine->id)}}">Voir détail machine</a></li>
@@ -139,7 +140,7 @@
                                 @empty
                                 <tr>
                                 <td colspan="8" class="text-center"> <h4>  Aucune machine ! </h4></td>  </tr>
-                            
+
                                 @endforelse
 
 
