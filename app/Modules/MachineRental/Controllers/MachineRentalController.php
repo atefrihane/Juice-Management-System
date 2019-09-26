@@ -116,18 +116,37 @@ class MachineRentalController extends Controller
 
     public function endRental(Request $request, $id)
     {
+
         if(!$request->date_fin)
         {
             alert()->error('Oups!','Veuillez renseigner une date de fin')->persistent('Femer');
             return redirect()->back();
         }
+        $machineRental=MachineRental::find($id);
 
-        MachineRental::where('id', $id)->update(['end_reason' => $request->end_reason, 'date_fin' => $request->date_fin, 'active' => false, 'Comment' => $request->comment]);
-        $rental = MachineRental::find($id);
-        $machine = Machine::where('id', $rental->machine_id)->update(['rented' => false]);
-        Bac::where('machine_id', $rental->machine_id)->delete();
-        alert()->success('Succés!', 'La machine ' . $rental->machine->code . ' est maintenant libre !')->persistent("Fermer");
-        return redirect(route('showMachines'));
+        if($machineRental)
+        {
+            if($machineRental->date_debut > $request->date_fin)
+            {
+                alert()->error('Oups!','Erreur Date!')->persistent('Femer');
+                return redirect()->back();
+
+            }
+            if($machineRental->active == 0)
+            {
+                alert()->error('Oups!','Cette location est deja arreté!')->persistent('Femer');
+                return redirect()->back();
+
+            }
+            $machineRental->update(['end_reason' => $request->end_reason, 'date_fin' => $request->date_fin, 'active' => false, 'Comment' => $request->comment]);
+            $machine = Machine::where('id', $machineRental->machine_id)->update(['rented' => false]);
+            Bac::where('machine_id', $machineRental->machine_id)->delete();
+            alert()->success('Succés!', 'La machine ' . $machineRental->machine->code . ' est maintenant libre !')->persistent("Fermer");
+            return redirect(route('showMachines'));
+
+        }
+
+
 
     }
 }
