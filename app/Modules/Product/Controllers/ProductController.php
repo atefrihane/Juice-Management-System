@@ -5,6 +5,7 @@ namespace App\Modules\Product\Controllers;
 use App\Http\Controllers\Controller;
 use App\Modules\Company\Models\Company;
 use App\Modules\Product\Models\Product;
+use App\Modules\Mixture\Models\Mixture;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -29,7 +30,7 @@ class ProductController extends Controller
         } else {
             $product = 1;
         }
-  
+
 
         return view('Product::addProduct',compact('product'));
     }
@@ -64,6 +65,8 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
+
+
 
         $product=Product::find($id);
 
@@ -107,6 +110,27 @@ class ProductController extends Controller
             'photo_url' => $path,
 
         ]);
+
+
+        foreach($request->mixtures as $mixture)
+        {
+
+            $mixture=Mixture::find($mixture[0])
+            ->update([
+                'name'=>$mixture[1],
+                'final_amount'=> $mixture[2],
+                'needed_weight'=> $mixture[3],
+                'water_amount'=> $mixture[4],
+                'sugar_amount'=> $mixture[5],
+                'glass_size'=> $mixture[6],
+                'number_of_glasses'=> $mixture[7],
+            ]);
+
+
+
+        }
+
+
         alert()->success('Succés!', 'Produit modifié')->persistent("Fermer");
         return redirect('/products');
 
