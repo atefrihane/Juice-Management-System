@@ -65,7 +65,7 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Date du début de location</label>
 
-                        <Datepicker v-model="startDate" :disabledDates="{ to: new Date(Date.now() - 8640000) }"
+                        <Datepicker v-model="startDate"
                         placeholder=""></Datepicker>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Date de fin de location</label>
-                        <Datepicker v-model="endDate" :disabledDates="{ to: new Date(Date.now() - 8640000) }"
+                        <Datepicker v-model="endDate"
                             placeholder=""></Datepicker>
                     </div>
                 </div>

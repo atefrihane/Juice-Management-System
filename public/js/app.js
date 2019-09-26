@@ -41299,10 +41299,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("Datepicker", {
-                  attrs: {
-                    disabledDates: { to: new Date(Date.now() - 8640000) },
-                    placeholder: ""
-                  },
+                  attrs: { placeholder: "" },
                   model: {
                     value: _vm.startDate,
                     callback: function($$v) {
@@ -41326,10 +41323,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("Datepicker", {
-                  attrs: {
-                    disabledDates: { to: new Date(Date.now() - 8640000) },
-                    placeholder: ""
-                  },
+                  attrs: { placeholder: "" },
                   model: {
                     value: _vm.endDate,
                     callback: function($$v) {
