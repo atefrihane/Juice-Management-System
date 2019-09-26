@@ -56,12 +56,25 @@
                                         </div>
                                     </div>
                                 </div>
-                                    <div class="col-md-4">
+                                <div class="row">
+
+                                <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Date de debut de location</label>
+                                            <input class="form-control"  id="disabledInput" name="date_fin"  value="{{$rental->date_debut}}"  type="date" disabled >
+                                        </div>
+
+                                     </div>
+
+
+                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Date de fin de location</label>
                                             <input class="form-control"  id="disabledInput" name="date_fin"  value="{{$rental->date_fin}}"  type="date" required >
-                                        </div>
-                                    </div>
+                                         </div>
+                                     </div>
+
+
 
                                 </div>
 
@@ -70,7 +83,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>Raison fin de location</label>
-                                                <select name="end_reason">
+                                                <select  class="form-control" name="end_reason">
                                                     <option value="Fin du contrat de location">Fin du contrat de location</option>
                                                     <option value="Machine non rentable">Machine non rentable</option>
                                                     <option value="Machine en panne">Machine en panne</option>
