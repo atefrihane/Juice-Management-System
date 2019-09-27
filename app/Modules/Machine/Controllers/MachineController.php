@@ -3,6 +3,7 @@
 namespace App\Modules\Machine\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Modules\Bac\Models\Bac;
 use App\Modules\Company\Models\Company;
 use App\Modules\Machine\Models\Machine;
 use App\Modules\Machine\Models\MachineHistory;
@@ -47,6 +48,7 @@ class MachineController extends Controller
 
     public function store(Request $request)
     {
+
         $val = $request->validate([
             'code' => 'required',
             'barcode' => 'required',
@@ -79,6 +81,13 @@ class MachineController extends Controller
             'user_id' => Auth::id(),
 
         ]);
+        for ($i = 0; $i < $request->number_bacs; $i++) {
+            Bac::create([
+                'order'=>$i+1,
+                'machine_id' => $machine->id,
+            ]);
+
+        }
 
         alert()->success('Succés!', 'une nouvelle machine a été crée avec succés !')->persistent("Fermer");
         return redirect(route('showMachines'));

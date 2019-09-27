@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 class Bac extends Model
 {
 
-    protected $fillable = ['id', 'created_at', 'updated_at'];
+    protected $guarded = ['id', 'created_at', 'updated_at'];
+    
     public function product()
     {
         return $this->belongsTo(Product::class);
