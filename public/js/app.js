@@ -2466,6 +2466,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     uploadImage: function uploadImage(event) {
       this.photo = event.target.files[0];
     },
+    getProductData: function getProductData(event) {
+      var value = event.target.value;
+
+      if (value == 'Jettable') {
+        this.mixtures = [];
+      } else {
+        if (this.mixtures.length == 0) {
+          this.mixtures.push({
+            mixtureName: '',
+            endQuantityProduct: '',
+            necessaryWeight: '',
+            waterQuantity: '',
+            sugarQuantity: '',
+            glassVolume: '',
+            glassNumber: ''
+          });
+        }
+
+        return;
+      }
+    },
     submitProduct: function submitProduct() {
       var _this = this;
 
@@ -2648,56 +2669,58 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return false;
       }
 
-      this.mixtures.forEach(function (mixture) {
-        if (!mixture.mixtureName) {
-          _this2.errors.push('Le champs nom du mélange est  requis.');
+      if (this.type != 'Jettable') {
+        this.mixtures.forEach(function (mixture) {
+          if (!mixture.mixtureName) {
+            _this2.errors.push('Le champs nom du mélange est  requis.');
 
-          window.scrollTo(0, 0);
-          return false;
-        }
+            window.scrollTo(0, 0);
+            return false;
+          }
 
-        if (!mixture.endQuantityProduct) {
-          _this2.errors.push('Le champs quantité de produit fini(en litre)  est  requis.');
+          if (!mixture.endQuantityProduct) {
+            _this2.errors.push('Le champs quantité de produit fini(en litre)  est  requis.');
 
-          window.scrollTo(0, 0);
-          return false;
-        }
+            window.scrollTo(0, 0);
+            return false;
+          }
 
-        if (!mixture.necessaryWeight) {
-          _this2.errors.push('Le champs poids necessaire du produit (en kg) est  requis.');
+          if (!mixture.necessaryWeight) {
+            _this2.errors.push('Le champs poids necessaire du produit (en kg) est  requis.');
 
-          window.scrollTo(0, 0);
-          return false;
-        }
+            window.scrollTo(0, 0);
+            return false;
+          }
 
-        if (!mixture.waterQuantity) {
-          _this2.errors.push('Le champs quantité eau (en litre) est  requis.');
+          if (!mixture.waterQuantity) {
+            _this2.errors.push('Le champs quantité eau (en litre) est  requis.');
 
-          window.scrollTo(0, 0);
-          return false;
-        }
+            window.scrollTo(0, 0);
+            return false;
+          }
 
-        if (!mixture.sugarQuantity) {
-          _this2.errors.push('Le champs quantité de sucre (en kg) est  requis.');
+          if (!mixture.sugarQuantity) {
+            _this2.errors.push('Le champs quantité de sucre (en kg) est  requis.');
 
-          window.scrollTo(0, 0);
-          return false;
-        }
+            window.scrollTo(0, 0);
+            return false;
+          }
 
-        if (!mixture.glassVolume) {
-          _this2.errors.push('Le champs volume de verre (en cl) est  requis.');
+          if (!mixture.glassVolume) {
+            _this2.errors.push('Le champs volume de verre (en cl) est  requis.');
 
-          window.scrollTo(0, 0);
-          return false;
-        }
+            window.scrollTo(0, 0);
+            return false;
+          }
 
-        if (!mixture.glassNumber) {
-          _this2.errors.push('Le champs nombre de verre obtenu est  requis.');
+          if (!mixture.glassNumber) {
+            _this2.errors.push('Le champs nombre de verre obtenu est  requis.');
 
-          window.scrollTo(0, 0);
-          return false;
-        }
-      });
+            window.scrollTo(0, 0);
+            return false;
+          }
+        });
+      }
     }
   }
 });
@@ -41959,19 +41982,24 @@ var render = function() {
               ],
               staticClass: "form-control",
               on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.type = $event.target.multiple
-                    ? $$selectedVal
-                    : $$selectedVal[0]
-                }
+                change: [
+                  function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.type = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  },
+                  function($event) {
+                    return _vm.getProductData($event)
+                  }
+                ]
               }
             },
             [
@@ -42288,7 +42316,7 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-            _vm._v("Prix unitaire de vente  ")
+            _vm._v("Prix unitaire de vente ")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -42520,331 +42548,355 @@ var render = function() {
           })
         ]),
         _vm._v(" "),
-        _vm._m(1),
+        _vm.type != "Jettable"
+          ? _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "exampleInputFile" } }, [
+                _vm._v("Possibilités de melange :")
+              ])
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _vm._l(_vm.mixtures, function(mixture, index) {
-          return _c(
-            "div",
-            {
-              staticClass: "box",
-              staticStyle: {
-                border: "1px solid rgb(228, 228, 228)",
-                background: "rgb(228, 228, 228)"
-              }
-            },
-            [
-              _c("div", { staticClass: "box-body" }, [
-                index > 0
-                  ? _c(
-                      "a",
-                      {
-                        staticClass: "pull-right btn btn-default",
-                        attrs: { href: "" },
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.deleteMixture(mixture)
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "fa fa-minus" })]
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-md-4" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                        _vm._v("Nom du mélange")
+          return _vm.type != "Jettable"
+            ? _c(
+                "div",
+                {
+                  staticClass: "box",
+                  staticStyle: {
+                    border: "1px solid rgb(228, 228, 228)",
+                    background: "rgb(228, 228, 228)"
+                  }
+                },
+                [
+                  _c("div", { staticClass: "box-body" }, [
+                    index > 0
+                      ? _c(
+                          "a",
+                          {
+                            staticClass: "pull-right btn btn-default",
+                            attrs: { href: "" },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.deleteMixture(mixture)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-minus" })]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { attrs: { for: "exampleInputEmail1" } },
+                            [_vm._v("Nom du mélange")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: mixture.mixtureName,
+                                expression: "mixture.mixtureName"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              id: "disabledInput",
+                              type: "text",
+                              placeholder: "Nom du mélange"
+                            },
+                            domProps: { value: mixture.mixtureName },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  mixture,
+                                  "mixtureName",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
                       ]),
                       _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: mixture.mixtureName,
-                            expression: "mixture.mixtureName"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          id: "disabledInput",
-                          type: "text",
-                          placeholder: "Nom du mélange"
-                        },
-                        domProps: { value: mixture.mixtureName },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { attrs: { for: "exampleInputEmail1" } },
+                            [_vm._v("Quantité de produit fini(en litre)")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: mixture.endQuantityProduct,
+                                expression: "mixture.endQuantityProduct"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              id: "disabledInput",
+                              type: "number",
+                              step: "0.01",
+                              placeholder: "Quantité de produit fini.."
+                            },
+                            domProps: { value: mixture.endQuantityProduct },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  mixture,
+                                  "endQuantityProduct",
+                                  $event.target.value
+                                )
+                              }
                             }
-                            _vm.$set(
-                              mixture,
-                              "mixtureName",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                        _vm._v("Quantité de produit fini(en litre)")
+                          })
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { attrs: { for: "exampleInputEmail1" } },
+                            [_vm._v("Poids necessaire du produit (en kg)")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: mixture.necessaryWeight,
+                                expression: "mixture.necessaryWeight"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              id: "disabledInput",
+                              type: "number",
+                              placeholder: "Poids..",
+                              step: "0.01"
+                            },
+                            domProps: { value: mixture.necessaryWeight },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  mixture,
+                                  "necessaryWeight",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
                       ]),
                       _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: mixture.endQuantityProduct,
-                            expression: "mixture.endQuantityProduct"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          id: "disabledInput",
-                          type: "number",
-                          step: "0.01",
-                          placeholder: "Quantité de produit fini.."
-                        },
-                        domProps: { value: mixture.endQuantityProduct },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { attrs: { for: "exampleInputEmail1" } },
+                            [_vm._v("Quantité d'eau (en litre)")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: mixture.waterQuantity,
+                                expression: "mixture.waterQuantity"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              id: "disabledInput",
+                              type: "number",
+                              step: "0.01",
+                              placeholder: "Quantité eau..."
+                            },
+                            domProps: { value: mixture.waterQuantity },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  mixture,
+                                  "waterQuantity",
+                                  $event.target.value
+                                )
+                              }
                             }
-                            _vm.$set(
-                              mixture,
-                              "endQuantityProduct",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { attrs: { for: "exampleInputEmail1" } },
+                            [_vm._v("Quantité de sucre (en kg)")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: mixture.sugarQuantity,
+                                expression: "mixture.sugarQuantity"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              id: "disabledInput",
+                              type: "number",
+                              step: "0.01",
+                              placeholder: "Quantité sucre..."
+                            },
+                            domProps: { value: mixture.sugarQuantity },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  mixture,
+                                  "sugarQuantity",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { attrs: { for: "exampleInputEmail1" } },
+                            [_vm._v("Volume de verre (en cl)")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: mixture.glassVolume,
+                                expression: "mixture.glassVolume"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              id: "disabledInput",
+                              type: "number",
+                              step: "0.01",
+                              placeholder: "Volume de verre..."
+                            },
+                            domProps: { value: mixture.glassVolume },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  mixture,
+                                  "glassVolume",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { attrs: { for: "exampleInputEmail1" } },
+                            [_vm._v("Nombre de verre obtenu ")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: mixture.glassNumber,
+                                expression: "mixture.glassNumber"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              id: "disabledInput",
+                              type: "number",
+                              placeholder: "Nombre de verre.."
+                            },
+                            domProps: { value: mixture.glassNumber },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  mixture,
+                                  "glassNumber",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ])
                     ])
                   ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-md-4" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                        _vm._v("Poids necessaire du produit (en kg)")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: mixture.necessaryWeight,
-                            expression: "mixture.necessaryWeight"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          id: "disabledInput",
-                          type: "number",
-                          placeholder: "Poids..",
-                          step: "0.01"
-                        },
-                        domProps: { value: mixture.necessaryWeight },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              mixture,
-                              "necessaryWeight",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                        _vm._v("Quantité d'eau (en litre)")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: mixture.waterQuantity,
-                            expression: "mixture.waterQuantity"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          id: "disabledInput",
-                          type: "number",
-                          step: "0.01",
-                          placeholder: "Quantité eau..."
-                        },
-                        domProps: { value: mixture.waterQuantity },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              mixture,
-                              "waterQuantity",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                        _vm._v("Quantité de sucre (en kg)")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: mixture.sugarQuantity,
-                            expression: "mixture.sugarQuantity"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          id: "disabledInput",
-                          type: "number",
-                          step: "0.01",
-                          placeholder: "Quantité sucre..."
-                        },
-                        domProps: { value: mixture.sugarQuantity },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              mixture,
-                              "sugarQuantity",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-md-4" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                        _vm._v("Volume de verre (en cl)")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: mixture.glassVolume,
-                            expression: "mixture.glassVolume"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          id: "disabledInput",
-                          type: "number",
-                          step: "0.01",
-                          placeholder: "Volume de verre..."
-                        },
-                        domProps: { value: mixture.glassVolume },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              mixture,
-                              "glassVolume",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                        _vm._v("Nombre de verre obtenu ")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: mixture.glassNumber,
-                            expression: "mixture.glassNumber"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          id: "disabledInput",
-                          type: "number",
-                          placeholder: "Nombre de verre.."
-                        },
-                        domProps: { value: mixture.glassNumber },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              mixture,
-                              "glassNumber",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ])
-                ])
-              ])
-            ]
-          )
+                ]
+              )
+            : _vm._e()
         }),
         _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-default",
-            attrs: { type: "button" },
-            on: {
-              click: function($event) {
-                return _vm.btnClick()
-              }
-            }
-          },
-          [_c("i", { staticClass: "fa fa-plus" })]
-        ),
+        _vm.type != "Jettable"
+          ? _c(
+              "button",
+              {
+                staticClass: "btn btn-default",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.btnClick()
+                  }
+                }
+              },
+              [_c("i", { staticClass: "fa fa-plus" })]
+            )
+          : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "box-body" }, [
           _c("div", { staticClass: "row" }, [
@@ -42883,16 +42935,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header" }, [
       _c("h3", { staticClass: "box-title" }, [_vm._v(" Ajouter un produit")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "exampleInputFile" } }, [
-        _vm._v("Possibilités de melange :")
-      ])
     ])
   }
 ]
@@ -58053,8 +58095,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\wizefresh\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\wizefresh\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /opt/lampp/htdocs/wizefresh/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /opt/lampp/htdocs/wizefresh/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

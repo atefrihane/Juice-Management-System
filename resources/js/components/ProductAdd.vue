@@ -55,7 +55,7 @@
 
             <div class="form-group">
                 <label for="exampleInputEmail1">Type de Produit</label>
-                <select class="form-control" v-model="type">
+                <select class="form-control" v-model="type" @change="getProductData($event)">
                     <option selected>Alimentaire</option>
                     <option>Jettable</option>
                     <option>Autre</option>
@@ -140,9 +140,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Prix unitaire de vente  </label>
-                <input class="form-control" id="disabledInput" type="number" step="0.01" placeholder="Prix unitaire de vente "
-                    v-model="publicPrice">
+                <label for="exampleInputEmail1">Prix unitaire de vente </label>
+                <input class="form-control" id="disabledInput" type="number" step="0.01"
+                    placeholder="Prix unitaire de vente " v-model="publicPrice">
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Durée de validité de produit fermé ( en jours)</label>
@@ -179,11 +179,11 @@
                 <input class="form-control" id="disabledInput" type="number" placeholder="Colisage" v-model="packing">
             </div>
 
-            <div class="form-group">
+            <div class="form-group" v-if="type != 'Jettable'">
                 <label for="exampleInputFile">Possibilités de melange :</label>
             </div>
             <div class="box" style="border:1px solid rgb(228, 228, 228);background:rgb(228, 228, 228);"
-                v-for="(mixture,index) in mixtures">
+                v-for="(mixture,index) in mixtures" v-if="type != 'Jettable'">
                 <div class="box-body">
                     <a href="" class="pull-right btn btn-default" v-if="index>0"
                         @click.prevent="deleteMixture(mixture)"><i class="fa fa-minus"></i></a>
@@ -252,15 +252,15 @@
                 <!-- box-footer -->
             </div>
 
-            <button type="button" class="btn btn-default" @click="btnClick()"><i class="fa fa-plus"></i></button>
+            <button type="button" class="btn btn-default" @click="btnClick()" v-if="type != 'Jettable'"><i
+                    class="fa fa-plus"></i></button>
 
             <div class="box-body">
                 <div class="row">
                     <div class="container text-center">
 
                         <button href="" class="btn btn-danger pl-1">Annuler</button>
-                        <button class="btn btn-success pl-1" type="button"
-                            @click="submitProduct()">Confirmer</button>
+                        <button class="btn btn-success pl-1" type="button" @click="submitProduct()">Confirmer</button>
 
                     </div>
                 </div>
@@ -347,6 +347,33 @@
                 this.photo = event.target.files[0];
 
             },
+            getProductData(event)
+            {
+             let value = event.target.value;
+            if (value == 'Jettable')
+            {
+                this.mixtures=[];
+            }
+            else 
+            {
+                if(this.mixtures.length == 0)
+                {
+                     this.mixtures.push({
+                    mixtureName: '',
+                    endQuantityProduct: '',
+                    necessaryWeight: '',
+                    waterQuantity: '',
+                    sugarQuantity: '',
+                    glassVolume: '',
+                    glassNumber: ''
+                });
+                }
+                return;
+                
+
+            }
+            },
+
             submitProduct() {
                 var form = this.validateForm(); // input front end validation returns false if error
 
@@ -553,53 +580,57 @@
                     window.scrollTo(0, 0);
                     return false;
                 }
+                if (this.type != 'Jettable') {
 
-                this.mixtures.forEach((mixture) => {
+                    this.mixtures.forEach((mixture) => {
 
-                    if (!mixture.mixtureName) {
-                        this.errors.push('Le champs nom du mélange est  requis.');
-                        window.scrollTo(0, 0);
-                        return false;
-                    }
-                    if (!mixture.endQuantityProduct) {
-                        this.errors.push('Le champs quantité de produit fini(en litre)  est  requis.');
-                        window.scrollTo(0, 0);
-                        return false;
-                    }
+                        if (!mixture.mixtureName) {
+                            this.errors.push('Le champs nom du mélange est  requis.');
+                            window.scrollTo(0, 0);
+                            return false;
+                        }
+                        if (!mixture.endQuantityProduct) {
+                            this.errors.push('Le champs quantité de produit fini(en litre)  est  requis.');
+                            window.scrollTo(0, 0);
+                            return false;
+                        }
 
-                    if (!mixture.necessaryWeight) {
-                        this.errors.push('Le champs poids necessaire du produit (en kg) est  requis.');
-                        window.scrollTo(0, 0);
-                        return false;
-                    }
+                        if (!mixture.necessaryWeight) {
+                            this.errors.push('Le champs poids necessaire du produit (en kg) est  requis.');
+                            window.scrollTo(0, 0);
+                            return false;
+                        }
 
-                    if (!mixture.waterQuantity) {
-                        this.errors.push('Le champs quantité eau (en litre) est  requis.');
-                        window.scrollTo(0, 0);
-                        return false;
-                    }
-
-
-                    if (!mixture.sugarQuantity) {
-                        this.errors.push('Le champs quantité de sucre (en kg) est  requis.');
-                        window.scrollTo(0, 0);
-                        return false;
-                    }
-
-                    if (!mixture.glassVolume) {
-                        this.errors.push('Le champs volume de verre (en cl) est  requis.');
-                        window.scrollTo(0, 0);
-                        return false;
-                    }
+                        if (!mixture.waterQuantity) {
+                            this.errors.push('Le champs quantité eau (en litre) est  requis.');
+                            window.scrollTo(0, 0);
+                            return false;
+                        }
 
 
-                    if (!mixture.glassNumber) {
-                        this.errors.push('Le champs nombre de verre obtenu est  requis.');
-                        window.scrollTo(0, 0);
-                        return false;
-                    }
+                        if (!mixture.sugarQuantity) {
+                            this.errors.push('Le champs quantité de sucre (en kg) est  requis.');
+                            window.scrollTo(0, 0);
+                            return false;
+                        }
 
-                });
+                        if (!mixture.glassVolume) {
+                            this.errors.push('Le champs volume de verre (en cl) est  requis.');
+                            window.scrollTo(0, 0);
+                            return false;
+                        }
+
+
+                        if (!mixture.glassNumber) {
+                            this.errors.push('Le champs nombre de verre obtenu est  requis.');
+                            window.scrollTo(0, 0);
+                            return false;
+                        }
+
+                    });
+
+                }
+
 
 
 

@@ -92,7 +92,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nombre de bacs</label>
                                         <input class="form-control" value="{{$machine->number_bacs}}" name="number_bacs"
-                                            id="disabledInput" type="number" placeholder="Nombre de bacs">
+                                            id="disabledInput" type="text" placeholder="Nombre de bacs" disabled>
 
 
 
