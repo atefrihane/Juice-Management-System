@@ -2041,21 +2041,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var x = true;
       this.bacs.forEach(function (bac, index) {
         if (!bac.status) {
-          _this5.errors.push('Veuillez sélectionner un etat pour le bac');
-
-          window.scrollTo(0, 0);
-          x = false;
-        }
-
-        if (!bac.productId) {
-          _this5.errors.push('Veuillez sélectionner un produit en bac');
-
-          window.scrollTo(0, 0);
-          x = false;
-        }
-
-        if (!bac.mixtureId) {
-          _this5.errors.push('Veuillez sélectionner un mélange');
+          _this5.errors.push('Veuillez sélectionner un etat pour le bac ' + (index + 1));
 
           window.scrollTo(0, 0);
           x = false;
@@ -41606,6 +41592,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
+                          attrs: {
+                            disabled:
+                              bac.status == "en panne" ||
+                              bac.status == "en sommeil"
+                          },
                           on: {
                             change: [
                               function($event) {
@@ -41683,6 +41674,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
+                          attrs: {
+                            disabled:
+                              bac.status == "en panne" ||
+                              bac.status == "en sommeil"
+                          },
                           on: {
                             change: function($event) {
                               var $$selectedVal = Array.prototype.filter

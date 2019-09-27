@@ -82,7 +82,7 @@
                                                 @foreach($machine->machineRentals as $rental)
                                                 @if($rental->active == 1)
                                                 <li><a
-                                                        href="{{route('showEndRental', ['id' =>$rental->id])}}">Arreter
+                                                        href="{{route('showEndRental', ['id' =>$rental->id])}}">Arrêter
                                                         location</a></li>
                                                         @break;
                                                         @endif

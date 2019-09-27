@@ -65,7 +65,7 @@
                                                 @else
 
                                                 <li><a
-                                                        href="{{route('showEndRental', $rental->id)}}">Arreter
+                                                        href="{{route('showEndRental', $rental->id)}}">Arrêter
                                                         location</a></li>
                                                 <li><a href="{{route('showListRental', $rental->machine->id).'?machine=true'}}">Voir
                                                         historique des locations</a></li>

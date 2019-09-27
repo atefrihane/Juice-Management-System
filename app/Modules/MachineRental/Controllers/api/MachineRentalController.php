@@ -42,8 +42,9 @@ class MachineRentalController extends Controller
     {
         $parsedStartDate = Carbon::parse($request->startDate)->toDateString();
         $parsedEndDate =   Carbon::parse($request->endDate)->toDateString();
-
+ 
         $checkMachine=Machine::find($request->id);
+ 
         if($checkMachine)
         {
 
@@ -76,25 +77,27 @@ class MachineRentalController extends Controller
             'machine_id'=>$request->id,
 
         ]);
-            $checkMachine->update(['rented' => 1]);
-
-        }
-
         foreach($request->bacs as $key=>$bac)
         {
             Bac::create([
                 'order'=>$key+1,
                 'status'=>$bac['status'],
                 'machine_id'=>$checkMachine->id,
-                'product_id'=>$bac['productId'],
-                'mixture_id'=>$bac['mixtures'][0][0]['id'],
+                'product_id'=>$bac['productId'] ,
+                'mixture_id'=>$bac['mixtures'] ? $bac['mixtures'][0][0]['id'] : null,
                 'rental_id'=>$rental->id
             ]);
 
 
         }
+        $checkMachine->update(['rented' => 1]);
 
             return response()->json(['status'=>200]);
+
+        }
+        
+        return response()->json(['status'=>404]);
+   
 
     }
 

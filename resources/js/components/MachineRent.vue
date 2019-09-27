@@ -141,7 +141,7 @@
                     <div class="col-md-6">
                         <div class="form-group " style="display: flex; flex-direction: column">
                             <label>Produit en bac </label>
-                            <select class="form-control" @change="getProductData($event,index)" v-model="bac.productId">
+                            <select class="form-control" @change="getProductData($event,index)" v-model="bac.productId" :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
                                 <option value="" v-if="products.length > 0 && products[0].length > 0">Selectionner un
                                     produit</option>
                                 <option value="" v-else> Aucun magasin </option>
@@ -153,7 +153,7 @@
                     <div class="col-md-6">
                         <div class="form-group " style="display: flex; flex-direction: column">
                             <label class="col-12">Melange par defaut </label>
-                            <select class="form-control" v-model="bac.mixtureId">
+                            <select class="form-control" v-model="bac.mixtureId" :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
                                 <option value="" v-if="bac.mixtures && bac.mixtures.length > 0">Selectionner un mélange
                                 </option>
                                 <option value="" v-else> Aucun mélange </option>
@@ -359,23 +359,12 @@
                 this.bacs.forEach((bac,index) => {
 
                     if (!bac.status) {
-                        this.errors.push('Veuillez sélectionner un etat pour le bac');
+                        this.errors.push('Veuillez sélectionner un etat pour le bac '+(index+1));
                         window.scrollTo(0, 0);
                          x=false;
                     }
 
-                    if (!bac.productId) {
-                        this.errors.push('Veuillez sélectionner un produit en bac');
-                        window.scrollTo(0, 0);
-                         x=false;
-                    }
-
-
-                    if (!bac.mixtureId) {
-                        this.errors.push('Veuillez sélectionner un mélange');
-                        window.scrollTo(0, 0);
-                         x=false;
-                    }
+                   
 
                     });
 
@@ -424,10 +413,17 @@
                                 showConfirmButton: false,
                                 timer: 1500
                             });
+                            }
 
 
-
-                        }
+                        if (response.data.status == 400) {
+                            swal.fire({
+                                type: 'error',
+                                title: 'Machine introuvable! !',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            }
 
                         if (response.data.status == 405) {
                             swal.fire({
