@@ -56,9 +56,9 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Type de Produit</label>
                 <select class="form-control" v-model="type" @change="getProductData($event)">
-                    <option selected>Alimentaire</option>
-                    <option>Jettable</option>
-                    <option>Autre</option>
+                    <option value="alimentaire">Alimentaire</option>
+                    <option value="jettable">Jettable</option>
+                    <option value="autre">Autre</option>
 
                 </select>
 
@@ -179,11 +179,11 @@
                 <input class="form-control" id="disabledInput" type="number" placeholder="Colisage" v-model="packing">
             </div>
 
-            <div class="form-group" v-if="type != 'Jettable' && mixtures.length > 0">
+            <div class="form-group" v-if="type != 'jettable' && mixtures.length > 0">
                 <label for="exampleInputFile">Possibilités de melange :</label>
             </div>
             <div class="box" style="border:1px solid rgb(228, 228, 228);background:rgb(228, 228, 228);"
-                v-for="(mixture,index) in mixtures" v-if="type != 'Jettable' && mixtures.length > 0">
+                v-for="(mixture,index) in mixtures" v-if="type != 'jettable' && mixtures.length > 0">
                 <div class="box-body">
                     <a href="" class="pull-right btn btn-default" v-if="index>0"
                         @click.prevent="deleteMixture(mixture)"><i class="fa fa-minus"></i></a>
@@ -253,13 +253,14 @@
             </div>
 
             <button type="button" class="btn btn-default" @click="btnClick()"
-                v-if="type != 'Jettable' && mixtures.length > 0"><i class="fa fa-plus"></i></button>
+                v-if="type != 'jettable' && mixtures.length > 0"><i class="fa fa-plus"></i></button>
 
             <div class="box-body">
                 <div class="row">
                     <div class="container text-center">
 
-                        <button href="" class="btn btn-danger pl-1">Annuler</button>
+                            <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelRental()">
+                    Annuler</button>
                         <button class="btn btn-success pl-1" type="button" @click="submitProduct()">Confirmer</button>
 
                     </div>
@@ -343,7 +344,7 @@
             },
             getProductData(event) {
                 let value = event.target.value;
-                if (value == 'Jettable') {
+                if (value == 'jettable') {
                     this.mixtures = [];
                 } else {
                     if (this.mixtures.length == 0) {
@@ -353,6 +354,11 @@
 
 
                 }
+            },
+               cancelRental()
+            {
+        window.location = '/wizefresh/public/products';
+
             },
             fetchProduct() {
                 axios.get('api/product/'+this.productId)
@@ -593,7 +599,7 @@
                     window.scrollTo(0, 0);
                     return false;
                 }
-                if (this.type != 'Jettable') {
+                if (this.type != 'jettable') {
                         var x=true;
                     this.mixtures.forEach((mixture) => {
 

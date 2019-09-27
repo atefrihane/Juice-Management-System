@@ -20,6 +20,8 @@ class CreateBacHistoriesTable extends Migration
             $table->foreign('bac_id')->references('id')->on('bacs')->onDelete('cascade');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('machine_rental_id')->unsigned();
+            $table->foreign('machine_rental_id')->references('id')->on('machine_rentals')->onDelete('cascade');
             $table->timestamps();
         });
     }

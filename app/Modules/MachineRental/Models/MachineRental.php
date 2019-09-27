@@ -31,7 +31,7 @@ class MachineRental extends Model {
        return $this->belongsTo(Store::class);
    }
 
-   public function bacs(){
+   public function bacHistories(){
     return $this->HasMany(Bac::class,'rental_id','id');
 }
 

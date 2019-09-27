@@ -3,6 +3,7 @@
 use App\Modules\Company\Models\Company;
 use App\Modules\Diractor\Models\Diractor;
 use App\Modules\Machine\Models\Machine;
+use App\Modules\Bac\Models\Bac;
 use App\Modules\Responsable\Models\Responsable;
 use App\Modules\Store\Models\Store;
 use App\Modules\User\Models\User;
@@ -189,6 +190,12 @@ class CompaniesTableSeeder extends Seeder
             'rented' => 0,
 
         ]);
+        for ($i = 0; $i < $machineOne->number_bacs; $i++) {
+            Bac::create([
+                'order' => $i + 1,
+                'machine_id' => $machineOne->id,
+            ]);
+        }
 
         $machineTwo = Machine::create([
             'code' => 'MCH02589',
@@ -204,6 +211,13 @@ class CompaniesTableSeeder extends Seeder
             'rented' => 0,
 
         ]);
+
+        for ($i = 0; $i < $machineTwo->number_bacs; $i++) {
+            Bac::create([
+                'order' => $i+1,
+                'machine_id' => $machineTwo->id,
+            ]);
+        }
 
         Responsable::create([
             'store_id' => $storeOne->id,

@@ -19,4 +19,9 @@ class BacHistory extends Model
         return $this->belongsTo('App\Modules\User\Models\User', 'user_id');
     }
 
+    public function rental()
+    {
+        return $this->belongsTo('App\Modules\MachineRental\Models\MachineRental', 'machine_rental_id');
+    }
+
 }

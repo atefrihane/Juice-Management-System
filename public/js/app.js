@@ -3192,6 +3192,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.fetchProduct();
@@ -3256,7 +3257,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getProductData: function getProductData(event) {
       var value = event.target.value;
 
-      if (value == 'Jettable') {
+      if (value == 'jettable') {
         this.mixtures = [];
       } else {
         if (this.mixtures.length == 0) {
@@ -3265,6 +3266,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         return;
       }
+    },
+    cancelRental: function cancelRental() {
+      window.location = '/wizefresh/public/products';
     },
     fetchProduct: function fetchProduct() {
       var _this = this;
@@ -3474,7 +3478,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return false;
       }
 
-      if (this.type != 'Jettable') {
+      if (this.type != 'jettable') {
         var x = true;
         this.mixtures.forEach(function (mixture) {
           if (!mixture.name) {
@@ -44036,13 +44040,15 @@ var render = function() {
               }
             },
             [
-              _c("option", { attrs: { selected: "" } }, [
+              _c("option", { attrs: { value: "alimentaire" } }, [
                 _vm._v("Alimentaire")
               ]),
               _vm._v(" "),
-              _c("option", [_vm._v("Jettable")]),
+              _c("option", { attrs: { value: "jettable" } }, [
+                _vm._v("Jettable")
+              ]),
               _vm._v(" "),
-              _c("option", [_vm._v("Autre")])
+              _c("option", { attrs: { value: "autre" } }, [_vm._v("Autre")])
             ]
           )
         ]),
@@ -44581,7 +44587,7 @@ var render = function() {
           })
         ]),
         _vm._v(" "),
-        _vm.type != "Jettable" && _vm.mixtures.length > 0
+        _vm.type != "jettable" && _vm.mixtures.length > 0
           ? _c("div", { staticClass: "form-group" }, [
               _c("label", { attrs: { for: "exampleInputFile" } }, [
                 _vm._v("Possibilités de melange :")
@@ -44590,7 +44596,7 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _vm._l(_vm.mixtures, function(mixture, index) {
-          return _vm.type != "Jettable" && _vm.mixtures.length > 0
+          return _vm.type != "jettable" && _vm.mixtures.length > 0
             ? _c(
                 "div",
                 {
@@ -44911,7 +44917,7 @@ var render = function() {
             : _vm._e()
         }),
         _vm._v(" "),
-        _vm.type != "Jettable" && _vm.mixtures.length > 0
+        _vm.type != "jettable" && _vm.mixtures.length > 0
           ? _c(
               "button",
               {
@@ -44932,8 +44938,17 @@ var render = function() {
             _c("div", { staticClass: "container text-center" }, [
               _c(
                 "button",
-                { staticClass: "btn btn-danger pl-1", attrs: { href: "" } },
-                [_vm._v("Annuler")]
+                {
+                  staticClass: "btn btn-danger pl-1",
+                  staticStyle: { margin: "1em" },
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      return _vm.cancelRental()
+                    }
+                  }
+                },
+                [_vm._v("\n                Annuler")]
               ),
               _vm._v(" "),
               _c(

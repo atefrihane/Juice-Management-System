@@ -26,6 +26,7 @@
 <script>
 var data = {
     product:{!! $product !!}
+
    
 }
 </script>

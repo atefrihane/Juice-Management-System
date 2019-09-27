@@ -135,10 +135,6 @@ class ProductController extends Controller
         $product = Product::find($id);
         if ($product) {
 
-            if ($product->type = 'Jettable') {
-                $product->mixtures()->delete();
-
-            }
             $product->update([
                 'code' => $request->code,
                 'status' => $request->state,
@@ -163,7 +159,7 @@ class ProductController extends Controller
                 'photo_url' => $request->photo,
             ]);
 
-            if ($request->input('mixtures')) {
+            if ($request->input('mixtures') && $request->type != 'jettable') {
                 foreach ($request->mixtures as $mixture) {
                     if (array_key_exists('id', $mixture)) {
 
@@ -187,7 +183,11 @@ class ProductController extends Controller
 
                 }
 
+            } else {
+                $product->mixtures()->delete();
+
             }
+
             return response()->json(['status' => 200]);
         }
 

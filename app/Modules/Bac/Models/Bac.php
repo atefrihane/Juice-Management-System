@@ -28,8 +28,5 @@ class Bac extends Model
         return $this->belongsTo(Machine::class);
     }
 
-    public function rental()
-    {
-        return $this->belongsTo(MachineRental::class, 'rental_id');
-    }
+   
 }
