@@ -83,7 +83,7 @@ class MachineRentalController extends Controller
                     'machine_id' => $checkMachine->id,
                     'product_id' => $bac['productId'],
                     'mixture_id' => $bac['mixtures'] ? $bac['mixtures'][0][0]['id'] : null,
-                    'rental_id' => $rental->id,
+                 
                 ]);
 
             }
