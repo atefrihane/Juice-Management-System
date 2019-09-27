@@ -214,7 +214,7 @@ class CompaniesTableSeeder extends Seeder
 
         for ($i = 0; $i < $machineTwo->number_bacs; $i++) {
             Bac::create([
-                'order' => $i+1,
+                'order' => $i + 1,
                 'machine_id' => $machineTwo->id,
             ]);
         }

@@ -29,8 +29,8 @@
 
 <script>
 var data = {
-    machine:{!! $machine !!}
-   
+    machine:{!! $machine !!},
+   bacs:{!! $machine->bacs !!}
 }
 </script>
 
