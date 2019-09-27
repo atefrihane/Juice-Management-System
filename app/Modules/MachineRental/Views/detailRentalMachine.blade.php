@@ -17,14 +17,16 @@
                     <div class="box-header">
                         <h3 class="box-title">Détail location machine </h3>
                         <div class="btn-group breadcrumb1 pull-right">
-                <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-                <ul class="dropdown-menu" role="menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(5px, 31px, 0px);">
-                    <li><a href="http://localhost/wizefresh/public/store/1/edit">Modifier</a></li>
+                            <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false"></a>
+                            <ul class="dropdown-menu" role="menu" x-placement="bottom-start"
+                                style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(5px, 31px, 0px);">
+                                <li><a href="http://localhost/wizefresh/public/store/1/edit">Modifier</a></li>
 
-                    <li><a href="" data-toggle="modal" data-target="#modal-default1">Supprimer</a></li>
+                                <li><a href="{{route('showEndRental',$rental->id)}}">Arrêter location</a></li>
 
-                </ul>
-            </div>
+                            </ul>
+                        </div>
 
                     </div>
 
@@ -115,48 +117,62 @@
                                     </div>
                                 </div>
                             </div>
-                            @forelse($rental->machine->bacs as $bac)
-                            <div class="container-fluid "
-                                style="background-color: #e4e4e4; margin: 16px; padding: 24px">
+                            @if($rental->bacs)
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Configurations des bacs : </label>
+                                </div>
+                            </div>
+                            @foreach($rental->bacs as $bac)
+                       
+                            <div style="background-color: #e4e4e4; margin: 16px; padding: 24px">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-group d-flex">
-                                            <label class="col-10">numero du bac: </label>
-                                            <input type="number" class="form-control col-2" readonly
-                                                value="{{$bac->order}}">
+                                            <label class="col-10">Numero du bac: </label>
+                                            <input type="text" class="form-control" value="{{$bac->order}}" disabled>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-group d-flex">
-                                            <label class="col-4">Etat </label>
-                                            <input type="text" class="form-control" readonly value="{{$bac->status}}">
-                                        </div>
-                                    </div>
-                                    @if($bac->product)
-                                    <div class="col-md-12">
-                                        <div class="form-group d-flex">
-                                            <label class="col-4">Produit en bac </label>
-                                            <input type="text" class="form-control" readonly
-                                                value="{{$bac->product->nom}}">
+                                        <div class="form-group " style="display: flex; flex-direction: column">
+                                            <label>Etat : </label>
+                                            <input type="text" class="form-control" value="{{ucfirst($bac->status)}}"
+                                                disabled>
 
                                         </div>
                                     </div>
-                                    @endif
-                                    @if($bac->mixture)
-                                    <div class="col-md-12">
-                                        <div class="form-group d-flex">
-                                            <label class="col-4">Melange par defaut </label>
-                                            <input type="text" readonly value="{{$bac->mixture->name}}"
-                                                class="form-control">
+
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group " style="display: flex; flex-direction: column">
+                                            <label>Produit en bac </label>
+                                            <input type="text" class="form-control"
+                                                value="{{$bac->product ? ucfirst($bac->product->nom) : 'Aucun'}}"
+                                                disabled>
                                         </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group " style="display: flex; flex-direction: column">
+                                            <label class="col-12">Melange par defaut </label>
+                                            <input type="text" class="form-control"
+                                                value="{{$bac->mixture ? ucfirst($bac->mixture->name) : 'Aucun'}}"
+                                                disabled>
+                                        </div>
+
                                     </div>
                                 </div>
-                                @endif
 
                             </div>
-                            @empty
+                 
+                            @endforeach
+                            @endif
 
-                            @endforelse
+
+
+
                         </div>
 
                     </form>

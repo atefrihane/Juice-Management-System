@@ -60,7 +60,7 @@
                                                 <li><a
                                                         href="{{route('showRental', ['id' => $machine->id])}}">Voir
                                                         détails location</a></li>
-                                                <li><a href="{{route('showEndRental', ['id' =>$machine->id])}}">Arreter
+                                                <li><a href="{{route('showEndRental', ['id' =>$machine->id])}}">Arrêter
                                                         location</a></li>
                                                 <li><a href="{{route('showListRental', $machine->machine->id).'?machine=true'}}">Voir
                                                         historique des locations</a></li>
