@@ -416,7 +416,7 @@
                             }
 
 
-                        if (response.data.status == 400) {
+                        if (response.data.status == 404) {
                             swal.fire({
                                 type: 'error',
                                 title: 'Machine introuvable! !',

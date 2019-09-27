@@ -4,6 +4,7 @@ Route::group(['module' => 'Product', 'middleware' => ['api'], 'namespace' => 'Ap
 
   //  Route::resource('Product', 'ProductController');
     route::post('api/products', 'ProductController@store');
+    route::post('api/product/update/{id}', 'ProductController@handleUpdateProduct');
     route::get('api/products', 'ProductController@index');
     route::get('api/product/{id}', 'ProductController@handleGetProductById');
     route::get('api/product/name/{name}', 'ProductController@handleGetProductByName');

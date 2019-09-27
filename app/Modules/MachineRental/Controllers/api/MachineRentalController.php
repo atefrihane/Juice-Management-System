@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Modules\MachineRental\Controllers\api;
-use Carbon\Carbon;
+
 use App\Http\Controllers\Controller;
+use App\Modules\Bac\Models\Bac;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Machine\Models\Machine;
-use App\Modules\Bac\Models\Bac;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MachineRentalController extends Controller
@@ -41,63 +42,58 @@ class MachineRentalController extends Controller
     public function store(Request $request)
     {
         $parsedStartDate = Carbon::parse($request->startDate)->toDateString();
-        $parsedEndDate =   Carbon::parse($request->endDate)->toDateString();
- 
-        $checkMachine=Machine::find($request->id);
- 
-        if($checkMachine)
-        {
+        $parsedEndDate = Carbon::parse($request->endDate)->toDateString();
 
-        $checkRenal=MachineRental::where('date_debut','=',$parsedStartDate)
-        ->where('date_fin','=',$parsedEndDate)
-        ->where('active',1)
-        ->first();
+        $checkMachine = Machine::find($request->id);
 
-        if($checkRenal)
-        {
-            return response()->json(['status'=>400]);
+        if ($checkMachine) {
 
+            $checkRenal = MachineRental::where('date_debut', '=', $parsedStartDate)
+                ->where('date_fin', '=', $parsedEndDate)
+                ->where('active', 1)
+                ->first();
 
-        }
+            if ($checkRenal) {
+                return response()->json(['status' => 400]);
 
+            }
 
-        if($parsedEndDate < $parsedStartDate) {
+            if ($parsedEndDate < $parsedStartDate) {
 
-            return response()->json(['status'=>405]);
-        }
+                return response()->json(['status' => 405]);
+            }
 
-        $rental=MachineRental::create([
-            'date_debut'=>$parsedStartDate,
-            'date_fin'=>$parsedEndDate,
-            'location'=>$request->location,
-            'Comment'=>$request->comment,
-            'price'=>$request->price,
-            'active'=>$request->active,
-            'store_id'=>$request->storeId,
-            'machine_id'=>$request->id,
+            $rental = MachineRental::create([
+                'date_debut' => $parsedStartDate,
+                'date_fin' => $parsedEndDate,
+                'location' => $request->location,
+                'Comment' => $request->comment,
+                'price' => $request->price,
+                'active' => $request->active,
+                'store_id' => $request->storeId,
+                'machine_id' => $request->id,
 
-        ]);
-        foreach($request->bacs as $key=>$bac)
-        {
-            Bac::create([
-                'order'=>$key+1,
-                'status'=>$bac['status'],
-                'machine_id'=>$checkMachine->id,
-                'product_id'=>$bac['productId'] ,
-                'mixture_id'=>$bac['mixtures'] ? $bac['mixtures'][0][0]['id'] : null,
-                'rental_id'=>$rental->id
             ]);
 
+            foreach ($request->bacs as $key => $bac) {
+
+                Bac::create([
+                    'order' => $key + 1,
+                    'status' => $bac['status'],
+                    'machine_id' => $checkMachine->id,
+                    'product_id' => $bac['productId'],
+                    'mixture_id' => $bac['mixtures'] ? $bac['mixtures'][0][0]['id'] : null,
+                    'rental_id' => $rental->id,
+                ]);
+
+            }
+            $checkMachine->update(['rented' => 1]);
+
+            return response()->json(['status' => 200]);
 
         }
-        $checkMachine->update(['rented' => 1]);
 
-            return response()->json(['status'=>200]);
-
-        }
-        
-        return response()->json(['status'=>404]);
-   
+        return response()->json(['status' => 404]);
 
     }
 

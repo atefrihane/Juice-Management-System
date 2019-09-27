@@ -9,6 +9,7 @@ window.Vue = require('vue');
 import Vue from 'vue'
 import ProductPrice from './components/ProductPrice.vue'
 import ProductAdd from './components/ProductAdd.vue'
+import ProductUpdate from './components/ProductUpdate.vue'
 import MachineRent from './components/MachineRent.vue'
 
 import swal from 'sweetalert2'
@@ -17,6 +18,7 @@ window.swal = swal;
 
 Vue.component('product-price', require('./components/ProductPrice.vue'));
 Vue.component('product-add', require('./components/ProductAdd.vue'));
+Vue.component('product-update', require('./components/ProductUpdate.vue'));
 Vue.component('machine-rent', require('./components/MachineRent.vue'));
 axios.defaults.baseURL = '/wizefresh/public/'
 const app = new Vue({
@@ -24,6 +26,7 @@ const app = new Vue({
     components: {
         ProductPrice,
         'product-add': ProductAdd,
+        'product-update': ProductUpdate,
         MachineRent,
 
 
