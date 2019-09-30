@@ -4,10 +4,12 @@ namespace App\Modules\MachineRental\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Bac\Models\Bac;
+use App\Modules\BacHistory\Models\BacHistory;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Machine\Models\Machine;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Auth;
 
 class MachineRentalController extends Controller
 {
@@ -41,6 +43,9 @@ class MachineRentalController extends Controller
      */
     public function store(Request $request)
     {
+   
+
+  
         $parsedStartDate = Carbon::parse($request->startDate)->toDateString();
         $parsedEndDate = Carbon::parse($request->endDate)->toDateString();
 
@@ -62,7 +67,7 @@ class MachineRentalController extends Controller
 
                 return response()->json(['status' => 405]);
             }
-
+    
             $rental = MachineRental::create([
                 'date_debut' => $parsedStartDate,
                 'date_fin' => $parsedEndDate,
@@ -74,19 +79,28 @@ class MachineRentalController extends Controller
                 'machine_id' => $request->id,
 
             ]);
+          
+         
+            if (isset($request->bacs[0])) {
+                foreach ($request->bacs[0] as $bac) {
+                    $checkBac = Bac::find($bac['id']);
+                    $checkBac->update([
+                        'order' => $bac['order'],
+                        'status' => $bac['status'],
+                        'last_refill_time' => $bac['last_refill_time'],
+                        'product_id' => $bac['product_id'],
+                        'mixture_id' => $bac['mixture_id'],
 
-            foreach ($request->bacs as $key => $bac) {
-
-                Bac::create([
-                    'order' => $key + 1,
-                    'status' => $bac['status'],
-                    'machine_id' => $checkMachine->id,
-                    'product_id' => $bac['productId'],
-                    'mixture_id' => $bac['mixtures'] ? $bac['mixtures'][0][0]['id'] : null,
-                 
-                ]);
-
+                    ]);
+                    BacHistory::create([
+                        'action' => $bac['order'],
+                        'bac_id'=>$checkBac->id,
+                        'user_id'=>$request->userId,
+                        'machine_rental_id'=>$rental->id
+                    ]);
+                }
             }
+         
             $checkMachine->update(['rented' => 1]);
 
             return response()->json(['status' => 200]);

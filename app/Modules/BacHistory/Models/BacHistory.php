@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class BacHistory extends Model
 {
 
-    protected $fillable=['action','bac_id','user_id'];
+    protected $fillable=['action','bac_id','user_id','machine_rental_id'];
 
     public function bac()
     {

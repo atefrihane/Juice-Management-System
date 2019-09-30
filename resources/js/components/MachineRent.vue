@@ -65,16 +65,14 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Date du début de location</label>
 
-                        <Datepicker v-model="startDate"
-                        placeholder=""></Datepicker>
+                        <Datepicker v-model="startDate" placeholder=""></Datepicker>
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Date de fin de location</label>
-                        <Datepicker v-model="endDate"
-                            placeholder=""></Datepicker>
+                        <Datepicker v-model="endDate" placeholder=""></Datepicker>
                     </div>
                 </div>
             </div>
@@ -111,7 +109,7 @@
             </label>
 
             <div class="container-fluid " style="background-color: #e4e4e4; margin: 16px; padding: 24px"
-                v-for="(bac,index) in bacs">
+                v-for="(bac,index) in bacs[0]">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group d-flex">
@@ -124,7 +122,7 @@
                             <label>Etat : </label>
 
                             <select class="form-control" v-model="bac.status">
-                                <option value="" v-if="bacs.length > 0"> Séléctionner un Etat</option>
+                                <option value="" v-if="bacs[0].length > 0"> Séléctionner un Etat</option>
                                 <option value="fonctionnelle">Fonctionnelle</option>
                                 <option value="en panne">En panne</option>
                                 <option value="en sommeil">En Sommeil</option>
@@ -141,10 +139,12 @@
                     <div class="col-md-6">
                         <div class="form-group " style="display: flex; flex-direction: column">
                             <label>Produit en bac </label>
-                            <select class="form-control" @change="getProductData($event,index)" v-model="bac.productId" :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
+                            <select class="form-control" @change="getProductData($event,index)" v-model="bac.product_id"
+                                :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
+
                                 <option value="" v-if="products.length > 0 && products[0].length > 0">Selectionner un
                                     produit</option>
-                                <option value="" v-else> Aucun magasin </option>
+                                <option value="" v-else> Aucun Produit </option>
                                 <option v-for="product in products[0]" :value="product.id ">{{product.nom}}</option>
 
                             </select>
@@ -153,11 +153,12 @@
                     <div class="col-md-6">
                         <div class="form-group " style="display: flex; flex-direction: column">
                             <label class="col-12">Melange par defaut </label>
-                            <select class="form-control" v-model="bac.mixtureId" :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
+                            <select class="form-control" v-model="bac.mixture_id"
+                                :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
                                 <option value="" v-if="bac.mixtures && bac.mixtures.length > 0">Selectionner un mélange
                                 </option>
                                 <option value="" v-else> Aucun mélange </option>
-                                <option v-for="mixture in bac.mixtures[0]" :value="mixture.id">{{mixture.name}}</option>
+                                <option v-for="mixture in bac.mixtures" :value="mixture.id ">{{mixture.name}}</option>
 
                             </select>
                         </div>
@@ -213,6 +214,7 @@
                 code: data.machine.code,
                 designation: data.machine.designation,
                 machineId: data.machine.id,
+                userId:data.user.id,
                 companies: [],
                 products: [],
                 mixtures: [],
@@ -279,12 +281,13 @@
 
                 axios.get('api/product/' + id)
                     .then((response) => {
-                        this.bacs[index]['mixtures'] = []
+                  Vue.set(this.bacs[0][index], 'mixtures', '')
                         //Display mixtures of a product ( if has a one)
+                        console.log(response);
                         if (response.data.product.length > 0) {
-
-                            this.bacs[index]['mixtures'].push(response.data.product);
-                            this.mixtureId = this.bacs[index]['mixtures'][0].id;
+                            Vue.set(this.bacs[0][index], 'mixtures', response.data.product)
+                            // this.bacs[0][index].push(response.data.product);
+                            // this.mixtureId = this.bacs[index]['mixtures'][0].id;
                         }
                     })
                     .catch(function (error) {
@@ -293,20 +296,23 @@
 
             },
             loadBacs() {
-                for (let i = 0; i < this.countBacs; i++) {
-                    this.bacs.push({
-                        status: '',
-                        productId: '',
-                        mixtures: [],
-                        mixtureId: ''
-                    });
 
-                }
+                axios.get('api/machine/bacs/' + this.machineId)
+                    .then((response) => {
+                        console.log(response.data);
+                        this.bacs.push(response.data.bacs);
+
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+
+
+
 
             },
-            cancelRental()
-            {
-        window.location = '/wizefresh/public/machines';
+            cancelRental() {
+                window.location = '/wizefresh/public/machines';
 
             },
             validateForm() {
@@ -355,20 +361,20 @@
 
 
 
-                var x=true;
-                this.bacs.forEach((bac,index) => {
+                var x = true;
+                this.bacs[0].forEach((bac, index) => {
 
                     if (!bac.status) {
-                        this.errors.push('Veuillez sélectionner un etat pour le bac '+(index+1));
+                        this.errors.push('Veuillez sélectionner un etat pour le bac ' + (index + 1));
                         window.scrollTo(0, 0);
-                         x=false;
+                        x = false;
                     }
 
-                   
 
-                    });
 
-                    return x;
+                });
+
+                return x;
 
 
 
@@ -378,73 +384,73 @@
             submitRental() {
                 var x = this.validateForm()
 
-                if(x == true)
-                {
+                if (x == true) {
 
-                         axios.post('api/rentals', {
-                        id: this.machineId,
-                        startDate: this.startDate,
-                        endDate: this.endDate,
-                        price: this.price,
-                        localisation: this.localisation,
-                        comment: this.comment,
-                        storeId: this.storeId,
-                        active: 1,
-                        bacs:this.bacs
+                    axios.post('api/rentals', {
+                            id: this.machineId,
+                            startDate: this.startDate,
+                            endDate: this.endDate,
+                            price: this.price,
+                            localisation: this.localisation,
+                            comment: this.comment,
+                            storeId: this.storeId,
+                            active: 1,
+                            bacs: this.bacs,
+                            userId:this.userId
 
-                    })
-                    .then((response) => {
-                        if (response.data.status == 200) {
-                            swal.fire({
-                                type: 'success',
-                                title: 'La location a été ajoutée avec succés !',
-                                showConfirmButton: false,
-                                timer: 1500
+                        })
+                        .then((response) => {
+                            if (response.data.status == 200) {
+                                swal.fire({
+                                    type: 'success',
+                                    title: 'La location a été ajoutée avec succés !',
+                                    showConfirmButton: false,
+                                    timer: 1500
 
-                            });
-                            setTimeout(() => window.location = '/wizefresh/public/machines', 2000);
-                        }
-
-
-                        if (response.data.status == 400) {
-                            swal.fire({
-                                type: 'error',
-                                title: 'La machine a été déja louée !',
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
+                                });
+                                setTimeout(() => window.location = '/wizefresh/public/machines', 2000);
                             }
 
 
-                        if (response.data.status == 404) {
-                            swal.fire({
-                                type: 'error',
-                                title: 'Machine introuvable! !',
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
+                            if (response.data.status == 400) {
+                                swal.fire({
+                                    type: 'error',
+                                    title: 'La machine a été déja louée !',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
                             }
 
-                        if (response.data.status == 405) {
-                            swal.fire({
-                                type: 'error',
-                                title: 'Erreur date!',
-                                showConfirmButton: false,
-                                timer: 1500
 
-                            });
+                            if (response.data.status == 404) {
+                                swal.fire({
+                                    type: 'error',
+                                    title: 'Machine introuvable! !',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                            }
+
+                            if (response.data.status == 405) {
+                                swal.fire({
+                                    type: 'error',
+                                    title: 'Erreur date!',
+                                    showConfirmButton: false,
+                                    timer: 1500
+
+                                });
 
 
 
-                        }
+                            }
 
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
-                 }
-
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        })
                 }
+
+            }
 
 
 

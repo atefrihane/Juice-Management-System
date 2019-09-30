@@ -24,7 +24,7 @@ class MachineController extends Controller
             ->where('active', 1)
             ->first();
         if ($machineRental) {
-           
+
             $history = MachineHistory::where('machine_id', $id)
                 ->where('rental_id', $machineRental->id)
                 ->with('user')
@@ -67,6 +67,18 @@ class MachineController extends Controller
         ]);
 
         return response()->json(['status' => 200]);
+
+    }
+
+    public function showMachineBacs($id)
+    {
+        $machine = Machine::find($id);
+  
+        if ($machine) {
+            return response()->json(['status' => 200, 'bacs' => $machine->bacs]);
+
+        }
+        return response()->json(['status' => 404]);
 
     }
 

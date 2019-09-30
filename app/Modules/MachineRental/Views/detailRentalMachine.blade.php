@@ -92,7 +92,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Prix location mensuel</label>
-                                        <input class="form-control" value="{{$rental->public}}" readonly
+                                        <input class="form-control" value="{{$rental->price}}" readonly
                                             name="designation" type="number" placeholder="Prix">
 
                                     </div>
@@ -117,26 +117,26 @@
                                     </div>
                                 </div>
                             </div>
-                            @if($rental->bacs)
+                            @if($rental->bacHistories)
                             <div class="row">
                                 <div class="col-md-12">
                                     <label>Configurations des bacs : </label>
                                 </div>
                             </div>
-                            @foreach($rental->bacs as $bac)
+                            @foreach($rental->bacHistories as $bacHistory)
                        
                             <div style="background-color: #e4e4e4; margin: 16px; padding: 24px">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group d-flex">
                                             <label class="col-10">Numero du bac: </label>
-                                            <input type="text" class="form-control" value="{{$bac->order}}" disabled>
+                                            <input type="text" class="form-control" value="{{$bacHistory->bac->order}}" disabled>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group " style="display: flex; flex-direction: column">
                                             <label>Etat : </label>
-                                            <input type="text" class="form-control" value="{{ucfirst($bac->status)}}"
+                                            <input type="text" class="form-control" value="{{ucfirst($bacHistory->bac->status)}}"
                                                 disabled>
 
                                         </div>
@@ -150,7 +150,7 @@
                                         <div class="form-group " style="display: flex; flex-direction: column">
                                             <label>Produit en bac </label>
                                             <input type="text" class="form-control"
-                                                value="{{$bac->product ? ucfirst($bac->product->nom) : 'Aucun'}}"
+                                                value="{{$bacHistory->bac->product ? ucfirst($bacHistory->bac->product->nom) : 'Aucun'}}"
                                                 disabled>
                                         </div>
                                     </div>
@@ -158,7 +158,7 @@
                                         <div class="form-group " style="display: flex; flex-direction: column">
                                             <label class="col-12">Melange par defaut </label>
                                             <input type="text" class="form-control"
-                                                value="{{$bac->mixture ? ucfirst($bac->mixture->name) : 'Aucun'}}"
+                                                value="{{$bacHistory->bac->mixture ? ucfirst($bacHistory->bac->mixture->name) : 'Aucun'}}"
                                                 disabled>
                                         </div>
 
