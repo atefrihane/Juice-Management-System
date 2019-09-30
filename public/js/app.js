@@ -1897,6 +1897,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -1924,6 +1925,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       code: data.machine.code,
       designation: data.machine.designation,
       machineId: data.machine.id,
+      userId: data.user.id,
       companies: [],
       products: [],
       mixtures: [],
@@ -1973,32 +1975,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       var id = event.target.value;
       axios.get('api/product/' + id).then(function (response) {
-        _this4.bacs[index]['mixtures'] = []; //Display mixtures of a product ( if has a one)
+        Vue.set(_this4.bacs[0][index], 'mixtures', ''); //Display mixtures of a product ( if has a one)
+
+        console.log(response);
 
         if (response.data.product.length > 0) {
-          _this4.bacs[index]['mixtures'].push(response.data.product);
-
-          _this4.mixtureId = _this4.bacs[index]['mixtures'][0].id;
+          Vue.set(_this4.bacs[0][index], 'mixtures', response.data.product); // this.bacs[0][index].push(response.data.product);
+          // this.mixtureId = this.bacs[index]['mixtures'][0].id;
         }
       })["catch"](function (error) {
         console.log(error);
       });
     },
     loadBacs: function loadBacs() {
-      for (var i = 0; i < this.countBacs; i++) {
-        this.bacs.push({
-          status: '',
-          productId: '',
-          mixtures: [],
-          mixtureId: ''
-        });
-      }
+      var _this5 = this;
+
+      axios.get('api/machine/bacs/' + this.machineId).then(function (response) {
+        console.log(response.data);
+
+        _this5.bacs.push(response.data.bacs);
+      })["catch"](function (error) {
+        console.log(error);
+      });
     },
     cancelRental: function cancelRental() {
       window.location = '/wizefresh/public/machines';
     },
     validateForm: function validateForm() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.errors = [];
 
@@ -2039,9 +2043,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       var x = true;
-      this.bacs.forEach(function (bac, index) {
+      this.bacs[0].forEach(function (bac, index) {
         if (!bac.status) {
-          _this5.errors.push('Veuillez sélectionner un etat pour le bac ' + (index + 1));
+          _this6.errors.push('Veuillez sélectionner un etat pour le bac ' + (index + 1));
 
           window.scrollTo(0, 0);
           x = false;
@@ -2062,7 +2066,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           comment: this.comment,
           storeId: this.storeId,
           active: 1,
-          bacs: this.bacs
+          bacs: this.bacs,
+          userId: this.userId
         }).then(function (response) {
           if (response.data.status == 200) {
             swal.fire({
@@ -42117,7 +42122,7 @@ var render = function() {
           [_vm._v(" Configuration des bacs\n        ")]
         ),
         _vm._v(" "),
-        _vm._l(_vm.bacs, function(bac, index) {
+        _vm._l(_vm.bacs[0], function(bac, index) {
           return _c(
             "div",
             {
@@ -42190,7 +42195,7 @@ var render = function() {
                           }
                         },
                         [
-                          _vm.bacs.length > 0
+                          _vm.bacs[0].length > 0
                             ? _c("option", { attrs: { value: "" } }, [
                                 _vm._v(" Séléctionner un Etat")
                               ])
@@ -42235,8 +42240,8 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: bac.productId,
-                              expression: "bac.productId"
+                              value: bac.product_id,
+                              expression: "bac.product_id"
                             }
                           ],
                           staticClass: "form-control",
@@ -42258,7 +42263,7 @@ var render = function() {
                                   })
                                 _vm.$set(
                                   bac,
-                                  "productId",
+                                  "product_id",
                                   $event.target.multiple
                                     ? $$selectedVal
                                     : $$selectedVal[0]
@@ -42278,7 +42283,7 @@ var render = function() {
                                 )
                               ])
                             : _c("option", { attrs: { value: "" } }, [
-                                _vm._v(" Aucun magasin ")
+                                _vm._v(" Aucun Produit ")
                               ]),
                           _vm._v(" "),
                           _vm._l(_vm.products[0], function(product) {
@@ -42317,8 +42322,8 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: bac.mixtureId,
-                              expression: "bac.mixtureId"
+                              value: bac.mixture_id,
+                              expression: "bac.mixture_id"
                             }
                           ],
                           staticClass: "form-control",
@@ -42339,7 +42344,7 @@ var render = function() {
                                 })
                               _vm.$set(
                                 bac,
-                                "mixtureId",
+                                "mixture_id",
                                 $event.target.multiple
                                   ? $$selectedVal
                                   : $$selectedVal[0]
@@ -42358,7 +42363,7 @@ var render = function() {
                                 _vm._v(" Aucun mélange ")
                               ]),
                           _vm._v(" "),
-                          _vm._l(bac.mixtures[0], function(mixture) {
+                          _vm._l(bac.mixtures, function(mixture) {
                             return _c(
                               "option",
                               { domProps: { value: mixture.id } },

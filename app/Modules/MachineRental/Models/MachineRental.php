@@ -6,6 +6,7 @@ use App\Modules\Machine\Models\Machine;
 use App\Modules\Product\Models\Product;
 use App\Modules\Store\Models\Store;
 use App\Modules\Bac\Models\Bac;
+use App\Modules\BacHistory\Models\BacHistory;
 use Illuminate\Database\Eloquent\Model;
 
 class MachineRental extends Model {
@@ -32,7 +33,7 @@ class MachineRental extends Model {
    }
 
    public function bacHistories(){
-    return $this->HasMany(Bac::class,'rental_id','id');
+    return $this->HasMany(BacHistory::class);
 }
 
 

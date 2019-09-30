@@ -30,7 +30,7 @@
 <script>
 var data = {
     machine:{!! $machine !!},
-   bacs:{!! $machine->bacs !!}
+   user:{!! Auth::user() !!}
 }
 </script>
 
