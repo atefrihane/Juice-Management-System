@@ -404,8 +404,8 @@
                                 swal.fire({
                                     type: 'success',
                                     title: 'La location a été ajoutée avec succés !',
-                                    showConfirmButton: false,
-                                    timer: 1500
+                                    showConfirmButton: true,
+                               
 
                                 });
                                 setTimeout(() => window.location = '/wizefresh/public/machines', 2000);
@@ -416,8 +416,8 @@
                                 swal.fire({
                                     type: 'error',
                                     title: 'La machine a été déja louée !',
-                                    showConfirmButton: false,
-                                    timer: 1500
+                                    showConfirmButton: true,
+                               
                                 });
                             }
 
@@ -426,8 +426,8 @@
                                 swal.fire({
                                     type: 'error',
                                     title: 'Machine introuvable! !',
-                                    showConfirmButton: false,
-                                    timer: 1500
+                                    showConfirmButton: true,
+                               
                                 });
                             }
 
@@ -435,8 +435,8 @@
                                 swal.fire({
                                     type: 'error',
                                     title: 'Erreur date!',
-                                    showConfirmButton: false,
-                                    timer: 1500
+                                    showConfirmButton: true,
+                               
 
                                 });
 

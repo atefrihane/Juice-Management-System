@@ -154,4 +154,15 @@ class MachineRentalController extends Controller
         }
 
     }
+    public function showEditRental($id)
+    {
+        $rental=MachineRental::find($id);
+          if($rental)
+          {
+              $store=$rental->store;
+              return view('MachineRental::showEditRental',compact('rental','store'));
+          }  
+          return view('General::notFound');
+
+    }
 }
