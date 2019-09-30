@@ -150,7 +150,7 @@
                                     v-model="bac.product_id"
                                     :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
 
-                                    <option :value="null" disabled>Selectionner un
+                                    <option :value="bac.product_id" disabled>Selectionner un
                                         produit</option>
 
                                     <option v-for="product in products[0]" :value="product.id ">{{product.nom}}</option>
@@ -163,7 +163,7 @@
                                 <label class="col-12">Melange par defaut </label>
                                 <select class="form-control" v-model="bac.mixture_id"
                                     :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
-                                    <option :value="null" disabled>Selectionner un mélange
+                                    <option :value="bac.mixture_id" v-if="bac.mixture_id" disabled>Selectionner un mélange
                                     </option>
 
                                     <option v-for="mixture in bac.mixtures" :value="mixture.id ">{{mixture.name}}

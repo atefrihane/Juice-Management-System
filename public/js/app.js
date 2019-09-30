@@ -43309,7 +43309,7 @@ var render = function() {
                                 "option",
                                 {
                                   attrs: { disabled: "" },
-                                  domProps: { value: null }
+                                  domProps: { value: bac.product_id }
                                 },
                                 [
                                   _vm._v(
@@ -43386,18 +43386,20 @@ var render = function() {
                               }
                             },
                             [
-                              _c(
-                                "option",
-                                {
-                                  attrs: { disabled: "" },
-                                  domProps: { value: null }
-                                },
-                                [
-                                  _vm._v(
-                                    "Selectionner un mélange\n                                "
+                              bac.mixture_id
+                                ? _c(
+                                    "option",
+                                    {
+                                      attrs: { disabled: "" },
+                                      domProps: { value: bac.mixture_id }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "Selectionner un mélange\n                                "
+                                      )
+                                    ]
                                   )
-                                ]
-                              ),
+                                : _vm._e(),
                               _vm._v(" "),
                               _vm._l(bac.mixtures, function(mixture) {
                                 return _c(
