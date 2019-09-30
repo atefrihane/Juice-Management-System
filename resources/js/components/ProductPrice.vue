@@ -130,8 +130,9 @@
                     swal.fire({
                         type: 'error',
                         title: 'Veuillez selectionner un prix pour la societé!',
-                        showConfirmButton: false,
-                        timer: 1500
+                        showConfirmButton: true,
+     confirmButtonText:'Fermer'
+                   
                     });
 
                 }
@@ -149,8 +150,9 @@
                                 swal.fire({
                                     type: 'success',
                                     title: 'Le prix a été ajouté avec succés !',
-                                    showConfirmButton: false,
-                                    timer: 1500
+                                    showConfirmButton: true,
+     confirmButtonText:'Fermer'
+                               
 
                                 });
                                 setTimeout(() => window.location = '/wizefresh/public/products/custom/' + this
@@ -160,8 +162,9 @@
                                 swal.fire({
                                     type: 'error',
                                     title: 'Echec !',
-                                    showConfirmButton: false,
-                                    timer: 1500
+                                    showConfirmButton: true,
+     confirmButtonText:'Fermer'
+                               
                                 });
 
                             }
@@ -175,8 +178,9 @@
                     swal.fire({
                         type: 'error',
                         title: 'Veuillez selectionner un produit!',
-                        showConfirmButton: false,
-                        timer: 1500
+                        showConfirmButton: true,
+     confirmButtonText:'Fermer'
+                   
                     });
 
                 }

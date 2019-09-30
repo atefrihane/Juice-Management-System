@@ -436,8 +436,9 @@
                                 swal.fire({
                                     type: 'success',
                                     title: 'Le produit a été ajouté avec succés !',
-                                    showConfirmButton: false,
-                                    timer: 1500
+                                    showConfirmButton: true,
+                                 confirmButtonText:'Fermer'
+                               
 
                                 });
                                 setTimeout(() => window.location = '/wizefresh/public/products', 2000);

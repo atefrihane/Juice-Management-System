@@ -3,13 +3,12 @@
 namespace App\Modules\MachineRental\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Modules\Bac\Models\Bac;
 use App\Modules\BacHistory\Models\BacHistory;
+use App\Modules\Bac\Models\Bac;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Machine\Models\Machine;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Auth;
 
 class MachineRentalController extends Controller
 {
@@ -43,9 +42,7 @@ class MachineRentalController extends Controller
      */
     public function store(Request $request)
     {
-   
 
-  
         $parsedStartDate = Carbon::parse($request->startDate)->toDateString();
         $parsedEndDate = Carbon::parse($request->endDate)->toDateString();
 
@@ -67,7 +64,7 @@ class MachineRentalController extends Controller
 
                 return response()->json(['status' => 405]);
             }
-    
+
             $rental = MachineRental::create([
                 'date_debut' => $parsedStartDate,
                 'date_fin' => $parsedEndDate,
@@ -79,8 +76,7 @@ class MachineRentalController extends Controller
                 'machine_id' => $request->id,
 
             ]);
-          
-         
+
             if (isset($request->bacs[0])) {
                 foreach ($request->bacs[0] as $bac) {
                     $checkBac = Bac::find($bac['id']);
@@ -93,14 +89,14 @@ class MachineRentalController extends Controller
 
                     ]);
                     BacHistory::create([
-                        'action' => $bac['order'],
-                        'bac_id'=>$checkBac->id,
-                        'user_id'=>$request->userId,
-                        'machine_rental_id'=>$rental->id
+                        'action' => $bac['status'],
+                        'bac_id' => $checkBac->id,
+                        'user_id' => $request->userId,
+                        'machine_rental_id' => $rental->id,
                     ]);
                 }
             }
-         
+
             $checkMachine->update(['rented' => 1]);
 
             return response()->json(['status' => 200]);
@@ -125,37 +121,43 @@ class MachineRentalController extends Controller
         return view('MachineRental::detailRentalMachine', compact('rental'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function handleUpdateRental($id, Request $request)
     {
-        //
-    }
+   
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        $rental = MachineRental::find($id);
+        if ($rental) {
+            if ($request->endDate < $rental->date_debut) {
+                return response()->json(['status' => 400]);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+            }
+            $rental->update([
+                'date_fin' => $request->endDate,
+                'location' => $request->location,
+                'Comment' => $request->comment,
+                'price' => $request->price,
+            ]);
+
+            foreach ($request->bacs as $bac) {
+                $checkBac = Bac::where('order', $bac['order'])->first();
+                $checkBac->update([
+                    'status' => $bac['status'],
+                    'product_id' => $bac['product_id'],
+                    'mixture_id' => $bac['mixture_id'],
+                ]);
+
+                BacHistory::create([
+                    'action' => $bac['status'],
+                    'bac_id' => $checkBac->id,
+                    'user_id' => $request->userId,
+                    'machine_rental_id' => $rental->id,
+                ]);
+
+            }
+            return response()->json(['status' => 200]);
+
+        }
+        return response()->json(['status' => 404]);
+
     }
 }

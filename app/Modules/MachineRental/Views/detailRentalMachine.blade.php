@@ -21,7 +21,7 @@
                                 aria-expanded="false"></a>
                             <ul class="dropdown-menu" role="menu" x-placement="bottom-start"
                                 style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(5px, 31px, 0px);">
-                                <li><a href="http://localhost/wizefresh/public/store/1/edit">Modifier</a></li>
+                                <li><a href="{{route('showEditRental',$rental->id)}}">Modifier</a></li>
 
                                 <li><a href="{{route('showEndRental',$rental->id)}}">Arrêter location</a></li>
 
