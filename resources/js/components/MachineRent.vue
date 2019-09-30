@@ -122,7 +122,7 @@
                             <label>Etat : </label>
 
                             <select class="form-control" v-model="bac.status">
-                                <option value="" v-if="bacs[0].length > 0"> Séléctionner un Etat</option>
+                                <option :value="null" disabled> Séléctionner un etat</option>
                                 <option value="fonctionnelle">Fonctionnelle</option>
                                 <option value="en panne">En panne</option>
                                 <option value="en sommeil">En Sommeil</option>
@@ -142,9 +142,9 @@
                             <select class="form-control" @change="getProductData($event,index)" v-model="bac.product_id"
                                 :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
 
-                                <option value="" v-if="products.length > 0 && products[0].length > 0">Selectionner un
+                                <option :value="null" disabled>Selectionner un
                                     produit</option>
-                                <option value="" v-else> Aucun Produit </option>
+
                                 <option v-for="product in products[0]" :value="product.id ">{{product.nom}}</option>
 
                             </select>
@@ -155,9 +155,9 @@
                             <label class="col-12">Melange par defaut </label>
                             <select class="form-control" v-model="bac.mixture_id"
                                 :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
-                                <option value="" v-if="bac.mixtures && bac.mixtures.length > 0">Selectionner un mélange
+                                <option :value="null" disabled>Selectionner un mélange
                                 </option>
-                                <option value="" v-else> Aucun mélange </option>
+
                                 <option v-for="mixture in bac.mixtures" :value="mixture.id ">{{mixture.name}}</option>
 
                             </select>
@@ -214,7 +214,7 @@
                 code: data.machine.code,
                 designation: data.machine.designation,
                 machineId: data.machine.id,
-                userId:data.user.id,
+                userId: data.user.id,
                 companies: [],
                 products: [],
                 mixtures: [],
@@ -281,7 +281,7 @@
 
                 axios.get('api/product/' + id)
                     .then((response) => {
-                  Vue.set(this.bacs[0][index], 'mixtures', '')
+                        Vue.set(this.bacs[0][index], 'mixtures', '')
                         //Display mixtures of a product ( if has a one)
                         console.log(response);
                         if (response.data.product.length > 0) {
@@ -396,7 +396,7 @@
                             storeId: this.storeId,
                             active: 1,
                             bacs: this.bacs,
-                            userId:this.userId
+                            userId: this.userId
 
                         })
                         .then((response) => {

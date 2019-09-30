@@ -142,6 +142,10 @@ class MachineController extends Controller
 
         if ($_GET['machine']) {
             $machine = Machine::find($id);
+            if ($machine->rented == 1)
+            {
+                return view('General::notFound');
+            }
         }
 
         $machines = Machine::where('rented', false)->get();

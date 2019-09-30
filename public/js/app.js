@@ -42195,11 +42195,14 @@ var render = function() {
                           }
                         },
                         [
-                          _vm.bacs[0].length > 0
-                            ? _c("option", { attrs: { value: "" } }, [
-                                _vm._v(" Séléctionner un Etat")
-                              ])
-                            : _vm._e(),
+                          _c(
+                            "option",
+                            {
+                              attrs: { disabled: "" },
+                              domProps: { value: null }
+                            },
+                            [_vm._v(" Séléctionner un etat")]
+                          ),
                           _vm._v(" "),
                           _c("option", { attrs: { value: "fonctionnelle" } }, [
                             _vm._v("Fonctionnelle")
@@ -42276,15 +42279,18 @@ var render = function() {
                           }
                         },
                         [
-                          _vm.products.length > 0 && _vm.products[0].length > 0
-                            ? _c("option", { attrs: { value: "" } }, [
-                                _vm._v(
-                                  "Selectionner un\n                                produit"
-                                )
-                              ])
-                            : _c("option", { attrs: { value: "" } }, [
-                                _vm._v(" Aucun Produit ")
-                              ]),
+                          _c(
+                            "option",
+                            {
+                              attrs: { disabled: "" },
+                              domProps: { value: null }
+                            },
+                            [
+                              _vm._v(
+                                "Selectionner un\n                                produit"
+                              )
+                            ]
+                          ),
                           _vm._v(" "),
                           _vm._l(_vm.products[0], function(product) {
                             return _c(
@@ -42353,15 +42359,18 @@ var render = function() {
                           }
                         },
                         [
-                          bac.mixtures && bac.mixtures.length > 0
-                            ? _c("option", { attrs: { value: "" } }, [
-                                _vm._v(
-                                  "Selectionner un mélange\n                            "
-                                )
-                              ])
-                            : _c("option", { attrs: { value: "" } }, [
-                                _vm._v(" Aucun mélange ")
-                              ]),
+                          _c(
+                            "option",
+                            {
+                              attrs: { disabled: "" },
+                              domProps: { value: null }
+                            },
+                            [
+                              _vm._v(
+                                "Selectionner un mélange\n                            "
+                              )
+                            ]
+                          ),
                           _vm._v(" "),
                           _vm._l(bac.mixtures, function(mixture) {
                             return _c(
