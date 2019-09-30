@@ -106,7 +106,6 @@ class MachineController extends Controller
             'code' => 'required',
             'barcode' => 'required',
             'designation' => 'required',
-            'number_bacs' => 'required|numeric',
             'price_month' => 'required|numeric',
         ], [
             'code.required' => 'le champ code est obligatoire',
