@@ -2329,6 +2329,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getProducts();
@@ -43307,10 +43308,7 @@ var render = function() {
                             [
                               _c(
                                 "option",
-                                {
-                                  attrs: { disabled: "" },
-                                  domProps: { value: bac.product_id }
-                                },
+                                { attrs: { value: "", disabled: "" } },
                                 [
                                   _vm._v(
                                     "Selectionner un\n                                    produit"
@@ -43385,36 +43383,25 @@ var render = function() {
                                 }
                               }
                             },
-                            [
-                              bac.mixture_id
+                            _vm._l(bac.mixtures, function(mixture) {
+                              return bac.mixtures.length > 0
                                 ? _c(
                                     "option",
-                                    {
-                                      attrs: { disabled: "" },
-                                      domProps: { value: bac.mixture_id }
-                                    },
+                                    { domProps: { value: mixture.id } },
                                     [
                                       _vm._v(
-                                        "Selectionner un mélange\n                                "
+                                        _vm._s(mixture.name) +
+                                          "\n                                "
                                       )
                                     ]
                                   )
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _vm._l(bac.mixtures, function(mixture) {
-                                return _c(
-                                  "option",
-                                  { domProps: { value: mixture.id } },
-                                  [
+                                : _c("option", [
                                     _vm._v(
-                                      _vm._s(mixture.name) +
-                                        "\n                                "
+                                      "Aucun mélange\n                                "
                                     )
-                                  ]
-                                )
-                              })
-                            ],
-                            2
+                                  ])
+                            }),
+                            0
                           )
                         ]
                       )
