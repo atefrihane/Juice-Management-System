@@ -123,7 +123,6 @@ class MachineRentalController extends Controller
 
     public function handleUpdateRental($id, Request $request)
     {
-   
 
         $rental = MachineRental::find($id);
         if ($rental) {
@@ -158,6 +157,17 @@ class MachineRentalController extends Controller
 
         }
         return response()->json(['status' => 404]);
+
+    }
+    public function handleGetRentalData($id)
+    {
+        $rental = MachineRental::find($id);
+       
+        if ($rental) {
+            $bacs=Bac::where('machine_id',$rental->machine->id)->with('product','product.mixtures')->get();
+            return response()->json(['status' => 200 ,'bacs' =>$bacs ]);
+        }
+        return response()->json(['status' => 404 ]);
 
     }
 }

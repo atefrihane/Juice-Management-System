@@ -6,4 +6,5 @@ Route::group(['module' => 'Bac', 'middleware' => ['api'], 'namespace' => 'App\Mo
     Route::post('api/xbacs', 'BacController@storeAll');
     Route::post('api/bac/clean/{id}', 'BacController@handleCleanBac');
     Route::post('api/bac/refill/{id}', 'BacController@handleRefillBac');
+    
 });
