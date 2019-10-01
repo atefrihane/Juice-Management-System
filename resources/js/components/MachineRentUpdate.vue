@@ -162,7 +162,7 @@
                                 <label class="col-12">Melange par defaut </label>
                                 <select class="form-control" v-model="bac.mixture_id" v-if=" bac.product"
                                     :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
-                                    <option :value="null" > Aucun mélange </option>
+                                    <option :value="null" v-if="bac.product.mixtures.length == 0" > Aucun mélange </option>
                                                                       
                                                                      
                                     <option :value="bac.mixture_id" v-if="bac.product.mixtures.length == 0"> Aucun
