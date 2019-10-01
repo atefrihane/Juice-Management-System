@@ -2330,9 +2330,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getProducts();
+    this.getBacs();
   },
   data: function (_data) {
     function data() {
@@ -2355,7 +2357,7 @@ __webpack_require__.r(__webpack_exports__);
       price: data.rental.price,
       location: data.rental.location,
       comment: data.rental.comment,
-      bacs: data.bacs,
+      bacs: [],
       rentalId: data.rental.id,
       userId: data.userId,
       products: [],
@@ -2367,23 +2369,42 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('/api/products/').then(function (response) {
-        _this.products.push(response.data);
+        console.log(response.data);
+        _this.products = response.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    getBacs: function getBacs() {
+      var _this2 = this;
+
+      axios.get('api/rental/' + this.rentalId).then(function (response) {
+        console.log(response.data.bacs);
+        _this2.bacs = response.data.bacs;
       })["catch"](function (error) {
         console.log(error);
       });
     },
     getProductData: function getProductData(event, index) {
-      var _this2 = this;
+      var _this3 = this;
 
       var id = event.target.value;
       axios.get('api/product/' + id).then(function (response) {
-        Vue.set(_this2.bacs[index], 'mixtures', ''); //Display mixtures of a product ( if has a one)
-
+        // Vue.set(this.bacs[index].product, 'mixtures', '')
+        //Display mixtures of a product ( if has a one)
         console.log(response);
+        _this3.bacs[index].product.mixtures = [];
 
         if (response.data.product.length > 0) {
-          Vue.set(_this2.bacs[index], 'mixtures', response.data.product); // this.bacs[0][index].push(response.data.product);
-          // this.mixtureId = this.bacs[index]['mixtures'][0].id;
+          // Vue.set(this.bacs[index].product, 'mixtures', response.data.product)
+          // this.bacs[index].push(response.data.product);
+          // this.mixtureId = this.bacs[index]['mixtures'].id;
+          for (var i = 0; i < _this3.bacs.length; i++) {
+            if (i == index) {
+              _this3.bacs[i].product.mixtures = [];
+              _this3.bacs[i].product.mixtures = response.data.product;
+            }
+          }
         }
       })["catch"](function (error) {
         console.log(error);
@@ -2408,7 +2429,7 @@ __webpack_require__.r(__webpack_exports__);
       return x;
     },
     submitRental: function submitRental() {
-      var _this3 = this;
+      var _this4 = this;
 
       if (this.validateForm()) {
         axios.post('api/rental/' + this.rentalId, {
@@ -2422,7 +2443,7 @@ __webpack_require__.r(__webpack_exports__);
           console.log(response);
 
           if (response.data.status == 400) {
-            _this3.errors.push('Erreur date de fin !');
+            _this4.errors.push('Erreur date de fin !');
 
             window.scrollTo(0, 0);
             return false;
@@ -2445,6 +2466,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     cancelRental: function cancelRental() {
       window.location = '/wizefresh/public/machines';
+    },
+    stopRental: function stopRental() {
+      window.location = '/wizefresh/public/machine/rental/show/end/' + this.rentalId;
     }
   }
 });
@@ -42796,7 +42820,55 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "box box-primary" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "box-header" }, [
+      _c("h3", { staticClass: "box-title" }, [
+        _vm._v("Modifier location machine ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "btn-group breadcrumb1 pull-right" }, [
+        _c("a", {
+          staticClass: "dots",
+          attrs: {
+            href: "#",
+            "data-toggle": "dropdown",
+            "aria-haspopup": "true",
+            "aria-expanded": "false"
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "ul",
+          {
+            staticClass: "dropdown-menu",
+            staticStyle: {
+              position: "absolute",
+              "will-change": "transform",
+              top: "0px",
+              left: "0px",
+              transform: "translate3d(5px, 31px, 0px)"
+            },
+            attrs: { role: "menu", "x-placement": "bottom-start" }
+          },
+          [
+            _c("li", [
+              _c(
+                "a",
+                {
+                  attrs: { href: "" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.stopRental()
+                    }
+                  }
+                },
+                [_vm._v("Arrêter location")]
+              )
+            ])
+          ]
+        )
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "box-body" }, [
       _vm.errors.length > 0
@@ -43128,7 +43200,7 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _vm._m(1),
+            _vm._m(0),
             _vm._v(" "),
             _vm._l(_vm.bacs, function(bac, index) {
               return _c(
@@ -43306,17 +43378,19 @@ var render = function() {
                               }
                             },
                             [
-                              _c(
-                                "option",
-                                { attrs: { value: "", disabled: "" } },
-                                [
-                                  _vm._v(
-                                    "Selectionner un\n                                    produit"
+                              !bac.product
+                                ? _c(
+                                    "option",
+                                    { domProps: { value: bac.product_id } },
+                                    [
+                                      _vm._v(
+                                        " Aucun produit\n                                "
+                                      )
+                                    ]
                                   )
-                                ]
-                              ),
+                                : _vm._e(),
                               _vm._v(" "),
-                              _vm._l(_vm.products[0], function(product) {
+                              _vm._l(_vm.products, function(product) {
                                 return _c(
                                   "option",
                                   { domProps: { value: product.id } },
@@ -43345,64 +43419,80 @@ var render = function() {
                             _vm._v("Melange par defaut ")
                           ]),
                           _vm._v(" "),
-                          _c(
-                            "select",
-                            {
-                              directives: [
+                          bac.product
+                            ? _c(
+                                "select",
                                 {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: bac.mixture_id,
-                                  expression: "bac.mixture_id"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: {
-                                disabled:
-                                  bac.status == "en panne" ||
-                                  bac.status == "en sommeil"
-                              },
-                              on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.$set(
-                                    bac,
-                                    "mixture_id",
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  )
-                                }
-                              }
-                            },
-                            _vm._l(bac.mixtures, function(mixture) {
-                              return bac.mixtures.length > 0
-                                ? _c(
-                                    "option",
-                                    { domProps: { value: mixture.id } },
-                                    [
-                                      _vm._v(
-                                        _vm._s(mixture.name) +
-                                          "\n                                "
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: bac.mixture_id,
+                                      expression: "bac.mixture_id"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    disabled:
+                                      bac.status == "en panne" ||
+                                      bac.status == "en sommeil"
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        bac,
+                                        "mixture_id",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
                                       )
-                                    ]
-                                  )
-                                : _c("option", [
-                                    _vm._v(
-                                      "Aucun mélange\n                                "
+                                    }
+                                  }
+                                },
+                                [
+                                  bac.product.mixtures.length == 0
+                                    ? _c(
+                                        "option",
+                                        { domProps: { value: bac.mixture_id } },
+                                        [
+                                          _vm._v(
+                                            " Aucun mélange\n                                "
+                                          )
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm._l(bac.product.mixtures, function(
+                                    mixture,
+                                    i
+                                  ) {
+                                    return _c(
+                                      "option",
+                                      { domProps: { value: mixture.id } },
+                                      [
+                                        _vm._v(
+                                          "\n                                    " +
+                                            _vm._s(mixture.name) +
+                                            "\n                                "
+                                        )
+                                      ]
                                     )
-                                  ])
-                            }),
-                            0
-                          )
+                                  })
+                                ],
+                                2
+                              )
+                            : _vm._e()
                         ]
                       )
                     ])
@@ -43453,48 +43543,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box-header" }, [
-      _c("h3", { staticClass: "box-title" }, [
-        _vm._v("Modifier location machine ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "btn-group breadcrumb1 pull-right" }, [
-        _c("a", {
-          staticClass: "dots",
-          attrs: {
-            href: "#",
-            "data-toggle": "dropdown",
-            "aria-haspopup": "true",
-            "aria-expanded": "false"
-          }
-        }),
-        _vm._v(" "),
-        _c(
-          "ul",
-          {
-            staticClass: "dropdown-menu",
-            staticStyle: {
-              position: "absolute",
-              "will-change": "transform",
-              top: "0px",
-              left: "0px",
-              transform: "translate3d(5px, 31px, 0px)"
-            },
-            attrs: { role: "menu", "x-placement": "bottom-start" }
-          },
-          [
-            _c("li", [
-              _c("a", { attrs: { href: "" } }, [_vm._v("Arrêter location")])
-            ])
-          ]
-        )
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

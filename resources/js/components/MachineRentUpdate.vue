@@ -9,7 +9,7 @@
                     style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(5px, 31px, 0px);">
 
 
-                    <li><a href="">Arrêter location</a></li>
+                    <li><a href="" @click.prevent="stopRental()">Arrêter location</a></li>
 
                 </ul>
             </div>
@@ -116,7 +116,6 @@
                     </div>
                 </div>
 
-
                 <div style="background-color: #e4e4e4; margin: 16px; padding: 24px" v-for="(bac,index) in bacs">
                     <div class="row">
                         <div class="col-md-6">
@@ -150,10 +149,10 @@
                                     v-model="bac.product_id"
                                     :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
 
-                                    <option value="" disabled>Selectionner un
-                                        produit</option>
+                                    <option :value="bac.product_id" v-if="!bac.product"> Aucun produit
+                                    </option>
 
-                                    <option v-for="product in products[0]" :value="product.id ">{{product.nom}}</option>
+                                    <option v-for="product in products" :value="product.id ">{{product.nom}}</option>
 
                                 </select>
                             </div>
@@ -161,14 +160,15 @@
                         <div class="col-md-6">
                             <div class="form-group " style="display: flex; flex-direction: column">
                                 <label class="col-12">Melange par defaut </label>
-                                <select class="form-control" v-model="bac.mixture_id"
+                                <select class="form-control" v-model="bac.mixture_id"  v-if=" bac.product"
                                     :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
-                                   
+                               
+                                    <option :value="bac.mixture_id" v-if="bac.product.mixtures.length == 0"> Aucun mélange
+                                    </option>
+                                    <option v-for="(mixture,i) in bac.product.mixtures" :value="mixture.id">
+                                        {{mixture.name}}
+                                    </option>
 
-                                    <option  v-if="bac.mixtures.length > 0" v-for="mixture in bac.mixtures" :value="mixture.id ">{{mixture.name}}
-                                    </option>
-                                     <option  v-else>Aucun mélange
-                                    </option>
 
                                 </select>
                             </div>
@@ -179,6 +179,7 @@
 
 
                 </div>
+
 
                 <div class="row">
                     <div class="container text-center">
@@ -208,8 +209,10 @@
 
 <script>
     export default {
+
         mounted() {
             this.getProducts()
+            this.getBacs()
         },
         data() {
             return {
@@ -222,22 +225,23 @@
                 price: data.rental.price,
                 location: data.rental.location,
                 comment: data.rental.comment,
-                bacs: data.bacs,
+                bacs: [],
                 rentalId: data.rental.id,
                 userId: data.userId,
                 products: [],
+
                 errors: []
 
             }
 
         },
         methods: {
-
             getProducts() {
                 axios.get('/api/products/')
                     .then((response) => {
+                        console.log(response.data)
 
-                        this.products.push(response.data);
+                        this.products = response.data;
                     })
                     .catch(function (error) {
 
@@ -246,19 +250,43 @@
 
 
             },
+
+            getBacs() {
+                axios.get('api/rental/' + this.rentalId)
+                    .then((response) => {
+
+                        console.log(response.data.bacs);
+                        this.bacs = response.data.bacs;
+                    })
+                    .catch(function (error) {
+
+                        console.log(error);
+                    })
+
+
+            },
+
             getProductData(event, index) {
                 let id = event.target.value;
 
                 axios.get('api/product/' + id)
                     .then((response) => {
-                        Vue.set(this.bacs[index], 'mixtures', '')
+                        // Vue.set(this.bacs[index].product, 'mixtures', '')
                         //Display mixtures of a product ( if has a one)
                         console.log(response);
+                        this.bacs[index].product.mixtures = [];
                         if (response.data.product.length > 0) {
-                            Vue.set(this.bacs[index], 'mixtures', response.data.product)
-                            // this.bacs[0][index].push(response.data.product);
-                            // this.mixtureId = this.bacs[index]['mixtures'][0].id;
+                            // Vue.set(this.bacs[index].product, 'mixtures', response.data.product)
+                            // this.bacs[index].push(response.data.product);
+                            // this.mixtureId = this.bacs[index]['mixtures'].id;
+                            for (let i = 0; i < this.bacs.length; i++) {
+                                if (i == index) {
+                                    this.bacs[i].product.mixtures = [];
+                                    this.bacs[i].product.mixtures = response.data.product
+                                }
+                            }
                         }
+
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -292,22 +320,22 @@
                             location: this.location,
                             comment: this.comment,
                             bacs: this.bacs,
-                            userId:this.userId
+                            userId: this.userId
                         })
                         .then((response) => {
                             console.log(response);
                             if (response.data.status == 400) {
                                 this.errors.push('Erreur date de fin !');
                                 window.scrollTo(0, 0);
-                               return false;
+                                return false;
                             }
 
-                              if (response.data.status == 200) {
+                            if (response.data.status == 200) {
                                 swal.fire({
                                     type: 'success',
                                     title: 'La location a été modifiée avec succés !',
                                     showConfirmButton: true,
-                               
+
 
                                 });
                                 setTimeout(() => window.location = '/wizefresh/public/machines', 2000);
@@ -322,8 +350,15 @@
 
 
             },
-               cancelRental() {
+            cancelRental() {
                 window.location = '/wizefresh/public/machines';
+
+            },
+            stopRental()
+            {
+
+                  window.location = '/wizefresh/public/machine/rental/show/end/'+this.rentalId;
+
 
             }
         }
