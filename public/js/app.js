@@ -2331,6 +2331,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getProducts();
@@ -2390,15 +2393,10 @@ __webpack_require__.r(__webpack_exports__);
 
       var id = event.target.value;
       axios.get('api/product/' + id).then(function (response) {
-        // Vue.set(this.bacs[index].product, 'mixtures', '')
-        //Display mixtures of a product ( if has a one)
         console.log(response);
         _this3.bacs[index].product.mixtures = [];
 
         if (response.data.product.length > 0) {
-          // Vue.set(this.bacs[index].product, 'mixtures', response.data.product)
-          // this.bacs[index].push(response.data.product);
-          // this.mixtureId = this.bacs[index]['mixtures'].id;
           for (var i = 0; i < _this3.bacs.length; i++) {
             if (i == index) {
               _this3.bacs[i].product.mixtures = [];
@@ -43461,13 +43459,17 @@ var render = function() {
                                   }
                                 },
                                 [
+                                  _c("option", { domProps: { value: null } }, [
+                                    _vm._v(" Aucun mélange ")
+                                  ]),
+                                  _vm._v(" "),
                                   bac.product.mixtures.length == 0
                                     ? _c(
                                         "option",
                                         { domProps: { value: bac.mixture_id } },
                                         [
                                           _vm._v(
-                                            " Aucun mélange\n                                "
+                                            " Aucun\n                                    mélange\n                                "
                                           )
                                         ]
                                       )

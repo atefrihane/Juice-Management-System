@@ -160,10 +160,13 @@
                         <div class="col-md-6">
                             <div class="form-group " style="display: flex; flex-direction: column">
                                 <label class="col-12">Melange par defaut </label>
-                                <select class="form-control" v-model="bac.mixture_id"  v-if=" bac.product"
+                                <select class="form-control" v-model="bac.mixture_id" v-if=" bac.product"
                                     :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
-                               
-                                    <option :value="bac.mixture_id" v-if="bac.product.mixtures.length == 0"> Aucun mélange
+                                    <option :value="null" > Aucun mélange </option>
+                                                                      
+                                                                     
+                                    <option :value="bac.mixture_id" v-if="bac.product.mixtures.length == 0"> Aucun
+                                        mélange
                                     </option>
                                     <option v-for="(mixture,i) in bac.product.mixtures" :value="mixture.id">
                                         {{mixture.name}}
@@ -271,14 +274,10 @@
 
                 axios.get('api/product/' + id)
                     .then((response) => {
-                        // Vue.set(this.bacs[index].product, 'mixtures', '')
-                        //Display mixtures of a product ( if has a one)
+
                         console.log(response);
                         this.bacs[index].product.mixtures = [];
                         if (response.data.product.length > 0) {
-                            // Vue.set(this.bacs[index].product, 'mixtures', response.data.product)
-                            // this.bacs[index].push(response.data.product);
-                            // this.mixtureId = this.bacs[index]['mixtures'].id;
                             for (let i = 0; i < this.bacs.length; i++) {
                                 if (i == index) {
                                     this.bacs[i].product.mixtures = [];
@@ -354,10 +353,9 @@
                 window.location = '/wizefresh/public/machines';
 
             },
-            stopRental()
-            {
+            stopRental() {
 
-                  window.location = '/wizefresh/public/machine/rental/show/end/'+this.rentalId;
+                window.location = '/wizefresh/public/machine/rental/show/end/' + this.rentalId;
 
 
             }
