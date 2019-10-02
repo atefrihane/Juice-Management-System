@@ -15,6 +15,13 @@ Breadcrumbs::for('addCountry', function ($trail) {
     $trail->push('Ajouter un pays', route('showAddCountry'));
 });
 
+Breadcrumbs::for('updateCountry', function ($trail,$country) {
+    $trail->parent('static');
+    $trail->push('Modifier un pays', route('showAddCountry'));
+    $trail->push($country);
+});
+
+
 
 // Home > Societé
 Breadcrumbs::for('company', function ($trail) {
