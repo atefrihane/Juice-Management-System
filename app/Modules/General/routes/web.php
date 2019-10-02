@@ -5,6 +5,7 @@ Route::group(['module' => 'General', 'middleware' => ['web','isAuth'], 'namespac
 Route::get('/','GeneralController@showHome')->name('showHome');
 Route::get('/static','GeneralController@showStaticManagement')->name('showStaticManagement');
 Route::get('/countries/add','GeneralController@showAddCountry')->name('showAddCountry');
+Route::get('/country/update/{id}','GeneralController@showUpdateCountry')->name('showUpdateCountry');
 Route::post('/country/delete/{id}','GeneralController@handleDeleteCountry')->name('handleDeleteCountry');
 });
 

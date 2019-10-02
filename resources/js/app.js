@@ -13,6 +13,7 @@ import ProductUpdate from './components/ProductUpdate.vue'
 import MachineRent from './components/MachineRent.vue'
 import MachineRentUpdate from './components/MachineRentUpdate.vue'
 import CountryAdd from './components/CountryAdd.vue'
+import CountryUpdate from './components/CountryUpdate.vue'
 import swal from 'sweetalert2'
 window.swal = swal;
 
@@ -23,6 +24,7 @@ Vue.component('product-update', require('./components/ProductUpdate.vue'));
 Vue.component('machine-rent', require('./components/MachineRent.vue'));
 Vue.component('machine-rent-update', require('./components/MachineRentUpdate.vue'));
 Vue.component('country-add', require('./components/CountryAdd.vue'));
+Vue.component('country-update', require('./components/CountryUpdate.vue'));
 axios.defaults.baseURL = '/wizefresh/public/'
 const app = new Vue({
     el: '#app',
@@ -32,6 +34,7 @@ const app = new Vue({
         'product-update': ProductUpdate,
         'machine-rent-update': MachineRentUpdate,
         'country-add': CountryAdd,
+        'country-update': CountryUpdate,
         MachineRent,
 
 

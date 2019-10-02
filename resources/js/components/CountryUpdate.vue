@@ -1,7 +1,7 @@
 <template>
     <div class="box">
         <div class="box-header">
-            <h3 class="box-title">Ajouter un pays </h3>
+            <h3 class="box-title">Modifier un pays </h3>
 
         </div>
         <!-- /.box-header -->
@@ -25,7 +25,8 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Code téléphonique</label>
-                    <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Code téléphonique" min="0" v-model="code">
+                    <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Code téléphonique"
+                        min="0" v-model="code">
                 </div>
 
 
@@ -40,15 +41,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="city in cities">
+                    <tr v-for="city in citiesZipCodes" v-if="citiesZipCodes">
                         <td>
-                            <input type="text" class="form-control" placeholder="Ville" v-model="city.name"
+                            <input type="text" class="form-control" placeholder="Ville" v-model="city.cityName"
                                 style="height:42px;">
                         </td>
                         <td style="width:60%;">
                             <div class="box box-info">
 
-                                <input-tag placeholder="Ajouter un code postal" v-model="city.zipcodes"></input-tag>
+                                <input-tag placeholder="Ajouter un code postal" v-model="city.zipCodes">
+                                </input-tag>
 
                             </div>
                         </td>
@@ -91,16 +93,18 @@
             'input-tag': InputTag
         },
         mounted() {
-            this.loadCity()
+            this.arrengeZipcodes()
+
         },
         data() {
             return {
-                name: '',
-                code: '',
-                cities: [],
-                  errors: []
-
-
+                id: data.country.id,
+                name: data.country.name,
+                code: data.country.code,
+                cities: data.zipcodes,
+                errors: [],
+                citiesZipCodes: [],
+                deleted: [],
 
             }
 
@@ -109,17 +113,37 @@
         methods: {
             loadCity() {
 
-                this.cities.push({
-                    name: '',
-                    zipcodes: [],
-                  
-
+                this.citiesZipCodes.push({
+                    cityID: '',
+                    cityName: '',
+                    zipCodes: []
                 })
             },
-            removeCity(city) {
+            arrengeZipcodes() {
+                if (this.cities) {
 
-                this.cities.splice(this.cities.indexOf(city), 1);
-                
+                    this.cities.map((city, i) => {
+                        this.citiesZipCodes.push({
+                            cityID: city.id,
+                            cityName: city.name,
+                            zipCodes: []
+                        })
+
+                        if (city.zipcodes) {
+                            city.zipcodes.map(zipcode => {
+                                this.citiesZipCodes[i].zipCodes.push(zipcode.code)
+                            })
+                        }
+                    })
+
+                }
+
+
+            },
+
+            removeCity(city) {
+               this.deleted.push(city.cityID)
+                this.citiesZipCodes.splice(this.citiesZipCodes.indexOf(city), 1);
 
             },
             validateForm() {
@@ -140,9 +164,9 @@
                     x = false;
                 }
 
-                   this.cities.forEach((city, index) => {
+                this.cities.forEach((city, index) => {
 
-                    if (!city.name && city.zipcodes.length > 0 ) {
+                    if (!city.name && city.zipcodes.length > 0) {
                         this.errors.push('Veuillez sélectionner un nom pour la ville  ' + (index + 1));
                         window.scrollTo(0, 0);
                         x = false;
@@ -152,57 +176,77 @@
 
                 });
 
-            
 
-              
+
+
                 return x;
 
             },
             submitRental() {
                 if (this.validateForm()) {
 
-                    axios.post('/country/add', {
+                    axios.post('/country/update/' + this.id, {
                             name: this.name,
                             code: this.code,
-                            cities:this.cities
+                            cities: this.citiesZipCodes,
+                            deleted:this.deleted
                         })
                         .then((response) => {
                             console.log(response);
-                            if (response.data.status == 401)
-                            {
+                            if (response.data.status == 401) {
                                 swal.fire({
                                     type: 'error',
                                     title: 'Nom déja existant! ',
                                     showConfirmButton: true,
-                                       confirmButtonText:'Fermer'
+                                    confirmButtonText: 'Fermer'
 
                                 });
 
                             }
 
-                              if (response.data.status == 402)
-                            {
+                            if (response.data.status == 402) {
                                 swal.fire({
                                     type: 'error',
                                     title: 'Code déja existant! ',
                                     showConfirmButton: true,
-                                       confirmButtonText:'Fermer'
+                                    confirmButtonText: 'Fermer'
 
                                 });
 
                             }
 
-                               if (response.data.status == 200)
-                            {
+                            if (response.data.status == 403) {
                                 swal.fire({
-                                    type: 'success',
-                                    title: 'Pays ajouté avec succés ! ',
+                                    type: 'error',
+                                    title: 'Ville déja existante! ',
                                     showConfirmButton: true,
-                                       confirmButtonText:'Fermer'
+                                    confirmButtonText: 'Fermer'
 
                                 });
 
-                            setTimeout(() => window.location = '/wizefresh/public/static', 2000);
+                            }
+
+                               if (response.data.status == 403) {
+                                swal.fire({
+                                    type: 'error',
+                                    title: 'Pays introuvable! ',
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Fermer'
+
+                                });
+
+                            }
+
+                            if (response.data.status == 200) {
+                                swal.fire({
+                                    type: 'success',
+                                    title: 'Pays modifié avec succés ! ',
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Fermer'
+
+                                });
+
+                                setTimeout(() => window.location = '/wizefresh/public/static', 2000);
 
                             }
                         })
