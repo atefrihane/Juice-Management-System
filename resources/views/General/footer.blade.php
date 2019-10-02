@@ -131,6 +131,19 @@ else {
 
 });
 
+
+$('.dropdown-toggle').click(function(){
+
+if ($(this).parent().hasClass('open')){
+   ($(this).parent().removeClass('open'));
+}
+else {
+($(this).parent().addClass('open'));
+
+}
+
+});
+
 $('.vdp-datepicker > div > input').addClass('form-control');
 $(".vdp-datepicker > div > input").attr("placeholder", "Sélectionner une date");
 
