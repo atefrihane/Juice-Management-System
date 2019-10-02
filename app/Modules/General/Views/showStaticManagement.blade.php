@@ -52,7 +52,7 @@
                                             <a class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
-                                                <li><a href="{{route('editCompany', $country->id)}}">Modifier</a></li>
+                                                <li><a href="#">Modifier</a></li>
                                                 <li>
                                                     <a data-toggle="modal"
                                                         data-target="#modal-default{{$country->id}}">Supprimer</a>
