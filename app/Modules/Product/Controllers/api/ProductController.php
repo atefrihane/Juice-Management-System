@@ -35,7 +35,7 @@ class ProductController extends Controller
 
         $product = Product::create([
             'code' => $request->code,
-            'status' => $request->state,
+            'status' => lcfirst($request->state),
             'type' => $request->type,
             'nom' => $request->name,
             'designation' => $request->designation,

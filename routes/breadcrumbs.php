@@ -5,6 +5,17 @@ Breadcrumbs::for('home', function ($trail) {
     $trail->push('Liste des societés', route('showHome'));
 });
 
+Breadcrumbs::for('static', function ($trail) {
+    $trail->parent('home');
+    $trail->push('Gestion des constantes', route('showStaticManagement'));
+});
+
+Breadcrumbs::for('addCountry', function ($trail) {
+    $trail->parent('static');
+    $trail->push('Ajouter un pays', route('showAddCountry'));
+});
+
+
 // Home > Societé
 Breadcrumbs::for('company', function ($trail) {
     $trail->parent('home');

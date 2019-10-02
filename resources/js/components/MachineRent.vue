@@ -6,9 +6,6 @@
 
         </div>
 
-
-
-
         <div class="box-body">
             <div class="alert alert-danger" v-if="errors.length>0">
                 <ul>
@@ -405,7 +402,8 @@
                                     type: 'success',
                                     title: 'La location a été ajoutée avec succés !',
                                     showConfirmButton: true,
-                               
+                                       confirmButtonText:'Fermer'
+
 
                                 });
                                 setTimeout(() => window.location = '/wizefresh/public/machines', 2000);
@@ -417,7 +415,8 @@
                                     type: 'error',
                                     title: 'La machine a été déja louée !',
                                     showConfirmButton: true,
-                               
+                                       confirmButtonText:'Fermer'
+
                                 });
                             }
 
@@ -427,7 +426,8 @@
                                     type: 'error',
                                     title: 'Machine introuvable! !',
                                     showConfirmButton: true,
-                               
+                                       confirmButtonText:'Fermer'
+
                                 });
                             }
 
@@ -436,7 +436,8 @@
                                     type: 'error',
                                     title: 'Erreur date!',
                                     showConfirmButton: true,
-                               
+                                       confirmButtonText:'Fermer'
+
 
                                 });
 
