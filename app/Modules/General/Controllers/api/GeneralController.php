@@ -27,9 +27,11 @@ class GeneralController extends Controller
             'name' => $request->name,
             'code' => $request->code,
         ]);
-
+        
         if ($request->cities) {
             foreach ($request->cities as $city) {
+                if($city['name'])
+                {
                 $newCity = City::create([
                     'name' => $city['name'],
                     'country_id' => $country->id,
@@ -45,6 +47,7 @@ class GeneralController extends Controller
 
                     }
                 }
+            }
 
             }
 
