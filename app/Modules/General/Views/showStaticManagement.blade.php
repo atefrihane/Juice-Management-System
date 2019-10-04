@@ -52,7 +52,7 @@
                                             <a class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
-                                                <li><a href="{{route('showUpdateCountry',$country->id)}}">Modifier</a></li>
+                                                <li><a href="#">Modifier</a></li>
                                                 <li>
                                                     <a data-toggle="modal"
                                                         data-target="#modal-default{{$country->id}}">Supprimer</a>
@@ -73,7 +73,7 @@
                                                 </h4>
                                             </div>
                                             <div class="modal-body">
-                                            <h5 class="modal-title">  <b>NB</b> : Cette opération peut affecter la suppression des éléments associés à ce pays ! </h4>
+                                            <h5 class="modal-title">  <b>Attention !</b> : Cette opération peut affecter la suppression des éléments associés à ce pays ! </h4>
                                                 </h5>
                                             </div>
                                             <div class="modal-footer">

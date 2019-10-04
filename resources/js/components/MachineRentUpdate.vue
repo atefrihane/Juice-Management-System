@@ -116,7 +116,7 @@
                     </div>
                 </div>
 
-                <div style="background-color: #e4e4e4; margin: 16px; padding: 24px" v-for="(bac,index) in bacs">
+                <div style="background-color: #e4e4e4; margin: 16px; padding: 24px" v-for="(bac,index) in customBacs">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group d-flex">
@@ -127,7 +127,7 @@
                         <div class="col-md-6">
                             <div class="form-group " style="display: flex; flex-direction: column">
                                 <label>Etat : </label>
-                                <select class="form-control" v-model="bac.status">
+                                <select class="form-control" v-model="bac.status"@change="onChangeStatus($event,bac)">
                                     <option :value="null" disabled> Séléctionner un etat</option>
                                     <option value="fonctionnelle">Fonctionnelle</option>
                                     <option value="en panne">En panne</option>
@@ -148,11 +148,11 @@
                                 <select class="form-control" @change="getProductData($event,index)"
                                     v-model="bac.product_id"
                                     :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
-
-                                    <option :value="bac.product_id" v-if="!bac.product"> Aucun produit
-                                    </option>
-
-                                    <option v-for="product in products" :value="product.id ">{{product.nom}}</option>
+                            
+                           <option :value="null"  v-if="products.length> 0"> Séléctionner un 
+                                        produit
+                                    </option>            
+                     <option v-for="product in products" :value="product.id ">{{product.nom}}</option>
 
                                 </select>
                             </div>
@@ -160,20 +160,22 @@
                         <div class="col-md-6">
                             <div class="form-group " style="display: flex; flex-direction: column">
                                 <label class="col-12">Melange par defaut </label>
-                                <select class="form-control" v-model="bac.mixture_id" v-if=" bac.product"
+                                <select class="form-control" v-model="bac.mixture_id"
                                     :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
-                                    <option :value="null" v-if="bac.product.mixtures.length == 0" > Aucun mélange </option>
-                                                                      
-                                                                     
-                                    <option :value="bac.mixture_id" v-if="bac.product.mixtures.length == 0"> Aucun
+
+                                    <option :value="null"  v-if="bac.mixtures.length == 0"> Aucun
                                         mélange
                                     </option>
-                                    <option v-for="(mixture,i) in bac.product.mixtures" :value="mixture.id">
+                                       <option :value="null"  v-if="bac.mixtures.length > 0"> Séléctionner un 
+                                        mélange
+                                    </option>
+                                    <option v-if="bac.mixtures.length > 0" v-for="(mixture,i) in bac.mixtures" :value="mixture.id">
                                         {{mixture.name}}
                                     </option>
 
 
                                 </select>
+                               
                             </div>
 
                         </div>
@@ -229,6 +231,7 @@
                 location: data.rental.location,
                 comment: data.rental.comment,
                 bacs: [],
+                customBacs: [],
                 rentalId: data.rental.id,
                 userId: data.userId,
                 products: [],
@@ -260,11 +263,51 @@
 
                         console.log(response.data.bacs);
                         this.bacs = response.data.bacs;
+
+                        this.bacs.map((bac, i) => {
+                            if (bac.product) {
+                                this.customBacs.push({
+                                    id:bac.id,
+                                    order: bac.order,
+                                    status: bac.status,
+                                    product_id: bac.product_id,
+                                    mixture_id: bac.mixture_id,
+                                    mixtures: bac.product.mixtures
+                                })
+
+                            } else {
+                                this.customBacs.push({
+                                    id:bac.id,
+                                    order: bac.order,
+                                    status: bac.status,
+                                    product_id: bac.product_id,
+                                    mixture_id: bac.mixture_id,
+                                    mixtures: []
+                                })
+
+                            }
+
+                        })
                     })
                     .catch(function (error) {
 
                         console.log(error);
                     })
+
+
+            },
+                 onChangeStatus(event, selectedBac) {
+
+                let value = event.target.value;
+                this.customBacs.map((bac, i) => {
+                    if (bac.id == selectedBac.id) {
+                        if (value == 'en panne' || value == 'en sommeil') {
+                            bac.product_id = null;
+                            bac.mixture_id = null;
+                        }
+                    }
+
+                })
 
 
             },
@@ -276,15 +319,11 @@
                     .then((response) => {
 
                         console.log(response);
-                        this.bacs[index].product.mixtures = [];
+                            this.customBacs[index].mixtures=[]
                         if (response.data.product.length > 0) {
-                            for (let i = 0; i < this.bacs.length; i++) {
-                                if (i == index) {
-                                    this.bacs[i].product.mixtures = [];
-                                    this.bacs[i].product.mixtures = response.data.product
-                                }
-                            }
-                        }
+                        this.customBacs[index].mixtures=response.data.product;
+
+                }
 
                     })
                     .catch(function (error) {
@@ -318,7 +357,7 @@
                             price: this.price,
                             location: this.location,
                             comment: this.comment,
-                            bacs: this.bacs,
+                            customBacs: this.customBacs,
                             userId: this.userId
                         })
                         .then((response) => {

@@ -118,7 +118,7 @@
                         <div class="form-group " style="display: flex; flex-direction: column">
                             <label>Etat : </label>
 
-                            <select class="form-control" v-model="bac.status">
+                            <select class="form-control" v-model="bac.status" @change="onChangeStatus($event,bac)">
                                 <option :value="null" disabled> Séléctionner un etat</option>
                                 <option value="fonctionnelle">Fonctionnelle</option>
                                 <option value="en panne">En panne</option>
@@ -139,10 +139,11 @@
                             <select class="form-control" @change="getProductData($event,index)" v-model="bac.product_id"
                                 :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
 
-                                <option :value="null" disabled>Selectionner un
+                                <option :value="null">Selectionner un
                                     produit</option>
 
-                                <option v-for="product in products[0]" :value="product.id ">{{product.nom}}</option>
+                                <option v-if="bac.status != 'en panne' && bac.status != 'en sommeil'"
+                                    v-for="product in products[0]" :value="product.id ">{{product.nom}}</option>
 
                             </select>
                         </div>
@@ -152,10 +153,11 @@
                             <label class="col-12">Melange par defaut </label>
                             <select class="form-control" v-model="bac.mixture_id"
                                 :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
-                                <option :value="null" disabled>Selectionner un mélange
+                                <option :value="null">Selectionner un mélange
                                 </option>
 
-                                <option v-for="mixture in bac.mixtures" :value="mixture.id ">{{mixture.name}}</option>
+                                <option v-if="bac.status != 'en panne' && bac.status != 'en sommeil'"
+                                    v-for="mixture in bac.mixtures" :value="mixture.id ">{{mixture.name}}</option>
 
                             </select>
                         </div>
@@ -312,6 +314,22 @@
                 window.location = '/wizefresh/public/machines';
 
             },
+            onChangeStatus(event, selectedBac) {
+
+                let value = event.target.value;
+                this.bacs[0].map((bac, i) => {
+                    if (bac.id == selectedBac.id) {
+                        if (value == 'en panne' || value == 'en sommeil') {
+                            bac.product_id = null;
+                            bac.mixture_id = null;
+                        }
+                    }
+
+                })
+
+
+            },
+
             validateForm() {
 
                 this.errors = [];
@@ -402,7 +420,7 @@
                                     type: 'success',
                                     title: 'La location a été ajoutée avec succés !',
                                     showConfirmButton: true,
-                                       confirmButtonText:'Fermer'
+                                    confirmButtonText: 'Fermer'
 
 
                                 });
@@ -415,7 +433,7 @@
                                     type: 'error',
                                     title: 'La machine a été déja louée !',
                                     showConfirmButton: true,
-                                       confirmButtonText:'Fermer'
+                                    confirmButtonText: 'Fermer'
 
                                 });
                             }
@@ -426,7 +444,7 @@
                                     type: 'error',
                                     title: 'Machine introuvable! !',
                                     showConfirmButton: true,
-                                       confirmButtonText:'Fermer'
+                                    confirmButtonText: 'Fermer'
 
                                 });
                             }
@@ -436,7 +454,7 @@
                                     type: 'error',
                                     title: 'Erreur date!',
                                     showConfirmButton: true,
-                                       confirmButtonText:'Fermer'
+                                    confirmButtonText: 'Fermer'
 
 
                                 });

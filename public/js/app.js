@@ -2041,11 +2041,29 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     removeCity: function removeCity(city) {
-      this.deleted.push(city.cityID);
-      this.citiesZipCodes.splice(this.citiesZipCodes.indexOf(city), 1);
+      var _this2 = this;
+
+      if (city.cityID != "") {
+        axios.post('/city/delete/' + city.cityID, {}).then(function (response) {
+          if (response.data.status == 200) {
+            _this2.citiesZipCodes.splice(_this2.citiesZipCodes.indexOf(city), 1);
+          } else {
+            swal.fire({
+              type: 'error',
+              title: 'Echec! ',
+              showConfirmButton: true,
+              confirmButtonText: 'Fermer'
+            });
+          }
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      } else {
+        this.citiesZipCodes.splice(this.citiesZipCodes.indexOf(city), 1);
+      }
     },
     validateForm: function validateForm() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.errors = [];
       var x = true;
@@ -2064,7 +2082,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.cities.forEach(function (city, index) {
         if (!city.name && city.zipcodes.length > 0) {
-          _this2.errors.push('Veuillez sélectionner un nom pour la ville  ' + (index + 1));
+          _this3.errors.push('Veuillez sélectionner un nom pour la ville  ' + (index + 1));
 
           window.scrollTo(0, 0);
           x = false;
@@ -2077,8 +2095,7 @@ __webpack_require__.r(__webpack_exports__);
         axios.post('/country/update/' + this.id, {
           name: this.name,
           code: this.code,
-          cities: this.citiesZipCodes,
-          deleted: this.deleted
+          cities: this.citiesZipCodes
         }).then(function (response) {
           console.log(response);
 
@@ -2151,6 +2168,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuejs_datepicker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuejs-datepicker */ "./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
 //
 //
 //
@@ -2448,6 +2467,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     cancelRental: function cancelRental() {
       window.location = '/wizefresh/public/machines';
+    },
+    onChangeStatus: function onChangeStatus(event, selectedBac) {
+      var value = event.target.value;
+      this.bacs[0].map(function (bac, i) {
+        if (bac.id == selectedBac.id) {
+          if (value == 'en panne' || value == 'en sommeil') {
+            bac.product_id = null;
+            bac.mixture_id = null;
+          }
+        }
+      });
     },
     validateForm: function validateForm() {
       var _this6 = this;
@@ -2786,6 +2816,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getProducts();
@@ -2813,6 +2845,7 @@ __webpack_require__.r(__webpack_exports__);
       location: data.rental.location,
       comment: data.rental.comment,
       bacs: [],
+      customBacs: [],
       rentalId: data.rental.id,
       userId: data.userId,
       products: [],
@@ -2836,8 +2869,41 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('api/rental/' + this.rentalId).then(function (response) {
         console.log(response.data.bacs);
         _this2.bacs = response.data.bacs;
+
+        _this2.bacs.map(function (bac, i) {
+          if (bac.product) {
+            _this2.customBacs.push({
+              id: bac.id,
+              order: bac.order,
+              status: bac.status,
+              product_id: bac.product_id,
+              mixture_id: bac.mixture_id,
+              mixtures: bac.product.mixtures
+            });
+          } else {
+            _this2.customBacs.push({
+              id: bac.id,
+              order: bac.order,
+              status: bac.status,
+              product_id: bac.product_id,
+              mixture_id: bac.mixture_id,
+              mixtures: []
+            });
+          }
+        });
       })["catch"](function (error) {
         console.log(error);
+      });
+    },
+    onChangeStatus: function onChangeStatus(event, selectedBac) {
+      var value = event.target.value;
+      this.customBacs.map(function (bac, i) {
+        if (bac.id == selectedBac.id) {
+          if (value == 'en panne' || value == 'en sommeil') {
+            bac.product_id = null;
+            bac.mixture_id = null;
+          }
+        }
       });
     },
     getProductData: function getProductData(event, index) {
@@ -2846,15 +2912,10 @@ __webpack_require__.r(__webpack_exports__);
       var id = event.target.value;
       axios.get('api/product/' + id).then(function (response) {
         console.log(response);
-        _this3.bacs[index].product.mixtures = [];
+        _this3.customBacs[index].mixtures = [];
 
         if (response.data.product.length > 0) {
-          for (var i = 0; i < _this3.bacs.length; i++) {
-            if (i == index) {
-              _this3.bacs[i].product.mixtures = [];
-              _this3.bacs[i].product.mixtures = response.data.product;
-            }
-          }
+          _this3.customBacs[index].mixtures = response.data.product;
         }
       })["catch"](function (error) {
         console.log(error);
@@ -2887,7 +2948,7 @@ __webpack_require__.r(__webpack_exports__);
           price: this.price,
           location: this.location,
           comment: this.comment,
-          bacs: this.bacs,
+          customBacs: this.customBacs,
           userId: this.userId
         }).then(function (response) {
           console.log(response);
@@ -46427,23 +46488,28 @@ var render = function() {
                           ],
                           staticClass: "form-control",
                           on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                bac,
-                                "status",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            }
+                            change: [
+                              function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  bac,
+                                  "status",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              },
+                              function($event) {
+                                return _vm.onChangeStatus($event, bac)
+                              }
+                            ]
                           }
                         },
                         [
@@ -46531,25 +46597,21 @@ var render = function() {
                           }
                         },
                         [
-                          _c(
-                            "option",
-                            {
-                              attrs: { disabled: "" },
-                              domProps: { value: null }
-                            },
-                            [
-                              _vm._v(
-                                "Selectionner un\n                                produit"
-                              )
-                            ]
-                          ),
+                          _c("option", { domProps: { value: null } }, [
+                            _vm._v(
+                              "Selectionner un\n                                produit"
+                            )
+                          ]),
                           _vm._v(" "),
                           _vm._l(_vm.products[0], function(product) {
-                            return _c(
-                              "option",
-                              { domProps: { value: product.id } },
-                              [_vm._v(_vm._s(product.nom))]
-                            )
+                            return bac.status != "en panne" &&
+                              bac.status != "en sommeil"
+                              ? _c(
+                                  "option",
+                                  { domProps: { value: product.id } },
+                                  [_vm._v(_vm._s(product.nom))]
+                                )
+                              : _vm._e()
                           })
                         ],
                         2
@@ -46611,25 +46673,21 @@ var render = function() {
                           }
                         },
                         [
-                          _c(
-                            "option",
-                            {
-                              attrs: { disabled: "" },
-                              domProps: { value: null }
-                            },
-                            [
-                              _vm._v(
-                                "Selectionner un mélange\n                            "
-                              )
-                            ]
-                          ),
+                          _c("option", { domProps: { value: null } }, [
+                            _vm._v(
+                              "Selectionner un mélange\n                            "
+                            )
+                          ]),
                           _vm._v(" "),
                           _vm._l(bac.mixtures, function(mixture) {
-                            return _c(
-                              "option",
-                              { domProps: { value: mixture.id } },
-                              [_vm._v(_vm._s(mixture.name))]
-                            )
+                            return bac.status != "en panne" &&
+                              bac.status != "en sommeil"
+                              ? _c(
+                                  "option",
+                                  { domProps: { value: mixture.id } },
+                                  [_vm._v(_vm._s(mixture.name))]
+                                )
+                              : _vm._e()
                           })
                         ],
                         2
@@ -47096,7 +47154,7 @@ var render = function() {
             _vm._v(" "),
             _vm._m(0),
             _vm._v(" "),
-            _vm._l(_vm.bacs, function(bac, index) {
+            _vm._l(_vm.customBacs, function(bac, index) {
               return _c(
                 "div",
                 {
@@ -47164,24 +47222,29 @@ var render = function() {
                               ],
                               staticClass: "form-control",
                               on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.$set(
-                                    bac,
-                                    "status",
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  )
-                                }
+                                change: [
+                                  function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      bac,
+                                      "status",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  },
+                                  function($event) {
+                                    return _vm.onChangeStatus($event, bac)
+                                  }
+                                ]
                               }
                             },
                             [
@@ -47272,16 +47335,12 @@ var render = function() {
                               }
                             },
                             [
-                              !bac.product
-                                ? _c(
-                                    "option",
-                                    { domProps: { value: bac.product_id } },
-                                    [
-                                      _vm._v(
-                                        " Aucun produit\n                                "
-                                      )
-                                    ]
-                                  )
+                              _vm.products.length > 0
+                                ? _c("option", { domProps: { value: null } }, [
+                                    _vm._v(
+                                      " Séléctionner un \n                                    produit\n                                "
+                                    )
+                                  ])
                                 : _vm._e(),
                               _vm._v(" "),
                               _vm._l(_vm.products, function(product) {
@@ -47313,73 +47372,64 @@ var render = function() {
                             _vm._v("Melange par defaut ")
                           ]),
                           _vm._v(" "),
-                          bac.product
-                            ? _c(
-                                "select",
+                          _c(
+                            "select",
+                            {
+                              directives: [
                                 {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: bac.mixture_id,
-                                      expression: "bac.mixture_id"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    disabled:
-                                      bac.status == "en panne" ||
-                                      bac.status == "en sommeil"
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      var $$selectedVal = Array.prototype.filter
-                                        .call($event.target.options, function(
-                                          o
-                                        ) {
-                                          return o.selected
-                                        })
-                                        .map(function(o) {
-                                          var val =
-                                            "_value" in o ? o._value : o.value
-                                          return val
-                                        })
-                                      _vm.$set(
-                                        bac,
-                                        "mixture_id",
-                                        $event.target.multiple
-                                          ? $$selectedVal
-                                          : $$selectedVal[0]
-                                      )
-                                    }
-                                  }
-                                },
-                                [
-                                  bac.product.mixtures.length == 0
-                                    ? _c(
-                                        "option",
-                                        { domProps: { value: null } },
-                                        [_vm._v(" Aucun mélange ")]
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  bac.product.mixtures.length == 0
-                                    ? _c(
-                                        "option",
-                                        { domProps: { value: bac.mixture_id } },
-                                        [
-                                          _vm._v(
-                                            " Aucun\n                                    mélange\n                                "
-                                          )
-                                        ]
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  _vm._l(bac.product.mixtures, function(
-                                    mixture,
-                                    i
-                                  ) {
-                                    return _c(
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: bac.mixture_id,
+                                  expression: "bac.mixture_id"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                disabled:
+                                  bac.status == "en panne" ||
+                                  bac.status == "en sommeil"
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    bac,
+                                    "mixture_id",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              bac.mixtures.length == 0
+                                ? _c("option", { domProps: { value: null } }, [
+                                    _vm._v(
+                                      " Aucun\n                                    mélange\n                                "
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              bac.mixtures.length > 0
+                                ? _c("option", { domProps: { value: null } }, [
+                                    _vm._v(
+                                      " Séléctionner un \n                                    mélange\n                                "
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm._l(bac.mixtures, function(mixture, i) {
+                                return bac.mixtures.length > 0
+                                  ? _c(
                                       "option",
                                       { domProps: { value: mixture.id } },
                                       [
@@ -47390,11 +47440,11 @@ var render = function() {
                                         )
                                       ]
                                     )
-                                  })
-                                ],
-                                2
-                              )
-                            : _vm._e()
+                                  : _vm._e()
+                              })
+                            ],
+                            2
+                          )
                         ]
                       )
                     ])
