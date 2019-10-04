@@ -2041,11 +2041,29 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     removeCity: function removeCity(city) {
-      this.deleted.push(city.cityID);
-      this.citiesZipCodes.splice(this.citiesZipCodes.indexOf(city), 1);
+      var _this2 = this;
+
+      if (city.cityID != "") {
+        axios.post('/city/delete/' + city.cityID, {}).then(function (response) {
+          if (response.data.status == 200) {
+            _this2.citiesZipCodes.splice(_this2.citiesZipCodes.indexOf(city), 1);
+          } else {
+            swal.fire({
+              type: 'error',
+              title: 'Echec! ',
+              showConfirmButton: true,
+              confirmButtonText: 'Fermer'
+            });
+          }
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      } else {
+        this.citiesZipCodes.splice(this.citiesZipCodes.indexOf(city), 1);
+      }
     },
     validateForm: function validateForm() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.errors = [];
       var x = true;
@@ -2064,7 +2082,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.cities.forEach(function (city, index) {
         if (!city.name && city.zipcodes.length > 0) {
-          _this2.errors.push('Veuillez sélectionner un nom pour la ville  ' + (index + 1));
+          _this3.errors.push('Veuillez sélectionner un nom pour la ville  ' + (index + 1));
 
           window.scrollTo(0, 0);
           x = false;
@@ -2077,8 +2095,7 @@ __webpack_require__.r(__webpack_exports__);
         axios.post('/country/update/' + this.id, {
           name: this.name,
           code: this.code,
-          cities: this.citiesZipCodes,
-          deleted: this.deleted
+          cities: this.citiesZipCodes
         }).then(function (response) {
           console.log(response);
 

@@ -142,8 +142,35 @@
             },
 
             removeCity(city) {
-               this.deleted.push(city.cityID)
-                this.citiesZipCodes.splice(this.citiesZipCodes.indexOf(city), 1);
+              
+                if (city.cityID != "") {
+                    axios.post('/city/delete/' + city.cityID, {
+
+                    })
+                    .then((response) => {
+                        if (response.data.status == 200) {
+                            this.citiesZipCodes.splice(this.citiesZipCodes.indexOf(city), 1);
+                            } else {
+                            swal.fire({
+                                type: 'error',
+                                title: 'Echec! ',
+                                showConfirmButton: true,
+                                confirmButtonText: 'Fermer'
+                            });
+                        }
+                        })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+
+                }
+                else{
+                      this.citiesZipCodes.splice(this.citiesZipCodes.indexOf(city), 1);
+
+                }
+                
+
+
 
             },
             validateForm() {
@@ -189,7 +216,7 @@
                             name: this.name,
                             code: this.code,
                             cities: this.citiesZipCodes,
-                            deleted:this.deleted
+
                         })
                         .then((response) => {
                             console.log(response);
@@ -226,7 +253,7 @@
 
                             }
 
-                               if (response.data.status == 403) {
+                            if (response.data.status == 403) {
                                 swal.fire({
                                     type: 'error',
                                     title: 'Pays introuvable! ',

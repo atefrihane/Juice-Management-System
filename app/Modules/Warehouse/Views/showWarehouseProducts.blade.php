@@ -74,7 +74,7 @@
                                                         produit ?</h4>
                                                 </div>
                                                 <div class="modal-body">
-                                                <h5 class="modal-title">  <b>NB</b> : Cette opération peut affecter la suppression des éléments associés à ce  produit  ! 
+                                                <h5 class="modal-title">  <b>Attention !</b> : Cette opération peut affecter la suppression des éléments associés à ce  produit  ! 
                                                 </h5>
                                                 </div>
                                                 <div class="modal-footer">
