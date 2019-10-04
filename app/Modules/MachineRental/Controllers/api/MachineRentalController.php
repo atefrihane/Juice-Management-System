@@ -42,6 +42,7 @@ class MachineRentalController extends Controller
      */
     public function store(Request $request)
     {
+      
     
 
         $parsedStartDate = Carbon::parse($request->startDate)->toDateString();
@@ -138,7 +139,7 @@ class MachineRentalController extends Controller
                 'price' => $request->price,
             ]);
 
-            foreach ($request->bacs as $bac) {
+            foreach ($request->customBacs as $bac) {
                 $checkBac = Bac::where('order', $bac['order'])->first();
                 $checkBac->update([
                     'status' => $bac['status'],
