@@ -62,7 +62,7 @@
                                                     <button type="button" class="close" data-dismiss="modal"
                                                         aria-label="Close">
                                                         <span aria-hidden="true">×</span></button>
-                                                    <h4 class="modal-title">Vous voulez vraiment supprimer cet
+                                                    <h4 class="modal-title">Voulez vous vraiment supprimer cet
                                                     admin ?</h4>
                                                 </div>
                                                 <div class="modal-body">

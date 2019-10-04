@@ -47655,6 +47655,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
+              attrs: { disabled: "" },
               on: {
                 change: [
                   function($event) {

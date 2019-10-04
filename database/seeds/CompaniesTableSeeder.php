@@ -1,9 +1,12 @@
 <?php
 
+use App\Modules\Bac\Models\Bac;
 use App\Modules\Company\Models\Company;
 use App\Modules\Diractor\Models\Diractor;
+use App\Modules\General\Models\City;
+use App\Modules\General\Models\Country;
+use App\Modules\General\Models\Zipcode;
 use App\Modules\Machine\Models\Machine;
-use App\Modules\Bac\Models\Bac;
 use App\Modules\Responsable\Models\Responsable;
 use App\Modules\Store\Models\Store;
 use App\Modules\User\Models\User;
@@ -18,15 +21,37 @@ class CompaniesTableSeeder extends Seeder
      */
     public function run()
     {
+        $country = Country::create([
+            'name' => 'France',
+            'code' => 10,
+        ]);
+        $cityOne = City::create([
+            'name' => 'Paris',
+            'country_id' => $country->id,
+
+        ]);
+        $cityTwo = City::create([
+            'name' => 'Marseille',
+            'country_id' => $country->id,
+
+        ]);
+        $zipCodeOne=Zipcode::create([
+            'code'=>7000,
+            'city_id'=>$cityOne->id
+        ]);
+        $zipCodeTwo=Zipcode::create([
+            'code'=>7000,
+            'city_id'=>$cityTwo->id
+        ]);
 
         $carrefour = Company::create([
             'code' => str_random(6),
             'status' => 1,
             'name' => 'Carrefour',
             'designation' => 'des',
-            'country' => 'country',
-            'city' => 'Paris',
-            'zip_code' => '75000',
+            'country_id' => $country->id,
+            'city_id' => $cityOne->id,
+            'zipcode_id' => $zipCodeOne->id,
             'address' => 'Paris Sud',
             'complement' => 'lorem',
             'comment' => 'lorem',
@@ -40,14 +65,14 @@ class CompaniesTableSeeder extends Seeder
             'code' => str_random(6),
             'status' => 2,
             'name' => 'Auchan',
-            'city' => 'Paris',
-            'zip_code' => '75000',
+            'country_id' => $country->id,
+            'city_id' => $cityOne->id,
+            'zipcode_id' => $zipCodeOne->id,
             'address' => 'Paris Sud',
             'complement' => 'lorem',
             'comment' => 'lorem',
             'logo' => '/img/Auchan.png',
             'designation' => 'des',
-            'country' => 'country',
             'email' => 'email@email.com',
             'tel' => '55612719',
 
@@ -57,14 +82,14 @@ class CompaniesTableSeeder extends Seeder
             'code' => str_random(6),
             'status' => 3,
             'name' => 'Cora',
-            'city' => 'Paris',
-            'zip_code' => '75000',
+            'zipcode_id' => $zipCodeTwo->id,
             'address' => 'Paris Sud',
             'complement' => 'lorem',
             'comment' => 'lorem',
             'logo' => '/img/Cora.png',
             'designation' => 'des',
-            'country' => 'country',
+            'country_id' => $country->id,
+            'city_id' => $cityTwo->id,
             'email' => 'email@email.com',
             'tel' => '55612719',
         ]);
@@ -73,14 +98,14 @@ class CompaniesTableSeeder extends Seeder
             'code' => str_random(6),
             'status' => 4,
             'name' => 'Géant Casino',
-            'city' => 'Paris',
-            'zip_code' => '75000',
+            'zipcode_id' => $zipCodeTwo->id,
             'address' => 'Paris Sud',
             'complement' => 'lorem',
             'comment' => 'lorem',
             'logo' => '/img/Geant.png',
             'designation' => 'des',
-            'country' => 'country',
+            'country_id' => $country->id,
+            'city_id' => $cityTwo->id,
             'email' => 'email@email.com',
             'tel' => '55612719',
         ]);
@@ -89,14 +114,14 @@ class CompaniesTableSeeder extends Seeder
             'code' => str_random(6),
             'status' => 5,
             'name' => 'Hyper U ',
-            'city' => 'Paris',
-            'zip_code' => '75000',
+            'zipcode_id' => $zipCodeOne->id,
             'address' => 'Paris Sud',
             'complement' => 'lorem',
             'comment' => 'lorem',
             'logo' => '/img/Hyper.png',
             'designation' => 'des',
-            'country' => 'country',
+            'country_id' => $country->id,
+            'city_id' => $cityOne->id,
             'email' => 'email@email.com',
             'tel' => '55612719',
         ]);
@@ -105,14 +130,14 @@ class CompaniesTableSeeder extends Seeder
             'code' => str_random(6),
             'status' => 6,
             'name' => 'Intermarché Hyper ',
-            'city' => 'Paris',
-            'zip_code' => '75000',
+            'zipcode_id' => $zipCodeOne->id,
             'address' => 'Paris Sud',
             'complement' => 'lorem',
             'comment' => 'lorem',
             'logo' => '/img/Intermarche.png',
             'designation' => 'des',
-            'country' => 'country',
+            'country_id' => $country->id,
+            'city_id' => $cityOne->id,
             'email' => 'email@email.com',
             'tel' => '55612719',
         ]);
@@ -121,14 +146,14 @@ class CompaniesTableSeeder extends Seeder
             'code' => str_random(6),
             'status' => 7,
             'name' => 'E.Leclerc',
-            'city' => 'Paris',
-            'zip_code' => '75000',
+            'country_id' => $country->id,
+            'city_id' => $cityTwo->id,
+            'zipcode_id' => $zipCodeTwo->id,
             'address' => 'Paris Sud',
             'complement' => 'lorem',
             'comment' => 'lorem',
             'logo' => '/img/Leclerc.png',
             'designation' => 'des',
-            'country' => 'country',
             'email' => 'email@email.com',
             'tel' => '55612719',
 
@@ -139,9 +164,9 @@ class CompaniesTableSeeder extends Seeder
             'status' => 'actif',
             'designation' => 'Magasin carrefour ile de france',
             'sign' => 'Franprix',
-            'country' => 'France',
-            'city' => 'Paris',
-            'zip_code' => '75016',
+            'country_id' => $country->id,
+            'city_id' => $cityOne->id,
+            'zipcode_id' => $zipCodeOne->id,
             'address' => '1 Avenue du Général Sarrail, 75016 Paris, France',
             'complement' => 'aucune',
             'email' => 'contact@carefour.fr',
@@ -160,9 +185,9 @@ class CompaniesTableSeeder extends Seeder
             'status' => 'actif',
             'designation' => 'Magasin carefour city',
             'sign' => 'Franprix',
-            'country' => 'France',
-            'city' => 'Paris',
-            'zip_code' => '75007',
+            'country_id' => $country->id,
+            'city_id' => $cityTwo->id,
+            'zipcode_id' => $zipCodeTwo->id,
             'address' => '42 Avenue de la Motte-Picquet, 75007 Paris, France',
             'complement' => 'aucune',
             'email' => 'contact@carefour.fr',

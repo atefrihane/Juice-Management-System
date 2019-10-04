@@ -69,13 +69,51 @@
                                                 <li><a href="{{route('machineStatusEdit', $machine->machine->id)}}">Mettre à jour
                                                         état</a></li>
                                                 <li><a href="{{route('editMachine', $machine->machine->id)}}">Modifier</a></li>
-                                                <li><a href="{{route('deleteMachine', $machine->machine->id)}}">Supprimer</a>
-                                                </li>
+                                               <li><a data-toggle="modal"
+                                                        data-target="#modal-default{{$machine->machine->id}}">Supprimer</a></li> 
+                                            
 
                                             </ul>
                                         </div>
 
                                     </td>
+                                    <div class="modal fade" id="modal-default{{$machine->machine->id}}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">×</span></button>
+                                                <h4 class="modal-title">Voulez vous vraiment supprimer ce magasin ?
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                            <h5 class="modal-title">  <b>NB</b> : Cette opération peut affecter la suppression des éléments associés à ce magasin ! </h4>
+                                                </h5>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="text-center">
+                                                    <form action="{{ route('deleteMachine',$machine->machine->id) }}"
+                                                        method="post">
+                                                        {{csrf_field()}}
+                                                        <a href="#" class="btn btn-danger"
+                                                            data-dismiss="modal">Annuler</a>
+
+                                                        <button type="submit" class="btn btn-success">Confirmer</button>
+                                                      
+
+                                                    </form>
+
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+
+                                    <!-- /.modal-dialog -->
+                                </div>
                                 </tr>
                                 @empty
                                 <tr>

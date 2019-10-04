@@ -83,7 +83,7 @@ class MachineController extends Controller
         ]);
         for ($i = 0; $i < $request->number_bacs; $i++) {
             Bac::create([
-                'order'=>$i+1,
+                'order' => $i + 1,
                 'machine_id' => $machine->id,
             ]);
 
@@ -142,8 +142,7 @@ class MachineController extends Controller
 
         if ($_GET['machine']) {
             $machine = Machine::find($id);
-            if ($machine->rented == 1)
-            {
+            if ($machine->rented == 1) {
                 return view('General::notFound');
             }
         }
@@ -163,7 +162,6 @@ class MachineController extends Controller
         if ($checkMachine) {
             $checkMachine->update([
                 'status' => $request->status,
-                'comment' => $request->comment,
             ]);
             $rental = $checkMachine->machineRentals->where('active', 1)->first();
 

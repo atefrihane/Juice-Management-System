@@ -98,7 +98,7 @@ var oTable = $('.table').DataTable( {
     "orderable": false,
 
     } ],
-    "pageLength": 10
+    "pageLength": 20
 } );
 </script>
 <script>
@@ -149,6 +149,115 @@ $(".vdp-datepicker > div > input").attr("placeholder", "Sélectionner une date")
 
 });
 </script>
+
+<script>
+    $('.country').on('change', function () {
+        var url = {!!json_encode(url('/')) !!}
+        $.ajax({
+            type: 'GET', //THIS NEEDS TO BE GET
+            url: url + '/country/cities/' + this.value,
+            dataType: 'json',
+            success: function (data) {
+                var response = JSON.parse(JSON.stringify(data));
+             
+                var html = "";
+                if (data.cities.length > 0) {
+                    for (var i = 0; i < data.cities.length; i++) {
+                        html += '<option value="' + data.cities[i].id + '" class="foobar">' + data
+                            .cities[i].name + '</option>'
+                        $('.cities').html(html);
+                    }
+                   var val= ($('.cities option:nth-child(1)').val())
+                    $.ajax({
+                        type: 'GET', //THIS NEEDS TO BE GET
+                        url: url + '/city/' + val,
+                        dataType: 'json',
+                        success: function (data) {
+                            var response = JSON.parse(JSON.stringify(data));
+                
+                            var html = "";
+                            if (data.zipcodes.length > 0) {
+                                for (var i = 0; i < data.zipcodes.length; i++) {
+                                    html += '<option value="' + data.zipcodes[i].id +
+                                        '" class="foobar">' + data.zipcodes[i].code +
+                                        '</option>'
+                                    $('.zipcodes').html(html);
+                                }
+                            } else {
+                                html +=
+                                    '<option value="" class="foobar">Aucun code postal</option>'
+                                $('.zipcodes').html(html);
+
+                            }
+
+
+
+                        },
+                        error: function (data) {
+                            console.log(data);
+                        }
+                    });
+                } else {
+                    html += '<option value="" class="foobar">Aucune ville</option>'
+                    $('.cities').html(html);
+                    $('.zipcodes').html($('<option value="" class="foobar">Aucun code postal</option>'));
+
+                }
+
+
+
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    });
+
+    $('.cities').on('change', function () {
+        var url = {!!json_encode(url('/')) !!}
+        $.ajax({
+            type: 'GET', //THIS NEEDS TO BE GET
+            url: url + '/city/' + this.value,
+            dataType: 'json',
+            success: function (data) {
+                var response = JSON.parse(JSON.stringify(data));
+             
+                var html = "";
+                if (data.zipcodes.length > 0) {
+                    for (var i = 0; i < data.zipcodes.length; i++) {
+                        html += '<option value="' + data.zipcodes[i].id + '" class="foobar">' + data
+                            .zipcodes[i].code + '</option>'
+                        $('.zipcodes').html(html);
+                    }
+                } else {
+                    html += '<option value="" class="foobar">Aucun code postal</option>'
+                    $('.zipcodes').html(html);
+
+                }
+
+
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    });
+
+</script>
+
+<script>
+$(document).ready(function(){
+  $(".designation").change(function(){
+    var value = $(this).val();
+    str = value.replace(/\s+/g, '');
+    var res = str.substr(0, 6).toUpperCase();
+    $('.code').val(res);
+ });
+});
+</script>
+
 
 
 </html>

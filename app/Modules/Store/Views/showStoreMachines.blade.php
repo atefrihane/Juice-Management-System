@@ -61,7 +61,7 @@
 
                                                 <li><a href="{{route('showListRental', $rental->id).'?machine=true'}}">Voir
                                                         historique des locations</a></li>
-                                                <li><a href="{{route('showHistoryMachine',$rental->machine->id)}}">Voir détail machine</a></li>
+                                                <li><a href="{{route('showHistoryMachine',$rental->machine->id)}}">Voir détails machine</a></li>
                                                 @else
 
                                                 <li><a
@@ -69,7 +69,7 @@
                                                         location</a></li>
                                                 <li><a href="{{route('showListRental', $rental->machine->id).'?machine=true'}}">Voir
                                                         historique des locations</a></li>
-                                                <li><a href="{{route('showHistoryMachine',$rental->machine->id)}}">Voir détail machine</a></li>
+                                                <li><a href="{{route('showHistoryMachine',$rental->machine->id)}}">Voir détails machine</a></li>
                                                 @endif
 
                                                 <li><a href="{{route('machineStatusEdit', $rental->machine->id)}}">Mettre à jour
@@ -87,11 +87,12 @@
                                                             <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
                                                                 <span aria-hidden="true">×</span></button>
-                                                            <h4 class="modal-title">Vous voulez vraiment supprimer cette
+                                                            <h4 class="modal-title">Voulez vous vraiment supprimer cette
                                                             machine ?</h4>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <p> Ce processus ne peut pas être annulé.</p>
+                                                        <h5 class="modal-title">  <b>NB</b> : Cette opération peut affecter la suppression des éléments associés à cette machine ! 
+                                                </h5>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <div class="text-center">

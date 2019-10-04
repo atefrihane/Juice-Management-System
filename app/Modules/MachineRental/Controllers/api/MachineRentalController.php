@@ -42,6 +42,7 @@ class MachineRentalController extends Controller
      */
     public function store(Request $request)
     {
+    
 
         $parsedStartDate = Carbon::parse($request->startDate)->toDateString();
         $parsedEndDate = Carbon::parse($request->endDate)->toDateString();
@@ -68,7 +69,7 @@ class MachineRentalController extends Controller
             $rental = MachineRental::create([
                 'date_debut' => $parsedStartDate,
                 'date_fin' => $parsedEndDate,
-                'location' => $request->location,
+                'location' => $request->localisation,
                 'Comment' => $request->comment,
                 'price' => $request->price,
                 'active' => $request->active,

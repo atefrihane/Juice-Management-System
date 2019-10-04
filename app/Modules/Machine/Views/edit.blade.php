@@ -46,7 +46,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Code</label>
-                                        <input type="text" name="code" class="form-control" value="{{$machine->code}}"
+                                        <input type="text" name="code" class="form-control code" value="{{$machine->code}}"
                                             id="exampleInputEmail1" placeholder="Code..">
                                     </div>
                                 </div>
@@ -66,8 +66,8 @@
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Désignation</label>
-                                <input class="form-control" value="{{$machine->designation}}" name="designation"
-                                    id="disabledInput" type="text" placeholder="Désignation">
+                                <input class="form-control designation" value="{{$machine->designation}}" name="designation"
+                                    id="disabledInput" type="text" placeholder="Désignation"  pattern=".{6,}" title="6 caractères minimum" >
 
                             </div>
 
@@ -91,8 +91,18 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nombre de bacs</label>
+                                        @if($machine->rented)
                                         <input class="form-control" value="{{$machine->number_bacs}}" name="number_bacs"
                                             id="disabledInput" type="text" placeholder="Nombre de bacs" disabled>
+                                            @else
+                                            <select name="number_bacs" class="form-control">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                            @endif
 
 
 

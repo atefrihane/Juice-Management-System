@@ -135,6 +135,7 @@
                                                         <th>Etat</th>
                                                         <th>Effectué par</th>
                                                         <th>Commentaire</th>
+                                                        <th></th>
 
 
 
@@ -149,7 +150,8 @@
                                                              <td>{{$machine->created_at}}</td>
                                                             <td>{{$machineHistory->event}}</td>
                                                             <td>{{$machineHistory->user->nom}}</td>
-                                                            <td>{{$machineHistory->comment}}</td>
+                                                            <td style="width:50%">{{$machineHistory->comment}}</td>
+                                                            <td><a href="#" class="btn btn-success">Modifier </a></td>
 
                                                     </tr>
                                                     @empty
