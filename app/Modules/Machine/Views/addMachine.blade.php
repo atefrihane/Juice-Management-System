@@ -44,7 +44,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Code</label>
-                                        <input type="text" name="code" class="form-control" id="exampleInputEmail1" placeholder="Code" required>
+                                        <input type="text" name="code" class="form-control code" id="exampleInputEmail1" placeholder="Code" required>
                                     </div>
                                 </div>
 
@@ -72,7 +72,7 @@
 
                                         <div class="form-group">
                                         <label for="exampleInputEmail1">Désignation</label>
-                                        <input class="form-control" name="designation" id="disabledInput" type="text" placeholder="Désignation" required>
+                                        <input class="form-control designation" name="designation" id="disabledInput" type="text" placeholder="Désignation" pattern=".{6,}" title="6 caractères minimum" required>
 
                                     </div>
 

@@ -9,7 +9,6 @@ use App\Modules\Diractor\Models\Diractor;
 use App\Modules\Responsable\Models\Responsable;
 use App\Modules\Store\Models\Store;
 use App\Modules\SuperVisor\Models\SuperVisor;
-use App\Modules\User\Controllers\api\UserController as UserRestController;
 use App\Modules\User\Models\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -27,12 +26,7 @@ class UserController extends Controller
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             Auth::user();
-            $token = UserRestController::login($request);
-            $token = json_decode(json_encode($token))->original->token;
-
-            // alert()->success('Succés!', 'Bienvenue!');
-
-            return redirect()->route('showHome')->with('token', $token);
+            return redirect()->route('showHome');
 
         } else {
             alert()->error('Oups!', 'Email ou Mot de passe incorrect !');
@@ -60,7 +54,7 @@ class UserController extends Controller
             'prenom' => 'required',
             'civilite' => 'required',
             'telephone' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email',
             'accessCode' => 'required',
             'password' => 'required',
         ];
@@ -72,7 +66,6 @@ class UserController extends Controller
             'telephone.required' => 'le champs telephone est obligatoire',
             'email.required' => 'le champs email est obligatoire',
             'email.email' => 'vous devez saisir un email valide ',
-            'email.unique' => 'email deja existant ',
             'accessCode.required' => 'le champs code d\'acces est obligatoire',
             'password.required' => 'le champs mot de passe est obligatoire',
 
@@ -88,7 +81,7 @@ class UserController extends Controller
                 }
                 unset($user['type'], $user['_token']);
                 $val = $request->validate($rules, $messages);
-                $director = Diractor::create(['company_id' => $id,'comment'=>$request->comment]);
+                $director = Diractor::create(['company_id' => $id, 'comment' => $request->comment]);
                 $user['child_type'] = Diractor::class;
                 $user['child_id'] = $director->id;
                 $user['password'] = bcrypt($user['password']);
@@ -98,7 +91,7 @@ class UserController extends Controller
             case 'supervisor':
                 $user = $request->all();
                 foreach ($request->stores as $store) {
-                $checkStore = Store::find($store);
+                    $checkStore = Store::find($store);
                     if ($checkStore->supervisor) {
                         alert()->error('Oups!', ucfirst($checkStore->designation) . ' a déja un superviseur')->persistent("Fermer");
                         return redirect()->back()->withInput();
@@ -109,7 +102,7 @@ class UserController extends Controller
                 $rules['stores'] = 'required';
                 $messages['stores.required'] = 'selectionner au moin un magasin pour le superviseur';
                 $val = $request->validate($rules, $messages);
-                $supervisor = SuperVisor::create(['comment'=>$request->comment]);
+                $supervisor = SuperVisor::create(['comment' => $request->comment]);
                 $user['child_type'] = SuperVisor::class;
                 $user['child_id'] = $supervisor->id;
                 $user['password'] = bcrypt($user['password']);
@@ -124,7 +117,7 @@ class UserController extends Controller
                 $messages['store.required'] = 'selectionner un magasin pour le responsable';
                 $val = $request->validate($rules, $messages);
                 unset($user['type'], $user['_token'], $user['store']);
-                $responsable = Responsable::create(['store_id' => $request->store,'comment'=>$request->comment]);
+                $responsable = Responsable::create(['store_id' => $request->store, 'comment' => $request->comment]);
                 $user['child_type'] = Responsable::class;
                 $user['child_id'] = $responsable->id;
                 $user['password'] = bcrypt($user['password']);

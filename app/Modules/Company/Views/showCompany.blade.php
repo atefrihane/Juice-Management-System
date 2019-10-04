@@ -90,7 +90,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Ville</label>
-                                            <input type="text" class="form-control" value="{{$company->city}}" readonly
+                                            <input type="text" class="form-control" value="{{$company->city->name}}" readonly
                                                 aria-describedby="emailHelp" placeholder="Ville">
 
                                         </div>

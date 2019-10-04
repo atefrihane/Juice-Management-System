@@ -63,8 +63,8 @@
         }
         .table-tr > td > img {
             display:block;
-            width:70%;
-            height:100px;
+            width:50%;
+            height:60px;
         }
 
         .swal2-popup { font-size: 1.6rem !important; }

@@ -19,9 +19,6 @@ class CreateStoresTable extends Migration
             $table->string('status');
             $table->string('designation');
             $table->string('sign');
-            $table->string('country');
-            $table->string('city');
-            $table->string('zip_code');
             $table->string('address');
             $table->string('complement')->nullable();
             $table->string('email');
@@ -30,14 +27,17 @@ class CreateStoresTable extends Migration
             $table->string('photo')->nullable();
             $table->string('bill_type');
             $table->string('bill_to');
-            $table->string('openingHour')->nullable();
-            $table->string('closureHour')->nullable();
-            $table->json('closedDays')->nullable();
             $table->text('deliveryRec')->nullable();
             $table->integer('super_visor_id')->unsigned()->nullable();
             $table->foreign('super_visor_id')->references('id')->on('super_visors')->onDelete('cascade');
             $table->integer('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->integer('country_id')->unsigned();
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
+            $table->integer('city_id')->unsigned();
+            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
+            $table->integer('zipcode_id')->unsigned();
+            $table->foreign('zipcode_id')->references('id')->on('zipcodes')->onDelete('cascade');
 
             $table->timestamps();
         });

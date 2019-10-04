@@ -32,6 +32,9 @@
                                     <th>Societé </th>
                                     <th>Désignation magasin</th>
                                     <th>Prix</th>
+                                    <th>Raison d'arrêt</th>
+                                    <th>Commentaire</th>
+                                    <th></th>
 
                                 </tr>
                             </thead>
@@ -45,6 +48,9 @@
                                     <td data-url="{{route('showRental', $rental->id)}}">{{$rental->store->designation}}
                                     </td>
                                     <td data-url="{{route('showRental', $rental->id)}}">{{$rental->price }}</td>
+                                    <td>{{$rental->end_reason}}</td>
+                                    <td style="width:30%;">{{$rental->Comment}}</td>
+                                    <td> <a href="#" class="btn btn-success">Modifier</a></td>
 
                                 </tr>
                                 @empty

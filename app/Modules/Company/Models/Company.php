@@ -3,6 +3,8 @@
 namespace App\Modules\Company\Models;
 
 use App\Modules\Diractor\Models\Diractor;
+use App\Modules\General\Models\City;
+use App\Modules\General\Models\Country;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Store\Models\Store;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class Company extends Model
 {
 
-    protected $fillable = ['code', 'status', 'name', 'country', 'email', 'tel', 'designation', 'city', 'zip_code', 'address', 'complement', 'comment', 'logo'];
+    protected $fillable = ['code', 'status', 'name', 'country_id', 'email', 'tel', 'designation', 'city_id', 'zipcode_id', 'address', 'complement', 'comment', 'logo'];
 
     public function stores()
     {
@@ -54,5 +56,13 @@ class Company extends Model
     {
         return $this->hasMany('\App\Modules\CompanyPrice\Models\CompanyPrice');
 
+    }
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city_id');
+    }
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'country_id');
     }
 }

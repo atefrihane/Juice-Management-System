@@ -105,7 +105,7 @@ class GeneralController extends Controller
                         ]);
 
                         if (array_key_exists('zipCodes', $city)) {
-                    
+
                             foreach ($checkCity->zipcodes as $zipcode) {
                                 $zipcode->delete();
 
@@ -152,6 +152,33 @@ class GeneralController extends Controller
 
         }
         return response()->json(['status' => 404]);
+
+    }
+
+    public function handleGetCountryCities($id)
+    {
+        $country = Country::find($id);
+
+        if ($country) {
+
+            return response()->json(['status' => 200, 'cities' => $country->cities]);
+
+        }
+        return response()->json(['status' => 404]);
+
+    }
+
+
+    public function handleGetCityZipcodes($id)
+    {
+        $city = City::find($id);
+
+        if ($city) {
+
+            return response()->json(['status' => 200, 'zipcodes' => $city->zipcodes]);
+
+        }
+     
 
     }
 

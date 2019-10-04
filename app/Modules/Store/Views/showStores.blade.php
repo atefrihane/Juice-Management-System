@@ -63,7 +63,7 @@
                     @endif
                                     <td data-url="{{route('showStoreRentals',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->code}}</td>
                                     <td data-url="{{route('showStoreRentals',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->designation}}</td>
-                                    <td data-url="{{route('showStoreRentals',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->city}}</td>
+                                    <td data-url="{{route('showStoreRentals',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->city->name}}</td>
                                     <td data-url="{{route('showStoreRentals',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->zip_code}}</td>
                                     <td data-url="{{route('showStoreRentals',['company_id'=>$company->id,'store_id'=>$store->id])}}"> {{$store->status}}</td>
                                     <td  class="not-this text-center">
@@ -89,11 +89,12 @@
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">×</span></button>
-                                                <h4 class="modal-title">Vous voulez vraiment supprimer ce Magasin ?
+                                                <h4 class="modal-title">Voulez vous vraiment supprimer ce Magasin ?
                                                 </h4>
                                             </div>
                                             <div class="modal-body">
-                                                <p> Ce processus ne peut pas être annulé.</p>
+                                            <h5 class="modal-title">  <b>NB</b> : Cette opération peut affecter la suppression des éléments associés à ce Magasin ! 
+                                                </h5>
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="text-center">

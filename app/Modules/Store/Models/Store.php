@@ -7,6 +7,8 @@ use App\Modules\Machine\Models\Machine;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Responsable\Models\Responsable;
 use App\Modules\SuperVisor\Models\SuperVisor;
+use App\Modules\General\Models\City;
+use App\Modules\General\Models\Country;
 use Illuminate\Database\Eloquent\Model;
 
 class Store extends Model {
@@ -42,6 +44,14 @@ class Store extends Model {
 
             }
         return $machines;
+    }
+    public function city()
+    {
+        return $this->belongsTo(City::class,'city_id');
+    }
+    public function country()
+    {
+        return $this->belongsTo(Country::class,'country_id');
     }
 
 

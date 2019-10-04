@@ -4,8 +4,13 @@ namespace App\Modules\Store\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Company\Models\Company;
+use App\Modules\General\Models\City;
+use App\Modules\General\Models\Country;
+use App\Modules\General\Models\Zipcode;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Store\Models\Store;
+use App\Modules\Store\Models\StoreHistory;
+use Auth;
 use Illuminate\Http\Request;
 
 class StoreController extends Controller
@@ -24,8 +29,10 @@ class StoreController extends Controller
     {
         $company = Company::find($company_id);
         $lastStoreId = Company::all()->last()->id + 1;
+        $countries=Country::all();
+
         if ($company) {
-            return view('Store::addStore', compact('company', 'lastStoreId'));}
+            return view('Store::addStore', compact('company', 'lastStoreId','countries'));}
         return view('General::notFound');
 
     }
@@ -36,7 +43,7 @@ class StoreController extends Controller
             'code' => 'required',
             'sign' => 'required',
             'designation' => 'required',
-            'zip_code' => 'required',
+            'zipcode_id' => 'required',
             'address' => 'required',
             'email' => 'required|email|unique:companies',
             'tel' => 'required',
@@ -47,7 +54,7 @@ class StoreController extends Controller
             'sign.required' => 'le champs enseigne  est obligatoire',
             'designation.required' => 'le champs designation est obligatoire',
             'address.required' => 'le champs addresse est obligatoire',
-            'zip_code.required' => 'le champs code postale est obligatoire',
+            'zipcode_id.required' => 'le champs code postale est obligatoire',
             'email.required' => 'le champs email est obligatoire',
             'email.unique' => 'email deja existant',
             'email.email' => 'email non valide',
@@ -69,7 +76,14 @@ class StoreController extends Controller
         $insertable['photo'] = 'files/' . $path;
         $insertable['company_id'] = $company_id;
 
-        Store::create($insertable);
+        $store = Store::create($insertable);
+        StoreHistory::create([
+            'changes' => 'creation',
+            'store_id' => $store->id,
+            'user_id' => Auth::id(),
+
+        ]);
+        alert()->success('Succés!','Le magasin a été crée avec succés ! ')->persistent('Femer');
         return redirect(route('showStores', $company_id));
 
     }
@@ -78,7 +92,10 @@ class StoreController extends Controller
     {
         $store = Store::find($id);
         $company = Company::find($store->company_id);
-        return view("Store::editStore", compact('store', 'company'));
+        $countries = Country::all();
+        $cities = City::all();
+        $zipcodes = Zipcode::all();
+        return view("Store::editStore", compact('store', 'company', 'countries', 'cities', 'zipcodes'));
     }
 
     public function update($id, Request $request)
@@ -87,7 +104,7 @@ class StoreController extends Controller
             'code' => 'required',
             'sign' => 'required',
             'designation' => 'required',
-            'zip_code' => 'required',
+            'zipcode_id' => 'required',
             'address' => 'required',
             'email' => 'required|email',
             'tel' => 'required',
@@ -98,7 +115,7 @@ class StoreController extends Controller
             'sign.required' => 'le champs enseigne  est obligatoire',
             'designation.required' => 'le champs designation est obligatoire',
             'address.required' => 'le champs addresse est obligatoire',
-            'zip_code.required' => 'le champs code postale est obligatoire',
+            'zipcode_id.required' => 'le champs code postale est obligatoire',
             'email.required' => 'le champs email est obligatoire',
             'email.email' => 'email non valide',
             'cc.required' => 'le premier champs telephone est obligatoire',
@@ -107,18 +124,82 @@ class StoreController extends Controller
         ]);
         $updateable = $request->all();
         $store = Store::find($id);
-        unset($updateable['_token']);
-        $updateable['tel'] = $request->cc . ' ' . $request->tel;
-        unset($updateable['cc']);
-        if ($request->file('photo') != null) {
-            $path = $request->file('photo')->store('img', 'public');
-            $updateable['photo'] = 'files/' . $path;
-        } else {
-            unset($updateable['logo']);
+        if ($store) {
+            unset($updateable['_token']);
+            $updateable['tel'] = $request->cc . ' ' . $request->tel;
+            unset($updateable['cc']);
+            if ($request->file('photo') != null) {
+                $path = $request->file('photo')->store('img', 'public');
+                $updateable['photo'] = 'files/' . $path;
+            } else {
+                unset($updateable['logo']);
+            }
+
+            $changes = array();
+
+            if ($store->code != $request->code) {
+                array_push($changes, 'code');
+            }
+            if ($store->status != $request->status) {
+                array_push($changes, 'status');
+            }
+
+            if ($store->designation != $request->designation) {
+                array_push($changes, 'designation');
+            }
+            if ($store->sign != $request->sign) {
+                array_push($changes, 'signe');
+            }
+            if ($store->country != $request->country) {
+                array_push($changes, 'pays');
+            }
+            if ($store->city != $request->city) {
+                array_push($changes, 'ville');
+            }
+            if ($store->zipcode_id != $request->zipcode_id) {
+                array_push($changes, 'code postal');
+            }
+            if ($store->address != $request->address) {
+                array_push($changes, 'addresse');
+            }
+            if ($store->complement != $request->complement) {
+                array_push($changes, 'complement addresse');
+            }
+            if ($store->email != $request->email) {
+                array_push($changes, 'email');
+            }
+            if ($store->tel != $request->tel) {
+                array_push($changes, 'téléphone');
+            }
+            if ($store->comment != $request->comment) {
+                array_push($changes, 'comment');
+            }
+            if ($request->photo && $store->photo != $request->photo) {
+                array_push($changes, 'photo');
+            }
+
+            if ($request->bill_type && $store->bill_type != $request->bill_type) {
+                array_push($changes, 'Type de facturation');
+            }
+            if ($request->bill_to && $store->bill_type != $request->bill_to) {
+                array_push($changes, 'Facture addressée vers');
+            }
+            if ($request->deliveryRec && $store->deliveryRec != $request->deliveryRec) {
+                array_push($changes, 'Recommendation pour livreur ');
+            }
+            $changes = implode(",", $changes);
+
+            $store->update($updateable);
+            StoreHistory::create([
+                'changes' => $changes,
+                'store_id' => $store->id,
+                'user_id' => Auth::id(),
+
+            ]);
+            alert()->success('Succés', 'Le magasin a été modifié avec succés')->persistent('Femer');
+            return redirect(route('showStores', $store->company_id));
         }
 
-        Store::query()->where('id', $id)->update($updateable);
-        return redirect(route('showStores', $store->company_id));
     }
 
     public function delete($id)
@@ -145,8 +226,8 @@ class StoreController extends Controller
     {$store = Store::find($idStore);
         if ($store) {
             $rentals = MachineRental::where('store_id', $idStore)
-            ->where('active',1)
-            ->get();
+                ->where('active', 1)
+                ->get();
             return view('Store::showStoreMachines', compact('rentals', 'store'));
         }
         return view('General::notFound');

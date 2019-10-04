@@ -91,10 +91,11 @@
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">×</span></button>
-                                                <h4 class="modal-title">Vous voulez vraiment supprimer ce produit ?</h4>
+                                                <h4 class="modal-title">Voulez vous vraiment supprimer ce produit ?</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <p> Ce processus ne peut pas être annulé.</p>
+                                            <h5 class="modal-title">  <b>NB</b> : Cette opération peut affecter la suppression des éléments associés à ce produit ? ! </h4>
+                                                </h5>
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="text-center">
@@ -126,10 +127,10 @@
                                                     aria-label="Close">
                                                     <span aria-hidden="true">×</span></button>
                                                 @if($product->status == 'disponible')
-                                                <h4 class="modal-title">Vous voulez rendre ce produit non disponible ?
+                                                <h4 class="modal-title">Voulez vous rendre ce produit non disponible ?
                                                 </h4>
                                                 @else
-                                                <h4 class="modal-title">Vous voulez rendre ce produit disponible ?</h4>
+                                                <h4 class="modal-title">Voulez vous rendre ce produit disponible ?</h4>
                                                 @endif
                                             </div>
                                             <div class="modal-body">
