@@ -28,9 +28,10 @@ Breadcrumbs::for('company', function ($trail) {
     $trail->parent('home');
     $trail->push('Ajouter une societé', route('showAddCompany'));
 });
-Breadcrumbs::for('editCompany', function ($trail) {
+Breadcrumbs::for('editCompany', function ($trail,$company) {
     $trail->parent('home');
-    $trail->push('Modifier une societé', route('updateCompany'));
+    $trail->push('Modifier une societé', route('updateCompany',$company));
+    $trail->push($company->designation);
 });
 // Home
 Breadcrumbs::for('admin', function ($trail) {

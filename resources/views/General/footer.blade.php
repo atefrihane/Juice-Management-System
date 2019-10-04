@@ -249,7 +249,7 @@ $(".vdp-datepicker > div > input").attr("placeholder", "Sélectionner une date")
 
 <script>
 $(document).ready(function(){
-  $(".designation").change(function(){
+  $(".designation").bind('change paste keyup' ,function(){
     var value = $(this).val();
     str = value.replace(/\s+/g, '');
     var res = str.substr(0, 6).toUpperCase();
