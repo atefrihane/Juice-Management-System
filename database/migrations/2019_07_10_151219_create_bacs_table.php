@@ -21,9 +21,9 @@ class CreateBacsTable extends Migration
             $table->integer('machine_id')->unsigned();
             $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
             $table->integer('product_id')->unsigned()->nullable();
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('SET NULL');
             $table->integer('mixture_id')->unsigned()->nullable();
-            $table->foreign('mixture_id')->references('id')->on('mixtures')->onDelete('cascade');
+            $table->foreign('mixture_id')->references('id')->on('mixtures')->onDelete('SET NULL');
             $table->timestamps();
         });
     }

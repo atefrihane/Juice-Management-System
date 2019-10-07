@@ -8,4 +8,5 @@ Route::group(['module' => 'MachineRental', 'middleware' => ['web'], 'namespace' 
     Route::get('machine/rental/list/{id}', 'MachineRentalController@showAllRentals')->name('showListRental');
     Route::get('machine/rental/show/end/{id}', 'MachineRentalController@endMachineRental')->name('showEndRental');
     Route::post('machine/rental/end/{id}', 'MachineRentalController@endRental')->name('endRental');
+    Route::post('machine/history/edit/{id}', 'MachineRentalController@handleEditRental')->name('handleEditRental');
 });

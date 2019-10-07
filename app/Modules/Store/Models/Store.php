@@ -9,6 +9,7 @@ use App\Modules\Responsable\Models\Responsable;
 use App\Modules\SuperVisor\Models\SuperVisor;
 use App\Modules\General\Models\City;
 use App\Modules\General\Models\Country;
+use App\Modules\Store\Models\StoreSchedule;
 use Illuminate\Database\Eloquent\Model;
 
 class Store extends Model {
@@ -52,6 +53,10 @@ class Store extends Model {
     public function country()
     {
         return $this->belongsTo(Country::class,'country_id');
+    }
+    public function schedules()
+    {
+        return $this->hasMany(StoreSchedule::class);
     }
 
 

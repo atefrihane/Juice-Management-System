@@ -133,12 +133,11 @@ class MachineRentalController extends Controller
                 return redirect()->back();
 
             }
-            
+
             $machineRental->update(['end_reason' => $request->end_reason, 'date_fin' => $request->date_fin, 'active' => false, 'Comment' => $request->comment]);
             $machine = Machine::where('id', $machineRental->machine_id)->update(['rented' => false]);
-  
-            foreach($machineRental->machine->bacs as $bac)
-            {
+
+            foreach ($machineRental->machine->bacs as $bac) {
                 $bac->update([
                     'order' => $bac->order,
                     'status' => null,
@@ -156,13 +155,26 @@ class MachineRentalController extends Controller
     }
     public function showEditRental($id)
     {
-        $rental=MachineRental::find($id);
-          if($rental)
-          {
-              $store=$rental->store;
-              return view('MachineRental::showEditRental',compact('rental','store'));
-          }  
-          return view('General::notFound');
+        $rental = MachineRental::find($id);
+        if ($rental) {
+            $store = $rental->store;
+            return view('MachineRental::showEditRental', compact('rental', 'store'));
+        }
+        return view('General::notFound');
+
+    }
+
+    public function handleEditRental($id, Request $request)
+    {
+
+        $rental = MachineRental::find($id);
+        if ($rental) {
+            $rental->update($request->all());
+            alert()->success('Location modifiée avec succés')->persistent('Femer');
+            return redirect()->back();
+
+        }
+        return view('General::notFound');
 
     }
 }

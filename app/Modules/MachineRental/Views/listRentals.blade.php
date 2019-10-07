@@ -50,9 +50,58 @@
                                     <td data-url="{{route('showRental', $rental->id)}}">{{$rental->price }}</td>
                                     <td>{{$rental->end_reason}}</td>
                                     <td style="width:30%;">{{$rental->Comment}}</td>
-                                    <td> <a href="#" class="btn btn-success">Modifier</a></td>
+                                    <td> <a href="#" data-toggle="modal" data-target="#modal-default{{$rental->id}}"
+                                            class="btn btn-success">Modifier</a></td>
 
                                 </tr>
+                                <div class="modal fade" id="modal-default{{$rental->id}}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">×</span></button>
+                                                <h4 class="modal-title">Modifier l'historique de la location " {{$rental->store->designation}} "
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="post" action="{{route('handleEditRental',$rental->id)}}">
+                                                {{csrf_field()}}
+                                                    <div class="form-group">
+                                                     
+                                                        <div class="form-group">
+                                                            <label for="exampleFormControlTextarea1">Raison d'arrêt
+                                                                </label>
+                                                            <textarea class="form-control"
+                                                                id="exampleFormControlTextarea1" name="end_reason" rows="3">{{$rental->end_reason}}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                    
+                                                        <div class="form-group">
+                                                            <label for="exampleFormControlTextarea1">
+                                                                Commentaire</label>
+                                                            <textarea class="form-control"
+                                                                id="exampleFormControlTextarea1" name="Comment" rows="3">{{$rental->comment}}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-center">
+
+                                                    <button type="submit" class="btn btn-danger" data-dismiss="modal"
+                                                    aria-label="Close" >Annuler</button>
+                                                    <button type="submit" class="btn btn-success">Confirmer</button>
+                                                    
+                                                    </div>
+                                               
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+
+                                    <!-- /.modal-dialog -->
+                                </div>
                                 @empty
                                 <tr>
                                     <td colspan="7">

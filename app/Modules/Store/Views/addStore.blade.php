@@ -202,45 +202,142 @@
                                     </div>
                                 </div>
                             </div>
-                            {{--<div class="row">--}}
-
-                            {{--<div class="col-md-6">--}}
-                            {{--<div class="form-group">--}}
-                            {{--<label>Heure d'ouverture</label>--}}
-
-                            {{--<div class="input-group bootstrap-timepicker">--}}
-                            {{--<input required type="text" class="form-control timepicker ">--}}
-
-                            {{--<div class="input-group-addon">--}}
-                            {{--<i class="fa fa-clock-o"></i>--}}
-                            {{--</div>--}}
-                            {{--</div>--}}
-                            {{--<!-- /.input group -->--}}
-                            {{--</div>--}}
-                            {{--</div>--}}
-
-                            {{--<div class="col-md-6">--}}
-                            {{--<div class="form-group">--}}
-                            {{--<label>Heure de fermeture</label>--}}
-
-                            {{--<div class="input-group bootstrap-timepicker">--}}
-                            {{--<input required type="text" class="form-control timepicker">--}}
-
-                            {{--<div class="input-group-addon">--}}
-                            {{--<i class="fa fa-clock-o"></i>--}}
-                            {{--</div>--}}
-                            {{--</div>--}}
-                            {{--<!-- /.input group -->--}}
-                            {{--</div>--}}
-                            {{--</div>--}}
-
-                            {{--</div>--}}
-
+                      
                             <div class="form-group">
                                 <label>Recommendation pour livreur (optionnel)</label>
                                 <textarea class="form-control" rows="3" name="deliveryRec"
                                     placeholder="Recommendarion pour liveruer ..."></textarea>
                             </div>
+                            <div class="form-group" style="margin-bottom:-15px;">
+                            <label style="font-size: 24px; margin-top: 24px; font-weight: bold;"> Horaires</label>
+                             
+                            </div>
+
+                        <table class="tables">
+                                <thead>
+
+                                    <th class="no-sort">Jour</th>
+                                    <th>Ouverture Matin</th>
+                                    <th> Clôture Matin</th>
+                                    <th>Ouverture Aprés midi</th>
+                                    <th> Clôture Aprés midi</th>
+                                    <th>Fermé</th>
+
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Lundi</td>
+                                        <td> <input type="time" class="form-control" name="mondayDayStart"></td>
+                                        <td> <input type="time" class="form-control" name="mondayDayEnd"></td>
+                                        <td> <input type="time" class="form-control" name="mondayNightStart"></td>
+                                        <td> <input type="time" class="form-control" name="mondayNightEnd"></td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" name="mondayClosed" type="checkbox"
+                                                    id="gridCheck">
+
+                                            </div>
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td>Mardi</td>
+                                        <td> <input type="time" class="form-control" name="tuesdayDayStart"></td>
+                                        <td> <input type="time" class="form-control" name="tuesdayDayEnd"></td>
+                                        <td> <input type="time" class="form-control" name="tuesdayNightStart"></td>
+                                        <td> <input type="time" class="form-control" name="tuesdayNightEnd"></td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" name="tuesdayClosed" type="checkbox"
+                                                    id="gridCheck">
+
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>Mercredi</td>
+                                        <td> <input type="time" class="form-control" name="wednesdayDayStart"></td>
+                                        <td> <input type="time" class="form-control" name="wednesdayDayEnd"></td>
+                                        <td> <input type="time" class="form-control" name="wednesdayNightStart"></td>
+                                        <td> <input type="time" class="form-control" name="wednesdayNightEnd"></td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" name="wednesdayClosed" type="checkbox"
+                                                    id="gridCheck">
+
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>Jeudi</td>
+                                        <td> <input type="time" class="form-control" name="thursdayDayStart"></td>
+                                        <td> <input type="time" class="form-control" name="thursdayDayEnd"></td>
+                                        <td> <input type="time" class="form-control" name="thursdayNightStart"></td>
+                                        <td> <input type="time" class="form-control" name="thursdayNightEnd"></td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" name="thursdayClosed" type="checkbox"
+                                                    id="gridCheck">
+
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>Vendredi</td>
+                                        <td> <input type="time" class="form-control" name="fridayDayStart"></td>
+                                        <td> <input type="time" class="form-control" name="fridayDayEnd"></td>
+                                        <td> <input type="time" class="form-control" name="fridayNightStart"></td>
+                                        <td> <input type="time" class="form-control" name="fridayNightEnd"></td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" name="fridayClosed" type="checkbox"
+                                                    id="gridCheck">
+
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>Samedi</td>
+                                        <td> <input type="time" class="form-control" name="saturdayDayStart"></td>
+                                        <td> <input type="time" class="form-control" name="saturdayDayEnd"></td>
+                                        <td> <input type="time" class="form-control" name="saturdayNightStart"></td>
+                                        <td> <input type="time" class="form-control" name="saturdayNightEnd"></td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" name="saturdayClosed" type="checkbox"
+                                                    id="gridCheck">
+
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>Dimanche</td>
+                                        <td> <input type="time" class="form-control" name="sundayDayStart"></td>
+                                        <td> <input type="time" class="form-control" name="sundayDayEnd"></td>
+                                        <td> <input type="time" class="form-control" name="sundayNightStart"></td>
+                                        <td> <input type="time" class="form-control" name="sundayNightEnd"></td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" name="sundayClosed" type="checkbox"
+                                                    id="gridCheck">
+
+                                            </div>
+                                        </td>
+
+                                    </tr>
+
+
+
+                                </tbody>
+                                <tfoot>
+                                </tfoot>
+                            </table>
 
                             <div class="row">
                                 <div class="container text-center">
@@ -254,6 +351,8 @@
                             </div>
                         </div>
 
+
+
                     </form>
                 </div>
 
@@ -265,5 +364,17 @@
     </section>
 
 </div>
+@section('scripts-custom')
+<script>
+var oTable = $('.tables').DataTable( {
+    "language": {
+      "url": "http://cdn.datatables.net/plug-ins/a5734b29083/i18n/French.json"
+    },
+    "bLengthChange": false ,
+    "aaSorting": [],
 
+    "pageLength": 20
+} );
+</script>
+@endsection
 @endsection

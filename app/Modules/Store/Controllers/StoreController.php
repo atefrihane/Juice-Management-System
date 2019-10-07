@@ -10,6 +10,7 @@ use App\Modules\General\Models\Zipcode;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Store\Models\Store;
 use App\Modules\Store\Models\StoreHistory;
+use App\Modules\Store\Models\StoreSchedule;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -29,16 +30,17 @@ class StoreController extends Controller
     {
         $company = Company::find($company_id);
         $lastStoreId = Company::all()->last()->id + 1;
-        $countries=Country::all();
+        $countries = Country::all();
 
         if ($company) {
-            return view('Store::addStore', compact('company', 'lastStoreId','countries'));}
+            return view('Store::addStore', compact('company', 'lastStoreId', 'countries'));}
         return view('General::notFound');
 
     }
 
     public function store($company_id, Request $request)
     {
+
         $val = $request->validate([
             'code' => 'required',
             'sign' => 'required',
@@ -71,8 +73,47 @@ class StoreController extends Controller
 
         $telephone = $request->cc . " " . $request->tel;
         $insertable = $request->all();
+
         $insertable['tel'] = $telephone;
-        unset($insertable['cc']);
+        unset(
+            $insertable['cc'],
+            $insertable['mondayDayStart'],
+            $insertable['mondayDayEnd'],
+            $insertable['mondayNightStart'],
+            $insertable['mondayNightEnd'],
+            $insertable['mondayClosed'],
+            $insertable['tuesdayDayStart'],
+            $insertable['tuesdayDayEnd'],
+            $insertable['tuesdayNightStart'],
+            $insertable['tuesdayNightEnd'],
+            $insertable['tuesdayClosed'],
+            $insertable['wednesdayDayStart'],
+            $insertable['wednesdayDayEnd'],
+            $insertable['wednesdayNightStart'],
+            $insertable['wednesdayNightEnd'],
+            $insertable['wednesdayClosed'],
+            $insertable['thursdayDayStart'],
+            $insertable['thursdayDayEnd'],
+            $insertable['thursdayNightStart'],
+            $insertable['thursdayNightEnd'],
+            $insertable['thursdayClosed'],
+            $insertable['fridayDayStart'],
+            $insertable['fridayDayEnd'],
+            $insertable['fridayNightStart'],
+            $insertable['fridayNightEnd'],
+            $insertable['fridayClosed'],
+            $insertable['saturdayDayStart'],
+            $insertable['saturdayDayEnd'],
+            $insertable['saturdayNightStart'],
+            $insertable['saturdayNightEnd'],
+            $insertable['saturdayClosed'],
+            $insertable['sundayDayStart'],
+            $insertable['sundayDayEnd'],
+            $insertable['sundayNightStart'],
+            $insertable['sundayNightEnd'],
+            $insertable['sundayClosed']
+
+        );
         $insertable['photo'] = 'files/' . $path;
         $insertable['company_id'] = $company_id;
 
@@ -83,8 +124,38 @@ class StoreController extends Controller
             'user_id' => Auth::id(),
 
         ]);
-        alert()->success('Succés!','Le magasin a été crée avec succés ! ')->persistent('Femer');
+
+        $this->handleFillSchedule(1, $request->mondayDayStart, $request->mondayDayEnd, $request->mondayNightStart, $request->mondayNightEnd, $request->mondayClosed, $store->id);
+        $this->handleFillSchedule(2, $request->tuesdayDayStart, $request->tuesdayDayEnd, $request->tuesdayNightStart, $request->tuesdayNightEnd, $request->tuesdayClosed, $store->id);
+        $this->handleFillSchedule(3, $request->wednesdayDayStart, $request->wednesdayDayEnd, $request->wednesdayNightStart, $request->wednesdayNightEnd, $request->wednesdayClosed, $store->id);
+        $this->handleFillSchedule(4, $request->thursdayDayStart, $request->thursdayDayEnd, $request->thursdayNightStart, $request->thursdayNightEnd, $request->thursdayClosed, $store->id);
+        $this->handleFillSchedule(5, $request->fridayDayStart, $request->fridayDayEnd, $request->fridayNightStart, $request->fridayNightEnd, $request->fridayClosed, $store->id);
+        $this->handleFillSchedule(6, $request->saturdayDayStart, $request->saturdayDayEnd, $request->saturdayNightStart, $request->saturdayNightEnd, $request->saturdayClosed, $store->id);
+        $this->handleFillSchedule(7, $request->sundayDayStart, $request->sundayDayEnd, $request->sundayNightStart, $request->sundayNightEnd, $request->sundayClosed, $store->id);
+        alert()->success('Succés!', 'Le magasin a été crée avec succés ! ')->persistent('Femer');
         return redirect(route('showStores', $company_id));
+
+    }
+
+    public function handleFillSchedule($day, $startDay, $endDay, $startNight, $endNight, $closed, $storeId)
+    {
+        if ($storeId) {
+            StoreSchedule::create([
+                'day' => $day,
+                'start_day_time' => $startDay,
+                'end_day_time' => $endDay,
+                'start_night_time' => $startNight,
+                'end_night_time' => $endNight,
+                'closed' => $closed == 'on' ? 1 : 0,
+                'store_id' => $storeId,
+
+            ]);
+
+        } else {
+            alert()->error('Oups', 'Magasin introuvable !');
+            return redirect()->back();
+
+        }
 
     }
 
@@ -100,6 +171,8 @@ class StoreController extends Controller
 
     public function update($id, Request $request)
     {
+
+
         $val = $request->validate([
             'code' => 'required',
             'sign' => 'required',
@@ -123,11 +196,15 @@ class StoreController extends Controller
 
         ]);
         $updateable = $request->all();
+
         $store = Store::find($id);
         if ($store) {
             unset($updateable['_token']);
             $updateable['tel'] = $request->cc . ' ' . $request->tel;
-            unset($updateable['cc']);
+            unset(
+                $updateable['cc'],
+                $updateable['schedules']
+            );
             if ($request->file('photo') != null) {
                 $path = $request->file('photo')->store('img', 'public');
                 $updateable['photo'] = 'files/' . $path;
@@ -196,6 +273,27 @@ class StoreController extends Controller
                 'user_id' => Auth::id(),
 
             ]);
+            if ($request->input('schedules')) {
+                foreach ($request->schedules as $schedule) {
+                    if (isset($schedule[0])) {
+                        $checkSchedule = StoreSchedule::find($schedule[0]);
+                      
+                        $checkSchedule->update([
+                            'day' => $checkSchedule->day,
+                            'start_day_time' => $schedule[1],
+                            'end_day_time' => $schedule[2],
+                            'start_night_time' => $schedule[3],
+                            'end_night_time' => $schedule[4],
+                            'closed' => isset($schedule[5]) ? 1 : 0,
+                            'store_id' => $store->id,
+
+                        ]);
+                    }
+
+                }
+
+            }
+
             alert()->success('Succés', 'Le magasin a été modifié avec succés')->persistent('Femer');
             return redirect(route('showStores', $store->company_id));
         }
