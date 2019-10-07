@@ -87,6 +87,7 @@
 </script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+@yield('scripts-custom')
 <script>
 var oTable = $('.table').DataTable( {
     "language": {
@@ -94,13 +95,19 @@ var oTable = $('.table').DataTable( {
     },
     "bLengthChange": false ,
     "columnDefs": [ {
-    "targets": -1,
+        "targets": -1,
     "orderable": false,
 
-    } ],
+  
+
+    },
+
+     ],
+
     "pageLength": 20
 } );
 </script>
+
 <script>
 $(function() {
   $('.dates').daterangepicker({

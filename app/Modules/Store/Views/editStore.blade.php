@@ -25,6 +25,7 @@
                         @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
+
                                 @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                                 @endforeach
@@ -46,8 +47,8 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Code</label>
-                                        <input type="text" class="form-control code " name="code" value="{{$store->code}}"
-                                            id="exampleInputEmail1" placeholder="Code..">
+                                        <input type="text" class="form-control code " name="code"
+                                            value="{{$store->code}}" id="exampleInputEmail1" placeholder="Code..">
                                     </div>
                                 </div>
 
@@ -77,7 +78,8 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Désignation</label>
                                 <input class="form-control designation" id="disabledInput" type="text"
-                                    value="{{$store->designation}}" name="designation" placeholder="Nom Magasin" pattern=".{6,}" title="6 caractères minimum">
+                                    value="{{$store->designation}}" name="designation" placeholder="Nom Magasin"
+                                    pattern=".{6,}" title="6 caractères minimum">
 
                             </div>
                             <div class="form-group">
@@ -257,56 +259,102 @@
                                     </div>
                                 </div>
                             </div>
-                            {{--<div class="row">--}}
 
-                            {{--<div class="col-md-6">--}}
-                            {{--<div class="form-group">--}}
-                            {{--<label>Heure d'ouverture</label>--}}
-
-                            {{--<div class="input-group bootstrap-timepicker">--}}
-                            {{--<input type="text" class="form-control timepicker ">--}}
-
-                            {{--<div class="input-group-addon">--}}
-                            {{--<i class="fa fa-clock-o"></i>--}}
-                            {{--</div>--}}
-                            {{--</div>--}}
-                            {{--<!-- /.input group -->--}}
-                            {{--</div>--}}
-                            {{--</div>--}}
-
-                            {{--<div class="col-md-6">--}}
-                            {{--<div class="form-group">--}}
-                            {{--<label>Heure de fermeture</label>--}}
-
-                            {{--<div class="input-group bootstrap-timepicker">--}}
-                            {{--<input type="text" class="form-control timepicker">--}}
-
-                            {{--<div class="input-group-addon">--}}
-                            {{--<i class="fa fa-clock-o"></i>--}}
-                            {{--</div>--}}
-                            {{--</div>--}}
-                            {{--<!-- /.input group -->--}}
-                            {{--</div>--}}
-                            {{--</div>--}}
-
-                            {{--</div>--}}
 
                             <div class="form-group">
                                 <label>Recommendation pour livreur (optionnel)</label>
                                 <textarea class="form-control" rows="3" name="deliveryRec"
                                     placeholder="Recommendarion pour liveruer ..."> {{$store->deliveryRec}}</textarea>
                             </div>
-
-                            <div class="row">
-                                <div class="container text-center">
-
-                                    <a href="{{route('showStores', $company->id)}}" class="btn btn-danger pl-1"
-                                        style="margin: 1em">Annuler</a>
-                                    <button class="btn btn-success pl-1" type="submit"
-                                        style="margin: 1em">Confirmer</button>
-
-                                </div>
+                            <div class="form-group" style="margin-bottom:-15px;">
+                            <label style="font-size: 24px; margin-top: 24px; font-weight: bold;"> Horaires</label>
+                             
                             </div>
+
+
+                            <table class="tables">
+                                <thead>
+
+                                    <th class="no-sort">Jour</th>
+                                    <th>Ouverture Matin</th>
+                                    <th> Clôture Matin</th>
+                                    <th>Ouverture Aprés midi</th>
+                                    <th> Clôture Aprés midi</th>
+                                    <th>Fermé</th>
+
+                                </thead>
+                                <tbody>
+                                    @forelse($store->schedules as $key=>$schedule)
+                                    <tr>
+                                        <td>
+                                            @switch($schedule->day)
+                                            @case(1)
+                                            Lundi
+                                            <input type="hidden" name="schedules[{{$key}}][0]" value="{{$schedule->id}}">
+                                            @break
+                                            @case(2)
+                                            Mardi
+                                            <input type="hidden" name="schedules[{{$key}}][0]" value="{{$schedule->id}}"> 
+                                            @break
+                                            @case(3)
+                                            Mercredi
+                                            <input type="hidden" name="schedules[{{$key}}][0]" value="{{$schedule->id}}">
+                                            @break
+                                            @case(4)
+                                            Jeudi
+                                            <input type="hidden" name="schedules[{{$key}}][0]" value="{{$schedule->id}}">
+                                            @break
+                                            @case(5)
+                                            Vendredi
+                                            <input type="hidden" name="schedules[{{$key}}][0]" value="{{$schedule->id}}">
+                                            @break
+                                            @case(6)
+                                            Samedi
+                                            <input type="hidden" name="schedules[{{$key}}][0]" value="{{$schedule->id}}">
+                                            @break
+                                            @case(7)
+                                            dimanche    
+                                            <input type="hidden" name="schedules[{{$key}}][0]" value="{{$schedule->id}}">
+                                            @endswitch
+
+                                        </td>
+                                        <td> <input type="time" class="form-control" name="schedules[{{$key}}][1]"value="{{$schedule->start_day_time}}"></td>
+                                        <td> <input type="time" class="form-control" name="schedules[{{$key}}][2]" value="{{$schedule->end_day_time}}"></td>
+                                        <td> <input type="time" class="form-control" name="schedules[{{$key}}][3]" value="{{$schedule->start_night_time}}"></td>
+                                        <td> <input type="time" class="form-control" name="schedules[{{$key}}][4]" value="{{$schedule->end_night_time}}"></td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="gridCheck" name="schedules[{{$key}}][5]" {{ $schedule->closed == 1 ? 'checked' : '' }} >
+
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    @empty
+                                    <tr></tr>
+                                    @endforelse
+
+
+
+
+
+                                </tbody>
+                                <tfoot>
+                                </tfoot>
+                            </table>
+
+                        </div>
+                        <div class="row">
+                            <div class="container text-center">
+
+                                <a href="{{route('showStores', $company->id)}}" class="btn btn-danger pl-1"
+                                    style="margin: 1em">Annuler</a>
+                                <button class="btn btn-success pl-1" type="submit"
+                                    style="margin: 1em">Confirmer</button>
+
+                            </div>
+
                         </div>
 
                     </form>
@@ -321,6 +369,19 @@
 
 </div>
 
+@section('scripts-custom')
+<script>
+    var oTable = $('.tables').DataTable({
+        "language": {
+            "url": "http://cdn.datatables.net/plug-ins/a5734b29083/i18n/French.json"
+        },
+        "bLengthChange": false,
+        "aaSorting": [],
 
+        "pageLength": 20
+    });
+
+</script>
+@endsection
 
 @endsection

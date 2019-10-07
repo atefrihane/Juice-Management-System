@@ -72,7 +72,8 @@
 
                                                 @forelse($machine->machineRentals as $rental)
                                                 @if($rental->active == 1)
-                                                <li><a href="{{route('showRental',$rental->id)}}">Voir détails location</a></li>
+                                                <li><a href="{{route('showRental',$rental->id)}}">Voir détails
+                                                        location</a></li>
                                                 @break;
                                                 @endif
 
@@ -81,17 +82,17 @@
                                                 @endforelse
                                                 @foreach($machine->machineRentals as $rental)
                                                 @if($rental->active == 1)
-                                                <li><a
-                                                        href="{{route('showEndRental', ['id' =>$rental->id])}}">Arrêter
+                                                <li><a href="{{route('showEndRental', ['id' =>$rental->id])}}">Arrêter
                                                         location</a></li>
-                                                        @break;
-                                                        @endif
-                                                        @endforeach
+                                                @break;
+                                                @endif
+                                                @endforeach
 
 
                                                 <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">Voir
                                                         historique des locations</a></li>
-                                                <li><a href="{{route('showHistoryMachine',$machine->id)}}">Voir détails machine</a></li>
+                                                <li><a href="{{route('showHistoryMachine',$machine->id)}}">Voir détails
+                                                        machine</a></li>
                                                 @endif
 
                                                 <li><a href="{{route('machineStatusEdit', $machine->id)}}">Mettre à jour
@@ -117,7 +118,9 @@
                                                 </h4>
                                             </div>
                                             <div class="modal-body">
-                                            <h5 class="modal-title">  <b>Attention !</b> : Cette opération peut affecter la suppression des éléments associés à cette machine ! </h4>
+                                                <h5 class="modal-title"> <b>Attention !</b> : Cette opération peut
+                                                    affecter la suppression des éléments associés à cette machine !
+                                                    </h4>
                                                 </h5>
                                             </div>
                                             <div class="modal-footer">
@@ -145,7 +148,10 @@
                                 </div>
                                 @empty
                                 <tr>
-                                <td colspan="8" class="text-center"> <h4>  Aucune machine ! </h4></td>  </tr>
+                                    <td colspan="8" class="text-center">
+                                        <h4> Aucune machine ! </h4>
+                                    </td>
+                                </tr>
 
                                 @endforelse
 
