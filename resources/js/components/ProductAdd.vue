@@ -83,7 +83,7 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Désignation</label>
                 <input class="form-control" id="disabledInput" type="text" placeholder="Désignation"
-                    v-model="designation">
+                    v-model="designation" @change="getCode($event)">
 
             </div>
 
@@ -325,6 +325,13 @@
 
         },
         methods: {
+            getCode(event) {
+                let value = event.target.value;
+                let str = value.replace(/\s+/g, '');
+                let res = str.substr(0, 6).toUpperCase();
+                this.code=res;
+      
+            },
 
             btnClick() {
                 this.mixtures.push({
@@ -347,31 +354,26 @@
                 this.photo = event.target.files[0];
 
             },
-            getProductData(event)
-            {
-             let value = event.target.value;
-            if (value == 'Jettable')
-            {
-                this.mixtures=[];
-            }
-            else 
-            {
-                if(this.mixtures.length == 0)
-                {
-                     this.mixtures.push({
-                    mixtureName: '',
-                    endQuantityProduct: '',
-                    necessaryWeight: '',
-                    waterQuantity: '',
-                    sugarQuantity: '',
-                    glassVolume: '',
-                    glassNumber: ''
-                });
-                }
-                return;
-                
+            getProductData(event) {
+                let value = event.target.value;
+                if (value == 'Jettable') {
+                    this.mixtures = [];
+                } else {
+                    if (this.mixtures.length == 0) {
+                        this.mixtures.push({
+                            mixtureName: '',
+                            endQuantityProduct: '',
+                            necessaryWeight: '',
+                            waterQuantity: '',
+                            sugarQuantity: '',
+                            glassVolume: '',
+                            glassNumber: ''
+                        });
+                    }
+                    return;
 
-            }
+
+                }
             },
 
             submitProduct() {
@@ -437,8 +439,8 @@
                                     type: 'success',
                                     title: 'Le produit a été ajouté avec succés !',
                                     showConfirmButton: true,
-                                 confirmButtonText:'Fermer'
-                               
+                                    confirmButtonText: 'Fermer'
+
 
                                 });
                                 setTimeout(() => window.location = '/wizefresh/public/products', 2000);

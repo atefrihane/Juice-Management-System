@@ -3318,6 +3318,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   mounted: function mounted() {},
   methods: {
+    getCode: function getCode(event) {
+      var value = event.target.value;
+      var str = value.replace(/\s+/g, '');
+      var res = str.substr(0, 6).toUpperCase();
+      this.code = res;
+    },
     btnClick: function btnClick() {
       this.mixtures.push({
         mixtureName: '',
@@ -47825,6 +47831,9 @@ var render = function() {
             },
             domProps: { value: _vm.designation },
             on: {
+              change: function($event) {
+                return _vm.getCode($event)
+              },
               input: function($event) {
                 if ($event.target.composing) {
                   return
