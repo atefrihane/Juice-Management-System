@@ -259,8 +259,8 @@
                 <div class="row">
                     <div class="container text-center">
 
-                            <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelRental()">
-                    Annuler</button>
+                        <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelRental()">
+                            Annuler</button>
                         <button class="btn btn-success pl-1" type="button" @click="submitProduct()">Confirmer</button>
 
                     </div>
@@ -335,7 +335,28 @@
 
             },
             deleteMixture: function (mixture) {
-                this.mixtures.splice(this.mixtures.indexOf(mixture), 1);
+                axios.post('api/mixture/delete/' + mixture.id, {
+
+                    })
+                    .then((response) => {
+                        if (response.data.status == 200) {
+                            this.mixtures.splice(this.mixtures.indexOf(mixture), 1);
+                        } else {
+                            swal.fire({
+                                type: 'error',
+                                title: 'Mélange introuvable ! !',
+                                showConfirmButton: true,
+                                confirmButtonText: 'Fermer'
+
+
+                            });
+
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+
             },
             uploadImage(event) {
 
@@ -348,48 +369,45 @@
                     this.mixtures = [];
                 } else {
                     if (this.mixtures.length == 0) {
-                       this.fetchProduct();
+                        this.fetchProduct();
                     }
                     return;
 
 
                 }
             },
-               cancelRental()
-            {
-        window.location = '/wizefresh/public/products';
+            cancelRental() {
+                window.location = '/wizefresh/public/products';
 
             },
             fetchProduct() {
-                axios.get('api/product/'+this.productId)
+                axios.get('api/product/' + this.productId)
                     .then((response) => {
                         // handle success
-                        if (response.data.product.length > 0)
-                        {
-                            this.mixtures=response.data.product;
-                         }
-                         else {
+                        if (response.data.product.length > 0) {
+                            this.mixtures = response.data.product;
+                        } else {
 
-                             this.mixtures.push({
-                            name:'',
-                            final_amount:'',
-                            needed_weight:'',
-                            water_amount:'',
-                            sugar_amount:'',
-                            glass_size:'',
-                            number_of_glasses:'',
-                            product_id :''
+                            this.mixtures.push({
+                                name: '',
+                                final_amount: '',
+                                needed_weight: '',
+                                water_amount: '',
+                                sugar_amount: '',
+                                glass_size: '',
+                                number_of_glasses: '',
+                                product_id: ''
 
-                             });
-                         }
-                  
-                        
+                            });
+                        }
+
+
                     })
                     .catch((error) => {
                         // handle error
                         console.log(error);
                     })
-                  
+
             },
 
             submitProduct() {
@@ -421,7 +439,7 @@
 
 
 
-                    axios.post('api/product/update/'+this.productId, {
+                    axios.post('api/product/update/' + this.productId, {
 
                             code: this.code,
                             state: this.state,
@@ -456,8 +474,8 @@
                                     type: 'success',
                                     title: 'Le produit a été modifié avec succés !',
                                     showConfirmButton: true,
-                                     confirmButtonText:'Fermer'
-                               
+                                    confirmButtonText: 'Fermer'
+
 
                                 });
                                 setTimeout(() => window.location = '/wizefresh/public/products', 2000);
@@ -481,7 +499,7 @@
             validateForm() {
 
                 this.errors = [];
-             
+
                 if (!this.code) {
                     this.errors.push('Le champs code est requis.');
                     window.scrollTo(0, 0);
@@ -601,50 +619,50 @@
                     return false;
                 }
                 if (this.type != 'jettable') {
-                        var x=true;
+                    var x = true;
                     this.mixtures.forEach((mixture) => {
 
                         if (!mixture.name) {
                             this.errors.push('Le champs nom du mélange est  requis.');
                             window.scrollTo(0, 0);
-                           x=false;
+                            x = false;
                         }
                         if (!mixture.final_amount) {
                             this.errors.push('Le champs quantité de produit fini(en litre)  est  requis.');
                             window.scrollTo(0, 0);
-                           x=false;
+                            x = false;
                         }
 
                         if (!mixture.needed_weight) {
                             this.errors.push('Le champs poids necessaire du produit (en kg) est  requis.');
                             window.scrollTo(0, 0);
-                            x=false;
+                            x = false;
                         }
 
                         if (!mixture.water_amount) {
                             this.errors.push('Le champs quantité eau (en litre) est  requis.');
                             window.scrollTo(0, 0);
-                             x=false;
+                            x = false;
                         }
 
 
                         if (!mixture.sugar_amount) {
                             this.errors.push('Le champs quantité de sucre (en kg) est  requis.');
                             window.scrollTo(0, 0);
-                            x=false;
+                            x = false;
                         }
 
                         if (!mixture.glass_size) {
                             this.errors.push('Le champs volume de verre (en cl) est  requis.');
                             window.scrollTo(0, 0);
-                             x=false;
+                            x = false;
                         }
 
 
                         if (!mixture.number_of_glasses) {
                             this.errors.push('Le champs nombre de verre obtenu est  requis.');
                             window.scrollTo(0, 0);
-                             x=false;
+                            x = false;
                         }
 
 

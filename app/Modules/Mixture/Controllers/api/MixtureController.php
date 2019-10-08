@@ -47,4 +47,15 @@ class MixtureController extends Controller
    {
     return(Mixture::all());
    }
+   public function handleDeleteMixture($id)
+   {
+       $mixture=Mixture::find($id);
+       if($mixture)
+       {
+           $mixture->delete();
+           return response()->json(['status'=>200]);
+       }
+       return response()->json(['status'=>404]);
+   }
+   
 }

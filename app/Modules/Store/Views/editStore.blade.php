@@ -325,7 +325,7 @@
                                         <td>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox"
-                                                    id="gridCheck" name="schedules[{{$key}}][5]" {{ $schedule->closed == 1 ? 'checked' : '' }} >
+                                                     name="schedules[{{$key}}][5]" {{ $schedule->closed == 1 ? 'checked' : '' }} >
 
                                             </div>
                                         </td>
@@ -382,6 +382,25 @@
     });
 
 </script>
+
+<script>
+
+$('input[type=checkbox]').each(function () {
+    var sThisVal = (this.checked);
+    if (sThisVal)
+    {
+        alert('hi');
+
+    }
+
+});
+
+</script>
+
 @endsection
+
+
+
+
 
 @endsection

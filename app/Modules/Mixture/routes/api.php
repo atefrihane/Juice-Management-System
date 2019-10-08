@@ -4,5 +4,6 @@ Route::group(['module' => 'Mixture', 'middleware' => ['api'], 'namespace' => 'Ap
 
 //    Route::resource('Mixture', 'MixtureController');
     route::post('api/mixtures', 'MixtureController@store');
+    route::post('api/mixture/delete/{id}', 'MixtureController@handleDeleteMixture');
     route::get('api/mixtures', 'MixtureController@handleGetMixtures');
 });

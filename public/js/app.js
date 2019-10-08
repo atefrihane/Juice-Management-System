@@ -4129,7 +4129,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     deleteMixture: function deleteMixture(mixture) {
-      this.mixtures.splice(this.mixtures.indexOf(mixture), 1);
+      var _this = this;
+
+      axios.post('api/mixture/delete/' + mixture.id, {}).then(function (response) {
+        if (response.data.status == 200) {
+          _this.mixtures.splice(_this.mixtures.indexOf(mixture), 1);
+        } else {
+          swal.fire({
+            type: 'error',
+            title: 'Mélange introuvable ! !',
+            showConfirmButton: true,
+            confirmButtonText: 'Fermer'
+          });
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
     },
     uploadImage: function uploadImage(event) {
       this.photo = event.target.files[0];
@@ -4151,14 +4166,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       window.location = '/wizefresh/public/products';
     },
     fetchProduct: function fetchProduct() {
-      var _this = this;
+      var _this2 = this;
 
       axios.get('api/product/' + this.productId).then(function (response) {
         // handle success
         if (response.data.product.length > 0) {
-          _this.mixtures = response.data.product;
+          _this2.mixtures = response.data.product;
         } else {
-          _this.mixtures.push({
+          _this2.mixtures.push({
             name: '',
             final_amount: '',
             needed_weight: '',
@@ -4175,7 +4190,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     submitProduct: function submitProduct() {
-      var _this2 = this;
+      var _this3 = this;
 
       var form = this.validateForm(); // input front end validation returns false if error
 
@@ -4189,7 +4204,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }
           }).then(function (response) {
             if (response.data.status == 200) {
-              _this2.photo = response.data.path;
+              _this3.photo = response.data.path;
             }
           })["catch"](function (error) {
             console.log(error);
@@ -4240,7 +4255,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     validateForm: function validateForm() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.errors = [];
 
@@ -4362,49 +4377,49 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var x = true;
         this.mixtures.forEach(function (mixture) {
           if (!mixture.name) {
-            _this3.errors.push('Le champs nom du mélange est  requis.');
+            _this4.errors.push('Le champs nom du mélange est  requis.');
 
             window.scrollTo(0, 0);
             x = false;
           }
 
           if (!mixture.final_amount) {
-            _this3.errors.push('Le champs quantité de produit fini(en litre)  est  requis.');
+            _this4.errors.push('Le champs quantité de produit fini(en litre)  est  requis.');
 
             window.scrollTo(0, 0);
             x = false;
           }
 
           if (!mixture.needed_weight) {
-            _this3.errors.push('Le champs poids necessaire du produit (en kg) est  requis.');
+            _this4.errors.push('Le champs poids necessaire du produit (en kg) est  requis.');
 
             window.scrollTo(0, 0);
             x = false;
           }
 
           if (!mixture.water_amount) {
-            _this3.errors.push('Le champs quantité eau (en litre) est  requis.');
+            _this4.errors.push('Le champs quantité eau (en litre) est  requis.');
 
             window.scrollTo(0, 0);
             x = false;
           }
 
           if (!mixture.sugar_amount) {
-            _this3.errors.push('Le champs quantité de sucre (en kg) est  requis.');
+            _this4.errors.push('Le champs quantité de sucre (en kg) est  requis.');
 
             window.scrollTo(0, 0);
             x = false;
           }
 
           if (!mixture.glass_size) {
-            _this3.errors.push('Le champs volume de verre (en cl) est  requis.');
+            _this4.errors.push('Le champs volume de verre (en cl) est  requis.');
 
             window.scrollTo(0, 0);
             x = false;
           }
 
           if (!mixture.number_of_glasses) {
-            _this3.errors.push('Le champs nombre de verre obtenu est  requis.');
+            _this4.errors.push('Le champs nombre de verre obtenu est  requis.');
 
             window.scrollTo(0, 0);
             x = false;
@@ -50038,7 +50053,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("\n                Annuler")]
+                [_vm._v("\n                        Annuler")]
               ),
               _vm._v(" "),
               _c(

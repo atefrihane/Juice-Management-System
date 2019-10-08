@@ -125,6 +125,7 @@ class MachineRentalController extends Controller
 
     public function handleUpdateRental($id, Request $request)
     {
+ 
 
         $rental = MachineRental::find($id);
         if ($rental) {
@@ -140,7 +141,8 @@ class MachineRentalController extends Controller
             ]);
 
             foreach ($request->customBacs as $bac) {
-                $checkBac = Bac::where('order', $bac['order'])->first();
+            
+                $checkBac = Bac::find($bac['id']);
                 $checkBac->update([
                     'status' => $bac['status'],
                     'product_id' => $bac['product_id'],
