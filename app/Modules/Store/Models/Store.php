@@ -9,6 +9,7 @@ use App\Modules\Responsable\Models\Responsable;
 use App\Modules\SuperVisor\Models\SuperVisor;
 use App\Modules\General\Models\City;
 use App\Modules\General\Models\Country;
+use App\Modules\General\Models\Zipcode;
 use App\Modules\Store\Models\StoreSchedule;
 use Illuminate\Database\Eloquent\Model;
 
@@ -57,6 +58,10 @@ class Store extends Model {
     public function schedules()
     {
         return $this->hasMany(StoreSchedule::class);
+    }
+    public function zipcode()
+    {
+        return $this->belongsTo(Zipcode::class,'zipcode_id');
     }
 
 

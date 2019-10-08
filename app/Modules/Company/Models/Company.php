@@ -5,6 +5,7 @@ namespace App\Modules\Company\Models;
 use App\Modules\Diractor\Models\Diractor;
 use App\Modules\General\Models\City;
 use App\Modules\General\Models\Country;
+use App\Modules\General\Models\Zipcode;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Store\Models\Store;
 use Illuminate\Database\Eloquent\Model;
@@ -64,5 +65,9 @@ class Company extends Model
     public function country()
     {
         return $this->belongsTo(Country::class, 'country_id');
+    }
+    public function zipcode()
+    {
+        return $this->belongsTo(Zipcode::class, 'zipcode_id');
     }
 }
