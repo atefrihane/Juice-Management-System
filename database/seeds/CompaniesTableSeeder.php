@@ -9,6 +9,7 @@ use App\Modules\General\Models\Zipcode;
 use App\Modules\Machine\Models\Machine;
 use App\Modules\Responsable\Models\Responsable;
 use App\Modules\Store\Models\Store;
+use App\Modules\Store\Models\StoreSchedule;
 use App\Modules\User\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -35,13 +36,13 @@ class CompaniesTableSeeder extends Seeder
             'country_id' => $country->id,
 
         ]);
-        $zipCodeOne=Zipcode::create([
-            'code'=>7000,
-            'city_id'=>$cityOne->id
+        $zipCodeOne = Zipcode::create([
+            'code' => 7000,
+            'city_id' => $cityOne->id,
         ]);
-        $zipCodeTwo=Zipcode::create([
-            'code'=>7000,
-            'city_id'=>$cityTwo->id
+        $zipCodeTwo = Zipcode::create([
+            'code' => 5000,
+            'city_id' => $cityTwo->id,
         ]);
 
         $carrefour = Company::create([
@@ -179,6 +180,19 @@ class CompaniesTableSeeder extends Seeder
             'company_id' => $carrefour->id,
 
         ]);
+        for ($i = 0; $i < 7; $i++) {
+            StoreSchedule::create([
+                'day' => $i + 1,
+                'start_day_time' => '07:00:00',
+                'end_day_time' => '12:00:00',
+                'start_night_time' => '14:00:00',
+                'end_night_time' => '17:00:00',
+                'closed' => 0,
+                'store_id'=>$storeOne->id
+
+            ]);
+
+        }
 
         $storeTwo = Store::create([
             'code' => 'MG20147',
@@ -200,6 +214,20 @@ class CompaniesTableSeeder extends Seeder
             'company_id' => $carrefour->id,
 
         ]);
+        for ($i = 0; $i < 7; $i++) {
+            StoreSchedule::create([
+                'day' => $i + 1,
+                'start_day_time' => '08:00:00',
+                'end_day_time' => '13:00:00',
+                'start_night_time' => '14:00:00',
+                'end_night_time' => '16:00:00',
+                'closed' => 0,
+                'store_id'=>$storeTwo->id
+
+            ]);
+
+        }
+
 
         $machineOne = Machine::create([
             'code' => 'MCH01457',

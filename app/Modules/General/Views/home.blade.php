@@ -47,7 +47,7 @@
                                             src="{{asset('/')}}{{$company->logo}}" height="50" alt=""></td>
                                     <td data-url="{{route('showStores',$company->id)}}">{{$company->name}}</td>
                                     <td data-url="{{route('showStores',$company->id)}}">{{$company->code}}</td>
-                                    <td data-url="{{route('showStores',$company->id)}}">{{$company->zip_code}}</td>
+                                    <td data-url="{{route('showStores',$company->id)}}">{{$company->zipcode->code}}</td>
                                     <td data-url="{{route('showStores',$company->id)}}">{{$company->getNbrStores()}}
                                     </td>
                                     <td data-url="{{route('showStores',$company->id)}}">{{$company->getStatus()}}</td>

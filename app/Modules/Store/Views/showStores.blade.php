@@ -64,7 +64,7 @@
                                     <td data-url="{{route('showStoreRentals',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->code}}</td>
                                     <td data-url="{{route('showStoreRentals',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->designation}}</td>
                                     <td data-url="{{route('showStoreRentals',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->city->name}}</td>
-                                    <td data-url="{{route('showStoreRentals',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->zip_code}}</td>
+                                    <td data-url="{{route('showStoreRentals',['company_id'=>$company->id,'store_id'=>$store->id])}}">{{$store->zipcode->code}}</td>
                                     <td data-url="{{route('showStoreRentals',['company_id'=>$company->id,'store_id'=>$store->id])}}"> {{$store->status}}</td>
                                     <td  class="not-this text-center">
                                         <div class="btn-group">

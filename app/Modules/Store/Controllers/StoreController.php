@@ -140,6 +140,50 @@ class StoreController extends Controller
     public function handleFillSchedule($day, $startDay, $endDay, $startNight, $endNight, $closed, $storeId)
     {
         if ($storeId) {
+            $dayText = "";
+            switch ($day) {
+                case (1):
+                    $dayText = 'Lundi';
+                    break;
+                case (2):
+                    $dayText = 'Mardi';
+                    break;
+                case (3):
+                    $dayText = 'Mercredi';
+                    break;
+                case (4):
+                    $dayText = 'Jeudi';
+                    break;
+                case (5):
+                    $dayText = 'Vendredi';
+                    break;
+                case (6):
+                    $dayText = 'Samedi';
+                    break;
+                case (7):
+                    $dayText = 'Dimanche';
+                    break;
+
+            }
+
+            if ($startDay >= $endDay) {
+                alert()->error('Oups', ' Verifier les horaires pour ' . $dayText);
+                return redirect()->back();
+
+            }
+
+            if ($startNight >= $endNight or $startNight <= $endDay or $startNight <= $startDay) {
+                alert()->error('Oups', ' Verifier les horaires pour ' . $dayText);
+                return redirect()->back();
+
+            }
+
+            if ($endNight <= $endDay or $endNight <= $startDay) {
+                alert()->error('Oups', ' Verifier les horaires pour ' . $dayText);
+                return redirect()->back();
+
+            }
+
             StoreSchedule::create([
                 'day' => $day,
                 'start_day_time' => $startDay,
@@ -171,7 +215,6 @@ class StoreController extends Controller
 
     public function update($id, Request $request)
     {
-
 
         $val = $request->validate([
             'code' => 'required',
@@ -274,16 +317,66 @@ class StoreController extends Controller
 
             ]);
             if ($request->input('schedules')) {
+
                 foreach ($request->schedules as $schedule) {
+
                     if (isset($schedule[0])) {
                         $checkSchedule = StoreSchedule::find($schedule[0]);
-                      
+                        $dayText = "";
+                        switch ($checkSchedule->day) {
+                            case (1):
+                                $dayText = 'Lundi';
+                                break;
+                            case (2):
+                                $dayText = 'Mardi';
+                                break;
+                            case (3):
+                                $dayText = 'Mercredi';
+                                break;
+                            case (4):
+                                $dayText = 'Jeudi';
+                                break;
+                            case (5):
+                                $dayText = 'Vendredi';
+                                break;
+                            case (6):
+                                $dayText = 'Samedi';
+                                break;
+                            case (7):
+                                $dayText = 'Dimanche';
+                                break;
+
+                        }
+
+                        $startDay = $schedule[1];
+                        $endDay = $schedule[2];
+                        $startNight = $schedule[3];
+                        $endNight = $schedule[4];
+
+                        if ($startDay >= $endDay) {
+                            alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
+                            return redirect()->back();
+
+                        }
+
+                        if ($startNight >= $endNight or $startNight <= $endDay or $startNight <= $startDay) {
+                            alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
+                            return redirect()->back();
+
+                        }
+
+                        if ($endNight <= $endDay or $endNight <= $startDay) {
+                            alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
+                            return redirect()->back();
+
+                        }
+
                         $checkSchedule->update([
                             'day' => $checkSchedule->day,
-                            'start_day_time' => $schedule[1],
-                            'end_day_time' => $schedule[2],
-                            'start_night_time' => $schedule[3],
-                            'end_night_time' => $schedule[4],
+                            'start_day_time' => $startDay,
+                            'end_day_time' => $endDay,
+                            'start_night_time' => $startNight,
+                            'end_night_time' => $endNight,
                             'closed' => isset($schedule[5]) ? 1 : 0,
                             'store_id' => $store->id,
 
