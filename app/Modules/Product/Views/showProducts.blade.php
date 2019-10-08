@@ -133,18 +133,16 @@
                                                 <h4 class="modal-title">Voulez vous rendre ce produit disponible ?</h4>
                                                 @endif
                                             </div>
-                                            <div class="modal-body">
-                                                <p> Ce processus ne peut pas être annulé.</p>
-                                            </div>
                                             <div class="modal-footer">
                                                 <div class="text-center">
                                                     <form action="{{route('handleUpdateStatus', $product->id)}}"
                                                         method="post">
                                                         {{csrf_field()}}
                                                         <input type="hidden" value="{{$product->status}}" name="status">
-                                                        <button type="submit" class="btn btn-success">Confirmer</button>
                                                         <a href="#" class="btn btn-danger"
                                                             data-dismiss="modal">Annuler</a>
+                                                        <button type="submit" class="btn btn-success">Confirmer</button>
+                                                     
                                                  </form>
 
                                                 </div>

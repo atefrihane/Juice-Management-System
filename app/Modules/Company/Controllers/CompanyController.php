@@ -73,7 +73,11 @@ class CompanyController extends Controller
         $insertable['tel'] = $telephone;
         $insertable['cc'] = null;
         $insertable['logo'] = 'files/' . $path;
-
+        $checkCode = Company::where('code', $request->code)->first();
+        if ($checkCode) {
+            alert()->error('Oups', 'Code déja utilisé !');
+            return redirect()->back();
+        }
         $company = Company::create($insertable);
         CompanyHistory::create([
             'changes' => 'creation',
@@ -91,9 +95,9 @@ class CompanyController extends Controller
         $company = Company::find($id);
         $countries = Country::all();
         $cities = City::all();
-        $zipcodes=Zipcode::all();
+        $zipcodes = Zipcode::all();
 
-        return view('Company::updateCompany', compact('company', 'countries', 'cities','zipcodes'));
+        return view('Company::updateCompany', compact('company', 'countries', 'cities', 'zipcodes'));
     }
 
     public function update(Request $request, $id)
@@ -160,7 +164,8 @@ class CompanyController extends Controller
             if ($company->email != $request->email) {
                 array_push($changes, 'email');
             }
-            if ($company->tel != $request->tel) {
+            $fullTel = $request->cc . ' ' . $request->tel;
+            if ($company->tel != $fullTel) {
                 array_push($changes, 'téléphone');
             }
             if ($company->comment != $request->comment) {
@@ -170,9 +175,16 @@ class CompanyController extends Controller
                 array_push($changes, 'logo');
             }
             $changes = implode(",", $changes);
-
+            s;
+            $checkCode = Company::where('code', $request->code)
+                ->where('id', '!=', $company->id)
+                ->first();
+            if ($checkCode) {
+                alert()->error('Oups', 'Code déja utilisé !');
+                return redirect()->back();
+            }
             $company->update($updateable);
-            if ($changes!= "") {
+            if ($changes != "") {
                 CompanyHistory::create([
                     'changes' => $changes,
                     'company_id' => $company->id,

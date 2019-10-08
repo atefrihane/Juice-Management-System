@@ -121,7 +121,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Ville</label>
-                                            <input type="text" class="form-control" value="{{$store->city}}" readonly
+                                            <input type="text" class="form-control" value="{{$store->city->name}}" readonly
                                                 aria-describedby="emailHelp" placeholder="Ville">
 
                                         </div>
@@ -129,7 +129,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Code Postal</label>
-                                            <input type="text" class="form-control" value="{{$store->zip_code}}"
+                                            <input type="text" class="form-control" value="{{$store->zipcode->code}}"
                                                 readonly placeholder="Code Postal">
                                         </div>
                                     </div>
@@ -168,6 +168,41 @@
 
 
 
+        </section>
+        <section class="content-header">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <h4>
+                        Historique du magasin
+                        <small> {{$store->designation}}</small>
+                    </h4>
+                    <table class="table table-bordered table-hover example2">
+                        <thead>
+                            <tr>
+                                <th>Modifications</th>
+                                <th>Effectuée par</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($store->histories as $history)
+                            <tr>
+                                <td>{{$history->changes}}</td>
+                                <td>{{ucfirst($history->user->nom)}} {{ucfirst($history->user->prenom)}}</td>
+
+                            </tr>
+                            @empty
+
+                            @endforelse
+
+
+
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
         </section>
     </div>
 </div>

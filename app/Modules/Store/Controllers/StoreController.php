@@ -116,7 +116,11 @@ class StoreController extends Controller
         );
         $insertable['photo'] = 'files/' . $path;
         $insertable['company_id'] = $company_id;
-
+        $checkCode = Store::where('code', $request->code)->first();
+        if ($checkCode) {
+            alert()->error('Oups', 'Code déja utilisé !');
+            return redirect()->back();
+        }
         $store = Store::create($insertable);
         StoreHistory::create([
             'changes' => 'creation',
@@ -256,6 +260,7 @@ class StoreController extends Controller
             }
 
             $changes = array();
+            $fullTel = $request->cc . ' ' . $request->tel;
 
             if ($store->code != $request->code) {
                 array_push($changes, 'code');
@@ -270,10 +275,10 @@ class StoreController extends Controller
             if ($store->sign != $request->sign) {
                 array_push($changes, 'signe');
             }
-            if ($store->country != $request->country) {
+            if ($store->country_id != $request->country_id) {
                 array_push($changes, 'pays');
             }
-            if ($store->city != $request->city) {
+            if ($store->city_id != $request->city_id) {
                 array_push($changes, 'ville');
             }
             if ($store->zipcode_id != $request->zipcode_id) {
@@ -288,7 +293,7 @@ class StoreController extends Controller
             if ($store->email != $request->email) {
                 array_push($changes, 'email');
             }
-            if ($store->tel != $request->tel) {
+            if ($fullTel != $store->tel) {
                 array_push($changes, 'téléphone');
             }
             if ($store->comment != $request->comment) {
@@ -308,14 +313,25 @@ class StoreController extends Controller
                 array_push($changes, 'Recommendation pour livreur ');
             }
             $changes = implode(",", $changes);
+            $checkCode = Store::where('code', $request->code)
+                ->where('id', '!=', $store->id)
+                ->first();
+            if ($checkCode) {
+                alert()->error('Oups', 'Code déja utilisé !');
+                return redirect()->back();
+            }
 
             $store->update($updateable);
-            StoreHistory::create([
-                'changes' => $changes,
-                'store_id' => $store->id,
-                'user_id' => Auth::id(),
+            if ($changes != '') {
+                StoreHistory::create([
+                    'changes' => $changes,
+                    'store_id' => $store->id,
+                    'user_id' => Auth::id(),
 
-            ]);
+                ]);
+
+            }
+
             if ($request->input('schedules')) {
 
                 foreach ($request->schedules as $schedule) {

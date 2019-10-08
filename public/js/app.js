@@ -2840,7 +2840,7 @@ __webpack_require__.r(__webpack_exports__);
       company: data.company.name,
       store: data.store.designation,
       startDate: data.rental.date_debut,
-      endDate: '',
+      endDate: data.rental.date_fin,
       price: data.rental.price,
       location: data.rental.location,
       comment: data.rental.comment,

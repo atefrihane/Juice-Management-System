@@ -76,7 +76,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Date de fin de location</label>
-                            <input class="form-control" id="disabledInput" value="" type="date" v-model="endDate">
+                            <input class="form-control" id="disabledInput"  value="" type="date" v-model="endDate">
                         </div>
                     </div>
                 </div>
@@ -226,7 +226,7 @@
                 company: data.company.name,
                 store: data.store.designation,
                 startDate: data.rental.date_debut,
-                endDate: '',
+                endDate: data.rental.date_fin,
                 price: data.rental.price,
                 location: data.rental.location,
                 comment: data.rental.comment,

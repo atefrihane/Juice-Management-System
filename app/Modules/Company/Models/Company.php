@@ -8,6 +8,7 @@ use App\Modules\General\Models\Country;
 use App\Modules\General\Models\Zipcode;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Store\Models\Store;
+use App\Modules\Company\Models\CompanyHistory;
 use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
@@ -69,5 +70,10 @@ class Company extends Model
     public function zipcode()
     {
         return $this->belongsTo(Zipcode::class, 'zipcode_id');
+    }
+    public function histories()
+    {
+        return $this->hasMany(CompanyHistory::class);
+
     }
 }
