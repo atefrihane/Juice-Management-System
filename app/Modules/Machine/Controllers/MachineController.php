@@ -123,10 +123,39 @@ class MachineController extends Controller
         unset($updatable['photo']);
         unset($updatable['_token']);
         $updatable['display_tablet'] = $updatable['display_tablet'] == 'true';
+        $machine = Machine::find($id);
+        if ($machine) {
+            $machine->update($updatable);
+            if ($request->has('number_bacs')) {
+                $oldBacs = $machine->number_bacs;
+                $newBacs = $request->number_bacs;
+                if ($newBacs > $oldBacs) {
+                    $difference = $newBacs - $oldBacs;
+                    for ($i = 0; $i < $difference; $i++) {
+                        Bac::create([
+                            'order' => Bac::all()->last()->order + 1,
+                            'machine_id' => $machine->id,
+                        ]);
+                    }
+                    $machine->number_bacs = $oldBacs + $difference;
+                } else {
+                    $machine->bacs()->delete();
+                    for ($i = 0; $i < $newBacs; $i++) {
+                        Bac::create([
+                            'order' => $i + 1,
+                            'machine_id' => $machine->id,
+                        ]);
+                    }
+                    $machine->number_bacs = $newBacs;
 
-        Machine::where('id', $id)->update($updatable);
-        alert()->success('Succés!', 'La machine a été modifiée avec succés ')->persistent("Fermer");
-        return redirect(route('showMachines'));
+                }
+
+            }
+            alert()->success('Succés!', 'La machine a été modifiée avec succés ')->persistent("Fermer");
+            return redirect(route('showMachines'));
+
+        }
+        return view('General::notFound');
 
     }
 

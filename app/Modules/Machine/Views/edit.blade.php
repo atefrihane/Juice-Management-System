@@ -96,11 +96,11 @@
                                             id="disabledInput" type="text" placeholder="Nombre de bacs" disabled>
                                             @else
                                             <select name="number_bacs" class="form-control">
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
+                                            <option value="1" {{ $machine->number_bacs == 1 ? 'selected disabled' : '' }}>1</option>
+                                            <option value="2" {{ $machine->number_bacs == 2 ? 'selected disabled' : '' }}>2</option>
+                                            <option value="3" {{ $machine->number_bacs == 3 ? 'selected disabled' : '' }}>3</option>
+                                            <option value="4" {{ $machine->number_bacs == 4 ? 'selected disabled' : '' }}>4</option>
+                                            <option value="5" {{ $machine->number_bacs == 5 ? 'selected disabled' : '' }}>5</option>
                                         </select>
                                             @endif
 
