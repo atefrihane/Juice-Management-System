@@ -175,7 +175,7 @@ class CompanyController extends Controller
                 array_push($changes, 'logo');
             }
             $changes = implode(",", $changes);
-            s;
+
             $checkCode = Company::where('code', $request->code)
                 ->where('id', '!=', $company->id)
                 ->first();
