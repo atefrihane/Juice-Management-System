@@ -118,7 +118,7 @@ class StoreController extends Controller
         $insertable['company_id'] = $company_id;
         $checkCode = Store::where('code', $request->code)->first();
         if ($checkCode) {
-            alert()->error('Oups', 'Code déja utilisé !');
+            alert()->error('Oups', 'Code déja utilisé !')->persistent('Femer');
             return redirect()->back();
         }
         $store = Store::create($insertable);
@@ -313,11 +313,12 @@ class StoreController extends Controller
                 array_push($changes, 'Recommendation pour livreur ');
             }
             $changes = implode(",", $changes);
+
             $checkCode = Store::where('code', $request->code)
                 ->where('id', '!=', $store->id)
                 ->first();
             if ($checkCode) {
-                alert()->error('Oups', 'Code déja utilisé !');
+                alert()->error('Oups', 'Code déja utilisé !')->persistent('Femer');
                 return redirect()->back();
             }
 

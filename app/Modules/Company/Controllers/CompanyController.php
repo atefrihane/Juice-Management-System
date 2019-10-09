@@ -75,7 +75,7 @@ class CompanyController extends Controller
         $insertable['logo'] = 'files/' . $path;
         $checkCode = Company::where('code', $request->code)->first();
         if ($checkCode) {
-            alert()->error('Oups', 'Code déja utilisé !');
+            alert()->error('Oups', 'Code déja utilisé !')->persistent('Femer');
             return redirect()->back();
         }
         $company = Company::create($insertable);
@@ -180,7 +180,7 @@ class CompanyController extends Controller
                 ->where('id', '!=', $company->id)
                 ->first();
             if ($checkCode) {
-                alert()->error('Oups', 'Code déja utilisé !');
+                alert()->error('Oups', 'Code déja utilisé !')->persistent('Femer');
                 return redirect()->back();
             }
             $company->update($updateable);

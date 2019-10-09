@@ -116,11 +116,7 @@
                                 </div>
                                 </tr>
                                 @empty
-                                <tr>
-                                    <td colspan="5" class="text-center">
-                                    <a href="{{route('showMachines')}}" class="btn btn-primary btn-lg">Commencer  location</a>
-                                    </td>
-                                </tr>
+                            
                                 @endforelse
 
                             </tbody>

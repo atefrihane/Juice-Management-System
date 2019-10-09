@@ -18,9 +18,6 @@
 
 </style>
 <div class="content-wrapper">
-
-
-
     <section class="content-header">
         {{ Breadcrumbs::render('detail', $company) }}
 
@@ -146,6 +143,7 @@
                             <tr>
                                 <th>Modifications</th>
                                 <th>Effectuée par</th>
+                                <th> Date et heure</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -153,7 +151,8 @@
                             <tr>
                                 <td>{{$history->changes}}</td>
                                 <td>{{ucfirst($history->user->nom)}} {{ucfirst($history->user->prenom)}}</td>
-
+                                <td>{{ $history->created_at->format('d-m-Y')}}
+                                    {{ $history->created_at->timezone('Europe/Paris')->format('H:i:s')}}</td>
                             </tr>
                             @empty
 

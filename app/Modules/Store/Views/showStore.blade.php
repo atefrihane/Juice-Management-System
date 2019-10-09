@@ -22,7 +22,7 @@
 
 
     <section class="content-header">
-       
+
     {{ Breadcrumbs::render('detailStore',$store->company,$store->designation) }}
     </section>
 
@@ -55,7 +55,7 @@
                                                 </h4>
                                             </div>
                                             <div class="modal-body">
-                                            <h5 class="modal-title">  <b>NB</b> : Cette opération peut affecter la suppression des éléments associés à ce magasin ! 
+                                            <h5 class="modal-title">  <b>NB</b> : Cette opération peut affecter la suppression des éléments associés à ce magasin !
                                                 </h5>
                                             </div>
                                             <div class="modal-footer">
@@ -67,7 +67,7 @@
                                                             data-dismiss="modal">Annuler</a>
 
                                                         <button type="submit" class="btn btn-success">Confirmer</button>
-                                                      
+
 
                                                     </form>
 
@@ -118,7 +118,15 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Pays</label>
+                                            <input type="text" class="form-control" value="{{$store->country->name}}" readonly
+                                                aria-describedby="emailHelp" placeholder="Ville">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Ville</label>
                                             <input type="text" class="form-control" value="{{$store->city->name}}" readonly
@@ -126,7 +134,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Code Postal</label>
                                             <input type="text" class="form-control" value="{{$store->zipcode->code}}"
@@ -181,6 +189,7 @@
                             <tr>
                                 <th>Modifications</th>
                                 <th>Effectuée par</th>
+                                <th> Date et heure</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -188,6 +197,7 @@
                             <tr>
                                 <td>{{$history->changes}}</td>
                                 <td>{{ucfirst($history->user->nom)}} {{ucfirst($history->user->prenom)}}</td>
+                                <td>{{ $history->created_at->format('d-m-Y')}}   {{ $history->created_at->timezone('Europe/Paris')->format('H:i:s')}}</td>
 
                             </tr>
                             @empty
