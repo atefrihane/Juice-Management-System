@@ -32,6 +32,10 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $checkCode = Product::where('code', $request->code)->first();
+        if ($checkCode) {
+            return response()->json(['status' => 400]);
+        }
 
         $product = Product::create([
             'code' => $request->code,
@@ -62,12 +66,13 @@ class ProductController extends Controller
 
                 Mixture::create([
                     'name' => $mixture['mixtureName'],
+                    'type' => $mixture['type'],
                     'final_amount' => $mixture['endQuantityProduct'],
                     'needed_weight' => $mixture['necessaryWeight'],
                     'water_amount' => $mixture['waterQuantity'],
                     'sugar_amount' => $mixture['sugarQuantity'],
                     'glass_size' => $mixture['glassVolume'],
-                    'number_of_glasses' => $mixture['glassNumber'],
+                    'number_of_glasses' => ($mixture['endQuantityProduct'] / ($mixture['glassVolume'] / 100)),
                     'product_id' => $product->id,
                 ]);
 
@@ -133,6 +138,12 @@ class ProductController extends Controller
     public function handleUpdateProduct(Request $request, $id)
     {
         $product = Product::find($id);
+        $checkCode = Product::where('code', $request->code)
+            ->where('id', '!=', $product->id)
+            ->first();
+        if ($checkCode) {
+            return response()->json(['status' => 400]);
+        }
         if ($product) {
 
             $product->update([
@@ -165,7 +176,17 @@ class ProductController extends Controller
 
                         $checkMixture = Mixture::find($mixture['id']);
 
-                        $checkMixture->update($mixture);
+                        $checkMixture->update([
+                            'name' => $mixture['name'],
+                            'type'=>$mixture['type'],
+                            'final_amount' => $mixture['final_amount'],
+                            'needed_weight' => $mixture['needed_weight'],
+                            'water_amount' => $mixture['water_amount'],
+                            'sugar_amount' => $mixture['sugar_amount'],
+                            'glass_size' => $mixture['glass_size'],
+                            'number_of_glasses' => $mixture['final_amount'] / ($mixture['glass_size'] / 100),
+                            'product_id' => $product->id,
+                        ]);
 
                     } else {
                         Mixture::create([
@@ -175,7 +196,7 @@ class ProductController extends Controller
                             'water_amount' => $mixture['water_amount'],
                             'sugar_amount' => $mixture['sugar_amount'],
                             'glass_size' => $mixture['glass_size'],
-                            'number_of_glasses' => $mixture['number_of_glasses'],
+                            'number_of_glasses' => $mixture['final_amount'] / ($mixture['glass_size'] / 100),
                             'product_id' => $product->id,
                         ]);
 

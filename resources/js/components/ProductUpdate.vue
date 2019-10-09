@@ -38,8 +38,8 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Etat</label>
                         <select class="form-control" v-model="state">
-                            <option>Disponible</option>
-                            <option>Non disponible</option>
+                            <option value="disponible">Disponible</option>
+                            <option value="non disponible">Non disponible</option>
                         </select>
                     </div>
                 </div>
@@ -56,9 +56,8 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Type de Produit</label>
                 <select class="form-control" v-model="type" @change="getProductData($event)">
-                    <option value="alimentaire">Alimentaire</option>
-                    <option value="jettable">Jettable</option>
-                    <option value="autre">Autre</option>
+                    <option :null="type">Aucun type</option>
+                    <option :value="type">{{type}}</option>
 
                 </select>
 
@@ -199,11 +198,23 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
+                                <label for="exampleInputEmail1">Type du mélange</label>
+                                <select class="form-control" v-model="mixture.type">
+                                <option :value="mixture.type">{{mixture.type =='jus' ? 'Jus' : 'Granité'}}</option>
+                                <option value="granite" v-if="mixture.type == 'jus'">Granité</option>
+                                <option value="jus" v-if="mixture.type == 'granite'">Jus</option>
+                  
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
                                 <label for="exampleInputEmail1">Quantité de produit fini(en litre)</label>
                                 <input class="form-control" id="disabledInput" type="number" step="0.01"
                                     placeholder="Quantité de produit fini.." v-model="mixture.final_amount">
                             </div>
                         </div>
+
                     </div>
 
                     <div class="row">
@@ -214,6 +225,7 @@
                                     step="0.01" v-model="mixture.needed_weight">
                             </div>
                         </div>
+
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Quantité d'eau (en litre)</label>
@@ -229,6 +241,7 @@
                             </div>
                         </div>
 
+
                     </div>
                     <div class="row">
                         <div class="col-md-4">
@@ -238,18 +251,8 @@
                                     placeholder="Volume de verre..." v-model="mixture.glass_size">
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Nombre de verre obtenu </label>
-                                <input class="form-control" id="disabledInput" type="number"
-                                    placeholder="Nombre de verre.." v-model="mixture.number_of_glasses">
-                            </div>
-                        </div>
-
                     </div>
                 </div>
-
-                <!-- box-footer -->
             </div>
 
             <button type="button" class="btn btn-default" @click="btnClick()"
@@ -266,13 +269,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
-
         </div>
 
         </form>
@@ -292,7 +288,7 @@
 
             return {
                 code: data.product.code,
-                state: 'Disponible',
+                state: data.product.status,
                 name: data.product.nom,
                 version: data.product.version,
                 type: data.product.type,
@@ -329,7 +325,8 @@
                     water_amount: '',
                     sugar_amount: '',
                     glass_size: '',
-                    number_of_glasses: ''
+                    number_of_glasses: '',
+                    type:''
                 });
 
 
@@ -387,21 +384,21 @@
                         if (response.data.product.length > 0) {
                             this.mixtures = response.data.product;
                         } else {
+                            if (this.type != 'Jettable') {
+                                this.mixtures.push({
+                                    name: '',
+                                    final_amount: '',
+                                    needed_weight: '',
+                                    water_amount: '',
+                                    sugar_amount: '',
+                                    glass_size: '',
+                                    number_of_glasses: '',
+                                    product_id: ''
 
-                            this.mixtures.push({
-                                name: '',
-                                final_amount: '',
-                                needed_weight: '',
-                                water_amount: '',
-                                sugar_amount: '',
-                                glass_size: '',
-                                number_of_glasses: '',
-                                product_id: ''
+                                });
 
-                            });
+                            }
                         }
-
-
                     })
                     .catch((error) => {
                         // handle error

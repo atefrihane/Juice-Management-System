@@ -55,7 +55,7 @@
 
             <div class="form-group">
                 <label for="exampleInputEmail1">Type de Produit</label>
-                <select class="form-control" v-model="type" @change="getProductData($event)" disabled>
+                <select class="form-control" v-model="type" @change="getProductData($event)">
                     <option selected>Alimentaire</option>
                     <option>Jettable</option>
                     <option>Autre</option>
@@ -199,11 +199,22 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
+                                <label for="exampleInputEmail1">Type du mélange</label>
+                                <select class="form-control" v-model="mixture.type">
+                                    <option :value="null" disabled>Séléctionner un type de mélange</option>
+                                    <option value="jus">Jus</option>
+                                    <option value="granite">Granité</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
                                 <label for="exampleInputEmail1">Quantité de produit fini(en litre)</label>
                                 <input class="form-control" id="disabledInput" type="number" step="0.01"
                                     placeholder="Quantité de produit fini.." v-model="mixture.endQuantityProduct">
                             </div>
                         </div>
+
                     </div>
 
                     <div class="row">
@@ -214,6 +225,7 @@
                                     step="0.01" v-model="mixture.necessaryWeight">
                             </div>
                         </div>
+
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Quantité d'eau (en litre)</label>
@@ -229,6 +241,7 @@
                             </div>
                         </div>
 
+
                     </div>
                     <div class="row">
                         <div class="col-md-4">
@@ -238,14 +251,6 @@
                                     placeholder="Volume de verre..." v-model="mixture.glassVolume">
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Nombre de verre obtenu </label>
-                                <input class="form-control" id="disabledInput" type="number"
-                                    placeholder="Nombre de verre.." v-model="mixture.glassNumber">
-                            </div>
-                        </div>
-
                     </div>
                 </div>
 
@@ -316,7 +321,8 @@
                     waterQuantity: '',
                     sugarQuantity: '',
                     glassVolume: '',
-                    glassNumber: ''
+                    glassNumber: '',
+                    type: null
                 }],
                 errors: []
             }
@@ -329,8 +335,8 @@
                 let value = event.target.value;
                 let str = value.replace(/\s+/g, '');
                 let res = str.substr(0, 6).toUpperCase();
-                this.code=res;
-      
+                this.code = res;
+
             },
 
             btnClick() {
@@ -341,7 +347,8 @@
                     waterQuantity: '',
                     sugarQuantity: '',
                     glassVolume: '',
-                    glassNumber: ''
+                    glassNumber: '',
+                    type: null
                 });
 
 
@@ -434,6 +441,19 @@
 
                         })
                         .then(function (response) {
+                            if (response.data.status == 400) {
+                                swal.fire({
+                                    type: 'error',
+                                    title: 'Code déja utilisé  !',
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Fermer'
+
+
+                                });
+
+
+
+                            }
                             if (response.data.status == 200) {
                                 swal.fire({
                                     type: 'success',
@@ -624,11 +644,7 @@
                         }
 
 
-                        if (!mixture.glassNumber) {
-                            this.errors.push('Le champs nombre de verre obtenu est  requis.');
-                            window.scrollTo(0, 0);
-                            return false;
-                        }
+
 
                     });
 

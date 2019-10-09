@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Modules\Product\Models\Product;
-
+use App\Modules\Mixture\Models\Mixture;
 class ProductsTableSeeder extends Seeder
 {
     /**
@@ -12,7 +12,7 @@ class ProductsTableSeeder extends Seeder
      */
     public function run()
     {
-        Product::create([
+        $manga=Product::create([
             'code' =>'PROD2547',
             'status' =>'disponible',
             'type' =>'alimentaire',
@@ -35,8 +35,19 @@ class ProductsTableSeeder extends Seeder
             'unit_per_package' =>40,
             'packing' =>20,
         ]);
+        Mixture::create([
+            'name' => 'Mangue 1 ',
+            'type'=>'jus',
+            'final_amount' => 200,
+            'needed_weight' => 50,
+            'water_amount' => 10,
+            'sugar_amount' => 10,
+            'glass_size' => 20,
+            'number_of_glasses' => 1000,
+            'product_id' => $manga->id,
+        ]);
 
-        Product::create([
+        $ananas=Product::create([
             'code' =>'PROD2541',
             'status' =>'disponible',
             'type' =>'alimentaire',
@@ -59,9 +70,21 @@ class ProductsTableSeeder extends Seeder
             'unit_per_package' =>40,
             'packing' =>20,
         ]);
+        Mixture::create([
+            'name' => 'Ananas 1 ',
+            'type'=>'jus',
+            'final_amount' => 200,
+            'needed_weight' => 50,
+            'water_amount' => 10,
+            'sugar_amount' => 10,
+            'glass_size' => 20,
+            'number_of_glasses' => 1000,
+            'product_id' => $ananas->id,
+        ]);
+        
 
 
-        Product::create([
+        $goyave=Product::create([
             'code' =>'PROD2512',
             'status' =>'disponible',
             'type' =>'alimentaire',
@@ -84,10 +107,21 @@ class ProductsTableSeeder extends Seeder
             'unit_per_package' =>40,
             'packing' =>20,
         ]);
+        Mixture::create([
+            'name' => 'Goyave 1 ',
+            'type'=>'jus',
+            'final_amount' => 200,
+            'needed_weight' => 50,
+            'water_amount' => 10,
+            'sugar_amount' => 10,
+            'glass_size' => 20,
+            'number_of_glasses' => 1000,
+            'product_id' => $goyave->id,
+        ]);
 
 
 
-        Product::create([
+       $corossol= Product::create([
             'code' =>'PROD2598',
             'status' =>'disponible',
             'type' =>'alimentaire',
@@ -110,5 +144,17 @@ class ProductsTableSeeder extends Seeder
             'unit_per_package' =>40,
             'packing' =>20,
         ]);
+        Mixture::create([
+            'name' => 'Corossol 1 ',
+            'final_amount' => 200,
+            'type'=>'jus',
+            'needed_weight' => 50,
+            'water_amount' => 10,
+            'sugar_amount' => 10,
+            'glass_size' => 20,
+            'number_of_glasses' => 1000,
+            'product_id' => $corossol->id,
+        ]);
+        
     }
 }

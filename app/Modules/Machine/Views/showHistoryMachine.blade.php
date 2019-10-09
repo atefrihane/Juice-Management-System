@@ -79,7 +79,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Type</label>
                                         <input class="form-control" name="type" id="disabledInput" type="text"
-                                    placeholder="type" value="{{$machine->type}}" disabled>
+                                            placeholder="type" value="{{$machine->type}}" disabled>
 
 
                                     </div>
@@ -89,7 +89,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nombre de bacs</label>
                                         <input class="form-control" name="bacs" id="disabledInput" type="text"
-                                    placeholder="type" value="{{$machine->number_bacs}}" disabled>
+                                            placeholder="type" value="{{$machine->number_bacs}}" disabled>
 
 
                                     </div>
@@ -100,7 +100,7 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Affichage tablette</label>
                                 <input class="form-control" name="tablet" id="disabledInput" type="text"
-                                    placeholder="tablet" value="{{$machine->display_tablet}}" disabled>
+                                    placeholder="tablet" value="{{$machine->display_tablet == 1 ? 'Oui' : ' Non'}}" disabled>
 
 
                             </div>
@@ -108,70 +108,19 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Prix de location mensuelle ( en euros )</label>
                                 <input class="form-control" id="disabledInput" name="price_month" type="text"
-                                    placeholder="Prix de location mensuelle ( en euros )" value="{{$machine->price_month}}" disabled>
+                                    placeholder="Prix de location mensuelle ( en euros )"
+                                    value="{{$machine->price_month}}" disabled>
 
                             </div>
 
 
                             <div class="form-group">
                                 <label>Commentaires (optionnel)</label>
-                                <textarea class="form-control" rows="3" name="comment"
-                                    placeholder="Commentaires" disabled>{{$machine->comment}}</textarea>
+                                <textarea class="form-control" rows="3" name="comment" placeholder="Commentaires"
+                                    disabled>{{$machine->comment}}</textarea>
                             </div>
 
 
-                            <div class="row" style="margin-top:50px;">
-                                <div class="col-xs-12">
-                                    <div class="box">
-                                        <div class="box-header">
-                                            <h3 class="box-title">Historique</h3>
-                                        </div>
-                                        <!-- /.box-header -->
-                                        <div class="box-body">
-                                            <table class="table table-bordered table-hover example2">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Date et Heure</th>
-                                                        <th>Etat</th>
-                                                        <th>Effectué par</th>
-                                                        <th>Commentaire</th>
-                                                        <th></th>
-
-
-
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-
-                                                    @forelse($machine->histories as $machineHistory)
-                                                    <tr class="table-tr">
-
-                                                             <td>{{$machine->created_at}}</td>
-                                                            <td>{{$machineHistory->event}}</td>
-                                                            <td>{{$machineHistory->user->nom}}</td>
-                                                            <td style="width:50%">{{$machineHistory->comment}}</td>
-                                                            <td><a href="#" class="btn btn-success">Modifier </a></td>
-
-                                                    </tr>
-                                                    @empty
-                                                    <tr>
-                                                        <td colspan="5" class="text-center">
-                                                            <h4>Aucune information existante !</h4>
-                                                        </td>
-                                                    </tr>
-                                                    @endforelse
-                                                </tbody>
-
-                                            </table>
-                                        </div>
-                                        <!-- /.box-body -->
-                                    </div>
-
-
-                                </div>
-                                <!-- /.col -->
-                            </div>
 
 
 
@@ -180,6 +129,118 @@
 
                     </form>
                 </div>
+
+                <div class="row" style="margin-top:50px;">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">Historique</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <table class="table table-bordered table-hover example2">
+                                    <thead>
+                                        <tr>
+                                            <th>Date et Heure</th>
+                                            <th>Etat</th>
+                                            <th>Effectué par</th>
+                                            <th>Commentaire</th>
+                                            <th></th>
+
+
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @forelse($machine->histories as $machineHistory)
+                                        <tr class="table-tr">
+
+                                            <td>{{$machine->created_at}}</td>
+                                            <td>{{$machineHistory->event}}</td>
+                                            <td>{{$machineHistory->user->nom}}</td>
+                                            <td style="width:50%">{{$machineHistory->comment}}</td>
+                                            <td>
+                                                <a href="#" data-toggle="modal"
+                                                    data-target="#modal-default{{$machineHistory->id}}"
+                                                    class="btn btn-success">Modifier</a>
+
+                                            </td>
+                                        </tr>
+                                        <div class="modal fade" id="modal-default{{$machineHistory->id}}">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">×</span></button>
+                                                        <h4 class="modal-title">Modifier l'historique de la
+                                                            location "
+                                                            "
+                                                        </h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form method="post" action="{{route('handleHistoryChange',$machineHistory->id)}}">
+                                                            {{csrf_field()}}
+                                                            <div class="form-group">
+                                                                <label for="exampleInputEmail1">Etat</label>
+                                                                <select class="form-control" name="event">
+                                                                    @if($machineHistory->machine->status !=
+                                                                    'Fonctionnelle')
+                                                                    <option value="Fonctionnelle">Fonctionnelle</option>
+                                                                    @endif
+                                                                    @if($machineHistory->machine->status != 'Non
+                                                                    utilisé')
+                                                                    <option value="Non utilisé">Non utilisé</option>
+                                                                    @endif
+                                                                    @if($machineHistory->machine->status != 'En panne')
+                                                                    <option value="En panne">En panne</option>
+                                                                    @endif
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="">Commentaire</label>
+                                                                <textarea name="comment" id="" cols="30" rows="3"
+                                                                    class="form-control">{{$machineHistory->comment}}</textarea>
+                                                            </div>
+                                                            <div class="text-center">
+
+                                                                <button type="submit" class="btn btn-danger"
+                                                                    data-dismiss="modal"
+                                                                    aria-label="Close">Annuler</button>
+                                                                <button type="submit"
+                                                                    class="btn btn-success">Confirmer</button>
+
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+                                                </div>
+                                                <!-- /.modal-content -->
+                                            </div>
+
+                                            <!-- /.modal-dialog -->
+                                        </div>
+                                        @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center">
+                                                <h4>Aucune information existante !</h4>
+                                            </td>
+                                        </tr>
+                                        @endforelse
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+
+
+                    </div>
+                    <!-- /.col -->
+                </div>
+
 
                 <!-- /.col -->
             </div>
@@ -191,37 +252,4 @@
 
 </div>
 
-@endsection
-@section('dynamicProduct.script')
-<script>
-    $('document').ready(function () {
-
-        var newProduct = $('.box-color').html();
-        var newButton = $('.clicked').html();
-        $('.clicked').click(function () {
-            // var html="";
-            // html+= '<div class="box-tools pull-right">';
-            // html+='<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>';
-            // html+=' <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>';
-            // html+='</div>';
-            // $(newProduct).prepend(html);
-
-            $('.box-color').append(newProduct);
-            $('.products').each(function (i, obj) {
-                if (i != 0) {
-                    $(this).children(":first").css("display", "block");
-
-
-                }
-            });
-
-        });
-
-        $(document).on('click', '.removed', function () {
-            $(this).parent().parent().slideUp();
-        });
-
-    });
-
-</script>
 @endsection

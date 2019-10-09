@@ -385,15 +385,15 @@
 
 <script>
 
-$('input[type=checkbox]').each(function () {
-    var sThisVal = (this.checked);
-    if (sThisVal)
-    {
-        alert('hi');
+// $('input[type=checkbox]').each(function () {
+//     var sThisVal = (this.checked);
+//     if (sThisVal)
+//     {
+//         alert('hi');
 
-    }
+//     }
 
-});
+// });
 
 </script>
 

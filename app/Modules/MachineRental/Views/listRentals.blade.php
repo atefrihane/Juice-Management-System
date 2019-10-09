@@ -50,8 +50,16 @@
                                     <td data-url="{{route('showRental', $rental->id)}}">{{$rental->price }}</td>
                                     <td>{{$rental->end_reason}}</td>
                                     <td style="width:30%;">{{$rental->Comment}}</td>
-                                    <td> <a href="#" data-toggle="modal" data-target="#modal-default{{$rental->id}}"
-                                            class="btn btn-success">Modifier</a></td>
+                                    <td>
+                                        @if($rental->active == 0)
+                                        <a href="#" data-toggle="modal" data-target="#modal-default{{$rental->id}}"
+                                            class="btn btn-success">Modifier</a>
+                                            @else
+                                            <a href="{{route('showEditRental',$rental->id)}}" class="btn btn-success">Modifier location</a>
+
+                                            @endif
+
+                                    </td>
 
                                 </tr>
                                 <div class="modal fade" id="modal-default{{$rental->id}}">
@@ -61,38 +69,42 @@
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">×</span></button>
-                                                <h4 class="modal-title">Modifier l'historique de la location " {{$rental->store->designation}} "
+                                                <h4 class="modal-title">Modifier l'historique de la location "
+                                                    {{$rental->store->designation}} "
                                                 </h4>
                                             </div>
                                             <div class="modal-body">
                                                 <form method="post" action="{{route('handleEditRental',$rental->id)}}">
-                                                {{csrf_field()}}
+                                                    {{csrf_field()}}
                                                     <div class="form-group">
-                                                     
-                                                        <div class="form-group">
-                                                            <label for="exampleFormControlTextarea1">Raison d'arrêt
-                                                                </label>
-                                                            <textarea class="form-control"
-                                                                id="exampleFormControlTextarea1" name="end_reason" rows="3">{{$rental->end_reason}}</textarea>
-                                                        </div>
-                                                    </div>
+
                                                     <div class="form-group">
-                                                    
+                                                <label>Raison fin de location</label>
+                                                <select  class="form-control" name="end_reason">
+                                                    <option value="Fin du contrat de location">Fin du contrat de location</option>
+                                                    <option value="Machine non rentable">Machine non rentable</option>
+                                                    <option value="Machine en panne">Machine en panne</option>
+                                                    <option value="Autre">Autre</option>
+                                                </select>
+                                            </div>
+                                                    <div class="form-group">
+
                                                         <div class="form-group">
                                                             <label for="exampleFormControlTextarea1">
                                                                 Commentaire</label>
                                                             <textarea class="form-control"
-                                                                id="exampleFormControlTextarea1" name="Comment" rows="3">{{$rental->comment}}</textarea>
+                                                                id="exampleFormControlTextarea1" name="Comment"
+                                                                rows="3">{{$rental->Comment}}</textarea>
                                                         </div>
                                                     </div>
                                                     <div class="text-center">
 
-                                                    <button type="submit" class="btn btn-danger" data-dismiss="modal"
-                                                    aria-label="Close" >Annuler</button>
-                                                    <button type="submit" class="btn btn-success">Confirmer</button>
-                                                    
+                                                        <button type="submit" class="btn btn-danger"
+                                                            data-dismiss="modal" aria-label="Close">Annuler</button>
+                                                        <button type="submit" class="btn btn-success">Confirmer</button>
+
                                                     </div>
-                                               
+
                                                 </form>
                                             </div>
 

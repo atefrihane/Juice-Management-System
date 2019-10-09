@@ -4,4 +4,5 @@ Route::group(['module' => 'MachineHistory', 'middleware' => ['web'], 'namespace'
 
   //  Route::resource('MachineHistory', 'MachineHistoryController');
     Route::get('machine/status/edit/{id}', 'MachineHistoryController@handleStatusChange')->name('machineStatusEdit');
+    Route::post('/machine/histories/edit/{id}', 'MachineHistoryController@handleHistoryChange')->name('handleHistoryChange');
 });

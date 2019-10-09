@@ -45,7 +45,7 @@
                                             @endif
                                     <td>{{$rental->machine->code}}</td>
                                     <td>{{$rental->machine->designation}}</td>
-                                    <td>{{$rental->display_table == 1 ? 'Oui' : 'Non'}}</td>
+                                    <td>{{$rental->machine->display_tablet == 1 ? 'Oui' : 'Non'}}</td>
                                     <td>{{$rental->machine->bacs->count()}}</td>
                                     <td>{{$rental->machine->status}}</td>
                                     <td class="not-this text-center">

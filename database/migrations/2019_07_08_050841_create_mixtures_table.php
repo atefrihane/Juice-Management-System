@@ -16,6 +16,7 @@ class CreateMixturesTable extends Migration
         Schema::create('mixtures', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('type');
             $table->double('final_amount');
             $table->double('needed_weight');
             $table->double('water_amount');

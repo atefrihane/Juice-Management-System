@@ -220,5 +220,6 @@ class MachineController extends Controller
         }
         return view('General::notFound');
     }
+  
 
 }

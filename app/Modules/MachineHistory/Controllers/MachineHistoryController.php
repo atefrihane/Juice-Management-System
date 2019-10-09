@@ -2,17 +2,18 @@
 
 namespace App\Modules\MachineHistory\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Modules\Machine\Models\MachineHistory;
 use App\Modules\Machine\Models\Machine;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class MachineHistoryController extends Controller
 {
 
-
-    public function handleStatusChange($id){
-        $machine= Machine::find($id);
-        return view ('MachineHistory::statusChange', compact('machine'));
+    public function handleStatusChange($id)
+    {
+        $machine = Machine::find($id);
+        return view('MachineHistory::statusChange', compact('machine'));
     }
 
     /**
@@ -25,70 +26,21 @@ class MachineHistoryController extends Controller
         return view("MachineHistory::index");
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function handleHistoryChange($id, Request $request)
     {
-        //
-    }
+     
+        $machineHistory = MachineHistory::find($id);
+        if ($machineHistory) {
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+            $machineHistory->update([
+                'event'=>$request->event,
+                'comment'=>$request->comment
+            ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+            alert()->success('Succés!', 'Historique modifié avec succés !')->persistent('Femer');
+            return redirect()->back();
+        }
+        return view('General::notFound');
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
