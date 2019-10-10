@@ -33,7 +33,7 @@
                                     <select class="form-control selected_product" name="product_id" required>
                                         <option value="0">Selectionner un produit </option>
                                         @forelse($products as $product)
-                                        <option value="{{$product->id}}">{{$product->nom}} </option>
+                                        <option value="{{$product->id}}" {{ old('product_id',$product->id) ? 'selected' : ''  }}>{{$product->nom}} </option>
                                         @empty
                                         <option value="0">Aucun produit</option>
                                         @endforelse
@@ -47,18 +47,18 @@
 
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Code produit</label>
-                                    <input type="text" name="photo" class="form-control" placeholder="Code produit"
+                                    <input type="text" name="productCode" value="{{old('productCode')}}"  class="form-control" placeholder="Code produit"
                                         id="productCode" disabled>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Code à barre</label>
-                                    <input type="text" name="photo" class="form-control" placeholder="Code à barre"
+                                    <input type="text" name="productBarcode" value="{{old('productBarcode')}}"  class="form-control" placeholder="Code à barre"
                                         id="barCode" disabled>
                                 </div>
 
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Colisage</label>
-                                    <input type="number" name="" class="form-control" placeholder="Colisage"
+                                    <input type="number" name="productPacking" value="{{old('productPacking')}}"  class="form-control" placeholder="Colisage"
                                         id="packing" disabled>
                                 </div>
 
@@ -69,7 +69,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Colisage</label>
-                                    <input type="number" name="packing" class="form-control" placeholder="Colisage"
+                                    <input type="number" name="packing" value="{{old('packing')}}"  class="form-control" placeholder="Colisage"
                                         required>
                                 </div>
                             </div>
@@ -87,7 +87,7 @@
                                                 <i class="fa fa-calendar"></i>
                                             </div>
                                             <input type="date" class="form-control pull-right" id="datepicker"
-                                                name="expiration_date" required>
+                                                name="expiration_date" value="{{old('expiration_date')}}" required>
                                         </div>
                                         <!-- /.input group -->
                                     </div>
@@ -108,7 +108,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="date" name="creation_date" class="form-control pull-right"
+                                            <input type="date" name="creation_date"  value="{{old('creation_date')}})" class="form-control pull-right"
                                                 id="datepicker" required>
                                         </div>
                                         <!-- /.input group -->
@@ -124,7 +124,7 @@
 
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Quantité (nombre des unités)</label>
-                                    <input type="number" name="quantity" class="form-control" placeholder="Quantité"
+                                    <input type="number" name="quantity" value="{{old('quantity')}}" class="form-control" placeholder="Quantité"
                                         required>
                                 </div>
 
@@ -138,10 +138,10 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Entrepot</label>
-                                    <select class="form-control" name="warehouse_id" required>
+                                    <select class="form-control" name="warehouse_id"required>
                                         <option value="0">Selectionner un entrepôt </option>
                                         @forelse($warehouses as $warehouse)
-                                        <option value="{{$warehouse->id}}"> {{$warehouse->designation}}</option>
+                                        <option value="{{$warehouse->id}}" {{ old('warehouse_id',$warehouse->id) ? 'selected' : ''  }}> {{$warehouse->designation}}</option>
                                         @empty
                                         <option value=""> Aucun entrepot !</option>
                                         @endforelse

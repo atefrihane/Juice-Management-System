@@ -140,7 +140,7 @@ class WarehouseController extends Controller
         if($request->expiration_date < $request->creation_date)
         {
             alert()->error('Oups!', 'Veuillez vérifier les dates !')->persistent('Femer');
-            return redirect()->back();
+            return redirect()->back()->withInput();
 
         }
      
@@ -168,19 +168,19 @@ class WarehouseController extends Controller
     {
 
         if ($request->product_id == 0) {
-            alert()->error('Oups!', 'Veuillez selectionner un produit ! !')->persistent('Femer');
-            return redirect()->back();
+            alert()->error('Oups!', 'Veuillez selectionner un produit ! ')->persistent('Femer');
+            return redirect()->back()->withInput();
         }
         if ($request->warehouse_id == 0) {
-            alert()->error('Oups!', 'Veuillez selectionner un entrepôt ! !')->persistent('Femer');
-            return redirect()->back();
+            alert()->error('Oups!', 'Veuillez selectionner un entrepôt ! ')->persistent('Femer');
+            return redirect()->back()->withInput();
 
         }
 
         if($request->expiration_date < $request->creation_date)
         {
             alert()->error('Oups!', 'Veuillez vérifier les dates !')->persistent('Femer');
-            return redirect()->back();
+            return redirect()->back()->withInput();
 
         }
         $productWarehouse = ProductWarehouse::find($id);
