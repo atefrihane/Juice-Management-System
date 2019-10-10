@@ -104,8 +104,9 @@
                 let id = event.target.value;
                 this.productId = id;
                 if (id != '') {
-                    axios.get('/api/product/' + id)
+                    axios.get('/api/product/details/' + id)
                         .then((response) => {
+                            console.log(response.data)
                         
 
                             this.productCode = response.data.product.code;
@@ -158,16 +159,7 @@
                                 setTimeout(() => window.location = '/wizefresh/public/products/custom/' + this
                                     .companyId, 2000);
 
-                            } else {
-                                swal.fire({
-                                    type: 'error',
-                                    title: 'Echec !',
-                                    showConfirmButton: true,
-     confirmButtonText:'Fermer'
-                               
-                                });
-
-                            }
+                            } 
                         })
                         .catch((error) => {
                             console.log(error);

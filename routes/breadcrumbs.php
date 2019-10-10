@@ -177,7 +177,7 @@ Breadcrumbs::for('rentedMachine', function ($trail, $company) {
 
 Breadcrumbs::for('customProduct', function ($trail, $company) {
     $trail->parent('detail', $company);
-    $trail->push('Tarif societé -Liste de produits ', route('showRentedMachines', $company));
+    $trail->push('Tarif societé -Liste de produits ', route('showCustomProducts', $company));
 });
 
 Breadcrumbs::for('addCustomProduct', function ($trail, $company) {

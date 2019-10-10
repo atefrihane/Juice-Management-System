@@ -204,28 +204,34 @@
         $('.selected_product').on('change', function () {
 
             var id = this.value;
+            console.log(id);
             var url = {!!json_encode(url('/')) !!}
-               
+
             if (id == 0) {
                 $('#productCode').val('');
                 $('#barCode').val('');
                 $('#packing').val('');
 
             }
-            $.ajax({
+            else{
+                $.ajax({
                 type: 'GET', //THIS NEEDS TO BE GET
-                url: url + '/api/product/' + id,
+                url: url + '/api/product/details/' + id,
                 dataType: 'json',
                 success: function (data) {
                     var response = JSON.parse(JSON.stringify(data));
-                    $('#productCode').val(response['code']);
-                    $('#barCode').val(response['barcode']);
-                    $('#packing').val(response['packing']);
+
+                    $('#productCode').val(response.product.code);
+                    $('#barCode').val(response.product.barcode);
+                    $('#packing').val(response.product.packing);
                 },
                 error: function (data) {
                     console.log(data);
                 }
             });
+
+            }
+       
         });
     });
 

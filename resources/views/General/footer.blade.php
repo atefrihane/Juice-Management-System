@@ -270,5 +270,9 @@ $('.form-check-input').click(function(){
 })
 </script>
 
+@yield('customProducts')
+
+
+
 
 </html>

@@ -3,9 +3,10 @@
 namespace App\Modules\Product\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Modules\CompanyPrice\Models\CompanyPrice;
 use App\Modules\Company\Models\Company;
-use App\Modules\Product\Models\Product;
 use App\Modules\Mixture\Models\Mixture;
+use App\Modules\Product\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -31,8 +32,7 @@ class ProductController extends Controller
             $product = 1;
         }
 
-
-        return view('Product::addProduct',compact('product'));
+        return view('Product::addProduct', compact('product'));
     }
 
     public function showCustomProducts($id)
@@ -66,12 +66,10 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
 
-
-
-        $product=Product::find($id);
+        $product = Product::find($id);
 
         $file = $request->photo_url;
-        $path =$product->photo_url;
+        $path = $product->photo_url;
 
         $validate = $request->validate([
             'photo_url' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
@@ -89,7 +87,7 @@ class ProductController extends Controller
 
         }
 
-      $product->update([
+        $product->update([
             'status' => $request->status,
             'nom' => $request->nom,
             'type' => $request->type,
@@ -111,25 +109,20 @@ class ProductController extends Controller
 
         ]);
 
+        foreach ($request->mixtures as $mixture) {
 
-        foreach($request->mixtures as $mixture)
-        {
-
-            $mixture=Mixture::find($mixture[0])
-            ->update([
-                'name'=>$mixture[1],
-                'final_amount'=> $mixture[2],
-                'needed_weight'=> $mixture[3],
-                'water_amount'=> $mixture[4],
-                'sugar_amount'=> $mixture[5],
-                'glass_size'=> $mixture[6],
-                'number_of_glasses'=> $mixture[7],
-            ]);
-
-
+            $mixture = Mixture::find($mixture[0])
+                ->update([
+                    'name' => $mixture[1],
+                    'final_amount' => $mixture[2],
+                    'needed_weight' => $mixture[3],
+                    'water_amount' => $mixture[4],
+                    'sugar_amount' => $mixture[5],
+                    'glass_size' => $mixture[6],
+                    'number_of_glasses' => $mixture[7],
+                ]);
 
         }
-
 
         alert()->success('Succés!', 'Produit modifié')->persistent("Fermer");
         return redirect('/products');
@@ -156,6 +149,40 @@ class ProductController extends Controller
             return redirect()->back();
         }
         return view('General::notFound');
+
+    }
+
+    public function showUpdateCustomProducts(Request $request, $id, $idPrice)
+    {
+        $companyPrice = CompanyPrice::find($idPrice);
+        if ($companyPrice) {
+            $company = Company::find($id);
+            $products = Product::all();
+            return view('Product::showUpdateCustomProduct', compact('company', 'companyPrice', 'products'));
+        }
+    }
+
+    public function handleUpdateCustomProduct(Request $request, $id)
+    {
+        $companyPrice = CompanyPrice::find($id);
+        if ($companyPrice) {
+            $companyPrice->update([
+                'price' => $request->price,
+                'product_id' => $request->product_id,
+            ]);
+            alert()->success('Succés!', 'Tarif produit modifié !')->persistent("Fermer");
+            return redirect()->back();
+        }
+
+    }
+    public function handleDeleteCustomProduct(Request $request, $id)
+    {
+        $companyPrice = CompanyPrice::find($id);
+        if ($companyPrice) {
+            $companyPrice->delete();
+            alert()->success('Succés!', 'Tarif produit supprimé !')->persistent("Fermer");
+            return redirect()->back();
+        }
 
     }
 

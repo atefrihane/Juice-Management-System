@@ -41,8 +41,8 @@
                                 <tr>
                                     <td>{{$warehouse->code}}</td>
                                     <td>{{$warehouse->designation}}</td>
-                                    <td>{{ucfirst($warehouse->city)}}</td>
-                                    <td>{{$warehouse->postal_code}}</td>
+                                    <td>{{ucfirst($warehouse->city->name)}}</td>
+                                    <td>{{$warehouse->zipcode->code}}</td>
                                     <td class="not-this text-center">
                                         <div class="btn-group">
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"

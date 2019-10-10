@@ -3,6 +3,9 @@
 namespace App\Modules\Warehouse\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Modules\General\Models\Country;
+use App\Modules\General\Models\City;
+use App\Modules\General\Models\Zipcode;
 use App\Modules\Product\Models\Product;
 use App\Modules\Product\Models\ProductWarehouse;
 use App\Modules\Warehouse\Models\Warehouse;
@@ -31,21 +34,19 @@ class WarehouseController extends Controller
 
     public function showAddWarehouse()
     {
-        $count = 1;
-        $lastWarehouse = Warehouse::all()->last();
-        if ($lastWarehouse) {
-            $count = $lastWarehouse->id + 1;
-        }
+        $countries = Country::all();
+        $count = Warehouse::count() + 1;
 
-        return view('Warehouse::showAddWarehouse', compact('count'));
+        return view('Warehouse::showAddWarehouse', compact('count', 'countries'));
 
     }
     public function handleAddWarehouse(Request $request)
     {
+       
         $checkWarehouse = Warehouse::where('code', $request->code)->first();
         $path = null;
         if ($checkWarehouse) {
-            alert()->error('Oups!', 'Un entrepot de ce code existe déja  !');
+            alert()->error('Oups!', 'Un entrepot de ce code existe déja  !')->persistent('Femer');
             return redirect()->back();
 
         }
@@ -62,8 +63,9 @@ class WarehouseController extends Controller
         Warehouse::create([
             'code' => $request->code,
             'designation' => $request->designation,
-            'city' => $request->city,
-            'postal_code' => $request->zipCode,
+            'city_id' => $request->city_id,
+            'country_id' => $request->country_id,
+            'zipcode_id' => $request->zipcode_id,
             'address' => $request->address,
             'complement' => $request->complement,
             'surface' => $request->surface,
@@ -71,7 +73,7 @@ class WarehouseController extends Controller
             'comment' => $request->comment,
             'photo' => $path,
         ]);
-        alert()->success('Succés!', 'Entrepot a été ajouté avec succés !');
+        alert()->success('Succés!', 'Entrepot a été ajouté avec succés !')->persistent('Femer');
         return redirect()->route('showWarehouses');
 
     }
@@ -88,7 +90,7 @@ class WarehouseController extends Controller
 
         if ($checkWarehouse) {
             $checkWarehouse->delete();
-            alert()->success('Succés!', 'Entrepot a été supprimé avec succés !');
+            alert()->success('Succés!', 'Entrepot a été supprimé avec succés !')->persistent('Femer');
             return redirect()->back();
         }
         return view('General::notFound');
@@ -99,9 +101,12 @@ class WarehouseController extends Controller
     {
 
         $checkWarehouse = Warehouse::find($id);
+        $countries=Country::all();
+        $cities=City::all();
+        $zipcodes=Zipcode::all();
 
         if ($checkWarehouse) {
-            return view('Warehouse::showUpdateWarehouse', compact('checkWarehouse'));
+            return view('Warehouse::showUpdateWarehouse', compact('checkWarehouse','countries','cities','zipcodes'));
         }
         return view('General::notFound');
 
@@ -113,7 +118,7 @@ class WarehouseController extends Controller
 
         if ($checkWarehouse) {
             $checkWarehouse->update($request->all());
-            alert()->success('Succés!', 'Entrepot a été modifié avec succés !');
+            alert()->success('Succés!', 'Entrepot a été modifié avec succés !')->persistent('Femer');
             return redirect()->route('showWarehouses');
         }
         return view('General::notFound');
@@ -124,19 +129,27 @@ class WarehouseController extends Controller
     {
 
         if ($request->product_id == 0) {
-            alert()->error('Oups!', 'Veuillez selectionner un produit ! !');
+            alert()->error('Oups!', 'Veuillez selectionner un produit ! !')->persistent('Femer');
             return redirect()->back();
         }
         if ($request->warehouse_id == 0) {
-            alert()->error('Oups!', 'Veuillez selectionner un entrepôt ! !');
+            alert()->error('Oups!', 'Veuillez selectionner un entrepôt ! !')->persistent('Femer');
             return redirect()->back();
 
         }
+        if($request->expiration_date < $request->creation_date)
+        {
+            alert()->error('Oups!', 'Veuillez vérifier les dates !')->persistent('Femer');
+            return redirect()->back();
+
+        }
+     
         ProductWarehouse::create($request->all());
-        alert()->success('Succés!', 'Le produit a été ajouté avec succés ! !');
+        alert()->success('Succés!', 'Le produit a été ajouté avec succés ! !')->persistent('Femer');
         return redirect()->route('showWarehouseProducts');
 
     }
+
 
     public function showEditProductQuantity($id)
     {
@@ -155,18 +168,25 @@ class WarehouseController extends Controller
     {
 
         if ($request->product_id == 0) {
-            alert()->error('Oups!', 'Veuillez selectionner un produit ! !');
+            alert()->error('Oups!', 'Veuillez selectionner un produit ! !')->persistent('Femer');
             return redirect()->back();
         }
         if ($request->warehouse_id == 0) {
-            alert()->error('Oups!', 'Veuillez selectionner un entrepôt ! !');
+            alert()->error('Oups!', 'Veuillez selectionner un entrepôt ! !')->persistent('Femer');
+            return redirect()->back();
+
+        }
+
+        if($request->expiration_date < $request->creation_date)
+        {
+            alert()->error('Oups!', 'Veuillez vérifier les dates !')->persistent('Femer');
             return redirect()->back();
 
         }
         $productWarehouse = ProductWarehouse::find($id);
         if ($productWarehouse) {
             $productWarehouse->update($request->all());
-            alert()->success('Succés!', 'Le produit a été modifié avec succés ! !');
+            alert()->success('Succés!', 'Le produit a été modifié avec succés ! !')->persistent('Femer');
             return redirect()->route('showWarehouseProducts');
         }
 
@@ -182,7 +202,7 @@ class WarehouseController extends Controller
 
             $productWarehouse->delete();
 
-            alert()->success('Succés!', 'Le produit a été supprimé avec succés !');
+            alert()->success('Succés!', 'Le produit a été supprimé avec succés !')->persistent('Femer');
             return redirect()->back();
         }
         return view('General::notFound');
