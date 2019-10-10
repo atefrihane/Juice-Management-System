@@ -478,12 +478,11 @@ class StoreController extends Controller
             ->where('expiration_date', $request->expiration_date)
             ->first();
 
-            if($checkStock)
-            {
-                alert()->error('Oups!', 'Stock déja existant !')->persistent('Femer');
-                return redirect()->back()->withInput();
+        if ($checkStock) {
+            alert()->error('Oups!', 'Stock déja existant !')->persistent('Femer');
+            return redirect()->back()->withInput();
 
-            }
+        }
 
         if ($request->creation_date >= $request->expiration_date) {
             alert()->error('Oups!', 'Veuillez vérifier les dates !')->persistent('Femer');
