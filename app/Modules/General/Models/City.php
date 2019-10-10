@@ -2,10 +2,10 @@
 
 namespace App\Modules\General\Models;
 
-use App\Modules\General\Models\Country;
 use App\Modules\General\Models\Company;
+use App\Modules\General\Models\Country;
 use App\Modules\General\Models\Zipcode;
-
+use App\Modules\Warehouse\Models\Warehouse;
 use Illuminate\Database\Eloquent\Model;
 
 class City extends Model
@@ -26,6 +26,10 @@ class City extends Model
     {
         return $this->hasOne(Company::class);
 
+    }
+    public function Warehouses()
+    {
+        return $this->hasMany(Warehouse::class);
     }
 
 }

@@ -42,8 +42,8 @@
                                     <td>{{$warehouseProduct->product->nom}}</td>
                                     <td>{{$warehouseProduct->quantity}}</td>
                                     <td>{{$warehouseProduct->warehouse->designation}}</td>
-                                    <td>{{$warehouseProduct->creation_date}}</td>
-                                    <td>{{$warehouseProduct->expiration_date}}</td>
+                                    <td> {{ Carbon\Carbon::parse($warehouseProduct->creation_date)->format('d-m-Y') }}</td>
+                                    <td> {{ Carbon\Carbon::parse($warehouseProduct->expiration_date)->format('d-m-Y') }}</td>
                                     <td class="not-this text-center">
                                         <div class="btn-group">
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
@@ -53,7 +53,7 @@
                                                 <li><a
                                                         href="{{route('showEditProductQuantity',$warehouseProduct->id)}}">Voir
                                                         detail produit</a></li>
-                                                <li><a href="#">Modifier</a></li>
+                                                <li><a href="{{route('showEditProductQuantity',$warehouseProduct->id)}}">Modifier</a></li>
                                                 <li><a href="#" data-toggle="modal"
                                                         data-target="#modal-default{{$warehouseProduct->id}}">Supprimer</a>
                                                 </li>

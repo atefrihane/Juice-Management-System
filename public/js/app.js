@@ -2355,16 +2355,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3722,7 +3712,8 @@ __webpack_require__.r(__webpack_exports__);
       this.productId = id;
 
       if (id != '') {
-        axios.get('/api/product/' + id).then(function (response) {
+        axios.get('/api/product/details/' + id).then(function (response) {
+          console.log(response.data);
           _this2.productCode = response.data.product.code;
           _this2.barCode = response.data.product.barcode;
           _this2.productPrice = response.data.product.public_price;
@@ -3763,13 +3754,6 @@ __webpack_require__.r(__webpack_exports__);
             setTimeout(function () {
               return window.location = '/wizefresh/public/products/custom/' + _this3.companyId;
             }, 2000);
-          } else {
-            swal.fire({
-              type: 'error',
-              title: 'Echec !',
-              showConfirmButton: true,
-              confirmButtonText: 'Fermer'
-            });
           }
         })["catch"](function (error) {
           console.log(error);

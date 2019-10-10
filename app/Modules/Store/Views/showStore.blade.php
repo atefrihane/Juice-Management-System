@@ -23,7 +23,7 @@
 
     <section class="content-header">
 
-    {{ Breadcrumbs::render('detailStore',$store->company,$store->designation) }}
+        {{ Breadcrumbs::render('detailStore',$store->company,$store->designation) }}
     </section>
 
     <div class="container" style="margin-top:50px;">
@@ -44,43 +44,41 @@
 
         </section>
 
-                 <div class="modal fade" id="modal-default{{$store->id}}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">×</span></button>
-                                                <h4 class="modal-title">Voulez vous vraiment supprimer ce magasin ?
-                                                </h4>
-                                            </div>
-                                            <div class="modal-body">
-                                            <h5 class="modal-title">  <b>NB</b> : Cette opération peut affecter la suppression des éléments associés à ce magasin !
-                                                </h5>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <div class="text-center">
-                                                    <form action="{{ route('deleteStore',$store->id) }}"
-                                                        method="post">
-                                                        {{csrf_field()}}
-                                                        <a href="#" class="btn btn-danger"
-                                                            data-dismiss="modal">Annuler</a>
+        <div class="modal fade" id="modal-default{{$store->id}}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Voulez vous vraiment supprimer ce magasin ?
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <h5 class="modal-title"> <b>NB</b> : Cette opération peut affecter la suppression des éléments
+                            associés à ce magasin !
+                        </h5>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="text-center">
+                            <form action="{{ route('deleteStore',$store->id) }}" method="post">
+                                {{csrf_field()}}
+                                <a href="#" class="btn btn-danger" data-dismiss="modal">Annuler</a>
 
-                                                        <button type="submit" class="btn btn-success">Confirmer</button>
+                                <button type="submit" class="btn btn-success">Confirmer</button>
 
 
-                                                    </form>
+                            </form>
 
-                                                </div>
+                        </div>
 
 
-                                            </div>
-                                        </div>
-                                        <!-- /.modal-content -->
-                                    </div>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
 
-                                    <!-- /.modal-dialog -->
-                                </div>
+            <!-- /.modal-dialog -->
+        </div>
 
         <section class="content">
             <div class="row">
@@ -103,8 +101,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Statut</label>
-                                            <input type="text" class="form-control"
-                                                value="{{ucfirst($store->status)}}"
+                                            <input type="text" class="form-control" value="{{ucfirst($store->status)}}"
                                                 readonly placeholder="Nom du groupe">
 
                                         </div>
@@ -118,19 +115,19 @@
                                 </div>
 
                                 <div class="row">
-                                <div class="col-md-4">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Pays</label>
-                                            <input type="text" class="form-control" value="{{$store->country->name}}" readonly
-                                                aria-describedby="emailHelp" placeholder="Ville">
+                                            <input type="text" class="form-control" value="{{$store->country->name}}"
+                                                readonly aria-describedby="emailHelp" placeholder="Ville">
 
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Ville</label>
-                                            <input type="text" class="form-control" value="{{$store->city->name}}" readonly
-                                                aria-describedby="emailHelp" placeholder="Ville">
+                                            <input type="text" class="form-control" value="{{$store->city->name}}"
+                                                readonly aria-describedby="emailHelp" placeholder="Ville">
 
                                         </div>
                                     </div>
@@ -197,7 +194,8 @@
                             <tr>
                                 <td>{{$history->changes}}</td>
                                 <td>{{ucfirst($history->user->nom)}} {{ucfirst($history->user->prenom)}}</td>
-                                <td>{{ $history->created_at->format('d-m-Y')}}   {{ $history->created_at->timezone('Europe/Paris')->format('H:i:s')}}</td>
+                                <td>{{ $history->created_at->format('d-m-Y')}}
+                                    {{ $history->created_at->timezone('Europe/Paris')->format('H:i:s')}}</td>
 
                             </tr>
                             @empty

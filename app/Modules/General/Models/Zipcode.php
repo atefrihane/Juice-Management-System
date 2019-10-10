@@ -5,6 +5,7 @@ namespace App\Modules\General\Models;
 use App\Modules\Company\Models\Company;
 use App\Modules\General\Models\City;
 use App\Modules\Store\Models\Store;
+use App\Modules\Warehouse\Models\Warehouse;
 use Illuminate\Database\Eloquent\Model;
 
 class Zipcode extends Model
@@ -27,6 +28,10 @@ class Zipcode extends Model
     {
         return $this->hasMany(Company::class);
 
+    }
+    public function Warehouses()
+    {
+        return $this->hasMany(Warehouse::class);
     }
 
 }

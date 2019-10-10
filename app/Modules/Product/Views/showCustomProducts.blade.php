@@ -38,7 +38,7 @@
 
                             </thead>
                             <tbody>
-                            @forelse($company->companyPrices as $companyPrice)
+                                @forelse($company->companyPrices as $companyPrice)
                                 <tr>
                                     <td>{{$companyPrice->product->nom}}</td>
                                     <td>{{$companyPrice->product->code}}</td>
@@ -47,22 +47,59 @@
                                     <td>{{$companyPrice->price}}</td>
                                     <td class="not-this text-center">
 
-                                    <div class="btn-group">
+                                        <div class="btn-group">
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
-                                                <li><a href="#">Modifier</a></li>
-                                                <li><a href="#">Supprimer</a></li>
+                                                <li><a
+                                                        href="{{route('showUpdateCustomProducts',['company'=>$company->id,'price'=>$companyPrice->id])}}">Modifier</a>
+                                                </li>
+                                                <li><a href="" data-toggle="modal"
+                                                        data-target="#modal-default{{$companyPrice->id}}">Supprimer</a>
+                                                </li>
                                             </ul>
                                         </div>
+                    </div>
+                    </td>
+                    </tr>
+                    <div class="modal fade" id="modal-default{{$companyPrice->id}}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span></button>
+                                    <h4 class="modal-title">Voulez vous vraiment supprimer ce tarif ?
+                                    </h4>
+                                </div>
+                             
+                                <div class="modal-footer">
+                                    <div class="text-center">
+                                        <form action="{{ route('handleDeleteCustomProduct',$companyPrice->id) }}" method="post">
+                                            {{csrf_field()}}
+                                            <a href="#" class="btn btn-danger" data-dismiss="modal">Annuler</a>
+
+                                            <button type="submit" class="btn btn-success">Confirmer</button>
+
+
+                                        </form>
+
                                     </div>
-                                    </td>
-                                    </tr>
+
+
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+
+                        <!-- /.modal-dialog -->
+                    </div>
                     @empty
                     <tr>
-                    <td colspan="5" class="text-center">  <h4> Aucun tarif existant !</h4></td>
+                        <td colspan="5" class="text-center">
+                            <h4> Aucun tarif existant !</h4>
+                        </td>
                     </tr>
-            
+
                     @endforelse
                     </tbody>
 

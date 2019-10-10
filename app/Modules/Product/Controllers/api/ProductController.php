@@ -178,7 +178,7 @@ class ProductController extends Controller
 
                         $checkMixture->update([
                             'name' => $mixture['name'],
-                            'type'=>$mixture['type'],
+                            'type' => $mixture['type'],
                             'final_amount' => $mixture['final_amount'],
                             'needed_weight' => $mixture['needed_weight'],
                             'water_amount' => $mixture['water_amount'],
@@ -211,6 +211,17 @@ class ProductController extends Controller
 
             return response()->json(['status' => 200]);
         }
+
+    }
+    public function handleGetProductDetails($id)
+    {
+
+        $product = Product::find($id);
+        if ($product) {
+            return response()->json(['status' => '200', 'product' => $product]);
+
+        }
+        return response()->json(['status' => '404']);
 
     }
 

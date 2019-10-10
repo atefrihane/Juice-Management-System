@@ -3,7 +3,6 @@
 
         <div class="box-header">
             <h3 class="box-title">Commencer location machine </h3>
-
         </div>
 
         <div class="box-body">
@@ -28,9 +27,6 @@
                         <input type="text" class="form-control" v-model="designation" disabled>
                     </div>
                 </div>
-
-
-
             </div>
             <div class="row">
                 <div class="col-md-4">
@@ -169,8 +165,6 @@
 
         </div>
 
-
-
         <div class="row">
             <div class="container text-center">
 
@@ -183,10 +177,6 @@
 
             </div>
         </div>
-
-
-
-
     </div>
 
     </form>
@@ -229,12 +219,6 @@
                 localisation: '',
                 bacs: [],
                 errors: []
-
-
-
-
-
-
             }
 
         },
@@ -295,7 +279,6 @@
 
             },
             loadBacs() {
-
                 axios.get('api/machine/bacs/' + this.machineId)
                     .then((response) => {
                         console.log(response.data);
@@ -305,10 +288,6 @@
                     .catch(function (error) {
                         console.log(error);
                     })
-
-
-
-
             },
             cancelRental() {
                 window.location = '/wizefresh/public/machines';
