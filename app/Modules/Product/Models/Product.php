@@ -4,6 +4,7 @@ namespace App\Modules\Product\Models;
 
 use App\Modules\Mixture\Models\Mixture;
 use Illuminate\Database\Eloquent\Model;
+use App\Modules\Store\Models\Store;
 
 class Product extends Model
 {
@@ -29,6 +30,11 @@ class Product extends Model
     public function warehouses()
     {
         return $this->belongsToMany('App\Modules\Warehouse\Models\Warehouse', 'product_warehouse');
+
+    }
+    public function stores()
+    {
+        return $this->belongsToMany(Store::class,'store_products');
 
     }
 

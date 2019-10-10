@@ -8,8 +8,10 @@ use App\Modules\General\Models\City;
 use App\Modules\General\Models\Country;
 use App\Modules\General\Models\Zipcode;
 use App\Modules\MachineRental\Models\MachineRental;
+use App\Modules\Product\Models\Product;
 use App\Modules\Store\Models\Store;
 use App\Modules\Store\Models\StoreHistory;
+use App\Modules\Store\Models\StoreProduct;
 use App\Modules\Store\Models\StoreSchedule;
 use Auth;
 use Illuminate\Http\Request;
@@ -431,7 +433,8 @@ class StoreController extends Controller
     }
 
     public function showStoreRentals($id, $idStore)
-    {$store = Store::find($idStore);
+    {
+        $store = Store::find($idStore);
         if ($store) {
             $rentals = MachineRental::where('store_id', $idStore)
                 ->where('active', 1)
@@ -440,6 +443,113 @@ class StoreController extends Controller
         }
         return view('General::notFound');
 
+    }
+
+    public function showStoreStock($id, $idStore, Request $request)
+    {
+        $store = Store::find($idStore);
+        $stocks = StoreProduct::all();
+
+        if ($store) {
+            return view('Store::showStoreStock', compact('store', 'stocks'));
+        }
+        return view('General::notFound');
+
+    }
+    public function showAddStoreStock($id, $idStore, Request $request)
+    {
+        $store = Store::find($idStore);
+
+        if ($store) {
+            $products = Product::all();
+            return view('Store::showAddStoreStock', compact('store', 'products'));
+        }
+        return view('General::notFound');
+
+    }
+
+    public function handleAddStoreStock($id, $idStore, Request $request)
+    {
+        $store = Store::find($idStore);
+        $stocks = StoreProduct::all();
+        $checkStock = StoreProduct::where('product_id', $request->product_id)
+            ->where('store_id', $idStore)
+            ->where('creation_date', $request->creation_date)
+            ->where('expriation_date', $request->expiration_date)
+            ->first();
+
+            if($checkStock)
+            {
+                alert()->error('Oups!', 'Stock déja existant !')->persistent('Femer');
+                return redirect()->back()->withInput();
+
+            }
+
+        if ($request->creation_date >= $request->expiration_date) {
+            alert()->error('Oups!', 'Veuillez vérifier les dates !')->persistent('Femer');
+            return redirect()->back()->withInput();
+        }
+
+        if ($store) {
+
+            $store->products()->attach($request->product_id, [
+                'quantity' => $request->quantity,
+                'creation_date' => $request->creation_date,
+                'expiration_date' => $request->expiration_date,
+            ]);
+            alert()->success('Succés', 'Stock ajouté !')->persistent('Femer');
+            return view('Store::showStoreStock', compact('store', 'stocks'));
+        }
+    }
+
+    public function handleDeleteStock($id)
+    {
+        $stock = StoreProduct::find($id);
+        if ($stock) {
+            $stock->delete();
+            alert()->success('Succés', 'Stock supprimé !')->persistent('Femer');
+            return redirect()->back();
+        }
+        return view('General::notFound');
+
+    }
+
+    public function showUpdateStoreStock($id, $idStore, $idStock, Request $request)
+    {
+        $stock = StoreProduct::find($idStock);
+        $store = Store::find($idStore);
+
+        if ($stock) {
+            $products = Product::all();
+            return view('Store::showUpdateStoreStock', compact('stock', 'products', 'store'));
+        }
+        return view('General::notFound');
+
+    }
+
+    public function handleUpdateStoreStock($id, $idStore, $idStock, Request $request)
+    {
+
+        $stock = StoreProduct::find($idStock);
+        $stocks = StoreProduct::all();
+        $store = Store::find($idStore);
+        if ($request->creation_date >= $request->expiration_date) {
+            alert()->error('Oups!', 'Veuillez vérifier les dates !')->persistent('Femer');
+            return redirect()->back()->withInput();
+        }
+
+        if ($stock) {
+
+            $stock->update([
+                'product_id' => $request->product_id,
+                'store_id' => $idStore,
+                'quantity' => $request->quantity,
+                'creation_date' => $request->creation_date,
+                'expiration_date' => $request->expiration_date,
+            ]);
+            alert()->success('Succés', 'Stock modifié !')->persistent('Femer');
+            return view('Store::showStoreStock', compact('store', 'stocks'));
+        }
     }
 
 }

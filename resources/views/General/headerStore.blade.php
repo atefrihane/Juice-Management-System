@@ -90,7 +90,7 @@
                     <li class="{{ Route::is('showStore') ? 'active' : '' }}"><a href="{{route('showStore',['company_id'=>$store->company->id,'store_id'=>$store->id])}}"><i class="fa fa-question-circle""></i> <span>Informations</span></a></li>
                     <li class="{{ Route::is('showStoreRentals') ? 'active' : '' }}"><a href="{{route('showStoreRentals',['company_id'=>$store->company->id,'store_id'=>$store->id])}}"><i class=" fa fa-plug"></i><span>Machines</span></a></li>
                     <li class="{{ Route::is('showHome') ? 'active' : '' }}"><a href=""><i class="fa fa-truck"></i><span>Commandes</span></a></li>
-                    <li class="{{ Route::is('showHome') ? 'active' : '' }}"><a href=""><i class="fa fa-database"></i><span>Stock</span></a></li>
+                    <li class="{{ Route::is('showStoreStock') ? 'active' : '' }}"><a href="{{route('showStoreStock',['company_id'=>$store->company->id,'store_id'=>$store->id])}}"><i class="fa fa-database"></i><span>Stock</span></a></li>
                     
 
                 </ul>

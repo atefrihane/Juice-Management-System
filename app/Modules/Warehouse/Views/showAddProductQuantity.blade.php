@@ -33,7 +33,9 @@
                                     <select class="form-control selected_product" name="product_id" required>
                                         <option value="0">Selectionner un produit </option>
                                         @forelse($products as $product)
-                                        <option value="{{$product->id}}" {{ old('product_id',$product->id) ? 'selected' : ''  }}>{{$product->nom}} </option>
+                                        <option value="{{$product->id}}"
+                                            {{ old('product_id',$product->id) ? 'selected' : ''  }}>{{$product->nom}}
+                                        </option>
                                         @empty
                                         <option value="0">Aucun produit</option>
                                         @endforelse
@@ -47,19 +49,19 @@
 
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Code produit</label>
-                                    <input type="text" name="productCode" value="{{old('productCode')}}"  class="form-control" placeholder="Code produit"
-                                        id="productCode" disabled>
+                                    <input type="text" name="productCode" value="{{old('productCode')}}"
+                                        class="form-control" placeholder="Code produit" id="productCode" disabled>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Code à barre</label>
-                                    <input type="text" name="productBarcode" value="{{old('productBarcode')}}"  class="form-control" placeholder="Code à barre"
-                                        id="barCode" disabled>
+                                    <input type="text" name="productBarcode" value="{{old('productBarcode')}}"
+                                        class="form-control" placeholder="Code à barre" id="barCode" disabled>
                                 </div>
 
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Colisage</label>
-                                    <input type="number" name="productPacking" value="{{old('productPacking')}}"  class="form-control" placeholder="Colisage"
-                                        id="packing" disabled>
+                                    <input type="number" name="productPacking" value="{{old('productPacking')}}"
+                                        class="form-control" placeholder="Colisage" id="packing" disabled>
                                 </div>
 
 
@@ -69,8 +71,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Colisage</label>
-                                    <input type="number" name="packing" value="{{old('packing')}}"  class="form-control" placeholder="Colisage"
-                                        required>
+                                    <input type="number" name="packing" value="{{old('packing')}}" class="form-control"
+                                        placeholder="Colisage" required>
                                 </div>
                             </div>
                         </div>
@@ -108,8 +110,8 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="date" name="creation_date"  value="{{old('creation_date')}})" class="form-control pull-right"
-                                                id="datepicker" required>
+                                            <input type="date" name="creation_date" value="{{old('creation_date')}})"
+                                                class="form-control pull-right" id="datepicker" required>
                                         </div>
                                         <!-- /.input group -->
                                     </div>
@@ -124,8 +126,8 @@
 
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Quantité (nombre des unités)</label>
-                                    <input type="number" name="quantity" value="{{old('quantity')}}" class="form-control" placeholder="Quantité"
-                                        required>
+                                    <input type="number" name="quantity" value="{{old('quantity')}}"
+                                        class="form-control" placeholder="Quantité" required>
                                 </div>
 
                             </div>
@@ -138,10 +140,12 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Entrepot</label>
-                                    <select class="form-control" name="warehouse_id"required>
+                                    <select class="form-control" name="warehouse_id" required>
                                         <option value="0">Selectionner un entrepôt </option>
                                         @forelse($warehouses as $warehouse)
-                                        <option value="{{$warehouse->id}}" {{ old('warehouse_id',$warehouse->id) ? 'selected' : ''  }}> {{$warehouse->designation}}</option>
+                                        <option value="{{$warehouse->id}}"
+                                            {{ old('warehouse_id',$warehouse->id) ? 'selected' : ''  }}>
+                                            {{$warehouse->designation}}</option>
                                         @empty
                                         <option value=""> Aucun entrepot !</option>
                                         @endforelse
@@ -205,33 +209,34 @@
 
             var id = this.value;
             console.log(id);
-            var url = {!!json_encode(url('/')) !!}
+            var url = {
+                !!json_encode(url('/')) !!
+            }
 
             if (id == 0) {
                 $('#productCode').val('');
                 $('#barCode').val('');
                 $('#packing').val('');
 
-            }
-            else{
+            } else {
                 $.ajax({
-                type: 'GET', //THIS NEEDS TO BE GET
-                url: url + '/api/product/details/' + id,
-                dataType: 'json',
-                success: function (data) {
-                    var response = JSON.parse(JSON.stringify(data));
+                    type: 'GET', //THIS NEEDS TO BE GET
+                    url: url + '/api/product/details/' + id,
+                    dataType: 'json',
+                    success: function (data) {
+                        var response = JSON.parse(JSON.stringify(data));
 
-                    $('#productCode').val(response.product.code);
-                    $('#barCode').val(response.product.barcode);
-                    $('#packing').val(response.product.packing);
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            });
+                        $('#productCode').val(response.product.code);
+                        $('#barCode').val(response.product.barcode);
+                        $('#packing').val(response.product.packing);
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
 
             }
-       
+
         });
     });
 
