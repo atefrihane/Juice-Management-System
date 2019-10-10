@@ -178,10 +178,79 @@
             <div class="box box-primary">
                 <div class="box-body">
                     <h4>
-                        Historique du magasin
-                        <small> {{$store->designation}}</small>
+                        Horaire du magasin
+
                     </h4>
-                    <table class="table table-bordered table-hover example2">
+                    <table class="tables">
+                        <thead>
+                            <tr>
+                                <th class="no-sort">Jour</th>
+                                <th>Ouverture Matin</th>
+                                <th> Clôture Matin</th>
+                                <th>Ouverture Aprés midi</th>
+                                <th> Clôture Aprés midi</th>
+                                <th>Fermé</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($store->schedules as $schedule)
+                            <tr>
+                                <td>
+                                    @switch($schedule->day)
+                                    @case(1)
+                                    Lundi
+                                    @break
+                                    @case(2)
+                                    Mardi
+                                    @break
+                                    @case(3)
+                                    Mercredi
+                                    @break
+                                    @case(4)
+                                    Jeudi
+                                    @break
+                                    @case(5)
+                                    Vendredi
+                                    @break
+                                    @case(6)
+                                    Samedi
+                                    @break
+                                    @case(7)
+                                    Dimanche
+                                    @break
+                                    @endswitch
+
+
+                                </td>
+                                <td>{{$schedule->start_day_time}}</td>
+                                <td>{{$schedule->end_day_time}}</td>
+                                <td>{{$schedule->start_night_time}}</td>
+                                <td>{{$schedule->end_night_time}}</td>
+                                <td>{{$schedule->closed == 1 ? 'Oui' : 'Non' }}</td>
+
+                            </tr>
+                            @empty
+
+                            @endforelse
+
+
+
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+        </section>
+        <section class="content-header">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <h4>
+                        Historique du magasin
+
+                    </h4>
+                    <table class="tables">
                         <thead>
                             <tr>
                                 <th>Modifications</th>
@@ -214,4 +283,20 @@
         </section>
     </div>
 </div>
+@section('scripts-custom')
+<script>
+    var oTable = $('.tables').DataTable({
+        "language": {
+            "url": "http://cdn.datatables.net/plug-ins/a5734b29083/i18n/French.json"
+        },
+        "bLengthChange": false,
+        "aaSorting": [],
+
+        "bPaginate": false,
+        "info": false,
+        "bFilter": false
+    });
+
+</script>
+@endsection
 @endsection
