@@ -199,7 +199,7 @@ class ProductController extends Controller
                 ->first();
 
             if ($checkCompany) {
-                alert()->error('Oups!', 'Vous avez specifié déja un tarif pour ce produit !')->persistent("Fermer");
+                alert()->error('Oups!', 'Vous avez déja specifié un tarif pour ce produit à cette societé !')->persistent("Fermer");
                 return redirect()->back();
 
             }
