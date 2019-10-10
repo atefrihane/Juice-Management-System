@@ -107,7 +107,7 @@
                     axios.get('/api/product/details/' + id)
                         .then((response) => {
                             console.log(response.data)
-                        
+
 
                             this.productCode = response.data.product.code;
                             this.barCode = response.data.product.barcode;
@@ -132,13 +132,13 @@
                         type: 'error',
                         title: 'Veuillez selectionner un prix pour la societé!',
                         showConfirmButton: true,
-     confirmButtonText:'Fermer'
-                   
+                        confirmButtonText: 'Fermer'
+
                     });
 
                 }
 
-                    if (this.productId != '') {
+                if (this.productId != '') {
                     axios.post('api/product/custom/' + this.companyId, {
                             productId: this.productId,
                             companyId: this.companyId,
@@ -146,20 +146,34 @@
 
                         })
                         .then((response) => {
-                          
-                            if (response.data.status != 200) {
+                            console.log(response);
+
+                            if (response.data.status == 200) {
                                 swal.fire({
                                     type: 'success',
                                     title: 'Le prix a été ajouté avec succés !',
                                     showConfirmButton: true,
-     confirmButtonText:'Fermer'
-                               
+                                    confirmButtonText: 'Fermer'
+
 
                                 });
                                 setTimeout(() => window.location = '/wizefresh/public/products/custom/' + this
                                     .companyId, 2000);
 
-                            } 
+                            }
+                              if (response.data.status == 400) {
+                                swal.fire({
+                                    type: 'error',
+                                    title: 'Veuillez séléctionner un prix !',
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Fermer'
+
+
+                                });
+                                setTimeout(() => window.location = '/wizefresh/public/products/custom/' + this
+                                    .companyId, 2000);
+
+                            }
                         })
                         .catch((error) => {
                             console.log(error);
@@ -171,8 +185,8 @@
                         type: 'error',
                         title: 'Veuillez selectionner un produit!',
                         showConfirmButton: true,
-     confirmButtonText:'Fermer'
-                   
+                        confirmButtonText: 'Fermer'
+
                     });
 
                 }

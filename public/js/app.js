@@ -3744,10 +3744,24 @@ __webpack_require__.r(__webpack_exports__);
           companyId: this.companyId,
           price: this.companyPrice
         }).then(function (response) {
-          if (response.data.status != 200) {
+          console.log(response);
+
+          if (response.data.status == 200) {
             swal.fire({
               type: 'success',
               title: 'Le prix a été ajouté avec succés !',
+              showConfirmButton: true,
+              confirmButtonText: 'Fermer'
+            });
+            setTimeout(function () {
+              return window.location = '/wizefresh/public/products/custom/' + _this3.companyId;
+            }, 2000);
+          }
+
+          if (response.data.status == 400) {
+            swal.fire({
+              type: 'error',
+              title: 'Veuillez séléctionner un prix !',
               showConfirmButton: true,
               confirmButtonText: 'Fermer'
             });

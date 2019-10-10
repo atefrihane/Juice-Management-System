@@ -33,6 +33,7 @@
                                     <th>Type de produit</th>
                                     <th>Prix unitaire de base</th>
                                     <th>Prix unitaire pour societé</th>
+                                    <th></th>
 
                                 </tr>
 

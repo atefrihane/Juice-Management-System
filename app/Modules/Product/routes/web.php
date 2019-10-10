@@ -13,4 +13,5 @@ Route::group(['module' => 'Product', 'middleware' => ['web','isAuth'], 'namespac
     Route::post('product/delete/{id}', 'ProductController@delete')->name('deleteProduct');
     Route::post('product/update/{id}', 'ProductController@update')->name('updateProduct');
     Route::post('product/status/{id}', 'ProductController@handleUpdateStatus')->name('handleUpdateStatus');
+    route::post('api/product/custom/{id}', 'ProductController@handleStoreCustomPrice')->name('handleStoreCustomPrice');
 });

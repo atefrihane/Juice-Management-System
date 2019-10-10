@@ -49,9 +49,10 @@ class ProductController extends Controller
     public function showAddCustomProduct($id)
     {
         $company = Company::find($id);
+        $products = Product::all();
 
         if ($company) {
-            return view('Product::addCustomProduct', compact('company'));
+            return view('Product::addCustomProduct', compact('company', 'products'));
         }
         return view('General::notFound');
 
@@ -181,12 +182,43 @@ class ProductController extends Controller
     {
         $companyPrice = CompanyPrice::find($id);
         if ($companyPrice) {
-            $company = Company::find($companyPrice->company->id);
-
             $companyPrice->delete();
             alert()->success('Succés!', 'Tarif produit supprimé !')->persistent("Fermer");
-            return view('Product::showCustomProducts', compact('company'));
+            return redirect()->back();
         }
+
+    }
+
+    public function handleStoreCustomPrice(Request $request, $id)
+    {
+        $company = Company::find($id);
+        if ($company) {
+
+            $checkCompany = CompanyPrice::where('product_id', $request->product_id)
+                ->where('company_id', $id)
+                ->first();
+
+            if ($checkCompany) {
+                alert()->error('Oups!', 'Vous avez specifié déja un tarif pour ce produit !')->persistent("Fermer");
+                return redirect()->back();
+
+            }
+            if ($request->price < 0) {
+                alert()->error('Oups!', 'Prix invalide!!')->persistent("Fermer");
+                return redirect()->back();
+
+            }
+            CompanyPrice::create([
+                'price' => $request->price,
+                'product_id' => $request->product_id,
+                'company_id' => $id,
+            ]);
+
+            alert()->success('Succés!', 'Tarif ajouté !')->persistent("Fermer");
+            return view('Product::showCustomProducts', compact('company'));
+
+        }
+        return view('General::notFound');
 
     }
 
