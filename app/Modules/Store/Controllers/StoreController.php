@@ -475,7 +475,7 @@ class StoreController extends Controller
         $checkStock = StoreProduct::where('product_id', $request->product_id)
             ->where('store_id', $idStore)
             ->where('creation_date', $request->creation_date)
-            ->where('expriation_date', $request->expiration_date)
+            ->where('expiration_date', $request->expiration_date)
             ->first();
 
             if($checkStock)
