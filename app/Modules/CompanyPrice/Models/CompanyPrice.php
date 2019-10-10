@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Modules\CompanyPrice\Models;
-
+use App\Modules\Company\Models\Company;
 use Illuminate\Database\Eloquent\Model;
 
 class CompanyPrice extends Model
@@ -15,7 +15,7 @@ class CompanyPrice extends Model
 
     public function company()
     {
-        return $this->belongsTo(' \App\Modules\Company\Models\Company', 'company_id');
+        return $this->belongsTo(Company::class, 'company_id');
 
     }
 

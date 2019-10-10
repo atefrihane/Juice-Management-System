@@ -166,12 +166,14 @@ class ProductController extends Controller
     {
         $companyPrice = CompanyPrice::find($id);
         if ($companyPrice) {
+            $company = Company::find($companyPrice->company->id);
+
             $companyPrice->update([
                 'price' => $request->price,
                 'product_id' => $request->product_id,
             ]);
             alert()->success('Succés!', 'Tarif produit modifié !')->persistent("Fermer");
-            return redirect()->back();
+            return view('Product::showCustomProducts', compact('company'));
         }
 
     }
@@ -179,9 +181,11 @@ class ProductController extends Controller
     {
         $companyPrice = CompanyPrice::find($id);
         if ($companyPrice) {
+            $company = Company::find($companyPrice->company->id);
+
             $companyPrice->delete();
             alert()->success('Succés!', 'Tarif produit supprimé !')->persistent("Fermer");
-            return redirect()->back();
+            return view('Product::showCustomProducts', compact('company'));
         }
 
     }
