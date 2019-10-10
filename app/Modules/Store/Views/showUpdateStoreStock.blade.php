@@ -4,7 +4,7 @@
 <div class="content-wrapper">
 
     <section class="content-header">
-
+    {{ Breadcrumbs::render('updateStoreStock', $store->company,$store->designation) }}
 
     </section>
 

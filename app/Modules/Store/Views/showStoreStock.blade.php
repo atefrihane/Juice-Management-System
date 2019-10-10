@@ -5,7 +5,7 @@
 <div class="content-wrapper">
 
     <section class="content-header">
-
+    {{ Breadcrumbs::render('storeStock', $store->company,$store->designation) }}
 
     </section>
 

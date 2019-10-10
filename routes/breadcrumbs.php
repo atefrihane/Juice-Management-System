@@ -80,6 +80,22 @@ Breadcrumbs::for('detailStoreMachines', function ($trail,$company,$store) {
     $trail->push('Machines en location');
 });
 
+Breadcrumbs::for('storeStock', function ($trail,$company,$store) {
+    $trail->parent('detailStore',$company,$store);
+    $trail->push('Liste des produits en stock');
+
+});
+Breadcrumbs::for('addStoreStock', function ($trail,$company,$store) {
+    $trail->parent('storeStock',$company,$store);
+    $trail->push('Ajouter un produit en stock');
+
+});
+Breadcrumbs::for('updateStoreStock', function ($trail,$company,$store) {
+    $trail->parent('storeStock',$company,$store);
+    $trail->push('Modifier un produit en stock');
+
+});
+
 Breadcrumbs::for('contact', function ($trail, $company) {
     $trail->parent('detail', $company);
     $trail->push('Contacts', route('showContacts', $company));
