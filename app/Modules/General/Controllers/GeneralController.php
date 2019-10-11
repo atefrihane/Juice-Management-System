@@ -47,7 +47,7 @@ class GeneralController extends Controller
         $country = Country::find($id);
         if ($country) {
             $country->delete();
-            alert()->success('Le pays a été supprimé avec succés')->persistent('Fermer');
+            alert()->success('Succés!','Le pays a été supprimé avec succés')->persistent('Fermer');
             return redirect()->back();
         }
         alert()->error('Pays introuvable')->persistent('Fermer');

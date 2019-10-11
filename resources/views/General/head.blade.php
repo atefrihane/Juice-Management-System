@@ -4,7 +4,37 @@
     <meta name="csrf-token" content="{{csrf_token()}}">
     <!-- Bootstrap 3.3.7 -->
     <title>@yield('pageTitle')</title>
+    <style>
+.times-webkit-datetime-edit-ampm-field {
+   display: none;
+}
 
+.times::-webkit-inner-spin-button, 
+.times::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 9px; 
+}
+
+.times::-ms-inner-spin-button, 
+.times::-ms-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 9px; 
+}
+
+.times::-ms-moz-spin-button, 
+.times::-ms-moz-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 9px; 
+}
+
+
+</style>
     <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
 

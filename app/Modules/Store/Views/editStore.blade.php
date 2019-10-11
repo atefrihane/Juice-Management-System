@@ -1,9 +1,5 @@
 @extends('General.layoutCompany') @section('pageTitle', 'Modifier un magasin') @section('content')
-<style>
-.times::-webkit-datetime-edit-ampm-field {
-   display: none;
- }
-</style>
+
 
 <div class="content-wrapper">
 
