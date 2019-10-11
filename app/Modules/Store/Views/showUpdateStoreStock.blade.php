@@ -111,7 +111,7 @@
                         <div class="row">
                             <div class="container text-center">
 
-                                <a href="{{route('showMachines')}}" class="btn btn-danger pl-1"
+                                <a href="{{route('showStoreStock',['company_id'=>$store->company->id,'store_id'=>$store->id])}}" class="btn btn-danger pl-1"
                                     style="margin: 1em">Annuler</a>
                                 <button type="submit" class="btn btn-success pl-1"
                                     style="margin: 1em">Confirmer</button>

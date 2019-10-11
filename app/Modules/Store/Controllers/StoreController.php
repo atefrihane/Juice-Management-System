@@ -472,6 +472,7 @@ class StoreController extends Controller
     {
         $store = Store::find($idStore);
         $stocks = StoreProduct::all();
+
         $checkStock = StoreProduct::where('product_id', $request->product_id)
             ->where('store_id', $idStore)
             ->where('creation_date', $request->creation_date)
@@ -497,7 +498,8 @@ class StoreController extends Controller
                 'expiration_date' => $request->expiration_date,
             ]);
             alert()->success('Succés', 'Stock ajouté !')->persistent('Femer');
-            return view('Store::showStoreStock', compact('store', 'stocks'));
+            return redirect()->route('showStoreStock', ['store_id' => $store->company->id, 'store' => $store->id]);
+
         }
     }
 
@@ -520,6 +522,7 @@ class StoreController extends Controller
 
         if ($stock) {
             $products = Product::all();
+
             return view('Store::showUpdateStoreStock', compact('stock', 'products', 'store'));
         }
         return view('General::notFound');
@@ -547,7 +550,7 @@ class StoreController extends Controller
                 'expiration_date' => $request->expiration_date,
             ]);
             alert()->success('Succés', 'Stock modifié !')->persistent('Femer');
-            return view('Store::showStoreStock', compact('store', 'stocks'));
+            return redirect()->route('showStoreStock', ['store_id' => $store->company->id, 'store' => $store->id]);
         }
     }
 

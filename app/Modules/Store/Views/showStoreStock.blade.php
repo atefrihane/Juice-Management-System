@@ -93,6 +93,9 @@
                                         </div>
 
                     @empty
+                    <tr>
+                    <td colspan="5" class="text-center"><h5>Aucun stock existant!</h5></td>
+                    </tr>
                     @endforelse
 
 
