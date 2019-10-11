@@ -28,7 +28,7 @@
                         <table class="table table-bordered table-hover example2">
                             <thead>
                                 <tr>
-
+                                    <th>Photo</th>
                                     <th>Code</th>
                                     <th>Désignation</th>
                                     <th>Ville</th>
@@ -39,6 +39,13 @@
                             <tbody>
                                 @forelse($warehouses as $warehouse)
                                 <tr>
+                                @if($warehouse->photo)
+                                    <td> <img src="{{asset('/img')}}/{{$warehouse->photo}}" height="80"
+                                            class="user-image" alt="User Image"> </td>
+                                            @else
+                                            <td> <img src="{{asset('/img')}}/no-logo.png" height="80"
+                                            class="user-image" alt="User Image"> </td>
+                                            @endif
                                     <td>{{$warehouse->code}}</td>
                                     <td>{{$warehouse->designation}}</td>
                                     <td>{{ucfirst($warehouse->city->name)}}</td>
