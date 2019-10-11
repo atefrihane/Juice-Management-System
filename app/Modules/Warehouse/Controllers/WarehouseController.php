@@ -3,12 +3,14 @@
 namespace App\Modules\Warehouse\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Modules\General\Models\Country;
 use App\Modules\General\Models\City;
+use App\Modules\General\Models\Country;
 use App\Modules\General\Models\Zipcode;
 use App\Modules\Product\Models\Product;
 use App\Modules\Product\Models\ProductWarehouse;
+use App\Modules\User\Models\User;
 use App\Modules\Warehouse\Models\Warehouse;
+use File;
 use Illuminate\Http\Request;
 
 class WarehouseController extends Controller
@@ -35,14 +37,15 @@ class WarehouseController extends Controller
     public function showAddWarehouse()
     {
         $countries = Country::all();
+        $users = User::all();
         $count = Warehouse::count() + 1;
 
-        return view('Warehouse::showAddWarehouse', compact('count', 'countries'));
+        return view('Warehouse::showAddWarehouse', compact('count', 'countries', 'users'));
 
     }
     public function handleAddWarehouse(Request $request)
     {
-       
+
         $checkWarehouse = Warehouse::where('code', $request->code)->first();
         $path = null;
         if ($checkWarehouse) {
@@ -66,12 +69,13 @@ class WarehouseController extends Controller
             'city_id' => $request->city_id,
             'country_id' => $request->country_id,
             'zipcode_id' => $request->zipcode_id,
+            'user_id' => $request->user_id,
             'address' => $request->address,
             'complement' => $request->complement,
             'surface' => $request->surface,
             'complement_address' => $request->complement,
             'comment' => $request->comment,
-            'photo' => $path,
+            'photo' => $path ? $path : null,
         ]);
         alert()->success('Succés!', 'Entrepot a été ajouté avec succés !')->persistent('Femer');
         return redirect()->route('showWarehouses');
@@ -101,12 +105,13 @@ class WarehouseController extends Controller
     {
 
         $checkWarehouse = Warehouse::find($id);
-        $countries=Country::all();
-        $cities=City::all();
-        $zipcodes=Zipcode::all();
+        $countries = Country::all();
+        $cities = City::all();
+        $zipcodes = Zipcode::all();
+        $users = User::all();
 
         if ($checkWarehouse) {
-            return view('Warehouse::showUpdateWarehouse', compact('checkWarehouse','countries','cities','zipcodes'));
+            return view('Warehouse::showUpdateWarehouse', compact('checkWarehouse', 'countries', 'cities', 'zipcodes', 'users'));
         }
         return view('General::notFound');
 
@@ -115,9 +120,32 @@ class WarehouseController extends Controller
     public function handleUpdateWarehouse($id, Request $request)
     {
         $checkWarehouse = Warehouse::find($id);
-
+        $path = null;
         if ($checkWarehouse) {
-            $checkWarehouse->update($request->all());
+
+            $file = $request->photo;
+
+            if ($file) {
+                File::delete(public_path('img/' . $checkWarehouse->photo));
+                $path = $file->getClientOriginalName();
+
+                $file->move('img', $file->getClientOriginalName());
+
+            }
+            $checkWarehouse->update([
+                'code' => $request->code,
+                'designation' => $request->designation,
+                'city_id' => $request->city_id,
+                'country_id' => $request->country_id,
+                'zipcode_id' => $request->zipcode_id,
+                'user_id' => $request->user_id,
+                'address' => $request->address,
+                'complement' => $request->complement,
+                'surface' => $request->surface,
+                'complement_address' => $request->complement,
+                'comment' => $request->comment,
+                'photo' => $path ? $path : $checkWarehouse->photo,
+            ]);
             alert()->success('Succés!', 'Entrepot a été modifié avec succés !')->persistent('Femer');
             return redirect()->route('showWarehouses');
         }
@@ -137,19 +165,17 @@ class WarehouseController extends Controller
             return redirect()->back();
 
         }
-        if($request->expiration_date < $request->creation_date)
-        {
+        if ($request->expiration_date < $request->creation_date) {
             alert()->error('Oups!', 'Veuillez vérifier les dates !')->persistent('Femer');
             return redirect()->back()->withInput();
 
         }
-     
+
         ProductWarehouse::create($request->all());
         alert()->success('Succés!', 'Le produit a été ajouté avec succés ! !')->persistent('Femer');
         return redirect()->route('showWarehouseProducts');
 
     }
-
 
     public function showEditProductQuantity($id)
     {
@@ -177,8 +203,7 @@ class WarehouseController extends Controller
 
         }
 
-        if($request->expiration_date < $request->creation_date)
-        {
+        if ($request->expiration_date < $request->creation_date) {
             alert()->error('Oups!', 'Veuillez vérifier les dates !')->persistent('Femer');
             return redirect()->back()->withInput();
 

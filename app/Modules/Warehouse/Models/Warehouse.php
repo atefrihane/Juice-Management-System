@@ -5,11 +5,11 @@ use Illuminate\Database\Eloquent\Model;
 use App\Modules\General\Models\City;
 use App\Modules\General\Models\Country;
 use App\Modules\General\Models\Zipcode;
-
+use App\Modules\User\Models\User;
 class Warehouse extends Model
 {
 
-    protected $fillable = ['code', 'designation', 'city_id','country_id', 'zipcode_id', 'surface', 'address', 'complement_address', 'comment', 'photo'];
+    protected $fillable = ['code', 'designation', 'city_id','country_id', 'zipcode_id','user_id', 'surface', 'address', 'complement_address', 'comment', 'photo'];
 
     public function products()
     {
@@ -27,6 +27,11 @@ class Warehouse extends Model
     public function zipcode()
     {
         return $this->belongsTo(Zipcode::class, 'zipcode_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
 }

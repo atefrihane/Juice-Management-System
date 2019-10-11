@@ -50,8 +50,8 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Code</label>
-                                        <input type="text" class="form-control code" value="{{$company->code}}" name="code"
-                                            id="exampleInputEmail1" placeholder="Code..">
+                                        <input type="text" class="form-control code" value="{{$company->code}}"
+                                            name="code" id="exampleInputEmail1" placeholder="Code..">
                                     </div>
                                 </div>
 
@@ -86,20 +86,7 @@
 
                             <div class="row">
 
-                            <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Code Postal</label>
-                                        <select class="form-control zipcodes" name="zipcode_id" required>
-                                            @forelse($zipcodes as $zipcode)
-                                            <option value="{{$zipcode->id}}"
-                                                {{ $zipcode->id == $company->zipcode_id ? "selected" : "" }}>
-                                                {{$zipcode->code}}</option>
-                                            @empty
-                                            @endforelse
-                                        </select>
-                                    </div>
 
-                                </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Pays</label>
@@ -128,6 +115,21 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Code Postal</label>
+                                        <select class="form-control zipcodes" name="zipcode_id" required>
+                                            @forelse($zipcodes as $zipcode)
+                                            <option value="{{$zipcode->id}}"
+                                                {{ $zipcode->id == $company->zipcode_id ? "selected" : "" }}>
+                                                {{$zipcode->code}}</option>
+                                            @empty
+                                            @endforelse
+                                        </select>
+                                    </div>
+
+                                </div>
+
 
 
                             </div>

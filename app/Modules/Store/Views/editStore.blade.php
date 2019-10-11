@@ -124,20 +124,7 @@
 
                             <div class="row">
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Code Postal</label>
-                                        <select class="form-control zipcodes" name="zipcode_id" required>
-                                            @forelse($zipcodes as $zipcode)
-                                            <option value="{{$zipcode->id}}"
-                                                {{ $zipcode->id == $store->zipcode_id ? "selected" : "" }}>
-                                                {{$zipcode->code}}</option>
-                                            @empty
-                                            @endforelse
-                                        </select>
-                                    </div>
-
-                                </div>
+                             
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Pays</label>
@@ -167,6 +154,21 @@
                                     </div>
                                 </div>
 
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Code Postal</label>
+                                        <select class="form-control zipcodes" name="zipcode_id" required>
+                                            @forelse($zipcodes as $zipcode)
+                                            <option value="{{$zipcode->id}}"
+                                                {{ $zipcode->id == $store->zipcode_id ? "selected" : "" }}>
+                                                {{$zipcode->code}}</option>
+                                            @empty
+                                            @endforelse
+                                        </select>
+                                    </div>
+
+                                </div>
+
 
                             </div>
 
@@ -194,7 +196,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Telephone</label>
-                                        <input class="form-control" name="cc" type="text" placeholder="Code pays"
+                                        <input class="form-control cc" name="cc" type="text" placeholder="Code pays"
                                             value="{{explode(' ', $store->tel)[0]}}" maxlength="4">
 
                                     </div>

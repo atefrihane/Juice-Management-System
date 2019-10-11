@@ -18,8 +18,8 @@ class UsersTableSeeder extends Seeder
         User::create([
             'email' => 'test@test.fr',
             'code' => 't1158',
-            'nom' => 'nom',
-            'prenom' => 'prenom',
+            'nom' => 'Keven ',
+            'prenom' => 'Guerrette',
             'civilite' => 'homme',
             'telephone' => '55612719',
             'accessCode' => 'ji5848',

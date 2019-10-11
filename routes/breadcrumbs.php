@@ -30,7 +30,7 @@ Breadcrumbs::for('company', function ($trail) {
 });
 Breadcrumbs::for('editCompany', function ($trail,$company) {
     $trail->parent('home');
-    $trail->push('Modifier une societé', route('updateCompany',$company));
+    $trail->push('Modifier une societé', route('editCompany',$company));
     $trail->push($company->designation);
 });
 // Home

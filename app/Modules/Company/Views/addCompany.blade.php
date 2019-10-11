@@ -118,18 +118,6 @@
 
                             <div class="row">
 
-
-
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Code Postal</label>
-                                        <select class="form-control zipcodes" name="zipcode_id">
-                                            <option value="" selected disabled>Séléctionner un code postal</option>
-                                        </select>
-                                    </div>
-
-                                </div>
-
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Pays</label>
@@ -151,6 +139,14 @@
                                         </select>
                                     </div>
                                 </div>
+                            <div class="col-md-4">
+                            <div class="form-group">
+                                        <label for="exampleInputPassword1">Code Postal</label>
+                                        <select class="form-control zipcodes" name="zipcode_id">
+                                            <option value="" selected disabled>Séléctionner un code postal</option>
+                                        </select>
+                                    </div>
+                            </div>
 
 
                             </div>
@@ -169,8 +165,8 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Téléphone</label>
-                                        <input required class="form-control" name="cc" type="text"
-                                            placeholder="Code pays" value="+33" maxlength="4" value="{{old('cc')}}">
+                                        <input required class="form-control cc" name="cc" type="text"
+                                            placeholder="Code pays" value="" maxlength="4" value="{{old('cc')}}">
 
                                     </div>
                                 </div>

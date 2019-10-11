@@ -283,8 +283,8 @@ class CompaniesTableSeeder extends Seeder
         $director = User::create([
             'email' => 'directeur@directeur.fr',
             'code' => 't1158',
-            'nom' => 'nom',
-            'prenom' => 'prenom',
+            'nom' => 'Albert ',
+            'prenom' => 'Gagnier',
             'civilite' => 'homme',
             'telephone' => '55612719',
             'accessCode' => 'ji5848',
@@ -296,8 +296,8 @@ class CompaniesTableSeeder extends Seeder
         $responsible = User::create([
             'email' => 'responsable@resposnable.fr',
             'code' => 't1158',
-            'nom' => 'nom',
-            'prenom' => 'prenom',
+            'nom' => 'Jules ',
+            'prenom' => 'Julian',
             'civilite' => 'homme',
             'telephone' => '55612719',
             'accessCode' => 'ji5848',

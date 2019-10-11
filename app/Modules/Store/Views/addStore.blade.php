@@ -66,13 +66,14 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Nom Societé</label>
                                 <input required class="form-control" id="disabledInput" readonly
-                                    value="{{$company->name}}" type="text" placeholder="Groupe" >
+                                    value="{{$company->name}}" type="text" placeholder="Groupe">
 
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Désignation</label>
-                                <input required class="form-control designation" id="disabledInput" type="text" name="designation"
-                                    placeholder="Nom Magasin" value="{{old('designation')}}" pattern=".{6,}" title="6 caractères minimum">
+                                <input required class="form-control designation" id="disabledInput" type="text"
+                                    name="designation" placeholder="Nom Magasin" value="{{old('designation')}}"
+                                    pattern=".{6,}" title="6 caractères minimum">
 
                             </div>
                             <div class="form-group">
@@ -94,19 +95,12 @@
 
                             <div class="row">
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Code Postal</label>
-                                        <select class="form-control zipcodes" name="zipcode_id" value="{{old('zipcode_id')}}" required>
-                                         <option value="">Selectionner un code postal</option>
-                                        </select>
-                                    </div>
 
-                                </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Pays</label>
-                                        <select class="form-control country" name="country_id" value="{{old('country_id')}}" required>
+                                        <select class="form-control country" name="country_id"
+                                            value="{{old('country_id')}}" required>
                                             <option value="">Séléctionner un pays</option>
                                             @forelse($countries as $country)
                                             <option value="{{$country->id}}">{{$country->name}}</option>
@@ -119,19 +113,31 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Ville</label>
-                                        <select class="form-control cities" name="city_id" value="{{old('city_id')}}" required>
-                                        <option value="">Selectionner une ville</option>
+                                        <select class="form-control cities" name="city_id" value="{{old('city_id')}}"
+                                            required>
+                                            <option value="">Selectionner une ville</option>
                                         </select>
                                     </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Code Postal</label>
+                                        <select class="form-control zipcodes" name="zipcode_id"
+                                            value="{{old('zipcode_id')}}" required>
+                                            <option value="">Selectionner un code postal</option>
+                                        </select>
+                                    </div>
+
                                 </div>
 
 
                             </div>
                             <div class="form-group">
-                                    <label for="exampleInputEmail1">Adresse du magasin</label>
-                                    <input required class="form-control" id="disabledInput" type="text" name="address" placeholder="Adresse du Magasin">
+                                <label for="exampleInputEmail1">Adresse du magasin</label>
+                                <input required class="form-control" id="disabledInput" type="text" name="address"
+                                    placeholder="Adresse du Magasin">
 
-                                </div>
+                            </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Complement(optionnel)</label>
                                 <input class="form-control" id="disabledInput" type="text" name="complement"
@@ -149,8 +155,8 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Telephone</label>
-                                        <input required class="form-control" name="cc" type="text"
-                                            placeholder="Code pays" value="+33" maxlength="4" value="{{old('cc')}}">
+                                        <input required class="form-control cc" name="cc" type="text"
+                                            placeholder="Code pays" value="" maxlength="4" value="{{old('cc')}}">
 
                                     </div>
                                 </div>
@@ -165,8 +171,8 @@
                             </div>
                             <div class="form-group">
                                 <label>Commentaires (optionnel)</label>
-                                <textarea class="form-control" rows="3" name="comment"
-                                    placeholder="Commentaires" value="{{old('comment')}}">{{old('comment')}}"</textarea>
+                                <textarea class="form-control" rows="3" name="comment" placeholder="Commentaires"
+                                    value="{{old('comment')}}">{{old('comment')}}</textarea>
                             </div>
 
 
@@ -202,18 +208,18 @@
                                     </div>
                                 </div>
                             </div>
-                      
+
                             <div class="form-group">
                                 <label>Recommendation pour livreur (optionnel)</label>
                                 <textarea class="form-control" rows="3" name="deliveryRec"
                                     placeholder="Recommendarion pour liveruer ..."></textarea>
                             </div>
                             <div class="form-group" style="margin-bottom:-15px;">
-                            <label style="font-size: 24px; margin-top: 24px; font-weight: bold;"> Horaires</label>
-                             
+                                <label style="font-size: 24px; margin-top: 24px; font-weight: bold;"> Horaires</label>
+
                             </div>
 
-                        <table class="tables">
+                            <table class="tables">
                                 <thead>
 
                                     <th class="no-sort">Jour</th>
@@ -366,15 +372,16 @@
 </div>
 @section('scripts-custom')
 <script>
-var oTable = $('.tables').DataTable( {
-    "language": {
-      "url": "http://cdn.datatables.net/plug-ins/a5734b29083/i18n/French.json"
-    },
-    "bLengthChange": false ,
-    "aaSorting": [],
+    var oTable = $('.tables').DataTable({
+        "language": {
+            "url": "http://cdn.datatables.net/plug-ins/a5734b29083/i18n/French.json"
+        },
+        "bLengthChange": false,
+        "aaSorting": [],
 
-    "pageLength": 20
-} );
+        "pageLength": 20
+    });
+
 </script>
 @endsection
 @endsection

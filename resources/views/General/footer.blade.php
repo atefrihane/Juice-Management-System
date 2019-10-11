@@ -167,6 +167,7 @@ $(".vdp-datepicker > div > input").attr("placeholder", "Sélectionner une date")
             success: function (data) {
                 var response = JSON.parse(JSON.stringify(data));
              
+             
                 var html = "";
                 if (data.cities.length > 0) {
                     for (var i = 0; i < data.cities.length; i++) {
@@ -174,6 +175,7 @@ $(".vdp-datepicker > div > input").attr("placeholder", "Sélectionner une date")
                             .cities[i].name + '</option>'
                         $('.cities').html(html);
                     }
+                    $('.cc').val(data.code);
                    var val= ($('.cities option:nth-child(1)').val())
                     $.ajax({
                         type: 'GET', //THIS NEEDS TO BE GET

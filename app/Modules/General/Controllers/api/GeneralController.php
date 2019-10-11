@@ -175,7 +175,7 @@ class GeneralController extends Controller
 
         if ($country) {
 
-            return response()->json(['status' => 200, 'cities' => $country->cities]);
+            return response()->json(['status' => 200 ,'code' => $country->code,'cities' => $country->cities]);
 
         }
         return response()->json(['status' => 404]);
