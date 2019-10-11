@@ -2,6 +2,7 @@
 
 namespace App\Modules\Store\Models;
 
+use App\Modules\CompanyPrice\Models\CompanyPrice;
 use App\Modules\Company\Models\Company;
 use App\Modules\General\Models\City;
 use App\Modules\General\Models\Country;
@@ -79,6 +80,12 @@ class Store extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class, 'store_products');
+
+    }
+
+    public function companyPrices()
+    {
+        return $this->hasMany(CompanyPrice::class);
 
     }
 

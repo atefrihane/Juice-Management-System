@@ -32,7 +32,7 @@
                                     <th>Quantité(nbr des unités)</th>
                                     <th>Entrepôt</th>
                                     <th>Date de fabrication</th>
-                                    <th>Date d'expiration</th>
+                                    <th>Date de prémption</th>
                                     <th></th>
                                 </tr>
                             </thead>

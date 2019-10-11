@@ -33,8 +33,7 @@
                                     <select class="form-control selected_product" name="product_id" required>
                                         <option value="0">Selectionner un produit </option>
                                         @forelse($products as $product)
-                                        <option value="{{$product->id}}"
-                                            {{ old('product_id',$product->id) ? 'selected' : ''  }}>{{$product->nom}}
+                                        <option value="{{$product->id}}">{{$product->nom}}
                                         </option>
                                         @empty
                                         <option value="0">Aucun produit</option>
@@ -59,7 +58,7 @@
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label for="exampleInputEmail1">Colisage</label>
+                                    <label for="exampleInputEmail1">Colisage par défaut</label>
                                     <input type="number" name="productPacking" value="{{old('productPacking')}}"
                                         class="form-control" placeholder="Colisage" id="packing" disabled>
                                 </div>
@@ -72,33 +71,10 @@
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Colisage</label>
                                     <input type="number" name="packing" value="{{old('packing')}}" class="form-control"
-                                        placeholder="Colisage" required>
+                                        placeholder="Colisage" id="packing1" required>
                                 </div>
                             </div>
                         </div>
-                        <div class="box-body">
-                            <div class="row">
-
-
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Date prémption du produit fermé</label>
-
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                            </div>
-                                            <input type="date" class="form-control pull-right" id="datepicker"
-                                                name="expiration_date" value="{{old('expiration_date')}}" required>
-                                        </div>
-                                        <!-- /.input group -->
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-
                         <div class="box-body">
                             <div class="row">
 
@@ -120,8 +96,27 @@
 
                             </div>
                         </div>
-
                         <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Date prémption</label>
+
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="date" class="form-control pull-right" id="datepicker"
+                                                name="expiration_date" value="{{old('expiration_date')}}" required>
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                         <div class="box-body">
                             <div class="row">
 
                                 <div class="col-md-12">
@@ -174,7 +169,7 @@
                         <div class="row">
                             <div class="container text-center">
 
-                                <a href="{{route('showMachines')}}" class="btn btn-danger pl-1"
+                                <a href="{{route('showWarehouseProducts')}}" class="btn btn-danger pl-1"
                                     style="margin: 1em">Annuler</a>
                                 <button type="submit" class="btn btn-success pl-1"
                                     style="margin: 1em">Confirmer</button>
@@ -209,9 +204,7 @@
 
             var id = this.value;
             console.log(id);
-            var url = {
-                !!json_encode(url('/')) !!
-            }
+            var url = {!!json_encode(url('/'))!!}
 
             if (id == 0) {
                 $('#productCode').val('');
@@ -229,6 +222,7 @@
                         $('#productCode').val(response.product.code);
                         $('#barCode').val(response.product.barcode);
                         $('#packing').val(response.product.packing);
+                        $('#packing1').val(response.product.packing);
                     },
                     error: function (data) {
                         console.log(data);

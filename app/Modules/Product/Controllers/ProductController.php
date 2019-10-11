@@ -165,22 +165,35 @@ class ProductController extends Controller
 
     public function handleUpdateCustomProduct(Request $request, $id)
     {
-        $companyPrice = CompanyPrice::find($id);
-        if ($companyPrice) {
-            $company = Company::find($companyPrice->company->id);
 
-            $companyPrice->update([
-                'price' => $request->price,
-                'product_id' => $request->product_id,
-            ]);
-            alert()->success('Succés!', 'Tarif produit modifié !')->persistent("Fermer");
-            return view('Product::showCustomProducts', compact('company'));
+        if (!$request->input('store_id')) {
+            alert()->error('Oups!', 'Veuillez séléctionner au moins un magasin !')->persistent('Femer');
+            return redirect()->back()->withInput();
         }
+
+        foreach ($request->store_id as $store_id) {
+            $companyPrice = CompanyPrice::where('store_id', $store_id)->first();
+            if ($companyPrice) {
+
+                $companyPrice->update([
+                    'price' => $request->price,
+                    'product_id' => $request->product_id,
+                ]);
+
+            }
+
+        }
+        $companyPrice = CompanyPrice::find($id);
+        $company = Company::find($companyPrice->company->id);
+        alert()->success('Succés!', 'Tarif produit modifié !')->persistent("Fermer");
+        return view('Product::showCustomProducts', compact('company'));
 
     }
     public function handleDeleteCustomProduct(Request $request, $id)
     {
+      
         $companyPrice = CompanyPrice::find($id);
+
         if ($companyPrice) {
             $companyPrice->delete();
             alert()->success('Succés!', 'Tarif produit supprimé !')->persistent("Fermer");
@@ -191,31 +204,43 @@ class ProductController extends Controller
 
     public function handleStoreCustomPrice(Request $request, $id)
     {
+
+        if (!$request->input('store_id')) {
+            alert()->error('Oups!', 'Veuillez séléctionner au moins un magasin !')->persistent('Femer');
+            return redirect()->back()->withInput();
+        }
         $company = Company::find($id);
         if ($company) {
 
-            $checkCompany = CompanyPrice::where('product_id', $request->product_id)
-                ->where('company_id', $id)
-                ->first();
-
-            if ($checkCompany) {
-                alert()->error('Oups!', 'Vous avez déja specifié un tarif pour ce produit à cette societé !')->persistent("Fermer");
-                return redirect()->back();
-
-            }
+           
             if ($request->price < 0) {
                 alert()->error('Oups!', 'Prix invalide!!')->persistent("Fermer");
                 return redirect()->back();
 
             }
-            CompanyPrice::create([
-                'price' => $request->price,
-                'product_id' => $request->product_id,
-                'company_id' => $id,
-            ]);
+            foreach ($request->store_id as $store_id) {
+                $checkPrice=CompanyPrice::where('store_id',$store_id)
+                ->where('company_id',$id)
+                ->where('product_id',$request->product_id)
+                ->where('price',$request->price)
+                ->first();
+                if($checkPrice)
+                {
+                    alert()->error('Oups!', 'Vous avez déja specifié un prix pour '.$checkPrice->store->designation)->persistent("Fermer");
+                    return redirect()->back();
+
+                }
+                CompanyPrice::create([
+                    'price' => $request->price,
+                    'product_id' => $request->product_id,
+                    'company_id' => $id,
+                    'store_id' => $store_id,
+                ]);
+            }
 
             alert()->success('Succés!', 'Tarif ajouté !')->persistent("Fermer");
-            return view('Product::showCustomProducts', compact('company'));
+            return redirect()->route('showCustomProducts',$company->id);
+
 
         }
         return view('General::notFound');

@@ -18,7 +18,7 @@
                     <div class="box-header">
                         <h3 class="box-title">Tarif Societé - Liste des produits</h3>
                         <a href="{{route('showAddCustomProduct',$company->id)}}"
-                            class="btn btn-primary pull-right">Ajouter un produit</a>
+                            class="btn btn-primary pull-right">Ajouter un produit au tarif</a>
 
 
                         <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
@@ -32,7 +32,8 @@
                                     <th>Code produit</th>
                                     <th>Type de produit</th>
                                     <th>Prix unitaire de base</th>
-                                    <th>Prix unitaire pour societé</th>
+                                    <th>Magasin</th>
+                                    <th>Prix unitaire pour magasin</th>
                                     <th></th>
 
                                 </tr>
@@ -45,6 +46,7 @@
                                     <td>{{$companyPrice->product->code}}</td>
                                     <td>{{$companyPrice->product->type}}</td>
                                     <td>{{$companyPrice->product->public_price}}</td>
+                                    <td>{{$companyPrice->store->designation}}</td>
                                     <td>{{$companyPrice->price}}</td>
                                     <td class="not-this text-center">
 

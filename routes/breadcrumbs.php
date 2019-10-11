@@ -198,7 +198,7 @@ Breadcrumbs::for('customProduct', function ($trail, $company) {
 
 Breadcrumbs::for('addCustomProduct', function ($trail, $company) {
     $trail->parent('customProduct', $company);
-    $trail->push('Ajouter un produit ', route('showRentedMachines', $company));
+    $trail->push('Ajouter un produit au tarif ', route('showRentedMachines', $company));
 });
 
 Breadcrumbs::for('productWarehouse', function ($trail) {
