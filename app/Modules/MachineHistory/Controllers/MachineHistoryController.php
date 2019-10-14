@@ -37,7 +37,7 @@ class MachineHistoryController extends Controller
                 'comment'=>$request->comment
             ]);
 
-            alert()->success('Succés!', 'Historique modifié avec succés !')->persistent('Femer');
+            alert()->success('Succès!', 'Historique modifié avec succès !')->persistent('Femer');
             return redirect()->back();
         }
         return view('General::notFound');

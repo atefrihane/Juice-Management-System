@@ -85,7 +85,7 @@ class CompanyController extends Controller
             'user_id' => Auth::id(),
 
         ]);
-        alert()->success('Succés!', 'La societé a été ajoutée avec succés ')->persistent("Fermer");
+        alert()->success('Succès!', 'La societé a été ajoutée avec succès ')->persistent("Fermer");
         return redirect('/');
 
     }
@@ -194,7 +194,7 @@ class CompanyController extends Controller
 
             }
 
-            alert()->success('Succés!', 'La societé a été modifié avec succés ')->persistent("Fermer");
+            alert()->success('Succès!', 'La societé a été modifié avec succès ')->persistent("Fermer");
             return redirect()->route('showHome');
 
         }
@@ -207,10 +207,10 @@ class CompanyController extends Controller
         $company = Company::find($id);
         if ($company) {
             $company->delete();
-            alert()->success('Succés!', 'La societé a été supprimé avec succés ')->persistent("Fermer");
+            alert()->success('Succès!', 'La societé a été supprimé avec succès ')->persistent("Fermer");
             return redirect()->back();
         }
-        alert()->error('Succés!', 'Societé introuvable !')->persistent("Fermer");
+        alert()->error('Succès!', 'Societé introuvable !')->persistent("Fermer");
         return redirect()->back();
     }
 

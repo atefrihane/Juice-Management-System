@@ -89,7 +89,7 @@ class MachineController extends Controller
 
         }
 
-        alert()->success('Succés!', 'une nouvelle machine a été crée avec succés !')->persistent("Fermer");
+        alert()->success('Succès!', 'une nouvelle machine a été crée avec succès !')->persistent("Fermer");
         return redirect(route('showMachines'));
     }
 
@@ -151,7 +151,7 @@ class MachineController extends Controller
                 }
 
             }
-            alert()->success('Succés!', 'La machine a été modifiée avec succés ')->persistent("Fermer");
+            alert()->success('Succès!', 'La machine a été modifiée avec succès ')->persistent("Fermer");
             return redirect(route('showMachines'));
 
         }
@@ -163,7 +163,7 @@ class MachineController extends Controller
     {
         $machine = Machine::find($id);
         $machine->delete();
-        alert()->success('Succés!', 'La machine a été supprimé avec succés ')->persistent("Fermer");
+        alert()->success('Succès!', 'La machine a été supprimé avec succès ')->persistent("Fermer");
         return redirect(route('showMachines'));
     }
     public function startRentalMachine($id)
@@ -202,7 +202,7 @@ class MachineController extends Controller
                 'rental_id' => $rental ? $rental->id : null,
             ]);
 
-            alert()->success('Succés!', 'Le nouveau etat  de la machine est bien à jour !')->persistent("Fermer");
+            alert()->success('Succès!', 'Le nouveau etat  de la machine est bien à jour !')->persistent("Fermer");
             return redirect()->route('showMachines');
 
         }

@@ -221,7 +221,7 @@ class StoreController extends Controller
         $this->handleFillSchedule(5, $request->fridayDayStart, $request->fridayDayEnd, $request->fridayNightStart, $request->fridayNightEnd, $request->fridayClosed, $store->id);
         $this->handleFillSchedule(6, $request->saturdayDayStart, $request->saturdayDayEnd, $request->saturdayNightStart, $request->saturdayNightEnd, $request->saturdayClosed, $store->id);
         $this->handleFillSchedule(7, $request->sundayDayStart, $request->sundayDayEnd, $request->sundayNightStart, $request->sundayNightEnd, $request->sundayClosed, $store->id);
-        alert()->success('Succés!', 'Le magasin a été crée avec succés ! ')->persistent('Femer');
+        alert()->success('Succès!', 'Le magasin a été crée avec succès ! ')->persistent('Femer');
         return redirect(route('showStores', $company_id));
 
     }
@@ -440,7 +440,7 @@ class StoreController extends Controller
 
             }
 
-            alert()->success('Succés', 'Le magasin a été modifié avec succés')->persistent('Femer');
+            alert()->success('Succès', 'Le magasin a été modifié avec succès')->persistent('Femer');
             return redirect(route('showStores', $store->company_id));
         }
     }
@@ -452,7 +452,7 @@ class StoreController extends Controller
         $companyId = $store->company_id;
 
         $store->delete();
-        alert()->success('Succés!', 'Le magasin  a été supprimé avec succés ')->persistent("Fermer");
+        alert()->success('Succès!', 'Le magasin  a été supprimé avec succès ')->persistent("Fermer");
         return redirect(route('showStores', $companyId));
     }
 
@@ -532,7 +532,7 @@ class StoreController extends Controller
                 'creation_date' => $request->creation_date,
                 'expiration_date' => $request->expiration_date,
             ]);
-            alert()->success('Succés', 'Stock ajouté !')->persistent('Femer');
+            alert()->success('Succès', 'Stock ajouté !')->persistent('Femer');
             return redirect()->route('showStoreStock', ['store_id' => $store->company->id, 'store' => $store->id]);
 
         }
@@ -543,7 +543,7 @@ class StoreController extends Controller
         $stock = StoreProduct::find($id);
         if ($stock) {
             $stock->delete();
-            alert()->success('Succés', 'Stock supprimé !')->persistent('Femer');
+            alert()->success('Succès', 'Stock supprimé !')->persistent('Femer');
             return redirect()->back();
         }
         return view('General::notFound');
@@ -584,7 +584,7 @@ class StoreController extends Controller
                 'creation_date' => $request->creation_date,
                 'expiration_date' => $request->expiration_date,
             ]);
-            alert()->success('Succés', 'Stock modifié !')->persistent('Femer');
+            alert()->success('Succès', 'Stock modifié !')->persistent('Femer');
             return redirect()->route('showStoreStock', ['store_id' => $store->company->id, 'store' => $store->id]);
         }
     }

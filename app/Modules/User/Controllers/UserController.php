@@ -125,7 +125,7 @@ class UserController extends Controller
                 $user = User::create($user);
                 break;
         }
-        alert()->success('Succés!', 'Le contact a été ajouté avec succés!')->persistent("Fermer");
+        alert()->success('Succès!', 'Le contact a été ajouté avec succès!')->persistent("Fermer");
         return redirect(route('showContacts', $id));
     }
 
@@ -185,7 +185,7 @@ class UserController extends Controller
                 break;
         }
         $user->delete();
-        alert()->success('Succés', ' Le contact a été supprimé avec succés !');
+        alert()->success('Succès', ' Le contact a été supprimé avec succès !');
         return redirect(route('showContacts', $cid));
     }
 

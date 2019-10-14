@@ -83,7 +83,7 @@ class AdminController extends Controller
             'child_type' => Admin::class,
             'child_id' => $admin->id,
         ]);
-        alert()->success('Succés!', 'Admin ajouté avec succés')->persistent('Fermer');
+        alert()->success('Succès!', 'Admin ajouté avec succès')->persistent('Fermer');
         return redirect('/admin');
     }
 
@@ -182,7 +182,7 @@ class AdminController extends Controller
             'child_id' => $id,
         ]);
         $user = Admin::find($id)->user;
-        alert()->success('Succés!', 'Admin modifié avec succés')->persistent('Fermer');
+        alert()->success('Succès!', 'Admin modifié avec succès')->persistent('Fermer');
         return redirect('/admin');
     }
 
@@ -203,7 +203,7 @@ class AdminController extends Controller
         } else {
             alert()->error('Oups!', 'DBO ne peut pas etre supprimer')->persistent("Fermer");
         }
-        alert()->success('Succés!', 'Admin supprimé avec succés')->persistent('Fermer');
+        alert()->success('Succès!', 'Admin supprimé avec succès')->persistent('Fermer');
         return redirect('/admin');
     }
 }

@@ -147,7 +147,7 @@ class MachineRentalController extends Controller
 
                 ]);
             }
-            alert()->success('Succés!', 'La machine ' . $machineRental->machine->code . ' est maintenant libre !')->persistent("Fermer");
+            alert()->success('Succès!', 'La machine ' . $machineRental->machine->code . ' est maintenant libre !')->persistent("Fermer");
             return redirect(route('showMachines'));
 
         }
@@ -170,7 +170,7 @@ class MachineRentalController extends Controller
         $rental = MachineRental::find($id);
         if ($rental) {
             $rental->update($request->all());
-            alert()->success('Location modifiée avec succés')->persistent('Femer');
+            alert()->success('Location modifiée avec succès')->persistent('Femer');
             return redirect()->back();
 
         }
