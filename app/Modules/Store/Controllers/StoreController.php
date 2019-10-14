@@ -40,6 +40,89 @@ class StoreController extends Controller
 
     }
 
+    public function handleFillSchedule($day, $startDay, $endDay, $startNight, $endNight, $closed, $storeId)
+    {
+
+        if ($storeId) {
+
+            $dayText = "";
+            switch ($day) {
+                case (1):
+                    $dayText = 'Lundi';
+                    break;
+                case (2):
+                    $dayText = 'Mardi';
+                    break;
+                case (3):
+                    $dayText = 'Mercredi';
+                    break;
+                case (4):
+                    $dayText = 'Jeudi';
+                    break;
+                case (5):
+                    $dayText = 'Vendredi';
+                    break;
+                case (6):
+                    $dayText = 'Samedi';
+                    break;
+                case (7):
+                    $dayText = 'Dimanche';
+                    break;
+
+            }
+
+            if ($startDay && $endDay) {
+                if ($startDay >= $endDay) {
+                    alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
+                    return redirect()->back();
+
+                }
+
+            }
+
+            if ($startNight && $endNight) {
+                if ($startNight >= $endNight) {
+                    alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
+                    return redirect()->back();
+
+                }
+            }
+
+                if ($startDay && $endDay && $startNight && $endNight) {
+                    if ($startNight <= $endDay or $startNight <= $startDay) {
+                        alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
+                        return redirect()->back();
+
+                    }
+
+                    if ($endNight <= $endDay or $endNight <= $startDay) {
+                        alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
+                        return redirect()->back();
+
+                    }
+
+                }
+
+                StoreSchedule::create([
+                    'day' => $day,
+                    'start_day_time' => $startDay,
+                    'end_day_time' => $endDay,
+                    'start_night_time' => $startNight,
+                    'end_night_time' => $endNight,
+                    'closed' => $closed == 'on' ? 1 : 0,
+                    'store_id' => $storeId,
+
+                ]);
+
+            } else {
+                alert()->error('Oups', 'Magasin introuvable !');
+                return redirect()->back();
+
+            }
+
+        
+    }
+
     public function store($company_id, Request $request)
     {
 
@@ -143,71 +226,7 @@ class StoreController extends Controller
 
     }
 
-    public function handleFillSchedule($day, $startDay, $endDay, $startNight, $endNight, $closed, $storeId)
-    {
-        if ($storeId) {
-            $dayText = "";
-            switch ($day) {
-                case (1):
-                    $dayText = 'Lundi';
-                    break;
-                case (2):
-                    $dayText = 'Mardi';
-                    break;
-                case (3):
-                    $dayText = 'Mercredi';
-                    break;
-                case (4):
-                    $dayText = 'Jeudi';
-                    break;
-                case (5):
-                    $dayText = 'Vendredi';
-                    break;
-                case (6):
-                    $dayText = 'Samedi';
-                    break;
-                case (7):
-                    $dayText = 'Dimanche';
-                    break;
-
-            }
-
-            if ($startDay >= $endDay) {
-                alert()->error('Oups', ' Verifier les horaires pour ' . $dayText);
-                return redirect()->back();
-
-            }
-
-            if ($startNight >= $endNight or $startNight <= $endDay or $startNight <= $startDay) {
-                alert()->error('Oups', ' Verifier les horaires pour ' . $dayText);
-                return redirect()->back();
-
-            }
-
-            if ($endNight <= $endDay or $endNight <= $startDay) {
-                alert()->error('Oups', ' Verifier les horaires pour ' . $dayText);
-                return redirect()->back();
-
-            }
-
-            StoreSchedule::create([
-                'day' => $day,
-                'start_day_time' => $startDay,
-                'end_day_time' => $endDay,
-                'start_night_time' => $startNight,
-                'end_night_time' => $endNight,
-                'closed' => $closed == 'on' ? 1 : 0,
-                'store_id' => $storeId,
-
-            ]);
-
-        } else {
-            alert()->error('Oups', 'Magasin introuvable !');
-            return redirect()->back();
-
-        }
-
-    }
+  
 
     public function edit($id)
     {
@@ -372,21 +391,36 @@ class StoreController extends Controller
                         $startNight = $schedule[3];
                         $endNight = $schedule[4];
 
-                        if ($startDay >= $endDay) {
-                            alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
-                            return redirect()->back();
+                        if ($startDay && $endDay) {
+                            if ($startDay >= $endDay) {
+                                alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
+                                return redirect()->back();
+
+                            }
 
                         }
 
-                        if ($startNight >= $endNight or $startNight <= $endDay or $startNight <= $startDay) {
-                            alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
-                            return redirect()->back();
+                        if ($startNight && $endNight) {
+                            if ($startNight >= $endNight) {
+                                alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
+                                return redirect()->back();
 
-                        }
+                            }
 
-                        if ($endNight <= $endDay or $endNight <= $startDay) {
-                            alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
-                            return redirect()->back();
+                            if ($startDay && $endDay && $startNight && $endNight) {
+                                if ($startNight <= $endDay or $startNight <= $startDay) {
+                                    alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
+                                    return redirect()->back();
+
+                                }
+
+                                if ($endNight <= $endDay or $endNight <= $startDay) {
+                                    alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
+                                    return redirect()->back();
+
+                                }
+
+                            }
 
                         }
 
@@ -409,13 +443,14 @@ class StoreController extends Controller
             alert()->success('Succés', 'Le magasin a été modifié avec succés')->persistent('Femer');
             return redirect(route('showStores', $store->company_id));
         }
-
     }
 
     public function delete($id)
     {
         $store = Store::find($id);
+
         $companyId = $store->company_id;
+
         $store->delete();
         alert()->success('Succés!', 'Le magasin  a été supprimé avec succés ')->persistent("Fermer");
         return redirect(route('showStores', $companyId));

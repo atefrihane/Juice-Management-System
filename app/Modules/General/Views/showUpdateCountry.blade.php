@@ -1,5 +1,5 @@
 @extends('General.layout')
-@section('pageTitle', 'Ajouter un pays')
+@section('pageTitle', 'Modifier un pays')
 @section('content')
 
 <style>

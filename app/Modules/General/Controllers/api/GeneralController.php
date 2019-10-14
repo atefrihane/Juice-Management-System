@@ -57,12 +57,14 @@ class GeneralController extends Controller
 
     public function handleUpdateCountryData($id, Request $request)
     {
+      
 
         $country = Country::find($id);
         if ($country) {
 
             if ($country->name != $request->name) {
-                $checkName = Country::where('name', $request->name)->first();
+                $checkName = Country::where('name', $request->name)
+                    ->first();
                 if ($checkName) {
 
                     return response()->json(['status' => 401]);
@@ -70,6 +72,19 @@ class GeneralController extends Controller
                 }
 
             }
+
+            if ($country->name == $request->name) {
+                $checkName = Country::where('name', $request->name)
+                ->where('id' ,'!=',$country->id)
+                    ->first();
+                if ($checkName) {
+
+                    return response()->json(['status' => 401]);
+
+                }
+
+            }
+
 
             if ($country->code != $request->code) {
                 $checkCode = Country::where('code', $request->code)->first();
@@ -80,6 +95,20 @@ class GeneralController extends Controller
                 }
 
             }
+
+            if ($country->code == $request->code) {
+                $checkCode = Country::where('code', $request->name)
+                ->where('id' ,'!=',$country->id)
+                    ->first();
+                if ($checkName) {
+
+                    return response()->json(['status' => 402]);
+
+                }
+
+            }
+
+
             $country->update([
                 'name' => $request->name,
                 'code' => $request->code,
@@ -110,7 +139,7 @@ class GeneralController extends Controller
                                 }
                             }
                             if (count($deleted) > 0) {
-                               
+
                                 foreach ($deleted as $deleteId) {
                                     Zipcode::find($deleteId)->delete();
                                 }
@@ -175,7 +204,7 @@ class GeneralController extends Controller
 
         if ($country) {
 
-            return response()->json(['status' => 200 ,'code' => $country->code,'cities' => $country->cities]);
+            return response()->json(['status' => 200, 'code' => $country->code, 'cities' => $country->cities]);
 
         }
         return response()->json(['status' => 404]);
