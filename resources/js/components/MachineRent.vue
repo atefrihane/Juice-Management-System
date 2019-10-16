@@ -187,6 +187,8 @@
 
 <script>
     import Datepicker from 'vuejs-datepicker';
+ 
+
     export default {
 
         components: {
@@ -248,12 +250,14 @@
 
             },
             getProducts() {
-                axios.get('/api/products/')
+              
+                axios.get(axios.defaults.baseURL+'/api/products/')
                     .then((response) => {
                         this.products.push(response.data);
+                        
                     })
                     .catch(function (error) {
-
+                    
                         console.log(error);
                     })
 

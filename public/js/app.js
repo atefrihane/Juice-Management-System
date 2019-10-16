@@ -2421,7 +2421,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getProducts: function getProducts() {
       var _this3 = this;
 
-      axios.get('/api/products/').then(function (response) {
+      axios.get(axios.defaults.baseURL + '/api/products/').then(function (response) {
         _this3.products.push(response.data);
       })["catch"](function (error) {
         console.log(error);
@@ -64809,7 +64809,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
     'machine-rent-update': _components_MachineRentUpdate_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
     'country-add': _components_CountryAdd_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
     'country-update': _components_CountryUpdate_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
-    MachineRent: _components_MachineRent_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+    'machine-rent': _components_MachineRent_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   }
 });
 

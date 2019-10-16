@@ -25,6 +25,7 @@ Vue.component('machine-rent', require('./components/MachineRent.vue'));
 Vue.component('machine-rent-update', require('./components/MachineRentUpdate.vue'));
 Vue.component('country-add', require('./components/CountryAdd.vue'));
 Vue.component('country-update', require('./components/CountryUpdate.vue'));
+
 axios.defaults.baseURL = '/wizefresh/public/'
 const app = new Vue({
     el: '#app',
@@ -35,7 +36,7 @@ const app = new Vue({
         'machine-rent-update': MachineRentUpdate,
         'country-add': CountryAdd,
         'country-update': CountryUpdate,
-        MachineRent,
+        'machine-rent': MachineRent,
 
 
 
