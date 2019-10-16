@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://vps740184.ovh.net/wizefresh/public/'),
     'base_url'=>'hbjn',
     'asset_url' => env('ASSET_URL', null),
 
