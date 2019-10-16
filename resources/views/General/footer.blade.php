@@ -266,11 +266,7 @@ $(document).ready(function(){
  });
 });
 </script>
-<script>
-$('.form-check-input').click(function(){
-    console.log( $(this.html()) );
-})
-</script>
+
 
 @yield('customProducts')
 

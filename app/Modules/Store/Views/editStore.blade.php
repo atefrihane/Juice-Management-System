@@ -115,6 +115,18 @@
                             </div>
 
 
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Adresse du magasin</label>
+                                <input class="form-control" id="disabledInput" type="text" value="{{$store->address}}"
+                                    name="address" placeholder="Nom Magasin">
+
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Complement(optionnel)</label>
+                                <input class="form-control" id="disabledInput" type="text"
+                                    value="{{$store->complement}}" name="complement" placeholder="Nom Magasin">
+
+                            </div>
 
 
 
@@ -169,18 +181,6 @@
                             </div>
 
 
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Adresse du magasin</label>
-                                <input class="form-control" id="disabledInput" type="text" value="{{$store->address}}"
-                                    name="address" placeholder="Nom Magasin">
-
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Complement(optionnel)</label>
-                                <input class="form-control" id="disabledInput" type="text"
-                                    value="{{$store->complement}}" name="complement" placeholder="Nom Magasin">
-
-                            </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Email</label>
                                 <input class="form-control" id="disabledInput" type="email" value="{{$store->email}}"

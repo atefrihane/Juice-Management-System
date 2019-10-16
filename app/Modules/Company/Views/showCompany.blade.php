@@ -118,7 +118,15 @@
 
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Pays</label>
+                                            <input type="text" class="form-control" value="{{$company->country->name}}"
+                                                readonly aria-describedby="emailHelp" placeholder="Pays">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Ville</label>
                                             <input type="text" class="form-control" value="{{$company->city->name}}"
@@ -126,7 +134,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Code Postal</label>
                                             <input type="text" class="form-control" value="{{$company->zipcode->code}}"

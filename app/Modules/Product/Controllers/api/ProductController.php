@@ -32,6 +32,8 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+      
+       
         $checkCode = Product::where('code', $request->code)->first();
         if ($checkCode) {
             return response()->json(['status' => 400]);

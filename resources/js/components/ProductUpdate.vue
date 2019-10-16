@@ -54,10 +54,11 @@
 
 
             <div class="form-group">
-                <label for="exampleInputEmail1">Type de Produit</label>
+                 <label for="exampleInputEmail1">Type de Produit</label>
                 <select class="form-control" v-model="type" @change="getProductData($event)">
-                    <option :null="type">Aucun type</option>
-                    <option :value="type">{{type}}</option>
+                    <option selected>Alimentaire</option>
+                    <option>Jettable</option>
+                    <option>Autre</option>
 
                 </select>
 
@@ -184,8 +185,11 @@
             <div class="box" style="border:1px solid rgb(228, 228, 228);background:rgb(228, 228, 228);"
                 v-for="(mixture,index) in mixtures" v-if="type != 'jettable' && mixtures.length > 0">
                 <div class="box-body">
-                    <a href="" class="pull-right btn btn-default" v-if="index>0"
-                        @click.prevent="deleteMixture(mixture)"><i class="fa fa-minus"></i></a>
+                    <div class="box-body">
+                        <a href="" class="pull-right btn btn-default" v-if="index>0"
+                            @click.prevent="deleteMixture(mixture)"><i class="fa fa-minus"></i></a>
+                    </div>
+
 
 
                     <div class="row">
@@ -200,10 +204,10 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Type du mélange</label>
                                 <select class="form-control" v-model="mixture.type">
-                                <option :value="mixture.type">{{mixture.type =='jus' ? 'Jus' : 'Granité'}}</option>
-                                <option value="granite" v-if="mixture.type == 'jus'">Granité</option>
-                                <option value="jus" v-if="mixture.type == 'granite'">Jus</option>
-                  
+                                    <option :value="null" disabled>Séléctionner un type du mélange</option>
+                                    <option value="granite">Granité</option>
+                                    <option value="jus">Jus</option>
+
                                 </select>
                             </div>
                         </div>
@@ -326,43 +330,73 @@
                     sugar_amount: '',
                     glass_size: '',
                     number_of_glasses: '',
-                    type:''
+                    type: null
                 });
 
 
             },
             deleteMixture: function (mixture) {
-                axios.post('api/mixture/delete/' + mixture.id, {
+                console.log(mixture);
+                if (mixture.id) {
+                    axios.post('api/mixture/delete/' + mixture.id, {
 
-                    })
-                    .then((response) => {
-                        if (response.data.status == 200) {
-                            this.mixtures.splice(this.mixtures.indexOf(mixture), 1);
-                        } else {
-                            swal.fire({
-                                type: 'error',
-                                title: 'Mélange introuvable ! !',
-                                showConfirmButton: true,
-                                confirmButtonText: 'Fermer'
+                        })
+                        .then((response) => {
+                            if (response.data.status == 200) {
+                                this.mixtures.splice(this.mixtures.indexOf(mixture), 1);
+                            } else {
+                                swal.fire({
+                                    type: 'error',
+                                    title: 'Mélange introuvable ! !',
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Fermer'
 
 
-                            });
+                                });
 
-                        }
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+
+                }
+                else{
+                       this.mixtures.splice(this.mixtures.indexOf(mixture), 1);
+
+                }
+
 
             },
             uploadImage(event) {
 
                 this.photo = event.target.files[0];
+                  let formData = new FormData();
+                        formData.append('photo', this.photo);
+                        
+                        axios.post('/api/image', formData, {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data'
+                                }
+                            })
+                            .then((response) => {
+
+                                if (response.data.status == 200) {
+                                    this.photo = response.data.path;
+
+                                }
+
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
 
             },
             getProductData(event) {
+               
                 let value = event.target.value;
-                if (value == 'jettable') {
+           
+                if (value == 'jettable' || value=="Jettable" || value=="Autre") {
                     this.mixtures = [];
                 } else {
                     if (this.mixtures.length == 0) {
@@ -392,8 +426,9 @@
                                     water_amount: '',
                                     sugar_amount: '',
                                     glass_size: '',
-                                    number_of_glasses: '',
-                                    product_id: ''
+                                    type:null,
+                                    product_id: '',
+
 
                                 });
 
@@ -412,26 +447,7 @@
 
 
                 if (form != false) {
-                    if (this.photo) {
-                        let formData = new FormData();
-                        formData.append('photo', this.photo);
-                        axios.post('/api/image', formData, {
-                                headers: {
-                                    'Content-Type': 'multipart/form-data'
-                                }
-                            })
-                            .then((response) => {
-
-                                if (response.data.status == 200) {
-                                    this.photo = response.data.path;
-
-                                }
-
-                            })
-                            .catch(function (error) {
-                                console.log(error);
-                            });
-                    }
+                 
 
 
 

@@ -44,7 +44,6 @@ class StoreController extends Controller
     {
 
         if ($storeId) {
-
             $dayText = "";
             switch ($day) {
                 case (1):
@@ -73,8 +72,9 @@ class StoreController extends Controller
 
             if ($startDay && $endDay) {
                 if ($startDay >= $endDay) {
+
                     alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
-                    return redirect()->back();
+                    return false;
 
                 }
 
@@ -83,44 +83,42 @@ class StoreController extends Controller
             if ($startNight && $endNight) {
                 if ($startNight >= $endNight) {
                     alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
-                    return redirect()->back();
+                    return false;
 
                 }
             }
 
-                if ($startDay && $endDay && $startNight && $endNight) {
-                    if ($startNight <= $endDay or $startNight <= $startDay) {
-                        alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
-                        return redirect()->back();
-
-                    }
-
-                    if ($endNight <= $endDay or $endNight <= $startDay) {
-                        alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
-                        return redirect()->back();
-
-                    }
+            if ($startDay && $endDay && $startNight && $endNight) {
+                if ($startNight <= $endDay or $startNight <= $startDay) {
+                    alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
+                    return false;
 
                 }
 
-                StoreSchedule::create([
-                    'day' => $day,
-                    'start_day_time' => $startDay,
-                    'end_day_time' => $endDay,
-                    'start_night_time' => $startNight,
-                    'end_night_time' => $endNight,
-                    'closed' => $closed == 'on' ? 1 : 0,
-                    'store_id' => $storeId,
+                if ($endNight <= $endDay or $endNight <= $startDay) {
+                    alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
+                    return false;
 
-                ]);
-
-            } else {
-                alert()->error('Oups', 'Magasin introuvable !');
-                return redirect()->back();
+                }
 
             }
 
-        
+            StoreSchedule::create([
+                'day' => $day,
+                'start_day_time' => $startDay,
+                'end_day_time' => $endDay,
+                'start_night_time' => $startNight,
+                'end_night_time' => $endNight,
+                'closed' => $closed == 'on' ? 1 : 0,
+                'store_id'=>$storeId
+
+            ]);
+
+            return true;
+
+        }
+        alert()->error('Oups', 'Magasin introuvable');
+        return redirect()->back()->withInput();
     }
 
     public function store($company_id, Request $request)
@@ -204,9 +202,11 @@ class StoreController extends Controller
         $checkCode = Store::where('code', $request->code)->first();
         if ($checkCode) {
             alert()->error('Oups', 'Code déja utilisé !')->persistent('Femer');
-            return redirect()->back();
+            return redirect()->back()->withInput();
         }
+
         $store = Store::create($insertable);
+        $store->schedules()->update(['store_id' => $store]);
         StoreHistory::create([
             'changes' => 'creation',
             'store_id' => $store->id,
@@ -214,19 +214,33 @@ class StoreController extends Controller
 
         ]);
 
-        $this->handleFillSchedule(1, $request->mondayDayStart, $request->mondayDayEnd, $request->mondayNightStart, $request->mondayNightEnd, $request->mondayClosed, $store->id);
-        $this->handleFillSchedule(2, $request->tuesdayDayStart, $request->tuesdayDayEnd, $request->tuesdayNightStart, $request->tuesdayNightEnd, $request->tuesdayClosed, $store->id);
-        $this->handleFillSchedule(3, $request->wednesdayDayStart, $request->wednesdayDayEnd, $request->wednesdayNightStart, $request->wednesdayNightEnd, $request->wednesdayClosed, $store->id);
-        $this->handleFillSchedule(4, $request->thursdayDayStart, $request->thursdayDayEnd, $request->thursdayNightStart, $request->thursdayNightEnd, $request->thursdayClosed, $store->id);
-        $this->handleFillSchedule(5, $request->fridayDayStart, $request->fridayDayEnd, $request->fridayNightStart, $request->fridayNightEnd, $request->fridayClosed, $store->id);
-        $this->handleFillSchedule(6, $request->saturdayDayStart, $request->saturdayDayEnd, $request->saturdayNightStart, $request->saturdayNightEnd, $request->saturdayClosed, $store->id);
-        $this->handleFillSchedule(7, $request->sundayDayStart, $request->sundayDayEnd, $request->sundayNightStart, $request->sundayNightEnd, $request->sundayClosed, $store->id);
+        $checkMonday = $this->handleFillSchedule(1, $request->mondayDayStart, $request->mondayDayEnd, $request->mondayNightStart, $request->mondayNightEnd, $request->mondayClosed, $store->id);
+        $checkTuesday = $this->handleFillSchedule(2, $request->tuesdayDayStart, $request->tuesdayDayEnd, $request->tuesdayNightStart, $request->tuesdayNightEnd, $request->tuesdayClosed, $store->id);
+        $checkWednesday = $this->handleFillSchedule(3, $request->wednesdayDayStart, $request->wednesdayDayEnd, $request->wednesdayNightStart, $request->wednesdayNightEnd, $request->wednesdayClosed, $store->id);
+        $checkThursday = $this->handleFillSchedule(4, $request->thursdayDayStart, $request->thursdayDayEnd, $request->thursdayNightStart, $request->thursdayNightEnd, $request->thursdayClosed, $store->id);
+        $checkFriday = $this->handleFillSchedule(5, $request->fridayDayStart, $request->fridayDayEnd, $request->fridayNightStart, $request->fridayNightEnd, $request->fridayClosed, $store->id);
+        $checkSaturday = $this->handleFillSchedule(6, $request->saturdayDayStart, $request->saturdayDayEnd, $request->saturdayNightStart, $request->saturdayNightEnd, $request->saturdayClosed, $store->id);
+        $checkSunday = $this->handleFillSchedule(7, $request->sundayDayStart, $request->sundayDayEnd, $request->sundayNightStart, $request->sundayNightEnd, $request->sundayClosed, $store->id);
+
+        if (!$checkMonday) {$store->delete();
+            alert()->error('Oups!', 'Veuillez vérifier les horaires pour Lundi')->persistent('Femer');return redirect()->back()->withInput();}
+        if (!$checkTuesday) {$store->delete();
+            alert()->error('Oups!', 'Veuillez vérifier les horaires pour Mardi')->persistent('Femer');return redirect()->back()->withInput();}
+        if (!$checkWednesday) {$store->delete();
+            alert()->error('Oups!', 'Veuillez vérifier les horaires pour Mercredi')->persistent('Femer');return redirect()->back()->withInput();}
+        if (!$checkThursday) {$store->delete();
+            alert()->error('Oups!', 'Veuillez vérifier les horaires pour Jeudi')->persistent('Femer');return redirect()->back()->withInput();}
+        if (!$checkFriday) {$store->delete();
+            alert()->error('Oups!', 'Veuillez vérifier les horaires pour Vendredi')->persistent('Femer');return redirect()->back()->withInput();}
+        if (!$checkSaturday) {$store->delete();
+            alert()->error('Oups!', 'Veuillez vérifier les horaires pour Samedi')->persistent('Femer');return redirect()->back()->withInput();}
+        if (!$checkSunday) {$store->delete();
+            alert()->error('Oups!', 'Veuillez vérifier les horaires pour Dimanche')->persistent('Femer');return redirect()->back()->withInput();}
+
         alert()->success('Succès!', 'Le magasin a été crée avec succès ! ')->persistent('Femer');
         return redirect(route('showStores', $company_id));
 
     }
-
-  
 
     public function edit($id)
     {
@@ -235,6 +249,7 @@ class StoreController extends Controller
         $countries = Country::all();
         $cities = City::all();
         $zipcodes = Zipcode::all();
+     
         return view("Store::editStore", compact('store', 'company', 'countries', 'cities', 'zipcodes'));
     }
 

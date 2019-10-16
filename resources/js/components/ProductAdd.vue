@@ -185,8 +185,11 @@
             <div class="box" style="border:1px solid rgb(228, 228, 228);background:rgb(228, 228, 228);"
                 v-for="(mixture,index) in mixtures" v-if="type != 'Jettable'">
                 <div class="box-body">
-                    <a href="" class="pull-right btn btn-default" v-if="index>0"
+                <div class="box-body">
+                 <a href="" class="pull-right btn btn-default" v-if="index>0"
                         @click.prevent="deleteMixture(mixture)"><i class="fa fa-minus"></i></a>
+                </div>
+                   
 
 
                     <div class="row">
@@ -308,6 +311,7 @@
                 validityClosed: '',
                 validityOpened: '',
                 photo: '',
+              
                 unityPerDisplay: '',
                 unityPerPack: '',
                 packing: '',
@@ -357,8 +361,29 @@
                 this.mixtures.splice(this.mixtures.indexOf(mixture), 1);
             },
             uploadImage(event) {
+               let  file=event.target.files[0];
+                   console.log(event.target.files[0]);
+                    this.photo = file;
 
-                this.photo = event.target.files[0];
+                      let formData = new FormData();
+                        formData.append('photo', this.photo);
+                        axios.post('/api/image', formData, {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data'
+                                }
+                            })
+                            .then((response) => {
+                              console.log(response);      
+                                if (response.data.status == 200) {
+                                    console.log(response.data.path);
+                                  this.photo=response.data.path;
+
+                                }
+
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
 
             },
             getProductData(event) {
@@ -388,31 +413,11 @@
 
 
                 if (form != false) {
-                    if (this.photo) {
-                        let formData = new FormData();
-                        formData.append('photo', this.photo);
-                        axios.post('/api/image', formData, {
-                                headers: {
-                                    'Content-Type': 'multipart/form-data'
-                                }
-                            })
-                            .then((response) => {
+                   
 
-                                if (response.data.status == 200) {
-                                    this.photo = response.data.path;
+                    
 
-                                }
-
-                            })
-                            .catch(function (error) {
-                                console.log(error);
-                            });
-                    }
-
-
-
-
-                    axios.post('/api/products', {
+                       axios.post('/api/products', {
 
                             code: this.code,
                             state: this.state,
@@ -437,7 +442,7 @@
                             comment: this.comment,
                             productId: this.productId,
                             mixtures: this.mixtures,
-                            photo: this.photo
+                        
 
                         })
                         .then(function (response) {
@@ -471,6 +476,11 @@
                         .catch(function (error) {
                             console.log(error);
                         });
+
+
+
+
+                 
 
 
 
