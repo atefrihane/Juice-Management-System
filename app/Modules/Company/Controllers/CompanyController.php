@@ -208,7 +208,7 @@ class CompanyController extends Controller
         if ($company) {
             $company->delete();
             alert()->success('Succès!', 'La societé a été supprimé avec succès ')->persistent("Fermer");
-            return redirect()->back();
+            return redirect()->route('showHome');
         }
         alert()->error('Succès!', 'Societé introuvable !')->persistent("Fermer");
         return redirect()->back();

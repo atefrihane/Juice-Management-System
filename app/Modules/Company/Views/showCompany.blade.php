@@ -33,10 +33,44 @@
                 <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                 <ul class="dropdown-menu edit" role="menu">
                     <li><a href="{{route('editCompany', $company->id)}}">Modifier</a></li>
-
-                    <li><a href="{{route('deleteCompany', $company->id)}}">Supprimer</a></li>
-
+                    <li> <a data-toggle="modal" data-target="#modal-default{{$company->id}}">Supprimer</a></li>
                 </ul>
+            </div>
+
+            <div class="modal fade" id="modal-default{{$company->id}}">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span></button>
+                            <h4 class="modal-title"> Voulez vous vraiment supprimer cette societé ?
+
+                        </div>
+                        <div class="modal-body">
+                            <h5 class="modal-title"> <b>Attention !</b> : Cette opération peut affecter la suppression
+                                des éléments associés à cette societé ! </h4>
+                            </h5>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="text-center">
+                                <form action="{{ route('deleteCompany',$company->id) }}" method="post">
+                                    {{csrf_field()}}
+                                    <a href="#" class="btn btn-danger" data-dismiss="modal">Annuler</a>
+
+                                    <button type="submit" class="btn btn-success">Confirmer</button>
+
+
+                                </form>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+
+                <!-- /.modal-dialog -->
             </div>
 
         </section>
@@ -131,8 +165,8 @@
                 </div>
             </div>
         </section>
-     
-      
+
+
 
         <section class="content-header">
             <div class="box box-primary">
