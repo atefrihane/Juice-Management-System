@@ -20,7 +20,7 @@
                     </div>
 
                     <form role="form" action="{{route('updateStore', $store->id)}}" method="post"
-                        enctype="multipart/form-data">
+                        enctype="multipart/form-data" id="frm">
                         {{csrf_field()}}
                         @if ($errors->any())
                         <div class="alert alert-danger">
@@ -132,7 +132,7 @@
 
                             <div class="row">
 
-                             
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Pays</label>
@@ -153,7 +153,7 @@
                                         <label>Ville</label>
                                         <select class="form-control cities" name="city_id" required>
                                             @forelse($cities as $city)
-                                            <option value="{{$country->id}}"
+                                            <option value="{{$city->id}}"
                                                 {{ $city->id == $company->city_id ? "selected" : "" }}>
                                                 {{$city->name}}</option>
                                             @empty
@@ -269,8 +269,8 @@
                                     placeholder="Recommendarion pour liveruer ..."> {{$store->deliveryRec}}</textarea>
                             </div>
                             <div class="form-group" style="margin-bottom:-15px;">
-                            <label style="font-size: 24px; margin-top: 24px; font-weight: bold;"> Horaires</label>
-                             
+                                <label style="font-size: 24px; margin-top: 24px; font-weight: bold;"> Horaires</label>
+
                             </div>
 
 
@@ -292,42 +292,58 @@
                                             @switch($schedule->day)
                                             @case(1)
                                             Lundi
-                                            <input type="hidden" name="schedules[{{$key}}][0]" value="{{$schedule->id}}">
+                                            <input type="hidden" name="schedules[{{$key}}][0]"
+                                                value="{{$schedule->id}}">
                                             @break
                                             @case(2)
                                             Mardi
-                                            <input type="hidden" name="schedules[{{$key}}][0]" value="{{$schedule->id}}"> 
+                                            <input type="hidden" name="schedules[{{$key}}][0]"
+                                                value="{{$schedule->id}}">
                                             @break
                                             @case(3)
                                             Mercredi
-                                            <input type="hidden" name="schedules[{{$key}}][0]" value="{{$schedule->id}}">
+                                            <input type="hidden" name="schedules[{{$key}}][0]"
+                                                value="{{$schedule->id}}">
                                             @break
                                             @case(4)
                                             Jeudi
-                                            <input type="hidden" name="schedules[{{$key}}][0]" value="{{$schedule->id}}">
+                                            <input type="hidden" name="schedules[{{$key}}][0]"
+                                                value="{{$schedule->id}}">
                                             @break
                                             @case(5)
                                             Vendredi
-                                            <input type="hidden" name="schedules[{{$key}}][0]" value="{{$schedule->id}}">
+                                            <input type="hidden" name="schedules[{{$key}}][0]"
+                                                value="{{$schedule->id}}">
                                             @break
                                             @case(6)
                                             Samedi
-                                            <input type="hidden" name="schedules[{{$key}}][0]" value="{{$schedule->id}}">
+                                            <input type="hidden" name="schedules[{{$key}}][0]"
+                                                value="{{$schedule->id}}">
                                             @break
                                             @case(7)
-                                            dimanche    
-                                            <input type="hidden" name="schedules[{{$key}}][0]" value="{{$schedule->id}}">
+                                            dimanche
+                                            <input type="hidden" name="schedules[{{$key}}][0]"
+                                                value="{{$schedule->id}}">
                                             @endswitch
 
                                         </td>
-                                        <td> <input type="time" class="form-control times" min='00:00' max= '23:59'  name="schedules[{{$key}}][1]"value="{{$schedule->start_day_time}}"></td>
-                                        <td> <input type="time" class="form-control times" min='00:00' max= '23:59'  name="schedules[{{$key}}][2]" value="{{$schedule->end_day_time}}"></td>
-                                        <td> <input type="time" class="form-control times" min='00:00' max= '23:59' name="schedules[{{$key}}][3]" value="{{$schedule->start_night_time}}"></td>
-                                        <td> <input type="time" class="form-control times" min='00:00' max= '23:59' name="schedules[{{$key}}][4]" value="{{$schedule->end_night_time}}"></td>
+                                        <td> <input type="time" class="form-control times" min='00:00' max='23:59'
+                                                name="schedules[{{$key}}][1]" value="{{$schedule->start_day_time}}  "
+                                                {{ $schedule->closed == 1 ? 'readonly' : ''}}></td>
+                                        <td> <input type="time" class="form-control times" min='00:00' max='23:59'
+                                                name="schedules[{{$key}}][2]" value="{{$schedule->end_day_time}}   "
+                                                {{ $schedule->closed == 1 ? 'readonly' : ''}}></td>
+                                        <td> <input type="time" class="form-control times" min='00:00' max='23:59'
+                                                name="schedules[{{$key}}][3]" value="{{$schedule->start_night_time}}"
+                                                {{ $schedule->closed == 1 ? 'readonly' : ''}}></td>
+                                        <td> <input type="time" class="form-control times" min='00:00' max='23:59'
+                                                name="schedules[{{$key}}][4]" value="{{$schedule->end_night_time}}  "
+                                                {{ $schedule->closed == 1 ? 'readonly' : ''}}></td>
                                         <td>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox"
-                                                     name="schedules[{{$key}}][5]" {{ $schedule->closed == 1 ? 'checked' : '' }} >
+                                                    name="schedules[{{$key}}][5]"
+                                                    {{ $schedule->closed == 1 ? 'checked' : '' }}>
 
                                             </div>
                                         </td>
@@ -384,18 +400,54 @@
     });
 
 </script>
-
 <script>
+    $('document').ready(function () {
+        $("input[type=checkbox]").change(function () {
+            if ($('#frm input[type=checkbox]:checked').length > 0) {
+                if ($(this).closest('tr').find("td:eq(1)").find("input").prop('readonly')) {
+          
+                    $(this).closest('tr').find("td:eq(1)").find("input").prop('readonly', false);
+                } else {
+                    $(this).closest('tr').find("td:eq(1)").find("input").prop('readonly', true);
+                }
 
-// $('input[type=checkbox]').each(function () {
-//     var sThisVal = (this.checked);
-//     if (sThisVal)
-//     {
-//         alert('hi');
 
-//     }
+                if ($(this).closest('tr').find("td:eq(2)").find("input").prop('readonly')) {
 
-// });
+                    $(this).closest('tr').find("td:eq(2)").find("input").prop('readonly', false);
+                } else {
+                    $(this).closest('tr').find("td:eq(2)").find("input").prop('readonly', true);
+                }
+
+
+
+                if ($(this).closest('tr').find("td:eq(3)").find("input").prop('readonly')) {
+
+                    $(this).closest('tr').find("td:eq(3)").find("input").prop('readonly', false);
+                } else {
+                    $(this).closest('tr').find("td:eq(3)").find("input").prop('readonly', true);
+                }
+
+
+
+                if ($(this).closest('tr').find("td:eq(4)").find("input").prop('readonly')) {
+
+
+                    $(this).closest('tr').find("td:eq(4)").find("input").prop('readonly', false);
+                } else {
+
+                    $(this).closest('tr').find("td:eq(4)").find("input").prop('readonly', true);
+                }
+
+
+
+
+
+            }
+
+        });
+
+    })
 
 </script>
 

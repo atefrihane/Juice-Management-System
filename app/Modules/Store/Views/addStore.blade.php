@@ -387,15 +387,27 @@
 
 </script>
 
-<!-- <script>
-$("input[type=checkbox]").change(function () {
+<script>
+    $("input[type=checkbox]").change(function () {
     if ($('#frm input[type=checkbox]:checked').length > 0) {
-   var parent= $(this).closest('tr').html();
-   console.log(   $(parent).eq(2)[0])
-   $(parent).eq(2)[0].remove()
+   
+        $(this).closest('tr').find("td:eq(1)").find("input").prop('disabled', true);
+        $(this).closest('tr').find("td:eq(2)").find("input").prop('disabled', true);
+        $(this).closest('tr').find("td:eq(3)").find("input").prop('disabled', true);
+        $(this).closest('tr').find("td:eq(4)").find("input").prop('disabled', true);
+
+    }
+    else{
+      
+        $(this).closest('tr').find("td:eq(1)").find("input").prop('disabled', false);
+        $(this).closest('tr').find("td:eq(2)").find("input").prop('disabled', false);
+        $(this).closest('tr').find("td:eq(3)").find("input").prop('disabled', false);
+        $(this).closest('tr').find("td:eq(4)").find("input").prop('disabled', false);
+
+
     } 
 });
-</script> -->
+</script>
 
 
 @endsection

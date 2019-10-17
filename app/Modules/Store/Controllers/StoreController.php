@@ -357,8 +357,10 @@ class StoreController extends Controller
                 alert()->error('Oups', 'Code déja utilisé !')->persistent('Femer');
                 return redirect()->back();
             }
+         
 
             $store->update($updateable);
+       
             if ($changes != '') {
                 StoreHistory::create([
                     'changes' => $changes,
@@ -368,6 +370,7 @@ class StoreController extends Controller
                 ]);
 
             }
+     
 
             if ($request->input('schedules')) {
 
@@ -400,7 +403,7 @@ class StoreController extends Controller
                                 break;
 
                         }
-
+             
                         $startDay = $schedule[1];
                         $endDay = $schedule[2];
                         $startNight = $schedule[3];
