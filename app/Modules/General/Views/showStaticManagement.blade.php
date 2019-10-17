@@ -36,23 +36,24 @@
                                     <th>Nombre des villes</th>
                                     <th>Nombre des codes postaux</th>
                                     <th></th>
-                             </tr>
+                                </tr>
                             </thead>
                             <tbody>
-                            @forelse($countries as $country)
-                            <tr>
-                                
+                                @forelse($countries as $country)
+                                <tr>
+
                                     <td>{{$country->name}}</td>
                                     <td>{{$country->code}}</td>
                                     <td>{{$country->cities->count()}}</td>
                                     <td>{{$country->zipcodes->count()}}</td>
-                                  
+
                                     <td class="not-this text-center" data-url="javascript:void(0)">
                                         <div class="btn-group">
                                             <a class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
-                                                <li><a href="{{route('showUpdateCountry',$country->id)}}">Modifier</a></li>
+                                                <li><a href="{{route('showUpdateCountry',$country->id)}}">Modifier</a>
+                                                </li>
                                                 <li>
                                                     <a data-toggle="modal"
                                                         data-target="#modal-default{{$country->id}}">Supprimer</a>
@@ -73,8 +74,26 @@
                                                 </h4>
                                             </div>
                                             <div class="modal-body">
-                                            <h5 class="modal-title">  <b>Attention !</b> : Cette opération peut affecter la suppression des éléments associés à ce pays ! </h4>
+                                                <h5 class="modal-title"> <b>Attention !</b> : Cette opération peut
+                                                    affecter la suppression des éléments associés à ce pays ! </h4>
                                                 </h5>
+                                                @if($country->companies->count() > 0)
+
+                                                <h5> <b>La liste ci dessous présente les societés liés à ce pays : </b>
+                                                </h5>
+                                                <div class="box-body">
+                                                    <ul class="list-group">
+                                                        @foreach($country->companies as $company)
+                                                        <li class="list-group-item">{{$company->name}}</li>
+                                                        @endforeach
+
+                                                    </ul>
+                                                </div>
+
+
+                                                @endif
+
+
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="text-center">
@@ -85,7 +104,7 @@
                                                             data-dismiss="modal">Annuler</a>
 
                                                         <button type="submit" class="btn btn-success">Confirmer</button>
-                                                      
+
 
                                                     </form>
 
@@ -100,8 +119,8 @@
                                     <!-- /.modal-dialog -->
                                 </div>
 
-                            @empty
-                            @endforelse
+                                @empty
+                                @endforelse
 
 
 

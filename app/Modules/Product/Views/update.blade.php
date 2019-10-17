@@ -13,6 +13,7 @@
             <div class="container">
 
                <product-update> </product-update>
+               <vue-progress-bar></vue-progress-bar>
 
                 <!-- /.col -->
             </div>

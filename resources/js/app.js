@@ -16,6 +16,12 @@ import CountryAdd from './components/CountryAdd.vue'
 import CountryUpdate from './components/CountryUpdate.vue'
 import swal from 'sweetalert2'
 window.swal = swal;
+import VueProgressBar from 'vue-progressbar'
+Vue.use(VueProgressBar, {
+    color: 'rgb(143, 255, 199)',
+    failedColor: 'red',
+    height: '2px'
+})
 
 
 Vue.component('product-price', require('./components/ProductPrice.vue'));

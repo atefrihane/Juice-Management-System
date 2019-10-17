@@ -151,8 +151,9 @@ class ProductController extends Controller
         if ($checkCode) {
             return response()->json(['status' => 400]);
         }
+        $currentPhoto=$product->photo_url;
         if ($product) {
-            $currentPhoto=$product->photo_url;
+          
             if($request->photo != $currentPhoto){
                 $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
                 \Image::make($request->photo)->save(public_path('img/').$name);
@@ -184,7 +185,7 @@ class ProductController extends Controller
                 'unit_by_display' => $request->unityPerDisplay,
                 'unit_per_package' => $request->unityPerPack,
                 'packing' => $request->packing,
-                'photo_url' => $name,
+                'photo_url' => isset($name) ? $name : $currentPhoto,
             ]);
 
             if ($request->input('mixtures') && $request->type != 'jettable') {

@@ -15,7 +15,7 @@ class CompanyController extends Controller
 {
     public function showAddCompany()
     {
-        $lastCompanyId = Company::all()->last()->id + 1;
+        $lastCompanyId = Company::count()+1;
         $countries = Country::all();
 
         return view('Company::addCompany', compact('lastCompanyId', 'countries'));

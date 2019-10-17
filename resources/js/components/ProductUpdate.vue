@@ -1,4 +1,7 @@
 <template>
+
+    
+
     <div class="box box-primary">
 
         <div class="box-header">
@@ -282,6 +285,7 @@
 </template>
 
 <script>
+
     export default {
 
         mounted() {
@@ -443,7 +447,7 @@
 
 
 
-
+                 this.$Progress.start()
                     axios.post('api/product/update/' + this.productId, {
 
                             code: this.code,
@@ -483,14 +487,18 @@
 
 
                                 });
+                                 
                                 setTimeout(() => window.location = '/wizefresh/public/products', 2000);
 
 
                             }
                         })
                         .catch(function (error) {
+                          
                             console.log(error);
                         });
+                        
+                   this.$Progress.finish()
 
 
 

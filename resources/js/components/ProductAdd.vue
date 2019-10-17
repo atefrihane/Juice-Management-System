@@ -331,6 +331,7 @@
             }
         },
         mounted() {
+            this.$Progress.finish()
 
         },
         methods: {
@@ -400,6 +401,7 @@
             submitProduct() {
                 var form = this.validateForm(); // input front end validation returns false if error
                 if (form != false) {
+                    this.$Progress.start()
                     axios.post('/api/products', {
 
                             code: this.code,
@@ -459,6 +461,10 @@
                         .catch(function (error) {
                             console.log(error);
                         });
+                    this.$Progress.finish()
+
+
+
 
 
 
