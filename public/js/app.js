@@ -3602,6 +3602,9 @@ __webpack_require__.r(__webpack_exports__);
           }
         });
       }
+    },
+    cancelProduct: function cancelProduct() {
+      window.location = '/wizefresh/public/products';
     }
   }
 });
@@ -3804,11 +3807,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
-//
 //
 //
 //
@@ -48707,7 +48705,15 @@ var render = function() {
             _c("div", { staticClass: "container text-center" }, [
               _c(
                 "button",
-                { staticClass: "btn btn-danger pl-1", attrs: { href: "" } },
+                {
+                  staticClass: "btn btn-danger pl-1",
+                  attrs: { href: "" },
+                  on: {
+                    click: function($event) {
+                      return _vm.cancelProduct()
+                    }
+                  }
+                },
                 [_vm._v("Annuler")]
               ),
               _vm._v(" "),
@@ -49170,49 +49176,32 @@ var render = function() {
             _vm._v("Type de Produit")
           ]),
           _vm._v(" "),
-          _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.type,
-                  expression: "type"
-                }
-              ],
-              staticClass: "form-control",
-              on: {
-                change: [
-                  function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.type = $event.target.multiple
-                      ? $$selectedVal
-                      : $$selectedVal[0]
-                  },
-                  function($event) {
-                    return _vm.getProductData($event)
-                  }
-                ]
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.type,
+                expression: "type"
               }
+            ],
+            staticClass: "form-control",
+            attrs: {
+              id: "disabledInput",
+              type: "text",
+              placeholder: "Nom Produit",
+              disabled: ""
             },
-            [
-              _c("option", { attrs: { selected: "" } }, [
-                _vm._v("Alimentaire")
-              ]),
-              _vm._v(" "),
-              _c("option", [_vm._v("Jettable")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("Autre")])
-            ]
-          )
+            domProps: { value: _vm.type },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.type = $event.target.value
+              }
+            }
+          })
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "form-group" }, [

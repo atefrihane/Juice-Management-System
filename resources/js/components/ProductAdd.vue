@@ -267,7 +267,7 @@
                 <div class="row">
                     <div class="container text-center">
 
-                        <button href="" class="btn btn-danger pl-1">Annuler</button>
+                        <button href="" class="btn btn-danger pl-1" @click="cancelProduct()">Annuler</button>
                         <button class="btn btn-success pl-1" type="button" @click="submitProduct()">Confirmer</button>
 
                     </div>
@@ -655,6 +655,10 @@
 
 
 
+
+            },
+            cancelProduct() {
+                window.location = '/wizefresh/public/products';
 
             }
 

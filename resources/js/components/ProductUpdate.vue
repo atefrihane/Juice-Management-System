@@ -58,12 +58,7 @@
 
             <div class="form-group">
                 <label for="exampleInputEmail1">Type de Produit</label>
-                <select class="form-control" v-model="type" @change="getProductData($event)">
-                    <option selected>Alimentaire</option>
-                    <option>Jettable</option>
-                    <option>Autre</option>
-
-                </select>
+                <input class="form-control" id="disabledInput" type="text" placeholder="Nom Produit" v-model="type" disabled>
 
 
             </div>
