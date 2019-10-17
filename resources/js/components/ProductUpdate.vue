@@ -478,7 +478,7 @@
                         })
                         .then((response) => {
                               this.$Progress.finish()
-                            console.log(response);
+         
                             if (response.data.status == 200) {
                                 swal.fire({
                                     type: 'success',
@@ -495,7 +495,7 @@
                             }
                         })
                         .catch((error)  => {
-                                  this.$Progress.fail()
+                            this.$Progress.fail()
                             console.log(error);
                         });
                         

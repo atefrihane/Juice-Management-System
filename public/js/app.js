@@ -4264,8 +4264,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, "photo", this.photo)).then(function (response) {
           _this4.$Progress.finish();
 
-          console.log(response);
-
           if (response.data.status == 200) {
             swal.fire({
               type: 'success',
