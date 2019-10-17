@@ -476,7 +476,8 @@
                             photo: this.photo
 
                         })
-                        .then(function (response) {
+                        .then((response) => {
+                              this.$Progress.finish()
                             console.log(response);
                             if (response.data.status == 200) {
                                 swal.fire({
@@ -493,12 +494,12 @@
 
                             }
                         })
-                        .catch(function (error) {
-                          
+                        .catch((error)  => {
+                                  this.$Progress.fail()
                             console.log(error);
                         });
                         
-                   this.$Progress.finish()
+                 
 
 
 

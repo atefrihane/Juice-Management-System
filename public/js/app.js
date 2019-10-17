@@ -1880,6 +1880,9 @@ __webpack_require__.r(__webpack_exports__);
           console.log(error);
         });
       }
+    },
+    cancelRental: function cancelRental() {
+      window.location = '/wizefresh/public/static';
     }
   }
 });
@@ -4228,6 +4231,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     submitProduct: function submitProduct() {
+      var _this4 = this;
+
       var form = this.validateForm(); // input front end validation returns false if error
 
       if (form != false) {
@@ -4257,6 +4262,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           productId: this.productId,
           mixtures: this.mixtures
         }, "photo", this.photo)).then(function (response) {
+          _this4.$Progress.finish();
+
           console.log(response);
 
           if (response.data.status == 200) {
@@ -4271,13 +4278,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }, 2000);
           }
         })["catch"](function (error) {
+          _this4.$Progress.fail();
+
           console.log(error);
         });
-        this.$Progress.finish();
       }
     },
     validateForm: function validateForm() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.errors = [];
 
@@ -4399,42 +4407,42 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var x = true;
         this.mixtures.forEach(function (mixture) {
           if (!mixture.name) {
-            _this4.errors.push('Le champs nom du mélange est  requis.');
+            _this5.errors.push('Le champs nom du mélange est  requis.');
 
             window.scrollTo(0, 0);
             x = false;
           }
 
           if (!mixture.final_amount) {
-            _this4.errors.push('Le champs quantité de produit fini(en litre)  est  requis.');
+            _this5.errors.push('Le champs quantité de produit fini(en litre)  est  requis.');
 
             window.scrollTo(0, 0);
             x = false;
           }
 
           if (!mixture.needed_weight) {
-            _this4.errors.push('Le champs poids necessaire du produit (en kg) est  requis.');
+            _this5.errors.push('Le champs poids necessaire du produit (en kg) est  requis.');
 
             window.scrollTo(0, 0);
             x = false;
           }
 
           if (!mixture.water_amount) {
-            _this4.errors.push('Le champs quantité eau (en litre) est  requis.');
+            _this5.errors.push('Le champs quantité eau (en litre) est  requis.');
 
             window.scrollTo(0, 0);
             x = false;
           }
 
           if (!mixture.sugar_amount) {
-            _this4.errors.push('Le champs quantité de sucre (en kg) est  requis.');
+            _this5.errors.push('Le champs quantité de sucre (en kg) est  requis.');
 
             window.scrollTo(0, 0);
             x = false;
           }
 
           if (!mixture.glass_size) {
-            _this4.errors.push('Le champs volume de verre (en cl) est  requis.');
+            _this5.errors.push('Le champs volume de verre (en cl) est  requis.');
 
             window.scrollTo(0, 0);
             x = false;
@@ -45665,7 +45673,7 @@ var render = function() {
             ],
             staticClass: "form-control",
             attrs: {
-              type: "number",
+              type: "text",
               id: "exampleInputPassword1",
               placeholder: "Code téléphonique",
               min: "0"

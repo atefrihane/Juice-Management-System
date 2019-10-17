@@ -25,7 +25,7 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Code téléphonique</label>
-                    <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Code téléphonique" min="0" v-model="code">
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Code téléphonique" min="0" v-model="code">
                 </div>
 
 
@@ -211,6 +211,11 @@
                         });
 
                 }
+
+            },
+            cancelRental()
+            {
+                window.location = '/wizefresh/public/static'
 
             }
 
