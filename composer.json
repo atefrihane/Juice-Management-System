@@ -13,6 +13,7 @@
         "barryvdh/laravel-cors": "^0.11.3",
         "davejamesmiller/laravel-breadcrumbs": "5.x",
         "fideloper/proxy": "^4.0",
+        "intervention/image": "^2.5",
         "laravel/framework": "5.7.*",
         "laravel/passport": "^7.4",
         "laravel/tinker": "^1.0",

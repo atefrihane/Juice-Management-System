@@ -32,13 +32,17 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-      
        
         $checkCode = Product::where('code', $request->code)->first();
         if ($checkCode) {
             return response()->json(['status' => 400]);
         }
-
+        if($request->photo){
+            $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
+            \Image::make($request->photo)->save(public_path('img/').$name);
+            $request->merge(['photo' => $name]);
+    
+        }
         $product = Product::create([
             'code' => $request->code,
             'status' => lcfirst($request->state),
@@ -60,7 +64,7 @@ class ProductController extends Controller
             'unit_by_display' => $request->unityPerDisplay,
             'unit_per_package' => $request->unityPerPack,
             'packing' => $request->packing,
-            'photo_url' => $request->photo,
+            'photo_url' => $name,
         ]);
 
         if ($request->input('mixtures')) {
@@ -139,6 +143,7 @@ class ProductController extends Controller
 
     public function handleUpdateProduct(Request $request, $id)
     {
+      
         $product = Product::find($id);
         $checkCode = Product::where('code', $request->code)
             ->where('id', '!=', $product->id)
@@ -147,6 +152,16 @@ class ProductController extends Controller
             return response()->json(['status' => 400]);
         }
         if ($product) {
+            $currentPhoto=$product->photo_url;
+            if($request->photo != $currentPhoto){
+                $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
+                \Image::make($request->photo)->save(public_path('img/').$name);
+                $request->merge(['photo' => $name]);
+                $userPhoto = public_path('img/').$currentPhoto;
+                if(file_exists($userPhoto)){
+                    @unlink($userPhoto);
+                }
+            }
 
             $product->update([
                 'code' => $request->code,
@@ -169,7 +184,7 @@ class ProductController extends Controller
                 'unit_by_display' => $request->unityPerDisplay,
                 'unit_per_package' => $request->unityPerPack,
                 'packing' => $request->packing,
-                'photo_url' => $request->photo,
+                'photo_url' => $name,
             ]);
 
             if ($request->input('mixtures') && $request->type != 'jettable') {
@@ -212,9 +227,10 @@ class ProductController extends Controller
             }
 
             return response()->json(['status' => 200]);
-        }
+      
 
-    }
+        }
+}
     public function handleGetProductDetails($id)
     {
 

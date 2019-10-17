@@ -98,7 +98,7 @@
 
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Complement(optionnel)</label>
+                                <label for="exampleInputEmail1">Complément d'adresse (optionnel)</label>
                                 <input class="form-control" id="disabledInput" type="text" name="complement"
                                     placeholder="Complement" value="{{old('complement')}}">
 
@@ -157,7 +157,7 @@
 
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Telephone</label>
+                                        <label for="exampleInputEmail1">Télephone</label>
                                         <input required class="form-control cc" name="cc" type="text"
                                             placeholder="Code pays" value="" maxlength="4" value="{{old('cc')}}">
 

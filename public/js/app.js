@@ -3340,24 +3340,20 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var file = event.target.files[0];
-      console.log(event.target.files[0]);
-      this.photo = file;
-      var formData = new FormData();
-      formData.append('photo', this.photo);
-      axios.post('/api/image', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then(function (response) {
-        console.log(response);
+      var reader = new FileReader();
+      var limit = 1024 * 1024 * 2;
 
-        if (response.data.status == 200) {
-          console.log(response.data.path);
-          _this.photo = response.data.path;
-        }
-      })["catch"](function (error) {
-        console.log(error);
-      });
+      if (file['size'] > limit) {
+        this.errors.push('Fichier volumineux !');
+        window.scrollTo(0, 0);
+        return false;
+      }
+
+      reader.onloadend = function (file) {
+        _this.photo = reader.result;
+      };
+
+      reader.readAsDataURL(file);
     },
     getProductData: function getProductData(event) {
       var value = event.target.value;
@@ -4166,20 +4162,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     uploadImage: function uploadImage(event) {
       var _this2 = this;
 
-      this.photo = event.target.files[0];
-      var formData = new FormData();
-      formData.append('photo', this.photo);
-      axios.post('/api/image', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then(function (response) {
-        if (response.data.status == 200) {
-          _this2.photo = response.data.path;
-        }
-      })["catch"](function (error) {
-        console.log(error);
-      });
+      var file = event.target.files[0];
+      var reader = new FileReader();
+      var limit = 1024 * 1024 * 2;
+
+      if (file['size'] > limit) {
+        this.errors.push('Fichier volumineux !');
+        window.scrollTo(0, 0);
+        return false;
+      }
+
+      reader.onloadend = function (file) {
+        _this2.photo = reader.result;
+      };
+
+      reader.readAsDataURL(file);
     },
     getProductData: function getProductData(event) {
       var value = event.target.value;
@@ -4429,13 +4426,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
           if (!mixture.glass_size) {
             _this4.errors.push('Le champs volume de verre (en cl) est  requis.');
-
-            window.scrollTo(0, 0);
-            x = false;
-          }
-
-          if (!mixture.number_of_glasses) {
-            _this4.errors.push('Le champs nombre de verre obtenu est  requis.');
 
             window.scrollTo(0, 0);
             x = false;

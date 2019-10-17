@@ -54,7 +54,7 @@
 
 
             <div class="form-group">
-                 <label for="exampleInputEmail1">Type de Produit</label>
+                <label for="exampleInputEmail1">Type de Produit</label>
                 <select class="form-control" v-model="type" @change="getProductData($event)">
                     <option selected>Alimentaire</option>
                     <option>Jettable</option>
@@ -360,9 +360,8 @@
                             console.log(error);
                         });
 
-                }
-                else{
-                       this.mixtures.splice(this.mixtures.indexOf(mixture), 1);
+                } else {
+                    this.mixtures.splice(this.mixtures.indexOf(mixture), 1);
 
                 }
 
@@ -370,33 +369,26 @@
             },
             uploadImage(event) {
 
-                this.photo = event.target.files[0];
-                  let formData = new FormData();
-                        formData.append('photo', this.photo);
-                        
-                        axios.post('/api/image', formData, {
-                                headers: {
-                                    'Content-Type': 'multipart/form-data'
-                                }
-                            })
-                            .then((response) => {
-
-                                if (response.data.status == 200) {
-                                    this.photo = response.data.path;
-
-                                }
-
-                            })
-                            .catch(function (error) {
-                                console.log(error);
-                            });
+                let file = event.target.files[0];
+                let reader = new FileReader();
+                let limit = 1024 * 1024 * 2;
+                if (file['size'] > limit) {
+                    this.errors.push('Fichier volumineux !');
+                    window.scrollTo(0, 0);
+                    return false;
+                }
+                reader.onloadend = (file) => {
+                    this.photo = reader.result;
+                }
+                reader.readAsDataURL(file);
 
             },
+
             getProductData(event) {
-               
+
                 let value = event.target.value;
-           
-                if (value == 'jettable' || value=="Jettable" || value=="Autre") {
+
+                if (value == 'jettable' || value == "Jettable" || value == "Autre") {
                     this.mixtures = [];
                 } else {
                     if (this.mixtures.length == 0) {
@@ -426,7 +418,7 @@
                                     water_amount: '',
                                     sugar_amount: '',
                                     glass_size: '',
-                                    type:null,
+                                    type: null,
                                     product_id: '',
 
 
@@ -447,7 +439,7 @@
 
 
                 if (form != false) {
-                 
+
 
 
 
@@ -641,13 +633,15 @@
                             x = false;
                         }
                         if (!mixture.final_amount) {
-                            this.errors.push('Le champs quantité de produit fini(en litre)  est  requis.');
+                            this.errors.push(
+                                'Le champs quantité de produit fini(en litre)  est  requis.');
                             window.scrollTo(0, 0);
                             x = false;
                         }
 
                         if (!mixture.needed_weight) {
-                            this.errors.push('Le champs poids necessaire du produit (en kg) est  requis.');
+                            this.errors.push(
+                                'Le champs poids necessaire du produit (en kg) est  requis.');
                             window.scrollTo(0, 0);
                             x = false;
                         }
@@ -672,11 +666,6 @@
                         }
 
 
-                        if (!mixture.number_of_glasses) {
-                            this.errors.push('Le champs nombre de verre obtenu est  requis.');
-                            window.scrollTo(0, 0);
-                            x = false;
-                        }
 
 
                     });

@@ -185,11 +185,11 @@
             <div class="box" style="border:1px solid rgb(228, 228, 228);background:rgb(228, 228, 228);"
                 v-for="(mixture,index) in mixtures" v-if="type != 'Jettable'">
                 <div class="box-body">
-                <div class="box-body">
-                 <a href="" class="pull-right btn btn-default" v-if="index>0"
-                        @click.prevent="deleteMixture(mixture)"><i class="fa fa-minus"></i></a>
-                </div>
-                   
+                    <div class="box-body">
+                        <a href="" class="pull-right btn btn-default" v-if="index>0"
+                            @click.prevent="deleteMixture(mixture)"><i class="fa fa-minus"></i></a>
+                    </div>
+
 
 
                     <div class="row">
@@ -311,7 +311,6 @@
                 validityClosed: '',
                 validityOpened: '',
                 photo: '',
-              
                 unityPerDisplay: '',
                 unityPerPack: '',
                 packing: '',
@@ -361,29 +360,19 @@
                 this.mixtures.splice(this.mixtures.indexOf(mixture), 1);
             },
             uploadImage(event) {
-               let  file=event.target.files[0];
-                   console.log(event.target.files[0]);
-                    this.photo = file;
 
-                      let formData = new FormData();
-                        formData.append('photo', this.photo);
-                        axios.post('/api/image', formData, {
-                                headers: {
-                                    'Content-Type': 'multipart/form-data'
-                                }
-                            })
-                            .then((response) => {
-                              console.log(response);      
-                                if (response.data.status == 200) {
-                                    console.log(response.data.path);
-                                  this.photo=response.data.path;
-
-                                }
-
-                            })
-                            .catch(function (error) {
-                                console.log(error);
-                            });
+                let file = event.target.files[0];
+                let reader = new FileReader();
+                let limit = 1024 * 1024 * 2;
+                if (file['size'] > limit) {
+                    this.errors.push('Fichier volumineux !');
+                    window.scrollTo(0, 0);
+                    return false;
+                }
+                reader.onloadend = (file) => {
+                    this.photo = reader.result;
+                }
+                reader.readAsDataURL(file);
 
             },
             getProductData(event) {
@@ -410,14 +399,8 @@
 
             submitProduct() {
                 var form = this.validateForm(); // input front end validation returns false if error
-
-
                 if (form != false) {
-                   
-
-                    
-
-                       axios.post('/api/products', {
+                    axios.post('/api/products', {
 
                             code: this.code,
                             state: this.state,
@@ -442,7 +425,7 @@
                             comment: this.comment,
                             productId: this.productId,
                             mixtures: this.mixtures,
-                        
+
 
                         })
                         .then(function (response) {
@@ -480,7 +463,7 @@
 
 
 
-                 
+
 
 
 

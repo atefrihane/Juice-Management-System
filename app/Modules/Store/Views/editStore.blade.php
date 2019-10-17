@@ -122,7 +122,7 @@
 
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Complement(optionnel)</label>
+                                <label for="exampleInputEmail1">Complément d'adresse (optionnel)</label>
                                 <input class="form-control" id="disabledInput" type="text"
                                     value="{{$store->complement}}" name="complement" placeholder="Nom Magasin">
 
@@ -191,7 +191,7 @@
 
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Telephone</label>
+                                        <label for="exampleInputEmail1">Télephone</label>
                                         <input class="form-control cc" name="cc" type="text" placeholder="Code pays"
                                             value="{{explode(' ', $store->tel)[0]}}" maxlength="4">
 
@@ -201,7 +201,7 @@
                                 <div class="col-md-10">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1" style="color: transparent">*</label>
-                                        <input type="number" name="tel" value="{{explode(' ', $store->tel)[1]}}"
+                                        <input type="text" name="tel" value="{{explode(' ', $store->tel)[1]}}"
                                             class="form-control" id="exampleInputEmail1" placeholder="Telephone">
                                     </div>
                                 </div>
