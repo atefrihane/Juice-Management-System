@@ -26,35 +26,7 @@
 
 
 <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
-<!-- Morris.js charts -->
 
-
-
-
-
-<script src="{{ asset('/js/jquery.sparkline.min.js') }}"></script>
-<!-- jvectormap -->
-
-<script src="{{ asset('/js/jquery-jvectormap-1.2.2.min.js') }}"></script>
-
-<script src="{{ asset('/js/jquery-jvectormap-world-mill-en.js') }}"></script>
-<!-- jQuery Knob Chart -->
-
-<script src="{{ asset('/js/jquery.knob.min.js') }}"></script>
-<!-- daterangepicker -->
-
-
-<script src="{{ asset('/js/moment.min.js') }}"></script>
-
-<script src="{{ asset('/js/daterangepicker.js') }}"></script>
-<!-- datepicker -->
-
-<script src="{{ asset('/js/bootstrap-datepicker.min.js') }}"></script>
-<!-- Bootstrap WYSIHTML5 -->
-
-<script src="{{ asset('/js/bootstrap3-wysihtml5.all.min.js') }}"></script>
-
-<!-- Slimscroll -->
 
 
 <script src="{{ asset('/js/jquery.slimscroll.min.js') }}"></script>
@@ -67,11 +39,6 @@
 <script src="{{ asset('/js/adminlte.min.js') }}"></script>
 
 
-<script src="{{ asset('/js/select2.full.min.js') }}"></script>
-<script src="{{ asset('/js/jquery.inputmask.js') }}"></script>
-<script src="{{ asset('/js/jquery.inputmask.date.extensions.js') }}"></script>
-<script src="{{ asset('/js/jquery.inputmask.extensions.js') }}"></script>
-
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
@@ -82,11 +49,10 @@
 
 </body>
 <script src="{{asset('/js/app.js')}}"></script>
-<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
+<!-- <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script> -->
 <script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js">
 </script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
 @yield('scripts-custom')
 <script>
 var oTable = $('.table').DataTable( {
@@ -108,22 +74,7 @@ var oTable = $('.table').DataTable( {
 } );
 </script>
 
-<script>
-$(function() {
-  $('.dates').daterangepicker({
-    singleDatePicker: true,
-    showDropdowns: true,
-    minDate: new Date(new Date().setFullYear(new Date().getFullYear()))
-  }, function(start, end, label) {
-   
-  });
 
-  
-});
-
-
-
-</script>
 <script>
 $('document').ready(function(){
 $('.not-this > .btn-group > .dots').click(function(){
