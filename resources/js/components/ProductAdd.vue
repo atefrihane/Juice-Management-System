@@ -445,15 +445,18 @@
 
                             }
                             if (response.data.status == 200) {
+
                                 swal.fire({
                                     type: 'success',
                                     title: 'Le produit a été ajouté avec succés !',
                                     showConfirmButton: true,
                                     confirmButtonText: 'Fermer'
+                                }).then((result) => {
+                                    if (result.value) {
+                                        window.location = '/wizefresh/public/products';
+                                    }
+                                })
 
-
-                                });
-                                setTimeout(() => window.location = '/wizefresh/public/products', 2000);
 
 
                             }

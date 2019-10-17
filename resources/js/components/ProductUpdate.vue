@@ -1,6 +1,6 @@
 <template>
 
-    
+
 
     <div class="box box-primary">
 
@@ -285,7 +285,6 @@
 </template>
 
 <script>
-
     export default {
 
         mounted() {
@@ -447,7 +446,7 @@
 
 
 
-                 this.$Progress.start()
+                    this.$Progress.start()
                     axios.post('api/product/update/' + this.productId, {
 
                             code: this.code,
@@ -477,29 +476,33 @@
 
                         })
                         .then((response) => {
-                              this.$Progress.finish()
-         
+                            this.$Progress.finish()
+
                             if (response.data.status == 200) {
+
                                 swal.fire({
-                                    type: 'success',
                                     title: 'Le produit a été modifié avec succés !',
+                                    type: 'success',
                                     showConfirmButton: true,
                                     confirmButtonText: 'Fermer'
+                                }).then((result) => {
+                                    if (result.value) {
+                                        window.location = '/wizefresh/public/products';
+                                    }
+                                })
 
 
-                                });
-                                 
-                               window.location = '/wizefresh/public/products';
+                              
 
 
                             }
                         })
-                        .catch((error)  => {
+                        .catch((error) => {
                             this.$Progress.fail()
                             console.log(error);
                         });
-                        
-                 
+
+
 
 
 

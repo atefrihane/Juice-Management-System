@@ -3426,10 +3426,11 @@ __webpack_require__.r(__webpack_exports__);
               title: 'Le produit a été ajouté avec succés !',
               showConfirmButton: true,
               confirmButtonText: 'Fermer'
+            }).then(function (result) {
+              if (result.value) {
+                window.location = '/wizefresh/public/products';
+              }
             });
-            setTimeout(function () {
-              return window.location = '/wizefresh/public/products';
-            }, 2000);
           }
         })["catch"](function (error) {
           console.log(error);
@@ -4266,12 +4267,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
           if (response.data.status == 200) {
             swal.fire({
-              type: 'success',
               title: 'Le produit a été modifié avec succés !',
+              type: 'success',
               showConfirmButton: true,
               confirmButtonText: 'Fermer'
+            }).then(function (result) {
+              if (result.value) {
+                window.location = '/wizefresh/public/products';
+              }
             });
-            window.location = '/wizefresh/public/products';
           }
         })["catch"](function (error) {
           _this4.$Progress.fail();

@@ -64,7 +64,7 @@ class ProductController extends Controller
             'unit_by_display' => $request->unityPerDisplay,
             'unit_per_package' => $request->unityPerPack,
             'packing' => $request->packing,
-            'photo_url' => $name,
+            'photo_url' => isset($name) ? $name : null ,
         ]);
 
         if ($request->input('mixtures')) {
