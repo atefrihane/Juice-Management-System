@@ -4271,9 +4271,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               showConfirmButton: true,
               confirmButtonText: 'Fermer'
             });
-            setTimeout(function () {
-              return window.location = '/wizefresh/public/products';
-            }, 2000);
+            window.location = '/wizefresh/public/products';
           }
         })["catch"](function (error) {
           _this4.$Progress.fail();

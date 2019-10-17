@@ -489,7 +489,7 @@
 
                                 });
                                  
-                                setTimeout(() => window.location = '/wizefresh/public/products', 2000);
+                               window.location = '/wizefresh/public/products';
 
 
                             }
