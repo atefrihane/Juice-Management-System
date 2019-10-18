@@ -123,6 +123,7 @@ class StoreController extends Controller
 
     public function store($company_id, Request $request)
     {
+    
 
         $val = $request->validate([
             'code' => 'required',
@@ -213,6 +214,8 @@ class StoreController extends Controller
             'user_id' => Auth::id(),
 
         ]);
+
+
 
         $checkMonday = $this->handleFillSchedule(1, $request->mondayDayStart, $request->mondayDayEnd, $request->mondayNightStart, $request->mondayNightEnd, $request->mondayClosed, $store->id);
         $checkTuesday = $this->handleFillSchedule(2, $request->tuesdayDayStart, $request->tuesdayDayEnd, $request->tuesdayNightStart, $request->tuesdayNightEnd, $request->tuesdayClosed, $store->id);

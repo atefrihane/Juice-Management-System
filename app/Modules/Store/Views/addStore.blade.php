@@ -236,10 +236,10 @@
                                 <tbody>
                                     <tr>
                                         <td>Lundi</td>
-                                        <td> <input type="time" class="form-control" name="mondayDayStart" value="{{old('mondayDayStart')}}"></td>
-                                        <td> <input type="time" class="form-control" name="mondayDayEnd" value="{{old('mondayDayEnd')}}"></td>
+                                        <td> <input type="time" class="form-control" name="mondayDayStart"  value="{{old('mondayDayStart') }}"></td>
+                                        <td> <input type="time" class="form-control" name="mondayDayEnd"    value="{{old('mondayDayEnd')}}"></td>
                                         <td> <input type="time" class="form-control" name="mondayNightStart" value="{{old('mondayNightStart')}}"></td>
-                                        <td> <input type="time" class="form-control" name="mondayNightEnd" value="{{old('mondayNightEnd')}}"></td>
+                                        <td> <input type="time" class="form-control" name="mondayNightEnd"  value="{{old('mondayNightEnd')}}"></td>
                                         <td>
                                             <div class="form-check">
                                                 <input class="form-check-input" name="mondayClosed" type="checkbox"
@@ -391,18 +391,18 @@
     $("input[type=checkbox]").change(function () {
     if ($('#frm input[type=checkbox]:checked').length > 0) {
    
-        $(this).closest('tr').find("td:eq(1)").find("input").prop('disabled', true);
-        $(this).closest('tr').find("td:eq(2)").find("input").prop('disabled', true);
-        $(this).closest('tr').find("td:eq(3)").find("input").prop('disabled', true);
-        $(this).closest('tr').find("td:eq(4)").find("input").prop('disabled', true);
+        $(this).closest('tr').find("td:eq(1)").find("input").prop('readonly', true);
+        $(this).closest('tr').find("td:eq(2)").find("input").prop('readonly', true);
+        $(this).closest('tr').find("td:eq(3)").find("input").prop('readonly', true);
+        $(this).closest('tr').find("td:eq(4)").find("input").prop('readonly', true);
 
     }
     else{
       
-        $(this).closest('tr').find("td:eq(1)").find("input").prop('disabled', false);
-        $(this).closest('tr').find("td:eq(2)").find("input").prop('disabled', false);
-        $(this).closest('tr').find("td:eq(3)").find("input").prop('disabled', false);
-        $(this).closest('tr').find("td:eq(4)").find("input").prop('disabled', false);
+        $(this).closest('tr').find("td:eq(1)").find("input").prop('readonly', false);
+        $(this).closest('tr').find("td:eq(2)").find("input").prop('readonly', false);
+        $(this).closest('tr').find("td:eq(3)").find("input").prop('readonly', false);
+        $(this).closest('tr').find("td:eq(4)").find("input").prop('readonly', false);
 
 
     } 
