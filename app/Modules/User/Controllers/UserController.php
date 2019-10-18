@@ -193,33 +193,40 @@ class UserController extends Controller
     {
 
         $user = User::find($id);
+        if($user)
+        {
+            $type = $user->getType();
+            switch ($type) {
+    
+                case ('responsable'):
+                    $company = Company::find($cid);
+                    $store = $user->child->store;
+                    return view('User::detail', compact('user', 'company', 'store'));
+    
+                    break;
+    
+                case ('superviseur'):
+                    $company = Company::find($cid);
+                    $supervisorId = $user->child->id;
+                    $supervisor = SuperVisor::find($supervisorId);
+                    if ($supervisor) {
+                        $store = Store::where('super_visor_id', $supervisor->id)->first();
+                    }
+                    return view('User::detail', compact('user', 'company', 'store'));
+    
+                    break;
+    
+                case ('directeur'):
+                    $company = Company::find($cid);
+                    return view('User::detail', compact('user', 'company'));
+                    break;
+            }
 
-        $type = $user->getType();
-        switch ($type) {
-
-            case ('responsable'):
-                $company = Company::find($cid);
-                $store = $user->child->store;
-                return view('User::detail', compact('user', 'company', 'store'));
-
-                break;
-
-            case ('superviseur'):
-                $company = Company::find($cid);
-                $supervisorId = $user->child->id;
-                $supervisor = SuperVisor::find($supervisorId);
-                if ($supervisor) {
-                    $store = Store::where('super_visor_id', $supervisor->id)->first();
-                }
-                return view('User::detail', compact('user', 'company', 'store'));
-
-                break;
-
-            case ('directeur'):
-                $company = Company::find($cid);
-                return view('User::detail', compact('user', 'company'));
-                break;
         }
+
+        return view('General::notFound');
+
+     
 
     }
 }
