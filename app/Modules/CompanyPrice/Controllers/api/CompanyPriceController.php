@@ -11,6 +11,7 @@ class CompanyPriceController extends Controller
 
     public function handleStoreCustomPrice(Request $request, $id)
     {
+        dd($request->all());
 
         $checkCompany = CompanyPrice::where('product_id', $request->productId)
             ->where('company_id', $id)

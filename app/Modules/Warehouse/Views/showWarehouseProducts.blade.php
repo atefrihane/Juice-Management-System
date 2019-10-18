@@ -49,10 +49,6 @@
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
-
-                                                <li><a
-                                                        href="{{route('showEditProductQuantity',$warehouseProduct->id)}}">Voir
-                                                        detail produit</a></li>
                                                 <li><a href="{{route('showEditProductQuantity',$warehouseProduct->id)}}">Modifier</a></li>
                                                 <li><a href="#" data-toggle="modal"
                                                         data-target="#modal-default{{$warehouseProduct->id}}">Supprimer</a>

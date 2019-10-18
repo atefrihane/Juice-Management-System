@@ -64804,7 +64804,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 window.swal = sweetalert2__WEBPACK_IMPORTED_MODULE_8___default.a;
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_progressbar__WEBPACK_IMPORTED_MODULE_9___default.a, {
-  color: 'rgb(143, 255, 199)',
+  color: '#3c8dbc',
   failedColor: 'red',
   height: '2px'
 });

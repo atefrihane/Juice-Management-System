@@ -18,7 +18,7 @@ import swal from 'sweetalert2'
 window.swal = swal;
 import VueProgressBar from 'vue-progressbar'
 Vue.use(VueProgressBar, {
-    color: 'rgb(143, 255, 199)',
+    color: '#3c8dbc',
     failedColor: 'red',
     height: '2px'
 })

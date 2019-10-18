@@ -41,7 +41,7 @@
 
                                 <div class="col-md-4">
                                     <label>Résponsable</label>
-                                    <select class="form-control country" name="user_id" value="{{old('country_id')}}"
+                                    <select class="form-control" name="user_id" value="{{old('country_id')}}"
                                         required>
                                         <option value="">Séléctionner un résponsable</option>
                                         @forelse($users as $user)
@@ -63,7 +63,29 @@
                                 </div>
                             </div>
                         </div>
-                       
+
+
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="exampleInputEmail1">Addresse</label>
+                                    <input type="text" name="address" class="form-control" placeholder="Addresse"
+                                        required>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="exampleInputEmail1">Complement d'addresse</label>
+                                    <input type="text" name="complement" class="form-control"
+                                        placeholder="Complement d'addresse">
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div class="box-body">
                             <div class="row">
@@ -107,31 +129,7 @@
                             </div>
                         </div>
 
-
-
-
-                        <div class="box-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="exampleInputEmail1">Addresse</label>
-                                    <input type="text" name="address" class="form-control" placeholder="Addresse"
-                                        required>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="box-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="exampleInputEmail1">Complement d'addresse</label>
-                                    <input type="text" name="complement" class="form-control"
-                                        placeholder="Complement d'addresse">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="box-body">
+                           <div class="box-body">
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Surface ( en m²)</label>

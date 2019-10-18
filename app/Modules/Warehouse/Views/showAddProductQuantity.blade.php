@@ -116,7 +116,7 @@
                             </div>
                         </div>
 
-                         <div class="box-body">
+                        <div class="box-body">
                             <div class="row">
 
                                 <div class="col-md-12">
@@ -193,10 +193,6 @@
 </section>
 </div>
 
-
-
-
-
 <script>
     $('document').ready(function () {
 
@@ -204,7 +200,7 @@
 
             var id = this.value;
             console.log(id);
-            var url = {!!json_encode(url('/'))!!}
+            var url = {!!json_encode(url('/')) !!}
 
             if (id == 0) {
                 $('#productCode').val('');

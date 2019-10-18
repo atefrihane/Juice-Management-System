@@ -28,12 +28,14 @@
                         <table class="table table-bordered table-hover example2">
                             <thead>
                                 <tr>
+                                    <th>Photo</th>
                                     <th>Nom produit</th>
                                     <th>Code produit</th>
                                     <th>Type de produit</th>
                                     <th>Prix unitaire de base</th>
+                                    <th>Prix unitaire remisé</th>
                                     <th>Magasin</th>
-                                    <th>Prix unitaire pour magasin</th>
+                                   
                                     <th></th>
 
                                 </tr>
@@ -42,12 +44,20 @@
                             <tbody>
                                 @forelse($company->companyPrices as $companyPrice)
                                 <tr>
+                                @if($companyPrice->product->photo_url)
+                                    <td> <img src="{{asset('/img')}}/{{$companyPrice->product->photo_url}}" height="80"
+                                            class="user-image" alt="User Image"> </td>
+                                    @else
+                                    <td> <img src="{{asset('/img')}}/no-logo.png" height="80" class="user-image"
+                                            alt="User Image"> </td>
+                                    @endif
                                     <td>{{$companyPrice->product->nom}}</td>
                                     <td>{{$companyPrice->product->code}}</td>
                                     <td>{{$companyPrice->product->type}}</td>
                                     <td>{{$companyPrice->product->public_price}}</td>
-                                    <td>{{$companyPrice->store->designation}}</td>
                                     <td>{{$companyPrice->price}}</td>
+                                    <td>{{$companyPrice->store->designation}}</td>
+                                  
                                     <td class="not-this text-center">
 
                                         <div class="btn-group">
@@ -71,13 +81,14 @@
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">×</span></button>
-                                    <h4 class="modal-title">Voulez vous vraiment supprimer ce tarif ?
+                                    <h4 class="modal-title">Voulez cous vraiment supprimer ce produit du tarif?
                                     </h4>
                                 </div>
-                             
+
                                 <div class="modal-footer">
                                     <div class="text-center">
-                                        <form action="{{ route('handleDeleteCustomProduct',$companyPrice->id) }}" method="post">
+                                        <form action="{{ route('handleDeleteCustomProduct',$companyPrice->id) }}"
+                                            method="post">
                                             {{csrf_field()}}
                                             <a href="#" class="btn btn-danger" data-dismiss="modal">Annuler</a>
 

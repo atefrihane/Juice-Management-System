@@ -102,7 +102,7 @@
                             <span>Machines en location</span></a></li>
                     <li class="{{ Route::is('showCustomProducts',$company->id) ? 'active' : '' }}"><a
                             href="{{route('showCustomProducts',$company->id)}}"><i class="fa fa-dollar"></i>
-                            <span>Tarifs produits</span></a></li>
+                            <span>Tarifs</span></a></li>
 
                 </ul>
             </section>

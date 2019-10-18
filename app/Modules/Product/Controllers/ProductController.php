@@ -196,7 +196,7 @@ class ProductController extends Controller
 
         if ($companyPrice) {
             $companyPrice->delete();
-            alert()->success('Succès!', 'Tarif produit supprimé !')->persistent("Fermer");
+            alert()->success('Succès!', 'Produit est supprimé du tarif avec sucées')->persistent("Fermer");
             return redirect()->back();
         }
 
@@ -222,7 +222,6 @@ class ProductController extends Controller
                 $checkPrice=CompanyPrice::where('store_id',$store_id)
                 ->where('company_id',$id)
                 ->where('product_id',$request->product_id)
-                ->where('price',$request->price)
                 ->first();
                 if($checkPrice)
                 {
