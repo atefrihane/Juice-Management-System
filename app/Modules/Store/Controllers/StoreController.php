@@ -375,7 +375,7 @@ class StoreController extends Controller
             if ($request->input('schedules')) {
 
                 foreach ($request->schedules as $schedule) {
-
+                   
                     if (isset($schedule[0])) {
                         $checkSchedule = StoreSchedule::find($schedule[0]);
                         $dayText = "";
@@ -424,6 +424,7 @@ class StoreController extends Controller
                                 return redirect()->back();
 
                             }
+                        }
 
                             if ($startDay && $endDay && $startNight && $endNight) {
                                 if ($startNight <= $endDay or $startNight <= $startDay) {
@@ -440,7 +441,7 @@ class StoreController extends Controller
 
                             }
 
-                        }
+                     
 
                         $checkSchedule->update([
                             'day' => $checkSchedule->day,

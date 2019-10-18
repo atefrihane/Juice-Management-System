@@ -328,17 +328,11 @@
 
                                         </td>
                                         <td> <input type="time" class="form-control times" min='00:00' max='23:59'
-                                                name="schedules[{{$key}}][1]" value="{{$schedule->start_day_time}}  "
-                                                {{ $schedule->closed == 1 ? 'readonly' : ''}}></td>
+                                                name="schedules[{{$key}}][1]" value="{{$schedule->start_day_time}}"></td>
                                         <td> <input type="time" class="form-control times" min='00:00' max='23:59'
-                                                name="schedules[{{$key}}][2]" value="{{$schedule->end_day_time}}   "
-                                                {{ $schedule->closed == 1 ? 'readonly' : ''}}></td>
-                                        <td> <input type="time" class="form-control times" min='00:00' max='23:59'
-                                                name="schedules[{{$key}}][3]" value="{{$schedule->start_night_time}}"
-                                                {{ $schedule->closed == 1 ? 'readonly' : ''}}></td>
-                                        <td> <input type="time" class="form-control times" min='00:00' max='23:59'
-                                                name="schedules[{{$key}}][4]" value="{{$schedule->end_night_time}}  "
-                                                {{ $schedule->closed == 1 ? 'readonly' : ''}}></td>
+                                                name="schedules[{{$key}}][2]" value="{{$schedule->end_day_time}}"></td>
+                                        <td> <input type="time" class="form-control times" min='00:00' max='23:59'name="schedules[{{$key}}][3]" value="{{$schedule->start_night_time}}"></td>
+                                        <td> <input type="time" class="form-control times" min='00:00' max='23:59'name="schedules[{{$key}}][4]" value="{{$schedule->end_night_time}}"></td>
                                         <td>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox"

@@ -185,7 +185,7 @@ class UserController extends Controller
                 break;
         }
         $user->delete();
-        alert()->success('Succès', ' Le contact a été supprimé avec succès !');
+        alert()->success('Succès', ' Le contact a été supprimé avec succès !')->persistent('Fermer');
         return redirect(route('showContacts', $cid));
     }
 
