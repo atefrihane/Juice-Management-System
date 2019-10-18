@@ -1,5 +1,5 @@
 @extends('General.layoutCompany')
-@section('pageTitle', 'Liste des contacts')
+@section('pageTitle', 'Tarifs')
 @section('content')
 
 
