@@ -24,7 +24,7 @@ class CompaniesTableSeeder extends Seeder
     {
         $country = Country::create([
             'name' => 'France',
-            'code' => 10,
+            'code' => 33,
         ]);
         $cityOne = City::create([
             'name' => 'Paris',
@@ -37,13 +37,41 @@ class CompaniesTableSeeder extends Seeder
 
         ]);
         $zipCodeOne = Zipcode::create([
-            'code' => 7000,
+            'code' => 75000,
             'city_id' => $cityOne->id,
         ]);
+
+
         $zipCodeTwo = Zipcode::create([
-            'code' => 5000,
+            'code' => 75001,
+            'city_id' => $cityOne->id,
+        ]);
+
+        $zipCodeThree = Zipcode::create([
+            'code' => 75002,
+            'city_id' => $cityOne->id,
+        ]);
+
+
+        $zipCodeFour = Zipcode::create([
+            'code' => 13000,
             'city_id' => $cityTwo->id,
         ]);
+
+        $zipCodeFive = Zipcode::create([
+            'code' => 13003,
+            'city_id' => $cityTwo->id,
+        ]);
+
+    
+        $zipCodeSix = Zipcode::create([
+            'code' => 13006,
+            'city_id' => $cityTwo->id,
+        ]);
+
+     
+
+      
 
         $carrefour = Company::create([
             'code' => str_random(6),

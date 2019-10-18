@@ -52,12 +52,17 @@
                                             <a class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
+                                                <li>
+                                                    <a data-toggle="modal"
+                                                        data-target="#modal-default-detail{{$country->id}}">Détail</a>
+                                                </li>
                                                 <li><a href="#">Modifier</a>
                                                 </li>
                                                 <li>
                                                     <a data-toggle="modal"
                                                         data-target="#modal-default{{$country->id}}">Supprimer</a>
                                                 </li>
+
                                             </ul>
                                         </div>
                                     </td>
@@ -112,6 +117,44 @@
 
 
                                             </div>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+
+                                    <!-- /.modal-dialog -->
+                                </div>
+
+                                <div class="modal fade" id="modal-default-detail{{$country->id}}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+
+                                                @if($country->zipcodes->count() > 0)
+
+                                                <h5> La liste ci dessous présente les codes postaux liés à <b>
+                                                        {{$country->name}}</b>
+                                                </h5>
+                                                <div class="box-body">
+                                                    <ul class="list-group">
+                                                        @foreach($country->zipcodes as $zipcode)
+                                                        <li class="list-group-item">{{$zipcode->code}}</li>
+                                                        @endforeach
+
+                                                    </ul>
+                                                </div>
+                                                @else
+
+                                                <h5> <b>Aucun code postal! </b>
+                                                </h5>
+                                                @endif
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="text-center">
+
+                                                    <a href="#" class="btn btn-success" data-dismiss="modal">Femer</a>
+                                                </div>
+                                            </div>
+
                                         </div>
                                         <!-- /.modal-content -->
                                     </div>
