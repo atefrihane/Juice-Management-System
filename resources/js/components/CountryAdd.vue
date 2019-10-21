@@ -25,7 +25,8 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Code téléphonique</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Code téléphonique" min="0" v-model="code">
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Code téléphonique"
+                        min="0" v-model="code">
                 </div>
 
 
@@ -40,22 +41,31 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="city in cities">
+                    <tr v-for="(city,i) in cities">
                         <td>
                             <input type="text" class="form-control" placeholder="Ville" v-model="city.name"
-                                style="height:42px;">
+                                @change="checkCity(city)">
                         </td>
                         <td style="width:60%;">
-                            <div class="box box-info">
 
-                                <input-tag placeholder="Ajouter un code postal" v-model="city.zipcodes"></input-tag>
+                            <input type="text" class="form-control" placeholder="Ajouter un code postal"
+                                v-model="city.zipcode" @keyup.enter='send(city)'>
+
+                            <div style="margin-top:20px;">
+
+                                <div class="btn-group" v-for="(zipcode,j) in city.zipcodes" style="padding:10px;">
+                                    <button type="button" class="btn btn-info">{{zipcode}}</button>
+                                    <button type="button" class="btn btn-info" @click="removeZipcode(zipcode,i,j)">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
 
                             </div>
                         </td>
                         <td>
 
                             <button type="button" class="btn btn-default" style="margin-top:4px;"
-                                @click="removeCity(city)"><i class="fa fa-minus"></i></button>
+                                @click="removeCity(city,index)"><i class="fa fa-minus"></i></button>
                         </td>
                     </tr>
 
@@ -84,11 +94,11 @@
 </template>
 
 <script>
-    import InputTag from 'vue-input-tag'
+    import VueTagsInput from '@johmun/vue-tags-input';
 
     export default {
         components: {
-            'input-tag': InputTag
+            VueTagsInput,
         },
         mounted() {
             this.loadCity()
@@ -98,7 +108,7 @@
                 name: '',
                 code: '',
                 cities: [],
-                  errors: []
+                errors: []
 
 
 
@@ -111,15 +121,89 @@
 
                 this.cities.push({
                     name: '',
+                    zipcode: '',
                     zipcodes: [],
-                  
+
+
 
                 })
             },
-            removeCity(city) {
+            removeCity(city, i) {
+
 
                 this.cities.splice(this.cities.indexOf(city), 1);
-                
+
+
+            },
+            removeZipcode(zipcode, i, j) {
+
+                this.cities[i].zipcodes.splice(this.cities[i].zipcodes.indexOf(zipcode), 1);
+
+
+
+            },
+            send(city) {
+
+                if (city.zipcode != '') {
+                    let found = false;
+                    city.zipcodes.forEach((zipcode, index) => {
+                        if (city.zipcode == zipcode) {
+                            swal.fire({
+                                type: 'error',
+                                title: 'Code postal déja renseigné !  ',
+                                showConfirmButton: true,
+                                confirmButtonText: 'Fermer'
+
+                            });
+                            city.zipcode = ''
+                            found = true;
+                        }
+
+                    });
+                    if (!found) {
+                        city.zipcodes.push(city.zipcode)
+                        city.zipcode = ''
+
+                    }
+
+
+                } else {
+                    swal.fire({
+                        type: 'error',
+                        title: 'Veuillez entrer un code postal ',
+                        showConfirmButton: true,
+                        confirmButtonText: 'Fermer'
+
+                    });
+                }
+
+
+            },
+
+            checkCity(city) {
+                if (city.name != '') {
+                    if (this.cities.length > 1) {
+                        this.cities.forEach((oldCity, index) => {
+                            if (oldCity.name == city.name) {
+                                swal.fire({
+                                    type: 'error',
+                                    title: 'Nom de la ville déja existant !  ',
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Fermer'
+
+                                });
+                                city.name = ''
+
+                            }
+
+                        });
+
+                    }
+
+
+                }
+
+
 
             },
             validateForm() {
@@ -140,9 +224,9 @@
                     x = false;
                 }
 
-                   this.cities.forEach((city, index) => {
+                this.cities.forEach((city, index) => {
 
-                    if (!city.name && city.zipcodes.length > 0 ) {
+                    if (!city.name && city.zipcodes.length > 0) {
                         this.errors.push('Veuillez sélectionner un nom pour la ville  ' + (index + 1));
                         window.scrollTo(0, 0);
                         x = false;
@@ -152,9 +236,9 @@
 
                 });
 
-            
 
-              
+
+
                 return x;
 
             },
@@ -164,45 +248,42 @@
                     axios.post('/country/add', {
                             name: this.name,
                             code: this.code,
-                            cities:this.cities
+                            cities: this.cities
                         })
                         .then((response) => {
                             console.log(response);
-                            if (response.data.status == 401)
-                            {
+                            if (response.data.status == 401) {
                                 swal.fire({
                                     type: 'error',
                                     title: 'Nom déja existant! ',
                                     showConfirmButton: true,
-                                       confirmButtonText:'Fermer'
+                                    confirmButtonText: 'Fermer'
 
                                 });
 
                             }
 
-                              if (response.data.status == 402)
-                            {
+                            if (response.data.status == 402) {
                                 swal.fire({
                                     type: 'error',
                                     title: 'Code déja existant! ',
                                     showConfirmButton: true,
-                                       confirmButtonText:'Fermer'
+                                    confirmButtonText: 'Fermer'
 
                                 });
 
                             }
 
-                               if (response.data.status == 200)
-                            {
+                            if (response.data.status == 200) {
                                 swal.fire({
                                     type: 'success',
                                     title: 'Pays ajouté avec succés ! ',
                                     showConfirmButton: true,
-                                       confirmButtonText:'Fermer'
+                                    confirmButtonText: 'Fermer'
 
                                 });
 
-                            setTimeout(() => window.location = '/wizefresh/public/static', 2000);
+                                setTimeout(() => window.location = '/wizefresh/public/static', 2000);
 
                             }
                         })
@@ -213,8 +294,7 @@
                 }
 
             },
-            cancelRental()
-            {
+            cancelRental() {
                 window.location = '/wizefresh/public/static'
 
             }

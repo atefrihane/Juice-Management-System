@@ -41,16 +41,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="city in citiesZipCodes" v-if="citiesZipCodes">
+                    <tr v-for="(city,i) in citiesZipCodes" v-if="citiesZipCodes">
                         <td>
                             <input type="text" class="form-control" placeholder="Ville" v-model="city.cityName"
-                                style="height:42px;">
+                                @change="checkCountry(city)">
                         </td>
                         <td style="width:60%;">
-                            <div class="box box-info">
 
-                                <input-tag placeholder="Ajouter un code postal" v-model="city.zipCodes">
-                                </input-tag>
+                            <input type="text" class="form-control" placeholder="Ajouter un code postal"
+                                v-model="city.zipcode" @keyup.enter='send(city)'>
+
+                            <div style="margin-top:20px;">
+
+                                <div class="btn-group" v-for="(zipcode,j) in city.zipCodes" style="padding:10px;">
+                                    <button type="button" class="btn btn-info">{{zipcode.code}}</button>
+                                    <button type="button" class="btn btn-info" @click="removeZipcode(zipcode,i,j)">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
 
                             </div>
                         </td>
@@ -131,7 +139,11 @@
 
                         if (city.zipcodes) {
                             city.zipcodes.map(zipcode => {
-                                this.citiesZipCodes[i].zipCodes.push(zipcode.code)
+                                this.citiesZipCodes[i].zipCodes.push({
+                                    'id': zipcode.id,
+                                    'code': zipcode.code
+                                })
+
                             })
                         }
                     })
@@ -142,33 +154,189 @@
             },
 
             removeCity(city) {
-              
-                if (city.cityID != "") {
-                    axios.post('/city/delete/' + city.cityID, {
 
-                    })
-                    .then((response) => {
-                        if (response.data.status == 200) {
-                            this.citiesZipCodes.splice(this.citiesZipCodes.indexOf(city), 1);
-                            } else {
+                if (city.cityID != "") {
+
+                    axios.get('/city/companies/' + city.cityID)
+                        .then((response) => {
+                            // handle success
+
+                            if (response.data.companies.length > 0) {
+                                swal.fire({
+                                    type: 'warning',
+                                    title: 'Attention !',
+                                    html: "La ville est déja affectée à  <b>" + response.data.companies
+                                        .length +
+                                        ' societés ! </b> <br> <br> Voulez vous supprimer défintivement cette ville  ? <br><br> <b>NB : </b> Cette opération est irréversible',
+                                    showCancelButton: true,
+                                    showConfirmButton: true,
+                                    cancelButtonText: 'Annuler',
+                                    confirmButtonText: 'Confirmer',
+
+                                }).then((result) => {
+                                    if (result.value) {
+                                        axios.post('/city/delete/' + city.cityID, {
+
+                                            })
+                                            .then((response) => {
+                                                if (response.data.status == 200) {
+                                                    this.citiesZipCodes.splice(this.citiesZipCodes
+                                                        .indexOf(city), 1);
+                                                } else {
+                                                    swal.fire({
+                                                        type: 'error',
+                                                        title: 'Echec! ',
+                                                        showConfirmButton: true,
+                                                        confirmButtonText: 'Fermer'
+                                                    });
+                                                }
+                                            })
+                                            .catch((error) => {
+                                                console.log(error);
+                                            });
+
+                                    }
+                                })
+
+                            }
+                        })
+                        .catch((error) => {
+                            // handle error
+                            console.log(error);
+                        })
+
+
+
+
+
+
+                } else {
+                    this.citiesZipCodes.splice(this.citiesZipCodes.indexOf(city), 1);
+
+                }
+
+
+
+
+            },
+            removeZipcode(zipcode, i, j) {
+                console.log(zipcode)
+                if (zipcode.id) {
+                    axios.get('/zipcode/' + zipcode.id)
+                        .then((response) => {
+                            // handle success
+                            console.log(response.data.status);
+
+                            if (response.data.status == 400) {
+                                swal.fire({
+                                    type: 'error',
+                                    title: 'Ce code postal est déja utilisé par ' + response.data.count +
+                                        ' societés !',
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Fermer'
+                                });
+
+                            }
+
+                            if (response.data.status == 200) {
+                                axios.post('/zipcode/delete/' + zipcode.id, {
+
+                                    })
+                                    .then((response) => {
+
+                                        if (response.data.status == 200) {
+                                            this.citiesZipCodes[i].zipCodes.splice(this.citiesZipCodes[i]
+                                                .zipCodes
+                                                .indexOf(zipcode), 1);
+                                        } else {
+                                            swal.fire({
+                                                type: 'error',
+                                                title: 'Echec! ',
+                                                showConfirmButton: true,
+                                                confirmButtonText: 'Fermer'
+                                            });
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        console.log(error);
+                                    });
+
+
+                            }
+                        })
+                        .catch((error) => {
+
+                            console.log(error);
+                        })
+
+                } else {
+                    this.citiesZipCodes[i].zipCodes.splice(this.citiesZipCodes[i].zipCodes.indexOf(zipcode), 1);
+
+                }
+
+            },
+
+            send(city) {
+
+                if (city.zipcode != '') {
+                    let found = false;
+                    city.zipCodes.forEach((zipcode, index) => {
+
+                        if (city.zipcode == zipcode.code) {
                             swal.fire({
                                 type: 'error',
-                                title: 'Echec! ',
+                                title: 'Code postal déja renseigné !  ',
                                 showConfirmButton: true,
                                 confirmButtonText: 'Fermer'
+
                             });
+                            city.zipcode = ''
+                            found = true;
                         }
-                        })
-                    .catch((error) => {
-                        console.log(error);
+
+                    });
+                    if (!found) {
+                        city.zipCodes.push({
+                                'id': '',
+                                'code': city.zipcode
+                            }
+
+                        )
+                        city.zipcode = ''
+
+                    }
+
+
+                } else {
+                    swal.fire({
+                        type: 'error',
+                        title: 'Veuillez entrer un code postal ',
+                        showConfirmButton: true,
+                        confirmButtonText: 'Fermer'
+
+                    });
+                }
+
+
+            },
+            checkCountry(city) {
+                if (city.cityName != '') {
+                    this.citiesZipCodes.forEach((cityZipcode, index) => {
+                        if (cityZipcode.cityName == city.cityName) {
+                            swal.fire({
+                                type: 'error',
+                                title: 'Nom de la ville déja existant !  ',
+                                showConfirmButton: true,
+                                confirmButtonText: 'Fermer'
+
+                            });
+                            city.cityName = ''
+
+                        }
+
                     });
 
                 }
-                else{
-                      this.citiesZipCodes.splice(this.citiesZipCodes.indexOf(city), 1);
-
-                }
-                
 
 
 

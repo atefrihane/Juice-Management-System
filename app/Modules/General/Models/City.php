@@ -2,7 +2,7 @@
 
 namespace App\Modules\General\Models;
 
-use App\Modules\General\Models\Company;
+use App\Modules\Company\Models\Company;
 use App\Modules\General\Models\Country;
 use App\Modules\General\Models\Zipcode;
 use App\Modules\Warehouse\Models\Warehouse;
@@ -22,9 +22,9 @@ class City extends Model
     {
         return $this->hasMany(Zipcode::class);
     }
-    public function company()
+    public function companies()
     {
-        return $this->hasOne(Company::class);
+        return $this->hasMany(Company::class);
 
     }
     public function Warehouses()

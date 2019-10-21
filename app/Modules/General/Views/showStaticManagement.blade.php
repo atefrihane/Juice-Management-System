@@ -56,7 +56,7 @@
                                                     <a data-toggle="modal"
                                                         data-target="#modal-default-detail{{$country->id}}">Détail</a>
                                                 </li>
-                                                <li><a href="#">Modifier</a>
+                                                <li><a href="{{route('showUpdateCountry',$country->id)}}">Modifier</a>
                                                 </li>
                                                 <li>
                                                     <a data-toggle="modal"

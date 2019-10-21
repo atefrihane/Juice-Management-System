@@ -3,6 +3,7 @@
 namespace App\Modules\General\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Modules\Company\Models\Company;
 use App\Modules\General\Models\City;
 use App\Modules\General\Models\Country;
 use App\Modules\General\Models\Zipcode;
@@ -57,7 +58,6 @@ class GeneralController extends Controller
 
     public function handleUpdateCountryData($id, Request $request)
     {
-      
 
         $country = Country::find($id);
         if ($country) {
@@ -75,7 +75,7 @@ class GeneralController extends Controller
 
             if ($country->name == $request->name) {
                 $checkName = Country::where('name', $request->name)
-                ->where('id' ,'!=',$country->id)
+                    ->where('id', '!=', $country->id)
                     ->first();
                 if ($checkName) {
 
@@ -84,7 +84,6 @@ class GeneralController extends Controller
                 }
 
             }
-
 
             if ($country->code != $request->code) {
                 $checkCode = Country::where('code', $request->code)->first();
@@ -98,7 +97,7 @@ class GeneralController extends Controller
 
             if ($country->code == $request->code) {
                 $checkCode = Country::where('code', $request->name)
-                ->where('id' ,'!=',$country->id)
+                    ->where('id', '!=', $country->id)
                     ->first();
                 if ($checkName) {
 
@@ -107,7 +106,6 @@ class GeneralController extends Controller
                 }
 
             }
-
 
             $country->update([
                 'name' => $request->name,
@@ -128,38 +126,15 @@ class GeneralController extends Controller
 
                         if (array_key_exists('zipCodes', $city)) {
 
-                            $zipcodes = Zipcode::all();
-                            $deleted = array();
-
-                            foreach ($zipcodes as $oldZipCode) {
-
-                                if (!in_array($oldZipCode->code, $city['zipCodes'])) {
-                                    array_push($deleted, $oldZipCode->id);
-
-                                }
-                            }
-                            if (count($deleted) > 0) {
-
-                                foreach ($deleted as $deleteId) {
-                                    Zipcode::find($deleteId)->delete();
-                                }
-
-                            }
-
                             foreach ($city['zipCodes'] as $zipcode) {
-                                $checkZipCode = Zipcode::where('code', $zipcode)
-                                    ->where('city_id', $checkCity->id)
-                                    ->first();
-
-                                if (!$checkZipCode) {
-
-                                    Zipcode::create([
-                                        'code' => $zipcode,
-                                        'city_id' => $checkCity->id,
+                                if ($zipcode['id']) {
+                                    ZipCode::find($zipcode['id'])->update(['code' => $zipcode['code']]);
+                                } else {
+                                    ZipCode::create([
+                                        'code' => $zipcode['code'],
+                                        'city_id' => $city['cityID'],
                                     ]);
-
                                 }
-
                             }
                         }
 
@@ -200,6 +175,7 @@ class GeneralController extends Controller
 
     public function handleGetCountryCities($id)
     {
+
         $country = Country::find($id);
 
         if ($country) {
@@ -222,6 +198,18 @@ class GeneralController extends Controller
         }
 
     }
+    public function handleGetCityCompanies($id)
+    {
+       
+        $city = City::find($id);
+       
+        if ($city) {
+
+            return response()->json(['status' => 200, 'companies' => $city->companies]);
+
+        }
+
+    }
     public function handleDeleteCity($id)
     {
         $city = City::find($id);
@@ -231,6 +219,34 @@ class GeneralController extends Controller
 
         }
         return response()->json(['status' => 404]);
+    }
+
+    public function handleGetZipcodes($id)
+    {
+        $zipcode = Zipcode::find($id);
+        if ($zipcode) {
+            if ($zipcode->companies->count() > 0) {
+                return response()->json(['status' => 400, 'count' => $zipcode->companies->count()]);
+
+            }
+            return response()->json(['status' => 200]);
+
+        }
+        return response()->json(['status' => 404]);
+    }
+
+    public function handleDeleteZipCode($id)
+    {
+
+        $zipcode = Zipcode::find($id);
+
+        if ($zipcode) {
+            $zipcode->delete();
+            return response()->json(['status' => 200]);
+
+        }
+        return response()->json(['status' => 404]);
+
     }
 
 }

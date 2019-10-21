@@ -35,11 +35,8 @@
                                     <th>Prix unitaire de base</th>
                                     <th>Prix unitaire remisé</th>
                                     <th>Magasin</th>
-                                   
                                     <th></th>
-
                                 </tr>
-
                             </thead>
                             <tbody>
                                 @forelse($company->companyPrices as $companyPrice)

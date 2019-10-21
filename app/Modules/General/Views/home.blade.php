@@ -105,7 +105,8 @@
                                 </div>
                                 @empty
                                 <tr>
-                                    <p>Aucune societé !</p>
+                                <td colspan="6">Aucune societé !</td>
+                                   
                                 </tr>
                                 @endforelse
 
