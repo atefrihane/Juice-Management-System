@@ -120,7 +120,7 @@
 
                                          <div class="form-group">
                                         <label for="exampleInputEmail1">Prix de location mensuelle ( en euros )</label>
-                                        <input class="form-control" id="disabledInput" name="price_month" type="number" placeholder="Prix de location mensuelle ( en euros )" required>
+                                        <input class="form-control" id="disabledInput" name="price_month" type="number" step="0.01" placeholder="Prix de location mensuelle ( en euros )"  required>
 
                                     </div>
 
