@@ -451,6 +451,10 @@
 
                 }
 
+            },
+            cancelRental()
+            {
+                window.location='/wizefresh/public/static'
             }
 
 
