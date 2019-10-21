@@ -94,12 +94,10 @@
 </template>
 
 <script>
-    import InputTag from 'vue-input-tag'
+
 
     export default {
-        components: {
-            'input-tag': InputTag
-        },
+ 
         mounted() {
             this.arrengeZipcodes()
 

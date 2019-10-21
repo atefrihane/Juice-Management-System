@@ -94,12 +94,10 @@
 </template>
 
 <script>
-    import VueTagsInput from '@johmun/vue-tags-input';
+ 
 
     export default {
-        components: {
-            VueTagsInput,
-        },
+     
         mounted() {
             this.loadCity()
         },
