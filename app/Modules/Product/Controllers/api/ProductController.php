@@ -143,7 +143,7 @@ class ProductController extends Controller
 
     public function handleUpdateProduct(Request $request, $id)
     {
-      
+    
         $product = Product::find($id);
         $checkCode = Product::where('code', $request->code)
             ->where('id', '!=', $product->id)
@@ -193,7 +193,7 @@ class ProductController extends Controller
                     if (array_key_exists('id', $mixture)) {
 
                         $checkMixture = Mixture::find($mixture['id']);
-
+              
                         $checkMixture->update([
                             'name' => $mixture['name'],
                             'type' => $mixture['type'],
@@ -210,6 +210,7 @@ class ProductController extends Controller
                         Mixture::create([
                             'name' => $mixture['name'],
                             'final_amount' => $mixture['final_amount'],
+                            'type' => $mixture['type'],
                             'needed_weight' => $mixture['needed_weight'],
                             'water_amount' => $mixture['water_amount'],
                             'sugar_amount' => $mixture['sugar_amount'],
