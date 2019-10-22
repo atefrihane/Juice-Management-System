@@ -54,7 +54,8 @@
                             <div style="margin-top:20px;">
 
                                 <div class="btn-group" v-for="(zipcode,j) in city.zipCodes" style="padding:10px;">
-                                    <button type="button" class="btn btn-info">{{zipcode.code}}</button>
+                                    <button type="button" class="btn btn-info"
+                                        @click="updateCode(i,j,city,zipcode)">{{zipcode.code}}</button>
                                     <button type="button" class="btn btn-info" @click="removeZipcode(zipcode,i,j)">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -94,10 +95,8 @@
 </template>
 
 <script>
-
-
     export default {
- 
+
         mounted() {
             this.arrengeZipcodes()
 
@@ -271,6 +270,84 @@
                     this.citiesZipCodes[i].zipCodes.splice(this.citiesZipCodes[i].zipCodes.indexOf(zipcode), 1);
 
                 }
+
+            },
+            updateCode(i, j, city, zipcode) {
+
+                (async () => {
+                    const {
+                        value: code
+                    } = await swal.fire({
+                        input: 'text',
+                        inputPlaceholder: 'Modifier le code postal',
+
+                    })
+                    if (code == undefined) {
+
+                        return;
+                    }
+
+                    if (code != '') {
+                        let found = false;
+                        city.zipCodes.forEach((zipcode) => {
+                            if (zipcode.code == code) {
+                                swal.fire({
+                                    type: 'error',
+                                    title: 'Code postal déja renseigné !  ',
+                                    showConfirmButton: true,
+
+                                    confirmButtonText: 'Fermer'
+
+                                });
+                                city.zipcode = ''
+                                found = true;
+                            }
+
+                        });
+                        if (!found) {
+
+                            axios.post('/zipcode/update/' + zipcode.id, {
+                                    'code': code
+                                })
+                                .then((response) => {
+                                    console.log(response);
+                                    if (response.data.status == 200) {
+                                        this.$set(this.citiesZipCodes[i].zipCodes[j], 'code', code);
+
+                                    } else {
+                                        swal.fire({
+                                            type: 'error',
+                                            title: 'Echec !  ',
+                                            showConfirmButton: true,
+                                            confirmButtonText: 'Fermer'
+
+                                        });
+
+
+                                    }
+                                })
+                                .catch((error) => {
+                                    console.log(error);
+                                });
+
+                            // 
+
+                        }
+
+
+                    } else {
+                        swal.fire({
+                            type: 'error',
+                            title: 'Veuillez entrer une valeur non vide!  ',
+                            showConfirmButton: true,
+                            confirmButtonText: 'Fermer'
+
+                        });
+
+                    }
+                })();
+
+
 
             },
 
@@ -450,9 +527,8 @@
                 }
 
             },
-            cancelRental()
-            {
-                window.location='/wizefresh/public/static'
+            cancelRental() {
+                window.location = '/wizefresh/public/static'
             }
 
 

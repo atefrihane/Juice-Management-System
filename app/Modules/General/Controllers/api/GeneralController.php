@@ -3,7 +3,6 @@
 namespace App\Modules\General\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Modules\Company\Models\Company;
 use App\Modules\General\Models\City;
 use App\Modules\General\Models\Country;
 use App\Modules\General\Models\Zipcode;
@@ -200,9 +199,9 @@ class GeneralController extends Controller
     }
     public function handleGetCityCompanies($id)
     {
-       
+
         $city = City::find($id);
-       
+
         if ($city) {
 
             return response()->json(['status' => 200, 'companies' => $city->companies]);
@@ -244,6 +243,19 @@ class GeneralController extends Controller
             $zipcode->delete();
             return response()->json(['status' => 200]);
 
+        }
+        return response()->json(['status' => 404]);
+
+    }
+
+    public function handleUpdateZipCode($id, Request $request)
+    {
+        $zipcode = Zipcode::find($id);
+
+        if ($zipcode) {
+            $zipcode->update(['code' => $request->code]);
+
+            return response()->json(['status' => 200]);
         }
         return response()->json(['status' => 404]);
 

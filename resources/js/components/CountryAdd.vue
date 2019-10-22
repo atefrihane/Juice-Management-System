@@ -54,7 +54,8 @@
                             <div style="margin-top:20px;">
 
                                 <div class="btn-group" v-for="(zipcode,j) in city.zipcodes" style="padding:10px;">
-                                    <button type="button" class="btn btn-info">{{zipcode}}</button>
+                                    <button type="button" class="btn btn-info"
+                                        @click="updateCode($event,i,j,city)">{{zipcode}}</button>
                                     <button type="button" class="btn btn-info" @click="removeZipcode(zipcode,i,j)">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -94,10 +95,8 @@
 </template>
 
 <script>
- 
-
     export default {
-     
+
         mounted() {
             this.loadCity()
         },
@@ -200,6 +199,58 @@
 
 
                 }
+
+
+
+            },
+            updateCode(event, i, j, city) {
+
+                (async () => {
+                    const {
+                        value: code
+                    } = await swal.fire({
+                        input: 'text',
+                        inputPlaceholder: 'Modifier le code postal'
+                    })
+
+                    if (code == undefined) {
+
+                        return;
+                    }
+
+                    if (code != '') {
+                        let found = false;
+                        city.zipcodes.forEach((zipcode) => {
+                            if (zipcode == code) {
+                                swal.fire({
+                                    type: 'error',
+                                    title: 'Code postal déja renseigné !  ',
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Fermer'
+
+                                });
+                                city.zipcode = ''
+                                found = true;
+                            }
+
+                        });
+                        if (!found) {
+                            this.$set(this.cities[i].zipcodes, j, code);
+
+                        }
+
+
+                    } else {
+                        swal.fire({
+                            type: 'error',
+                            title: 'Veuillez entrer une valeur non vide!  ',
+                            showConfirmButton: true,
+                            confirmButtonText: 'Fermer'
+
+                        });
+
+                    }
+                })();
 
 
 
