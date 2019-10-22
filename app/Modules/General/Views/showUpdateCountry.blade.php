@@ -27,6 +27,7 @@
             <div class="col-xs-12" id="app">
 
                 <country-update> </country-update>
+                <vue-progress-bar></vue-progress-bar>
 
             </div>
             <!-- /.col -->

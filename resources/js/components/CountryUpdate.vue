@@ -100,8 +100,12 @@
         mounted() {
 
             this.arrengeZipcodes()
-     
+                this.$Progress.finish()
 
+        },
+        created()
+        {
+              this.$Progress.start()
         },
   
         data() {
@@ -128,7 +132,7 @@
                 })
             },
             arrengeZipcodes() {
-
+      
                 if (this.cities) {
 
                     this.cities.map((city, i) => {
