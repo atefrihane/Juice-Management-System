@@ -2154,7 +2154,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
+    this.$Progress.start();
     this.arrengeZipcodes();
+    this.$Progress.finish();
   },
   data: function (_data) {
     function data() {
@@ -3355,13 +3357,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //

@@ -98,7 +98,9 @@
     export default {
 
         mounted() {
+                     this.$Progress.start()
             this.arrengeZipcodes()
+            this.$Progress.finish()
 
         },
         data() {
@@ -125,6 +127,7 @@
                 })
             },
             arrengeZipcodes() {
+       
                 if (this.cities) {
 
                     this.cities.map((city, i) => {
@@ -146,6 +149,7 @@
                     })
 
                 }
+       
 
 
             },
