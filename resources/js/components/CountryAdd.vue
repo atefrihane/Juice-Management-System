@@ -178,22 +178,26 @@
             },
 
             checkCity(city) {
+                let count = 0;
                 if (city.name != '') {
                     if (this.cities.length > 1) {
                         this.cities.forEach((oldCity, index) => {
                             if (oldCity.name == city.name) {
-                                swal.fire({
-                                    type: 'error',
-                                    title: 'Nom de la ville déja existant !  ',
-                                    showConfirmButton: true,
-                                    confirmButtonText: 'Fermer'
-
-                                });
-                                city.name = ''
-
+                            count++;
                             }
 
                         });
+                        if (count > 1) {
+                            swal.fire({
+                                type: 'error',
+                                title: 'Nom de la ville déja existant !  ',
+                                showConfirmButton: true,
+                                confirmButtonText: 'Fermer'
+
+                            });
+                            city.name = ''
+                        }
+
 
                     }
 
@@ -210,7 +214,11 @@
                         value: code
                     } = await swal.fire({
                         input: 'text',
-                        inputPlaceholder: 'Modifier le code postal'
+                        inputPlaceholder: 'Modifier le code postal',
+                        showConfirmButton: true,
+                        confirmButtonText: 'Confirmer',
+                        showCancelButton: true,
+                        cancelButtonText: 'Fermer',
                     })
 
                     if (code == undefined) {

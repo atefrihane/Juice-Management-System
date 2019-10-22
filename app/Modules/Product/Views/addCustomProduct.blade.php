@@ -90,9 +90,9 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Prix unitaire pour societé (euro)</label>
+                                <label for="exampleInputEmail1">Prix unitaire remisé</label>
                                 <input class="form-control" id="disabledInput" name="price" type="number"
-                                    placeholder="Prix unitaire pour societé (euro)" min="0"  value="{{old('price')}}"required>
+                                    placeholder="Prix unitaire remisé" min="0" step="0.01" value="{{old('price')}}"required>
                             </div>
 
 

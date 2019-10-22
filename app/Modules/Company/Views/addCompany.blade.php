@@ -86,7 +86,7 @@
                                         <label for="exampleInputPassword1">Désignation</label>
                                         <input required type="text" class="form-control designation" name="designation"
                                             id="exampleInputPassword1" placeholder="Désignation"
-                                            value="{{old('designation')}}" pattern=".{6,}" title="6 caractères minimum" >
+                                            value="{{old('designation')}}" pattern=".{6,}" title="6 caractères minimum">
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +121,8 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Pays</label>
-                                        <select class="form-control country" name="country_id" value="{{old('country_id')}}">
+                                        <select class="form-control country" name="country_id"
+                                            value="{{old('country_id')}}">
                                             <option value="" selected disabled>Séléctionner un pays</option>
                                             @forelse($countries as $country)
                                             <option value="{{$country->id}}">{{$country->name}}</option>
@@ -139,14 +140,14 @@
                                         </select>
                                     </div>
                                 </div>
-                            <div class="col-md-4">
-                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <div class="form-group">
                                         <label for="exampleInputPassword1">Code Postal</label>
                                         <select class="form-control zipcodes" name="zipcode_id">
                                             <option value="" selected disabled>Séléctionner un code postal</option>
                                         </select>
                                     </div>
-                            </div>
+                                </div>
 
 
                             </div>

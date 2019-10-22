@@ -280,6 +280,10 @@
                     } = await swal.fire({
                         input: 'text',
                         inputPlaceholder: 'Modifier le code postal',
+                        showConfirmButton: true,
+                        confirmButtonText: 'Confirmer',
+                        showCancelButton: true,
+                        cancelButtonText: 'Fermer',
 
                     })
                     if (code == undefined) {
@@ -396,20 +400,24 @@
             },
             checkCountry(city) {
                 if (city.cityName != '') {
+                    let count = 0;
                     this.citiesZipCodes.forEach((cityZipcode, index) => {
                         if (cityZipcode.cityName == city.cityName) {
-                            swal.fire({
-                                type: 'error',
-                                title: 'Nom de la ville déja existant !  ',
-                                showConfirmButton: true,
-                                confirmButtonText: 'Fermer'
 
-                            });
-                            city.cityName = ''
-
+                            count++;
                         }
 
                     });
+                    if (count > 1) {
+                        swal.fire({
+                            type: 'error',
+                            title: 'Nom de la ville déja existant !  ',
+                            showConfirmButton: true,
+                            confirmButtonText: 'Fermer'
+
+                        });
+                        city.cityName = ''
+                    }
 
                 }
 

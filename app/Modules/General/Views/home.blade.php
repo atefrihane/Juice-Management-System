@@ -28,7 +28,7 @@
                     <div class="box-body">
 
 
-                        <table  class="table table-bordered table-hover example2">
+                        <table class="table table-bordered table-hover example2">
                             <thead>
                                 <tr>
                                     <th>Logo</th>
@@ -74,10 +74,12 @@
                                                     aria-label="Close">
                                                     <span aria-hidden="true">×</span></button>
                                                 <h4 class="modal-title"> Voulez vous vraiment supprimer cette societé ?
-                                               
+
                                             </div>
                                             <div class="modal-body">
-                                            <h5 class="modal-title">  <b>Attention !</b> : Cette opération peut affecter la suppression des éléments associés à cette societé ! </h4>
+                                                <h5 class="modal-title"> <b>Attention !</b> : Cette opération peut
+                                                    affecter la suppression des éléments associés à cette societé !
+                                                    </h4>
                                                 </h5>
                                             </div>
                                             <div class="modal-footer">
@@ -89,7 +91,7 @@
                                                             data-dismiss="modal">Annuler</a>
 
                                                         <button type="submit" class="btn btn-success">Confirmer</button>
-                                                      
+
 
                                                     </form>
 
@@ -105,8 +107,8 @@
                                 </div>
                                 @empty
                                 <tr>
-                                <td colspan="6">Aucune societé !</td>
-                                   
+                                    <td colspan="6" class="text-center">Aucune societé !</td>
+
                                 </tr>
                                 @endforelse
 

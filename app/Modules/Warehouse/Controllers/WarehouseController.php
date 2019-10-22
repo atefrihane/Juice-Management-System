@@ -106,12 +106,10 @@ class WarehouseController extends Controller
 
         $checkWarehouse = Warehouse::find($id);
         $countries = Country::all();
-        $cities = City::all();
-        $zipcodes = Zipcode::all();
-        $users = User::all();
+         $users = User::all();
 
         if ($checkWarehouse) {
-            return view('Warehouse::showUpdateWarehouse', compact('checkWarehouse', 'countries', 'cities', 'zipcodes', 'users'));
+            return view('Warehouse::showUpdateWarehouse', compact('checkWarehouse', 'countries', 'users'));
         }
         return view('General::notFound');
 
@@ -132,6 +130,7 @@ class WarehouseController extends Controller
                 $file->move('img', $file->getClientOriginalName());
 
             }
+ 
             $checkWarehouse->update([
                 'code' => $request->code,
                 'designation' => $request->designation,
@@ -140,9 +139,8 @@ class WarehouseController extends Controller
                 'zipcode_id' => $request->zipcode_id,
                 'user_id' => $request->user_id,
                 'address' => $request->address,
-                'complement' => $request->complement,
+                'complement_address' => $request->complement_address,
                 'surface' => $request->surface,
-                'complement_address' => $request->complement,
                 'comment' => $request->comment,
                 'photo' => $path ? $path : $checkWarehouse->photo,
             ]);

@@ -100,7 +100,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="5" class="text-center"> Aucun produit déja existant !</td>
+                                    <td colspan="5" class="text-center"> Aucun produit en stock !</td>
                                 </tr>
 
                                 @endforelse

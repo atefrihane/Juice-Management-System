@@ -1869,19 +1869,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     checkCity: function checkCity(city) {
+      var count = 0;
+
       if (city.name != '') {
         if (this.cities.length > 1) {
           this.cities.forEach(function (oldCity, index) {
             if (oldCity.name == city.name) {
-              swal.fire({
-                type: 'error',
-                title: 'Nom de la ville déja existant !  ',
-                showConfirmButton: true,
-                confirmButtonText: 'Fermer'
-              });
-              city.name = '';
+              count++;
             }
           });
+
+          if (count > 1) {
+            swal.fire({
+              type: 'error',
+              title: 'Nom de la ville déja existant !  ',
+              showConfirmButton: true,
+              confirmButtonText: 'Fermer'
+            });
+            city.name = '';
+          }
         }
       }
     },
@@ -1900,7 +1906,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 2;
                 return swal.fire({
                   input: 'text',
-                  inputPlaceholder: 'Modifier le code postal'
+                  inputPlaceholder: 'Modifier le code postal',
+                  showConfirmButton: true,
+                  confirmButtonText: 'Confirmer',
+                  showCancelButton: true,
+                  cancelButtonText: 'Fermer'
                 });
 
               case 2:
@@ -2296,7 +2306,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 2;
                 return swal.fire({
                   input: 'text',
-                  inputPlaceholder: 'Modifier le code postal'
+                  inputPlaceholder: 'Modifier le code postal',
+                  showConfirmButton: true,
+                  confirmButtonText: 'Confirmer',
+                  showCancelButton: true,
+                  cancelButtonText: 'Fermer'
                 });
 
               case 2:
@@ -2397,17 +2411,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     checkCountry: function checkCountry(city) {
       if (city.cityName != '') {
+        var count = 0;
         this.citiesZipCodes.forEach(function (cityZipcode, index) {
           if (cityZipcode.cityName == city.cityName) {
-            swal.fire({
-              type: 'error',
-              title: 'Nom de la ville déja existant !  ',
-              showConfirmButton: true,
-              confirmButtonText: 'Fermer'
-            });
-            city.cityName = '';
+            count++;
           }
         });
+
+        if (count > 1) {
+          swal.fire({
+            type: 'error',
+            title: 'Nom de la ville déja existant !  ',
+            showConfirmButton: true,
+            confirmButtonText: 'Fermer'
+          });
+          city.cityName = '';
+        }
       }
     },
     validateForm: function validateForm() {
