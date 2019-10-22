@@ -98,11 +98,12 @@
     export default {
 
         mounted() {
-                     this.$Progress.start()
+
             this.arrengeZipcodes()
-            this.$Progress.finish()
+     
 
         },
+  
         data() {
             return {
                 id: data.country.id,
@@ -127,7 +128,7 @@
                 })
             },
             arrengeZipcodes() {
-       
+
                 if (this.cities) {
 
                     this.cities.map((city, i) => {
@@ -149,7 +150,7 @@
                     })
 
                 }
-       
+
 
 
             },
