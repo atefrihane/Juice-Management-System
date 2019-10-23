@@ -39,40 +39,39 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($company->companyPrices as $companyPrice)
+                                @forelse($prices as $price)
                                 <tr>
-                                @if($companyPrice->product->photo_url)
-                                    <td> <img src="{{asset('/img')}}/{{$companyPrice->product->photo_url}}" height="80"
+                                    @if($price->product->photo_url)
+                                    <td> <img src="{{asset('/img')}}/{{$price->product->photo_url}}" height="80"
                                             class="user-image" alt="User Image"> </td>
                                     @else
                                     <td> <img src="{{asset('/img')}}/no-logo.png" height="80" class="user-image"
                                             alt="User Image"> </td>
                                     @endif
-                                    <td>{{$companyPrice->product->nom}}</td>
-                                    <td>{{$companyPrice->product->code}}</td>
-                                    <td>{{$companyPrice->product->type}}</td>
-                                    <td>{{$companyPrice->product->public_price}}</td>
-                                    <td>{{$companyPrice->price}}</td>
-                                    <td>{{$companyPrice->store->designation}}</td>
-                                  
-                                    <td class="not-this text-center">
-
+                                    <td>{{$price->product->nom}}</td>
+                                    <td>{{$price->product->code}}</td>
+                                    <td>{{$price->product->type}}</td>
+                                    <td>{{$price->product->public_price}}</td>
+                                    <td>{{$price->price}}</td>
+                                    <td>{{$price->stores()->count()}}</td>
+                                    <td>
                                         <div class="btn-group">
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
                                                 <li><a
-                                                        href="{{route('showUpdateCustomProducts',['company'=>$company->id,'price'=>$companyPrice->id])}}">Modifier</a>
+                                                        href="{{route('showUpdateCustomProducts',['company'=>$company->id,'price'=>$price->id])}}">Modifier</a>
                                                 </li>
                                                 <li><a href="" data-toggle="modal"
-                                                        data-target="#modal-default{{$companyPrice->id}}">Supprimer</a>
+                                                        data-target="#modal-default{{$price->id}}">Supprimer</a>
                                                 </li>
                                             </ul>
                                         </div>
                     </div>
                     </td>
                     </tr>
-                    <div class="modal fade" id="modal-default{{$companyPrice->id}}">
+
+                    <div class="modal fade" id="modal-default{{$price->id}}">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -84,7 +83,7 @@
 
                                 <div class="modal-footer">
                                     <div class="text-center">
-                                        <form action="{{ route('handleDeleteCustomProduct',$companyPrice->id) }}"
+                                        <form action="{{ route('handleDeleteCustomProduct',$price->id) }}"
                                             method="post">
                                             {{csrf_field()}}
                                             <a href="#" class="btn btn-danger" data-dismiss="modal">Annuler</a>
@@ -105,13 +104,9 @@
                         <!-- /.modal-dialog -->
                     </div>
                     @empty
-                    <tr>
-                        <td colspan="5" class="text-center">
-                            <h4> Aucun tarif existant !</h4>
-                        </td>
-                    </tr>
-
                     @endforelse
+
+
                     </tbody>
 
                     </table>

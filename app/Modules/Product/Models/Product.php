@@ -3,8 +3,9 @@
 namespace App\Modules\Product\Models;
 
 use App\Modules\Mixture\Models\Mixture;
-use Illuminate\Database\Eloquent\Model;
+use App\Modules\Store\Models\Price;
 use App\Modules\Store\Models\Store;
+use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
@@ -16,9 +17,9 @@ class Product extends Model
         return $this->hasMany(Mixture::class);
     }
 
-    public function productPrices()
+    public function prices()
     {
-        return $this->hasMany('\App\Modules\CompanyPrice\Models\CompanyPrice');
+        return $this->hasMany(Price::class);
 
     }
     public function orders()
@@ -34,7 +35,7 @@ class Product extends Model
     }
     public function stores()
     {
-        return $this->belongsToMany(Store::class,'store_products');
+        return $this->belongsToMany(Store::class, 'store_products');
 
     }
 
@@ -43,4 +44,6 @@ class Product extends Model
         return $this->hasMany('\App\Modules\Bac\Models\Bac');
 
     }
+
+
 }

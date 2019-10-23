@@ -3,10 +3,12 @@
 namespace App\Modules\Product\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Modules\CompanyPrice\Models\CompanyPrice;
 use App\Modules\Company\Models\Company;
 use App\Modules\Mixture\Models\Mixture;
 use App\Modules\Product\Models\Product;
+use App\Modules\Store\Models\Price;
+use App\Modules\Store\Models\Store;
+use App\Modules\Store\Models\StorePrice;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -38,9 +40,9 @@ class ProductController extends Controller
     public function showCustomProducts($id)
     {
         $company = Company::find($id);
-
+        $prices = Price::all();
         if ($company) {
-            return view('Product::showCustomProducts', compact('company'));
+            return view('Product::showCustomProducts', compact('company', 'prices'));
         }
         return view('General::notFound');
 
@@ -155,47 +157,81 @@ class ProductController extends Controller
 
     public function showUpdateCustomProducts(Request $request, $id, $idPrice)
     {
-        $companyPrice = CompanyPrice::find($idPrice);
-        if ($companyPrice) {
+        $price = Price::find($idPrice);
+        $storedIds = $price->stores()->pluck('stores.id')->toArray();
+        $freeStores = Store::whereNotIn('id', $storedIds)->get();
+
+        if ($price) {
             $company = Company::find($id);
             $products = Product::all();
-            return view('Product::showUpdateCustomProduct', compact('company', 'companyPrice', 'products'));
+            $stores = Store::all();
+            foreach ($price->stores as $store) {
+
+            }
+            return view('Product::showUpdateCustomProduct', compact('company', 'price', 'products', 'stores', 'freeStores'));
         }
     }
 
-    public function handleUpdateCustomProduct(Request $request, $id)
+    public function handleUpdateCustomProduct(Request $request, $id, $companyId)
     {
 
-        if (!$request->input('store_id')) {
-            alert()->error('Oups!', 'Veuillez séléctionner au moins un magasin !')->persistent('Femer');
-            return redirect()->back()->withInput();
-        }
+        $company = Company::find($companyId);
+        $price = Price::find($id);
+        $stores = Store::all();
 
-        foreach ($request->store_id as $store_id) {
-            $companyPrice = CompanyPrice::where('store_id', $store_id)->first();
-            if ($companyPrice) {
+        if ($price) {
+            if (!$request->input('store_id')) {
+                $price->stores()->detach();
+            }
+            //check if the upcoming store already exists otherwise add it
+            if ($request->input('store_id')) {
+                foreach ($request->input('store_id') as $store_id) {
+                    $checkStorePrice = StorePrice::where('price_id', $price->id)
+                        ->where('store_id', $store_id)
+                        ->first();
+                    if (!$checkStorePrice) {
 
-                $companyPrice->update([
-                    'price' => $request->price,
-                    'product_id' => $request->product_id,
-                ]);
+                        $price->stores()->attach($store_id);
+
+                    }
+
+                }
+
+                //check if old store exists in upcoming array otherwise delete it
+                foreach ($stores as $store) {
+                    if (!in_array($store->id, $request->input('store_id'))) {
+                        $price->stores()->detach($store->id);
+
+                    }
+
+                }
 
             }
 
+            if ($request->input('new_store_id')) {
+                foreach ($request->input('new_store_id') as $new_store_id) {
+                    $price->stores()->attach($new_store_id);
+
+                }
+            }
+            if ($request->product_id != $price->product_id) {
+                $price->update(['product_id' => $request->product_id]);
+
+            }
+
+            alert()->success('Succès!', 'Tarif produit modifié !')->persistent("Fermer");
+            return view('Product::showCustomProducts', ['company' => $company, 'prices' => Price::all()]);
+
         }
-        $companyPrice = CompanyPrice::find($id);
-        $company = Company::find($companyPrice->company->id);
-        alert()->success('Succès!', 'Tarif produit modifié !')->persistent("Fermer");
-        return view('Product::showCustomProducts', compact('company'));
 
     }
     public function handleDeleteCustomProduct(Request $request, $id)
     {
-      
-        $companyPrice = CompanyPrice::find($id);
 
-        if ($companyPrice) {
-            $companyPrice->delete();
+        $price = Price::find($id);
+
+        if ($price) {
+            $price->delete();
             alert()->success('Succès!', 'Produit est supprimé du tarif avec sucées')->persistent("Fermer");
             return redirect()->back();
         }
@@ -212,34 +248,23 @@ class ProductController extends Controller
         $company = Company::find($id);
         if ($company) {
 
-           
             if ($request->price < 0) {
                 alert()->error('Oups!', 'Prix invalide!!')->persistent("Fermer");
                 return redirect()->back();
 
             }
-            foreach ($request->store_id as $store_id) {
-                $checkPrice=CompanyPrice::where('store_id',$store_id)
-                ->where('company_id',$id)
-                ->where('product_id',$request->product_id)
+            $checkPrice = Price::where('price', $request->price)
+                ->where('product_id', $request->product_id)
                 ->first();
-                if($checkPrice)
-                {
-                    alert()->error('Oups!', 'Vous avez déja specifié un prix pour '.$checkPrice->store->designation)->persistent("Fermer");
-                    return redirect()->back();
+            if ($checkPrice) {
+                alert()->error('Oups!', 'Vous avez déja renseigné un tarif à ce produit')->persistent('Femer');
+                return redirect()->back();
 
-                }
-                CompanyPrice::create([
-                    'price' => $request->price,
-                    'product_id' => $request->product_id,
-                    'company_id' => $id,
-                    'store_id' => $store_id,
-                ]);
             }
-
+            $price = Price::create(['price' => $request->price, 'product_id' => $request->product_id]);
+            $price->stores()->attach($request->input('store_id'));
             alert()->success('Succès!', 'Tarif ajouté !')->persistent("Fermer");
-            return redirect()->route('showCustomProducts',$company->id);
-
+            return redirect()->route('showCustomProducts', $company->id);
 
         }
         return view('General::notFound');

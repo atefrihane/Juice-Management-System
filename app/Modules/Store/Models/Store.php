@@ -13,6 +13,7 @@ use App\Modules\Product\Models\Product;
 use App\Modules\Responsable\Models\Responsable;
 use App\Modules\Store\Models\StoreHistory;
 use App\Modules\Store\Models\StoreSchedule;
+use App\Modules\Store\Models\Price;
 use App\Modules\SuperVisor\Models\SuperVisor;
 use Illuminate\Database\Eloquent\Model;
 
@@ -80,12 +81,13 @@ class Store extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class, 'store_products');
-
     }
 
-    public function companyPrices()
+    
+
+    public function prices()
     {
-        return $this->hasMany(CompanyPrice::class);
+        return $this->belongsToMany(Price::class,'store_prices');
 
     }
 

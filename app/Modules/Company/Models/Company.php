@@ -54,11 +54,7 @@ class Company extends Model
         return $rentedMachines;
     }
 
-    public function companyPrices()
-    {
-        return $this->hasMany('\App\Modules\CompanyPrice\Models\CompanyPrice');
 
-    }
     public function city()
     {
         return $this->belongsTo(City::class, 'city_id');

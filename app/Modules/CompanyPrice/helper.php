@@ -1,5 +1,0 @@
-<?php
-
-/**
- *	CompanyPrice Helper  
- */

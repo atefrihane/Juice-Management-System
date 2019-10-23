@@ -22,7 +22,8 @@
                         <h3 class="box-title"> Modifier un produit</h3>
                     </div>
 
-                    <form role="form" method="post" action="{{route('handleUpdateCustomProduct',$companyPrice->id)}}">
+                    <form role="form" method="post"
+                        action="{{route('handleUpdateCustomProduct',['price'=>$price->id,'company_id'=>$company->id])}}">
                         {{csrf_field()}}
                         <div class="box-body">
 
@@ -38,28 +39,72 @@
                                 <div class="col-md-8">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Magasins concernés par la remise </label>
-                                        @forelse($company->stores as $store)
+                                        @if($price->stores->count() > 0)
+                                        @foreach($price->stores as $key => $store)
+
                                         <div class="col-md-12">
                                             <div class="form-check">
                                                 <input type="checkbox" class="form-check-input" name="store_id[]"
-                                                    id="exampleCheck1" value="{{$store->id}}"    {{ $store->id == $companyPrice->store_id ? "checked" : "" }}>
+                                                    id="exampleCheck1" value="{{$store->id}}" checked>
                                                 <span>{{$store->designation}}</span>
                                             </div>
                                         </div>
 
-                                        @empty
-                                        <p>Aucun magasin trouvé!</p>
-                                        @endforelse
+
+
+                                        @endforeach
+                                        @else
+                                        <div class="box-body">
+                                            <p>Aucun magasin trouvé !</p>
+                                        </div>
+                                        @endif
+
+
+
+
                                     </div>
                                 </div>
                             </div>
+                            <div class="box-body">
+                                <div class="row">
+
+                                    <div class="col-md-4">
+
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Autres magasins </label>
+
+                                            @forelse($freeStores as $key => $freeStore)
+
+                                            <div class="col-md-12">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input"
+                                                        name="new_store_id[]" id="exampleCheck1"
+                                                        value="{{$freeStore->id}}">
+                                                    <span>{{$freeStore->designation}}</span>
+                                                </div>
+                                            </div>
+                                            @empty
+                                            <div class="box-body">
+                                                <p>Aucun magasin trouvé !</p>
+                                            </div>
+
+
+                                            @endforelse
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Nom Produit</label>
                                 <select class="form-control selected_product" name="product_id" required>
                                     @forelse($products as $product)
-                                    <option value="{{$product->id}}"
-                                        {{ $product->id == $companyPrice->product_id ? "selected" : "" }}>
+                                    <option value="{{$product->id}}" {{ $product->id == $price->product->id ? 'selected' : ''}}>
                                         {{$product->nom}}</option>
                                     @empty
                                     @endforelse
@@ -70,7 +115,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Code produit</label>
-                                        <input class="form-control" value="{{$companyPrice->product->code}}" type="text"
+                                        <input class="form-control" value="{{$price->product->code}}" type="text"
                                             placeholder="Code produit" id="productCode" disabled>
                                     </div>
                                 </div>
@@ -78,8 +123,8 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Code à barre</label>
-                                        <input class="form-control" value="{{$companyPrice->product->barcode}}"
-                                            type="text" placeholder="Code à barre" id="barCode" disabled>
+                                        <input class="form-control" value="{{$price->product->barcode}}" type="text"
+                                            placeholder="Code à barre" id="barCode" disabled>
                                     </div>
                                 </div>
 
@@ -87,7 +132,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Prix unitaire de base (euro)</label>
                                         <input class="form-control" type="text"
-                                            value="{{$companyPrice->product->public_price}}"
+                                            value="{{$price->product->public_price}}"
                                             placeholder="Prix unitaire de base (euro)" id="productPrice" disabled>
                                     </div>
                                 </div>
@@ -95,10 +140,10 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Prix unitaire pour societé (euro)</label>
-                                <input class="form-control" id="disabledInput" name="price"
-                                    value="{{$companyPrice->price}}" type="number"
-                                    placeholder="Prix unitaire pour societé (euro)" min="0" required>
+                                <label for="exampleInputEmail1">Prix unitaire remisé</label>
+                                <input class="form-control" id="disabledInput" name="price" value="{{$price->price}}"
+                                    type="number" step="0.01" placeholder="Prix unitaire pour societé (euro)" min="0"
+                                    required>
                             </div>
 
 
