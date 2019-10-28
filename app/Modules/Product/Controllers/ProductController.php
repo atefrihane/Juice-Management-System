@@ -157,9 +157,16 @@ class ProductController extends Controller
 
     public function showUpdateCustomProducts(Request $request, $id, $idPrice)
     {
+
         $price = Price::find($idPrice);
+
         $storedIds = $price->stores()->pluck('stores.id')->toArray();
-        $freeStores = Store::whereNotIn('id', $storedIds)->get();
+
+        $freeStores = Store::whereNotIn('id', $storedIds)
+            ->whereDoesntHave('prices', function ($query) use ($price) {
+                $query->where('product_id', $price->product_id);
+            })
+            ->get();
 
         if ($price) {
             $company = Company::find($id);
@@ -180,24 +187,7 @@ class ProductController extends Controller
         $stores = Store::all();
 
         if ($price) {
-            if (!$request->input('store_id')) {
-                $price->stores()->detach();
-            }
-            //check if the upcoming store already exists otherwise add it
             if ($request->input('store_id')) {
-                foreach ($request->input('store_id') as $store_id) {
-                    $checkStorePrice = StorePrice::where('price_id', $price->id)
-                        ->where('store_id', $store_id)
-                        ->first();
-                    if (!$checkStorePrice) {
-
-                        $price->stores()->attach($store_id);
-
-                    }
-
-                }
-
-                //check if old store exists in upcoming array otherwise delete it
                 foreach ($stores as $store) {
                     if (!in_array($store->id, $request->input('store_id'))) {
                         $price->stores()->detach($store->id);
@@ -206,7 +196,32 @@ class ProductController extends Controller
 
                 }
 
+            } else {
+                $price->stores()->detach();
             }
+
+            //check if old store exists in upcoming array otherwise delete it
+
+            //check if the upcoming store already exists otherwise add it
+            // if ($request->input('new_store_id')) {
+            //     foreach ($request->input('store_id') as $store_id) {
+            //         $checkStorePrice = StorePrice::where('price_id', $price->id)
+            //             ->where('store_id', $store_id)
+            //             ->first();
+            //         if (!$checkStorePrice) {
+
+            //             $price->stores()->attach($store_id);
+
+            //         } else {
+
+            //             alert()->error('Oups!', $checkStorePrice->store->designation . ' a déja un tarif à ce produit')->persistent('Femer');
+            //             return redirect()->back();
+
+            //         }
+
+            //     }
+
+            // }
 
             if ($request->input('new_store_id')) {
                 foreach ($request->input('new_store_id') as $new_store_id) {
@@ -253,20 +268,48 @@ class ProductController extends Controller
                 return redirect()->back();
 
             }
-            $checkPrice = Price::where('price', $request->price)
-                ->where('product_id', $request->product_id)
-                ->first();
+
+            $checkPrice = Price::where('product_id', $request->product_id)->first();
+
+            //check if one of stores already has a tarif for a specific product
             if ($checkPrice) {
-                alert()->error('Oups!', 'Vous avez déja renseigné un tarif à ce produit')->persistent('Femer');
-                return redirect()->back();
+
+                foreach ($request->input('store_id') as $store_id) {
+                    $checkStoreProduct = StorePrice::where('price_id', $checkPrice->id)
+                        ->where('store_id', $store_id)
+                        ->first();
+
+                    if ($checkStoreProduct) {
+                        alert()->error('Oups!', $checkStoreProduct->store->designation . ' a déja un tarif à ce produit')->persistent('Femer');
+                        return redirect()->back();
+
+                    }
+                    if ($checkPrice->price == $request->price) {
+                        $checkPrice->stores()->attach($store_id);
+
+                        alert()->success('Succès!', 'Tarif ajouté !')->persistent("Fermer");
+                        return redirect()->route('showCustomProducts', $company->id);
+
+                    }
+
+                    $price = Price::create(['price' => $request->price, 'product_id' => $request->product_id]);
+                    $price->stores()->attach($store_id);
+                    alert()->success('Succès!', 'Tarif ajouté !')->persistent("Fermer");
+                    return redirect()->route('showCustomProducts', $company->id);
+
+                }
+
+            } else {
+
+                $price = Price::create(['price' => $request->price, 'product_id' => $request->product_id]);
+                $price->stores()->attach($request->input('store_id'));
+                alert()->success('Succès!', 'Tarif ajouté !')->persistent("Fermer");
+                return redirect()->route('showCustomProducts', $company->id);
 
             }
-            $price = Price::create(['price' => $request->price, 'product_id' => $request->product_id]);
-            $price->stores()->attach($request->input('store_id'));
-            alert()->success('Succès!', 'Tarif ajouté !')->persistent("Fermer");
-            return redirect()->route('showCustomProducts', $company->id);
 
         }
+
         return view('General::notFound');
 
     }
