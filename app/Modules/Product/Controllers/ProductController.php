@@ -201,6 +201,23 @@ class ProductController extends Controller
 
                 }
 
+            } else {
+                $price->stores()->detach();
+            }
+            $exist = false;
+            if ($request->product_id != $price->product_id) {
+
+                $checkPrice = Price::where('product_id', $request->product_id)
+                    ->first();
+
+                if ($checkPrice) {
+                    $exist = true;
+
+                } else {
+                    $price->update(['product_id' => $request->product_id]);
+
+                }
+
             }
 
             if ($request->input('new_store_id')) {
@@ -209,19 +226,9 @@ class ProductController extends Controller
 
                 }
             }
-            if ($request->product_id != $price->product_id) {
-                $price->update(['product_id' => $request->product_id]);
-
-            }
-
-
-            $checkPrice = Price::where('price', $request->price)
-                ->where('product_id', $request->product_id)
-                ->first();
-            if ($checkPrice) {
-
-                alert()->error('Oups!', $checkPrice->product->nom . ' a déja un tarif à ce produit')->persistent('Femer');
-                return redirect()->back();
+            if ($exist) {
+                alert()->error('Oups!', $checkPrice->product->nom.' a déja un tarif !')->persistent("Fermer");
+                return redirect()->back()->withInput();
 
             }
 
