@@ -39,8 +39,13 @@ class ProductController extends Controller
 
     public function showCustomProducts($id)
     {
+
         $company = Company::find($id);
-        $prices = Price::all();
+        $prices = Price::whereHas('stores.company', function ($query) use ($company) {
+            $query->where('id', $company->id);
+        })
+            ->get();
+
         if ($company) {
             return view('Product::showCustomProducts', compact('company', 'prices'));
         }
@@ -162,25 +167,26 @@ class ProductController extends Controller
 
         $storedIds = $price->stores()->pluck('stores.id')->toArray();
 
-        $freeStores = Store::whereNotIn('id', $storedIds)
-            ->whereDoesntHave('prices', function ($query) use ($price) {
-                $query->where('product_id', $price->product_id);
-            })
-            ->get();
-
         if ($price) {
             $company = Company::find($id);
+            $freeStores = Store::whereNotIn('id', $storedIds)
+                ->whereHas('company', function ($query) use ($company) {
+                    $query->where('id', $company->id);
+                })
+                ->whereDoesntHave('prices', function ($query) use ($price) {
+                    $query->where('product_id', $price->product_id);
+                })
+                ->get();
             $products = Product::all();
             $stores = Store::all();
-            foreach ($price->stores as $store) {
 
-            }
             return view('Product::showUpdateCustomProduct', compact('company', 'price', 'products', 'stores', 'freeStores'));
         }
     }
 
     public function handleUpdateCustomProduct(Request $request, $id, $companyId)
     {
+        // dd($request->all());
 
         $company = Company::find($companyId);
         $price = Price::find($id);
@@ -196,9 +202,10 @@ class ProductController extends Controller
 
                 }
 
-            } else {
-                $price->stores()->detach();
             }
+            // else {
+            //     $price->stores()->detach();
+            // }
 
             //check if old store exists in upcoming array otherwise delete it
 
@@ -235,7 +242,8 @@ class ProductController extends Controller
             }
 
             alert()->success('Succès!', 'Tarif produit modifié !')->persistent("Fermer");
-            return view('Product::showCustomProducts', ['company' => $company, 'prices' => Price::all()]);
+
+            return redirect()->route('showCustomProducts', $company->id)->with(['company' => $company, 'prices' => Price::all()]);
 
         }
 
