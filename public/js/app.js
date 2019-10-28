@@ -44153,7 +44153,7 @@ var render = function() {
             ],
             staticClass: "form-control",
             attrs: {
-              type: "number",
+              type: "text",
               id: "exampleInputPassword1",
               placeholder: "Code téléphonique",
               min: "0"
