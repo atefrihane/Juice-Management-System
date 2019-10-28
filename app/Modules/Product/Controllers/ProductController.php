@@ -186,7 +186,6 @@ class ProductController extends Controller
 
     public function handleUpdateCustomProduct(Request $request, $id, $companyId)
     {
-        // dd($request->all());
 
         $company = Company::find($companyId);
         $price = Price::find($id);
@@ -203,6 +202,33 @@ class ProductController extends Controller
                 }
 
             }
+
+            if ($request->input('new_store_id')) {
+                foreach ($request->input('new_store_id') as $new_store_id) {
+                    $price->stores()->attach($new_store_id);
+
+                }
+            }
+            if ($request->product_id != $price->product_id) {
+                $price->update(['product_id' => $request->product_id]);
+
+            }
+
+
+            $checkPrice = Price::where('price', $request->price)
+                ->where('product_id', $request->product_id)
+                ->first();
+            if ($checkPrice) {
+
+                alert()->error('Oups!', $checkPrice->product->nom . ' a déja un tarif à ce produit')->persistent('Femer');
+                return redirect()->back();
+
+            }
+
+            alert()->success('Succès!', 'Tarif produit modifié !')->persistent("Fermer");
+
+            return redirect()->route('showCustomProducts', $company->id)->with(['company' => $company, 'prices' => Price::all()]);
+
             // else {
             //     $price->stores()->detach();
             // }
@@ -229,21 +255,6 @@ class ProductController extends Controller
             //     }
 
             // }
-
-            if ($request->input('new_store_id')) {
-                foreach ($request->input('new_store_id') as $new_store_id) {
-                    $price->stores()->attach($new_store_id);
-
-                }
-            }
-            if ($request->product_id != $price->product_id) {
-                $price->update(['product_id' => $request->product_id]);
-
-            }
-
-            alert()->success('Succès!', 'Tarif produit modifié !')->persistent("Fermer");
-
-            return redirect()->route('showCustomProducts', $company->id)->with(['company' => $company, 'prices' => Price::all()]);
 
         }
 
