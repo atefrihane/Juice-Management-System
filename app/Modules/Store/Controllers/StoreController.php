@@ -248,12 +248,18 @@ class StoreController extends Controller
     public function edit($id)
     {
         $store = Store::find($id);
-        $company = Company::find($store->company_id);
-        $countries = Country::all();
-        $cities = City::all();
-        $zipcodes = Zipcode::all();
+       
+        if($store)
+        {
+            $company = Company::find($store->company_id);
+            $countries = Country::all();
+            $cities = City::all();
+            $zipcodes = Zipcode::where('city_id', $store->city->id)->get();
+         
+            return view("Store::editStore", compact('store', 'company', 'countries', 'cities', 'zipcodes'));
+
+        }
      
-        return view("Store::editStore", compact('store', 'company', 'countries', 'cities', 'zipcodes'));
     }
 
     public function update($id, Request $request)

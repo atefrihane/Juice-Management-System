@@ -132,42 +132,53 @@
 
                             <div class="row">
 
-
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Pays</label>
                                         <select class="form-control country" name="country_id"
-                                            value="{{old('country_id')}}" required>
-                                            <option value="">Séléctionner un pays</option>
+                                            value="{{old('country_id')}}">
                                             @forelse($countries as $country)
-                                            <option value="{{$country->id}}">{{$country->name}}</option>
+                                            <option value="{{$country->id}}"
+                                                {{$store->id == $company->country_id ? ' selected' : ''}}>
+                                                {{$country->name}}</option>
                                             @empty
+                                            <option value=""> Aucun pays trouvé</option>
+
                                             @endforelse
                                         </select>
                                     </div>
                                 </div>
-
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Ville</label>
-                                        <select class="form-control cities" name="city_id" value="{{old('city_id')}}"
-                                            required>
-                                            <option value="">Selectionner une ville</option>
+                                        <select class="form-control cities" name="city_id">
+                                            @forelse($cities as $city)
+                                            <option value="{{$city->id}}"
+                                                {{$store->id == $company->city_id ? 'selected' :  ''}}>{{$city->name}}
+                                            </option>
+                                            @empty
+                                            <option value=""> Aucune ville trouvé</option>
 
+                                            @endforelse
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Code Postal</label>
-                                        <select class="form-control zipcodes" name="zipcode_id"
-                                            value="{{old('zipcode_id')}}" required>
-                                            <option value="">Selectionner un code postal</option>
+                                        <select class="form-control zipcodes" name="zipcode_id">
+                                            @forelse($zipcodes as $zipcode)
+                                            <option value="{{$city->id}}"
+                                                {{$zipcode->id == $company->zipcode_id ? 'selected' :  ''}}>
+                                                {{$zipcode->code}}
+                                            </option>
+                                            @empty
+                                            <option value=""> Aucun code postal trouvé</option>
 
-
+                                            @endforelse
+                                        </select>
                                         </select>
                                     </div>
-
                                 </div>
 
 

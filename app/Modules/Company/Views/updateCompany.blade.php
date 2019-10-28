@@ -91,10 +91,12 @@
                                         <label>Pays</label>
                                         <select class="form-control country" name="country_id"
                                             value="{{old('country_id')}}">
-                                            <option value="" selected disabled>Séléctionner un pays</option>
                                             @forelse($countries as $country)
-                                            <option value="{{$country->id}}">{{$country->name}}</option>
+                                            <option value="{{$country->id}}"
+                                                {{$country->id == $company->country_id ? ' selected' : ''}}>
+                                                {{$country->name}}</option>
                                             @empty
+                                            <option value=""> Aucun pays trouvé</option>
 
                                             @endforelse
                                         </select>
@@ -104,7 +106,14 @@
                                     <div class="form-group">
                                         <label>Ville</label>
                                         <select class="form-control cities" name="city_id">
-                                            <option value="" selected disabled>Séléctionner une ville</option>
+                                            @forelse($cities as $city)
+                                            <option value="{{$city->id}}"
+                                                {{$city->id == $company->city_id ? 'selected' :  ''}}>{{$city->name}}
+                                            </option>
+                                            @empty
+                                            <option value=""> Aucune ville trouvé</option>
+
+                                            @endforelse
                                         </select>
                                     </div>
                                 </div>
@@ -112,7 +121,16 @@
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Code Postal</label>
                                         <select class="form-control zipcodes" name="zipcode_id">
-                                            <option value="" selected disabled>Séléctionner un code postal</option>
+                                            @forelse($zipcodes as $zipcode)
+                                            <option value="{{$city->id}}"
+                                                {{$zipcode->id == $company->zipcode_id ? 'selected' :  ''}}>
+                                                {{$zipcode->code}}
+                                            </option>
+                                            @empty
+                                            <option value=""> Aucun code postal trouvé</option>
+
+                                            @endforelse
+                                        </select>
                                         </select>
                                     </div>
                                 </div>
@@ -135,18 +153,29 @@
                                 <input type="email" name="email" value="{{$company->email}}" class="form-control"
                                     id="exampleInputPassword1" placeholder="Email">
                             </div>
+
+
                             <div class="row">
 
-
-
-                                <div class="col-md-12">
+                                <div class="col-md-2">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Téléphone</label>
-                                        <input type="text" name="tel" value="{{$company->tel}}" class="form-control"
-                                            id="exampleInputEmail1" placeholder="Telephone">
+                                        <label for="exampleInputEmail1">Télephone</label>
+                                        <input class="form-control cc" name="cc" type="text" placeholder="Code pays"
+                                            value="{{explode(' ', $company->tel)[0]}}" maxlength="4">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1" style="color: transparent">*</label>
+                                        <input type="text" name="tel" value="{{explode(' ', $company->tel)[1]}}"
+                                            class="form-control" id="exampleInputEmail1" placeholder="Telephone">
                                     </div>
                                 </div>
                             </div>
+
+
 
                             <div class="form-group">
                                 <label>Commentaires (optionnel)</label>

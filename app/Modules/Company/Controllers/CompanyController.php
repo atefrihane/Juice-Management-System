@@ -15,7 +15,7 @@ class CompanyController extends Controller
 {
     public function showAddCompany()
     {
-        $lastCompanyId = Company::count()+1;
+        $lastCompanyId = Company::count() + 1;
         $countries = Country::all();
 
         return view('Company::addCompany', compact('lastCompanyId', 'countries'));
@@ -68,7 +68,7 @@ class CompanyController extends Controller
         } else {
             $path = 'img/company-placeholder.png';
         }
-        $telephone = $request->cc . $request->tel;
+        $telephone = $request->cc . " " . $request->tel;
         $insertable = $request->all();
         $insertable['tel'] = $telephone;
         $insertable['cc'] = null;
@@ -78,6 +78,7 @@ class CompanyController extends Controller
             alert()->error('Oups', 'Code déja utilisé !')->persistent('Femer');
             return redirect()->back();
         }
+        
         $company = Company::create($insertable);
         CompanyHistory::create([
             'changes' => 'creation',
@@ -93,11 +94,17 @@ class CompanyController extends Controller
     public function edit($id)
     {
         $company = Company::find($id);
-        $countries = Country::all();
-        $cities = City::all();
-        $zipcodes = Zipcode::all();
+     
+        if ($company) {
+            $countries = Country::all();
+            $cities = City::all();
+            $zipcodes = Zipcode::where('city_id', $company->city->id)->get();
 
-        return view('Company::updateCompany', compact('company', 'countries', 'cities', 'zipcodes'));
+            return view('Company::updateCompany', compact('company', 'countries', 'cities', 'zipcodes'));
+
+        }
+        return view('General::notFound');
+
     }
 
     public function update(Request $request, $id)

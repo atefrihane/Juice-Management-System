@@ -86,7 +86,7 @@ class CompaniesTableSeeder extends Seeder
             'comment' => 'lorem',
             'logo' => '/img/Carefour.png',
             'email' => 'email@email.com',
-            'tel' => '55612719',
+            'tel' => '33 55612719',
 
         ]);
 
@@ -103,7 +103,7 @@ class CompaniesTableSeeder extends Seeder
             'logo' => '/img/Auchan.png',
             'designation' => 'des',
             'email' => 'email@email.com',
-            'tel' => '55612719',
+            'tel' => '33 55612719',
 
         ]);
 
@@ -120,7 +120,7 @@ class CompaniesTableSeeder extends Seeder
             'country_id' => $country->id,
             'city_id' => $cityTwo->id,
             'email' => 'email@email.com',
-            'tel' => '55612719',
+            'tel' => '33 55612719',
         ]);
 
         Company::create([
@@ -136,7 +136,7 @@ class CompaniesTableSeeder extends Seeder
             'country_id' => $country->id,
             'city_id' => $cityTwo->id,
             'email' => 'email@email.com',
-            'tel' => '55612719',
+            'tel' => '33 55612719',
         ]);
 
         Company::create([
@@ -152,7 +152,7 @@ class CompaniesTableSeeder extends Seeder
             'country_id' => $country->id,
             'city_id' => $cityOne->id,
             'email' => 'email@email.com',
-            'tel' => '55612719',
+            'tel' => '33 55612719',
         ]);
 
         Company::create([
@@ -168,7 +168,7 @@ class CompaniesTableSeeder extends Seeder
             'country_id' => $country->id,
             'city_id' => $cityOne->id,
             'email' => 'email@email.com',
-            'tel' => '55612719',
+            'tel' => '33 55612719',
         ]);
 
         Company::create([
@@ -184,7 +184,7 @@ class CompaniesTableSeeder extends Seeder
             'logo' => '/img/Leclerc.png',
             'designation' => 'des',
             'email' => 'email@email.com',
-            'tel' => '55612719',
+            'tel' => '33 55612719',
 
         ]);
 
@@ -314,7 +314,7 @@ class CompaniesTableSeeder extends Seeder
             'nom' => 'Albert ',
             'prenom' => 'Gagnier',
             'civilite' => 'homme',
-            'telephone' => '55612719',
+            'telephone' => '33 55612719',
             'accessCode' => 'ji5848',
             'password' => bcrypt('123456'),
             'child_type' => \App\Modules\Diractor\Models\Diractor::class,
@@ -327,7 +327,7 @@ class CompaniesTableSeeder extends Seeder
             'nom' => 'Jules ',
             'prenom' => 'Julian',
             'civilite' => 'homme',
-            'telephone' => '55612719',
+            'telephone' => '33 55612719',
             'accessCode' => 'ji5848',
             'password' => bcrypt('123456'),
             'child_type' => \App\Modules\Responsable\Models\Responsable::class,
