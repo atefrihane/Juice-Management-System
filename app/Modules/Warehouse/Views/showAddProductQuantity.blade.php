@@ -31,7 +31,7 @@
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Nom de produit</label>
                                     <select class="form-control selected_product" name="product_id" required>
-                                        <option value="0">Selectionner un produit </option>
+                                        <option value="">Selectionner un produit </option>
                                         @forelse($products as $product)
                                         <option value="{{$product->id}}">{{$product->nom}}
                                         </option>
@@ -86,7 +86,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="date" name="creation_date" value="{{old('creation_date')}})"
+                                            <input type="date" name="creation_date" value="{{old('creation_date')}}" 
                                                 class="form-control pull-right" id="datepicker" required>
                                         </div>
                                         <!-- /.input group -->
@@ -100,7 +100,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Date prémption</label>
+                                        <label>Date préemption</label>
 
                                         <div class="input-group date">
                                             <div class="input-group-addon">

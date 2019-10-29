@@ -4,7 +4,7 @@
 <div class="content-wrapper">
 
     <section class="content-header">
-    {{ Breadcrumbs::render('addStoreStock', $store->company,$store->designation) }}
+        {{ Breadcrumbs::render('addStoreStock', $store->company,$store->designation) }}
 
     </section>
 
@@ -81,7 +81,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="date"  name="creation_date" value="{{old('creation_date')}}"
+                                            <input type="date" name="creation_date" value="{{old('creation_date')}}"
                                                 class="form-control pull-right" id="datepicker" required>
                                         </div>
                                         <!-- /.input group -->
@@ -111,8 +111,8 @@
                         <div class="row">
                             <div class="container text-center">
 
-                                <a href="{{route('showStoreStock',['company_id'=>$store->company->id,'store_id'=>$store->id])}}" class="btn btn-danger pl-1"
-                                    style="margin: 1em">Annuler</a>
+                                <a href="{{route('showStoreStock',['company_id'=>$store->company->id,'store_id'=>$store->id])}}"
+                                    class="btn btn-danger pl-1" style="margin: 1em">Annuler</a>
                                 <button type="submit" class="btn btn-success pl-1"
                                     style="margin: 1em">Confirmer</button>
 
@@ -142,7 +142,9 @@
         $('.selected_product').on('change', function () {
 
             var id = this.value;
-            var url = {!!json_encode(url('/')) !!}
+            var url = {
+                !!json_encode(url('/')) !!
+            }
 
 
             if (id == 0) {
