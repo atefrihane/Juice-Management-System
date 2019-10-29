@@ -207,7 +207,7 @@
                             <div class="row">
 
                                 <div class="col-md-12">
-                                    <label for="exampleInputEmail1">Photo de l'entrepot (optionnelle)</label>
+                                    <label for="exampleInputEmail1">Photo de l'entrepôt (optionnelle)</label>
                                     <input type="file" class="form-control">
                                 </div>
                             </div>

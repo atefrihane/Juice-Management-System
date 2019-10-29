@@ -30,7 +30,7 @@
                                     <th>Désignation</th>
                                     <th>Nombre d'unité</th>
                                     <th>Date de fabrication</th>
-                                    <th>Date d'expiration</th>
+                                    <th>Date de préemption</th>
                                     <th></th>
                                 </tr>
                             </thead>

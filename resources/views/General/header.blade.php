@@ -140,7 +140,7 @@
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-tasks"></i>
-                            <span>Entrepot</span>
+                            <span>Entrepôt</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>

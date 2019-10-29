@@ -138,7 +138,7 @@
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label for="exampleInputEmail1">Entrepot</label>
+                                    <label for="exampleInputEmail1">Entrepôt</label>
                                     <select class="form-control" name="warehouse_id" required>
                                         <option value="0">Selectionner un entrepôt </option>
                                         @forelse($warehouses as $warehouse)
@@ -146,7 +146,7 @@
                                                 {{ $warehouse->id == $productQuantity->warehouse->id ? "selected" : "" }}>
                                                 {{$warehouse->designation}}</option>
                                         @empty
-                                        <option value=""> Aucun entrepot !</option>
+                                        <option value=""> Aucun entrepôt !</option>
                                         @endforelse
                                     </select>
                                 </div>

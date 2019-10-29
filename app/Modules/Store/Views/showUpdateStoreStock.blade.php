@@ -92,7 +92,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Date d'expiration</label>
+                                        <label>Date de préemption</label>
 
                                         <div class="input-group date">
                                             <div class="input-group-addon">

@@ -35,13 +35,13 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Code</label>
-                                    <input type="text" name="code" class="form-control code" placeholder="Code" value=""
+                                    <input type="text" name="code" class="form-control code" placeholder="Code" value="{{old('code')}}"
                                         required>
                                 </div>
 
                                 <div class="col-md-4">
                                     <label>Résponsable</label>
-                                    <select class="form-control" name="user_id" value="{{old('country_id')}}"
+                                    <select class="form-control" name="user_id" 
                                         required>
                                         <option value="">Séléctionner un résponsable</option>
                                         @forelse($users as $user)
@@ -59,7 +59,7 @@
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Désignation</label>
                                     <input type="text" name="designation" class="form-control designation"
-                                        placeholder="Désignation" required>
+                                        placeholder="Désignation" value="{{old('designation')}}" required>
                                 </div>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Addresse</label>
                                     <input type="text" name="address" class="form-control" placeholder="Addresse"
-                                        required>
+                                    value="{{old('address')}}"required>
                                 </div>
                             </div>
                         </div>
@@ -81,7 +81,7 @@
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Complement d'addresse</label>
                                     <input type="text" name="complement" class="form-control"
-                                        placeholder="Complement d'addresse">
+                                        placeholder="Complement d'addresse" value="{{old('complement')}}">
                                 </div>
                             </div>
                         </div>
@@ -134,7 +134,7 @@
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Surface ( en m²)</label>
                                     <input type="number" name="surface" class="form-control" placeholder="Surface"
-                                        required>
+                                    value="{{old('surface')}}"  required>
                                 </div>
                             </div>
                         </div>
@@ -145,7 +145,7 @@
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Commentaire(optionnel)</label>
                                     <textarea class="form-control" rows="3" name="comment"
-                                        placeholder="Commentaire"></textarea>
+                                    value="{{old('comment')}}"  placeholder="Commentaire"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -156,7 +156,7 @@
                             <div class="row">
 
                                 <div class="col-md-12">
-                                    <label for="exampleInputEmail1">Photo de l'entrepot (optionnelle)</label>
+                                    <label for="exampleInputEmail1">Photo de l'entrepôt (optionnelle)</label>
                                     <input type="file" class="form-control" name="photo">
                                 </div>
                             </div>

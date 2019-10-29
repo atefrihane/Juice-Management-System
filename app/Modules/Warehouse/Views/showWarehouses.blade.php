@@ -1,5 +1,5 @@
 @extends('General.layout')
-@section('pageTitle', 'Liste des entrepots')
+@section('pageTitle', 'Liste des entrepôts')
 @section('content')
 
 <div class="content-wrapper">
@@ -111,7 +111,7 @@
                                 @empty
                                 <tr>
                                     <td colspan="4" class="text-center">
-                                        <h4>Aucun entrepot existant !</h4>
+                                        <h4>Aucun entrepôt existant !</h4>
                                     </td>
                                 </tr>
 

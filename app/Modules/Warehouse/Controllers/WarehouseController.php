@@ -49,8 +49,8 @@ class WarehouseController extends Controller
         $checkWarehouse = Warehouse::where('code', $request->code)->first();
         $path = null;
         if ($checkWarehouse) {
-            alert()->error('Oups!', 'Un entrepot de ce code existe déja  !')->persistent('Femer');
-            return redirect()->back();
+            alert()->error('Oups!', 'Un entrepôt de ce code existe déja  !')->persistent('Femer');
+            return redirect()->back()->withInput();
 
         }
 
@@ -77,7 +77,7 @@ class WarehouseController extends Controller
             'comment' => $request->comment,
             'photo' => $path ? $path : null,
         ]);
-        alert()->success('Succés!', 'Entrepot a été ajouté avec succés !')->persistent('Femer');
+        alert()->success('Succés!', 'Entrepôt a été ajouté avec succés !')->persistent('Femer');
         return redirect()->route('showWarehouses');
 
     }
@@ -94,7 +94,7 @@ class WarehouseController extends Controller
 
         if ($checkWarehouse) {
             $checkWarehouse->delete();
-            alert()->success('Succés!', 'Entrepot a été supprimé avec succés !')->persistent('Femer');
+            alert()->success('Succés!', 'Entrepôt a été supprimé avec succés !')->persistent('Femer');
             return redirect()->back();
         }
         return view('General::notFound');
@@ -106,10 +106,13 @@ class WarehouseController extends Controller
 
         $checkWarehouse = Warehouse::find($id);
         $countries = Country::all();
-         $users = User::all();
+        $users = User::all();
 
         if ($checkWarehouse) {
-            return view('Warehouse::showUpdateWarehouse', compact('checkWarehouse', 'countries', 'users'));
+            $countries = Country::all();
+            $cities = City::all();
+            $zipcodes = Zipcode::where('city_id', $checkWarehouse->city->id)->get();
+            return view('Warehouse::showUpdateWarehouse', compact('checkWarehouse', 'countries','cities','zipcodes', 'users'));
         }
         return view('General::notFound');
 
@@ -121,6 +124,14 @@ class WarehouseController extends Controller
         $path = null;
         if ($checkWarehouse) {
 
+            $checkWarehouseCode = Warehouse::where('code', $request->code)
+                ->where('id', '<>', $checkWarehouse->id)
+                ->first();
+            if ($checkWarehouseCode) {
+                alert()->error('Oups!', 'Un entrepôt de ce code existe déja  !')->persistent('Femer');
+                return redirect()->back();
+
+            }
             $file = $request->photo;
 
             if ($file) {
@@ -130,7 +141,7 @@ class WarehouseController extends Controller
                 $file->move('img', $file->getClientOriginalName());
 
             }
- 
+
             $checkWarehouse->update([
                 'code' => $request->code,
                 'designation' => $request->designation,
@@ -144,7 +155,7 @@ class WarehouseController extends Controller
                 'comment' => $request->comment,
                 'photo' => $path ? $path : $checkWarehouse->photo,
             ]);
-            alert()->success('Succés!', 'Entrepot a été modifié avec succés !')->persistent('Femer');
+            alert()->success('Succés!', 'Entrepôt a été modifié avec succés !')->persistent('Femer');
             return redirect()->route('showWarehouses');
         }
         return view('General::notFound');

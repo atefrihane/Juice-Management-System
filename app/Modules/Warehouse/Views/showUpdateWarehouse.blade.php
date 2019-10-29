@@ -74,11 +74,12 @@
                                         <label>Pays</label>
                                         <select class="form-control country" name="country_id"
                                             value="{{old('country_id')}}">
-                                            <option value="" selected disabled>Séléctionner un pays</option>
                                             @forelse($countries as $country)
-                                            <option value="{{$country->id}}">{{$country->name}}</option>
+                                            <option value="{{$country->id}}"
+                                                {{$country->id == $checkWarehouse->country_id ? ' selected' : ''}}>
+                                                {{$country->name}}</option>
                                             @empty
-                                            <option value="" selected>Aucun pays</option>
+                                            <option value=""> Aucun pays trouvé</option>
 
                                             @endforelse
                                         </select>
@@ -88,7 +89,14 @@
                                     <div class="form-group">
                                         <label>Ville</label>
                                         <select class="form-control cities" name="city_id">
-                                            <option value="" selected disabled>Séléctionner une ville</option>
+                                            @forelse($cities as $city)
+                                            <option value="{{$city->id}}"
+                                                {{$city->id == $checkWarehouse->city_id ? 'selected' :  ''}}>{{$city->name}}
+                                            </option>
+                                            @empty
+                                            <option value=""> Aucune ville trouvé</option>
+
+                                            @endforelse
                                         </select>
                                     </div>
                                 </div>
@@ -96,7 +104,16 @@
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Code Postal</label>
                                         <select class="form-control zipcodes" name="zipcode_id">
-                                            <option value="" selected disabled>Séléctionner un code postal</option>
+                                            @forelse($zipcodes as $zipcode)
+                                            <option value="{{$city->id}}"
+                                                {{$zipcode->id == $checkWarehouse->zipcode_id ? 'selected' :  ''}}>
+                                                {{$zipcode->code}}
+                                            </option>
+                                            @empty
+                                            <option value=""> Aucun code postal trouvé</option>
+
+                                            @endforelse
+                                        </select>
                                         </select>
                                     </div>
                                 </div>
@@ -156,7 +173,7 @@
                             <div class="row">
 
                                 <div class="col-md-12">
-                                    <label for="exampleInputEmail1">Photo de l'entrepot (optionnelle)</label>
+                                    <label for="exampleInputEmail1">Photo de l'entrepôt (optionnelle)</label>
                                     <input type="file" class="form-control" name="photo">
                                 </div>
                             </div>

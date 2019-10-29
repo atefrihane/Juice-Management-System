@@ -29,8 +29,8 @@
 
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Nom de produit</label>
-                                    <select class="form-control selected_product" name="product_id" required>
-                                        <option value="0">Selectionner un produit </option>
+                                    <select class="form-control selected_product" name="product_id" required="required">
+                                        <option value="">Selectionner un produit </option>
                                         @forelse($products as $product)
                                         <option value="{{$product->id}}">{{$product->nom}}
                                         </option>
@@ -92,7 +92,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Date d'expiration</label>
+                                        <label>Date de préemption</label>
 
                                         <div class="input-group date">
                                             <div class="input-group-addon">
