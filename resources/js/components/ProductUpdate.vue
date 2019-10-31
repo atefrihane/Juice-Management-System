@@ -58,7 +58,8 @@
 
             <div class="form-group">
                 <label for="exampleInputEmail1">Type de Produit</label>
-                <input class="form-control" id="disabledInput" type="text" placeholder="Nom Produit" v-model="type" disabled>
+                <input class="form-control" id="disabledInput" type="text" placeholder="Nom Produit" v-model="type"
+                    disabled>
 
 
             </div>
@@ -313,7 +314,7 @@
                 unityPerDisplay: data.product.unit_by_display,
                 unityPerPack: data.product.unit_per_package,
                 packing: data.product.packing,
-                tva:data.product.tva,
+                tva: data.product.tva,
                 comment: data.product.comment,
                 productId: data.product.id,
                 error: 0,
@@ -351,6 +352,7 @@
                                 swal.fire({
                                     type: 'error',
                                     title: 'Mélange introuvable ! !',
+                                      allowOutsideClick: false,
                                     showConfirmButton: true,
                                     confirmButtonText: 'Fermer'
 
@@ -469,7 +471,7 @@
                             unityPerDisplay: this.unityPerDisplay,
                             unityPerPack: this.unityPerPack,
                             packing: this.packing,
-                            tva:this.tva,
+                            tva: this.tva,
                             comment: this.comment,
                             productId: this.productId,
                             mixtures: this.mixtures,
@@ -485,17 +487,25 @@
                                     title: 'Le produit a été modifié avec succés !',
                                     type: 'success',
                                     showConfirmButton: true,
-                                    confirmButtonText: 'Fermer'
+                                    confirmButtonText: 'Fermer',
+                                      allowOutsideClick: false,
+                                    allowOutsideClick: false,
                                 }).then((result) => {
                                     if (result.value) {
                                         window.location = '/wizefresh/public/products';
                                     }
                                 })
+                            }
 
+                            if (response.data.status == 400) {
 
-                              
-
-
+                                swal.fire({
+                                    title: 'Code déja existant !',
+                                    type: 'error',
+                                      allowOutsideClick: false,
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Fermer'
+                                });
                             }
                         })
                         .catch((error) => {

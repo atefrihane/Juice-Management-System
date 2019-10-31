@@ -310,6 +310,7 @@
                                 type: 'error',
                                 title: 'Ce produit est déja selectionné !',
                                 showConfirmButton: true,
+                                  allowOutsideClick: false,
                                 confirmButtonText: 'Fermer'
                             });
                             this.ordered_products[index].product_id = '';
@@ -456,6 +457,7 @@
                                     type: 'error',
                                     title: 'Code déja utilisé  !',
                                     showConfirmButton: true,
+                                      allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
 
@@ -470,6 +472,7 @@
                                     type: 'success',
                                     title: 'La commande a été sauvegardée avec succés !',
                                     showConfirmButton: true,
+                                      allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
                                 }).then((result) => {
                                     if (result.value) {
@@ -505,6 +508,7 @@
                                 swal.fire({
                                     type: 'error',
                                     title: 'Code déja utilisé  !',
+                                      allowOutsideClick: false,
                                     showConfirmButton: true,
                                     confirmButtonText: 'Fermer'
 
@@ -520,6 +524,7 @@
                                     type: 'success',
                                     title: 'La commande a été ajoutée avec succés !',
                                     showConfirmButton: true,
+                                      allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
                                 }).then((result) => {
                                     if (result.value) {

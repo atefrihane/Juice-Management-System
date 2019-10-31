@@ -372,6 +372,7 @@
                                 swal.fire({
                                     type: 'success',
                                     title: 'La location a été modifiée avec succés !',
+                                      allowOutsideClick: false,
                                     showConfirmButton: true,
 
 

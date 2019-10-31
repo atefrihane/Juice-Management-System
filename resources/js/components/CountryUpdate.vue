@@ -174,6 +174,7 @@
                                     showConfirmButton: true,
                                     cancelButtonText: 'Annuler',
                                     confirmButtonText: 'Confirmer',
+                                      allowOutsideClick: false
 
                                 }).then((result) => {
                                     if (result.value) {
@@ -189,7 +190,8 @@
                                                         type: 'error',
                                                         title: 'Echec! ',
                                                         showConfirmButton: true,
-                                                        confirmButtonText: 'Fermer'
+                                                        confirmButtonText: 'Fermer',
+                                                          allowOutsideClick: false,
                                                     });
                                                 }
                                             })
@@ -247,7 +249,8 @@
                                                     type: 'error',
                                                     title: 'Echec! ',
                                                     showConfirmButton: true,
-                                                    confirmButtonText: 'Fermer'
+                                                    confirmButtonText: 'Fermer',
+                                                      allowOutsideClick: false,
                                                 });
                                             }
                                         })
@@ -267,6 +270,7 @@
                                             "   <b>" + response.data.countWarehouses +
                                             " </b> entrepôts <br>",
                                         showConfirmButton: true,
+                                          allowOutsideClick: false,
                                         confirmButtonText: 'Fermer'
                                     });
 
@@ -314,7 +318,7 @@
                                     type: 'error',
                                     title: 'Code postal déja renseigné !  ',
                                     showConfirmButton: true,
-
+                                    allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
                                 });
@@ -338,6 +342,7 @@
                                             type: 'error',
                                             title: 'Echec !  ',
                                             showConfirmButton: true,
+                                              allowOutsideClick: false,
                                             confirmButtonText: 'Fermer'
 
                                         });
@@ -359,6 +364,7 @@
                             type: 'error',
                             title: 'Veuillez entrer une valeur non vide!  ',
                             showConfirmButton: true,
+                              allowOutsideClick: false,
                             confirmButtonText: 'Fermer'
 
                         });
@@ -381,6 +387,7 @@
                                 type: 'error',
                                 title: 'Code postal déja renseigné !  ',
                                 showConfirmButton: true,
+                                  allowOutsideClick: false,
                                 confirmButtonText: 'Fermer'
 
                             });
@@ -406,6 +413,7 @@
                         type: 'error',
                         title: 'Veuillez entrer un code postal ',
                         showConfirmButton: true,
+                          allowOutsideClick: false,
                         confirmButtonText: 'Fermer'
 
                     });
@@ -428,6 +436,7 @@
                             type: 'error',
                             title: 'Nom de la ville déja existant !  ',
                             showConfirmButton: true,
+                              allowOutsideClick: false,
                             confirmButtonText: 'Fermer'
 
                         });
@@ -491,6 +500,7 @@
                                     type: 'error',
                                     title: 'Nom déja existant! ',
                                     showConfirmButton: true,
+                                      allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
                                 });
@@ -502,6 +512,7 @@
                                     type: 'error',
                                     title: 'Code déja existant! ',
                                     showConfirmButton: true,
+                                      allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
                                 });
@@ -513,6 +524,7 @@
                                     type: 'error',
                                     title: 'Ville déja existante! ',
                                     showConfirmButton: true,
+                                      allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
                                 });
@@ -524,6 +536,7 @@
                                     type: 'error',
                                     title: 'Pays introuvable! ',
                                     showConfirmButton: true,
+                                      allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
                                 });
@@ -535,6 +548,7 @@
                                     type: 'success',
                                     title: 'Pays modifié avec succés ! ',
                                     showConfirmButton: true,
+                                      allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
                                 });

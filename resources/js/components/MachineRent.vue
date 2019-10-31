@@ -403,6 +403,7 @@
                                     type: 'success',
                                     title: 'La location a été ajoutée avec succés !',
                                     showConfirmButton: true,
+                                      allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
 
@@ -416,6 +417,7 @@
                                     type: 'error',
                                     title: 'La machine a été déja louée !',
                                     showConfirmButton: true,
+                                      allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
                                 });
@@ -427,6 +429,7 @@
                                     type: 'error',
                                     title: 'Machine introuvable! !',
                                     showConfirmButton: true,
+                                      allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
                                 });
@@ -437,6 +440,7 @@
                                     type: 'error',
                                     title: 'Erreur date!',
                                     showConfirmButton: true,
+                                      allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
 

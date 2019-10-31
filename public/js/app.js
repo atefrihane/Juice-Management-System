@@ -1847,6 +1847,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             swal.fire({
               type: 'error',
               title: 'Code postal déja renseigné !  ',
+              allowOutsideClick: false,
               showConfirmButton: true,
               confirmButtonText: 'Fermer'
             });
@@ -1864,7 +1865,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           type: 'error',
           title: 'Veuillez entrer un code postal ',
           showConfirmButton: true,
-          confirmButtonText: 'Fermer'
+          confirmButtonText: 'Fermer',
+          allowOutsideClick: false
         });
       }
     },
@@ -1884,7 +1886,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               type: 'error',
               title: 'Nom de la ville déja existant !  ',
               showConfirmButton: true,
-              confirmButtonText: 'Fermer'
+              confirmButtonText: 'Fermer',
+              allowOutsideClick: false
             });
             city.name = '';
           }
@@ -1947,6 +1950,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   swal.fire({
                     type: 'error',
                     title: 'Veuillez entrer une valeur non vide!  ',
+                    allowOutsideClick: false,
                     showConfirmButton: true,
                     confirmButtonText: 'Fermer'
                   });
@@ -2002,7 +2006,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               type: 'error',
               title: 'Nom déja existant! ',
               showConfirmButton: true,
-              confirmButtonText: 'Fermer'
+              confirmButtonText: 'Fermer',
+              allowOutsideClick: false
             });
           }
 
@@ -2223,7 +2228,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               showCancelButton: true,
               showConfirmButton: true,
               cancelButtonText: 'Annuler',
-              confirmButtonText: 'Confirmer'
+              confirmButtonText: 'Confirmer',
+              allowOutsideClick: false
             }).then(function (result) {
               if (result.value) {
                 axios.post('/city/delete/' + city.cityID, {}).then(function (response) {
@@ -2234,7 +2240,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       type: 'error',
                       title: 'Echec! ',
                       showConfirmButton: true,
-                      confirmButtonText: 'Fermer'
+                      confirmButtonText: 'Fermer',
+                      allowOutsideClick: false
                     });
                   }
                 })["catch"](function (error) {
@@ -2273,7 +2280,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     type: 'error',
                     title: 'Echec! ',
                     showConfirmButton: true,
-                    confirmButtonText: 'Fermer'
+                    confirmButtonText: 'Fermer',
+                    allowOutsideClick: false
                   });
                 }
               })["catch"](function (error) {
@@ -2285,6 +2293,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 title: 'Oups !',
                 html: "Ce code postal est déja affectée à : <br><br>  <b>" + response.data.countCompanies + " </b> Societés <br>" + "  <b>" + response.data.countStores + " </b> magasins <br>" + "   <b>" + response.data.countWarehouses + " </b> entrepôts <br>",
                 showConfirmButton: true,
+                allowOutsideClick: false,
                 confirmButtonText: 'Fermer'
               });
             }
@@ -2338,6 +2347,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         type: 'error',
                         title: 'Code postal déja renseigné !  ',
                         showConfirmButton: true,
+                        allowOutsideClick: false,
                         confirmButtonText: 'Fermer'
                       });
                       city.zipcode = '';
@@ -2358,6 +2368,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                           type: 'error',
                           title: 'Echec !  ',
                           showConfirmButton: true,
+                          allowOutsideClick: false,
                           confirmButtonText: 'Fermer'
                         });
                       }
@@ -2370,6 +2381,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     type: 'error',
                     title: 'Veuillez entrer une valeur non vide!  ',
                     showConfirmButton: true,
+                    allowOutsideClick: false,
                     confirmButtonText: 'Fermer'
                   });
                 }
@@ -2391,6 +2403,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               type: 'error',
               title: 'Code postal déja renseigné !  ',
               showConfirmButton: true,
+              allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
             city.zipcode = '';
@@ -2410,6 +2423,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           type: 'error',
           title: 'Veuillez entrer un code postal ',
           showConfirmButton: true,
+          allowOutsideClick: false,
           confirmButtonText: 'Fermer'
         });
       }
@@ -2428,6 +2442,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             type: 'error',
             title: 'Nom de la ville déja existant !  ',
             showConfirmButton: true,
+            allowOutsideClick: false,
             confirmButtonText: 'Fermer'
           });
           city.cityName = '';
@@ -2476,6 +2491,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               type: 'error',
               title: 'Nom déja existant! ',
               showConfirmButton: true,
+              allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
           }
@@ -2485,6 +2501,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               type: 'error',
               title: 'Code déja existant! ',
               showConfirmButton: true,
+              allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
           }
@@ -2494,6 +2511,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               type: 'error',
               title: 'Ville déja existante! ',
               showConfirmButton: true,
+              allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
           }
@@ -2503,6 +2521,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               type: 'error',
               title: 'Pays introuvable! ',
               showConfirmButton: true,
+              allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
           }
@@ -2512,6 +2531,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               type: 'success',
               title: 'Pays modifié avec succés ! ',
               showConfirmButton: true,
+              allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
             setTimeout(function () {
@@ -2917,6 +2937,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               type: 'success',
               title: 'La location a été ajoutée avec succés !',
               showConfirmButton: true,
+              allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
             setTimeout(function () {
@@ -2929,6 +2950,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               type: 'error',
               title: 'La machine a été déja louée !',
               showConfirmButton: true,
+              allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
           }
@@ -2938,6 +2960,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               type: 'error',
               title: 'Machine introuvable! !',
               showConfirmButton: true,
+              allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
           }
@@ -2947,6 +2970,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               type: 'error',
               title: 'Erreur date!',
               showConfirmButton: true,
+              allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
           }
@@ -3329,6 +3353,7 @@ __webpack_require__.r(__webpack_exports__);
             swal.fire({
               type: 'success',
               title: 'La location a été modifiée avec succés !',
+              allowOutsideClick: false,
               showConfirmButton: true
             });
             setTimeout(function () {
@@ -3658,6 +3683,7 @@ __webpack_require__.r(__webpack_exports__);
               type: 'error',
               title: 'Ce produit est déja selectionné !',
               showConfirmButton: true,
+              allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
             _this5.ordered_products[index].product_id = '';
@@ -3780,6 +3806,7 @@ __webpack_require__.r(__webpack_exports__);
               type: 'error',
               title: 'Code déja utilisé  !',
               showConfirmButton: true,
+              allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
           }
@@ -3789,6 +3816,7 @@ __webpack_require__.r(__webpack_exports__);
               type: 'success',
               title: 'La commande a été sauvegardée avec succés !',
               showConfirmButton: true,
+              allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             }).then(function (result) {
               if (result.value) {
@@ -3817,6 +3845,7 @@ __webpack_require__.r(__webpack_exports__);
             swal.fire({
               type: 'error',
               title: 'Code déja utilisé  !',
+              allowOutsideClick: false,
               showConfirmButton: true,
               confirmButtonText: 'Fermer'
             });
@@ -3827,6 +3856,7 @@ __webpack_require__.r(__webpack_exports__);
               type: 'success',
               title: 'La commande a été ajoutée avec succés !',
               showConfirmButton: true,
+              allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             }).then(function (result) {
               if (result.value) {
@@ -4222,6 +4252,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               type: 'error',
               title: 'Ce produit est déja selectionné !',
               showConfirmButton: true,
+              allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
             _this7.custom_ordered[index].product_id = '';
@@ -4276,6 +4307,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         showConfirmButton: true,
         confirmButtonText: 'Confirmer',
         showCancelButton: true,
+        allowOutsideClick: false,
         cancelButtonText: 'Fermer'
       }).then(function (result) {
         if (result.value) {
@@ -4373,6 +4405,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               type: 'success',
               title: 'La commande a été modifiée avec succés !',
               showConfirmButton: true,
+              allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             }).then(function (result) {
               if (result.value) {
@@ -4397,12 +4430,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           status: 1
         }).then(function (response) {
           if (response.data.status == 200) {
-            swal.fire({
+            var _swal$fire;
+
+            swal.fire((_swal$fire = {
               type: 'success',
               title: 'La commande a été modifiée avec succés !',
               showConfirmButton: true,
-              confirmButtonText: 'Fermer'
-            }).then(function (result) {
+              allowOutsideClick: false
+            }, _defineProperty(_swal$fire, "allowOutsideClick", false), _defineProperty(_swal$fire, "confirmButtonText", 'Fermer'), _swal$fire)).then(function (result) {
               if (result.value) {
                 window.location = '/wizefresh/public/orders';
               }
@@ -5040,6 +5075,7 @@ __webpack_require__.r(__webpack_exports__);
               type: 'error',
               title: 'Code déja utilisé  !',
               showConfirmButton: true,
+              allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
           }
@@ -5049,6 +5085,7 @@ __webpack_require__.r(__webpack_exports__);
               type: 'success',
               title: 'Le produit a été ajouté avec succés !',
               showConfirmButton: true,
+              allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             }).then(function (result) {
               if (result.value) {
@@ -5081,6 +5118,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -5436,6 +5474,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             swal.fire({
               type: 'error',
               title: 'Mélange introuvable ! !',
+              allowOutsideClick: false,
               showConfirmButton: true,
               confirmButtonText: 'Fermer'
             });
@@ -5544,15 +5583,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           _this4.$Progress.finish();
 
           if (response.data.status == 200) {
-            swal.fire({
+            swal.fire(_defineProperty({
               title: 'Le produit a été modifié avec succés !',
               type: 'success',
               showConfirmButton: true,
-              confirmButtonText: 'Fermer'
-            }).then(function (result) {
+              confirmButtonText: 'Fermer',
+              allowOutsideClick: false
+            }, "allowOutsideClick", false)).then(function (result) {
               if (result.value) {
                 window.location = '/wizefresh/public/products';
               }
+            });
+          }
+
+          if (response.data.status == 400) {
+            swal.fire({
+              title: 'Code déja existant !',
+              type: 'error',
+              allowOutsideClick: false,
+              showConfirmButton: true,
+              confirmButtonText: 'Fermer'
             });
           }
         })["catch"](function (error) {

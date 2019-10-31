@@ -148,6 +148,7 @@
                             swal.fire({
                                 type: 'error',
                                 title: 'Code postal déja renseigné !  ',
+                         allowOutsideClick: false,
                                 showConfirmButton: true,
                                 confirmButtonText: 'Fermer'
 
@@ -169,7 +170,8 @@
                         type: 'error',
                         title: 'Veuillez entrer un code postal ',
                         showConfirmButton: true,
-                        confirmButtonText: 'Fermer'
+                        confirmButtonText: 'Fermer',
+                          allowOutsideClick: false,
 
                     });
                 }
@@ -192,7 +194,8 @@
                                 type: 'error',
                                 title: 'Nom de la ville déja existant !  ',
                                 showConfirmButton: true,
-                                confirmButtonText: 'Fermer'
+                                confirmButtonText: 'Fermer',
+                                  allowOutsideClick: false,
 
                             });
                             city.name = ''
@@ -252,6 +255,7 @@
                         swal.fire({
                             type: 'error',
                             title: 'Veuillez entrer une valeur non vide!  ',
+                              allowOutsideClick: false,
                             showConfirmButton: true,
                             confirmButtonText: 'Fermer'
 
@@ -314,7 +318,8 @@
                                     type: 'error',
                                     title: 'Nom déja existant! ',
                                     showConfirmButton: true,
-                                    confirmButtonText: 'Fermer'
+                                    confirmButtonText: 'Fermer',
+                                      allowOutsideClick: false,
 
                                 });
 

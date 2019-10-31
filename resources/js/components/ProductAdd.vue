@@ -623,6 +623,7 @@
                                     type: 'error',
                                     title: 'Code déja utilisé  !',
                                     showConfirmButton: true,
+                                      allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
 
@@ -637,6 +638,7 @@
                                     type: 'success',
                                     title: 'Le produit a été ajouté avec succés !',
                                     showConfirmButton: true,
+                                      allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
                                 }).then((result) => {
                                     if (result.value) {

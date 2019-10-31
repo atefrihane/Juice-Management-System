@@ -382,6 +382,7 @@
                                 type: 'error',
                                 title: 'Ce produit est déja selectionné !',
                                 showConfirmButton: true,
+                                  allowOutsideClick: false,
                                 confirmButtonText: 'Fermer'
                             });
                             this.custom_ordered[index].product_id = '';
@@ -457,6 +458,7 @@
                     showConfirmButton: true,
                     confirmButtonText: 'Confirmer',
                     showCancelButton: true,
+                      allowOutsideClick: false,
                     cancelButtonText: 'Fermer'
                 }).then((result) => {
                     if (result.value) {
@@ -571,6 +573,7 @@
                                     type: 'success',
                                     title: 'La commande a été modifiée avec succés !',
                                     showConfirmButton: true,
+                                      allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
                                 }).then((result) => {
                                     if (result.value) {
@@ -609,6 +612,8 @@
                                     type: 'success',
                                     title: 'La commande a été modifiée avec succés !',
                                     showConfirmButton: true,
+                                      allowOutsideClick: false,
+                                        allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
                                 }).then((result) => {
                                     if (result.value) {
