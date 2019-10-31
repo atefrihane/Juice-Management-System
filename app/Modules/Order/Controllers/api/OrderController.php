@@ -79,6 +79,7 @@ class OrderController extends Controller
                 'store_id' => $request->store_id,
                 'total' => $request->total_order,
                 'comment' => $request->comment,
+                'status'=>$request->status
             ]);
             foreach ($request->custom_ordered as $custom) {
                 $checkProduct = $order->products()->where('product_id', $custom['product_id'])->first();

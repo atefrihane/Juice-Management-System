@@ -4075,6 +4075,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getCompanies();
@@ -4355,6 +4356,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       });
       return x;
+    },
+    saveOrder: function saveOrder() {
+      if (this.validateForm()) {
+        axios.post('/api/order/product/update/' + this.order_id, {
+          company_id: this.company_id,
+          store_id: this.store_id,
+          custom_ordered: this.custom_ordered,
+          comment: this.comment,
+          total_order: this.total_order,
+          user_id: this.user_id,
+          status: 0
+        }).then(function (response) {
+          if (response.data.status == 200) {
+            swal.fire({
+              type: 'success',
+              title: 'La commande a été modifiée avec succés !',
+              showConfirmButton: true,
+              confirmButtonText: 'Fermer'
+            }).then(function (result) {
+              if (result.value) {
+                window.location = '/wizefresh/public/orders';
+              }
+            });
+          }
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
     },
     updateOrder: function updateOrder() {
       if (this.validateForm()) {
@@ -48056,6 +48085,21 @@ var render = function() {
         _c(
           "button",
           {
+            staticClass: "btn btn-warning pl-1",
+            staticStyle: { margin: "1em" },
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                return _vm.saveOrder()
+              }
+            }
+          },
+          [_vm._v("\n                Enregistrer")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
             staticClass: "btn btn-success pl-1",
             staticStyle: { margin: "1em" },
             attrs: { type: "button" },
@@ -48065,7 +48109,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v("\n                Confirmer")]
+          [_vm._v("\n                Enregistrer et confirmer")]
         )
       ])
     ])

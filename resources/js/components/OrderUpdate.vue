@@ -196,9 +196,10 @@
 
                 <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelOrder()">
                     Annuler</button>
-
+                <button type="button" class="btn btn-warning pl-1" style="margin: 1em" @click="saveOrder()">
+                    Enregistrer</button>
                 <button type="button" class="btn btn-success pl-1" style="margin: 1em" @click="updateOrder()">
-                    Confirmer</button>
+                    Enregistrer et confirmer</button>
 
 
             </div>
@@ -548,6 +549,43 @@
 
                 return x;
 
+            },
+            saveOrder() {
+                if (this.validateForm()) {
+                    axios.post('/api/order/product/update/' + this.order_id, {
+
+                            company_id: this.company_id,
+                            store_id: this.store_id,
+                            custom_ordered: this.custom_ordered,
+                            comment: this.comment,
+                            total_order: this.total_order,
+                            user_id: this.user_id,
+                            status: 0
+
+                        })
+                        .then((response) => {
+
+                            if (response.data.status == 200) {
+
+                                swal.fire({
+                                    type: 'success',
+                                    title: 'La commande a été modifiée avec succés !',
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Fermer'
+                                }).then((result) => {
+                                    if (result.value) {
+                                        window.location = '/wizefresh/public/orders';
+                                    }
+                                })
+
+
+
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                }
             },
 
             updateOrder() {
