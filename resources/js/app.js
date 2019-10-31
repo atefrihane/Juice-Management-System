@@ -7,13 +7,14 @@
 require('./bootstrap');
 window.Vue = require('vue');
 import Vue from 'vue'
-import ProductPrice from './components/ProductPrice.vue'
 import ProductAdd from './components/ProductAdd.vue'
 import ProductUpdate from './components/ProductUpdate.vue'
 import MachineRent from './components/MachineRent.vue'
 import MachineRentUpdate from './components/MachineRentUpdate.vue'
 import CountryAdd from './components/CountryAdd.vue'
 import CountryUpdate from './components/CountryUpdate.vue'
+import OrderAdd from './components/OrderAdd.vue'
+import OrderUpdate from './components/OrderUpdate.vue'
 import swal from 'sweetalert2'
 window.swal = swal;
 import VueProgressBar from 'vue-progressbar'
@@ -24,25 +25,28 @@ Vue.use(VueProgressBar, {
 })
 
 
-Vue.component('product-price', require('./components/ProductPrice.vue'));
+
 Vue.component('product-add', require('./components/ProductAdd.vue'));
 Vue.component('product-update', require('./components/ProductUpdate.vue'));
 Vue.component('machine-rent', require('./components/MachineRent.vue'));
 Vue.component('machine-rent-update', require('./components/MachineRentUpdate.vue'));
 Vue.component('country-add', require('./components/CountryAdd.vue'));
 Vue.component('country-update', require('./components/CountryUpdate.vue'));
-
+Vue.component('order-add', require('./components/OrderAdd.vue'));
+Vue.component('order-update', require('./components/OrderUpdate.vue'));
 axios.defaults.baseURL = '/wizefresh/public/'
 const app = new Vue({
     el: '#app',
     components: {
-        ProductPrice,
+
         'product-add': ProductAdd,
         'product-update': ProductUpdate,
         'machine-rent-update': MachineRentUpdate,
         'country-add': CountryAdd,
         'country-update': CountryUpdate,
         'machine-rent': MachineRent,
+        'order-add': OrderAdd,
+        'order-update': OrderUpdate
 
 
 

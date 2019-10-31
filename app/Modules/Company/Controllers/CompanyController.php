@@ -97,8 +97,8 @@ class CompanyController extends Controller
      
         if ($company) {
             $countries = Country::all();
-            $cities = City::all();
-            $zipcodes = Zipcode::where('city_id', $company->city->id)->get();
+            $cities = City::where('country_id',$company->country_id)->get();
+            $zipcodes = Zipcode::where('city_id', $company->city_id)->get();
 
             return view('Company::updateCompany', compact('company', 'countries', 'cities', 'zipcodes'));
 
@@ -129,15 +129,9 @@ class CompanyController extends Controller
             'tel.required' => 'le champs telephone est obligatoire',
 
         ]);
-        $updateable = $request->all();
-        unset($updateable['_token']);
-        if ($request->file('logo') != null) {
-            $path = $request->file('logo')->store('img', 'public');
-            $updateable['logo'] = 'files/' . $path;
-        } else {
-            unset($updateable['logo']);
-        }
+       
         $company = Company::find($id);
+        
         if ($company) {
             $changes = array();
             if ($company->code != $request->code) {
@@ -172,6 +166,7 @@ class CompanyController extends Controller
                 array_push($changes, 'email');
             }
             $fullTel = $request->cc . ' ' . $request->tel;
+        
             if ($company->tel != $fullTel) {
                 array_push($changes, 'téléphone');
             }
@@ -190,7 +185,31 @@ class CompanyController extends Controller
                 alert()->error('Oups', 'Code déja utilisé !')->persistent('Femer');
                 return redirect()->back();
             }
-            $company->update($updateable);
+           $path=null;
+            if($request->logo)
+            {
+                $file = $request->logo;
+                $path = '/img/'.$file->getClientOriginalName();
+
+                $file->move('img', $file->getClientOriginalName());
+
+            }
+      
+            $company->update([
+                'code'=>$request->code,
+                'status'=>$request->status,
+                'name'=>$request->name,
+                'designation'=>$request->designation,
+                'country_id'=>$request->country_id,
+                'city_id'=>$request->city_id,
+                'zipcode_id'=>$request->zipcode_id,
+                'address'=>$request->address,
+                'complement'=>$request->complement,
+                'email'=>$request->email,
+                'tel'=>$fullTel,
+                'comment'=>$request->comment,
+                'logo' => isset($path) ? $path : $company->logo
+            ]);
             if ($changes != "") {
                 CompanyHistory::create([
                     'changes' => $changes,

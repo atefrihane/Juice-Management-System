@@ -15,6 +15,7 @@ use App\Modules\Store\Models\StoreHistory;
 use App\Modules\Store\Models\StoreSchedule;
 use App\Modules\Store\Models\Price;
 use App\Modules\SuperVisor\Models\SuperVisor;
+use App\Modules\Order\Models\Order;
 use Illuminate\Database\Eloquent\Model;
 
 class Store extends Model
@@ -88,6 +89,11 @@ class Store extends Model
     public function prices()
     {
         return $this->belongsToMany(Price::class,'store_prices');
+
+    }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
 
     }
 

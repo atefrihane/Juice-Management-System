@@ -78,28 +78,7 @@
                                                 <h4 class="modal-title">Voulez vous vraiment supprimer ce pays ?
                                                 </h4>
                                             </div>
-                                            <div class="modal-body">
-                                                <h5 class="modal-title"> <b>Attention !</b> : Cette opération peut
-                                                    affecter la suppression des éléments associés à ce pays ! </h4>
-                                                </h5>
-                                                @if($country->companies->count() > 0)
 
-                                                <h5> <b>La liste ci dessous présente les societés liés à ce pays : </b>
-                                                </h5>
-                                                <div class="box-body">
-                                                    <ul class="list-group">
-                                                        @foreach($country->companies as $company)
-                                                        <li class="list-group-item">{{$company->name}}</li>
-                                                        @endforeach
-
-                                                    </ul>
-                                                </div>
-
-
-                                                @endif
-
-
-                                            </div>
                                             <div class="modal-footer">
                                                 <div class="text-center">
                                                     <form action="{{ route('handleDeleteCountry',$country->id) }}"
@@ -129,11 +108,33 @@
                                         <div class="modal-content">
                                             <div class="modal-body">
 
+                                            <h4 > La liste ci dessous présente les élements liés à <b>
+                                                        {{$country->name}}</b> </h4>
+
+
+                                                @if($country->cities->count() > 0)
+
+                                                <h4 style="margin-top:40px;"> <b> Les villes : </b></h4>
+                                                
+                                                <div class="box-body">
+                                                    <ul class="list-group">
+                                                        @foreach($country->cities as $city)
+                                                        <li class="list-group-item">{{$city->name}}</li>
+                                                        @endforeach
+
+                                                    </ul>
+                                                </div>
+                                                @else
+
+                                                <h5> <b>Aucune ville! </b>
+                                                </h5>
+                                                @endif
+
+
+
                                                 @if($country->zipcodes->count() > 0)
 
-                                                <h5> La liste ci dessous présente les codes postaux liés à <b>
-                                                        {{$country->name}}</b>
-                                                </h5>
+                                                <h4 style="margin-top:40px;"> <b>Les codes postaux : </b></h4>
                                                 <div class="box-body">
                                                     <ul class="list-group">
                                                         @foreach($country->zipcodes as $zipcode)
@@ -147,6 +148,25 @@
                                                 <h5> <b>Aucun code postal! </b>
                                                 </h5>
                                                 @endif
+
+
+                                                @if($country->warehouses->count() > 0)
+                                                <h4 style="margin-top:40px;"> <b> Les entrepôts : </b></h4>
+                                                </h5>
+                                                <div class="box-body">
+                                                    <ul class="list-group">
+                                                        @foreach($country->warehouses as $warehouse)
+                                                        <li class="list-group-item">{{$warehouse->designation}}</li>
+                                                        @endforeach
+
+                                                    </ul>
+                                                </div>
+                                                @else
+
+                                                <h4> <b>Aucun entrepôt  </b>
+                                                </h4>
+                                                @endif
+
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="text-center">
@@ -164,6 +184,8 @@
 
                                 @empty
                                 @endforelse
+
+
 
 
 

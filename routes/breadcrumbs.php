@@ -118,6 +118,11 @@ Breadcrumbs::for('addOrder', function ($trail) {
     $trail->push('Ajouter une commande', route('showOrders'));
 });
 
+Breadcrumbs::for('updateOrder', function ($trail) {
+    $trail->parent('order');
+    $trail->push('Modifier une commande');
+});
+
 Breadcrumbs::for('machine', function ($trail) {
 
     $trail->push('Liste des machines', route('showMachines'));

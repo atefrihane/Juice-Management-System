@@ -15,7 +15,8 @@ class CreateOrderHistories extends Migration
     {
         Schema::create('order_histories', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('status');
+            $table->string('action');
+            $table->string('comment')->nullable();
             $table->integer('order_id')->unsigned();
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->integer('user_id')->unsigned();

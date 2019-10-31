@@ -2,6 +2,7 @@
 
 namespace App\Modules\Product\Models;
 
+use App\Modules\Product\Models\ProductPrepare;
 use App\Modules\Product\Models\ProductWarehouse;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,9 +11,10 @@ class ProductWarehouse extends Model
 
     protected $fillable = ['packing', 'quantity', 'creation_date', 'expiration_date', 'comment', 'product_id', 'warehouse_id'];
     protected $table = "product_warehouse";
-    public function orderproducts()
+
+    public function prepared()
     {
-        return $this->belongsToMany('App\Modules\Order\Models\OrderProduct', 'product_prepare');
+        return $this->hasMany(ProductPrepare::class);
 
     }
 

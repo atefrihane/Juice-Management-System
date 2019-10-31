@@ -3,15 +3,15 @@
 namespace App\Modules\Order\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Modules\Order\Models\Order;
 class OrderHistory extends Model
 {
 
-    protected $fillable = ['status', 'order_id', 'user_id'];
+    protected $fillable = ['action', 'order_id', 'user_id'];
 
     public function order()
     {
-        return $this->belongsTo('App\Modules\Order\Models\Order', 'order_id');
+        return $this->belongsTo(Order::class, 'order_id');
 
     }
 

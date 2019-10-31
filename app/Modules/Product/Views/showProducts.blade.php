@@ -34,6 +34,7 @@
                             <thead>
                                 <tr>
                                     <th>Photo</th>
+                                    <th>Code</th>
                                     <th>Nom Produit</th>
                                     <th>Type</th>
                                     <th>Désignation</th>
@@ -52,6 +53,7 @@
                                     <td> <img src="{{asset('/img')}}/no-logo.png" height="80" class="user-image"
                                             alt="User Image"> </td>
                                     @endif
+                                    <td>{{$product->code}}</td>
                                     <td>{{$product->nom}}</td>
                                     <td>{{$product->type}}</td>
                                     <td>{{$product->designation}}</td>

@@ -178,6 +178,10 @@
                 <label for="exampleInputEmail1">Colisage</label>
                 <input class="form-control" id="disabledInput" type="number" placeholder="Colisage" v-model="packing">
             </div>
+                <div class="form-group">
+                <label for="exampleInputEmail1">TVA (%)</label>
+                <input class="form-control" id="disabledInput" type="number" placeholder="Colisage" v-model="tva">
+            </div>
 
             <div class="form-group" v-if="type != 'Jettable'">
                 <label for="exampleInputFile">Possibilités de melange :</label>
@@ -308,6 +312,7 @@
                 unityPerPack: '',
                 packing: '',
                 comment: '',
+                tva:'',
                 productId: product.productId,
                 error: 0,
 
@@ -390,10 +395,198 @@
 
                 }
             },
+               validateForm() {
+
+                this.errors = [];
+                let  x=true;
+                console.log('hi')
+                if (!this.code) {
+                    this.errors.push('Le champs code est requis.');
+                    window.scrollTo(0, 0);
+                    x=false;
+                }
+
+
+                if (!this.state) {
+                    this.errors.push(' le champs etat est requis.');
+                    window.scrollTo(0, 0);
+                            x=false;
+                }
+
+                if (!this.name) {
+                    this.errors.push('le champs nom produit est requis.');
+                    window.scrollTo(0, 0);
+                      x=false;
+                }
+
+
+                if (!this.type) {
+                    this.errors.push('le champs type est requis.');
+                    window.scrollTo(0, 0);
+                            x=false;
+                }
+
+                if (!this.version) {
+                    this.errors.push('le champs version est  requis.');
+                    window.scrollTo(0, 0);
+                         x=false;
+                }
+
+
+                if (!this.barcode) {
+                    this.errors.push('les champs code à barres est  requis.');
+                    window.scrollTo(0, 0);
+                             x=false;
+                }
+
+
+                if (!this.designation) {
+                    this.errors.push('Le champs designation est  requis.');
+                    window.scrollTo(0, 0);
+                        x=false;
+                }
+                if (!this.composition) {
+                    this.errors.push('Le champs composition est  requis.');
+                    window.scrollTo(0, 0);
+                          x=false;
+                }
+
+                if (!this.color) {
+                    this.errors.push('Le champs couleur est  requis.');
+                    window.scrollTo(0, 0);
+                          x=false;
+                }
+
+                if (!this.weight) {
+                    this.errors.push('Le champs poids est  requis.');
+                    window.scrollTo(0, 0);
+                        x=false;
+                }
+
+                if (!this.height) {
+                    this.errors.push('Le champs hauteur est  requis.');
+                    window.scrollTo(0, 0);
+                        x=false;
+                }
+
+                if (!this.width) {
+                    this.errors.push('Le champs largeur est  requis.');
+                    window.scrollTo(0, 0);
+                            x=false;
+                }
+
+                if (!this.depth) {
+                    this.errors.push('Le champs hauteur est  requis.');
+                    window.scrollTo(0, 0);
+                            x=false;
+                }
+
+                if (!this.publicPrice) {
+                    this.errors.push('Le champs prix unitaire de vente  est  requis.');
+                    window.scrollTo(0, 0);
+                     x=false;
+                }
+
+                if (!this.validityClosed) {
+                    this.errors.push('Le champs durée de validité de produit fermé  est  requis.');
+                    window.scrollTo(0, 0);
+                   x=false;
+                }
+
+                if (!this.validityOpened) {
+                    this.errors.push('Le champs durée de validité aprés ouverture est  requis.');
+                    window.scrollTo(0, 0);
+                            x=false;
+                }
+
+                if (!this.unityPerDisplay) {
+                    this.errors.push('Le Nombre d"unitée par display est  requis.');
+                    window.scrollTo(0, 0);
+                             x=false;
+                }
+
+
+                if (!this.unityPerPack) {
+                    this.errors.push('Le champs nombre de display par colis est  requis.');
+                    window.scrollTo(0, 0);
+                   x=false;true
+                }
+
+
+                if (!this.packing) {
+                    this.errors.push('Le champs colisage est  requis.');
+                    window.scrollTo(0, 0);
+                           x=false;
+                }
+                 if (!this.tva) {
+                    this.errors.push('Le champs tva  est  requis.');
+                    window.scrollTo(0, 0);
+                            x=false;
+                }
+                if (this.mixtures.length > 0) {
+                  
+                    this.mixtures.forEach((mixture) => {
+
+                        if (!mixture.mixtureName) {
+                            this.errors.push('Le champs nom du mélange est  requis.');
+                            window.scrollTo(0, 0);
+                            x=false;
+                        }
+                        if (!mixture.endQuantityProduct) {
+                            this.errors.push('Le champs quantité de produit fini(en litre)  est  requis.');
+                            window.scrollTo(0, 0);
+                              x=false;
+                        }
+
+                        if (!mixture.necessaryWeight) {
+                            this.errors.push('Le champs poids necessaire du produit (en kg) est  requis.');
+                            window.scrollTo(0, 0);
+                              x=false;
+                        }
+
+                        if (!mixture.waterQuantity) {
+                            this.errors.push('Le champs quantité eau (en litre) est  requis.');
+                            window.scrollTo(0, 0);
+                              x=false;
+                        }
+
+
+                        if (!mixture.sugarQuantity) {
+                            this.errors.push('Le champs quantité de sucre (en kg) est  requis.');
+                            window.scrollTo(0, 0);
+                                x=false;
+                        }
+
+                        if (!mixture.glassVolume) {
+                            this.errors.push('Le champs volume de verre (en cl) est  requis.');
+                            window.scrollTo(0, 0);
+                                 x=false;
+                        }
+
+                            if (!mixture.type) {
+                            this.errors.push('Le champs type de mélange est requis.');
+                            window.scrollTo(0, 0);
+                                 x=false;
+                        }
+
+                   });
+                    
+                       
+
+                }
+
+                     return x;
+
+
+
+
+
+            },
 
             submitProduct() {
-                var form = this.validateForm(); // input front end validation returns false if error
-                if (form != false) {
+                  console.log(this.validateForm());
+          
+                if (this.validateForm()) {
                     this.$Progress.start()
                     axios.post('/api/products', {
 
@@ -417,6 +610,7 @@
                             unityPerDisplay: this.unityPerDisplay,
                             unityPerPack: this.unityPerPack,
                             packing: this.packing,
+                            tva:this.tva,
                             comment: this.comment,
                             productId: this.productId,
                             mixtures: this.mixtures,
@@ -476,180 +670,7 @@
 
             },
 
-            validateForm() {
-
-                this.errors = [];
-
-                if (!this.code) {
-                    this.errors.push('Le champs code est requis.');
-                    window.scrollTo(0, 0);
-                    return false;
-                }
-
-
-                if (!this.state) {
-                    this.errors.push(' le champs etat est requis.');
-                    window.scrollTo(0, 0);
-                    return false;
-                }
-
-                if (!this.name) {
-                    this.errors.push('le champs nom produit est requis.');
-                    window.scrollTo(0, 0);
-                    return false;
-                }
-
-
-                if (!this.type) {
-                    this.errors.push('le champs type est requis.');
-                    window.scrollTo(0, 0);
-                    return false;
-                }
-
-                if (!this.version) {
-                    this.errors.push('le champs version est  requis.');
-                    window.scrollTo(0, 0);
-                    return false;
-                }
-
-
-                if (!this.barcode) {
-                    this.errors.push('les champs code à barres est  requis.');
-                    window.scrollTo(0, 0);
-                    return false;
-                }
-
-
-                if (!this.designation) {
-                    this.errors.push('Le champs designation est  requis.');
-                    window.scrollTo(0, 0);
-                    return false;
-                }
-                if (!this.composition) {
-                    this.errors.push('Le champs composition est  requis.');
-                    window.scrollTo(0, 0);
-                    return false;
-                }
-
-                if (!this.color) {
-                    this.errors.push('Le champs couleur est  requis.');
-                    window.scrollTo(0, 0);
-                    return false;
-                }
-
-                if (!this.weight) {
-                    this.errors.push('Le champs poids est  requis.');
-                    window.scrollTo(0, 0);
-                    return false;
-                }
-
-                if (!this.height) {
-                    this.errors.push('Le champs hauteur est  requis.');
-                    window.scrollTo(0, 0);
-                    return false;
-                }
-
-                if (!this.width) {
-                    this.errors.push('Le champs largeur est  requis.');
-                    window.scrollTo(0, 0);
-                    return false;
-                }
-
-                if (!this.depth) {
-                    this.errors.push('Le champs hauteur est  requis.');
-                    window.scrollTo(0, 0);
-                    return false;
-                }
-
-                if (!this.publicPrice) {
-                    this.errors.push('Le champs prix unitaire de vente  est  requis.');
-                    window.scrollTo(0, 0);
-                    return false;
-                }
-
-                if (!this.validityClosed) {
-                    this.errors.push('Le champs durée de validité de produit fermé  est  requis.');
-                    window.scrollTo(0, 0);
-                    return false;
-                }
-
-                if (!this.validityOpened) {
-                    this.errors.push('Le champs durée de validité aprés ouverture est  requis.');
-                    window.scrollTo(0, 0);
-                    return false;
-                }
-
-                if (!this.unityPerDisplay) {
-                    this.errors.push('Le Nombre d"unitée par display est  requis.');
-                    window.scrollTo(0, 0);
-                    return false;
-                }
-
-
-                if (!this.unityPerPack) {
-                    this.errors.push('Le champs nombre de display par colis est  requis.');
-                    window.scrollTo(0, 0);
-                    return false;
-                }
-
-
-                if (!this.packing) {
-                    this.errors.push('Le champs colisage est  requis.');
-                    window.scrollTo(0, 0);
-                    return false;
-                }
-                if (this.type != 'Jettable') {
-
-                    this.mixtures.forEach((mixture) => {
-
-                        if (!mixture.mixtureName) {
-                            this.errors.push('Le champs nom du mélange est  requis.');
-                            window.scrollTo(0, 0);
-                            return false;
-                        }
-                        if (!mixture.endQuantityProduct) {
-                            this.errors.push('Le champs quantité de produit fini(en litre)  est  requis.');
-                            window.scrollTo(0, 0);
-                            return false;
-                        }
-
-                        if (!mixture.necessaryWeight) {
-                            this.errors.push('Le champs poids necessaire du produit (en kg) est  requis.');
-                            window.scrollTo(0, 0);
-                            return false;
-                        }
-
-                        if (!mixture.waterQuantity) {
-                            this.errors.push('Le champs quantité eau (en litre) est  requis.');
-                            window.scrollTo(0, 0);
-                            return false;
-                        }
-
-
-                        if (!mixture.sugarQuantity) {
-                            this.errors.push('Le champs quantité de sucre (en kg) est  requis.');
-                            window.scrollTo(0, 0);
-                            return false;
-                        }
-
-                        if (!mixture.glassVolume) {
-                            this.errors.push('Le champs volume de verre (en cl) est  requis.');
-                            window.scrollTo(0, 0);
-                            return false;
-                        }
-
-
-
-
-                    });
-
-                }
-
-
-
-
-
-            },
+         
             cancelProduct() {
                 window.location = '/wizefresh/public/products';
 

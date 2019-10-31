@@ -167,7 +167,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Téléphone</label>
                                         <input required class="form-control cc" name="cc" type="text"
-                                            placeholder="Code pays" value="" maxlength="4" value="{{old('cc')}}">
+                                            placeholder="Code pays" value="" maxlength="4" value="{{old('cc')}}" required>
 
                                     </div>
                                 </div>

@@ -122,7 +122,7 @@
                                         <label for="exampleInputPassword1">Code Postal</label>
                                         <select class="form-control zipcodes" name="zipcode_id">
                                             @forelse($zipcodes as $zipcode)
-                                            <option value="{{$city->id}}"
+                                            <option value="{{$zipcode->id}}"
                                                 {{$zipcode->id == $company->zipcode_id ? 'selected' :  ''}}>
                                                 {{$zipcode->code}}
                                             </option>
@@ -161,7 +161,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Télephone</label>
                                         <input class="form-control cc" name="cc" type="text" placeholder="Code pays"
-                                            value="{{explode(' ', $company->tel)[0]}}" maxlength="4">
+                                            value="{{explode(' ', $company->tel)[0]}}" maxlength="4" required>
 
                                     </div>
                                 </div>

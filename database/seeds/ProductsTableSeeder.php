@@ -34,6 +34,7 @@ class ProductsTableSeeder extends Seeder
             'unit_by_display' =>10,
             'unit_per_package' =>40,
             'packing' =>20,
+            'tva'=>10
         ]);
         Mixture::create([
             'name' => 'Mangue 1 ',
@@ -69,6 +70,7 @@ class ProductsTableSeeder extends Seeder
             'unit_by_display' =>10,
             'unit_per_package' =>40,
             'packing' =>20,
+            'tva'=>10
         ]);
         Mixture::create([
             'name' => 'Ananas 1 ',
@@ -106,6 +108,7 @@ class ProductsTableSeeder extends Seeder
             'unit_by_display' =>10,
             'unit_per_package' =>40,
             'packing' =>20,
+            'tva'=>10
         ]);
         Mixture::create([
             'name' => 'Goyave 1 ',
@@ -143,6 +146,7 @@ class ProductsTableSeeder extends Seeder
             'unit_by_display' =>10,
             'unit_per_package' =>40,
             'packing' =>20,
+            'tva'=>10
         ]);
         Mixture::create([
             'name' => 'Corossol 1 ',

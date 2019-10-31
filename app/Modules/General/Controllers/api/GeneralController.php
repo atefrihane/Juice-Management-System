@@ -225,11 +225,14 @@ class GeneralController extends Controller
         $zipcode = Zipcode::find($id);
         if ($zipcode) {
 
-            if ($zipcode->companies && $zipcode->companies->count() > 0) {
-                return response()->json(['status' => 400, 'count' => $zipcode->companies->count()]);
-
-            }
-            return response()->json(['status' => 200]);
+            return response()->json([
+                'status' => 200,
+                'countCompanies' => $zipcode->companies->count(),
+                'countStores' => $zipcode->stores->count(),
+                'countWarehouses' => $zipcode->warehouses->count()
+                
+                ]);
+          
 
         }
         return response()->json(['status' => 404]);

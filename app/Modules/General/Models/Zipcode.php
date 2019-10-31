@@ -24,6 +24,12 @@ class Zipcode extends Model
         return $this->hasMany(Company::class);
 
     }
+
+    public function stores()
+    {
+        return $this->hasMany(Store::class);
+
+    }
     public function warehouses()
     {
         return $this->hasMany(Warehouse::class);

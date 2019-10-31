@@ -176,6 +176,10 @@
                 <label for="exampleInputEmail1">Colisage</label>
                 <input class="form-control" id="disabledInput" type="number" placeholder="Colisage" v-model="packing">
             </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">TVA</label>
+                <input class="form-control" id="disabledInput" type="number" placeholder="Colisage" v-model="tva">
+            </div>
 
             <div class="form-group" v-if="type != 'jettable' && mixtures.length > 0">
                 <label for="exampleInputFile">Possibilités de melange :</label>
@@ -309,6 +313,7 @@
                 unityPerDisplay: data.product.unit_by_display,
                 unityPerPack: data.product.unit_per_package,
                 packing: data.product.packing,
+                tva:data.product.tva,
                 comment: data.product.comment,
                 productId: data.product.id,
                 error: 0,
@@ -464,6 +469,7 @@
                             unityPerDisplay: this.unityPerDisplay,
                             unityPerPack: this.unityPerPack,
                             packing: this.packing,
+                            tva:this.tva,
                             comment: this.comment,
                             productId: this.productId,
                             mixtures: this.mixtures,
@@ -627,6 +633,12 @@
 
                 if (!this.packing) {
                     this.errors.push('Le champs colisage est  requis.');
+                    window.scrollTo(0, 0);
+                    return false;
+                }
+
+                if (!this.tva) {
+                    this.errors.push('Le champs TVA est  requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }

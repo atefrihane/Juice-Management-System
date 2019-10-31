@@ -2,17 +2,29 @@
 
 namespace App\Modules\Order\Models;
 
+use App\Modules\Product\Models\ProductPrepare;
+use App\Modules\Product\Models\Product;
+use App\Modules\Store\Models\Store;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
 
-    protected $fillable = ['code', 'date', 'status', 'store_id', 'user_id', 'parent_id'];
+    protected $guarded = ['id'];
 
     public function products()
     {
-        return $this->belongsToMany('App\Modules\Product\Models\Product', 'order_product');
+        return $this->belongsToMany(Product::class)->withPivot('order_id', 'product_id');
 
+    }
+    public function prepared()
+    {
+        return $this->hasMany(ProductPrepare::class);
+
+    }
+    public function store()
+    {
+        return $this->belongsTo(Store::class,'store_id');
     }
 
 }

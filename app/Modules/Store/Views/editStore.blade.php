@@ -139,7 +139,7 @@
                                             value="{{old('country_id')}}">
                                             @forelse($countries as $country)
                                             <option value="{{$country->id}}"
-                                                {{$store->id == $company->country_id ? ' selected' : ''}}>
+                                                {{$country->id == $store->country_id ? ' selected' : ''}}>
                                                 {{$country->name}}</option>
                                             @empty
                                             <option value=""> Aucun pays trouvé</option>
@@ -153,8 +153,10 @@
                                         <label>Ville</label>
                                         <select class="form-control cities" name="city_id">
                                             @forelse($cities as $city)
+                                            
                                             <option value="{{$city->id}}"
-                                                {{$store->id == $company->city_id ? 'selected' :  ''}}>{{$city->name}}
+                                                {{$city->id == $store->city_id ? 'selected' :  ''}}>
+                                                {{$city->name}}
                                             </option>
                                             @empty
                                             <option value=""> Aucune ville trouvé</option>
@@ -168,8 +170,8 @@
                                         <label for="exampleInputPassword1">Code Postal</label>
                                         <select class="form-control zipcodes" name="zipcode_id">
                                             @forelse($zipcodes as $zipcode)
-                                            <option value="{{$city->id}}"
-                                                {{$zipcode->id == $company->zipcode_id ? 'selected' :  ''}}>
+                                            <option value="{{$zipcode->id}}"
+                                                {{$zipcode->id == $store->zipcode_id ? 'selected' :  ''}}>
                                                 {{$zipcode->code}}
                                             </option>
                                             @empty
@@ -255,8 +257,7 @@
                                                 selected
                                                 @endif
                                                 >Societé</option>
-                                            <option value="Magasin et Societé" @if($store->bill_to == 'Magasin et
-                                                Societé')
+                                            <option value="Magasin et Societé" @if($store->bill_to == 'Magasin et Societé')
                                                 selected
                                                 @endif
                                                 >Magasin et Societé</option>

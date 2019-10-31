@@ -253,8 +253,8 @@ class StoreController extends Controller
         {
             $company = Company::find($store->company_id);
             $countries = Country::all();
-            $cities = City::all();
-            $zipcodes = Zipcode::where('city_id', $store->city->id)->get();
+            $cities = City::where('country_id',$store->country_id)->get();
+            $zipcodes = Zipcode::where('city_id', $store->city_id)->get();
          
             return view("Store::editStore", compact('store', 'company', 'countries', 'cities', 'zipcodes'));
 

@@ -227,44 +227,54 @@
                     axios.get('/zipcode/' + zipcode.id)
                         .then((response) => {
                             // handle success
-                            console.log(response.data.status);
-
-                            if (response.data.status == 400) {
-                                swal.fire({
-                                    type: 'error',
-                                    title: 'Ce code postal est déja utilisé par ' + response.data.count +
-                                        ' societés !',
-                                    showConfirmButton: true,
-                                    confirmButtonText: 'Fermer'
-                                });
-
-                            }
+                            console.log(response);
 
                             if (response.data.status == 200) {
-                                axios.post('/zipcode/delete/' + zipcode.id, {
+                                if (response.data.countCompanies == response.data.countStores == response.data
+                                    .countWarehouses == 0) {
+                                    axios.post('/zipcode/delete/' + zipcode.id, {
 
-                                    })
-                                    .then((response) => {
+                                        })
+                                        .then((response) => {
+                                            console.log(response)
 
-                                        if (response.data.status == 200) {
-                                            this.citiesZipCodes[i].zipCodes.splice(this.citiesZipCodes[i]
-                                                .zipCodes
-                                                .indexOf(zipcode), 1);
-                                        } else {
-                                            swal.fire({
-                                                type: 'error',
-                                                title: 'Echec! ',
-                                                showConfirmButton: true,
-                                                confirmButtonText: 'Fermer'
-                                            });
-                                        }
-                                    })
-                                    .catch((error) => {
-                                        console.log(error);
+                                            if (response.data.status == 200) {
+                                                this.citiesZipCodes[i].zipCodes.splice(this.citiesZipCodes[i]
+                                                    .zipCodes
+                                                    .indexOf(zipcode), 1);
+                                            } else {
+                                                swal.fire({
+                                                    type: 'error',
+                                                    title: 'Echec! ',
+                                                    showConfirmButton: true,
+                                                    confirmButtonText: 'Fermer'
+                                                });
+                                            }
+                                        })
+                                        .catch((error) => {
+                                            console.log(error);
+                                        });
+
+                                } else {
+                                    swal.fire({
+                                        type: 'error',
+                                        title: 'Oups !',
+                                        html: "Ce code postal est déja affectée à : <br><br>  <b>" +
+                                            response.data.countCompanies +
+                                            " </b> Societés <br>" +
+                                            "  <b>" + response.data.countStores +
+                                            " </b> magasins <br>" +
+                                            "   <b>" + response.data.countWarehouses +
+                                            " </b> entrepôts <br>",
+                                        showConfirmButton: true,
+                                        confirmButtonText: 'Fermer'
                                     });
 
 
+                                }
+
                             }
+
                         })
                         .catch((error) => {
 

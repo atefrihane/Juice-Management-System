@@ -6,14 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrderProduct extends Model
 {
-    protected $fillable = ['order_id', 'product_id', 'quantity'];
+    protected $guarded = ['id'];
     protected $table = "order_product";
-
-    public function productwarehouses()
-    {
-        return $this->belongsToMany('App\Modules\Product\Models\ProductWarehouse', 'product_prepare');
-
-    }
 
     public function product()
     {

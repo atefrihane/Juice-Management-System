@@ -29,6 +29,7 @@ class CreateProductsTable extends Migration
             $table->double('width');
             $table->double('depth');
             $table->double('public_price');
+            $table->double('tva');
             $table->integer('period_of_validity');
             $table->integer('validity_after_opening');
             $table->text('comment')->nullable();

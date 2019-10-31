@@ -43,6 +43,7 @@ class ProductController extends Controller
             $request->merge(['photo' => $name]);
     
         }
+   
         $product = Product::create([
             'code' => $request->code,
             'status' => lcfirst($request->state),
@@ -64,6 +65,7 @@ class ProductController extends Controller
             'unit_by_display' => $request->unityPerDisplay,
             'unit_per_package' => $request->unityPerPack,
             'packing' => $request->packing,
+            'tva'=>$request->tva,
             'photo_url' => isset($name) ? $name : null ,
         ]);
 
@@ -185,6 +187,7 @@ class ProductController extends Controller
                 'unit_by_display' => $request->unityPerDisplay,
                 'unit_per_package' => $request->unityPerPack,
                 'packing' => $request->packing,
+                'tva'=>$request->tva,
                 'photo_url' => isset($name) ? $name : $currentPhoto,
             ]);
 
