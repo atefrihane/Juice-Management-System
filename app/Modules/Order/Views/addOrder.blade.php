@@ -1,4 +1,4 @@
-@extends('General.vue_layout') @section('pageTitle', 'Modifier une commande') @section('content')
+@extends('General.vue_layout') @section('pageTitle', 'Ajouter une commande') @section('content')
 
 <div class="content-wrapper">
 
