@@ -50,8 +50,8 @@
 </body>
 <script src="{{asset('/js/app.js')}}"></script>
 <!-- <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script> -->
-<script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js">
-</script>
+<!-- <script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js">
+</script> -->
 
 @yield('scripts-custom')
 <script>

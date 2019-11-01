@@ -1,4 +1,4 @@
-
+require('datatables.net-bs4')
 window._ = require('lodash');
 
 /**

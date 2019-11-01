@@ -29,6 +29,7 @@
     },
     "dependencies": {
         "@johmun/vue-tags-input": "^2.1.0",
+        "datatables.net-bs4": "^1.10.20",
         "sweetalert2": "^8.18.3",
         "vue-input-tag": "^2.0.6",
         "vue-progressbar": "^0.7.5",
