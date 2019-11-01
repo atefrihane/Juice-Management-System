@@ -33,7 +33,7 @@
                                     <select class="form-control selected_product" name="product_id" required>
                                         <option value="">Selectionner un produit </option>
                                         @forelse($products as $product)
-                                        <option value="{{$product->id}}">{{$product->nom}}
+                                        <option value="{{$product->id}}" {{ old('product_id') == $product->id ? "selected" : "" }}>{{$product->nom}}
                                         </option>
                                         @empty
                                         <option value="0">Aucun produit</option>
@@ -49,18 +49,18 @@
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Code produit</label>
                                     <input type="text" name="productCode" value="{{old('productCode')}}"
-                                        class="form-control" placeholder="Code produit" id="productCode" disabled>
+                                        class="form-control" placeholder="Code produit" id="productCode" readonly>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Code à barre</label>
                                     <input type="text" name="productBarcode" value="{{old('productBarcode')}}"
-                                        class="form-control" placeholder="Code à barre" id="barCode" disabled>
+                                        class="form-control" placeholder="Code à barre" id="barCode" readonly>
                                 </div>
 
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Colisage par défaut</label>
                                     <input type="number" name="productPacking" value="{{old('productPacking')}}"
-                                        class="form-control" placeholder="Colisage" id="packing" disabled>
+                                        class="form-control" placeholder="Colisage" id="packing" readonly>
                                 </div>
 
 
@@ -135,16 +135,18 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Entrepôt</label>
+                                    @if(count($warehouses) > 0)
                                     <select class="form-control" name="warehouse_id" required>
-                                        <option value="0">Selectionner un entrepôt </option>
-                                        @forelse($warehouses as $warehouse)
-                                        <option value="{{$warehouse->id}}"
-                                            {{ old('warehouse_id',$warehouse->id) ? 'selected' : ''  }}>
-                                            {{$warehouse->designation}}</option>
-                                        @empty
-                                        <option value=""> Aucun entrepôt !</option>
-                                        @endforelse
-                                    </select>
+                                     @foreach($warehouses as $warehouse)
+                                     <option value="">Séléctionner un entrepôt</option>
+                                    <option value="{{$warehouse->id}}"  {{ old('warehouse_id') == $warehouse->id ? "selected" : "" }}>{{$warehouse->designation}}</option>
+                                    @endforeach
+                                   </select>
+                                   @else
+                                   <select name="warehouse_id" class="form-control" required>
+                                   <option value=""> Aucun entrepôt</option>
+                                   </select>
+                                   @endif
                                 </div>
                             </div>
                         </div>
