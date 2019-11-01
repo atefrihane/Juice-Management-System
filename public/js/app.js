@@ -2220,34 +2220,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (city.cityID != "") {
         axios.get('/city/companies/' + city.cityID).then(function (response) {
           // handle success
-          if (response.data.companies.length > 0) {
-            swal.fire({
-              type: 'warning',
-              title: 'Attention !',
-              html: "La ville est déja affectée à  <b>" + response.data.companies.length + ' societés ! </b> <br> <br> Voulez vous supprimer défintivement cette ville  ? <br><br> <b>NB : </b> Cette opération est irréversible',
-              showCancelButton: true,
-              showConfirmButton: true,
-              cancelButtonText: 'Annuler',
-              confirmButtonText: 'Confirmer',
-              allowOutsideClick: false
-            }).then(function (result) {
-              if (result.value) {
-                axios.post('/city/delete/' + city.cityID, {}).then(function (response) {
-                  if (response.data.status == 200) {
-                    _this2.citiesZipCodes.splice(_this2.citiesZipCodes.indexOf(city), 1);
-                  } else {
-                    swal.fire({
-                      type: 'error',
-                      title: 'Echec! ',
-                      showConfirmButton: true,
-                      confirmButtonText: 'Fermer',
-                      allowOutsideClick: false
-                    });
-                  }
-                })["catch"](function (error) {
-                  console.log(error);
+          if (response.data.countCompanies == response.data.countStores == response.data.countWarehouses == 0) {
+            axios.post('/city/delete/' + city.cityID, {}).then(function (response) {
+              if (response.data.status == 200) {
+                _this2.citiesZipCodes.splice(_this2.citiesZipCodes.indexOf(city), 1);
+              } else {
+                swal.fire({
+                  type: 'error',
+                  title: 'Echec! ',
+                  showConfirmButton: true,
+                  confirmButtonText: 'Fermer',
+                  allowOutsideClick: false
                 });
               }
+            })["catch"](function (error) {
+              console.log(error);
+            });
+          } else {
+            swal.fire({
+              type: 'error',
+              title: 'Oups !',
+              html: "La ville  est déja affectée à : <br><br>  <b>" + response.data.countCompanies + " </b> Societés <br>" + "  <b>" + response.data.countStores + " </b> magasin(s) <br>" + "   <b>" + response.data.countWarehouses + " </b> entrepôts <br>",
+              showConfirmButton: true,
+              allowOutsideClick: false,
+              confirmButtonText: 'Fermer'
             });
           }
         })["catch"](function (error) {
@@ -2432,7 +2428,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (city.cityName != '') {
         var count = 0;
         this.citiesZipCodes.forEach(function (cityZipcode, index) {
-          if (cityZipcode.cityName == city.cityName) {
+          var formatedOldCity = cityZipcode.cityName.replace(/[\s\/]/g, '').toLowerCase();
+          var formatedNewCity = city.cityName.replace(/[\s\/]/g, '').toLowerCase();
+
+          if (formatedOldCity == formatedNewCity) {
             count++;
           }
         });
@@ -2510,16 +2509,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             swal.fire({
               type: 'error',
               title: 'Ville déja existante! ',
-              showConfirmButton: true,
-              allowOutsideClick: false,
-              confirmButtonText: 'Fermer'
-            });
-          }
-
-          if (response.data.status == 403) {
-            swal.fire({
-              type: 'error',
-              title: 'Pays introuvable! ',
               showConfirmButton: true,
               allowOutsideClick: false,
               confirmButtonText: 'Fermer'

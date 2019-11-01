@@ -200,7 +200,7 @@ class StoreController extends Controller
         );
         $insertable['photo'] = 'files/' . $path;
         $insertable['company_id'] = $company_id;
-        $checkCode = Store::where('code', $request->code)->first();
+        $checkCode = Store::where('code', preg_replace('/\s/', '', $request->code))->first();
         if ($checkCode) {
             alert()->error('Oups', 'Code déja utilisé !')->persistent('Femer');
             return redirect()->back()->withInput();
@@ -359,7 +359,7 @@ class StoreController extends Controller
             }
             $changes = implode(",", $changes);
 
-            $checkCode = Store::where('code', $request->code)
+            $checkCode = Store::where('code', preg_replace('/\s/', '', $request->code))
                 ->where('id', '!=', $store->id)
                 ->first();
             if ($checkCode) {

@@ -73,10 +73,10 @@ class CompanyController extends Controller
         $insertable['tel'] = $telephone;
         $insertable['cc'] = null;
         $insertable['logo'] = 'files/' . $path;
-        $checkCode = Company::where('code', $request->code)->first();
+        $checkCode = Company::where('code', preg_replace('/\s/', '', $request->code))->first();
         if ($checkCode) {
             alert()->error('Oups', 'Code déja utilisé !')->persistent('Femer');
-            return redirect()->back();
+            return redirect()->back()->withInput();
         }
         
         $company = Company::create($insertable);
@@ -178,7 +178,7 @@ class CompanyController extends Controller
             }
             $changes = implode(",", $changes);
 
-            $checkCode = Company::where('code', $request->code)
+            $checkCode = Company::where('code', preg_replace('/\s/', '', $request->code))
                 ->where('id', '!=', $company->id)
                 ->first();
             if ($checkCode) {

@@ -163,44 +163,46 @@
                         .then((response) => {
                             // handle success
 
-                            if (response.data.companies.length > 0) {
-                                swal.fire({
-                                    type: 'warning',
-                                    title: 'Attention !',
-                                    html: "La ville est déja affectée à  <b>" + response.data.companies
-                                        .length +
-                                        ' societés ! </b> <br> <br> Voulez vous supprimer défintivement cette ville  ? <br><br> <b>NB : </b> Cette opération est irréversible',
-                                    showCancelButton: true,
-                                    showConfirmButton: true,
-                                    cancelButtonText: 'Annuler',
-                                    confirmButtonText: 'Confirmer',
-                                      allowOutsideClick: false
 
-                                }).then((result) => {
-                                    if (result.value) {
-                                        axios.post('/city/delete/' + city.cityID, {
+                            if (response.data.countCompanies == response.data.countStores == response.data
+                                .countWarehouses == 0) {
+                                axios.post('/city/delete/' + city.cityID, {
 
-                                            })
-                                            .then((response) => {
-                                                if (response.data.status == 200) {
-                                                    this.citiesZipCodes.splice(this.citiesZipCodes
-                                                        .indexOf(city), 1);
-                                                } else {
-                                                    swal.fire({
-                                                        type: 'error',
-                                                        title: 'Echec! ',
-                                                        showConfirmButton: true,
-                                                        confirmButtonText: 'Fermer',
-                                                          allowOutsideClick: false,
-                                                    });
-                                                }
-                                            })
-                                            .catch((error) => {
-                                                console.log(error);
+                                    })
+                                    .then((response) => {
+                                        if (response.data.status == 200) {
+                                            this.citiesZipCodes.splice(this.citiesZipCodes
+                                                .indexOf(city), 1);
+                                        } else {
+                                            swal.fire({
+                                                type: 'error',
+                                                title: 'Echec! ',
+                                                showConfirmButton: true,
+                                                confirmButtonText: 'Fermer',
+                                                allowOutsideClick: false,
                                             });
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        console.log(error);
+                                    });
 
-                                    }
-                                })
+                            } else {
+                                swal.fire({
+                                    type: 'error',
+                                    title: 'Oups !',
+                                    html: "La ville  est déja affectée à : <br><br>  <b>" +
+                                        response.data.countCompanies +
+                                        " </b> Societés <br>" +
+                                        "  <b>" + response.data.countStores +
+                                        " </b> magasin(s) <br>" +
+                                        "   <b>" + response.data.countWarehouses +
+                                        " </b> entrepôts <br>",
+                                    showConfirmButton: true,
+                                    allowOutsideClick: false,
+                                    confirmButtonText: 'Fermer'
+                                });
+
 
                             }
                         })
@@ -232,7 +234,8 @@
                             console.log(response);
 
                             if (response.data.status == 200) {
-                                if (response.data.countCompanies == response.data.countStores == response.data
+                                if (response.data.countCompanies == response.data.countStores == response
+                                    .data
                                     .countWarehouses == 0) {
                                     axios.post('/zipcode/delete/' + zipcode.id, {
 
@@ -241,7 +244,8 @@
                                             console.log(response)
 
                                             if (response.data.status == 200) {
-                                                this.citiesZipCodes[i].zipCodes.splice(this.citiesZipCodes[i]
+                                                this.citiesZipCodes[i].zipCodes.splice(this
+                                                    .citiesZipCodes[i]
                                                     .zipCodes
                                                     .indexOf(zipcode), 1);
                                             } else {
@@ -250,7 +254,7 @@
                                                     title: 'Echec! ',
                                                     showConfirmButton: true,
                                                     confirmButtonText: 'Fermer',
-                                                      allowOutsideClick: false,
+                                                    allowOutsideClick: false,
                                                 });
                                             }
                                         })
@@ -270,7 +274,7 @@
                                             "   <b>" + response.data.countWarehouses +
                                             " </b> entrepôts <br>",
                                         showConfirmButton: true,
-                                          allowOutsideClick: false,
+                                        allowOutsideClick: false,
                                         confirmButtonText: 'Fermer'
                                     });
 
@@ -342,7 +346,7 @@
                                             type: 'error',
                                             title: 'Echec !  ',
                                             showConfirmButton: true,
-                                              allowOutsideClick: false,
+                                            allowOutsideClick: false,
                                             confirmButtonText: 'Fermer'
 
                                         });
@@ -364,7 +368,7 @@
                             type: 'error',
                             title: 'Veuillez entrer une valeur non vide!  ',
                             showConfirmButton: true,
-                              allowOutsideClick: false,
+                            allowOutsideClick: false,
                             confirmButtonText: 'Fermer'
 
                         });
@@ -387,7 +391,7 @@
                                 type: 'error',
                                 title: 'Code postal déja renseigné !  ',
                                 showConfirmButton: true,
-                                  allowOutsideClick: false,
+                                allowOutsideClick: false,
                                 confirmButtonText: 'Fermer'
 
                             });
@@ -413,7 +417,7 @@
                         type: 'error',
                         title: 'Veuillez entrer un code postal ',
                         showConfirmButton: true,
-                          allowOutsideClick: false,
+                        allowOutsideClick: false,
                         confirmButtonText: 'Fermer'
 
                     });
@@ -425,7 +429,9 @@
                 if (city.cityName != '') {
                     let count = 0;
                     this.citiesZipCodes.forEach((cityZipcode, index) => {
-                        if (cityZipcode.cityName == city.cityName) {
+                        let formatedOldCity = cityZipcode.cityName.replace(/[\s\/]/g, '').toLowerCase();
+                        let formatedNewCity = city.cityName.replace(/[\s\/]/g, '').toLowerCase();
+                        if (formatedOldCity == formatedNewCity) {
 
                             count++;
                         }
@@ -436,7 +442,7 @@
                             type: 'error',
                             title: 'Nom de la ville déja existant !  ',
                             showConfirmButton: true,
-                              allowOutsideClick: false,
+                            allowOutsideClick: false,
                             confirmButtonText: 'Fermer'
 
                         });
@@ -500,7 +506,7 @@
                                     type: 'error',
                                     title: 'Nom déja existant! ',
                                     showConfirmButton: true,
-                                      allowOutsideClick: false,
+                                    allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
                                 });
@@ -512,7 +518,7 @@
                                     type: 'error',
                                     title: 'Code déja existant! ',
                                     showConfirmButton: true,
-                                      allowOutsideClick: false,
+                                    allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
                                 });
@@ -524,31 +530,21 @@
                                     type: 'error',
                                     title: 'Ville déja existante! ',
                                     showConfirmButton: true,
-                                      allowOutsideClick: false,
+                                    allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
                                 });
 
                             }
 
-                            if (response.data.status == 403) {
-                                swal.fire({
-                                    type: 'error',
-                                    title: 'Pays introuvable! ',
-                                    showConfirmButton: true,
-                                      allowOutsideClick: false,
-                                    confirmButtonText: 'Fermer'
-
-                                });
-
-                            }
+                         
 
                             if (response.data.status == 200) {
                                 swal.fire({
                                     type: 'success',
                                     title: 'Pays modifié avec succés ! ',
                                     showConfirmButton: true,
-                                      allowOutsideClick: false,
+                                    allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
                                 });

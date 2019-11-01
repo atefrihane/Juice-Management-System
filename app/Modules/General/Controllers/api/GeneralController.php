@@ -13,8 +13,8 @@ class GeneralController extends Controller
     public function handleAddCountryData(Request $request)
     {
 
-        $checkName = Country::where('name', $request->name)->first();
-        $checkCode = Country::where('code', $request->code)->first();
+        $checkName = Country::where('name', preg_replace('/\s/', '', $request->name))->first();
+        $checkCode = Country::where('code', preg_replace('/\s/', '', $request->code))->first();
         if ($checkName) {
             return response()->json(['status' => 401]);
         }
@@ -24,15 +24,15 @@ class GeneralController extends Controller
         }
 
         $country = Country::create([
-            'name' => $request->name,
-            'code' => $request->code,
+            'name' =>  ucfirst(strtolower(preg_replace('/\s/', '', $request->name))),
+            'code' =>  preg_replace('/\s/', '', ucfirst(strtolower(preg_replace('/\s/', '', $request->code)))),
         ]);
 
         if ($request->cities) {
             foreach ($request->cities as $city) {
                 if ($city['name']) {
                     $newCity = City::create([
-                        'name' => $city['name'],
+                        'name' =>  ucfirst(strtolower(preg_replace('/\s/', '', $city['name']))),
                         'country_id' => $country->id,
                     ]);
 
@@ -40,7 +40,7 @@ class GeneralController extends Controller
 
                         foreach ($city['zipcodes'] as $zipcode) {
                             Zipcode::create([
-                                'code' => $zipcode,
+                                'code' =>  ucfirst(strtolower(preg_replace('/\s/', '', $zipcode))),
                                 'city_id' => $newCity->id,
                             ]);
 
@@ -62,7 +62,7 @@ class GeneralController extends Controller
         if ($country) {
 
             if ($country->name != $request->name) {
-                $checkName = Country::where('name', $request->name)
+                $checkName = Country::where('name', preg_replace('/\s/', '', $request->name))
                     ->first();
                 if ($checkName) {
 
@@ -73,7 +73,7 @@ class GeneralController extends Controller
             }
 
             if ($country->name == $request->name) {
-                $checkName = Country::where('name', $request->name)
+                $checkName = Country::where('name', preg_replace('/\s/', '', $request->name))
                     ->where('id', '!=', $country->id)
                     ->first();
                 if ($checkName) {
@@ -85,7 +85,7 @@ class GeneralController extends Controller
             }
 
             if ($country->code != $request->code) {
-                $checkCode = Country::where('code', $request->code)->first();
+                $checkCode = Country::where('code', preg_replace('/\s/', '', $request->code))->first();
                 if ($checkCode) {
 
                     return response()->json(['status' => 402]);
@@ -95,7 +95,7 @@ class GeneralController extends Controller
             }
 
             if ($country->code == $request->code) {
-                $checkCode = Country::where('code', $request->name)
+                $checkName = Country::where('code', preg_replace('/\s/', '', $request->name))
                     ->where('id', '!=', $country->id)
                     ->first();
                 if ($checkName) {
@@ -105,7 +105,7 @@ class GeneralController extends Controller
                 }
 
             }
-
+         
             $country->update([
                 'name' => $request->name,
                 'code' => $request->code,
@@ -119,7 +119,7 @@ class GeneralController extends Controller
                         $checkCity = City::find($city['cityID']);
 
                         $checkCity->update([
-                            'name' => $city['cityName'],
+                            'name' => ucfirst(strtolower(preg_replace('/\s/', '', $city['cityName']))),
                             'country_id' => $country->id,
                         ]);
 
@@ -127,7 +127,7 @@ class GeneralController extends Controller
 
                             foreach ($city['zipCodes'] as $zipcode) {
                                 if ($zipcode['id']) {
-                                    ZipCode::find($zipcode['id'])->update(['code' => $zipcode['code']]);
+                                    ZipCode::find($zipcode['id'])->update(['code' => preg_replace('/\s/', '', $zipcode['code'])]);
                                 } else {
                                     ZipCode::create([
                                         'code' => $zipcode['code'],
@@ -138,14 +138,17 @@ class GeneralController extends Controller
                         }
 
                     } else if (isset($city['cityName']) && !isset($city['cityID'])) {
-                        $checkCity = City::where('name', $city['cityName'])->first();
+                      
+                        $checkCity = City::where('name', preg_replace('/\s/', '', $city['cityName']))
+                        ->where('country_id',$country->id)
+                        ->first();
                         if ($checkCity) {
                             return response()->json(['status' => 403]);
 
                         }
 
                         $newCity = City::create([
-                            'name' => $city['cityName'],
+                            'name' => ucfirst(strtolower(preg_replace('/\s/', '', $city['cityName']))),
                             'country_id' => $country->id,
                         ]);
 
@@ -154,7 +157,7 @@ class GeneralController extends Controller
                             foreach ($city['zipCodes'] as $zipcode) {
 
                                 Zipcode::create([
-                                    'code' => $zipcode,
+                                    'code' => ucfirst(strtolower(preg_replace('/\s/', '', $zipcode))),
                                     'city_id' => $newCity->id,
                                 ]);
 
@@ -204,9 +207,10 @@ class GeneralController extends Controller
 
         if ($city) {
 
-            return response()->json(['status' => 200, 'companies' => $city->companies]);
+            return response()->json(['status' => 200, 'countCompanies' => $city->companies->count(),'countStores' => $city->stores->count(),'countWarehouses' =>$city->warehouses->count()]);
 
         }
+        return response()->json(['status' => 404]);
 
     }
     public function handleDeleteCity($id)
