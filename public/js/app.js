@@ -3245,7 +3245,7 @@ __webpack_require__.r(__webpack_exports__);
     getProducts: function getProducts() {
       var _this = this;
 
-      axios.get('/api/products/').then(function (response) {
+      axios.get(axios.defaults.baseURL + '/api/products/').then(function (response) {
         console.log(response.data);
         _this.products = response.data;
       })["catch"](function (error) {

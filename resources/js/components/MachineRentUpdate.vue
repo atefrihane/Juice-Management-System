@@ -243,7 +243,7 @@
         },
         methods: {
             getProducts() {
-                axios.get('/api/products/')
+                axios.get(axios.defaults.baseURL+'/api/products/')
                     .then((response) => {
                         console.log(response.data)
 
