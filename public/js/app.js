@@ -3580,6 +3580,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getCompanies();
@@ -3608,7 +3613,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('/api/companies').then(function (response) {
-        _this.companies.push(response.data);
+        _this.companies = response.data;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -3619,7 +3624,14 @@ __webpack_require__.r(__webpack_exports__);
       var id = event.target.value;
       this.stores = [];
       axios.get('/api/companies/' + id).then(function (response) {
-        _this2.stores = response.data.stores;
+        _this2.store_id = '';
+        _this2.stores = response.data.stores; // if(this.stores.length == 0)
+        // {
+        //     this.store_id =null;
+        // }
+        // else{
+        //     this.store_id=this.stores[0].id;
+        // }
       })["catch"](function (error) {
         console.log(error);
       });
@@ -3692,21 +3704,21 @@ __webpack_require__.r(__webpack_exports__);
     },
     clearOrderedProducts: function clearOrderedProducts() {
       //  total cout produit hors tax //
-      this.total_ht = this.total_tva = this.total_order = 0;
+      this.total_ht = 0;
+      this.total_tva = 0;
+      this.total_order = 0;
 
       for (var i in this.ordered_products) {
         this.total_ht += this.ordered_products[i].total;
       } // //  total cout produit avec  tax //
 
 
-      this.total_tva = 0;
-
       for (var _i in this.ordered_products) {
         this.total_tva += this.ordered_products[_i].total * this.ordered_products[_i].tva / 100;
       } // //  cout total de la commande  //
 
 
-      this.total_order = this.total_ht + this.total_tva;
+      this.total_order += this.total_ht + this.total_tva;
     },
     removeOrdered: function removeOrdered(ordered) {
       this.ordered_products.splice(this.ordered_products.indexOf(ordered), 1);
@@ -3828,7 +3840,7 @@ __webpack_require__.r(__webpack_exports__);
           comment: this.comment,
           total_order: this.total_order,
           user_id: this.user_id,
-          status: 1
+          status: 2
         }).then(function (response) {
           if (response.data.status == 400) {
             swal.fire({
@@ -3885,6 +3897,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -4185,15 +4198,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this5 = this;
 
       axios.get('/api/companies/' + this.company_id).then(function (response) {
+        _this5.store_id = '';
         _this5.stores = response.data.stores;
-
-        if (response.data.stores.length == 0) {
-          _this5.stores = response.data.stores;
-          _this5.store_id = null;
-        } else {
-          _this5.stores = response.data.stores;
-          _this5.store_id = _this5.stores[0].id;
-        }
       })["catch"](function (error) {
         console.log(error);
       });
@@ -4271,21 +4277,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     clearOrderedProducts: function clearOrderedProducts() {
       //  total cout produit hors tax //
-      this.total_ht = this.total_tva = this.total_order = 0;
+      this.total_ht = 0;
+      this.total_tva = 0;
+      this.total_order = 0;
 
       for (var i in this.custom_ordered) {
         this.total_ht += this.custom_ordered[i].total;
       } // //  total cout produit avec  tax //
 
 
-      this.total_tva = 0;
-
       for (var _i in this.custom_ordered) {
         this.total_tva += this.custom_ordered[_i].total * this.custom_ordered[_i].tva / 100;
       } // //  cout total de la commande  //
 
 
-      this.total_order = this.total_ht + this.total_tva;
+      this.total_order += this.total_ht + this.total_tva;
     },
     removeOrdered: function removeOrdered(ordered) {
       var _this8 = this;
@@ -4416,7 +4422,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           comment: this.comment,
           total_order: this.total_order,
           user_id: this.user_id,
-          status: 1
+          status: 2
         }).then(function (response) {
           if (response.data.status == 200) {
             var _swal$fire;
@@ -46972,17 +46978,17 @@ var render = function() {
                   }
                 },
                 [
-                  _vm.companies.length && _vm.companies[0].length > 0
+                  _vm.companies.length && _vm.companies.length > 0
                     ? _c("option", { attrs: { value: "", disabled: "" } }, [
                         _vm._v(
-                          "Selectionner une\n                                societé\n                            "
+                          "\n                                Selectionner une\n                                societé\n                            "
                         )
                       ])
                     : _c("option", { attrs: { value: "" } }, [
                         _vm._v(" Aucune societé ")
                       ]),
                   _vm._v(" "),
-                  _vm._l(_vm.companies[0], function(company) {
+                  _vm._l(_vm.companies, function(company) {
                     return _c("option", { domProps: { value: company.id } }, [
                       _vm._v(_vm._s(company.name))
                     ])
@@ -47033,19 +47039,22 @@ var render = function() {
                   }
                 },
                 [
-                  _vm.stores.length > 0 && _vm.stores.length > 0
+                  _vm.stores.length > 0
                     ? _c("option", { attrs: { value: "", disabled: "" } }, [
                         _vm._v(
                           "Selectionner un\n                                magasin\n                            "
                         )
                       ])
                     : _c("option", { attrs: { value: "" } }, [
-                        _vm._v(" Aucun magasin ")
+                        _vm._v("Aucun magasin")
                       ]),
                   _vm._v(" "),
                   _vm._l(_vm.stores, function(store) {
                     return _c("option", { domProps: { value: store.id } }, [
-                      _vm._v(_vm._s(store.designation))
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(store.designation)
+                      )
                     ])
                   })
                 ],
@@ -47674,21 +47683,29 @@ var render = function() {
                           : $$selectedVal[0]
                       },
                       function($event) {
-                        return _vm.getCompanyData()
+                        return _vm.getCompanyData($event)
                       }
                     ]
                   }
                 },
-                _vm._l(_vm.companies, function(company) {
-                  return _vm.companies.length && _vm.companies.length > 0
-                    ? _c("option", { domProps: { value: company.id } }, [
-                        _vm._v(_vm._s(company.name))
+                [
+                  _vm.companies.length && _vm.companies.length > 0
+                    ? _c("option", { attrs: { value: "", disabled: "" } }, [
+                        _vm._v(
+                          "\n                                Selectionner une\n                                societé\n                            "
+                        )
                       ])
                     : _c("option", { attrs: { value: "" } }, [
                         _vm._v(" Aucune societé ")
-                      ])
-                }),
-                0
+                      ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.companies, function(company) {
+                    return _c("option", { domProps: { value: company.id } }, [
+                      _vm._v(_vm._s(company.name))
+                    ])
+                  })
+                ],
+                2
               )
             ])
           ]),
@@ -47733,23 +47750,24 @@ var render = function() {
                   }
                 },
                 [
-                  _vm._l(_vm.stores, function(store) {
-                    return _vm.stores.length > 0
-                      ? _c("option", { domProps: { value: store.id } }, [
-                          _vm._v(
-                            "\n                                " +
-                              _vm._s(store.designation) +
-                              "\n\n                            "
-                          )
-                        ])
-                      : _vm._e()
-                  }),
-                  _vm._v(" "),
-                  _vm.stores.length == 0
-                    ? _c("option", { domProps: { value: null } }, [
-                        _vm._v(" Aucun magasin ")
+                  _vm.stores.length > 0
+                    ? _c("option", { attrs: { value: "", disabled: "" } }, [
+                        _vm._v(
+                          "Selectionner un\n                                magasin\n                            "
+                        )
                       ])
-                    : _vm._e()
+                    : _c("option", { attrs: { value: "" } }, [
+                        _vm._v("Aucun magasin")
+                      ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.stores, function(store) {
+                    return _c("option", { domProps: { value: store.id } }, [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(store.designation)
+                      )
+                    ])
+                  })
                 ],
                 2
               )

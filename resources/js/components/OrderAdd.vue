@@ -54,11 +54,12 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1">Societé</label>
                             <select class="form-control" @change="getCompanyData($event)" v-model="company_id">
-                                <option value="" v-if="companies.length && companies[0].length > 0" disabled>Selectionner une
+                                <option value="" v-if="companies.length && companies.length > 0" disabled>
+                                    Selectionner une
                                     societé
                                 </option>
                                 <option value="" v-else> Aucune societé </option>
-                                <option v-for="company in companies[0]" :value="company.id ">{{company.name}}</option>
+                                <option v-for="company in companies" :value="company.id ">{{company.name}}</option>
                             </select>
 
 
@@ -69,12 +70,16 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1">Magasin</label>
                             <select class="form-control" v-model="store_id" @change="getStoreData($event)">
-                                <option value="" v-if="stores.length > 0 && stores.length > 0" disabled>Selectionner un
+                                <option value="" v-if="stores.length > 0" disabled>Selectionner un
                                     magasin
                                 </option>
-                                <option value="" v-else> Aucun magasin </option>
-                                <option v-for="store in stores" :value="store.id ">{{store.designation}}</option>
+                                 <option value="" v-else>Aucun magasin</option>
+                                <option  v-for="store in stores" :value="store.id ">
+                                    {{store.designation}}</option>
+                                   
                             </select>
+
+
 
                         </div>
                     </div>
@@ -226,8 +231,8 @@
                 total_tva: 0.00,
                 total_order: 0.00,
                 comment: '',
-                user_id:order.userId,
-                status:''
+                user_id: order.userId,
+                status: ''
 
 
             }
@@ -239,7 +244,7 @@
 
                 axios.get('/api/companies')
                     .then((response) => {
-                        this.companies.push(response.data);
+                        this.companies=response.data;
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -250,7 +255,16 @@
                 this.stores = []
                 axios.get('/api/companies/' + id)
                     .then((response) => {
+                        this.store_id = '';
                         this.stores = response.data.stores;
+
+                        // if(this.stores.length == 0)
+                        // {
+                        //     this.store_id =null;
+                        // }
+                        // else{
+                        //     this.store_id=this.stores[0].id;
+                        // }
                     })
                     .catch(function (error) {
 
@@ -310,7 +324,7 @@
                                 type: 'error',
                                 title: 'Ce produit est déja selectionné !',
                                 showConfirmButton: true,
-                                  allowOutsideClick: false,
+                                allowOutsideClick: false,
                                 confirmButtonText: 'Fermer'
                             });
                             this.ordered_products[index].product_id = '';
@@ -338,23 +352,25 @@
             },
             clearOrderedProducts() {
                 //  total cout produit hors tax //
-                this.total_ht =   this.total_tva = this.total_order = 0;
-       
+                    this.total_ht =0;
+                    this.total_tva =0;
+                    this.total_order = 0;
+
                 for (let i in this.ordered_products) {
                     this.total_ht += this.ordered_products[i].total;
                 }
 
 
                 // //  total cout produit avec  tax //
-                this.total_tva = 0;
+             
                 for (let i in this.ordered_products) {
-                    this.total_tva +=  (this.ordered_products[i].total * this
+                    this.total_tva += (this.ordered_products[i].total * this
                         .ordered_products[i].tva / 100);
                 }
 
 
                 // //  cout total de la commande  //
-                this.total_order = this.total_ht + this.total_tva;
+                this.total_order += this.total_ht + this.total_tva;
 
             },
             removeOrdered(ordered) {
@@ -441,23 +457,23 @@
             submitSaveOrder() {
                 if (this.validateForm()) {
                     axios.post('api/order/save', {
-                          code:this.code,
-                          company_id:this.company_id,
-                          store_id:this.store_id,
-                          ordered_products:this.ordered_products,
-                          comment:this.comment,
-                          total_order:this.total_order,
-                          user_id:this.user_id,
-                          status:0
+                            code: this.code,
+                            company_id: this.company_id,
+                            store_id: this.store_id,
+                            ordered_products: this.ordered_products,
+                            comment: this.comment,
+                            total_order: this.total_order,
+                            user_id: this.user_id,
+                            status: 0
 
                         })
                         .then((response) => {
-                             if (response.data.status == 400) {
+                            if (response.data.status == 400) {
                                 swal.fire({
                                     type: 'error',
                                     title: 'Code déja utilisé  !',
                                     showConfirmButton: true,
-                                      allowOutsideClick: false,
+                                    allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
 
@@ -472,7 +488,7 @@
                                     type: 'success',
                                     title: 'La commande a été sauvegardée avec succés !',
                                     showConfirmButton: true,
-                                      allowOutsideClick: false,
+                                    allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
                                 }).then((result) => {
                                     if (result.value) {
@@ -490,25 +506,25 @@
                 }
 
             },
-              submitStoreOrder() {
+            submitStoreOrder() {
                 if (this.validateForm()) {
                     axios.post('api/order/save', {
-                          code:this.code,
-                          company_id:this.company_id,
-                          store_id:this.store_id,
-                          ordered_products:this.ordered_products,
-                          comment:this.comment,
-                          total_order:this.total_order,
-                          user_id:this.user_id,
-                          status:1
+                            code: this.code,
+                            company_id: this.company_id,
+                            store_id: this.store_id,
+                            ordered_products: this.ordered_products,
+                            comment: this.comment,
+                            total_order: this.total_order,
+                            user_id: this.user_id,
+                            status: 2
 
                         })
                         .then((response) => {
-                             if (response.data.status == 400) {
+                            if (response.data.status == 400) {
                                 swal.fire({
                                     type: 'error',
                                     title: 'Code déja utilisé  !',
-                                      allowOutsideClick: false,
+                                    allowOutsideClick: false,
                                     showConfirmButton: true,
                                     confirmButtonText: 'Fermer'
 
@@ -524,7 +540,7 @@
                                     type: 'success',
                                     title: 'La commande a été ajoutée avec succés !',
                                     showConfirmButton: true,
-                                      allowOutsideClick: false,
+                                    allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
                                 }).then((result) => {
                                     if (result.value) {
@@ -542,9 +558,8 @@
                 }
 
             },
-            cancelOrder()
-            {
-                   window.location = '/wizefresh/public/orders';
+            cancelOrder() {
+                window.location = '/wizefresh/public/orders';
             }
 
 

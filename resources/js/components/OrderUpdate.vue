@@ -53,11 +53,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Societé</label>
-                            <select class="form-control" @change="getCompanyData()" v-model="company_id">
-                                <option v-if="companies.length && companies.length > 0" v-for="company in companies"
-                                    :value="company.id ">{{company.name}}</option>
+                            <select class="form-control" @change="getCompanyData($event)" v-model="company_id">
+                                <option value="" v-if="companies.length && companies.length > 0" disabled>
+                                    Selectionner une
+                                    societé
+                                </option>
                                 <option value="" v-else> Aucune societé </option>
-
+                                <option v-for="company in companies" :value="company.id ">{{company.name}}</option>
                             </select>
 
 
@@ -68,15 +70,14 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1">Magasin</label>
                             <select class="form-control" v-model="store_id" @change="getStoreData($event)">
-                                <option v-if="stores.length > 0" v-for="store in stores" :value="store.id ">
-                                    {{store.designation}}
-
+                                <option value="" v-if="stores.length > 0" disabled>Selectionner un
+                                    magasin
                                 </option>
-                                <option v-if="stores.length == 0" :value="null"> Aucun magasin </option>
-
+                                <option value="" v-else>Aucun magasin</option>
+                                <option v-for="store in stores" :value="store.id ">
+                                    {{store.designation}}</option>
 
                             </select>
-
 
 
 
@@ -317,18 +318,9 @@
 
                 axios.get('/api/companies/' + this.company_id)
                     .then((response) => {
-
+                        this.store_id = '';
                         this.stores = response.data.stores;
-                        if (response.data.stores.length == 0) {
-                            this.stores = response.data.stores;
-                            this.store_id = null;
-
-
-                        } else {
-                            this.stores = response.data.stores;
-                            this.store_id = this.stores[0].id;
-
-                        }
+                       
 
                     })
                     .catch(function (error) {
@@ -382,7 +374,7 @@
                                 type: 'error',
                                 title: 'Ce produit est déja selectionné !',
                                 showConfirmButton: true,
-                                  allowOutsideClick: false,
+                                allowOutsideClick: false,
                                 confirmButtonText: 'Fermer'
                             });
                             this.custom_ordered[index].product_id = '';
@@ -425,14 +417,17 @@
             },
             clearOrderedProducts() {
                 //  total cout produit hors tax //
-                this.total_ht = this.total_tva = this.total_order = 0;
+                this.total_ht = 0;
+                this.total_tva = 0;
+                this.total_order = 0;
+
                 for (let i in this.custom_ordered) {
                     this.total_ht += this.custom_ordered[i].total;
                 }
 
 
                 // //  total cout produit avec  tax //
-                this.total_tva = 0;
+
                 for (let i in this.custom_ordered) {
                     this.total_tva += (this.custom_ordered[i].total * this
                         .custom_ordered[i].tva / 100);
@@ -440,14 +435,7 @@
 
 
                 // //  cout total de la commande  //
-                this.total_order = this.total_ht + this.total_tva;
-
-
-
-
-
-
-
+                this.total_order += this.total_ht + this.total_tva;
 
             },
             removeOrdered(ordered) {
@@ -458,7 +446,7 @@
                     showConfirmButton: true,
                     confirmButtonText: 'Confirmer',
                     showCancelButton: true,
-                      allowOutsideClick: false,
+                    allowOutsideClick: false,
                     cancelButtonText: 'Fermer'
                 }).then((result) => {
                     if (result.value) {
@@ -573,7 +561,7 @@
                                     type: 'success',
                                     title: 'La commande a été modifiée avec succés !',
                                     showConfirmButton: true,
-                                      allowOutsideClick: false,
+                                    allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
                                 }).then((result) => {
                                     if (result.value) {
@@ -601,7 +589,7 @@
                             comment: this.comment,
                             total_order: this.total_order,
                             user_id: this.user_id,
-                            status: 1
+                            status: 2
 
                         })
                         .then((response) => {
@@ -612,8 +600,8 @@
                                     type: 'success',
                                     title: 'La commande a été modifiée avec succés !',
                                     showConfirmButton: true,
-                                      allowOutsideClick: false,
-                                        allowOutsideClick: false,
+                                    allowOutsideClick: false,
+                                    allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
                                 }).then((result) => {
                                     if (result.value) {
