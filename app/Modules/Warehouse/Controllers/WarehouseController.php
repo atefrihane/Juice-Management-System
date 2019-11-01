@@ -105,14 +105,13 @@ class WarehouseController extends Controller
     {
 
         $checkWarehouse = Warehouse::find($id);
-        $countries = Country::all();
-        $users = User::all();
 
         if ($checkWarehouse) {
+            $users = User::all();
             $countries = Country::all();
-            $cities = City::all();
-            $zipcodes = Zipcode::where('city_id', $checkWarehouse->city->id)->get();
-            return view('Warehouse::showUpdateWarehouse', compact('checkWarehouse', 'countries','cities','zipcodes', 'users'));
+            $cities = City::where('country_id', $checkWarehouse->country_id)->get();
+            $zipcodes = Zipcode::where('city_id', $checkWarehouse->city_id)->get();
+            return view('Warehouse::showUpdateWarehouse', compact('checkWarehouse', 'countries', 'cities', 'zipcodes', 'users'));
         }
         return view('General::notFound');
 

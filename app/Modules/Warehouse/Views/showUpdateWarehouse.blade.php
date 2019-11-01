@@ -105,7 +105,7 @@
                                         <label for="exampleInputPassword1">Code Postal</label>
                                         <select class="form-control zipcodes" name="zipcode_id">
                                             @forelse($zipcodes as $zipcode)
-                                            <option value="{{$city->id}}"
+                                            <option value="{{$zipcode->id}}"
                                                 {{$zipcode->id == $checkWarehouse->zipcode_id ? 'selected' :  ''}}>
                                                 {{$zipcode->code}}
                                             </option>
