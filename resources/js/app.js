@@ -16,6 +16,8 @@ import CountryUpdate from './components/CountryUpdate.vue'
 import OrderAdd from './components/OrderAdd.vue'
 import OrderUpdate from './components/OrderUpdate.vue'
 import OrderShow from './components/OrderShow.vue'
+import OrderStatusUpdate from './components/OrderStatusUpdate.vue'
+
 import swal from 'sweetalert2'
 window.swal = swal;
 import VueProgressBar from 'vue-progressbar'
@@ -36,6 +38,7 @@ Vue.component('country-update', require('./components/CountryUpdate.vue'));
 Vue.component('order-add', require('./components/OrderAdd.vue'));
 Vue.component('order-update', require('./components/OrderUpdate.vue'));
 Vue.component('order-show', require('./components/OrderShow.vue'));
+Vue.component('order-status-update', require('./components/OrderStatusUpdate.vue'));
 axios.defaults.baseURL = '/wizefresh/public/'
 const app = new Vue({
     el: '#app',
@@ -49,7 +52,8 @@ const app = new Vue({
         'machine-rent': MachineRent,
         'order-add': OrderAdd,
         'order-update': OrderUpdate,
-        'order-show': OrderShow
+        'order-show': OrderShow,
+        'order-status-update': OrderStatusUpdate
 
 
 

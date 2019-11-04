@@ -124,6 +124,12 @@ Breadcrumbs::for('showOrder', function ($trail,$order) {
     $trail->push($order->code);
 });
 
+Breadcrumbs::for('showUpdateStatusOrder', function ($trail,$order) {
+    $trail->parent('order');
+    $trail->push('Commande');
+    $trail->push($order->code);
+});
+
 
 
 Breadcrumbs::for('updateOrder', function ($trail,$order) {

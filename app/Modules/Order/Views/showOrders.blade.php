@@ -1,7 +1,12 @@
 @extends('General.layout')
 @section('pageTitle', 'Liste des commandes')
 @section('content')
-
+<style>
+.edit {
+    margin: 6px -120px 0 !important;
+    min-width: 100px !important;
+}
+</style>
 <div class="content-wrapper">
 
     <section class="content-header">
@@ -176,7 +181,7 @@
                                                         aria-expanded="false"></a>
                                                     <ul class="dropdown-menu edit" role="menu">
                                                         <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
-                                                        <li><a href="#">Mettre à jour état</a></li>
+                                                        <li><a href="{{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
                                                     </ul>
                                                 </div>
                                         </div>
@@ -195,7 +200,7 @@
                                                     <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false"></a>
                                                     <ul class="dropdown-menu edit" role="menu">
-                                                        <li><a href="#">Voir détails</a></li>
+                                                    <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
                                                         <li><a href="#">Modifier la préparation</a></li>
                                                         <li><a href="#">Mettre à jour état</a></li>
                                                     </ul>
