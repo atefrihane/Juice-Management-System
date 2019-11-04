@@ -175,7 +175,7 @@
                                                     <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false"></a>
                                                     <ul class="dropdown-menu edit" role="menu">
-                                                        <li><a href="#">Voir détails</a></li>
+                                                        <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
                                                         <li><a href="#">Mettre à jour état</a></li>
                                                     </ul>
                                                 </div>

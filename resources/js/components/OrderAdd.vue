@@ -73,10 +73,10 @@
                                 <option value="" v-if="stores.length > 0" disabled>Selectionner un
                                     magasin
                                 </option>
-                                 <option value="" v-else>Aucun magasin</option>
-                                <option  v-for="store in stores" :value="store.id ">
+                                <option value="" v-else>Aucun magasin</option>
+                                <option v-for="store in stores" :value="store.id ">
                                     {{store.designation}}</option>
-                                   
+
                             </select>
 
 
@@ -128,7 +128,7 @@
                                 </td>
                                 <td><input type="number" class="form-control" placeholder="Nombre de colis"
                                         v-model="ordered.packing" @change="setOrderdPacking(ordered,index)"
-                                        :disabled="ordered.product_id == ''"></td>
+                                        :disabled="ordered.product_id == ''" min="1"></td>
                                 <td> <input type="number" class="form-control" placeholder="Nombre d'unités"
                                         v-model="ordered.unit" @change="setOrderdUnit(ordered,index)"
                                         :disabled="ordered.product_id == ''"></td>
@@ -244,7 +244,7 @@
 
                 axios.get('/api/companies')
                     .then((response) => {
-                        this.companies=response.data;
+                        this.companies = response.data;
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -352,9 +352,9 @@
             },
             clearOrderedProducts() {
                 //  total cout produit hors tax //
-                    this.total_ht =0;
-                    this.total_tva =0;
-                    this.total_order = 0;
+                this.total_ht = 0;
+                this.total_tva = 0;
+                this.total_order = 0;
 
                 for (let i in this.ordered_products) {
                     this.total_ht += this.ordered_products[i].total;
@@ -362,7 +362,7 @@
 
 
                 // //  total cout produit avec  tax //
-             
+
                 for (let i in this.ordered_products) {
                     this.total_tva += (this.ordered_products[i].total * this
                         .ordered_products[i].tva / 100);
@@ -381,23 +381,58 @@
             },
             setOrderdPacking(ordered, index) {
 
-                if (ordered.packing != '') {
+                if (ordered.packing != '' && ordered.packing > 0) {
 
                     ordered.unit = ordered.packing * ordered.product_packing;
                     ordered.total = ordered.public_price * ordered.unit;
                     ordered.product_total_tva = ordered.total + ordered.total * ordered.tva / 100;
                     this.clearOrderedProducts();
+                } else {
+
+                    swal.fire({
+                        type: 'error',
+                        title: 'Le nombre de colis saisi est invalide ! ',
+                        showConfirmButton: true,
+                        allowOutsideClick: false,
+                        confirmButtonText: 'Fermer'
+
+
+                    });
+                    ordered.packing = ''
+                    ordered.total = 0;
+                    ordered.product_total_tva = 0;
+                    this.total_ht = 0;
+                    this.total_tva = 0;
+                    this.total_order = 0;
+
                 }
             },
             setOrderdUnit(ordered, index) {
 
-                if (ordered.unit != '') {
-                    ordered.product_total_tva = 0;
-                    ordered.total = 0;
+                if (ordered.unit != '' && ordered.unit > 0) {
+           
                     ordered.packing = Math.ceil(ordered.unit / ordered.product_packing)
                     ordered.total = ordered.public_price * ordered.unit;
                     ordered.product_total_tva = (ordered.total * ordered.tva / 100);
                     this.clearOrderedProducts();
+                } else {
+
+                    swal.fire({
+                        type: 'error',
+                        title: 'Le nombre d\'unité saisi est invalide ! ',
+                        showConfirmButton: true,
+                        allowOutsideClick: false,
+                        confirmButtonText: 'Fermer'
+
+
+                    });
+                    ordered.unit = ''
+                    ordered.total = 0;
+                    ordered.product_total_tva = 0;
+                    this.total_ht = 0;
+                    this.total_tva = 0;
+                    this.total_order = 0;
+
                 }
 
 

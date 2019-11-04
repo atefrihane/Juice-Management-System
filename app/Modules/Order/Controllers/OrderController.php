@@ -18,6 +18,7 @@ class OrderController extends Controller
         return view('Order::addOrder', ['lastOrder' => Order::count() + 1]);
 
     }
+ 
     public function showUpdateOrder($id)
     {
         $order = Order::find($id);
@@ -38,5 +39,16 @@ class OrderController extends Controller
             return redirect()->route('showOrders');
         }
         return view('General::notFound');
+    }
+
+    public function showOrder($id)
+    {
+        $order = Order::find($id);
+        if ($order) {
+            return view('Order::showOrder', ['order' => $order]);
+
+        }
+        return view('General::notFound');
+
     }
 }

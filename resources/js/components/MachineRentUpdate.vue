@@ -3,6 +3,7 @@
 
         <div class="box-header">
             <h3 class="box-title">Modifier location machine </h3>
+            <!--
             <div class="btn-group breadcrumb1 pull-right">
                 <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                 <ul class="dropdown-menu" role="menu" x-placement="bottom-start"
@@ -13,6 +14,7 @@
 
                 </ul>
             </div>
+            -->
 
         </div>
 

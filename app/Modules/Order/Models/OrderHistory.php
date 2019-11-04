@@ -2,8 +2,10 @@
 
 namespace App\Modules\Order\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Modules\Order\Models\Order;
+use App\Modules\User\Models\User;
+use Illuminate\Database\Eloquent\Model;
+
 class OrderHistory extends Model
 {
 
@@ -12,6 +14,12 @@ class OrderHistory extends Model
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id');
+
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
 
     }
 

@@ -7,6 +7,7 @@ use App\Modules\Order\Models\Order;
 use App\Modules\Order\Models\OrderHistory;
 use Illuminate\Http\Request;
 
+
 class OrderController extends Controller
 {
     public function handleSaveOrder(Request $request)
@@ -46,10 +47,13 @@ class OrderController extends Controller
     {
         $order = Order::find($id);
 
-        // OrderProduct::where('order_id',$id)->with('product')->get();
         if ($order) {
             $ordered_products = $order->products()->withPivot('package', 'unit')->get();
-            return response()->json(['status' => 200, 'order' => $order, 'ordered_products' => $ordered_products]);
+        
+                 $order_history=OrderHistory::with('user')->where('order_id',$order->id)->get();
+
+     
+            return response()->json(['status' => 200, 'order' => $order, 'ordered_products' => $ordered_products,'order_history' =>$order_history]);
 
         }
 
@@ -79,7 +83,7 @@ class OrderController extends Controller
                 'store_id' => $request->store_id,
                 'total' => $request->total_order,
                 'comment' => $request->comment,
-                'status'=>$request->status
+                'status' => $request->status,
             ]);
             foreach ($request->custom_ordered as $custom) {
                 $checkProduct = $order->products()->where('product_id', $custom['product_id'])->first();
@@ -93,9 +97,9 @@ class OrderController extends Controller
 
             }
             OrderHistory::create([
-                'action' => 'Mise à jour ',
+                'action' => $request->status == 0 ? 'Sauvegarde' : 'Mise à jour',
                 'user_id' => $request->user_id,
-                'order_id'=>$order->id
+                'order_id' => $order->id,
             ]);
             return response()->json(['status' => 200]);
         }

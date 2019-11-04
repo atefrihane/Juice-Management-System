@@ -5,6 +5,7 @@ namespace App\Modules\Order\Models;
 use App\Modules\Product\Models\ProductPrepare;
 use App\Modules\Product\Models\Product;
 use App\Modules\Store\Models\Store;
+use App\Modules\Order\Models\OrderHistory;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -26,5 +27,8 @@ class Order extends Model
     {
         return $this->belongsTo(Store::class,'store_id');
     }
-
+    public function histories()
+    {
+        return $this->hasMany(OrderHistory::class);
+    }
 }
