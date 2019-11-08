@@ -413,6 +413,7 @@
                 //Only Allah knows how I did it :p ( هذا من فضل ربي )
                 
                 let balances = [];
+                let rmvBalances = [];
 
                 this.custom_ordered.map(custom => {
                     this.final_prepared.map(final => {
@@ -433,23 +434,29 @@
                 })
 
                 let newBalances = [];
-                let rmvBalances = [];
                 
                 
 
                 newBalances = _.sortBy(balances, ['qty']);
                 newBalances = _.uniqBy(newBalances, 'product_id')
                 newBalances = _.sortBy(newBalances, ['product_id']);
+                console.log("newBalances")
+                console.log(newBalances)
 
+               
+                
                 this.custom_ordered.map(custom => {
                     this.final_prepared.map(final => {
                         newBalances.map(balance => {
-                            if ((custom.product_id === balance.product_id && custom.unit <= balance.qty && final.product_id === custom.product_id && final.quantity > 0)){
+                            if ((custom.product_id === balance.product_id && custom.unit <= balance.qty && final.product_id === custom.product_id && final.total > 0)){
                                 rmvBalances.push(balance)
                             }
                         })
                     })
                 })
+
+        
+    
                 this.balance=_.differenceBy(newBalances, rmvBalances, "product_id")
 
 

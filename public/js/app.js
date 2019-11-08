@@ -7219,6 +7219,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
       //Only Allah knows how I did it :p ( هذا من فضل ربي )
       var balances = [];
+      var rmvBalances = [];
       this.custom_ordered.map(function (custom) {
         _this6.final_prepared.map(function (_final2) {
           if (custom.product_id === _final2.product_id) {
@@ -7247,14 +7248,15 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         });
       });
       var newBalances = [];
-      var rmvBalances = [];
       newBalances = _.sortBy(balances, ['qty']);
       newBalances = _.uniqBy(newBalances, 'product_id');
       newBalances = _.sortBy(newBalances, ['product_id']);
+      console.log("newBalances");
+      console.log(newBalances);
       this.custom_ordered.map(function (custom) {
         _this6.final_prepared.map(function (_final3) {
           newBalances.map(function (balance) {
-            if (custom.product_id === balance.product_id && custom.unit <= balance.qty && _final3.product_id === custom.product_id && _final3.quantity > 0) {
+            if (custom.product_id === balance.product_id && custom.unit <= balance.qty && _final3.product_id === custom.product_id && _final3.total > 0) {
               rmvBalances.push(balance);
             }
           });
