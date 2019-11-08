@@ -6,6 +6,8 @@
 
 require('./bootstrap');
 window.Vue = require('vue');
+// Load the full build.
+var _ = require('lodash');
 import Vue from 'vue'
 import ProductAdd from './components/ProductAdd.vue'
 import ProductUpdate from './components/ProductUpdate.vue'
@@ -19,6 +21,7 @@ import OrderShow from './components/OrderShow.vue'
 import OrderStatusUpdate from './components/OrderStatusUpdate.vue'
 
 import swal from 'sweetalert2'
+// import swal from 'sweetalert';
 window.swal = swal;
 import VueProgressBar from 'vue-progressbar'
 Vue.use(VueProgressBar, {

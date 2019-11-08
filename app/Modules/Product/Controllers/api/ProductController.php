@@ -32,18 +32,18 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-       
+
         $checkCode = Product::where('code', $request->code)->first();
         if ($checkCode) {
             return response()->json(['status' => 400]);
         }
-        if($request->photo){
-            $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
-            \Image::make($request->photo)->save(public_path('img/').$name);
+        if ($request->photo) {
+            $name = time() . '.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
+            \Image::make($request->photo)->save(public_path('img/') . $name);
             $request->merge(['photo' => $name]);
-    
+
         }
-   
+
         $product = Product::create([
             'code' => $request->code,
             'status' => lcfirst($request->state),
@@ -65,8 +65,8 @@ class ProductController extends Controller
             'unit_by_display' => $request->unityPerDisplay,
             'unit_per_package' => $request->unityPerPack,
             'packing' => $request->packing,
-            'tva'=>$request->tva,
-            'photo_url' => isset($name) ? $name : null ,
+            'tva' => $request->tva,
+            'photo_url' => isset($name) ? $name : null,
         ]);
 
         if ($request->input('mixtures')) {
@@ -145,7 +145,7 @@ class ProductController extends Controller
 
     public function handleUpdateProduct(Request $request, $id)
     {
-    
+
         $product = Product::find($id);
         $checkCode = Product::where('code', $request->code)
             ->where('id', '!=', $product->id)
@@ -153,15 +153,15 @@ class ProductController extends Controller
         if ($checkCode) {
             return response()->json(['status' => 400]);
         }
-        $currentPhoto=$product->photo_url;
+        $currentPhoto = $product->photo_url;
         if ($product) {
-          
-            if($request->photo != $currentPhoto){
-                $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
-                \Image::make($request->photo)->save(public_path('img/').$name);
+
+            if ($request->photo != $currentPhoto) {
+                $name = time() . '.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
+                \Image::make($request->photo)->save(public_path('img/') . $name);
                 $request->merge(['photo' => $name]);
-                $userPhoto = public_path('img/').$currentPhoto;
-                if(file_exists($userPhoto)){
+                $userPhoto = public_path('img/') . $currentPhoto;
+                if (file_exists($userPhoto)) {
                     @unlink($userPhoto);
                 }
             }
@@ -187,7 +187,7 @@ class ProductController extends Controller
                 'unit_by_display' => $request->unityPerDisplay,
                 'unit_per_package' => $request->unityPerPack,
                 'packing' => $request->packing,
-                'tva'=>$request->tva,
+                'tva' => $request->tva,
                 'photo_url' => isset($name) ? $name : $currentPhoto,
             ]);
 
@@ -196,7 +196,7 @@ class ProductController extends Controller
                     if (array_key_exists('id', $mixture)) {
 
                         $checkMixture = Mixture::find($mixture['id']);
-              
+
                         $checkMixture->update([
                             'name' => $mixture['name'],
                             'type' => $mixture['type'],
@@ -232,10 +232,9 @@ class ProductController extends Controller
             }
 
             return response()->json(['status' => 200]);
-      
 
         }
-}
+    }
     public function handleGetProductDetails($id)
     {
 
@@ -245,6 +244,21 @@ class ProductController extends Controller
 
         }
         return response()->json(['status' => '404']);
+
+    }
+
+    public function handleGetProductInWarehouses(Request $request, $id)
+    {
+        $product = Product::find($id);
+        if ($product) {
+            $productInWarehouses = $product->warehouses()
+                ->where('quantity', '>', 0)
+                ->withPivot('id','packing', 'quantity', 'comment', 'creation_date', 'expiration_date')->get();
+
+            return response()->json(['status' => 200, 'warehouse_products' => $productInWarehouses,'productName' => $product->nom]);
+
+        }
+        return response()->json(['status' => 404]);
 
     }
 

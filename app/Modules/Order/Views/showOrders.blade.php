@@ -202,7 +202,7 @@
                                                     <ul class="dropdown-menu edit" role="menu">
                                                     <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
                                                         <li><a href="#">Modifier la préparation</a></li>
-                                                        <li><a href="#">Mettre à jour état</a></li>
+                                                        <li><a href="{{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
                                                     </ul>
                                                     
                                                 </div>
@@ -221,7 +221,7 @@
                                                     <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false"></a>
                                                         <ul class="dropdown-menu edit" role="menu">
-                                                        <li><a href="#">Voir détails</a></li>
+                                                        <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
                                                         <li><a href="#">Modifier la préparation</a></li>
                                                         <li><a href="#">Mettre à jour état</a></li>
                                                     </ul>
@@ -241,7 +241,7 @@
                                                     <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false"></a>
                                                         <ul class="dropdown-menu edit" role="menu">
-                                                        <li><a href="#">Voir détails</a></li>
+                                                        <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
                                                         <li><a href="#">Modifier la préparation</a></li>
                                                         <li><a href="#">Mettre à jour état</a></li>
                                                     </ul>
@@ -262,7 +262,7 @@
                                                     <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false"></a>
                                                         <ul class="dropdown-menu edit" role="menu">
-                                                        <li><a href="#">Voir détails</a></li>
+                                                        <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
                                                         <li><a href="#">Modifier la préparation</a></li>
                                                         <li><a href="#">Mettre à jour état</a></li>
                                                     </ul>
@@ -281,7 +281,7 @@
                                                     <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false"></a>
                                                     <ul class="dropdown-menu edit" role="menu">
-                                                        <li><a href="#">Voir détails</a></li>
+                                                    <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
                                                         <li><a href="#">Modifier la préparation</a></li>
                                                         <li><a href="#">Mettre à jour état</a></li>
                                                     </ul>
@@ -303,7 +303,7 @@
                                                     <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false"></a>
                                                     <ul class="dropdown-menu edit" role="menu">
-                                                        <li><a href="#">Voir détails</a></li>
+                                                    <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
                                                         <li><a href="#">Mettre à jour état</a></li>
                                                     </ul>
                                                 </div>
@@ -323,7 +323,7 @@
                                                     <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false"></a>
                                                     <ul class="dropdown-menu edit" role="menu">
-                                                        <li><a href="#">Voir détails</a></li>
+                                                    <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
                                                         <li><a href="#">Mettre à jour état</a></li>
                                                     </ul>
                                                 </div>
@@ -342,7 +342,7 @@
                                                     <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false"></a>
                                                     <ul class="dropdown-menu edit" role="menu">
-                                                        <li><a href="#">Voir détails</a></li>
+                                                    <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
                                                         <li><a href="#">Mettre à jour état</a></li>
                                                     </ul>
                                                 </div>
@@ -361,7 +361,7 @@
                                                     <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false"></a>
                                                      <ul class="dropdown-menu edit" role="menu">
-                                                        <li><a href="#">Voir détails</a></li>
+                                                     <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
                                                      </ul>
                                                 </div>
                                         </div>
@@ -380,7 +380,7 @@
                                                     <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false"></a>
                                                         <ul class="dropdown-menu edit" role="menu">
-                                                        <li><a href="#">Voir détails</a></li>
+                                                        <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
                                                      </ul>
                                                 </div>
                                         </div>

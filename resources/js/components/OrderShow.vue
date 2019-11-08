@@ -436,15 +436,15 @@
                         </thead>
                         <tbody>
                             <tr v-for="(history,index) in order_history">
-                             <td>{{history.created_at}}</td>
-                             <td>{{history.user.nom}} {{history.user.prenom}}</td>
-                             <td>{{history.action}}</td>
-                             <td style="width:40%;">
-                             <p v-if="history.comment != null"> {{history.comment}}</p>
-                             <p v-else>Aucun commentaire</p>
-                             
-                             </td>
-                             <td><input type="text"  class="btn btn-success" value="Modifier"></td>
+                                <td>{{history.created_at}}</td>
+                                <td>{{history.user.nom}} {{history.user.prenom}}</td>
+                                <td>{{history.action}}</td>
+                                <td style="width:40%;">
+                                    <p v-if="history.comment != null"> {{history.comment}}</p>
+                                    <p v-else>Aucun commentaire</p>
+
+                                </td>
+                                <td><input type="text" class="btn btn-success" value="Modifier"></td>
                             </tr>
 
 
@@ -485,7 +485,7 @@
             this.getStores()
             this.loadProducts()
             this.loadOrder()
-            this.clearOrderedProducts()
+
 
 
         },
@@ -520,7 +520,7 @@
             loadOrder() {
                 axios.get('/api/order/' + this.order_id)
                     .then((response) => {
-                       console.log(response)     
+                        console.log(response)
                         this.code = response.data.order.code
                         this.store_id = response.data.order.store_id
                         this.ordered_products = response.data.ordered_products
@@ -540,9 +540,7 @@
 
                             });
 
-                            this.total_ht += (ordered.public_price * ordered.pivot.unit);
-                            this.total_tva += (this.total_ht * ordered.tva / 100);
-                            this.total_order = this.total_ht + this.total_tva;
+                            this.clearOrderedProducts()
 
 
 

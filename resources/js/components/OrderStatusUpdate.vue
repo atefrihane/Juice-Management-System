@@ -46,7 +46,7 @@
                     </div>
 
                     <order-to-prepare v-if="status == 2" :order_id="this.order_id" :user_id="this.user_id"  v-on:requiredValue="updateError($event)"> </order-to-prepare>
-                    <order-in-prepare v-if="status == 3"> </order-in-prepare>
+                    <order-in-prepare v-if="status == 3" :order_id="this.order_id" :user_id="this.user_id"  v-on:requiredValue="updateError($event)" > </order-in-prepare>
                     <order-prepared v-if="status == 4"> </order-prepared>
                     <order-to-deliver v-if="status == 5"> </order-to-deliver>
                     <order-in-delivering v-if="status == 6"> </order-in-delivering>

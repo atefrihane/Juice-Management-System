@@ -3,15 +3,16 @@
 namespace App\Modules\Product\Models;
 
 use App\Modules\Mixture\Models\Mixture;
+use App\Modules\Order\Models\Order;
 use App\Modules\Store\Models\Price;
 use App\Modules\Store\Models\Store;
-use App\Modules\Order\Models\Order;
+use App\Modules\Warehouse\Models\Warehouse;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
 
-    protected $fillable = ['code', 'status', 'type', 'nom', 'designation', 'barcode', 'version', 'composition', 'color', 'weight', 'height', 'width', 'depth', 'public_price', 'period_of_validity', 'validity_after_opening', 'comment', 'photo_url', 'unit_by_display', 'unit_per_package', 'packing','tva'];
+    protected $fillable = ['code', 'status', 'type', 'nom', 'designation', 'barcode', 'version', 'composition', 'color', 'weight', 'height', 'width', 'depth', 'public_price', 'period_of_validity', 'validity_after_opening', 'comment', 'photo_url', 'unit_by_display', 'unit_per_package', 'packing', 'tva'];
 
     public function mixtures()
     {
@@ -31,7 +32,7 @@ class Product extends Model
 
     public function warehouses()
     {
-        return $this->belongsToMany('App\Modules\Warehouse\Models\Warehouse', 'product_warehouse');
+        return $this->belongsToMany(Warehouse::class)->withPivot('warehouse_id', 'product_id', 'packing', 'quantity', 'comment', 'creation_date', 'expiration_date');
 
     }
     public function stores()
@@ -45,6 +46,5 @@ class Product extends Model
         return $this->hasMany('\App\Modules\Bac\Models\Bac');
 
     }
-
 
 }

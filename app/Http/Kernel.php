@@ -73,7 +73,8 @@ class Kernel extends HttpKernel
         'isAuth' => \App\Http\Middleware\isAuth::class,
         'isGuest' => \App\Http\Middleware\isGuest::class,
         'cors' => \App\Http\Middleware\Cors::class, // <-- add this line
-
+        'order.detail' => \App\Http\Middleware\OrderDetail::class,
+        'order.update' => \App\Http\Middleware\OrderUpdate::class
 
     ];
 

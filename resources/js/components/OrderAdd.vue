@@ -357,15 +357,25 @@
                 this.total_order = 0;
 
                 for (let i in this.ordered_products) {
-                    this.total_ht += this.ordered_products[i].total;
+                    if(this.ordered_products[i].total != "")
+                    {
+                         this.total_ht += this.ordered_products[i].total;
+
+                    }
+                   
                 }
 
 
-                // //  total cout produit avec  tax //
+                // //  total des tax //
 
                 for (let i in this.ordered_products) {
-                    this.total_tva += (this.ordered_products[i].total * this
+                    if(this.ordered_products[i].total != "")
+                    {
+                         this.total_tva += (this.ordered_products[i].total * this
                         .ordered_products[i].tva / 100);
+
+                    }
+                   
                 }
 
 

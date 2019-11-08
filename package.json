@@ -18,7 +18,7 @@
         "cross-env": "^5.2.1",
         "jquery": "^3.2",
         "laravel-mix": "^4.1.4",
-        "lodash": "^4.17.5",
+        "lodash": "^4.17.15",
         "popper.js": "^1.12",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.23.0",
@@ -30,6 +30,7 @@
     "dependencies": {
         "@johmun/vue-tags-input": "^2.1.0",
         "datatables.net-bs4": "^1.10.20",
+        "sweetalert": "^2.1.2",
         "sweetalert2": "^8.18.3",
         "vue-input-tag": "^2.0.6",
         "vue-progressbar": "^0.7.5",

@@ -15,7 +15,7 @@ class CreateProductPrepare extends Migration
     {
         Schema::create('product_prepare', function (Blueprint $table) {
             $table->increments('id');
-            $table->float('quantity');
+            $table->integer('quantity');
             $table->integer('order_id')->unsigned();
             $table->foreign('order_id')->references('id')->on('order_product')->onDelete('cascade');
             $table->integer('product_warehouse_id')->unsigned();

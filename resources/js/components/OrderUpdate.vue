@@ -320,7 +320,7 @@
                     .then((response) => {
                         this.store_id = '';
                         this.stores = response.data.stores;
-                       
+
 
                     })
                     .catch(function (error) {
@@ -422,15 +422,22 @@
                 this.total_order = 0;
 
                 for (let i in this.custom_ordered) {
-                    this.total_ht += this.custom_ordered[i].total;
+                    if (this.custom_ordered[i].total != "") {
+                        this.total_ht += this.custom_ordered[i].total;
+                    }
+
                 }
 
 
                 // //  total cout produit avec  tax //
 
                 for (let i in this.custom_ordered) {
-                    this.total_tva += (this.custom_ordered[i].total * this
-                        .custom_ordered[i].tva / 100);
+                    if (this.custom_ordered[i].total != "") {
+                        this.total_tva += (this.custom_ordered[i].total * this
+                            .custom_ordered[i].tva / 100);
+
+                    }
+
                 }
 
 

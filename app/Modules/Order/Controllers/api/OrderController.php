@@ -31,7 +31,7 @@ class OrderController extends Controller
                 }
             }
             OrderHistory::create([
-                'action' => 'Sauvegarde',
+                'action' => 'Création',
                 'order_id' => $order->id,
                 'user_id' => $request->user_id,
             ]);
@@ -95,7 +95,7 @@ class OrderController extends Controller
 
             }
             OrderHistory::create([
-                'action' => $request->status == 0 ? 'Sauvegarde' : 'Mise à jour',
+                'action' => $request->status == 0 ? 'Modification' : 'Etat vers : A préparer',
                 'user_id' => $request->user_id,
                 'order_id' => $order->id,
             ]);
