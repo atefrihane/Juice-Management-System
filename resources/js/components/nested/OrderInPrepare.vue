@@ -203,7 +203,7 @@
         props: ['order_id', 'user_id'],
         data() {
             return {
-                new_status:4,
+                new_status: '',
                 products: [],
                 ordered_products: [],
                 final_prepared: [],
@@ -211,7 +211,7 @@
                 prepared_products: [],
                 response_array: [],
                 balance: [],
-            
+
 
 
             }
@@ -411,59 +411,67 @@
             },
             validateBalance() {
                 //Only Allah knows how I did it :p ( هذا من فضل ربي )
-                
+
                 let balances = [];
                 let rmvBalances = [];
 
                 this.custom_ordered.map(custom => {
                     this.final_prepared.map(final => {
-                        if (custom.product_id === final.product_id){
-                            if (final.total < custom.unit){
+                        if (custom.product_id === final.product_id) {
+                            if (final.total < custom.unit) {
                                 let qty = custom.unit - final.total;
 
-                                balances.push({product_id: custom.product_id, name: custom.name, qty})
+                                balances.push({
+                                    product_id: custom.product_id,
+                                    name: custom.name,
+                                    qty
+                                })
                             }
-                        }else{ //Item not found in custom
-                            let balanceIndex = balances.findIndex(balance => balance.product_id === custom.product_id);
+                        } else { //Item not found in custom
+                            let balanceIndex = balances.findIndex(balance => balance.product_id ===
+                                custom.product_id);
 
-                            if (balanceIndex === -1){
-                                balances.push({product_id: custom.product_id, name: custom.name, qty: custom.unit})
+                            if (balanceIndex === -1) {
+                                balances.push({
+                                    product_id: custom.product_id,
+                                    name: custom.name,
+                                    qty: custom.unit
+                                })
                             }
                         }
                     })
                 })
 
                 let newBalances = [];
-                
-                
-
                 newBalances = _.sortBy(balances, ['qty']);
                 newBalances = _.uniqBy(newBalances, 'product_id')
                 newBalances = _.sortBy(newBalances, ['product_id']);
-                console.log("newBalances")
-                console.log(newBalances)
+              
 
-               
-                
+
+
                 this.custom_ordered.map(custom => {
                     this.final_prepared.map(final => {
                         newBalances.map(balance => {
-                            if ((custom.product_id === balance.product_id && custom.unit <= balance.qty && final.product_id === custom.product_id && final.total > 0)){
+                            if ((custom.product_id === balance.product_id && custom.unit <=
+                                    balance.qty && final.product_id === custom.product_id &&
+                                    final.total > 0)) {
                                 rmvBalances.push(balance)
                             }
                         })
                     })
                 })
 
-        
-    
-                this.balance=_.differenceBy(newBalances, rmvBalances, "product_id")
+
+
+                this.balance = _.differenceBy(newBalances, rmvBalances, "product_id")
 
 
             },
             submitOrderInPrepare() {
                 let validation = this.validateForm();
                 if (validation) {
+                   this.$emit('requiredValue', '')
                     this.validateBalance()
                     if (this.balance.length > 0) {
 

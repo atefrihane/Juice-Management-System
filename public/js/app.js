@@ -4616,6 +4616,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -4706,9 +4708,13 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     updateError: function updateError(newError) {
-      this.errors = [];
-      this.errors.push(newError);
-      window.scrollTo(0, 0); // console.log(newError)
+      if (newError == '') {
+        this.errors = [];
+      } else {
+        this.errors = [];
+        this.errors.push(newError);
+        window.scrollTo(0, 0);
+      }
     }
   }
 });
@@ -7044,7 +7050,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   props: ['order_id', 'user_id'],
   data: function data() {
     return {
-      new_status: 4,
+      new_status: '',
       products: [],
       ordered_products: [],
       final_prepared: [],
@@ -7251,8 +7257,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       newBalances = _.sortBy(balances, ['qty']);
       newBalances = _.uniqBy(newBalances, 'product_id');
       newBalances = _.sortBy(newBalances, ['product_id']);
-      console.log("newBalances");
-      console.log(newBalances);
       this.custom_ordered.map(function (custom) {
         _this6.final_prepared.map(function (_final3) {
           newBalances.map(function (balance) {
@@ -7268,6 +7272,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var validation = this.validateForm();
 
       if (validation) {
+        this.$emit('requiredValue', '');
         this.validateBalance();
 
         if (this.balance.length > 0) {
