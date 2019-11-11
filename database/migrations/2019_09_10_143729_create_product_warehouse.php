@@ -16,7 +16,7 @@ class CreateProductWarehouse extends Migration
         Schema::create('product_warehouse', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('packing');
-            $table->float('quantity');
+            $table->double('quantity');
             $table->text('comment')->nullable();
             $table->date('creation_date');
             $table->date('expiration_date');

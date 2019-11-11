@@ -4,6 +4,7 @@ namespace App\Modules\Order\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Order\Models\Order;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
@@ -62,5 +63,17 @@ class OrderController extends Controller
         return view('General::notFound');
 
     }
+
+    public function showOrderPreparedProducts($id)
+    {
+        $order = Order::find($id);
+        if ($order) {
+            return view('Order::showOrderPreparedProducts', ['order' => $order]);
+
+        }
+        return view('General::notFound');
+
+    }
+  
 
 }

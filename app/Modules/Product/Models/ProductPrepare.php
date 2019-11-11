@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductPrepare extends Model
 {
-
+    protected $guarded=['id'];
+    protected $table = 'product_prepare';
+    
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id');

@@ -32,7 +32,7 @@ class Product extends Model
 
     public function warehouses()
     {
-        return $this->belongsToMany(Warehouse::class)->withPivot('warehouse_id', 'product_id', 'packing', 'quantity', 'comment', 'creation_date', 'expiration_date');
+        return $this->belongsToMany(Warehouse::class)->withPivot('id','warehouse_id', 'product_id', 'packing', 'quantity', 'comment', 'creation_date', 'expiration_date');
 
     }
     public function stores()

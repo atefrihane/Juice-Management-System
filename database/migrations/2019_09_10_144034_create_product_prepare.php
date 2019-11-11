@@ -17,9 +17,9 @@ class CreateProductPrepare extends Migration
             $table->increments('id');
             $table->integer('quantity');
             $table->integer('order_id')->unsigned();
-            $table->foreign('order_id')->references('id')->on('order_product')->onDelete('cascade');
+            $table->foreign('order_id')->references('id')->on('orders');
             $table->integer('product_warehouse_id')->unsigned();
-            $table->foreign('product_warehouse_id')->references('id')->on('product_warehouse')->onDelete('cascade');
+            $table->foreign('product_warehouse_id')->references('id')->on('product_warehouse');
             $table->timestamps();
         });
     }

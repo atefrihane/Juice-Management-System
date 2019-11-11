@@ -14,7 +14,7 @@ class Warehouse extends Model
     public function products()
     {
         return $this->belongsToMany('App\Modules\Product\Models\Product')
-        ->withPivot( 'product_id', 'warehouse_id','packing','quantity','comment','creation_date','expiration_date');
+        ->withPivot( 'id','product_id', 'warehouse_id','packing','quantity','comment','creation_date','expiration_date');
 
     }
     public function city()

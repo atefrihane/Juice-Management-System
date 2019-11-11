@@ -132,14 +132,7 @@
     </section>
 
 </div>
-<script>
-    $('document').ready(function () {
 
-        $('.treeview-menu').css('display', 'block');
-
-    });
-
-</script>
 
 
 @endsection
