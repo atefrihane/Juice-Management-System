@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Modules\Order\Models\Order;
 use App\Modules\Order\Models\OrderHistory;
 use App\Modules\Product\Models\Product;
-use App\Modules\Product\Models\ProductPrepare;
+use App\Modules\Product\Models\ProductWarehouse;
 use App\Modules\Warehouse\Models\Warehouse;
 use Illuminate\Http\Request;
 
@@ -47,34 +47,23 @@ class OrderController extends Controller
     }
     public function showOrder($id)
     {
+
         $order = Order::find($id);
+        $check2 = $order->productwarehouses()->orderBy('product_id')->get();
+        dd($check2);
+
+        $check = ProductWarehouse::whereHas('orders', function ($q) use ($order) {
+            $q->where('order_id', $order->id);
+        })->orderBy('product_id')
+            ->get();
+        dd($check);
 
         if ($order) {
             $ordered_products = $order->products()->withPivot('package', 'unit')->get();
 
             $order_history = OrderHistory::with('user')->where('order_id', $order->id)->get();
 
-            $check = Product::with('warehouses')->get();
-            // $check = Product::withAndWhereHas('warehouses',function($query){
-            //     $query->where('id',10);
-            // })->get();;
-            // $custom_prepared = $prepared_products->map(function ($prepared) use ($prepared_products) {
-            //     return [
-            //         'id' => $prepared->id,
-            //         'name' => $prepared->productwarehouse->product->nom,
-            //         'quantity' => $prepared->productwarehouse->quantity,
-            //         'packing' => $prepared->productwarehouse->packing,
-            //         'creation_date' => $prepared->productwarehouse->creation_date,
-            //         'expiration_date' => $prepared->productwarehouse->expiration_date,
-            //         'prepared_quantity' => $prepared->quantity,
-            //         'product_id' => $prepared->productwarehouse->product->id,
-            //         'warehouse_id' => $prepared->productwarehouse->warehouse->id,
-            //         'prepared'=>$prepared_products
-
-            //     ];
-            // });
-
-            return response()->json(['status' => 200, 'order' => $order, 'ordered_products' => $ordered_products, 'order_history' => $order_history, 'prepared_products' => $check]);
+            return response()->json(['status' => 200, 'order' => $order, 'ordered_products' => $ordered_products, 'order_history' => $order_history]);
 
         }
 
@@ -165,16 +154,15 @@ class OrderController extends Controller
         $order = Order::find($id);
 
         if ($order) {
-            if ($order->prepared->count() == 0) {
+            if ($order->productwarehouses->count() == 0) {
                 foreach ($request->final_prepared as $final) {
                     foreach ($final['prepared_products'] as $prepared) {
 
                         if (isset($prepared['prepared_quantity'])) {
-                            ProductPrepare::create([
+                            $order->productwarehouses()->attach($prepared['id'], [
                                 'quantity' => $prepared['prepared_quantity'],
-                                'order_id' => $id,
-                                'product_warehouse_id' => $prepared['id'],
                             ]);
+
                             $getWarehouse = Warehouse::where('designation', $prepared['warehouse_name'])->first();
                             $getStock = $getWarehouse->products()->where('product_warehouse.id', $prepared['id'])->first();
                             $getStock->pivot->quantity -= $prepared['prepared_quantity'];
@@ -191,23 +179,49 @@ class OrderController extends Controller
 
                     foreach ($final['prepared_products'] as $prepared) {
 
-                        $checkPrepare = ProductPrepare::find($prepared['id']);
+                        $checkPrepare = $order->productwarehouses()->wherePivot('product_warehouse_id', $prepared['id'])->first();
+
                         if ($checkPrepare) {
-                            if ($prepared['prepared_quantity'] > $checkPrepare->quantity) {
-                                $difference = $prepared['prepared_quantity'] - $checkPrepare->quantity;
 
-                                $getWarehouse = Warehouse::find($prepared['warehouse_id']);
-                                $getStock = $getWarehouse->products()->where('product_warehouse.id', $checkPrepare->product_warehouse_id)->first();
-                                $getStock->pivot->quantity -= $difference;
+                            if (isset($prepared['prepared_quantity'])) {
+                                if ($prepared['prepared_quantity'] > $checkPrepare->pivot->quantity) {
+
+                                    $difference = $prepared['prepared_quantity'] - $checkPrepare->pivot->quantity;
+
+                                    $getWarehouse = Warehouse::where('designation', $prepared['warehouse_name'])->first();
+                                    $getStock = $getWarehouse->products()->where('product_warehouse.id', $checkPrepare->pivot->product_warehouse_id)->first();
+
+                                    $getStock->pivot->quantity -= $difference;
+                                    $getStock->pivot->save();
+                                    $checkPrepare->pivot->quantity = $prepared['prepared_quantity'];
+                                    $checkPrepare->pivot->save();
+
+                                }
+                                if ($prepared['prepared_quantity'] < $checkPrepare->pivot->quantity) {
+
+                                    $difference = $checkPrepare->pivot->quantity - $prepared['prepared_quantity'];
+                                    $getWarehouse = Warehouse::where('designation', $prepared['warehouse_name'])->first();
+                                    $getStock = $getWarehouse->products()->where('product_warehouse.id', $checkPrepare->pivot->product_warehouse_id)->first();
+                                    $getStock->pivot->quantity += $difference;
+                                    $getStock->pivot->save();
+                                    $checkPrepare->pivot->quantity = $prepared['prepared_quantity'];
+                                    $checkPrepare->pivot->save();
+
+                                }
+                            } else {
+                                $order->productwarehouses()->detach($prepared['id']);
+
+                            }
+
+                        } else {
+                            if (isset($prepared['prepared_quantity'])) {
+                                $order->productwarehouses()->attach($prepared['id'], [
+                                    'quantity' => $prepared['prepared_quantity'],
+                                ]);
+                                $getWarehouse = Warehouse::where('designation', $prepared['warehouse_name'])->first();
+                                $getStock = $getWarehouse->products()->where('product_warehouse.id', $prepared['id'])->first();
+                                $getStock->pivot->quantity -= $prepared['prepared_quantity'];
                                 $getStock->pivot->save();
-
-                            } else if ($prepared['prepared_quantity'] < $checkPrepare->quantity) {
-                                $difference = $checkPrepare->quantity - $prepared['prepared_quantity'];
-                                $getWarehouse = Warehouse::find($prepared['warehouse_id']);
-                                $getStock = $getWarehouse->products()->where('product_warehouse.id', $checkPrepare->product_warehouse_id)->first();
-                                $getStock->pivot->quantity += $difference;
-                                $getStock->pivot->save();
-
                             }
                         }
 

@@ -4,19 +4,18 @@ namespace App\Modules\Product\Models;
 
 use App\Modules\Product\Models\ProductPrepare;
 use App\Modules\Product\Models\ProductWarehouse;
-use App\Modules\Order\Models\Order;
-use App\Modules\Order\Models\OrderPrepare;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class ProductWarehouse extends Model
+class ProductWarehousePivot extends Pivot
 {
 
     protected $fillable = ['packing', 'quantity', 'creation_date', 'expiration_date', 'comment', 'product_id', 'warehouse_id'];
     protected $table = "product_warehouse";
 
-    public function orders()
+    public function prepared()
     {
-        return $this->belongsToMany(Order::class,'order_prepare')->withPivot('order_id', 'product_warehouse_id','quantity');
+        return $this->hasMany(ProductPrepare::class);
+
     }
 
     public function product()

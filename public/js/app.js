@@ -4274,16 +4274,17 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
         });
 
-        if (response.data.prepared_products.length > 0) {
-          // this.final_prepared.push({
-          //     product_id: response.data.prepared_products[0].product_id,
-          //     total: '',
-          //     prepared_products: response.data.prepared_products
-          // })
-          _this2.clearPrepared();
-        } else {
-          _this2.loadPrepared();
-        }
+        _this2.loadPrepared(); // if (response.data.prepared_products.length > 0) {
+        //     // this.final_prepared.push({
+        //     //     product_id: response.data.prepared_products[0].product_id,
+        //     //     total: '',
+        //     //     prepared_products: response.data.prepared_products
+        //     // })
+        //     this.clearPrepared()
+        // } else {
+        //     this.loadPrepared()
+        // }
+
       })["catch"](function (error) {
         console.log(error);
       });

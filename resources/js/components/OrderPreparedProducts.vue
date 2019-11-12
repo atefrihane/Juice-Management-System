@@ -345,18 +345,19 @@
 
 
                         });
-                        if (response.data.prepared_products.length > 0) {
-                            
-                            // this.final_prepared.push({
-                            //     product_id: response.data.prepared_products[0].product_id,
-                            //     total: '',
-                            //     prepared_products: response.data.prepared_products
-                            // })
-                            this.clearPrepared()
-                        } else {
                             this.loadPrepared()
+                        // if (response.data.prepared_products.length > 0) {
+                            
+                        //     // this.final_prepared.push({
+                        //     //     product_id: response.data.prepared_products[0].product_id,
+                        //     //     total: '',
+                        //     //     prepared_products: response.data.prepared_products
+                        //     // })
+                        //     this.clearPrepared()
+                        // } else {
+                        //     this.loadPrepared()
 
-                        }
+                        // }
 
 
 

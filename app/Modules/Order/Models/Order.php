@@ -2,10 +2,11 @@
 
 namespace App\Modules\Order\Models;
 
-use App\Modules\Product\Models\ProductPrepare;
+use App\Modules\Product\Models\ProductWarehouse;
 use App\Modules\Product\Models\Product;
 use App\Modules\Store\Models\Store;
 use App\Modules\Order\Models\OrderHistory;
+use App\Modules\Order\Models\OrderPrepare;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -18,10 +19,10 @@ class Order extends Model
         return $this->belongsToMany(Product::class)->withPivot('order_id', 'product_id');
 
     }
-    public function prepared()
+    public function productwarehouses()
     {
-        return $this->hasMany(ProductPrepare::class);
-
+        return $this->belongsToMany(ProductWarehouse::class,'order_prepare')->withPivot('product_warehouse_id', 'order_id','quantity');
+      
     }
     public function store()
     {
