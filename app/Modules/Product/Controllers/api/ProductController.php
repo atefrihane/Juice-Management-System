@@ -5,6 +5,7 @@ namespace App\Modules\Product\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Modules\Mixture\Models\Mixture;
 use App\Modules\Product\Models\Product;
+use App\Modules\Product\Models\ProductWarehouse;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -254,7 +255,7 @@ class ProductController extends Controller
             $productInWarehouses = $product->warehouses()
                 ->where('quantity', '>', 0)
                 ->withPivot('id','packing', 'quantity', 'comment', 'creation_date', 'expiration_date')->get();
-
+    
             return response()->json(['status' => 200, 'warehouse_products' => $productInWarehouses,'productName' => $product->nom]);
 
         }

@@ -166,16 +166,16 @@
                                                         </td>
                                                     </tr>
                                                     <tr v-for="(prepared,index) in final.prepared_products">
-                                                        <td>{{prepared.name}} </td>
+                                                        <td>{{final.product_name}} </td>
                                                         <td>{{prepared.quantity}} </td>
                                                         <td>{{prepared.packing}} </td>
-                                                        <td>{{prepared.warehouse_name}} </td>
+                                                        <td>{{prepared.warehouse.designation}} </td>
                                                         <td>{{prepared.creation_date}} </td>
                                                         <td>{{prepared.expiration_date}} </td>
                                                         <td><input type="number" min="1" class="form-control"
                                                                 placeholder="Quantité préparée"
                                                                 @change="updateTotalQuantity(prepared,index,i)"
-                                                                v-model.number="prepared.prepared_quantity">
+                                                                v-model.number="prepared.pivot.quantity">
                                                         </td>
 
 
@@ -256,6 +256,8 @@
                 prepared_products: [],
                 response_array: [],
                 errors: [],
+                warehouse_products: []
+
             }
         },
         methods: {
@@ -317,6 +319,22 @@
                     })
 
             },
+            clearPreparedProducts() {
+
+                this.final_prepared.forEach(final => {
+                    final.total = 0;
+                    final.prepared_products.forEach(prepared => {
+                        if (prepared.pivot.quantity != '') {
+                            final.total += prepared.pivot.quantity;
+
+                        }
+
+                    })
+
+                })
+
+
+            },
             loadOrder() {
                 axios.get('/api/order/' + this.order_id)
                     .then((response) => {
@@ -325,6 +343,7 @@
                         this.store_id = response.data.order.store_id
                         this.ordered_products = response.data.ordered_products
                         this.order_history = response.data.order_history
+                        this.prepared_products = response.data.prepared_products
                         this.ordered_products.forEach((ordered, index) => {
                             this.custom_ordered.push({
                                 name: ordered.nom,
@@ -340,24 +359,87 @@
 
                             });
 
-                            // this.clearOrderedProducts()
 
 
 
                         });
-                            this.loadPrepared()
-                        // if (response.data.prepared_products.length > 0) {
-                            
-                        //     // this.final_prepared.push({
-                        //     //     product_id: response.data.prepared_products[0].product_id,
-                        //     //     total: '',
-                        //     //     prepared_products: response.data.prepared_products
-                        //     // })
-                        //     this.clearPrepared()
-                        // } else {
-                        //     this.loadPrepared()
+                        if (this.prepared_products.length > 0) {
+                            this.prepared_products.forEach(prepared => {
+                                this.final_prepared.push({
+                                    product_id: prepared[0].product.id,
+                                    product_name: prepared[0].product.nom,
+                                    total: '',
+                                    prepared_products: prepared
+                                })
+                            });
 
-                        // }
+
+
+
+
+
+                            this.final_prepared.forEach(final => {
+
+                                axios.get(`api/product/warehouses/${final.product_id}`)
+                                    .then((response) => {
+                                        this.warehouse_products = response.data.warehouse_products;
+                                        if (this.warehouse_products.length > 0) {
+
+                                            this.warehouse_products.forEach(warehouse_product => {
+                                                let prepareIndex = final.prepared_products
+                                                    .findIndex(preparedItem => preparedItem
+                                                        .id == warehouse_product.pivot.id);
+                                                if (prepareIndex == -1) {
+                                                    console.log(warehouse_product)
+                                                    final.prepared_products.push({
+                                                        id: warehouse_product.pivot.id,
+                                                        comment: warehouse_product.pivot
+                                                            .comment,
+                                                        creation_date: warehouse_product
+                                                            .pivot.creation_date,
+                                                        expiration_date: warehouse_product
+                                                            .pivot.expiration_date,
+                                                        packing: warehouse_product.pivot
+                                                            .packing,
+                                                        quantity: warehouse_product
+                                                            .pivot.quantity,
+                                                        warehouse: {
+                                                            designation: warehouse_product
+                                                                .designation
+                                                        },
+                                                        pivot: {
+                                                            quantity: ''
+                                                        }
+
+
+                                                    })
+
+                                                }
+                                            })
+
+
+                                        }
+
+
+                                    })
+                                    .catch((error) => {
+                                        // handle error
+                                        console.log(error);
+                                    })
+
+                            })
+
+                            this.clearPreparedProducts()
+
+                        } else {
+                            this.loadPrepared()
+
+                        }
+
+
+
+
+
 
 
 
@@ -372,26 +454,45 @@
                     products: this.products,
                     total: 0,
                     prepared_products: [],
-                    product_id: ''
+                    product_id: '',
+                    product_name: ''
 
 
                 })
             },
             removePrepared(final) {
-                console.log(final)
-                axios.post(`/api/order/${this.order_id}/prepare/delete`, {
+
+                swal.fire({
+                    type: 'info',
+                    title: 'Voulez vous retirer ce produit ? ',
+                    showConfirmButton: true,
+                    confirmButtonText: 'Confirmer',
+                    showCancelButton: true,
+                    cancelButtonText: 'Fermer'
+
+                }).then((result) => {
+                    if(result.value)
+                    {
+                          axios.post(`/api/order/${this.order_id}/prepare/delete`, {
                         final_prepared: final,
 
                     })
-                    .then(function (response) {
+                    .then((response) => {
                         if (response.data.status == 200) {
                             this.final_prepared.splice(this.final_prepared.indexOf(final), 1);
 
                         }
                     })
-                    .catch(function (error) {
+                    .catch((error) => {
                         console.log(error);
                     });
+
+                    }
+
+
+                });
+
+              
 
 
             },
@@ -426,15 +527,19 @@
                             this.response_array = response.data.warehouse_products
                             this.final_prepared[i].prepared_products = []
                             this.response_array.forEach((warehouse, index) => {
+                                this.final_prepared[i].product_name = response.data.productName
                                 this.final_prepared[i].prepared_products.push({
                                     id: warehouse.pivot.id,
-                                    name: response.data.productName,
-                                    warehouse_name: warehouse.designation,
+                                    warehouse: {
+                                        designation: warehouse.designation,
+                                    },
                                     quantity: warehouse.pivot.quantity,
                                     packing: warehouse.pivot.packing,
                                     creation_date: warehouse.pivot.creation_date,
                                     expiration_date: warehouse.pivot.expiration_date,
-                                    prepared_quantity: ''
+                                    pivot: {
+                                        quantity: ''
+                                    }
 
 
                                 });
@@ -468,8 +573,8 @@
 
             },
             updateTotalQuantity(prepared, index, i) {
-
-                if (prepared.prepared_quantity < 0 || prepared.prepared_quantity >
+                console.log(prepared)
+                if (prepared.pivot.quantity < 0 || prepared.pivot.quantity >
                     prepared.quantity) {
                     swal.fire({
                         type: 'error',
@@ -478,11 +583,11 @@
                         allowOutsideClick: false,
                         confirmButtonText: 'Fermer'
                     });
-                    prepared.prepared_quantity = "";
-                    this.clearPrepared(i);
+                    prepared.pivot.quantity = "";
+                    this.clearPreparedProducts()
                 } else {
                     this.errors = []
-                    this.clearPrepared(i);
+                    this.clearPreparedProducts()
 
                 }
 
@@ -533,7 +638,29 @@
 
                         })
                         .then(function (response) {
-                            console.log(response);
+                            if (response.data.status == 200) {
+                                swal.fire({
+                                    type: 'success',
+                                    title: 'Les produits ont été ajoutés avec succés !',
+                                    showConfirmButton: true,
+                                    allowOutsideClick: false,
+                                    confirmButtonText: 'Fermer'
+                                }).then((result) => {
+                                    if (result.value) {
+                                        window.location = '/wizefresh/public/orders';
+                                    }
+                                })
+                            } else {
+                                swal.fire({
+                                    type: 'error',
+                                    title: 'Echec!',
+                                    showConfirmButton: true,
+
+                                    confirmButtonText: 'Fermer'
+
+                                });
+
+                            }
                         })
                         .catch(function (error) {
                             console.log(error);

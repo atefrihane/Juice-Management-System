@@ -4180,7 +4180,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       custom_ordered: [],
       prepared_products: [],
       response_array: [],
-      errors: []
+      errors: [],
+      warehouse_products: []
     };
   },
   methods: {
@@ -4248,6 +4249,17 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         console.log(error);
       });
     },
+    clearPreparedProducts: function clearPreparedProducts() {
+      this.final_prepared.forEach(function (_final) {
+        _final.total = 0;
+
+        _final.prepared_products.forEach(function (prepared) {
+          if (prepared.pivot.quantity != '') {
+            _final.total += prepared.pivot.quantity;
+          }
+        });
+      });
+    },
     loadOrder: function loadOrder() {
       var _this2 = this;
 
@@ -4257,6 +4269,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         _this2.store_id = response.data.order.store_id;
         _this2.ordered_products = response.data.ordered_products;
         _this2.order_history = response.data.order_history;
+        _this2.prepared_products = response.data.prepared_products;
 
         _this2.ordered_products.forEach(function (ordered, index) {
           _this2.custom_ordered.push({
@@ -4270,21 +4283,59 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             product_id: ordered.id,
             total: ordered.public_price * ordered.pivot.unit,
             product_total_tva: ''
-          }); // this.clearOrderedProducts()
-
+          });
         });
 
-        _this2.loadPrepared(); // if (response.data.prepared_products.length > 0) {
-        //     // this.final_prepared.push({
-        //     //     product_id: response.data.prepared_products[0].product_id,
-        //     //     total: '',
-        //     //     prepared_products: response.data.prepared_products
-        //     // })
-        //     this.clearPrepared()
-        // } else {
-        //     this.loadPrepared()
-        // }
+        if (_this2.prepared_products.length > 0) {
+          _this2.prepared_products.forEach(function (prepared) {
+            _this2.final_prepared.push({
+              product_id: prepared[0].product.id,
+              product_name: prepared[0].product.nom,
+              total: '',
+              prepared_products: prepared
+            });
+          });
 
+          _this2.final_prepared.forEach(function (_final2) {
+            axios.get("api/product/warehouses/".concat(_final2.product_id)).then(function (response) {
+              _this2.warehouse_products = response.data.warehouse_products;
+
+              if (_this2.warehouse_products.length > 0) {
+                _this2.warehouse_products.forEach(function (warehouse_product) {
+                  var prepareIndex = _final2.prepared_products.findIndex(function (preparedItem) {
+                    return preparedItem.id == warehouse_product.pivot.id;
+                  });
+
+                  if (prepareIndex == -1) {
+                    console.log(warehouse_product);
+
+                    _final2.prepared_products.push({
+                      id: warehouse_product.pivot.id,
+                      comment: warehouse_product.pivot.comment,
+                      creation_date: warehouse_product.pivot.creation_date,
+                      expiration_date: warehouse_product.pivot.expiration_date,
+                      packing: warehouse_product.pivot.packing,
+                      quantity: warehouse_product.pivot.quantity,
+                      warehouse: {
+                        designation: warehouse_product.designation
+                      },
+                      pivot: {
+                        quantity: ''
+                      }
+                    });
+                  }
+                });
+              }
+            })["catch"](function (error) {
+              // handle error
+              console.log(error);
+            });
+          });
+
+          _this2.clearPreparedProducts();
+        } else {
+          _this2.loadPrepared();
+        }
       })["catch"](function (error) {
         console.log(error);
       });
@@ -4294,23 +4345,36 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         products: this.products,
         total: 0,
         prepared_products: [],
-        product_id: ''
+        product_id: '',
+        product_name: ''
       });
     },
-    removePrepared: function removePrepared(_final) {
-      console.log(_final);
-      axios.post("/api/order/".concat(this.order_id, "/prepare/delete"), {
-        final_prepared: _final
-      }).then(function (response) {
-        if (response.data.status == 200) {
-          this.final_prepared.splice(this.final_prepared.indexOf(_final), 1);
+    removePrepared: function removePrepared(_final3) {
+      var _this3 = this;
+
+      swal.fire({
+        type: 'info',
+        title: 'Voulez vous retirer ce produit ? ',
+        showConfirmButton: true,
+        confirmButtonText: 'Confirmer',
+        showCancelButton: true,
+        cancelButtonText: 'Fermer'
+      }).then(function (result) {
+        if (result.value) {
+          axios.post("/api/order/".concat(_this3.order_id, "/prepare/delete"), {
+            final_prepared: _final3
+          }).then(function (response) {
+            if (response.data.status == 200) {
+              _this3.final_prepared.splice(_this3.final_prepared.indexOf(_final3), 1);
+            }
+          })["catch"](function (error) {
+            console.log(error);
+          });
         }
-      })["catch"](function (error) {
-        console.log(error);
       });
     },
     getProductData: function getProductData(event, i) {
-      var _this3 = this;
+      var _this4 = this;
 
       var id = event.target.value;
       var found = false;
@@ -4331,7 +4395,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
               allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
-            _this3.final_prepared[i].product_id = '';
+            _this4.final_prepared[i].product_id = '';
           }
         });
       }
@@ -4339,19 +4403,24 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       if (!found) {
         axios.get('api/product/warehouses/' + id).then(function (response) {
           // this.response_array = response.data
-          _this3.response_array = response.data.warehouse_products;
-          _this3.final_prepared[i].prepared_products = [];
+          _this4.response_array = response.data.warehouse_products;
+          _this4.final_prepared[i].prepared_products = [];
 
-          _this3.response_array.forEach(function (warehouse, index) {
-            _this3.final_prepared[i].prepared_products.push({
+          _this4.response_array.forEach(function (warehouse, index) {
+            _this4.final_prepared[i].product_name = response.data.productName;
+
+            _this4.final_prepared[i].prepared_products.push({
               id: warehouse.pivot.id,
-              name: response.data.productName,
-              warehouse_name: warehouse.designation,
+              warehouse: {
+                designation: warehouse.designation
+              },
               quantity: warehouse.pivot.quantity,
               packing: warehouse.pivot.packing,
               creation_date: warehouse.pivot.creation_date,
               expiration_date: warehouse.pivot.expiration_date,
-              prepared_quantity: ''
+              pivot: {
+                quantity: ''
+              }
             }); // this.clearOrderedProducts()
 
           });
@@ -4361,16 +4430,18 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       }
     },
     clearPrepared: function clearPrepared() {
-      this.final_prepared.forEach(function (_final2) {
-        _final2.total = 0;
+      this.final_prepared.forEach(function (_final4) {
+        _final4.total = 0;
 
-        _final2.prepared_products.forEach(function (prepared) {
-          if (prepared.prepared_quantity != "") _final2.total += prepared.prepared_quantity;
+        _final4.prepared_products.forEach(function (prepared) {
+          if (prepared.prepared_quantity != "") _final4.total += prepared.prepared_quantity;
         });
       });
     },
     updateTotalQuantity: function updateTotalQuantity(prepared, index, i) {
-      if (prepared.prepared_quantity < 0 || prepared.prepared_quantity > prepared.quantity) {
+      console.log(prepared);
+
+      if (prepared.pivot.quantity < 0 || prepared.pivot.quantity > prepared.quantity) {
         swal.fire({
           type: 'error',
           title: 'La quantité préparée saisie  est invalide ! ',
@@ -4378,15 +4449,15 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           allowOutsideClick: false,
           confirmButtonText: 'Fermer'
         });
-        prepared.prepared_quantity = "";
-        this.clearPrepared(i);
+        prepared.pivot.quantity = "";
+        this.clearPreparedProducts();
       } else {
         this.errors = [];
-        this.clearPrepared(i);
+        this.clearPreparedProducts();
       }
     },
     validateForm: function validateForm() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.errors = [];
       var x = true;
@@ -4394,7 +4465,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       if (this.final_prepared.length > 0) {
         this.final_prepared.forEach(function (prepared) {
           if (!prepared.product_id) {
-            _this4.errors.push('Veuillez séléctionner un produit ');
+            _this5.errors.push('Veuillez séléctionner un produit ');
 
             x = false;
           }
@@ -4419,7 +4490,26 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         axios.post("/api/order/".concat(this.order_id, "/prepare"), {
           final_prepared: this.final_prepared
         }).then(function (response) {
-          console.log(response);
+          if (response.data.status == 200) {
+            swal.fire({
+              type: 'success',
+              title: 'Les produits ont été ajoutés avec succés !',
+              showConfirmButton: true,
+              allowOutsideClick: false,
+              confirmButtonText: 'Fermer'
+            }).then(function (result) {
+              if (result.value) {
+                window.location = '/wizefresh/public/orders';
+              }
+            });
+          } else {
+            swal.fire({
+              type: 'error',
+              title: 'Echec!',
+              showConfirmButton: true,
+              confirmButtonText: 'Fermer'
+            });
+          }
         })["catch"](function (error) {
           console.log(error);
         });
@@ -65677,7 +65767,9 @@ var render = function() {
                                     ) {
                                       return _c("tr", [
                                         _c("td", [
-                                          _vm._v(_vm._s(prepared.name) + " ")
+                                          _vm._v(
+                                            _vm._s(final.product_name) + " "
+                                          )
                                         ]),
                                         _vm._v(" "),
                                         _c("td", [
@@ -65692,8 +65784,9 @@ var render = function() {
                                         _vm._v(" "),
                                         _c("td", [
                                           _vm._v(
-                                            _vm._s(prepared.warehouse_name) +
-                                              " "
+                                            _vm._s(
+                                              prepared.warehouse.designation
+                                            ) + " "
                                           )
                                         ]),
                                         _vm._v(" "),
@@ -65716,10 +65809,9 @@ var render = function() {
                                               {
                                                 name: "model",
                                                 rawName: "v-model.number",
-                                                value:
-                                                  prepared.prepared_quantity,
+                                                value: prepared.pivot.quantity,
                                                 expression:
-                                                  "prepared.prepared_quantity",
+                                                  "prepared.pivot.quantity",
                                                 modifiers: { number: true }
                                               }
                                             ],
@@ -65730,7 +65822,7 @@ var render = function() {
                                               placeholder: "Quantité préparée"
                                             },
                                             domProps: {
-                                              value: prepared.prepared_quantity
+                                              value: prepared.pivot.quantity
                                             },
                                             on: {
                                               change: function($event) {
@@ -65745,8 +65837,8 @@ var render = function() {
                                                   return
                                                 }
                                                 _vm.$set(
-                                                  prepared,
-                                                  "prepared_quantity",
+                                                  prepared.pivot,
+                                                  "quantity",
                                                   _vm._n($event.target.value)
                                                 )
                                               },
