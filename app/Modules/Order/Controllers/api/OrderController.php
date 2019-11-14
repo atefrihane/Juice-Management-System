@@ -146,8 +146,7 @@ class OrderController extends Controller
         return response()->json(['status' => 404]);
 
     }
-
-    public function handleOrderPreparedProducts($id, Request $request)
+    public function handlePreparation($id, $request)
     {
         $order = Order::find($id);
 
@@ -209,9 +208,9 @@ class OrderController extends Controller
                             } else {
 
                                 $checkItem = $order->productwarehouses()->wherePivot('product_warehouse_id', $prepared['id'])->first();
-                      
+
                                 if ($checkItem) {
-                               
+
                                     $checkItem->quantity += $checkItem->pivot->quantity;
                                     $checkItem->save();
                                     $order->productwarehouses()->detach($prepared['id']);
@@ -238,6 +237,16 @@ class OrderController extends Controller
                 }
             }
 
+            return true;
+        }
+        return false;
+
+    }
+
+    public function handleOrderPreparedProducts($id, Request $request)
+    {
+        $checkPreparation = $this->handlePreparation($id, $request);
+        if ($checkPreparation) {
             return response()->json(['status' => 200]);
         }
         return response()->json(['status' => 404]);

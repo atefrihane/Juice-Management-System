@@ -374,11 +374,7 @@
                             });
 
 
-
-
-
-
-                            this.final_prepared.forEach(final => {
+                                this.final_prepared.forEach(final => {
 
                                 axios.get(`api/product/warehouses/${final.product_id}`)
                                     .then((response) => {
@@ -573,9 +569,8 @@
 
             },
             updateTotalQuantity(prepared, index, i) {
-                console.log(prepared)
-                if (prepared.pivot.quantity < 0 || prepared.pivot.quantity >
-                    prepared.quantity) {
+ 
+                if ( prepared.pivot.quantity < 0 || prepared.pivot.quantity >prepared.quantity) {
                     swal.fire({
                         type: 'error',
                         title: 'La quantité préparée saisie  est invalide ! ',

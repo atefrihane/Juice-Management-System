@@ -90,11 +90,11 @@
                                     <label for="exampleInputEmail1">Nom du produit</label>
                                     <select class="form-control" v-model="final.product_id"
                                         @change="($event, index) => getProductData($event,i)">
-                                        <option value="" v-if="final.products.length > 0" disabled> Selectionner un
+                                        <option value="" v-if="products.length > 0" disabled> Selectionner un
                                             produit
                                         </option>
                                         <option value="" v-else> Aucun produit </option>
-                                        <option v-for="product in final.products" :value="product.id ">{{product.nom}}
+                                        <option v-for="product in products" :value="product.id ">{{product.nom}}
                                         </option>
                                     </select>
 
@@ -111,6 +111,8 @@
 
                         </div>
                         <div class="row">
+                          
+                      
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -126,14 +128,18 @@
 
                                 </thead>
                                 <tbody>
+                               
+                                  
+                               
                                     <tr v-if="final.prepared_products.length == 0">
                                         <td colspan="6" class="text-center">
                                             <h4 v-if="final.product_id == ''">Veuillez sélectionner un produit !</h4>
                                             <h4 v-else>Aucun produit trouvé !</h4>
                                         </td>
                                     </tr>
+                                      
                                     <tr v-for="(prepared,index) in final.prepared_products">
-                                        <td>{{prepared.name}} </td>
+                                        <td>{{final.product_name}} </td>
                                         <td>{{prepared.quantity}} </td>
                                         <td>{{prepared.packing}} </td>
                                         <td>{{prepared.warehouse_name}} </td>
@@ -142,7 +148,7 @@
                                         <td><input type="number" min="1" class="form-control"
                                                 placeholder="Quantité préparée"
                                                 @change="updateTotalQuantity(prepared,index,i)"
-                                                v-model.number="prepared.prepared_quantity">
+                                                v-model.number="prepared.pivot.quantity">
                                         </td>
 
 
@@ -156,6 +162,7 @@
 
                                 </tbody>
                             </table>
+                            
                         </div>
                     </div>
                 </div>
@@ -193,12 +200,14 @@
 </template>
 
 <script>
+
     export default {
+     
         mounted() {
 
             this.loadProducts()
             this.loadOrder()
-            this.loadPrepared()
+
         },
         props: ['order_id', 'user_id'],
         data() {
@@ -211,6 +220,7 @@
                 prepared_products: [],
                 response_array: [],
                 balance: [],
+                loading:false
 
 
 
@@ -238,6 +248,7 @@
                         this.store_id = response.data.order.store_id
                         this.ordered_products = response.data.ordered_products
                         this.order_history = response.data.order_history
+                        this.prepared_products = response.data.prepared_products
                         this.ordered_products.forEach((ordered, index) => {
                             this.custom_ordered.push({
                                 name: ordered.nom,
@@ -259,6 +270,77 @@
 
                         });
 
+
+                        if (this.prepared_products.length > 0) {
+                            this.prepared_products.forEach(prepared => {
+                                this.final_prepared.push({
+                                    product_id: prepared[0].product.id,
+                                    product_name: prepared[0].product.nom,
+                                    total: '',
+                                    prepared_products: prepared,
+                                    loading:false
+                                })
+                            });
+
+
+                            this.final_prepared.forEach(final => {
+
+                                axios.get(`api/product/warehouses/${final.product_id}`)
+                                    .then((response) => {
+                                        this.warehouse_products = response.data.warehouse_products;
+                                        if (this.warehouse_products.length > 0) {
+
+                                            this.warehouse_products.forEach(warehouse_product => {
+                                                let prepareIndex = final.prepared_products
+                                                    .findIndex(preparedItem => preparedItem
+                                                        .id == warehouse_product.pivot.id);
+                                                if (prepareIndex == -1) {
+
+                                                    final.prepared_products.push({
+                                                        id: warehouse_product.pivot.id,
+                                                        comment: warehouse_product.pivot
+                                                            .comment,
+                                                        creation_date: warehouse_product
+                                                            .pivot.creation_date,
+                                                        expiration_date: warehouse_product
+                                                            .pivot.expiration_date,
+                                                        packing: warehouse_product.pivot
+                                                            .packing,
+                                                        quantity: warehouse_product
+                                                            .pivot.quantity,
+                                                        warehouse: {
+                                                            designation: warehouse_product
+                                                                .designation
+                                                        },
+                                                        pivot: {
+                                                            quantity: ''
+                                                        }
+
+
+                                                    })
+
+                                                }
+                                            })
+
+
+                                        }
+
+
+                                    })
+                                    .catch((error) => {
+                                        // handle error
+                                        console.log(error);
+                                    })
+
+                            })
+
+                            this.clearPreparedProducts()
+
+                        } else {
+                            this.loadPrepared()
+
+                        }
+
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -269,7 +351,8 @@
                     products: this.products,
                     total: 0,
                     prepared_products: [],
-                    product_id: ''
+                    product_id: '',
+                    loading:false
 
 
                 })
@@ -303,30 +386,37 @@
                 }
 
                 if (!found) {
+                      
                     axios.get('api/product/warehouses/' + id)
                         .then((response) => {
                             // this.response_array = response.data
                             this.response_array = response.data.warehouse_products
                             this.final_prepared[i].prepared_products = []
+                            this.final_prepared[i].product_name = response.data.productName
                             this.response_array.forEach((warehouse, index) => {
                                 this.final_prepared[i].prepared_products.push({
                                     id: warehouse.pivot.id,
-                                    name: response.data.productName,
-                                    warehouse_name: warehouse.designation,
+                                    warehouse: {
+                                        designation: warehouse.designation,
+                                    },
                                     quantity: warehouse.pivot.quantity,
                                     packing: warehouse.pivot.packing,
                                     creation_date: warehouse.pivot.creation_date,
                                     expiration_date: warehouse.pivot.expiration_date,
-                                    prepared_quantity: ''
+                                    pivot: {
+                                        quantity: ''
+                                    }
 
 
                                 });
 
                                 // this.clearOrderedProducts()
                             });
+               
 
                         }).catch((error) => {
                             console.log(error)
+                        
                         })
 
                 }
@@ -350,7 +440,7 @@
             },
             updateTotalQuantity(prepared, index, i) {
 
-                if (prepared.prepared_quantity == '' || prepared.prepared_quantity <= 0 || prepared.prepared_quantity >
+                if (prepared.pivot.quantity == '' || prepared.pivot.quantity <= 0 || prepared.pivot.quantity >
                     prepared.quantity) {
                     swal.fire({
                         type: 'error',
@@ -359,11 +449,11 @@
                         allowOutsideClick: false,
                         confirmButtonText: 'Fermer'
                     });
-                    prepared.prepared_quantity = "";
-                    this.clearPrepared(i);
+                    prepared.pivot.quantity = "";
+                    this.clearPreparedProducts()
                 } else {
 
-                    this.clearPrepared(i);
+                    this.clearPreparedProducts()
 
                 }
 
@@ -446,7 +536,7 @@
                 newBalances = _.sortBy(balances, ['qty']);
                 newBalances = _.uniqBy(newBalances, 'product_id')
                 newBalances = _.sortBy(newBalances, ['product_id']);
-              
+
 
 
 
@@ -471,17 +561,31 @@
             submitOrderInPrepare() {
                 let validation = this.validateForm();
                 if (validation) {
-                   this.$emit('requiredValue', '')
+                    this.$emit('requiredValue', '')
                     this.validateBalance()
                     if (this.balance.length > 0) {
 
                         swal.fire({
                             type: 'info',
-                            title: 'Attention !',
-                            html: ` <h4> Les quantités préparées ne correspondent pas aux quantitées saisies dans la commande </h4> 
+                            title: 'Oups !',
+                            html: ` <h4> Les quantités préparées ne correspondent pas aux quantitées saisies dans la commande </h4> `,
+                            showConfirmButton: true,
+                            confirmButtonText: 'Poursuivre',
+                            showCancelButton: true,
+                            allowOutsideClick: false,
+                            cancelButtonText: 'Fermer',
+                            reverseButtons: true
+
+                        }).then((result) => {
+                            if (result.value) {
+                                swal.fire({
+                                    type: 'info',
+                                    title: 'Attention... ',
+                                    customClass: 'swal-btns',
+                                    html: ` 
                            
-                            <p> <b> NB : </b> Le tableau ci dessous présente les quantités restantes à préparer pour chaque produit </p>
-                            <table class="table">
+                                    <p> <b> NB : </b> Le tableau ci dessous présente les quantités restantes à préparer pour chaque produit </p>
+                                     <table class="table">
                                         <thead>
                                         <tr>
                                           <th>Nom Produit</th>
@@ -495,21 +599,8 @@
                                         </table>
 
                             `,
-
-                            showConfirmButton: true,
-                            confirmButtonText: 'Poursuivre',
-                            showCancelButton: true,
-                            allowOutsideClick: false,
-                            cancelButtonText: 'Fermer',
-                            reverseButtons: true
-
-                        }).then((result) => {
-                            if (result.value) {
-                                swal.fire({
-                                    type: 'info',
-                                    title: 'Comment voulez vous procéder ? ',
                                     showConfirmButton: true,
-                                    confirmButtonText: 'Ignorer',
+                                    confirmButtonText: 'Passer la commande',
                                     showCancelButton: true,
                                     cancelButtonText: 'Créer commande reliquat'
 
@@ -525,6 +616,22 @@
                     }
 
                 }
+            },
+            clearPreparedProducts() {
+
+                this.final_prepared.forEach(final => {
+                    final.total = 0;
+                    final.prepared_products.forEach(prepared => {
+                        if (prepared.pivot.quantity != '') {
+                            final.total += prepared.pivot.quantity;
+
+                        }
+
+                    })
+
+                })
+
+
             },
             cancelOrder() {
                 window.location = "/wizefresh/public/orders"

@@ -4439,8 +4439,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       });
     },
     updateTotalQuantity: function updateTotalQuantity(prepared, index, i) {
-      console.log(prepared);
-
       if (prepared.pivot.quantity < 0 || prepared.pivot.quantity > prepared.quantity) {
         swal.fire({
           type: 'error',
@@ -7651,11 +7649,17 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.loadProducts();
     this.loadOrder();
-    this.loadPrepared();
   },
   props: ['order_id', 'user_id'],
   data: function data() {
@@ -7667,7 +7671,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       custom_ordered: [],
       prepared_products: [],
       response_array: [],
-      balance: []
+      balance: [],
+      loading: false
     };
   },
   methods: {
@@ -7691,6 +7696,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         _this2.store_id = response.data.order.store_id;
         _this2.ordered_products = response.data.ordered_products;
         _this2.order_history = response.data.order_history;
+        _this2.prepared_products = response.data.prepared_products;
 
         _this2.ordered_products.forEach(function (ordered, index) {
           _this2.custom_ordered.push({
@@ -7707,6 +7713,56 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           }); // this.clearOrderedProducts()
 
         });
+
+        if (_this2.prepared_products.length > 0) {
+          _this2.prepared_products.forEach(function (prepared) {
+            _this2.final_prepared.push({
+              product_id: prepared[0].product.id,
+              product_name: prepared[0].product.nom,
+              total: '',
+              prepared_products: prepared,
+              loading: false
+            });
+          });
+
+          _this2.final_prepared.forEach(function (_final) {
+            axios.get("api/product/warehouses/".concat(_final.product_id)).then(function (response) {
+              _this2.warehouse_products = response.data.warehouse_products;
+
+              if (_this2.warehouse_products.length > 0) {
+                _this2.warehouse_products.forEach(function (warehouse_product) {
+                  var prepareIndex = _final.prepared_products.findIndex(function (preparedItem) {
+                    return preparedItem.id == warehouse_product.pivot.id;
+                  });
+
+                  if (prepareIndex == -1) {
+                    _final.prepared_products.push({
+                      id: warehouse_product.pivot.id,
+                      comment: warehouse_product.pivot.comment,
+                      creation_date: warehouse_product.pivot.creation_date,
+                      expiration_date: warehouse_product.pivot.expiration_date,
+                      packing: warehouse_product.pivot.packing,
+                      quantity: warehouse_product.pivot.quantity,
+                      warehouse: {
+                        designation: warehouse_product.designation
+                      },
+                      pivot: {
+                        quantity: ''
+                      }
+                    });
+                  }
+                });
+              }
+            })["catch"](function (error) {
+              // handle error
+              console.log(error);
+            });
+          });
+
+          _this2.clearPreparedProducts();
+        } else {
+          _this2.loadPrepared();
+        }
       })["catch"](function (error) {
         console.log(error);
       });
@@ -7716,11 +7772,12 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         products: this.products,
         total: 0,
         prepared_products: [],
-        product_id: ''
+        product_id: '',
+        loading: false
       });
     },
-    removePrepared: function removePrepared(_final) {
-      this.final_prepared.splice(this.final_prepared.indexOf(_final), 1);
+    removePrepared: function removePrepared(_final2) {
+      this.final_prepared.splice(this.final_prepared.indexOf(_final2), 1);
     },
     getProductData: function getProductData(event, i) {
       var _this3 = this;
@@ -7754,17 +7811,21 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           // this.response_array = response.data
           _this3.response_array = response.data.warehouse_products;
           _this3.final_prepared[i].prepared_products = [];
+          _this3.final_prepared[i].product_name = response.data.productName;
 
           _this3.response_array.forEach(function (warehouse, index) {
             _this3.final_prepared[i].prepared_products.push({
               id: warehouse.pivot.id,
-              name: response.data.productName,
-              warehouse_name: warehouse.designation,
+              warehouse: {
+                designation: warehouse.designation
+              },
               quantity: warehouse.pivot.quantity,
               packing: warehouse.pivot.packing,
               creation_date: warehouse.pivot.creation_date,
               expiration_date: warehouse.pivot.expiration_date,
-              prepared_quantity: ''
+              pivot: {
+                quantity: ''
+              }
             }); // this.clearOrderedProducts()
 
           });
@@ -7784,7 +7845,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       });
     },
     updateTotalQuantity: function updateTotalQuantity(prepared, index, i) {
-      if (prepared.prepared_quantity == '' || prepared.prepared_quantity <= 0 || prepared.prepared_quantity > prepared.quantity) {
+      if (prepared.pivot.quantity == '' || prepared.pivot.quantity <= 0 || prepared.pivot.quantity > prepared.quantity) {
         swal.fire({
           type: 'error',
           title: 'La quantité préparée saisie  est invalide ! ',
@@ -7792,10 +7853,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           allowOutsideClick: false,
           confirmButtonText: 'Fermer'
         });
-        prepared.prepared_quantity = "";
-        this.clearPrepared(i);
+        prepared.pivot.quantity = "";
+        this.clearPreparedProducts();
       } else {
-        this.clearPrepared(i);
+        this.clearPreparedProducts();
       }
     },
     validateForm: function validateForm() {
@@ -7837,10 +7898,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var balances = [];
       var rmvBalances = [];
       this.custom_ordered.map(function (custom) {
-        _this6.final_prepared.map(function (_final2) {
-          if (custom.product_id === _final2.product_id) {
-            if (_final2.total < custom.unit) {
-              var qty = custom.unit - _final2.total;
+        _this6.final_prepared.map(function (_final3) {
+          if (custom.product_id === _final3.product_id) {
+            if (_final3.total < custom.unit) {
+              var qty = custom.unit - _final3.total;
               balances.push({
                 product_id: custom.product_id,
                 name: custom.name,
@@ -7868,9 +7929,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       newBalances = _.uniqBy(newBalances, 'product_id');
       newBalances = _.sortBy(newBalances, ['product_id']);
       this.custom_ordered.map(function (custom) {
-        _this6.final_prepared.map(function (_final3) {
+        _this6.final_prepared.map(function (_final4) {
           newBalances.map(function (balance) {
-            if (custom.product_id === balance.product_id && custom.unit <= balance.qty && _final3.product_id === custom.product_id && _final3.total > 0) {
+            if (custom.product_id === balance.product_id && custom.unit <= balance.qty && _final4.product_id === custom.product_id && _final4.total > 0) {
               rmvBalances.push(balance);
             }
           });
@@ -7879,6 +7940,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       this.balance = _.differenceBy(newBalances, rmvBalances, "product_id");
     },
     submitOrderInPrepare: function submitOrderInPrepare() {
+      var _this7 = this;
+
       var validation = this.validateForm();
 
       if (validation) {
@@ -7888,10 +7951,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         if (this.balance.length > 0) {
           swal.fire({
             type: 'info',
-            title: 'Attention !',
-            html: " <h4> Les quantit\xE9s pr\xE9par\xE9es ne correspondent pas aux quantit\xE9es saisies dans la commande </h4> \n                       \n                        <p> <b> NB : </b> Le tableau ci dessous pr\xE9sente les quantit\xE9s restantes \xE0 pr\xE9parer pour chaque produit </p>\n                        <table class=\"table\">\n                                    <thead>\n                                    <tr>\n                                      <th>Nom Produit</th>\n                                     <th>Quantit\xE9 r\xE9stante</th>\n                                    </tr>\n                                     </thead>\n                                     <tbody>\n                                     ".concat(this.balance.map(function (balance) {
-              return " <tr> <td class=\"text-left\">".concat(balance.name, " </td><td class=\"text-left\">").concat(balance.qty, " </td> </tr> ");
-            }), "\n\n                                    </tbody>\n                                    </table>\n\n                        "),
+            title: 'Oups !',
+            html: " <h4> Les quantit\xE9s pr\xE9par\xE9es ne correspondent pas aux quantit\xE9es saisies dans la commande </h4> ",
             showConfirmButton: true,
             confirmButtonText: 'Poursuivre',
             showCancelButton: true,
@@ -7902,9 +7963,13 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             if (result.value) {
               swal.fire({
                 type: 'info',
-                title: 'Comment voulez vous procéder ? ',
+                title: 'Attention... ',
+                customClass: 'swal-btns',
+                html: " \n                       \n                                <p> <b> NB : </b> Le tableau ci dessous pr\xE9sente les quantit\xE9s restantes \xE0 pr\xE9parer pour chaque produit </p>\n                                 <table class=\"table\">\n                                    <thead>\n                                    <tr>\n                                      <th>Nom Produit</th>\n                                     <th>Quantit\xE9 r\xE9stante</th>\n                                    </tr>\n                                     </thead>\n                                     <tbody>\n                                     ".concat(_this7.balance.map(function (balance) {
+                  return " <tr> <td class=\"text-left\">".concat(balance.name, " </td><td class=\"text-left\">").concat(balance.qty, " </td> </tr> ");
+                }), "\n\n                                    </tbody>\n                                    </table>\n\n                        "),
                 showConfirmButton: true,
-                confirmButtonText: 'Ignorer',
+                confirmButtonText: 'Passer la commande',
                 showCancelButton: true,
                 cancelButtonText: 'Créer commande reliquat'
               }).then(function (result) {});
@@ -7914,6 +7979,17 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           console.log('done');
         }
       }
+    },
+    clearPreparedProducts: function clearPreparedProducts() {
+      this.final_prepared.forEach(function (_final5) {
+        _final5.total = 0;
+
+        _final5.prepared_products.forEach(function (prepared) {
+          if (prepared.pivot.quantity != '') {
+            _final5.total += prepared.pivot.quantity;
+          }
+        });
+      });
     },
     cancelOrder: function cancelOrder() {
       window.location = "/wizefresh/public/orders";
@@ -71373,7 +71449,7 @@ var render = function() {
                             }
                           },
                           [
-                            final.products.length > 0
+                            _vm.products.length > 0
                               ? _c(
                                   "option",
                                   { attrs: { value: "", disabled: "" } },
@@ -71387,7 +71463,7 @@ var render = function() {
                                   _vm._v(" Aucun produit ")
                                 ]),
                             _vm._v(" "),
-                            _vm._l(final.products, function(product) {
+                            _vm._l(_vm.products, function(product) {
                               return _c(
                                 "option",
                                 { domProps: { value: product.id } },
@@ -71471,7 +71547,9 @@ var render = function() {
                             index
                           ) {
                             return _c("tr", [
-                              _c("td", [_vm._v(_vm._s(prepared.name) + " ")]),
+                              _c("td", [
+                                _vm._v(_vm._s(final.product_name) + " ")
+                              ]),
                               _vm._v(" "),
                               _c("td", [
                                 _vm._v(_vm._s(prepared.quantity) + " ")
@@ -71499,8 +71577,8 @@ var render = function() {
                                     {
                                       name: "model",
                                       rawName: "v-model.number",
-                                      value: prepared.prepared_quantity,
-                                      expression: "prepared.prepared_quantity",
+                                      value: prepared.pivot.quantity,
+                                      expression: "prepared.pivot.quantity",
                                       modifiers: { number: true }
                                     }
                                   ],
@@ -71510,9 +71588,7 @@ var render = function() {
                                     min: "1",
                                     placeholder: "Quantité préparée"
                                   },
-                                  domProps: {
-                                    value: prepared.prepared_quantity
-                                  },
+                                  domProps: { value: prepared.pivot.quantity },
                                   on: {
                                     change: function($event) {
                                       return _vm.updateTotalQuantity(
@@ -71526,8 +71602,8 @@ var render = function() {
                                         return
                                       }
                                       _vm.$set(
-                                        prepared,
-                                        "prepared_quantity",
+                                        prepared.pivot,
+                                        "quantity",
                                         _vm._n($event.target.value)
                                       )
                                     },
