@@ -111,8 +111,8 @@
 
                         </div>
                         <div class="row">
-                          
-                      
+
+
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -128,16 +128,16 @@
 
                                 </thead>
                                 <tbody>
-                               
-                                  
-                               
+
+
+
                                     <tr v-if="final.prepared_products.length == 0">
                                         <td colspan="6" class="text-center">
                                             <h4 v-if="final.product_id == ''">Veuillez sélectionner un produit !</h4>
                                             <h4 v-else>Aucun produit trouvé !</h4>
                                         </td>
                                     </tr>
-                                      
+
                                     <tr v-for="(prepared,index) in final.prepared_products">
                                         <td>{{final.product_name}} </td>
                                         <td>{{prepared.quantity}} </td>
@@ -162,7 +162,7 @@
 
                                 </tbody>
                             </table>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -200,9 +200,8 @@
 </template>
 
 <script>
-
     export default {
-     
+
         mounted() {
 
             this.loadProducts()
@@ -220,7 +219,7 @@
                 prepared_products: [],
                 response_array: [],
                 balance: [],
-                loading:false
+                loading: false
 
 
 
@@ -241,6 +240,7 @@
 
             },
             loadOrder() {
+                console.log(this.order_id)
                 axios.get('/api/order/' + this.order_id)
                     .then((response) => {
                         console.log(response)
@@ -278,7 +278,7 @@
                                     product_name: prepared[0].product.nom,
                                     total: '',
                                     prepared_products: prepared,
-                                    loading:false
+                                    loading: false
                                 })
                             });
 
@@ -352,7 +352,7 @@
                     total: 0,
                     prepared_products: [],
                     product_id: '',
-                    loading:false
+                    loading: false
 
 
                 })
@@ -386,7 +386,7 @@
                 }
 
                 if (!found) {
-                      
+
                     axios.get('api/product/warehouses/' + id)
                         .then((response) => {
                             // this.response_array = response.data
@@ -412,11 +412,11 @@
 
                                 // this.clearOrderedProducts()
                             });
-               
+
 
                         }).catch((error) => {
                             console.log(error)
-                        
+
                         })
 
                 }
@@ -514,7 +514,8 @@
                                 balances.push({
                                     product_id: custom.product_id,
                                     name: custom.name,
-                                    qty
+                                    qty,
+                                    packing: custom.product_packing
                                 })
                             }
                         } else { //Item not found in custom
@@ -525,7 +526,8 @@
                                 balances.push({
                                     product_id: custom.product_id,
                                     name: custom.name,
-                                    qty: custom.unit
+                                    qty: custom.unit,
+                                    packing: custom.product_packing
                                 })
                             }
                         }
@@ -563,7 +565,36 @@
                 if (validation) {
                     this.$emit('requiredValue', '')
                     this.validateBalance()
-                    if (this.balance.length > 0) {
+                    if (this.new_status == 12) {
+
+                        axios.post(`/api/order/${this.order_id}/prepare/submit`, {
+                                final_prepared: this.final_prepared,
+                                new_status: this.new_status,
+                                user_id: this.user_id
+                            })
+                            .then((response) => {
+                                if(response.data.status == 200)
+                                {
+                                       swal.fire({
+                                    type: 'success',
+                                    title: 'La commande a été annulée avec succés !',
+                                    showConfirmButton: true,
+                                    allowOutsideClick: false,
+                                    confirmButtonText: 'Fermer'
+                                }).then((result) => {
+                                    if (result.value) {
+                                        window.location = '/wizefresh/public/orders';
+                                    }
+                                })
+
+                                }
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            });
+
+                    } else {
+
 
                         swal.fire({
                             type: 'info',
@@ -605,14 +636,42 @@
                                     cancelButtonText: 'Créer commande reliquat'
 
                                 }).then((result) => {
+                                    // commande normal
+                                    if (result.value) {
+                                        axios.post(`/api/order/${this.order_id}/prepare/submit`, {
+                                                final_prepared: this.final_prepared,
+                                                new_status: this.new_status,
+                                                user_id: this.user_id
+                                            })
+                                            .then((response) => {
+                                                console.log(response);
+                                            })
+                                            .catch((error) => {
+                                                console.log(error);
+                                            });
+
+                                    } else {
+                                        // commande reliquat
+                                        axios.post(`/api/order/${this.order_id}/prepare/submit`, {
+                                                final_prepared: this.final_prepared,
+                                                balance: this.balance,
+                                                new_status: this.new_status,
+                                                user_id: this.user_id
+                                            })
+                                            .then((response) => {
+                                                console.log(response);
+                                            })
+                                            .catch((error) => {
+                                                console.log(error);
+                                            });
+
+                                    }
 
 
                                 });
                             }
 
                         })
-                    } else {
-                        console.log('done')
                     }
 
                 }

@@ -47,6 +47,7 @@ class OrderController extends Controller
     {
 
         $order = Order::find($id);
+   
 
         if ($order) {
             $ordered_products = $order->products()->withPivot('package', 'unit')->get();
@@ -95,7 +96,7 @@ class OrderController extends Controller
             ]);
             foreach ($request->custom_ordered as $custom) {
                 $checkProduct = $order->products()->where('product_id', $custom['product_id'])->first();
-                // dd($request->all());
+        
                 if ($checkProduct) {
                     $order->products()->updateExistingPivot($custom['product_id'], ['package' => $custom['package'], 'unit' => $custom['unit']]);
 
@@ -149,7 +150,7 @@ class OrderController extends Controller
     public function handlePreparation($id, $request)
     {
         $order = Order::find($id);
-
+      
         if ($order) {
             if ($order->productwarehouses->count() == 0) {
                 foreach ($request->final_prepared as $final) {
@@ -236,6 +237,11 @@ class OrderController extends Controller
 
                 }
             }
+            OrderHistory::create([
+                'action' => 'Préparation',
+                'order_id' => $order->id,
+                'user_id' => $request->user_id,
+            ]);
 
             return true;
         }
@@ -282,6 +288,86 @@ class OrderController extends Controller
         }
 
         return response()->json(['status' => 404]);
+
+    }
+
+    public function handleSubmitOrderInPrepare($id, Request $request)
+    {
+
+        $order = Order::find($id);
+
+        if ($order) {
+
+            if ($request->new_status == 12) {
+
+                foreach ($request->final_prepared as $final) {
+                    foreach ($final['prepared_products'] as $prepared) {
+
+                        $productWarehouseIncrementStock = $order->productwarehouses()->where('product_warehouse.id', $prepared['id'])->first();
+                        if ($prepared['pivot']['quantity']) {
+                            $productWarehouseIncrementStock->quantity += $prepared['pivot']['quantity'];
+
+                            $productWarehouseIncrementStock->save();
+                        }
+
+                        $order->productwarehouses()->detach($prepared['id']);
+
+                    }
+                }
+
+                $order->update([
+                    'status' => $request->new_status,
+                ]);
+
+                OrderHistory::create([
+                    'action' => 'Annulée',
+                    'user_id' => $request->user_id,
+                    'order_id' => $id,
+
+                ]);
+                return response()->json(['status' => 200]);
+
+            } else {
+                $checkPreparation = $this->handlePreparation($id, $request);
+
+                if ($checkPreparation) {
+
+                    if ($request->balance) {
+                        $total = array_sum(array_column($request->balance, 'qty'));
+                        $balanceOrder = Order::create([
+                            'code' => $order->code . 'req',
+                            'status' => 2,
+                            'total' => $total,
+                            'store_id' => $order->store_id,
+                            'comment' => $request->comment,
+                            'parent_id' => $order->id,
+                        ]);
+                        foreach ($request->balance as $balance) {
+                            
+
+                            $balanceOrder->products()->attach($balance['product_id'], ['unit' => $balance['qty'], 'package' => $balance['packing']]);
+                        }
+           
+
+                    }
+                    $order->update([
+                        'status' => $request->new_status,
+                    ]);
+
+                    OrderHistory::create([
+                        'action' => 'Préparée',
+                        'user_id' => $request->user_id,
+                        'order_id' => $id,
+
+                    ]);
+                    return response()->json(['status' => 200]);
+
+                }
+                return response()->json(['status' => 404]);
+
+            }
+
+        }
 
     }
 

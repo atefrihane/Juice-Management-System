@@ -57,7 +57,7 @@
                     <order-billed v-if="status == 9"> </order-billed>
                     <order-sent-account v-if="status == 10"> </order-sent-account>
                     <order-accounting v-if="status == 11"> </order-accounting>
-                    <order-canceled v-if="status == 12"> </order-canceled>
+           
                 </div>
 
 
@@ -86,7 +86,7 @@
     import OrderBilled from '../components/nested/OrderBilled.vue'
     import OrderSentAccount from '../components/nested/OrderSentAccount.vue'
     import OrderAccounting from '../components/nested/OrderAccounting.vue'
-    import OrderCanceled from '../components/nested/OrderCanceled.vue'
+
     export default {
         components: {
             'order-to-prepare': OrderToPrepare,
@@ -99,7 +99,7 @@
             'order-billed': OrderBilled,
             'order-sent-account': OrderSentAccount,
             'order-accounting': OrderAccounting,
-            'order-canceled': OrderCanceled,
+     
         },
 
         mounted() {

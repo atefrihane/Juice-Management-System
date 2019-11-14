@@ -74,8 +74,8 @@ class Kernel extends HttpKernel
         'isGuest' => \App\Http\Middleware\isGuest::class,
         'cors' => \App\Http\Middleware\Cors::class, // <-- add this line
         'order.detail' => \App\Http\Middleware\OrderDetail::class,
-        'order.update' => \App\Http\Middleware\OrderUpdate::class
-
+        'order.update' => \App\Http\Middleware\OrderUpdate::class,
+        'order.update.status' => \App\Http\Middleware\OrderStatusUpdate::class,
     ];
 
     /**

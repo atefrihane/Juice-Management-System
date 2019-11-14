@@ -8,4 +8,5 @@ Route::post('/api/order/save','OrderController@handleSaveOrder');
 Route::post('/api/order/toprepare/{id}/','OrderController@handleUpdateOrderToPrepare');
 Route::post('/api/order/{id}/prepare', 'OrderController@handleOrderPreparedProducts')->name('handleOrderPreparedProducts');
 Route::post('/api/order/{id}/prepare/delete', 'OrderController@handleDeleteOrderPrepare')->name('handleDeleteOrderPrepare');
+Route::post('/api/order/{id}/prepare/submit', 'OrderController@handleSubmitOrderInPrepare')->name('handleSubmitOrderInPrepare');
 });

@@ -630,6 +630,7 @@
 
                     axios.post(`/api/order/${this.order_id}/prepare`, {
                             final_prepared: this.final_prepared,
+                            user_id:this.user_id
 
                         })
                         .then(function (response) {
