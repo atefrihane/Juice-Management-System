@@ -573,19 +573,18 @@
                                 user_id: this.user_id
                             })
                             .then((response) => {
-                                if(response.data.status == 200)
-                                {
-                                       swal.fire({
-                                    type: 'success',
-                                    title: 'La commande a été annulée avec succés !',
-                                    showConfirmButton: true,
-                                    allowOutsideClick: false,
-                                    confirmButtonText: 'Fermer'
-                                }).then((result) => {
-                                    if (result.value) {
-                                        window.location = '/wizefresh/public/orders';
-                                    }
-                                })
+                                if (response.data.status == 200) {
+                                    swal.fire({
+                                        type: 'success',
+                                        title: 'La commande a été annulée avec succés !',
+                                        showConfirmButton: true,
+                                        allowOutsideClick: false,
+                                        confirmButtonText: 'Fermer'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            window.location = '/wizefresh/public/orders';
+                                        }
+                                    })
 
                                 }
                             })
@@ -644,7 +643,20 @@
                                                 user_id: this.user_id
                                             })
                                             .then((response) => {
-                                                console.log(response);
+                                                 if (response.data.status == 200) {
+                                                    swal.fire({
+                                                        type: 'success',
+                                                        title: 'La commande a été préparée avec succés !',
+                                                        showConfirmButton: true,
+                                                        allowOutsideClick: false,
+                                                        confirmButtonText: 'Fermer'
+                                                    }).then((result) => {
+                                                        if (result.value) {
+                                                            window.location =
+                                                                '/wizefresh/public/orders';
+                                                        }
+                                                    })
+                                                }
                                             })
                                             .catch((error) => {
                                                 console.log(error);
@@ -659,7 +671,22 @@
                                                 user_id: this.user_id
                                             })
                                             .then((response) => {
-                                                console.log(response);
+                                                if (response.data.status == 200) {
+                                                    swal.fire({
+                                                        type: 'success',
+                                                        title: 'La commande a été préparée avec succés !',
+                                                        showConfirmButton: true,
+                                                        allowOutsideClick: false,
+                                                        confirmButtonText: 'Fermer'
+                                                    }).then((result) => {
+                                                        if (result.value) {
+                                                            window.location =
+                                                                '/wizefresh/public/orders';
+                                                        }
+                                                    })
+                                                }
+
+
                                             })
                                             .catch((error) => {
                                                 console.log(error);

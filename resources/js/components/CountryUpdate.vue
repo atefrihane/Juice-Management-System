@@ -210,13 +210,7 @@
                             // handle error
                             console.log(error);
                         })
-
-
-
-
-
-
-                } else {
+                    } else {
                     this.citiesZipCodes.splice(this.citiesZipCodes.indexOf(city), 1);
 
                 }

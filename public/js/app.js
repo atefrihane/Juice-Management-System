@@ -7970,7 +7970,19 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                     new_status: _this7.new_status,
                     user_id: _this7.user_id
                   }).then(function (response) {
-                    console.log(response);
+                    if (response.data.status == 200) {
+                      swal.fire({
+                        type: 'success',
+                        title: 'La commande a été préparée avec succés !',
+                        showConfirmButton: true,
+                        allowOutsideClick: false,
+                        confirmButtonText: 'Fermer'
+                      }).then(function (result) {
+                        if (result.value) {
+                          window.location = '/wizefresh/public/orders';
+                        }
+                      });
+                    }
                   })["catch"](function (error) {
                     console.log(error);
                   });
@@ -7982,7 +7994,19 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                     new_status: _this7.new_status,
                     user_id: _this7.user_id
                   }).then(function (response) {
-                    console.log(response);
+                    if (response.data.status == 200) {
+                      swal.fire({
+                        type: 'success',
+                        title: 'La commande a été préparée avec succés !',
+                        showConfirmButton: true,
+                        allowOutsideClick: false,
+                        confirmButtonText: 'Fermer'
+                      }).then(function (result) {
+                        if (result.value) {
+                          window.location = '/wizefresh/public/orders';
+                        }
+                      });
+                    }
                   })["catch"](function (error) {
                     console.log(error);
                   });
