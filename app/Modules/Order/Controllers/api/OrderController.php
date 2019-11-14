@@ -320,7 +320,7 @@ class OrderController extends Controller
                 ]);
 
                 OrderHistory::create([
-                    'action' => 'Annulée',
+                    'action' => 'Etat vers : Annulée',
                     'user_id' => $request->user_id,
                     'order_id' => $id,
 
@@ -355,7 +355,7 @@ class OrderController extends Controller
                     ]);
 
                     OrderHistory::create([
-                        'action' => 'Préparée',
+                        'action' => 'Etat vers : Préparée',
                         'user_id' => $request->user_id,
                         'order_id' => $id,
 
