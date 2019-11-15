@@ -2266,7 +2266,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           console.log(response);
 
           if (response.data.status == 200) {
-            if (response.data.countCompanies == response.data.countStores == response.data.countWarehouses == 0) {
+            if (response.data.countCompanies == 0 && response.data.countStores == 0 && response.data.countWarehouses == 0) {
               axios.post('/zipcode/delete/' + zipcode.id, {}).then(function (response) {
                 console.log(response);
 
