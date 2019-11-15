@@ -47,7 +47,6 @@ class OrderController extends Controller
     {
 
         $order = Order::find($id);
-   
 
         if ($order) {
             $ordered_products = $order->products()->withPivot('package', 'unit')->get();
@@ -96,7 +95,7 @@ class OrderController extends Controller
             ]);
             foreach ($request->custom_ordered as $custom) {
                 $checkProduct = $order->products()->where('product_id', $custom['product_id'])->first();
-        
+
                 if ($checkProduct) {
                     $order->products()->updateExistingPivot($custom['product_id'], ['package' => $custom['package'], 'unit' => $custom['unit']]);
 
@@ -150,7 +149,7 @@ class OrderController extends Controller
     public function handlePreparation($id, $request)
     {
         $order = Order::find($id);
-      
+
         if ($order) {
             if ($order->productwarehouses->count() == 0) {
                 foreach ($request->final_prepared as $final) {
@@ -343,11 +342,9 @@ class OrderController extends Controller
                             'parent_id' => $order->id,
                         ]);
                         foreach ($request->balance as $balance) {
-                            
 
                             $balanceOrder->products()->attach($balance['product_id'], ['unit' => $balance['qty'], 'package' => $balance['packing']]);
                         }
-           
 
                     }
                     $order->update([
@@ -368,6 +365,171 @@ class OrderController extends Controller
             }
 
         }
+
+    }
+    public function cancelOrder($request, $order)
+    {
+        if ($order->productwarehouses) {
+            foreach ($order->productwarehouses as $productwarehouse) {
+                $productwarehouse->quantity += $productwarehouse->pivot->quantity;
+                $productwarehouse->save();
+                $order->productwarehouses()->detach($productwarehouse->id);
+            }
+
+        }
+        $order->update(['status' => $request->new_status]);
+        return true;
+
+    }
+
+    public function handleSubmitOrderAfterPrepare($id, Request $request)
+    {
+        $order = Order::find($id);
+
+        if ($order) {
+            if ($request->new_status == 12) {
+                $cancel = $this->cancelOrder($request, $order);
+                if ($cancel) {
+                    return response()->json(['status' => 200, 'canceled' => true]);
+                }
+
+            } else {
+
+                switch ($request->new_status) {
+                    case (5):
+                        {
+                            $order->update([
+                                'status' => $request->new_status,
+                                'carrier' => $request->carrier_mode,
+                                'delivery_man_id' => $request->delivery_man_id,
+                                'delivery_mode' => $request->delivery_mode,
+                                'cartons_number' => $request->carton_number,
+                                'pallets_number' => $request->palet_number,
+                                'weight' => $request->weight,
+                                'volume' => $request->volume,
+                                'comment' => $request->comment,
+
+                            ]);
+                            OrderHistory::create([
+                                'action' => 'Etat vers : A livrer',
+                                'order_id' => $order->id,
+                                'user_id' => $request->user_id,
+                            ]);
+
+                        }
+                        break;
+
+                    case (6):
+                        {
+                            $order->update([
+                                'status' => $request->new_status,
+                                'estimated_arrival_date' => $request->date,
+                                'estimated_arrival_time' => $request->time,
+                                'comment' => $request->comment,
+
+                            ]);
+                            OrderHistory::create([
+                                'action' => 'Etat vers : En cours de livraison',
+                                'order_id' => $order->id,
+                                'user_id' => $request->user_id,
+                            ]);
+
+                        }
+                        break;
+                    case (7):
+                        {
+
+                            $order->update([
+                                'status' => $request->new_status,
+                                'arrival_date' => $request->date,
+                                'arrival_time' => $request->time,
+                                'comment' => $request->comment,
+
+                            ]);
+                            OrderHistory::create([
+                                'action' => 'Etat vers : Livrée',
+                                'order_id' => $order->id,
+                                'user_id' => $request->user_id,
+                            ]);
+
+                        }
+                        break;
+
+                    case (8):
+                        {
+
+                            $order->update([
+                                'status' => $request->new_status,
+                                'comment' => $request->comment,
+
+                            ]);
+                            OrderHistory::create([
+                                'action' => 'Etat vers : A facturer',
+                                'order_id' => $order->id,
+                                'user_id' => $request->user_id,
+                            ]);
+
+                        }
+                        break;
+
+                        case (9):
+                        {
+
+                            $order->update([
+                                'status' => $request->new_status,
+                                'comment' => $request->comment,
+
+                            ]);
+                            OrderHistory::create([
+                                'action' => 'Etat vers : Facturée',
+                                'order_id' => $order->id,
+                                'user_id' => $request->user_id,
+                            ]);
+
+                        }
+                        break;
+
+                        case (10):
+                        {
+
+                            $order->update([
+                                'status' => $request->new_status,
+                                'comment' => $request->comment,
+
+                            ]);
+                            OrderHistory::create([
+                                'action' => 'Etat vers : A envoyer en comptabilité',
+                                'order_id' => $order->id,
+                                'user_id' => $request->user_id,
+                            ]);
+
+                        }
+                        break;
+
+                        case (11):
+                        {
+
+                            $order->update([
+                                'status' => $request->new_status,
+                                'comment' => $request->comment,
+
+                            ]);
+                            OrderHistory::create([
+                                'action' => 'Etat vers : A envoyer  Comptabilisée',
+                                'order_id' => $order->id,
+                                'user_id' => $request->user_id,
+                            ]);
+
+                        }
+                        break;
+
+                }
+
+                return response()->json(['status' => 200, 'canceled' => false]);
+            }
+
+        }
+        return response()->json(['status' => 404]);
 
     }
 

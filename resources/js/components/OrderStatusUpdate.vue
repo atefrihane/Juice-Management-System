@@ -45,19 +45,76 @@
 
                     </div>
 
-                    <order-to-prepare v-if="status == 2" :order_id="this.order_id" :user_id="this.user_id"
-                        v-on:requiredValue="updateError($event)"> </order-to-prepare>
-                    <order-in-prepare v-if="status == 3" :order_id="this.order_id" :user_id="this.user_id"
-                        v-on:requiredValue="updateError($event)"> </order-in-prepare>
-                    <order-prepared v-if="status == 4"> </order-prepared>
-                    <order-to-deliver v-if="status == 5"> </order-to-deliver>
-                    <order-in-delivering v-if="status == 6"> </order-in-delivering>
-                    <order-delivered v-if="status == 7"> </order-delivered>
-                    <order-for-bill v-if="status == 8"> </order-for-bill>
-                    <order-billed v-if="status == 9"> </order-billed>
-                    <order-sent-account v-if="status == 10"> </order-sent-account>
-                    <order-accounting v-if="status == 11"> </order-accounting>
-           
+                    <order-to-prepare 
+                         v-if="status == 2" 
+                         :order_id="this.order_id" 
+                         :user_id="this.user_id"
+                         v-on:requiredValue="updateError($event)">
+                     </order-to-prepare>
+
+                    <order-in-prepare 
+                        v-if="status == 3" 
+                        :order_id="this.order_id" 
+                        :user_id="this.user_id"
+                        v-on:requiredValue="updateError($event)"> 
+                    </order-in-prepare>
+
+                    <order-prepared 
+                        v-if="status == 4" 
+                        :order_id="this.order_id" 
+                        :user_id="this.user_id"
+                        v-on:requiredValue="updateError($event)"> 
+                    </order-prepared>
+
+                    <order-to-deliver 
+                        v-if="status == 5" 
+                        :order_id="this.order_id" 
+                        :user_id="this.user_id"
+                         v-on:requiredValue="updateError($event)">
+                    </order-to-deliver>
+
+                    <order-in-delivering 
+                        v-if="status == 6" 
+                        :order_id="this.order_id" 
+                        :user_id="this.user_id"
+                         v-on:requiredValue="updateError($event)">
+                    </order-in-delivering>
+
+                    <order-delivered 
+                        v-if="status == 7" 
+                        :order_id="this.order_id" 
+                        :user_id="this.user_id"
+                        v-on:requiredValue="updateError($event)">
+                     </order-delivered>
+
+                    <order-for-bill 
+                        v-if="status == 8" 
+                        :order_id="this.order_id" 
+                        :user_id="this.user_id"
+                        v-on:requiredValue="updateError($event)">
+                     </order-for-bill>
+
+                    <order-billed 
+                        v-if="status == 9" 
+                        :order_id="this.order_id" 
+                        :user_id="this.user_id"
+                        v-on:requiredValue="updateError($event)"> 
+                    </order-billed>
+
+                    <order-sent-account 
+                        v-if="status == 10" 
+                        :order_id="this.order_id" 
+                        :user_id="this.user_id"
+                        v-on:requiredValue="updateError($event)">
+                      </order-sent-account>
+                        
+                    <order-accounting 
+                        v-if="status == 11" 
+                        :order_id="this.order_id" 
+                        :user_id="this.user_id"
+                        v-on:requiredValue="updateError($event)"> 
+                    </order-accounting>
+
                 </div>
 
 
@@ -78,7 +135,7 @@
 <script>
     import OrderToPrepare from '../components/nested/OrderToPrepare.vue'
     import OrderInPrepare from '../components/nested/OrderInPrepare.vue'
-    import OrderPrepared from '../components/nested/OrderInPrepare.vue'
+    import OrderPrepared from '../components/nested/OrderPrepared.vue'
     import OrderToDeliver from '../components/nested/OrderToDeliver.vue'
     import OrderInDelivering from '../components/nested/OrderInDelivering.vue'
     import OrderDelivered from '../components/nested/OrderDelivered.vue'
@@ -99,7 +156,7 @@
             'order-billed': OrderBilled,
             'order-sent-account': OrderSentAccount,
             'order-accounting': OrderAccounting,
-     
+
         },
 
         mounted() {
@@ -130,32 +187,30 @@
                         this.formated_status = 'Préparée';
                         break;
                     case (5):
-                        this.formated_status = 'A préparer';
-                        break;
-                    case (6):
                         this.formated_status = 'A livrer';
                         break;
+                    case (6):
+                        this.formated_status = 'En cours de livraison';
+                        break;
                     case (7):
-                        this.formated_status = ' En cours de livraison';
+                        this.formated_status = ' Livrée ';
                         break;
                     case (8):
-                        this.formated_status = ' Livrée';
+                        this.formated_status = ' A facturer ';
                         break;
                     case (9):
-                        this.formated_status = 'A facturer';
+                        this.formated_status = 'Facturée ';
                         break;
                     case (10):
-                        this.formated_status = 'Facturée';
-                        break;
-                    case (11):
                         this.formated_status = 'A envoyer en comptabilité';
                         break;
-                    case (12):
+                    case (11):
                         this.formated_status = 'Comptabilisée';
                         break;
-                    case (13):
+                    case (12):
                         this.formated_status = 'Annulée';
                         break;
+                  
 
                 }
 

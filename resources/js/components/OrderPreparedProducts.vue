@@ -664,6 +664,9 @@
                 }
 
 
+            },
+               cancelOrder() {
+                window.location = "/wizefresh/public/orders"
             }
         }
     }

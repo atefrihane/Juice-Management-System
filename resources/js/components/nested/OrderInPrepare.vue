@@ -358,7 +358,39 @@
                 })
             },
             removePrepared(final) {
-                this.final_prepared.splice(this.final_prepared.indexOf(final), 1);
+
+                swal.fire({
+                    type: 'info',
+                    title: 'Voulez vous retirer ce produit ? ',
+                    showConfirmButton: true,
+                    confirmButtonText: 'Confirmer',
+                    showCancelButton: true,
+                    cancelButtonText: 'Fermer'
+
+                }).then((result) => {
+                    if(result.value)
+                    {
+                          axios.post(`/api/order/${this.order_id}/prepare/delete`, {
+                        final_prepared: final,
+
+                    })
+                    .then((response) => {
+                        if (response.data.status == 200) {
+                            this.final_prepared.splice(this.final_prepared.indexOf(final), 1);
+
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+
+                    }
+
+
+                });
+
+              
+
 
             },
             getProductData(event, i) {
