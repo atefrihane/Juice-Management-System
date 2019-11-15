@@ -515,7 +515,7 @@ class OrderController extends Controller
 
                             ]);
                             OrderHistory::create([
-                                'action' => 'Etat vers : A envoyer  Comptabilisée',
+                                'action' => 'Etat vers : Comptabilisée',
                                 'order_id' => $order->id,
                                 'user_id' => $request->user_id,
                             ]);
