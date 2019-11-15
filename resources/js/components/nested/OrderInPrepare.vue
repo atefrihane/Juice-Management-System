@@ -694,7 +694,7 @@
                                                 console.log(error);
                                             });
 
-                                    } else {
+                                    } else if (result.dismiss == 'cancel') {
                                         // commande reliquat
                                         axios.post(`/api/order/${this.order_id}/prepare/submit`, {
                                                 final_prepared: this.final_prepared,

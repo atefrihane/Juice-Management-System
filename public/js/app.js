@@ -2219,8 +2219,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (city.cityID != "") {
         axios.get('/city/companies/' + city.cityID).then(function (response) {
-          // handle success
-          if (response.data.countCompanies == response.data.countStores == response.data.countWarehouses == 0) {
+          console.log(response); // handle success
+
+          if (response.data.countCompanies == 0 && response.data.countStores == 0 && response.data.countWarehouses == 0) {
             axios.post('/city/delete/' + city.cityID, {}).then(function (response) {
               if (response.data.status == 200) {
                 _this2.citiesZipCodes.splice(_this2.citiesZipCodes.indexOf(city), 1);
@@ -8463,7 +8464,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                   })["catch"](function (error) {
                     console.log(error);
                   });
-                } else {
+                } else if (result.dismiss == 'cancel') {
                   // commande reliquat
                   axios.post("/api/order/".concat(_this8.order_id, "/prepare/submit"), {
                     final_prepared: _this8.final_prepared,

@@ -161,11 +161,13 @@
 
                     axios.get('/city/companies/' + city.cityID)
                         .then((response) => {
+                            console.log(response)
                             // handle success
 
 
-                            if (response.data.countCompanies == response.data.countStores == response.data
-                                .countWarehouses == 0) {
+                            if (response.data.countCompanies == 0 &&
+                             response.data.countStores == 0 &&
+                             response.data.countWarehouses == 0) {
                                 axios.post('/city/delete/' + city.cityID, {
 
                                     })
