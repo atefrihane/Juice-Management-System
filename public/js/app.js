@@ -7646,7 +7646,7 @@ __webpack_require__.r(__webpack_exports__);
           } else if (response.data.status == 200 && !response.data.canceled) {
             swal.fire({
               type: 'success',
-              title: 'La commande a maintenant à envoyer en comptabilité !',
+              title: 'La commande a été envoyée en comptabilité !',
               showConfirmButton: true,
               allowOutsideClick: false,
               confirmButtonText: 'Fermer'
@@ -68070,7 +68070,10 @@ var render = function() {
                       staticClass: "form-control",
                       attrs: { type: "text", value: "Externe", disabled: "" }
                     })
-                  : _c("input", {
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.delivery == null
+                  ? _c("input", {
                       staticClass: "form-control",
                       attrs: {
                         type: "text",
@@ -68078,6 +68081,7 @@ var render = function() {
                         disabled: ""
                       }
                     })
+                  : _vm._e()
               ])
             ]),
             _vm._v(" "),
@@ -68373,7 +68377,7 @@ var render = function() {
                         placeholder: "Code..",
                         disabled: ""
                       },
-                      domProps: { value: _vm.arrisval_time }
+                      domProps: { value: _vm.arrival_time }
                     })
                   : _c("input", {
                       staticClass: "form-control",

@@ -347,7 +347,7 @@
                                 <label for="exampleInputEmail1">Transporteur</label>
                                 <input type="text" class="form-control" value="Interne" v-if="delivery==1" disabled>
                                 <input type="text" class="form-control" value="Externe" v-if="delivery==2" disabled>
-                                <input type="text" class="form-control" value="Non specifié" v-else disabled>
+                                <input type="text" class="form-control" value="Non specifié" v-if="delivery == null" disabled>
                             </div>
                         </div>
 
@@ -473,7 +473,7 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1"> <span style="opacity:0;">Code</span> </label>
                                 <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Code.."
-                                    v-if="arrival_time" :value="arrisval_time" disabled>
+                                    v-if="arrival_time" :value="arrival_time" disabled>
                                 <input class="form-control" id="disabledInput" type="text" v-else value="Non specifié"
                                     disabled>
                             </div>

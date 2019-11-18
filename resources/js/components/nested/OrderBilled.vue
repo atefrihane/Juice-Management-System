@@ -97,7 +97,7 @@
 
                                 swal.fire({
                                     type: 'success',
-                                    title: 'La commande a maintenant à envoyer en comptabilité !',
+                                    title: 'La commande a été envoyée en comptabilité !',
                                     showConfirmButton: true,
                                     allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
