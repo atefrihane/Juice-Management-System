@@ -165,6 +165,8 @@
                                                             <h4 v-else>Aucun produit trouvé !</h4>
                                                         </td>
                                                     </tr>
+                                                                 <loading :active.sync="final.isLoading" 
+                                        :is-full-page="false" :opacity="0.7" loader="dots" color="#3c8dbc" ></loading>
                                                     <tr v-for="(prepared,index) in final.prepared_products">
                                                         <td>{{final.product_name}} </td>
                                                         <td>{{prepared.quantity}} </td>
@@ -236,6 +238,9 @@
 </template>
 
 <script>
+  import Loading from 'vue-loading-overlay';
+    // Import stylesheet
+    import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
         mounted() {
             this.formatStatus()
@@ -259,6 +264,9 @@
                 warehouse_products: []
 
             }
+        },
+             components: {
+            Loading
         },
         methods: {
 
@@ -369,7 +377,8 @@
                                     product_id: prepared[0].product.id,
                                     product_name: prepared[0].product.nom,
                                     total: '',
-                                    prepared_products: prepared
+                                    prepared_products: prepared,
+                                    isLoading :false
                                 })
                             });
 
@@ -517,8 +526,10 @@
                 }
 
                 if (!found) {
+                        this.final_prepared[i].isLoading = true
                     axios.get('api/product/warehouses/' + id)
                         .then((response) => {
+                                this.final_prepared[i].isLoading = false
                             // this.response_array = response.data
                             this.response_array = response.data.warehouse_products
                             this.final_prepared[i].prepared_products = []

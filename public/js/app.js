@@ -3920,6 +3920,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_loading_overlay__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-loading-overlay */ "./node_modules/vue-loading-overlay/dist/vue-loading.min.js");
+/* harmony import */ var vue_loading_overlay__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_loading_overlay_dist_vue_loading_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-loading-overlay/dist/vue-loading.css */ "./node_modules/vue-loading-overlay/dist/vue-loading.css");
+/* harmony import */ var vue_loading_overlay_dist_vue_loading_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_loading_overlay_dist_vue_loading_css__WEBPACK_IMPORTED_MODULE_1__);
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -4165,6 +4169,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+ // Import stylesheet
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.formatStatus();
@@ -4184,6 +4193,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       errors: [],
       warehouse_products: []
     };
+  },
+  components: {
+    Loading: vue_loading_overlay__WEBPACK_IMPORTED_MODULE_0___default.a
   },
   methods: {
     formatStatus: function formatStatus() {
@@ -4293,7 +4305,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
               product_id: prepared[0].product.id,
               product_name: prepared[0].product.nom,
               total: '',
-              prepared_products: prepared
+              prepared_products: prepared,
+              isLoading: false
             });
           });
 
@@ -4402,8 +4415,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       }
 
       if (!found) {
+        this.final_prepared[i].isLoading = true;
         axios.get('api/product/warehouses/' + id).then(function (response) {
-          // this.response_array = response.data
+          _this4.final_prepared[i].isLoading = false; // this.response_array = response.data
+
           _this4.response_array = response.data.warehouse_products;
           _this4.final_prepared[i].prepared_products = [];
 
@@ -67669,6 +67684,25 @@ var render = function() {
                                         ])
                                       : _vm._e(),
                                     _vm._v(" "),
+                                    _c("loading", {
+                                      attrs: {
+                                        active: final.isLoading,
+                                        "is-full-page": false,
+                                        opacity: 0.7,
+                                        loader: "dots",
+                                        color: "#3c8dbc"
+                                      },
+                                      on: {
+                                        "update:active": function($event) {
+                                          return _vm.$set(
+                                            final,
+                                            "isLoading",
+                                            $event
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
                                     _vm._l(final.prepared_products, function(
                                       prepared,
                                       index
@@ -90172,14 +90206,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!***********************************************************!*\
   !*** ./resources/js/components/OrderPreparedProducts.vue ***!
   \***********************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _OrderPreparedProducts_vue_vue_type_template_id_a44e8958___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OrderPreparedProducts.vue?vue&type=template&id=a44e8958& */ "./resources/js/components/OrderPreparedProducts.vue?vue&type=template&id=a44e8958&");
 /* harmony import */ var _OrderPreparedProducts_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./OrderPreparedProducts.vue?vue&type=script&lang=js& */ "./resources/js/components/OrderPreparedProducts.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _OrderPreparedProducts_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _OrderPreparedProducts_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -90209,7 +90244,7 @@ component.options.__file = "resources/js/components/OrderPreparedProducts.vue"
 /*!************************************************************************************!*\
   !*** ./resources/js/components/OrderPreparedProducts.vue?vue&type=script&lang=js& ***!
   \************************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
