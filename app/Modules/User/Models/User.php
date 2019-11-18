@@ -6,6 +6,7 @@ use App\Modules\Diractor\Models\Diractor;
 use App\Modules\Responsable\Models\Responsable;
 use App\Modules\SuperVisor\Models\SuperVisor;
 use App\Modules\Warehouse\Models\Warehouse;
+use App\Modules\Order\Models\Order;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -61,5 +62,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Warehouse::class);
     }
+
+    public function prepares()
+    {
+        return $this->hasMany(Order::class);
+    }
+    public function delivries()
+    {
+        return $this->hasMany(Order::class);
+    }
+
 
 }

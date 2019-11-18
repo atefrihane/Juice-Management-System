@@ -187,7 +187,9 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Préparateur</label>
-                                <input class="form-control" id="disabledInput" type="text" v-model="order_id" disabled>
+                                <input type="text" class="form-control" :value="preparator.nom+preparator.prenom"
+                                    v-if="preparator" disabled>
+                                <input type="text" class="form-control" value="Non specifié" v-else disabled>
 
                             </div>
                         </div>
@@ -195,8 +197,8 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Code commande du reliquat</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Code.."
-                                    v-model="code" disabled>
+                                <input type="text" class="form-control" :value="parent.code" v-if="parent" disabled>
+                                <input type="text" class="form-control" value="Non specifié" v-else disabled>
                             </div>
                         </div>
 
@@ -205,82 +207,130 @@
                     </div>
                 </div>
 
-                <div class="box-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Produit</th>
-                                <th>Nombre de colis</th>
-                                <th>Nombre d'unités</th>
-                                <th>Colisage</th>
-                                <th>Prix unitaire</th>
-                                <th>TVA ( % )</th>
-                                <th>Total Produit</th>
-                                <th></th>
-                            </tr>
+                <div class="container-fluid">
+                    <div class="box" style="border:1px solid rgb(228, 228, 228);padding:20px;"
+                        v-for="(final,i) in final_prepared" v-if="final_prepared.length > 0">
+                        <div class="box-body">
 
-                        </thead>
-                        <tbody>
-                            <tr v-for="(ordered,index) in custom_ordered">
-                                <td style="width:15%;">
-                                    <select class="form-control" v-model="ordered.product_id"
-                                        @change="getProductData($event,index)" disabled>
-                                        <option value=""
-                                            v-if="ordered.products.length > 0 && ordered.products.length > 0" disabled>
-                                            Selectionner un
-                                            produit
-                                        </option>
-                                        <option value="" v-else> Aucun produit </option>
-                                        <option v-for="product in ordered.products" :value="product.id ">{{product.nom}}
-                                        </option>
-                                    </select>
-                                </td>
-                                <td><input type="number" class="form-control" placeholder="Nombre de colis"
-                                        v-model="ordered.package" @change="setOrderdPacking(ordered,index)"
-                                        :disabled="ordered.product_id == ''" disabled></td>
-                                <td> <input type="number" class="form-control" placeholder="Nombre d'unités"
-                                        v-model="ordered.unit" @change="setOrderdUnit(ordered,index)"
-                                        :disabled="ordered.product_id == ''" disabled></td>
-                                <td><input type="text" class="form-control" disabled placeholder="Colisage.."
-                                        v-model="ordered.product_packing" disabled></td>
-                                <td><input type="text" class="form-control" disabled placeholder="Prix unitaire.."
-                                        v-model="ordered.public_price" disabled></td>
-                                <td><input type="text" class="form-control" disabled placeholder="TVA.."
-                                        v-model="ordered.tva" disabled></td>
-                                <td><input type="text" class="form-control" disabled placeholder="Total Produit.."
-                                        v-model="ordered.total" disabled></td>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Nom du produit</label>
+                                            <input type="text" class="form-control" :value="final.product_name"
+                                                disabled>
 
-                                <td>
+                                        </div>
+                                    </div>
 
-                                </td>
-                            </tr>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Total des quantités préparés</label>
+                                            <input type="text" class="form-control" v-model="final.total" disabled>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Nom Produit</th>
+                                                <th>Quantité</th>
+                                                <th>Colisage</th>
+                                                <th>Entrepôt</th>
+                                                <th>Date de fabrication</th>
+                                                <th>Date de préemption</th>
+                                                <th>Quantité preparée</th>
+
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            <tr v-if="final.prepared_products.length == 0">
+                                                <td colspan="6" class="text-center">
+                                                    <h4 v-if="final.product_id == ''">Veuillez sélectionner un
+                                                        produit !</h4>
+                                                    <h4 v-else>Aucun produit trouvé !</h4>
+                                                </td>
+                                            </tr>
+                                            <tr v-for="(prepared,index) in final.prepared_products">
+                                                <td>{{final.product_name}} </td>
+                                                <td>{{prepared.quantity}} </td>
+                                                <td>{{prepared.packing}} </td>
+                                                <td>{{prepared.warehouse.designation}} </td>
+                                                <td>{{prepared.creation_date}} </td>
+                                                <td>{{prepared.expiration_date}} </td>
+                                                <td>{{prepared.pivot.quantity}}
+                                                </td>
+
+
+                                                </td>
+                                            </tr>
 
 
 
 
-                        </tbody>
-                    </table>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box" style="border:1px solid rgb(228, 228, 228);padding:20px;"
+                        v-if="final_prepared.length ==0">
+                        <div class="box-body">
+
+                            <div class="container-fluid">
+
+                                <div class="row">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Nom Produit</th>
+                                                <th>Quantité</th>
+                                                <th>Colisage</th>
+                                                <th>Entrepôt</th>
+                                                <th>Date de fabrication</th>
+                                                <th>Date de préemption</th>
+                                                <th>Quantité preparée</th>
+
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="6" class="text-center">
+                                                    <h4>Aucun produit déja préparé !</h4>
+                                                </td>
+                                            </tr>
+
+
+
+
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
                 </div>
 
-                <div class="box-body">
-                    <div class="pull-left">
-                        <h4 class="box-title"> Total HT</h4>
-                        <h4 class="box-title"> TVA</h4>
 
-                        <h4 class="box-title"> <b>TOTAL TTC</b></h4>
-
-
-                    </div>
-                    <div class="pull-right">
-                        <h4 class="box-title"> {{total_ht}}€</h4>
-                        <h4 class="box-title"> {{total_tva}}€</h4>
-
-                        <h4 class="box-title"> <b>{{total_order}}€</b></h4>
-                    </div>
-                </div>
 
 
                 <div class="row" style="margin-top:40px;">
+
+
 
                     <div class="col-md-12">
                         <div class="form-group">
@@ -295,24 +345,30 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Transporteur</label>
-                                <input class="form-control" id="disabledInput" type="text" v-model="order_id" disabled>
-
+                                <input type="text" class="form-control" value="Interne" v-if="delivery==1" disabled>
+                                <input type="text" class="form-control" value="Externe" v-if="delivery==2" disabled>
+                                <input type="text" class="form-control" value="Non specifié" v-else disabled>
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Livreur</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Code.."
-                                    v-model="code" disabled>
+                                <input type="text" class="form-control" :value="delivery_man.nom+delivery_man.prenom"
+                                    v-if="delivery_man" disabled>
+                                <input type="text" class="form-control" value="Non specifié" v-else disabled>
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Mode de livraison</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Code.."
-                                    v-model="code" disabled>
+                                <input type="text" class="form-control" value="Voiture" v-if="delivery==0" disabled>
+                                <input type="text" class="form-control" value="Camion" v-if="delivery==1" disabled>
+                                <input type="text" class="form-control" value="Avion" v-if="delivery==2" disabled>
+                                <input type="text" class="form-control" value="Bateau" v-if="delivery==3" disabled>
+                                <input type="text" class="form-control" value="Non specifié" v-if="delivery==null"
+                                    disabled>
                             </div>
                         </div>
 
@@ -323,7 +379,9 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Nombre de cartons</label>
-                                <input class="form-control" id="disabledInput" type="text" v-model="order_id" disabled>
+                                <input class="form-control" id="disabledInput" type="text" :value="carton_number"
+                                    disabled v-if="carton_number">
+                                <input type="text" class="form-control" value="Non specifié" v-else disabled>
 
                             </div>
                         </div>
@@ -332,7 +390,8 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Nombre de palette</label>
                                 <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Code.."
-                                    v-model="code" disabled>
+                                    :value="palet_number" disabled v-if="palet_number">
+                                <input type="text" class="form-control" value="Non specifié" v-else disabled>
                             </div>
                         </div>
 
@@ -343,7 +402,10 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Volume(m² )</label>
-                                <input class="form-control" id="disabledInput" type="text" v-model="order_id" disabled>
+                                <input class="form-control" id="disabledInput" type="text" v-if="volume" :value="volume"
+                                    disabled>
+                                <input class="form-control" id="disabledInput" type="text" v-else value="Non specifié"
+                                    disabled>
 
                             </div>
                         </div>
@@ -352,7 +414,9 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Poids(kg)</label>
                                 <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Code.."
-                                    v-model="code" disabled>
+                                    v-if="weight" :value="weight" disabled>
+                                <input class="form-control" id="disabledInput" type="text" v-else value="Non specifié"
+                                    disabled>
                             </div>
 
 
@@ -370,7 +434,10 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Date et heure de livraison estimé</label>
-                                <input class="form-control" id="disabledInput" type="text" v-model="order_id" disabled>
+                                <input class="form-control" id="disabledInput" type="text" v-if="estimated_arrival_date"
+                                    :value="estimated_arrival_date" disabled>
+                                <input class="form-control" id="disabledInput" type="text" v-else value="Non specifié"
+                                    disabled>
 
                             </div>
                         </div>
@@ -379,7 +446,9 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1"> <span style="opacity:0;">Code</span> </label>
                                 <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Code.."
-                                    v-model="code" disabled>
+                                    v-if="estimated_arrival_time" :value="estimated_arrival_time" disabled>
+                                <input class="form-control" id="disabledInput" type="text" v-else value="Non specifié"
+                                    disabled>
                             </div>
 
                         </div>
@@ -392,7 +461,10 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Date et heure de livraison effective</label>
-                                <input class="form-control" id="disabledInput" type="text" v-model="order_id" disabled>
+                                <input class="form-control" id="disabledInput" type="text" v-if="arrival_date"
+                                    :value="arrival_date" disabled>
+                                <input class="form-control" id="disabledInput" type="text" v-else value="Non specifié"
+                                    disabled>
 
                             </div>
                         </div>
@@ -401,7 +473,9 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1"> <span style="opacity:0;">Code</span> </label>
                                 <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Code.."
-                                    v-model="code" disabled>
+                                    v-if="arrival_time" :value="arrisval_time" disabled>
+                                <input class="form-control" id="disabledInput" type="text" v-else value="Non specifié"
+                                    disabled>
                             </div>
 
                         </div>
@@ -444,8 +518,45 @@
                                     <p v-else>Aucun commentaire</p>
 
                                 </td>
-                                <td><input type="text" class="btn btn-success" value="Modifier"></td>
+                                <td>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#exampleModal" @click="showModal(history)">
+                                        Modifier
+                                    </button>
+                                </td>
+                                <!-- Modal -->
+
                             </tr>
+
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="exampleModalLabel">Modifier historique</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label>Commentaires (optionnel)</label>
+                                                <textarea class="form-control" rows="3" name="comment"
+                                                    placeholder="Commentaires" v-model="comment">{{comment}}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="text-center">
+                                                <a href="#" data-dismiss="modal" class="btn btn-danger">Annuler</a>
+                                                <a href="#" data-dismiss="modal" class="btn btn-success"
+                                                    @click.prevent="updateModal()">Confirmer</a>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
 
 
@@ -508,7 +619,23 @@
                 total_order: 0.00,
                 comment: '',
                 company_id: order.company_id,
-                errors: []
+                errors: [],
+                final_prepared: [],
+                estimated_arrival_time: '',
+                estimated_arrival_date: '',
+                arrival_time: '',
+                arrival_date: '',
+                delivery: '',
+                delivery_man: '',
+                delivery_mode: '',
+                palet_number: '',
+                carton_number: '',
+                volume: '',
+                weight: '',
+                parent: '',
+                preparator: '',
+                comment: '',
+                history_id: ''
 
 
 
@@ -517,6 +644,56 @@
 
         },
         methods: {
+            showModal(history) {
+                this.history_id = history.id
+                this.order_history.forEach(order => {
+                    if (order.id == history.id) {
+                        this.comment = order.comment
+                    }
+                });
+
+                console.log(history)
+            },
+            updateModal() {
+                if (this.comment != '') {
+                    axios.post(`/api/order/history/${this.history_id}`, {
+                            comment: this.comment
+                        })
+                        .then((response) => {
+                            if (response.data.status == 200) {
+                                this.order_history.forEach(order => {
+                                    if (order.id == this.history_id) {
+                                        order.comment = this.comment
+                                    }
+                                });
+
+                            }
+                            console.log(response);
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+
+                }
+
+
+            },
+            clearPreparedProducts() {
+
+                this.final_prepared.forEach(final => {
+                    final.total = 0;
+                    final.prepared_products.forEach(prepared => {
+                        if (prepared.pivot.quantity != '') {
+                            final.total += prepared.pivot.quantity;
+
+                        }
+
+                    })
+
+                })
+
+
+            },
             loadOrder() {
                 axios.get('/api/order/' + this.order_id)
                     .then((response) => {
@@ -525,6 +702,20 @@
                         this.store_id = response.data.order.store_id
                         this.ordered_products = response.data.ordered_products
                         this.order_history = response.data.order_history
+                        this.prepared_products = response.data.prepared_products
+                        this.estimated_arrival_date = response.data.order.estimated_arrival_date
+                        this.estimated_arrival_time = response.data.order.estimated_arrival_time
+                        this.arrival_time = response.data.order.arrival_time
+                        this.arrival_date = response.data.order.arrival_date
+                        this.delivery = response.data.order.carrier
+                        this.delivery_man = response.data.delivery_man
+                        this.delivery_mode = response.data.order.delivery_mode
+                        this.palet_number = response.data.order.pallets_number
+                        this.carton_number = response.data.order.cartons_number
+                        this.volume = response.data.order.volume
+                        this.weight = response.data.order.weight
+                        this.preparator = response.data.preparator
+                        this.parent = response.data.parent
                         this.ordered_products.forEach((ordered, index) => {
                             this.custom_ordered.push({
                                 name: ordered.nom,
@@ -539,12 +730,85 @@
                                 product_total_tva: ''
 
                             });
-
                             this.clearOrderedProducts()
 
 
 
+
                         });
+                        if (this.prepared_products.length > 0) {
+                            this.prepared_products.forEach(prepared => {
+                                this.final_prepared.push({
+                                    product_id: prepared[0].product.id,
+                                    product_name: prepared[0].product.nom,
+                                    total: '',
+                                    prepared_products: prepared
+                                })
+                            });
+
+
+                            this.final_prepared.forEach(final => {
+
+                                axios.get(`api/product/warehouses/${final.product_id}`)
+                                    .then((response) => {
+                                        this.warehouse_products = response.data.warehouse_products;
+                                        if (this.warehouse_products.length > 0) {
+
+                                            this.warehouse_products.forEach(warehouse_product => {
+                                                let prepareIndex = final.prepared_products
+                                                    .findIndex(preparedItem => preparedItem
+                                                        .id == warehouse_product.pivot.id);
+                                                if (prepareIndex == -1) {
+                                                    console.log(warehouse_product)
+                                                    final.prepared_products.push({
+                                                        id: warehouse_product.pivot.id,
+                                                        comment: warehouse_product.pivot
+                                                            .comment,
+                                                        creation_date: warehouse_product
+                                                            .pivot.creation_date,
+                                                        expiration_date: warehouse_product
+                                                            .pivot.expiration_date,
+                                                        packing: warehouse_product.pivot
+                                                            .packing,
+                                                        quantity: warehouse_product
+                                                            .pivot.quantity,
+                                                        warehouse: {
+                                                            designation: warehouse_product
+                                                                .designation
+                                                        },
+                                                        pivot: {
+                                                            quantity: ''
+                                                        }
+
+
+                                                    })
+
+                                                }
+                                            })
+
+
+                                        }
+
+
+                                    })
+                                    .catch((error) => {
+                                        // handle error
+                                        console.log(error);
+                                    })
+
+                            })
+
+                            this.clearPreparedProducts()
+
+                        }
+
+
+
+
+
+
+
+
 
                     })
                     .catch(function (error) {

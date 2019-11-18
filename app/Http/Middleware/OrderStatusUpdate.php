@@ -19,7 +19,7 @@ class OrderStatusUpdate
         $order = Order::find($orderId);
         if ($order) {
 
-            if($order->status < 2 || $order->status == 12)
+            if($order->status < 2 || $order->status >= 11)
             {
                 return redirect()->route('showOrders');
 

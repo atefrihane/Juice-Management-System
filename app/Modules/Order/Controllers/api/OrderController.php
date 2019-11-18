@@ -61,7 +61,16 @@ class OrderController extends Controller
                 array_push($prepared_products, (object) $prepared);
             }
 
-            return response()->json(['status' => 200, 'order' => $order, 'prepared_products' => $prepared_products, 'ordered_products' => $ordered_products, 'order_history' => $order_history]);
+            return response()->json([
+                'status' => 200,
+                'order' => $order,
+                'prepared_products' => $prepared_products,
+                'ordered_products' => $ordered_products,
+                'order_history' => $order_history,
+                'preparator' => $order->preparator,
+                'delivery_man' => $order->delivery,
+                'parent' => $order->parent,
+            ]);
 
         }
 
@@ -384,6 +393,7 @@ class OrderController extends Controller
 
     public function handleSubmitOrderAfterPrepare($id, Request $request)
     {
+
         $order = Order::find($id);
 
         if ($order) {
@@ -472,7 +482,7 @@ class OrderController extends Controller
                         }
                         break;
 
-                        case (9):
+                    case (9):
                         {
 
                             $order->update([
@@ -489,7 +499,7 @@ class OrderController extends Controller
                         }
                         break;
 
-                        case (10):
+                    case (10):
                         {
 
                             $order->update([
@@ -506,7 +516,7 @@ class OrderController extends Controller
                         }
                         break;
 
-                        case (11):
+                    case (11):
                         {
 
                             $order->update([
@@ -527,6 +537,20 @@ class OrderController extends Controller
 
                 return response()->json(['status' => 200, 'canceled' => false]);
             }
+
+        }
+        return response()->json(['status' => 404]);
+
+    }
+
+    public function handleUpdateHistory($id, Request $request)
+    {
+    
+
+        $checkOrder = OrderHistory::find($id);
+        if ($checkOrder) {
+            $checkOrder->update(['comment' => $request->comment]);
+            return response()->json(['status' => 200]);
 
         }
         return response()->json(['status' => 404]);

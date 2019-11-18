@@ -611,15 +611,8 @@
                         this.errors.push('Veuillez renseigner au moins une quantité à préparer  ')
                         x = false;
                     }
-
-
-
-
-
-
-
-
-
+                    
+                    
                 }
 
                 return x;

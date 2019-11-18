@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class OrderHistory extends Model
 {
 
-    protected $fillable = ['action', 'order_id', 'user_id'];
+    protected $fillable = ['action','comment', 'order_id', 'user_id'];
 
     public function order()
     {
