@@ -137,6 +137,8 @@
                                             <h4 v-else>Aucun produit trouvé !</h4>
                                         </td>
                                     </tr>
+                                    <loading :active.sync="final.isLoading" 
+                                        :is-full-page="false" :opacity="0.7" loader="dots" color="#3c8dbc" ></loading>
 
                                     <tr v-for="(prepared,index) in final.prepared_products">
                                         <td>{{final.product_name}} </td>
@@ -200,6 +202,9 @@
 </template>
 
 <script>
+    import Loading from 'vue-loading-overlay';
+    // Import stylesheet
+    import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
 
         mounted() {
@@ -219,13 +224,15 @@
                 prepared_products: [],
                 response_array: [],
                 balance: [],
-                loading: false
-
+              
 
 
             }
 
 
+        },
+        components: {
+            Loading
         },
         methods: {
             loadProducts() {
@@ -278,7 +285,7 @@
                                     product_name: prepared[0].product.nom,
                                     total: '',
                                     prepared_products: prepared,
-                                    loading: false
+                                    isLoading: false
                                 })
                             });
 
@@ -352,7 +359,8 @@
                     total: 0,
                     prepared_products: [],
                     product_id: '',
-                    loading: false
+                    isLoading: false,
+           
 
 
                 })
@@ -368,28 +376,27 @@
                     cancelButtonText: 'Fermer'
 
                 }).then((result) => {
-                    if(result.value)
-                    {
-                          axios.post(`/api/order/${this.order_id}/prepare/delete`, {
-                        final_prepared: final,
+                    if (result.value) {
+                        axios.post(`/api/order/${this.order_id}/prepare/delete`, {
+                                final_prepared: final,
 
-                    })
-                    .then((response) => {
-                        if (response.data.status == 200) {
-                            this.final_prepared.splice(this.final_prepared.indexOf(final), 1);
+                            })
+                            .then((response) => {
+                                if (response.data.status == 200) {
+                                    this.final_prepared.splice(this.final_prepared.indexOf(final), 1);
 
-                        }
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
+                                }
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            });
 
                     }
 
 
                 });
 
-              
+
 
 
             },
@@ -418,9 +425,16 @@
                 }
 
                 if (!found) {
-
+                    
+               
+                  this.final_prepared[i].isLoading = true
+             
+      
+     
+                   
                     axios.get('api/product/warehouses/' + id)
                         .then((response) => {
+                                     this.final_prepared[i].isLoading = false
                             // this.response_array = response.data
                             this.response_array = response.data.warehouse_products
                             this.final_prepared[i].prepared_products = []
@@ -444,6 +458,7 @@
 
                                 // this.clearOrderedProducts()
                             });
+                          
 
 
                         }).catch((error) => {
@@ -675,7 +690,7 @@
                                                 user_id: this.user_id
                                             })
                                             .then((response) => {
-                                                 if (response.data.status == 200) {
+                                                if (response.data.status == 200) {
                                                     swal.fire({
                                                         type: 'success',
                                                         title: 'La commande a été préparée avec succés !',

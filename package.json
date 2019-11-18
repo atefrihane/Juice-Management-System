@@ -33,6 +33,7 @@
         "sweetalert": "^2.1.2",
         "sweetalert2": "^8.18.3",
         "vue-input-tag": "^2.0.6",
+        "vue-loading-overlay": "^3.2.0",
         "vue-progressbar": "^0.7.5",
         "vuejs-datepicker": "^1.6.2"
     }
