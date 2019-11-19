@@ -5,6 +5,8 @@ Breadcrumbs::for('home', function ($trail) {
     $trail->push('Liste des societés', route('showHome'));
 });
 
+
+
 Breadcrumbs::for('static', function ($trail) {
     $trail->parent('home');
     $trail->push('Gestion des constantes', route('showStaticManagement'));
@@ -112,6 +114,11 @@ Breadcrumbs::for('showContact', function ($trail, $company,$user) {
 });
 Breadcrumbs::for('order', function ($trail) {
     $trail->push('Liste des commandes', route('showOrders'));
+});
+
+Breadcrumbs::for('archive', function ($trail) {
+    $trail->parent('order');
+    $trail->push('Archives');
 });
 Breadcrumbs::for('addOrder', function ($trail) {
     $trail->parent('order');

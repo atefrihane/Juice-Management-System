@@ -4,14 +4,13 @@ namespace App\Modules\Order\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Order\Models\Order;
-use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
 
     public function showOrders()
     {
-        return view('Order::showOrders', ['orders' => Order::with('store')->get()]);
+        return view('Order::showOrders', ['orders' => Order::with('store')->where('status', '<', 13)->get()]);
 
     }
     public function showAddOrder()
@@ -33,6 +32,7 @@ class OrderController extends Controller
 
     public function handleDeleteOrder($id)
     {
+
         $order = Order::find($id);
         if ($order) {
             $order->delete();
@@ -74,6 +74,18 @@ class OrderController extends Controller
         return view('General::notFound');
 
     }
-  
+    public function handleArchiveOrder($id)
+    {
+
+        $order = Order::find($id);
+        if ($order) {
+            $order->update(['status' => 13]);
+            alert()->success('Succés!', 'La commande a été archivée')->persistent('Fermer');
+            return redirect()->route('showOrders');
+
+        }
+        return view('General::notFound');
+
+    }
 
 }

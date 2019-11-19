@@ -196,7 +196,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Code commande du reliquat</label>
+                                <label for="exampleInputEmail1">Code commande général</label>
                                 <input type="text" class="form-control" :value="parent.code" v-if="parent" disabled>
                                 <input type="text" class="form-control" value="Non specifié" v-else disabled>
                             </div>

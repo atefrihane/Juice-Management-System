@@ -19,7 +19,7 @@ class OrderController extends Controller
                 'status' => $request->status,
                 'total' => $request->total_order,
                 'store_id' => $request->store_id,
-                'comment' => $request->comment,
+              
             ]);
 
             if ($request->input('ordered_products')) {
@@ -35,6 +35,7 @@ class OrderController extends Controller
                 'action' => 'Création',
                 'order_id' => $order->id,
                 'user_id' => $request->user_id,
+                'comment' => $request->comment,
             ]);
             return response()->json(['status' => 200]);
 
@@ -54,7 +55,7 @@ class OrderController extends Controller
             $order_history = OrderHistory::with('user')->where('order_id', $order->id)->get();
             $prepared_products_as_object = $order->productwarehouses()->with('product', 'warehouse')->get()->groupBy('product.id');
 
-            // convert object of arrays -> array of objects :(
+            // convert object of arrays -> array of arrays :(
             $prepared_products = array();
 
             foreach ($prepared_products_as_object as $prepared) {
@@ -99,8 +100,7 @@ class OrderController extends Controller
             $order->update([
                 'store_id' => $request->store_id,
                 'total' => $request->total_order,
-                'comment' => $request->comment,
-                'status' => $request->status,
+                'status' => $request->status
             ]);
             foreach ($request->custom_ordered as $custom) {
                 $checkProduct = $order->products()->where('product_id', $custom['product_id'])->first();
@@ -117,6 +117,7 @@ class OrderController extends Controller
                 'action' => $request->status == 0 ? 'Modification' : 'Etat vers : A préparer',
                 'user_id' => $request->user_id,
                 'order_id' => $order->id,
+                'comment' => $request->comment,
             ]);
             return response()->json(['status' => 200]);
         }
@@ -137,12 +138,13 @@ class OrderController extends Controller
                 $order->update([
                     'status' => $request->input('new_status'),
                     'preparator_id' => $request->input('preparator_id'),
-                    'comment' => $request->comment,
+              
                 ]);
                 OrderHistory::create([
                     'order_id' => $order->id,
                     'user_id' => $request->user_id,
-                    'action' => $request->input('new_status_text'),
+                    'action' => 'Etat vers : '.$request->input('new_status_text'),
+                    'comment' => $request->comment
                 ]);
 
                 return response()->json(['status' => 200]);
@@ -246,9 +248,10 @@ class OrderController extends Controller
                 }
             }
             OrderHistory::create([
-                'action' => 'Préparation',
+                'action' => 'Modification de la préparation',
                 'order_id' => $order->id,
                 'user_id' => $request->user_id,
+                'comment' => $request->comment
             ]);
 
             return true;
@@ -331,6 +334,7 @@ class OrderController extends Controller
                     'action' => 'Etat vers : Annulée',
                     'user_id' => $request->user_id,
                     'order_id' => $id,
+                    'comment' => $request->comment
 
                 ]);
                 return response()->json(['status' => 200]);
@@ -347,12 +351,16 @@ class OrderController extends Controller
                             'status' => 2,
                             'total' => $total,
                             'store_id' => $order->store_id,
-                            'comment' => $request->comment,
                             'parent_id' => $order->id,
                         ]);
                         foreach ($request->balance as $balance) {
+                   
 
-                            $balanceOrder->products()->attach($balance['product_id'], ['unit' => $balance['qty'], 'package' => $balance['packing']]);
+                            $balanceOrder->products()->attach($balance['product_id'], [
+                              'unit' => $balance['qty'],
+                             'package' => ceil($balance['packing']/$balance['qty'])
+                             
+                             ]);
                         }
 
                     }
@@ -364,6 +372,7 @@ class OrderController extends Controller
                         'action' => 'Etat vers : Préparée',
                         'user_id' => $request->user_id,
                         'order_id' => $id,
+                        'comment' => $request->comment
 
                     ]);
                     return response()->json(['status' => 200]);
@@ -417,13 +426,13 @@ class OrderController extends Controller
                                 'pallets_number' => $request->palet_number,
                                 'weight' => $request->weight,
                                 'volume' => $request->volume,
-                                'comment' => $request->comment,
 
                             ]);
                             OrderHistory::create([
                                 'action' => 'Etat vers : A livrer',
                                 'order_id' => $order->id,
                                 'user_id' => $request->user_id,
+                                'comment' => $request->comment,
                             ]);
 
                         }
@@ -435,13 +444,13 @@ class OrderController extends Controller
                                 'status' => $request->new_status,
                                 'estimated_arrival_date' => $request->date,
                                 'estimated_arrival_time' => $request->time,
-                                'comment' => $request->comment,
 
                             ]);
                             OrderHistory::create([
                                 'action' => 'Etat vers : En cours de livraison',
                                 'order_id' => $order->id,
                                 'user_id' => $request->user_id,
+                                'comment' => $request->comment,
                             ]);
 
                         }
@@ -453,13 +462,13 @@ class OrderController extends Controller
                                 'status' => $request->new_status,
                                 'arrival_date' => $request->date,
                                 'arrival_time' => $request->time,
-                                'comment' => $request->comment,
 
                             ]);
                             OrderHistory::create([
                                 'action' => 'Etat vers : Livrée',
                                 'order_id' => $order->id,
                                 'user_id' => $request->user_id,
+                                'comment' => $request->comment,
                             ]);
 
                         }
@@ -470,13 +479,13 @@ class OrderController extends Controller
 
                             $order->update([
                                 'status' => $request->new_status,
-                                'comment' => $request->comment,
 
                             ]);
                             OrderHistory::create([
                                 'action' => 'Etat vers : A facturer',
                                 'order_id' => $order->id,
                                 'user_id' => $request->user_id,
+                                'comment' => $request->comment,
                             ]);
 
                         }
@@ -487,13 +496,13 @@ class OrderController extends Controller
 
                             $order->update([
                                 'status' => $request->new_status,
-                                'comment' => $request->comment,
 
                             ]);
                             OrderHistory::create([
                                 'action' => 'Etat vers : Facturée',
                                 'order_id' => $order->id,
                                 'user_id' => $request->user_id,
+                                'comment' => $request->comment,
                             ]);
 
                         }
@@ -504,13 +513,13 @@ class OrderController extends Controller
 
                             $order->update([
                                 'status' => $request->new_status,
-                                'comment' => $request->comment,
 
                             ]);
                             OrderHistory::create([
                                 'action' => 'Etat vers : A envoyer en comptabilité',
                                 'order_id' => $order->id,
                                 'user_id' => $request->user_id,
+                                'comment' => $request->comment,
                             ]);
 
                         }
@@ -521,13 +530,13 @@ class OrderController extends Controller
 
                             $order->update([
                                 'status' => $request->new_status,
-                                'comment' => $request->comment,
 
                             ]);
                             OrderHistory::create([
                                 'action' => 'Etat vers : Comptabilisée',
                                 'order_id' => $order->id,
                                 'user_id' => $request->user_id,
+                                'comment' => $request->comment,
                             ]);
 
                         }
@@ -545,7 +554,6 @@ class OrderController extends Controller
 
     public function handleUpdateHistory($id, Request $request)
     {
-    
 
         $checkOrder = OrderHistory::find($id);
         if ($checkOrder) {

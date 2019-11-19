@@ -466,7 +466,7 @@
 
 
                 if (!this.code) {
-                    this.errors.push(' Le code du pays est requis');
+                    this.errors.push(' Le code du magasin est requis');
                     window.scrollTo(0, 0);
                     x = false;
                 }

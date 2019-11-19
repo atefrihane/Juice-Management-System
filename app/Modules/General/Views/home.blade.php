@@ -19,8 +19,12 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Liste des societés</h3>
+                     
+                        <div class="box-body">
                         <a href="{{route('showAddCompany')}}" class="btn btn-primary pull-right">Ajouter une societé</a>
-
+                        <a href="{{route('showArchives')}}" class="btn  btn-default pull-left">Archives</a>
+                        </div>
+                    
 
                         <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
                     </div>

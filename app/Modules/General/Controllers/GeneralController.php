@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Modules\Company\Models\Company;
 use App\Modules\General\Models\City;
 use App\Modules\General\Models\Country;
+use App\Modules\Order\Models\Order;
 
 class GeneralController extends Controller
 {
@@ -16,6 +17,12 @@ class GeneralController extends Controller
         $companies = Company::all();
 
         return view('General::home', compact('companies'))->withCookie(cookie('idtodelete', '', 120));
+    }
+    public function showArchives()
+    {
+        $orders = Order::where('status', 13)->get();
+        return view('General::archive', compact('orders'));
+
     }
 
     public function showStaticManagement()
