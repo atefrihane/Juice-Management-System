@@ -343,7 +343,7 @@ class OrderController extends Controller
                     if ($request->balance) {
                         $total = array_sum(array_column($request->balance, 'qty'));
                         $balanceOrder = Order::create([
-                            'code' => $order->code . 'req',
+                            'code' => $order->code . '-req',
                             'status' => 2,
                             'total' => $total,
                             'store_id' => $order->store_id,
