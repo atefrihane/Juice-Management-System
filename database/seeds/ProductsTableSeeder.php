@@ -69,7 +69,7 @@ class ProductsTableSeeder extends Seeder
             'photo_url' =>'',
             'unit_by_display' =>10,
             'unit_per_package' =>40,
-            'packing' =>20,
+            'packing' =>15,
             'tva'=>10
         ]);
         Mixture::create([
@@ -107,7 +107,7 @@ class ProductsTableSeeder extends Seeder
             'photo_url' =>'',
             'unit_by_display' =>10,
             'unit_per_package' =>40,
-            'packing' =>20,
+            'packing' =>30,
             'tva'=>10
         ]);
         Mixture::create([
@@ -145,7 +145,7 @@ class ProductsTableSeeder extends Seeder
             'photo_url' =>'',
             'unit_by_display' =>10,
             'unit_per_package' =>40,
-            'packing' =>20,
+            'packing' =>40,
             'tva'=>10
         ]);
         Mixture::create([
