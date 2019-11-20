@@ -180,7 +180,7 @@
             </div>
                 <div class="form-group">
                 <label for="exampleInputEmail1">TVA (%)</label>
-                <input class="form-control" id="disabledInput" type="number" placeholder="Colisage" v-model="tva">
+                <input class="form-control" id="disabledInput" type="number" placeholder="TVA" v-model="tva">
             </div>
 
             <div class="form-group" v-if="type != 'Jettable'">

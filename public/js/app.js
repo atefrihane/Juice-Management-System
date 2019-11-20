@@ -71265,11 +71265,7 @@ var render = function() {
               }
             ],
             staticClass: "form-control",
-            attrs: {
-              id: "disabledInput",
-              type: "number",
-              placeholder: "Colisage"
-            },
+            attrs: { id: "disabledInput", type: "number", placeholder: "TVA" },
             domProps: { value: _vm.tva },
             on: {
               input: function($event) {
