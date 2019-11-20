@@ -548,7 +548,8 @@
             },
             validateBalance() {
                 //Only Allah knows how I did it :p ( هذا من فضل ربي )
-
+                this.balance=[]
+                this.balance=[]
                 let balances = [];
                 let rmvBalances = [];
 
@@ -604,14 +605,14 @@
 
 
                 this.balance = _.differenceBy(newBalances, rmvBalances, "product_id")
-                return this.balance.length
+              
 
             },
             submitOrderInPrepare() {
                 let validation = this.validateForm();
                 if (validation) {
                     this.$emit('requiredValue', '')
-                    let checkBalance = this.validateBalance()
+                    this.validateBalance()
 
                     if (this.new_status == 12) {
 
@@ -642,7 +643,7 @@
 
                     } else {
 
-                        if (checkBalance.length > 0) {
+                        if (this.balance.length > 0) {
                             swal.fire({
                                 type: 'info',
                                 title: 'Oups !',

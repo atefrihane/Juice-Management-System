@@ -8586,6 +8586,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var _this7 = this;
 
       //Only Allah knows how I did it :p ( هذا من فضل ربي )
+      this.balance = [];
+      this.balance = [];
       var balances = [];
       var rmvBalances = [];
       this.custom_ordered.map(function (custom) {
@@ -8631,7 +8633,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         });
       });
       this.balance = _.differenceBy(newBalances, rmvBalances, "product_id");
-      return this.balance.length;
     },
     submitOrderInPrepare: function submitOrderInPrepare() {
       var _this8 = this;
@@ -8640,7 +8641,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
       if (validation) {
         this.$emit('requiredValue', '');
-        var checkBalance = this.validateBalance();
+        this.validateBalance();
 
         if (this.new_status == 12) {
           axios.post("/api/order/".concat(this.order_id, "/prepare/submit"), {
@@ -8665,7 +8666,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             console.log(error);
           });
         } else {
-          if (checkBalance.length > 0) {
+          if (this.balance.length > 0) {
             swal.fire({
               type: 'info',
               title: 'Oups !',
