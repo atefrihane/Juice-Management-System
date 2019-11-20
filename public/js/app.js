@@ -8631,6 +8631,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         });
       });
       this.balance = _.differenceBy(newBalances, rmvBalances, "product_id");
+      return this.balance.length;
     },
     submitOrderInPrepare: function submitOrderInPrepare() {
       var _this8 = this;
@@ -8639,7 +8640,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
       if (validation) {
         this.$emit('requiredValue', '');
-        this.validateBalance();
+        var checkBalance = this.validateBalance();
 
         if (this.new_status == 12) {
           axios.post("/api/order/".concat(this.order_id, "/prepare/submit"), {
@@ -8664,81 +8665,105 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             console.log(error);
           });
         } else {
-          swal.fire({
-            type: 'info',
-            title: 'Oups !',
-            html: " <h4> Les quantit\xE9s pr\xE9par\xE9es ne correspondent pas aux quantit\xE9es saisies dans la commande </h4> ",
-            showConfirmButton: true,
-            confirmButtonText: 'Poursuivre',
-            showCancelButton: true,
-            allowOutsideClick: false,
-            cancelButtonText: 'Fermer',
-            reverseButtons: true
-          }).then(function (result) {
-            if (result.value) {
-              swal.fire({
-                type: 'info',
-                title: 'Attention... ',
-                customClass: 'swal-btns',
-                html: " \n                       \n                                <p> <b> NB : </b> Le tableau ci dessous pr\xE9sente les quantit\xE9s restantes \xE0 pr\xE9parer pour chaque produit </p>\n                                 <table class=\"table\">\n                                    <thead>\n                                    <tr>\n                                      <th>Nom Produit</th>\n                                     <th>Quantit\xE9 r\xE9stante</th>\n                                    </tr>\n                                     </thead>\n                                     <tbody>\n                                     ".concat(_this8.balance.map(function (balance) {
-                  return " <tr> <td class=\"text-left\">".concat(balance.name, " </td><td class=\"text-left\">").concat(balance.qty, " </td> </tr> ");
-                }), "\n\n                                    </tbody>\n                                    </table>\n\n                        "),
-                showConfirmButton: true,
-                confirmButtonText: 'Passer la commande',
-                showCancelButton: true,
-                cancelButtonText: 'Créer commande reliquat'
-              }).then(function (result) {
-                // commande normal
-                if (result.value) {
-                  axios.post("/api/order/".concat(_this8.order_id, "/prepare/submit"), {
-                    final_prepared: _this8.final_prepared,
-                    new_status: _this8.new_status,
-                    user_id: _this8.user_id
-                  }).then(function (response) {
-                    if (response.data.status == 200) {
-                      swal.fire({
-                        type: 'success',
-                        title: 'La commande a été préparée avec succés !',
-                        showConfirmButton: true,
-                        allowOutsideClick: false,
-                        confirmButtonText: 'Fermer'
-                      }).then(function (result) {
-                        if (result.value) {
-                          window.location = '/wizefresh/public/orders';
-                        }
-                      });
-                    }
-                  })["catch"](function (error) {
-                    console.log(error);
-                  });
-                } else if (result.dismiss == 'cancel') {
-                  // commande reliquat
-                  axios.post("/api/order/".concat(_this8.order_id, "/prepare/submit"), {
-                    final_prepared: _this8.final_prepared,
-                    balance: _this8.balance,
-                    new_status: _this8.new_status,
-                    user_id: _this8.user_id
-                  }).then(function (response) {
-                    if (response.data.status == 200) {
-                      swal.fire({
-                        type: 'success',
-                        title: 'La commande a été préparée avec succés !',
-                        showConfirmButton: true,
-                        allowOutsideClick: false,
-                        confirmButtonText: 'Fermer'
-                      }).then(function (result) {
-                        if (result.value) {
-                          window.location = '/wizefresh/public/orders';
-                        }
-                      });
-                    }
-                  })["catch"](function (error) {
-                    console.log(error);
-                  });
-                }
-              });
-            }
-          });
+          if (checkBalance.length > 0) {
+            swal.fire({
+              type: 'info',
+              title: 'Oups !',
+              html: " <h4> Les quantit\xE9s pr\xE9par\xE9es ne correspondent pas aux quantit\xE9es saisies dans la commande </h4> ",
+              showConfirmButton: true,
+              confirmButtonText: 'Poursuivre',
+              showCancelButton: true,
+              allowOutsideClick: false,
+              cancelButtonText: 'Fermer',
+              reverseButtons: true
+            }).then(function (result) {
+              if (result.value) {
+                swal.fire({
+                  type: 'info',
+                  title: 'Attention... ',
+                  customClass: 'swal-btns',
+                  html: " \n                       \n                                <p> <b> NB : </b> Le tableau ci dessous pr\xE9sente les quantit\xE9s restantes \xE0 pr\xE9parer pour chaque produit </p>\n                                 <table class=\"table\">\n                                    <thead>\n                                    <tr>\n                                      <th>Nom Produit</th>\n                                     <th>Quantit\xE9 r\xE9stante</th>\n                                    </tr>\n                                     </thead>\n                                     <tbody>\n                                     ".concat(_this8.balance.map(function (balance) {
+                    return " <tr> <td class=\"text-left\">".concat(balance.name, " </td><td class=\"text-left\">").concat(balance.qty, " </td> </tr> ");
+                  }), "\n\n                                    </tbody>\n                                    </table>\n\n                        "),
+                  showConfirmButton: true,
+                  confirmButtonText: 'Passer la commande',
+                  showCancelButton: true,
+                  cancelButtonText: 'Créer commande reliquat'
+                }).then(function (result) {
+                  // commande normal
+                  if (result.value) {
+                    axios.post("/api/order/".concat(_this8.order_id, "/prepare/submit"), {
+                      final_prepared: _this8.final_prepared,
+                      new_status: _this8.new_status,
+                      user_id: _this8.user_id
+                    }).then(function (response) {
+                      if (response.data.status == 200) {
+                        swal.fire({
+                          type: 'success',
+                          title: 'La commande a été préparée avec succés !',
+                          showConfirmButton: true,
+                          allowOutsideClick: false,
+                          confirmButtonText: 'Fermer'
+                        }).then(function (result) {
+                          if (result.value) {
+                            window.location = '/wizefresh/public/orders';
+                          }
+                        });
+                      }
+                    })["catch"](function (error) {
+                      console.log(error);
+                    });
+                  } else if (result.dismiss == 'cancel') {
+                    // commande reliquat
+                    axios.post("/api/order/".concat(_this8.order_id, "/prepare/submit"), {
+                      final_prepared: _this8.final_prepared,
+                      balance: _this8.balance,
+                      new_status: _this8.new_status,
+                      user_id: _this8.user_id
+                    }).then(function (response) {
+                      if (response.data.status == 200) {
+                        swal.fire({
+                          type: 'success',
+                          title: 'La commande a été préparée avec succés !',
+                          showConfirmButton: true,
+                          allowOutsideClick: false,
+                          confirmButtonText: 'Fermer'
+                        }).then(function (result) {
+                          if (result.value) {
+                            window.location = '/wizefresh/public/orders';
+                          }
+                        });
+                      }
+                    })["catch"](function (error) {
+                      console.log(error);
+                    });
+                  }
+                });
+              }
+            });
+          } else {
+            axios.post("/api/order/".concat(this.order_id, "/prepare/submit"), {
+              final_prepared: this.final_prepared,
+              new_status: this.new_status,
+              user_id: this.user_id
+            }).then(function (response) {
+              if (response.data.status == 200) {
+                swal.fire({
+                  type: 'success',
+                  title: 'La commande a été préparée avec succés !',
+                  showConfirmButton: true,
+                  allowOutsideClick: false,
+                  confirmButtonText: 'Fermer'
+                }).then(function (result) {
+                  if (result.value) {
+                    window.location = '/wizefresh/public/orders';
+                  }
+                });
+              }
+            })["catch"](function (error) {
+              console.log(error);
+            });
+          }
         }
       }
     },

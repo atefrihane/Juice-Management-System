@@ -137,8 +137,8 @@
                                             <h4 v-else>Aucun produit trouvé !</h4>
                                         </td>
                                     </tr>
-                                    <loading :active.sync="final.isLoading" 
-                                        :is-full-page="false" :opacity="0.7" loader="dots" color="#3c8dbc" ></loading>
+                                    <loading :active.sync="final.isLoading" :is-full-page="false" :opacity="0.7"
+                                        loader="dots" color="#3c8dbc"></loading>
 
                                     <tr v-for="(prepared,index) in final.prepared_products">
                                         <td>{{final.product_name}} </td>
@@ -224,7 +224,7 @@
                 prepared_products: [],
                 response_array: [],
                 balance: [],
-              
+
 
 
             }
@@ -360,7 +360,7 @@
                     prepared_products: [],
                     product_id: '',
                     isLoading: false,
-           
+
 
 
                 })
@@ -425,16 +425,16 @@
                 }
 
                 if (!found) {
-                    
-               
-                  this.final_prepared[i].isLoading = true
-             
-      
-     
-                   
+
+
+                    this.final_prepared[i].isLoading = true
+
+
+
+
                     axios.get('api/product/warehouses/' + id)
                         .then((response) => {
-                                     this.final_prepared[i].isLoading = false
+                            this.final_prepared[i].isLoading = false
                             // this.response_array = response.data
                             this.response_array = response.data.warehouse_products
                             this.final_prepared[i].prepared_products = []
@@ -458,7 +458,7 @@
 
                                 // this.clearOrderedProducts()
                             });
-                          
+
 
 
                         }).catch((error) => {
@@ -604,14 +604,15 @@
 
 
                 this.balance = _.differenceBy(newBalances, rmvBalances, "product_id")
-
+                return this.balance.length
 
             },
             submitOrderInPrepare() {
                 let validation = this.validateForm();
                 if (validation) {
                     this.$emit('requiredValue', '')
-                    this.validateBalance()
+                    let checkBalance = this.validateBalance()
+
                     if (this.new_status == 12) {
 
                         axios.post(`/api/order/${this.order_id}/prepare/submit`, {
@@ -641,25 +642,25 @@
 
                     } else {
 
+                        if (checkBalance.length > 0) {
+                            swal.fire({
+                                type: 'info',
+                                title: 'Oups !',
+                                html: ` <h4> Les quantités préparées ne correspondent pas aux quantitées saisies dans la commande </h4> `,
+                                showConfirmButton: true,
+                                confirmButtonText: 'Poursuivre',
+                                showCancelButton: true,
+                                allowOutsideClick: false,
+                                cancelButtonText: 'Fermer',
+                                reverseButtons: true
 
-                        swal.fire({
-                            type: 'info',
-                            title: 'Oups !',
-                            html: ` <h4> Les quantités préparées ne correspondent pas aux quantitées saisies dans la commande </h4> `,
-                            showConfirmButton: true,
-                            confirmButtonText: 'Poursuivre',
-                            showCancelButton: true,
-                            allowOutsideClick: false,
-                            cancelButtonText: 'Fermer',
-                            reverseButtons: true
-
-                        }).then((result) => {
-                            if (result.value) {
-                                swal.fire({
-                                    type: 'info',
-                                    title: 'Attention... ',
-                                    customClass: 'swal-btns',
-                                    html: ` 
+                            }).then((result) => {
+                                if (result.value) {
+                                    swal.fire({
+                                        type: 'info',
+                                        title: 'Attention... ',
+                                        customClass: 'swal-btns',
+                                        html: ` 
                            
                                     <p> <b> NB : </b> Le tableau ci dessous présente les quantités restantes à préparer pour chaque produit </p>
                                      <table class="table">
@@ -676,76 +677,105 @@
                                         </table>
 
                             `,
-                                    showConfirmButton: true,
-                                    confirmButtonText: 'Passer la commande',
-                                    showCancelButton: true,
-                                    cancelButtonText: 'Créer commande reliquat'
+                                        showConfirmButton: true,
+                                        confirmButtonText: 'Passer la commande',
+                                        showCancelButton: true,
+                                        cancelButtonText: 'Créer commande reliquat'
 
-                                }).then((result) => {
-                                    // commande normal
-                                    if (result.value) {
-                                        axios.post(`/api/order/${this.order_id}/prepare/submit`, {
-                                                final_prepared: this.final_prepared,
-                                                new_status: this.new_status,
-                                                user_id: this.user_id
-                                            })
-                                            .then((response) => {
-                                                if (response.data.status == 200) {
-                                                    swal.fire({
-                                                        type: 'success',
-                                                        title: 'La commande a été préparée avec succés !',
-                                                        showConfirmButton: true,
-                                                        allowOutsideClick: false,
-                                                        confirmButtonText: 'Fermer'
-                                                    }).then((result) => {
-                                                        if (result.value) {
-                                                            window.location =
-                                                                '/wizefresh/public/orders';
-                                                        }
-                                                    })
-                                                }
-                                            })
-                                            .catch((error) => {
-                                                console.log(error);
-                                            });
+                                    }).then((result) => {
+                                        // commande normal
+                                        if (result.value) {
+                                            axios.post(`/api/order/${this.order_id}/prepare/submit`, {
+                                                    final_prepared: this.final_prepared,
+                                                    new_status: this.new_status,
+                                                    user_id: this.user_id
+                                                })
+                                                .then((response) => {
+                                                    if (response.data.status == 200) {
+                                                        swal.fire({
+                                                            type: 'success',
+                                                            title: 'La commande a été préparée avec succés !',
+                                                            showConfirmButton: true,
+                                                            allowOutsideClick: false,
+                                                            confirmButtonText: 'Fermer'
+                                                        }).then((result) => {
+                                                            if (result.value) {
+                                                                window.location =
+                                                                    '/wizefresh/public/orders';
+                                                            }
+                                                        })
+                                                    }
+                                                })
+                                                .catch((error) => {
+                                                    console.log(error);
+                                                });
 
-                                    } else if (result.dismiss == 'cancel') {
-                                        // commande reliquat
-                                        axios.post(`/api/order/${this.order_id}/prepare/submit`, {
-                                                final_prepared: this.final_prepared,
-                                                balance: this.balance,
-                                                new_status: this.new_status,
-                                                user_id: this.user_id
-                                            })
-                                            .then((response) => {
-                                                if (response.data.status == 200) {
-                                                    swal.fire({
-                                                        type: 'success',
-                                                        title: 'La commande a été préparée avec succés !',
-                                                        showConfirmButton: true,
-                                                        allowOutsideClick: false,
-                                                        confirmButtonText: 'Fermer'
-                                                    }).then((result) => {
-                                                        if (result.value) {
-                                                            window.location =
-                                                                '/wizefresh/public/orders';
-                                                        }
-                                                    })
-                                                }
+                                        } else if (result.dismiss == 'cancel') {
+                                            // commande reliquat
+                                            axios.post(`/api/order/${this.order_id}/prepare/submit`, {
+                                                    final_prepared: this.final_prepared,
+                                                    balance: this.balance,
+                                                    new_status: this.new_status,
+                                                    user_id: this.user_id
+                                                })
+                                                .then((response) => {
+                                                    if (response.data.status == 200) {
+                                                        swal.fire({
+                                                            type: 'success',
+                                                            title: 'La commande a été préparée avec succés !',
+                                                            showConfirmButton: true,
+                                                            allowOutsideClick: false,
+                                                            confirmButtonText: 'Fermer'
+                                                        }).then((result) => {
+                                                            if (result.value) {
+                                                                window.location =
+                                                                    '/wizefresh/public/orders';
+                                                            }
+                                                        })
+                                                    }
 
 
-                                            })
-                                            .catch((error) => {
-                                                console.log(error);
-                                            });
+                                                })
+                                                .catch((error) => {
+                                                    console.log(error);
+                                                });
 
+                                        }
+
+
+                                    });
+                                }
+
+                            })
+
+                        } else {
+                            axios.post(`/api/order/${this.order_id}/prepare/submit`, {
+                                    final_prepared: this.final_prepared,
+                                    new_status: this.new_status,
+                                    user_id: this.user_id
+                                })
+                                .then((response) => {
+                                    if (response.data.status == 200) {
+                                        swal.fire({
+                                            type: 'success',
+                                            title: 'La commande a été préparée avec succés !',
+                                            showConfirmButton: true,
+                                            allowOutsideClick: false,
+                                            confirmButtonText: 'Fermer'
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                window.location =
+                                                    '/wizefresh/public/orders';
+                                            }
+                                        })
                                     }
-
-
+                                })
+                                .catch((error) => {
+                                    console.log(error);
                                 });
-                            }
 
-                        })
+                        }
+
                     }
 
                 }
