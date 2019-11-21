@@ -68,7 +68,7 @@
             return {
                 errors: [],
                 users: [],
-                new_status: '',
+                new_status: 3,
                 new_status_text: 'En cours de préparation',
                 preparator_id: '',
                 comment: null
@@ -112,51 +112,112 @@
                 if (validation) {
                     if (this.new_status == 12) {
                         this.new_status_text = 'Annulée';
-                    }
-                    axios.post('/api/order/toprepare/' + this.order_id + '', {
-                            new_status: this.new_status,
-                            preparator_id: this.preparator_id,
-                            comment: this.comment,
-                            new_status_text: this.new_status_text,
-                            user_id: this.user_id
-                        })
-                        .then((response) => {
-                            if (response.data.status == 200) {
-                                swal.fire({
-                                    type: 'success',
-                                    title: 'La commande a été mis à jour  avec succés !',
-                                    showConfirmButton: true,
-                                    allowOutsideClick: false,
-                                    confirmButtonText: 'Fermer'
-                                }).then((result) => {
-                                    if (result.value) {
-                                        window.location = '/wizefresh/public/orders';
-                                    }
-                                })
-                            }
-                            if (response.data.status == 400) {
-                                swal.fire({
-                                    type: 'error',
-                                    title: 'Echec !',
-                                    showConfirmButton: true,
-                                    allowOutsideClick: false,
-                                    confirmButtonText: 'Fermer'
-                                })
+                        swal.fire({
+                            type: 'info',
+                            title: 'Attention !',
+                            text: "L'annulation d'une commande est une opération irréversible !",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Confirmer',
+                            cancelButtonText: 'Annuler',
+                            reverseButtons: true
+                        }).then((result) => {
+                            if (result.value) {
+                                axios.post('/api/order/toprepare/' + this.order_id + '', {
+                                        new_status: this.new_status,
+                                        preparator_id: this.preparator_id,
+                                        comment: this.comment,
+                                        new_status_text: this.new_status_text,
+                                        user_id: this.user_id
+                                    })
+                                    .then((response) => {
+                                        if (response.data.status == 200) {
+                                            swal.fire({
+                                                type: 'success',
+                                                title: 'La commande a été annulée  avec succés !',
+                                                showConfirmButton: true,
+                                                allowOutsideClick: false,
+                                                confirmButtonText: 'Fermer'
+                                            }).then((result) => {
+                                                if (result.value) {
+                                                    window.location = '/wizefresh/public/orders';
+                                                }
+                                            })
+                                        }
+                                        if (response.data.status == 400) {
+                                            swal.fire({
+                                                type: 'error',
+                                                title: 'Echec !',
+                                                showConfirmButton: true,
+                                                allowOutsideClick: false,
+                                                confirmButtonText: 'Fermer'
+                                            })
 
+                                        }
+                                        if (response.data.status == 404) {
+                                            swal.fire({
+                                                type: 'error',
+                                                title: 'Commande introuvable !',
+                                                showConfirmButton: true,
+                                                allowOutsideClick: false,
+                                                confirmButtonText: 'Fermer'
+                                            })
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        console.log(error);
+                                    });
                             }
-                            if (response.data.status == 404) {
-                                swal.fire({
-                                    type: 'error',
-                                    title: 'Commande introuvable !',
-                                    showConfirmButton: true,
-                                    allowOutsideClick: false,
-                                    confirmButtonText: 'Fermer'
-                                })
-                            }
-                        })
-                        .catch((error) => {
-                            console.log(error);
                         });
+                    } else {
+                        axios.post('/api/order/toprepare/' + this.order_id + '', {
+                                new_status: this.new_status,
+                                preparator_id: this.preparator_id,
+                                comment: this.comment,
+                                new_status_text: this.new_status_text,
+                                user_id: this.user_id
+                            })
+                            .then((response) => {
+                                if (response.data.status == 200) {
+                                    swal.fire({
+                                        type: 'success',
+                                        title: 'La commande a été mis à jour  avec succés !',
+                                        showConfirmButton: true,
+                                        allowOutsideClick: false,
+                                        confirmButtonText: 'Fermer'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            window.location = '/wizefresh/public/orders';
+                                        }
+                                    })
+                                }
+                                if (response.data.status == 400) {
+                                    swal.fire({
+                                        type: 'error',
+                                        title: 'Echec !',
+                                        showConfirmButton: true,
+                                        allowOutsideClick: false,
+                                        confirmButtonText: 'Fermer'
+                                    })
+
+                                }
+                                if (response.data.status == 404) {
+                                    swal.fire({
+                                        type: 'error',
+                                        title: 'Commande introuvable !',
+                                        showConfirmButton: true,
+                                        allowOutsideClick: false,
+                                        confirmButtonText: 'Fermer'
+                                    })
+                                }
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            });
+
+                    }
+
+
 
                 }
 

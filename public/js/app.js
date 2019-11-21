@@ -7818,7 +7818,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['order_id', 'user_id'],
   data: function data() {
     return {
-      new_status: '',
+      new_status: 10,
       comment: ''
     };
   },
@@ -7939,7 +7939,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['order_id', 'user_id'],
   data: function data() {
     return {
-      new_status: '',
+      new_status: 8,
       comment: ''
     };
   },
@@ -8060,7 +8060,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['order_id', 'user_id'],
   data: function data() {
     return {
-      new_status: '',
+      new_status: 9,
       comment: ''
     };
   },
@@ -8212,7 +8212,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['order_id', 'user_id'],
   data: function data() {
     return {
-      new_status: '',
+      new_status: 7,
       date: '',
       time: '',
       comment: ''
@@ -8240,47 +8240,79 @@ __webpack_require__.r(__webpack_exports__);
       return true;
     },
     submitOrderToDeliver: function submitOrderToDeliver() {
+      var _this = this;
+
       var validation = this.validateForm();
       console.log(validation);
 
       if (validation) {
-        axios.post("/api/order/".concat(this.order_id, "/prepare/after"), {
-          new_status: this.new_status,
-          date: this.date,
-          time: this.time,
-          comment: this.comment,
-          user_id: this.user_id
-        }).then(function (response) {
-          console.log(response);
+        if (this.new_status == 12) {
+          ;
+          swal.fire({
+            type: 'info',
+            title: 'Attention !',
+            text: "L'annulation d'une commande est une opération irréversible !",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmer',
+            cancelButtonText: 'Annuler',
+            reverseButtons: true
+          }).then(function (result) {
+            if (result.value) {
+              axios.post("/api/order/".concat(_this.order_id, "/prepare/after"), {
+                new_status: _this.new_status,
+                date: _this.date,
+                time: _this.time,
+                comment: _this.comment,
+                user_id: _this.user_id
+              }).then(function (response) {
+                console.log(response);
 
-          if (response.data.status == 200 && response.data.canceled) {
-            swal.fire({
-              type: 'success',
-              title: 'La commande a été annulée avec succés !',
-              showConfirmButton: true,
-              allowOutsideClick: false,
-              confirmButtonText: 'Fermer'
-            }).then(function (result) {
-              if (result.value) {
-                window.location = '/wizefresh/public/orders';
-              }
-            });
-          } else if (response.data.status == 200 && !response.data.canceled) {
-            swal.fire({
-              type: 'success',
-              title: 'La commande a été livrée avec succés !',
-              showConfirmButton: true,
-              allowOutsideClick: false,
-              confirmButtonText: 'Fermer'
-            }).then(function (result) {
-              if (result.value) {
-                window.location = '/wizefresh/public/orders';
-              }
-            });
-          }
-        })["catch"](function (error) {
-          console.log(error);
-        });
+                if (response.data.status == 200) {
+                  swal.fire({
+                    type: 'success',
+                    title: 'La commande a été annulée avec succés !',
+                    showConfirmButton: true,
+                    allowOutsideClick: false,
+                    confirmButtonText: 'Fermer'
+                  }).then(function (result) {
+                    if (result.value) {
+                      window.location = '/wizefresh/public/orders';
+                    }
+                  });
+                }
+              })["catch"](function (error) {
+                console.log(error);
+              });
+            }
+          });
+        } else {
+          axios.post("/api/order/".concat(this.order_id, "/prepare/after"), {
+            new_status: this.new_status,
+            date: this.date,
+            time: this.time,
+            comment: this.comment,
+            user_id: this.user_id
+          }).then(function (response) {
+            console.log(response);
+
+            if (response.data.status == 200) {
+              swal.fire({
+                type: 'success',
+                title: 'La commande a été livrée avec succés !',
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                confirmButtonText: 'Fermer'
+              }).then(function (result) {
+                if (result.value) {
+                  window.location = '/wizefresh/public/orders';
+                }
+              });
+            }
+          })["catch"](function (error) {
+            console.log(error);
+          });
+        }
       }
     },
     cancelOrder: function cancelOrder() {
@@ -8515,6 +8547,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
  // Import stylesheet
 
 
@@ -8526,7 +8559,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   props: ['order_id', 'user_id'],
   data: function data() {
     return {
-      new_status: '',
+      new_status: 4,
       products: [],
       ordered_products: [],
       final_prepared: [],
@@ -8752,28 +8785,30 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
       var x = true;
 
-      if (this.final_prepared.length > 0) {
-        var count = 0;
-        this.final_prepared.forEach(function (prepared) {
-          count += prepared.total;
-        });
+      if (this.new_status != 12) {
+        if (this.final_prepared.length > 0) {
+          var count = 0;
+          this.final_prepared.forEach(function (prepared) {
+            count += prepared.total;
+          });
 
-        if (count <= 0) {
-          this.$emit('requiredValue', 'Veuillez renseigner au moins une quantité à préparer  ');
-          x = false;
-        }
-
-        this.final_prepared.forEach(function (prepared) {
-          if (!prepared.product_id) {
-            _this6.$emit('requiredValue', 'Veuillez séléctionner un produit ');
-
+          if (count <= 0) {
+            this.$emit('requiredValue', 'Veuillez renseigner au moins une quantité à préparer  ');
             x = false;
           }
-        });
 
-        if (this.new_status == '') {
-          this.$emit('requiredValue', 'Veuillez séléctionner un etat ');
-          x = false;
+          this.final_prepared.forEach(function (prepared) {
+            if (!prepared.product_id) {
+              _this6.$emit('requiredValue', 'Veuillez séléctionner un produit ');
+
+              x = false;
+            }
+          });
+
+          if (this.new_status == '') {
+            this.$emit('requiredValue', 'Veuillez séléctionner un etat ');
+            x = false;
+          }
         }
       }
 
@@ -8841,26 +8876,39 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         this.validateBalance();
 
         if (this.new_status == 12) {
-          axios.post("/api/order/".concat(this.order_id, "/prepare/submit"), {
-            final_prepared: this.final_prepared,
-            new_status: this.new_status,
-            user_id: this.user_id
-          }).then(function (response) {
-            if (response.data.status == 200) {
-              swal.fire({
-                type: 'success',
-                title: 'La commande a été annulée avec succés !',
-                showConfirmButton: true,
-                allowOutsideClick: false,
-                confirmButtonText: 'Fermer'
-              }).then(function (result) {
-                if (result.value) {
-                  window.location = '/wizefresh/public/orders';
+          swal.fire({
+            type: 'info',
+            title: 'Attention !',
+            text: "L'annulation d'une commande est une opération irréversible !",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmer',
+            cancelButtonText: 'Annuler',
+            reverseButtons: true
+          }).then(function (result) {
+            if (result.value) {
+              axios.post("/api/order/".concat(_this8.order_id, "/prepare/submit"), {
+                final_prepared: _this8.final_prepared,
+                new_status: _this8.new_status,
+                user_id: _this8.user_id
+              }).then(function (response) {
+                if (response.data.status == 200) {
+                  swal.fire({
+                    type: 'success',
+                    title: 'La commande a été annulée avec succés !',
+                    showConfirmButton: true,
+                    allowOutsideClick: false,
+                    confirmButtonText: 'Fermer'
+                  }).then(function (result) {
+                    if (result.value) {
+                      window.location = '/wizefresh/public/orders';
+                    }
+                  });
                 }
+              })["catch"](function (error) {
+                console.log(error);
               });
             }
-          })["catch"](function (error) {
-            console.log(error);
           });
         } else {
           if (this.balance.length > 0) {
@@ -9099,7 +9147,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['order_id', 'user_id', 'order_full', 'history'],
   data: function data() {
     return {
-      new_status: '',
+      new_status: 5,
       carrier_mode: this.order_full.carrier,
       delivery_man_id: this.order_full.delivery_man_id,
       delivery_mode: this.order_full.delivery_mode,
@@ -9167,52 +9215,89 @@ __webpack_require__.r(__webpack_exports__);
       return true;
     },
     submitOrderPrepared: function submitOrderPrepared() {
+      var _this2 = this;
+
       var validation = this.validateForm();
       console.log(validation);
 
       if (validation) {
-        axios.post("/api/order/".concat(this.order_id, "/prepare/after"), {
-          new_status: this.new_status,
-          carrier_mode: this.carrier_mode,
-          delivery_man_id: this.delivery_man_id,
-          delivery_mode: this.delivery_mode,
-          carton_number: this.carton_number,
-          palet_number: this.palet_number,
-          weight: this.weight,
-          volume: this.volume,
-          user_id: this.user_id,
-          comment: this.comment
-        }).then(function (response) {
-          console.log(response);
+        if (this.new_status == 12) {
+          this.new_status_text = 'Annulée';
+          swal.fire({
+            type: 'info',
+            title: 'Attention !',
+            text: "L'annulation d'une commande est une opération irréversible !",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmer',
+            cancelButtonText: 'Annuler',
+            reverseButtons: true
+          }).then(function (result) {
+            if (result.value) {
+              axios.post("/api/order/".concat(_this2.order_id, "/prepare/after"), {
+                new_status: _this2.new_status,
+                carrier_mode: _this2.carrier_mode,
+                delivery_man_id: _this2.delivery_man_id,
+                delivery_mode: _this2.delivery_mode,
+                carton_number: _this2.carton_number,
+                palet_number: _this2.palet_number,
+                weight: _this2.weight,
+                volume: _this2.volume,
+                user_id: _this2.user_id,
+                comment: _this2.comment
+              }).then(function (response) {
+                console.log(response);
 
-          if (response.data.status == 200 && response.data.canceled) {
-            swal.fire({
-              type: 'success',
-              title: 'La commande a été annulée avec succés !',
-              showConfirmButton: true,
-              allowOutsideClick: false,
-              confirmButtonText: 'Fermer'
-            }).then(function (result) {
-              if (result.value) {
-                window.location = '/wizefresh/public/orders';
-              }
-            });
-          } else if (response.data.status == 200 && !response.data.canceled) {
-            swal.fire({
-              type: 'success',
-              title: 'La commande est maintenant à livrer !',
-              showConfirmButton: true,
-              allowOutsideClick: false,
-              confirmButtonText: 'Fermer'
-            }).then(function (result) {
-              if (result.value) {
-                window.location = '/wizefresh/public/orders';
-              }
-            });
-          }
-        })["catch"](function (error) {
-          console.log(error);
-        });
+                if (response.data.status == 200) {
+                  swal.fire({
+                    type: 'success',
+                    title: 'La commande a été annulée avec succés !',
+                    showConfirmButton: true,
+                    allowOutsideClick: false,
+                    confirmButtonText: 'Fermer'
+                  }).then(function (result) {
+                    if (result.value) {
+                      window.location = '/wizefresh/public/orders';
+                    }
+                  });
+                }
+              })["catch"](function (error) {
+                console.log(error);
+              });
+            }
+          });
+        } else {
+          axios.post("/api/order/".concat(this.order_id, "/prepare/after"), {
+            new_status: this.new_status,
+            carrier_mode: this.carrier_mode,
+            delivery_man_id: this.delivery_man_id,
+            delivery_mode: this.delivery_mode,
+            carton_number: this.carton_number,
+            palet_number: this.palet_number,
+            weight: this.weight,
+            volume: this.volume,
+            user_id: this.user_id,
+            comment: this.comment
+          }).then(function (response) {
+            console.log(response);
+
+            if (response.data.status == 200) {
+              swal.fire({
+                type: 'success',
+                title: 'La commande est maintenant à livrer !',
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                confirmButtonText: 'Fermer'
+              }).then(function (result) {
+                if (result.value) {
+                  window.location = '/wizefresh/public/orders';
+                }
+              });
+            }
+          })["catch"](function (error) {
+            console.log(error);
+          });
+        }
       }
     },
     cancelOrder: function cancelOrder() {
@@ -9281,7 +9366,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['order_id', 'user_id'],
   data: function data() {
     return {
-      new_status: '',
+      new_status: 11,
       comment: ''
     };
   },
@@ -9433,7 +9518,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['order_id', 'user_id'],
   data: function data() {
     return {
-      new_status: '',
+      new_status: 6,
       date: '',
       time: '',
       comment: ''
@@ -9461,55 +9546,79 @@ __webpack_require__.r(__webpack_exports__);
       return true;
     },
     submitOrderToDeliver: function submitOrderToDeliver() {
+      var _this = this;
+
       var validation = this.validateForm();
       console.log(validation);
 
       if (validation) {
-        axios.post("/api/order/".concat(this.order_id, "/prepare/after"), {
-          new_status: this.new_status,
-          date: this.date,
-          time: this.time,
-          comment: this.comment,
-          user_id: this.user_id
-        }).then(function (response) {
-          console.log(response);
+        if (this.new_status == 12) {
+          ;
+          swal.fire({
+            type: 'info',
+            title: 'Attention !',
+            text: "L'annulation d'une commande est une opération irréversible !",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmer',
+            cancelButtonText: 'Annuler',
+            reverseButtons: true
+          }).then(function (result) {
+            if (result.value) {
+              axios.post("/api/order/".concat(_this.order_id, "/prepare/after"), {
+                new_status: _this.new_status,
+                date: _this.date,
+                time: _this.time,
+                comment: _this.comment,
+                user_id: _this.user_id
+              }).then(function (response) {
+                console.log(response);
 
-          if (response.data.status == 200 && response.data.canceled) {
-            swal.fire({
-              type: 'success',
-              title: 'La commande a été annulée avec succés !',
-              showConfirmButton: true,
-              allowOutsideClick: false,
-              confirmButtonText: 'Fermer'
-            }).then(function (result) {
-              if (result.value) {
-                window.location = '/wizefresh/public/orders';
-              }
-            });
-          } else if (response.data.status == 200 && !response.data.canceled) {
-            swal.fire({
-              type: 'success',
-              title: 'La commande est maintenant en cours de livraison !',
-              showConfirmButton: true,
-              allowOutsideClick: false,
-              confirmButtonText: 'Fermer'
-            }).then(function (result) {
-              if (result.value) {
-                window.location = '/wizefresh/public/orders';
-              }
-            });
-          } else {
-            swal.fire({
-              type: 'error',
-              title: 'Echec!',
-              showConfirmButton: true,
-              allowOutsideClick: false,
-              confirmButtonText: 'Fermer'
-            });
-          }
-        })["catch"](function (error) {
-          console.log(error);
-        });
+                if (response.data.status == 200) {
+                  swal.fire({
+                    type: 'success',
+                    title: 'La commande a été annulée avec succés !',
+                    showConfirmButton: true,
+                    allowOutsideClick: false,
+                    confirmButtonText: 'Fermer'
+                  }).then(function (result) {
+                    if (result.value) {
+                      window.location = '/wizefresh/public/orders';
+                    }
+                  });
+                }
+              })["catch"](function (error) {
+                console.log(error);
+              });
+            }
+          });
+        } else {
+          axios.post("/api/order/".concat(this.order_id, "/prepare/after"), {
+            new_status: this.new_status,
+            date: this.date,
+            time: this.time,
+            comment: this.comment,
+            user_id: this.user_id
+          }).then(function (response) {
+            console.log(response);
+
+            if (response.data.status == 200) {
+              swal.fire({
+                type: 'success',
+                title: 'La commande est en cours de livraison !',
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                confirmButtonText: 'Fermer'
+              }).then(function (result) {
+                if (result.value) {
+                  window.location = '/wizefresh/public/orders';
+                }
+              });
+            }
+          })["catch"](function (error) {
+            console.log(error);
+          });
+        }
       }
     },
     cancelOrder: function cancelOrder() {
@@ -9598,7 +9707,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       errors: [],
       users: [],
-      new_status: '',
+      new_status: 3,
       new_status_text: 'En cours de préparation',
       preparator_id: '',
       comment: null
@@ -9633,57 +9742,115 @@ __webpack_require__.r(__webpack_exports__);
       return x;
     },
     saveNewOrderStatus: function saveNewOrderStatus() {
+      var _this2 = this;
+
       var validation = this.validateForm();
       console.log(validation);
 
       if (validation) {
         if (this.new_status == 12) {
           this.new_status_text = 'Annulée';
+          swal.fire({
+            type: 'info',
+            title: 'Attention !',
+            text: "L'annulation d'une commande est une opération irréversible !",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmer',
+            cancelButtonText: 'Annuler',
+            reverseButtons: true
+          }).then(function (result) {
+            if (result.value) {
+              axios.post('/api/order/toprepare/' + _this2.order_id + '', {
+                new_status: _this2.new_status,
+                preparator_id: _this2.preparator_id,
+                comment: _this2.comment,
+                new_status_text: _this2.new_status_text,
+                user_id: _this2.user_id
+              }).then(function (response) {
+                if (response.data.status == 200) {
+                  swal.fire({
+                    type: 'success',
+                    title: 'La commande a été annulée  avec succés !',
+                    showConfirmButton: true,
+                    allowOutsideClick: false,
+                    confirmButtonText: 'Fermer'
+                  }).then(function (result) {
+                    if (result.value) {
+                      window.location = '/wizefresh/public/orders';
+                    }
+                  });
+                }
+
+                if (response.data.status == 400) {
+                  swal.fire({
+                    type: 'error',
+                    title: 'Echec !',
+                    showConfirmButton: true,
+                    allowOutsideClick: false,
+                    confirmButtonText: 'Fermer'
+                  });
+                }
+
+                if (response.data.status == 404) {
+                  swal.fire({
+                    type: 'error',
+                    title: 'Commande introuvable !',
+                    showConfirmButton: true,
+                    allowOutsideClick: false,
+                    confirmButtonText: 'Fermer'
+                  });
+                }
+              })["catch"](function (error) {
+                console.log(error);
+              });
+            }
+          });
+        } else {
+          axios.post('/api/order/toprepare/' + this.order_id + '', {
+            new_status: this.new_status,
+            preparator_id: this.preparator_id,
+            comment: this.comment,
+            new_status_text: this.new_status_text,
+            user_id: this.user_id
+          }).then(function (response) {
+            if (response.data.status == 200) {
+              swal.fire({
+                type: 'success',
+                title: 'La commande a été mis à jour  avec succés !',
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                confirmButtonText: 'Fermer'
+              }).then(function (result) {
+                if (result.value) {
+                  window.location = '/wizefresh/public/orders';
+                }
+              });
+            }
+
+            if (response.data.status == 400) {
+              swal.fire({
+                type: 'error',
+                title: 'Echec !',
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                confirmButtonText: 'Fermer'
+              });
+            }
+
+            if (response.data.status == 404) {
+              swal.fire({
+                type: 'error',
+                title: 'Commande introuvable !',
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                confirmButtonText: 'Fermer'
+              });
+            }
+          })["catch"](function (error) {
+            console.log(error);
+          });
         }
-
-        axios.post('/api/order/toprepare/' + this.order_id + '', {
-          new_status: this.new_status,
-          preparator_id: this.preparator_id,
-          comment: this.comment,
-          new_status_text: this.new_status_text,
-          user_id: this.user_id
-        }).then(function (response) {
-          if (response.data.status == 200) {
-            swal.fire({
-              type: 'success',
-              title: 'La commande a été mis à jour  avec succés !',
-              showConfirmButton: true,
-              allowOutsideClick: false,
-              confirmButtonText: 'Fermer'
-            }).then(function (result) {
-              if (result.value) {
-                window.location = '/wizefresh/public/orders';
-              }
-            });
-          }
-
-          if (response.data.status == 400) {
-            swal.fire({
-              type: 'error',
-              title: 'Echec !',
-              showConfirmButton: true,
-              allowOutsideClick: false,
-              confirmButtonText: 'Fermer'
-            });
-          }
-
-          if (response.data.status == 404) {
-            swal.fire({
-              type: 'error',
-              title: 'Commande introuvable !',
-              showConfirmButton: true,
-              allowOutsideClick: false,
-              confirmButtonText: 'Fermer'
-            });
-          }
-        })["catch"](function (error) {
-          console.log(error);
-        });
       }
     },
     cancelOrder: function cancelOrder() {
@@ -74286,334 +74453,361 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("div", { staticClass: "box-body" }, [
-          _c("table", { staticClass: "table" }, [
-            _vm._m(1),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.custom_ordered, function(ordered, index) {
-                return _c("tr", [
-                  _c("td", [
-                    _vm._v(
-                      "\n                                " +
-                        _vm._s(ordered.name) +
-                        "\n                            "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(" " + _vm._s(ordered.unit))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(ordered.package))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(ordered.product_packing))]),
-                  _vm._v(" "),
-                  _c("td")
-                ])
-              }),
-              0
-            )
-          ])
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _vm._m(2),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "container-fluid" },
-      [
-        _vm._l(_vm.final_prepared, function(final, i) {
-          return _c(
-            "div",
-            {
-              staticClass: "box",
-              staticStyle: {
-                border: "1px solid rgb(228, 228, 228)",
-                padding: "20px"
-              }
-            },
-            [
+    _vm.new_status != 12
+      ? _c("div", [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-6" }, [
               _c("div", { staticClass: "box-body" }, [
-                i > 0
-                  ? _c("div", {}, [
-                      _c(
-                        "a",
-                        {
-                          staticClass: "pull-right btn btn-default",
-                          attrs: { href: "" },
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              return _vm.removePrepared(final)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fa fa-minus" })]
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("div", { staticClass: "container-fluid" }, [
-                  _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "col-md-4" }, [
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                          _vm._v("Nom du produit")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: final.product_id,
-                                expression: "final.product_id"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            on: {
-                              change: [
-                                function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.$set(
-                                    final,
-                                    "product_id",
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  )
-                                },
-                                function($event, index) {
-                                  return _vm.getProductData($event, i)
-                                }
-                              ]
-                            }
-                          },
-                          [
-                            _vm.products.length > 0
-                              ? _c(
-                                  "option",
-                                  { attrs: { value: "", disabled: "" } },
-                                  [
-                                    _vm._v(
-                                      " Selectionner un\n                                        produit\n                                    "
-                                    )
-                                  ]
-                                )
-                              : _c("option", { attrs: { value: "" } }, [
-                                  _vm._v(" Aucun produit ")
-                                ]),
-                            _vm._v(" "),
-                            _vm._l(_vm.products, function(product) {
-                              return _c(
-                                "option",
-                                { domProps: { value: product.id } },
-                                [
-                                  _vm._v(
-                                    _vm._s(product.nom) +
-                                      "\n                                    "
-                                  )
-                                ]
-                              )
-                            })
-                          ],
-                          2
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                          _vm._v("Total des quantités préparés")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: final.total,
-                              expression: "final.total"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { type: "text", disabled: "" },
-                          domProps: { value: final.total },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(final, "total", $event.target.value)
-                            }
-                          }
-                        })
-                      ])
-                    ])
-                  ]),
+                _c("table", { staticClass: "table" }, [
+                  _vm._m(1),
                   _vm._v(" "),
-                  _c("div", { staticClass: "row" }, [
-                    _c("table", { staticClass: "table" }, [
-                      _vm._m(3, true),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.custom_ordered, function(ordered, index) {
+                      return _c("tr", [
+                        _c("td", [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(ordered.name) +
+                              "\n                            "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(" " + _vm._s(ordered.unit))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(ordered.package))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(ordered.product_packing))]),
+                        _vm._v(" "),
+                        _c("td")
+                      ])
+                    }),
+                    0
+                  )
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(2),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "container-fluid" },
+            [
+              _vm._l(_vm.final_prepared, function(final, i) {
+                return _c(
+                  "div",
+                  {
+                    staticClass: "box",
+                    staticStyle: {
+                      border: "1px solid rgb(228, 228, 228)",
+                      padding: "20px"
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "box-body" }, [
+                      i > 0
+                        ? _c("div", {}, [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "pull-right btn btn-default",
+                                attrs: { href: "" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.removePrepared(final)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-minus" })]
+                            )
+                          ])
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c(
-                        "tbody",
-                        [
-                          final.prepared_products.length == 0
-                            ? _c("tr", [
-                                _c(
-                                  "td",
-                                  {
-                                    staticClass: "text-center",
-                                    attrs: { colspan: "6" }
-                                  },
-                                  [
-                                    final.product_id == ""
-                                      ? _c("h4", [
-                                          _vm._v(
-                                            "Veuillez sélectionner un produit !"
-                                          )
-                                        ])
-                                      : _c("h4", [
-                                          _vm._v("Aucun produit trouvé !")
-                                        ])
-                                  ]
-                                )
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c("loading", {
-                            attrs: {
-                              active: final.isLoading,
-                              "is-full-page": false,
-                              opacity: 0.7,
-                              loader: "dots",
-                              color: "#3c8dbc"
-                            },
-                            on: {
-                              "update:active": function($event) {
-                                return _vm.$set(final, "isLoading", $event)
-                              }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _vm._l(final.prepared_products, function(
-                            prepared,
-                            index
-                          ) {
-                            return _c("tr", [
-                              _c("td", [
-                                _vm._v(_vm._s(final.product_name) + " ")
-                              ]),
+                      _c("div", { staticClass: "container-fluid" }, [
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col-md-4" }, [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "label",
+                                { attrs: { for: "exampleInputEmail1" } },
+                                [_vm._v("Nom du produit")]
+                              ),
                               _vm._v(" "),
-                              _c("td", [
-                                _vm._v(_vm._s(prepared.quantity) + " ")
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(_vm._s(prepared.packing) + " ")
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(_vm._s(prepared.warehouse_name) + " ")
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(_vm._s(prepared.creation_date) + " ")
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(_vm._s(prepared.expiration_date) + " ")
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _c("input", {
+                              _c(
+                                "select",
+                                {
                                   directives: [
                                     {
                                       name: "model",
-                                      rawName: "v-model.number",
-                                      value: prepared.pivot.quantity,
-                                      expression: "prepared.pivot.quantity",
-                                      modifiers: { number: true }
+                                      rawName: "v-model",
+                                      value: final.product_id,
+                                      expression: "final.product_id"
                                     }
                                   ],
                                   staticClass: "form-control",
-                                  attrs: {
-                                    type: "number",
-                                    min: "1",
-                                    placeholder: "Quantité préparée"
-                                  },
-                                  domProps: { value: prepared.pivot.quantity },
                                   on: {
-                                    change: function($event) {
-                                      return _vm.updateTotalQuantity(
-                                        prepared,
-                                        index,
-                                        i
-                                      )
-                                    },
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
+                                    change: [
+                                      function($event) {
+                                        var $$selectedVal = Array.prototype.filter
+                                          .call($event.target.options, function(
+                                            o
+                                          ) {
+                                            return o.selected
+                                          })
+                                          .map(function(o) {
+                                            var val =
+                                              "_value" in o ? o._value : o.value
+                                            return val
+                                          })
+                                        _vm.$set(
+                                          final,
+                                          "product_id",
+                                          $event.target.multiple
+                                            ? $$selectedVal
+                                            : $$selectedVal[0]
+                                        )
+                                      },
+                                      function($event, index) {
+                                        return _vm.getProductData($event, i)
                                       }
-                                      _vm.$set(
-                                        prepared.pivot,
-                                        "quantity",
-                                        _vm._n($event.target.value)
+                                    ]
+                                  }
+                                },
+                                [
+                                  _vm.products.length > 0
+                                    ? _c(
+                                        "option",
+                                        { attrs: { value: "", disabled: "" } },
+                                        [
+                                          _vm._v(
+                                            " Selectionner un\n                                        produit\n                                    "
+                                          )
+                                        ]
                                       )
-                                    },
-                                    blur: function($event) {
-                                      return _vm.$forceUpdate()
+                                    : _c("option", { attrs: { value: "" } }, [
+                                        _vm._v(" Aucun produit ")
+                                      ]),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.products, function(product) {
+                                    return _c(
+                                      "option",
+                                      { domProps: { value: product.id } },
+                                      [
+                                        _vm._v(
+                                          _vm._s(product.nom) +
+                                            "\n                                    "
+                                        )
+                                      ]
+                                    )
+                                  })
+                                ],
+                                2
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-4" }, [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "label",
+                                { attrs: { for: "exampleInputEmail1" } },
+                                [_vm._v("Total des quantités préparés")]
+                              ),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: final.total,
+                                    expression: "final.total"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: { type: "text", disabled: "" },
+                                domProps: { value: final.total },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      final,
+                                      "total",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "row" }, [
+                          _c("table", { staticClass: "table" }, [
+                            _vm._m(3, true),
+                            _vm._v(" "),
+                            _c(
+                              "tbody",
+                              [
+                                final.prepared_products.length == 0
+                                  ? _c("tr", [
+                                      _c(
+                                        "td",
+                                        {
+                                          staticClass: "text-center",
+                                          attrs: { colspan: "6" }
+                                        },
+                                        [
+                                          final.product_id == ""
+                                            ? _c("h4", [
+                                                _vm._v(
+                                                  "Veuillez sélectionner un produit !"
+                                                )
+                                              ])
+                                            : _c("h4", [
+                                                _vm._v("Aucun produit trouvé !")
+                                              ])
+                                        ]
+                                      )
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _c("loading", {
+                                  attrs: {
+                                    active: final.isLoading,
+                                    "is-full-page": false,
+                                    opacity: 0.7,
+                                    loader: "dots",
+                                    color: "#3c8dbc"
+                                  },
+                                  on: {
+                                    "update:active": function($event) {
+                                      return _vm.$set(
+                                        final,
+                                        "isLoading",
+                                        $event
+                                      )
                                     }
                                   }
+                                }),
+                                _vm._v(" "),
+                                _vm._l(final.prepared_products, function(
+                                  prepared,
+                                  index
+                                ) {
+                                  return _c("tr", [
+                                    _c("td", [
+                                      _vm._v(_vm._s(final.product_name) + " ")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(_vm._s(prepared.quantity) + " ")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(_vm._s(prepared.packing) + " ")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        _vm._s(prepared.warehouse_name) + " "
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        _vm._s(prepared.creation_date) + " "
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        _vm._s(prepared.expiration_date) + " "
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model.number",
+                                            value: prepared.pivot.quantity,
+                                            expression:
+                                              "prepared.pivot.quantity",
+                                            modifiers: { number: true }
+                                          }
+                                        ],
+                                        staticClass: "form-control",
+                                        attrs: {
+                                          type: "number",
+                                          min: "1",
+                                          placeholder: "Quantité préparée"
+                                        },
+                                        domProps: {
+                                          value: prepared.pivot.quantity
+                                        },
+                                        on: {
+                                          change: function($event) {
+                                            return _vm.updateTotalQuantity(
+                                              prepared,
+                                              index,
+                                              i
+                                            )
+                                          },
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              prepared.pivot,
+                                              "quantity",
+                                              _vm._n($event.target.value)
+                                            )
+                                          },
+                                          blur: function($event) {
+                                            return _vm.$forceUpdate()
+                                          }
+                                        }
+                                      })
+                                    ])
+                                  ])
                                 })
-                              ])
-                            ])
-                          })
-                        ],
-                        2
-                      )
+                              ],
+                              2
+                            )
+                          ])
+                        ])
+                      ])
                     ])
-                  ])
-                ])
-              ])
-            ]
+                  ]
+                )
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-default",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      return _vm.loadPrepared()
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fa fa-plus" })]
+              )
+            ],
+            2
           )
-        }),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-default",
-            attrs: { type: "button" },
-            on: {
-              click: function($event) {
-                return _vm.loadPrepared()
-              }
-            }
-          },
-          [_c("i", { staticClass: "fa fa-plus" })]
-        )
-      ],
-      2
-    ),
+        ])
+      : _vm._e(),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "container text-center" }, [

@@ -102,11 +102,11 @@
         mounted() {
             this.loadUsers()
         },
-        props: ['order_id', 'user_id','order_full','history'],
+        props: ['order_id', 'user_id', 'order_full', 'history'],
         data() {
             return {
-                new_status: '',
-                carrier_mode:this.order_full.carrier,
+                new_status: 5,
+                carrier_mode: this.order_full.carrier,
                 delivery_man_id: this.order_full.delivery_man_id,
                 delivery_mode: this.order_full.delivery_mode,
                 carton_number: this.order_full.cartons_number,
@@ -176,57 +176,102 @@
                 let validation = this.validateForm();
                 console.log(validation)
                 if (validation) {
+                    if (this.new_status == 12) {
+                        this.new_status_text = 'Annulée';
+                        swal.fire({
+                            type: 'info',
+                            title: 'Attention !',
+                            text: "L'annulation d'une commande est une opération irréversible !",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Confirmer',
+                            cancelButtonText: 'Annuler',
+                            reverseButtons: true
+                        }).then((result) => {
+                            if (result.value) {
+                                axios.post(`/api/order/${this.order_id}/prepare/after`, {
+                                        new_status: this.new_status,
+                                        carrier_mode: this.carrier_mode,
+                                        delivery_man_id: this.delivery_man_id,
+                                        delivery_mode: this.delivery_mode,
+                                        carton_number: this.carton_number,
+                                        palet_number: this.palet_number,
+                                        weight: this.weight,
+                                        volume: this.volume,
+                                        user_id: this.user_id,
+                                        comment: this.comment
+                                    })
+                                    .then((response) => {
 
-                    axios.post(`/api/order/${this.order_id}/prepare/after`, {
-                            new_status: this.new_status,
-                            carrier_mode: this.carrier_mode,
-                            delivery_man_id: this.delivery_man_id,
-                            delivery_mode: this.delivery_mode,
-                            carton_number: this.carton_number,
-                            palet_number: this.palet_number,
-                            weight: this.weight,
-                            volume: this.volume,
-                            user_id: this.user_id,
-                            comment: this.comment
-                        })
-                        .then((response) => {
-                            
-                            console.log(response)
-                            if (response.data.status == 200 && response.data.canceled) {
-                                swal.fire({
-                                    type: 'success',
-                                    title: 'La commande a été annulée avec succés !',
-                                    showConfirmButton: true,
-                                    allowOutsideClick: false,
-                                    confirmButtonText: 'Fermer'
-                                }).then((result) => {
-                                    if (result.value) {
-                                        window.location = '/wizefresh/public/orders';
-                                    }
-                                })
+                                        console.log(response)
+                                        if (response.data.status == 200) {
+                                            swal.fire({
+                                                type: 'success',
+                                                title: 'La commande a été annulée avec succés !',
+                                                showConfirmButton: true,
+                                                allowOutsideClick: false,
+                                                confirmButtonText: 'Fermer'
+                                            }).then((result) => {
+                                                if (result.value) {
+                                                    window.location = '/wizefresh/public/orders';
+                                                }
+                                            })
 
-                            } else if (response.data.status == 200 && !response.data.canceled) {
+                                        }
 
-                                swal.fire({
-                                    type: 'success',
-                                    title: 'La commande est maintenant à livrer !',
-                                    showConfirmButton: true,
-                                    allowOutsideClick: false,
-                                    confirmButtonText: 'Fermer'
-                                }).then((result) => {
-                                    if (result.value) {
-                                        window.location = '/wizefresh/public/orders';
-                                    }
-                                })
+
+
+
+                                    })
+                                    .catch((error) => {
+                                        console.log(error);
+                                    })
+
                             }
+                        });
+                    } else {
+                        axios.post(`/api/order/${this.order_id}/prepare/after`, {
+                                new_status: this.new_status,
+                                carrier_mode: this.carrier_mode,
+                                delivery_man_id: this.delivery_man_id,
+                                delivery_mode: this.delivery_mode,
+                                carton_number: this.carton_number,
+                                palet_number: this.palet_number,
+                                weight: this.weight,
+                                volume: this.volume,
+                                user_id: this.user_id,
+                                comment: this.comment
+                            })
+                            .then((response) => {
+
+                                console.log(response)
+                                if (response.data.status == 200) {
+                                    swal.fire({
+                                        type: 'success',
+                                        title: 'La commande est maintenant à livrer !',
+                                        showConfirmButton: true,
+                                        allowOutsideClick: false,
+                                        confirmButtonText: 'Fermer'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            window.location = '/wizefresh/public/orders';
+                                        }
+                                    })
+
+                                }
 
 
 
 
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        })
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            })
+
+
+                    }
+
+
 
                 }
             },

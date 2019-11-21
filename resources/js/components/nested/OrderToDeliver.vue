@@ -79,7 +79,7 @@
         props: ['order_id', 'user_id'],
         data() {
             return {
-                new_status: '',
+                new_status: 6,
                 date: '',
                 time: '',
                 comment: ''
@@ -115,62 +115,86 @@
                 let validation = this.validateForm();
                 console.log(validation)
                 if (validation) {
+                    if (this.new_status == 12) {
+                        ;
+                        swal.fire({
+                            type: 'info',
+                            title: 'Attention !',
+                            text: "L'annulation d'une commande est une opération irréversible !",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Confirmer',
+                            cancelButtonText: 'Annuler',
+                            reverseButtons: true
+                        }).then((result) => {
+                            if (result.value) {
+                                axios.post(`/api/order/${this.order_id}/prepare/after`, {
+                                        new_status: this.new_status,
+                                        date: this.date,
+                                        time: this.time,
+                                        comment: this.comment,
+                                        user_id: this.user_id
+                                    })
+                                    .then((response) => {
+                                        console.log(response)
+                                        if (response.data.status == 200) {
+                                            swal.fire({
+                                                type: 'success',
+                                                title: 'La commande a été annulée avec succés !',
+                                                showConfirmButton: true,
+                                                allowOutsideClick: false,
+                                                confirmButtonText: 'Fermer'
+                                            }).then((result) => {
+                                                if (result.value) {
+                                                    window.location = '/wizefresh/public/orders';
+                                                }
+                                            })
 
-                    axios.post(`/api/order/${this.order_id}/prepare/after`, {
-                            new_status: this.new_status,
-                            date: this.date,
-                            time: this.time,
-                            comment: this.comment,
-                            user_id:this.user_id
-                        })
-                        .then((response) => {
-                            console.log(response)
-                            if (response.data.status == 200 && response.data.canceled) {
-                                swal.fire({
-                                    type: 'success',
-                                    title: 'La commande a été annulée avec succés !',
-                                    showConfirmButton: true,
-                                    allowOutsideClick: false,
-                                    confirmButtonText: 'Fermer'
-                                }).then((result) => {
-                                    if (result.value) {
-                                        window.location = '/wizefresh/public/orders';
-                                    }
-                                })
+                                        }
 
-                            } else if (response.data.status == 200 && !response.data.canceled) {
-
-                                swal.fire({
-                                    type: 'success',
-                                    title: 'La commande est maintenant en cours de livraison !',
-                                    showConfirmButton: true,
-                                    allowOutsideClick: false,
-                                    confirmButtonText: 'Fermer'
-                                }).then((result) => {
-                                    if (result.value) {
-                                        window.location = '/wizefresh/public/orders';
-                                    }
-                                })
-                            } else {
-                                swal.fire({
-                                    type: 'error',
-                                    title: 'Echec!',
-                                    showConfirmButton: true,
-                                    allowOutsideClick: false,
-                                    confirmButtonText: 'Fermer'
-                                })
+                                    })
+                                    .catch((error) => {
+                                        console.log(error);
+                                    })
 
                             }
+                        });
+                    } else {
 
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        })
+                        axios.post(`/api/order/${this.order_id}/prepare/after`, {
+                                new_status: this.new_status,
+                                date: this.date,
+                                time: this.time,
+                                comment: this.comment,
+                                user_id: this.user_id
+                            })
+                            .then((response) => {
+                                console.log(response)
+                                if (response.data.status == 200) {
+                                    swal.fire({
+                                        type: 'success',
+                                        title: 'La commande est en cours de livraison !',
+                                        showConfirmButton: true,
+                                        allowOutsideClick: false,
+                                        confirmButtonText: 'Fermer'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            window.location = '/wizefresh/public/orders';
+                                        }
+                                    })
+
+                                }
+
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            })
+                    }
 
                 }
 
             },
-               cancelOrder() {
+            cancelOrder() {
                 window.location = "/wizefresh/public/orders"
             }
         }

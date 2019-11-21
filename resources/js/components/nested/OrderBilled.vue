@@ -8,15 +8,15 @@
                     <select class="form-control" v-model="new_status">
                         <option value="" disabled> Séléctionner un état</option>
                         <option value="10">A envoyer en comptabilité</option>
-              
-                    </select>
 
+                    </select>
+    
                 </div>
             </div>
         </div>
-      
 
-            <div class="row" style="margin-top:20px;">
+
+        <div class="row" style="margin-top:20px;">
             <div class="col-md-12">
                 <label>Commentaires (optionnel)</label>
                 <textarea class="form-control" rows="3" placeholder="Commentaires" v-model="comment"></textarea>
@@ -48,8 +48,8 @@
         props: ['order_id', 'user_id'],
         data() {
             return {
-                new_status: '',
-              
+                new_status: 10,
+
                 comment: ''
 
 
@@ -62,7 +62,7 @@
                     this.$emit('requiredValue', 'Veuillez séléctionner un état  ')
                     return false;
                 }
-              
+
 
                 return true;
 
@@ -76,7 +76,7 @@
                     axios.post(`/api/order/${this.order_id}/prepare/after`, {
                             new_status: this.new_status,
                             comment: this.comment,
-                            user_id:this.user_id
+                            user_id: this.user_id
                         })
                         .then((response) => {
                             console.log(response)
@@ -106,7 +106,7 @@
                                         window.location = '/wizefresh/public/orders';
                                     }
                                 })
-                            } 
+                            }
 
                         })
                         .catch((error) => {
@@ -116,7 +116,7 @@
                 }
 
             },
-               cancelOrder() {
+            cancelOrder() {
                 window.location = "/wizefresh/public/orders"
             }
         }

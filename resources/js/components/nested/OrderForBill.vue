@@ -48,7 +48,7 @@
         props: ['order_id', 'user_id'],
         data() {
             return {
-                new_status: '',
+                new_status: 9,
               
                 comment: ''
 

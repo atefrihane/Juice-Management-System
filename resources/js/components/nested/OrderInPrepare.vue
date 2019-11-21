@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-
+        <div v-if="new_status !=12">    
         <div class="row" style="margin-top:40px;">
 
             <div class="col-md-12">
@@ -174,6 +174,7 @@
 
 
         </div>
+        </div>
 
         <div class="row">
             <div class="container text-center">
@@ -216,7 +217,7 @@
         props: ['order_id', 'user_id'],
         data() {
             return {
-                new_status: '',
+                new_status: 4,
                 products: [],
                 ordered_products: [],
                 final_prepared: [],
@@ -507,6 +508,10 @@
             },
             validateForm() {
                 let x = true;
+                if(this.new_status != 12)
+                {
+
+               
                 if (this.final_prepared.length > 0) {
 
 
@@ -543,13 +548,14 @@
 
 
                 }
+                 }
 
                 return x;
             },
             validateBalance() {
                 //Only Allah knows how I did it :p ( هذا من فضل ربي )
-                this.balance=[]
-                this.balance=[]
+                this.balance = []
+                this.balance = []
                 let balances = [];
                 let rmvBalances = [];
 
@@ -605,7 +611,7 @@
 
 
                 this.balance = _.differenceBy(newBalances, rmvBalances, "product_id")
-              
+
 
             },
             submitOrderInPrepare() {
@@ -615,31 +621,45 @@
                     this.validateBalance()
 
                     if (this.new_status == 12) {
+                        swal.fire({
+                             type: 'info',
+                            title: 'Attention !',
+                            text: "L'annulation d'une commande est une opération irréversible !",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Confirmer',
+                            cancelButtonText: 'Annuler',
+                            reverseButtons: true
+                        }).then((result) => {
+                            if (result.value) {
+                                axios.post(`/api/order/${this.order_id}/prepare/submit`, {
+                                        final_prepared: this.final_prepared,
+                                        new_status: this.new_status,
+                                        user_id: this.user_id
+                                    })
+                                    .then((response) => {
+                                        if (response.data.status == 200) {
+                                            swal.fire({
+                                                type: 'success',
+                                                title: 'La commande a été annulée avec succés !',
+                                                showConfirmButton: true,
+                                                allowOutsideClick: false,
+                                                confirmButtonText: 'Fermer'
+                                            }).then((result) => {
+                                                if (result.value) {
+                                                    window.location = '/wizefresh/public/orders';
+                                                }
+                                            })
 
-                        axios.post(`/api/order/${this.order_id}/prepare/submit`, {
-                                final_prepared: this.final_prepared,
-                                new_status: this.new_status,
-                                user_id: this.user_id
-                            })
-                            .then((response) => {
-                                if (response.data.status == 200) {
-                                    swal.fire({
-                                        type: 'success',
-                                        title: 'La commande a été annulée avec succés !',
-                                        showConfirmButton: true,
-                                        allowOutsideClick: false,
-                                        confirmButtonText: 'Fermer'
-                                    }).then((result) => {
-                                        if (result.value) {
-                                            window.location = '/wizefresh/public/orders';
                                         }
                                     })
+                                    .catch((error) => {
+                                        console.log(error);
+                                    });
+                            }
+                        });
 
-                                }
-                            })
-                            .catch((error) => {
-                                console.log(error);
-                            });
+
 
                     } else {
 
@@ -686,11 +706,12 @@
                                     }).then((result) => {
                                         // commande normal
                                         if (result.value) {
-                                            axios.post(`/api/order/${this.order_id}/prepare/submit`, {
-                                                    final_prepared: this.final_prepared,
-                                                    new_status: this.new_status,
-                                                    user_id: this.user_id
-                                                })
+                                            axios.post(
+                                                    `/api/order/${this.order_id}/prepare/submit`, {
+                                                        final_prepared: this.final_prepared,
+                                                        new_status: this.new_status,
+                                                        user_id: this.user_id
+                                                    })
                                                 .then((response) => {
                                                     if (response.data.status == 200) {
                                                         swal.fire({
@@ -701,7 +722,8 @@
                                                             confirmButtonText: 'Fermer'
                                                         }).then((result) => {
                                                             if (result.value) {
-                                                                window.location =
+                                                                window
+                                                                    .location =
                                                                     '/wizefresh/public/orders';
                                                             }
                                                         })
@@ -713,12 +735,13 @@
 
                                         } else if (result.dismiss == 'cancel') {
                                             // commande reliquat
-                                            axios.post(`/api/order/${this.order_id}/prepare/submit`, {
-                                                    final_prepared: this.final_prepared,
-                                                    balance: this.balance,
-                                                    new_status: this.new_status,
-                                                    user_id: this.user_id
-                                                })
+                                            axios.post(
+                                                    `/api/order/${this.order_id}/prepare/submit`, {
+                                                        final_prepared: this.final_prepared,
+                                                        balance: this.balance,
+                                                        new_status: this.new_status,
+                                                        user_id: this.user_id
+                                                    })
                                                 .then((response) => {
                                                     if (response.data.status == 200) {
                                                         swal.fire({
@@ -729,7 +752,8 @@
                                                             confirmButtonText: 'Fermer'
                                                         }).then((result) => {
                                                             if (result.value) {
-                                                                window.location =
+                                                                window
+                                                                    .location =
                                                                     '/wizefresh/public/orders';
                                                             }
                                                         })
