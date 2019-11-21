@@ -57,7 +57,8 @@ class OrderController extends Controller
     {
         $order = Order::find($id);
         if ($order) {
-            return view('Order::showUpdateStatusOrder', ['order' => $order]);
+
+            return view('Order::showUpdateStatusOrder', ['order' => $order,'history' => $order->histories->last()]);
 
         }
         return view('General::notFound');
@@ -82,6 +83,18 @@ class OrderController extends Controller
             $order->update(['status' => 13]);
             alert()->success('Succés!', 'La commande a été archivée')->persistent('Fermer');
             return redirect()->route('showOrders');
+
+        }
+        return view('General::notFound');
+
+    }
+
+    public function showUpdateDeliveryOrder($id)
+    {
+        $order = Order::find($id);
+        if ($order) {
+
+            return view('Order::updateDeliveryOrder', ['order' => $order, 'history' => $order->histories->last()]);
 
         }
         return view('General::notFound');

@@ -20,6 +20,7 @@ import OrderUpdate from './components/OrderUpdate.vue'
 import OrderShow from './components/OrderShow.vue'
 import OrderStatusUpdate from './components/OrderStatusUpdate.vue'
 import OrderPreparedProducts from './components/OrderPreparedProducts.vue'
+import DeliveryUpdate from './components/DeliveryUpdate.vue'
 import swal from 'sweetalert2'
 // import swal from 'sweetalert';
 window.swal = swal;
@@ -43,6 +44,7 @@ Vue.component('order-update', require('./components/OrderUpdate.vue'));
 Vue.component('order-show', require('./components/OrderShow.vue'));
 Vue.component('order-status-update', require('./components/OrderStatusUpdate.vue'));
 Vue.component('order-prepared-products', require('./components/OrderPreparedProducts.vue'));
+Vue.component('delivery-update', require('./components/DeliveryUpdate.vue'));
 axios.defaults.baseURL = '/wizefresh/public/'
 const app = new Vue({
     el: '#app',
@@ -59,6 +61,7 @@ const app = new Vue({
         'order-show': OrderShow,
         'order-status-update': OrderStatusUpdate,
         'order-prepared-products': OrderPreparedProducts,
+        'delivery-update': DeliveryUpdate
 
 
 

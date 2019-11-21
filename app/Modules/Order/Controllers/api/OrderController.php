@@ -19,7 +19,7 @@ class OrderController extends Controller
                 'status' => $request->status,
                 'total' => $request->total_order,
                 'store_id' => $request->store_id,
-              
+
             ]);
 
             if ($request->input('ordered_products')) {
@@ -100,7 +100,7 @@ class OrderController extends Controller
             $order->update([
                 'store_id' => $request->store_id,
                 'total' => $request->total_order,
-                'status' => $request->status
+                'status' => $request->status,
             ]);
             foreach ($request->custom_ordered as $custom) {
                 $checkProduct = $order->products()->where('product_id', $custom['product_id'])->first();
@@ -138,13 +138,13 @@ class OrderController extends Controller
                 $order->update([
                     'status' => $request->input('new_status'),
                     'preparator_id' => $request->input('preparator_id'),
-              
+
                 ]);
                 OrderHistory::create([
                     'order_id' => $order->id,
                     'user_id' => $request->user_id,
-                    'action' => 'Etat vers : '.$request->input('new_status_text'),
-                    'comment' => $request->comment
+                    'action' => 'Etat vers : ' . $request->input('new_status_text'),
+                    'comment' => $request->comment,
                 ]);
 
                 return response()->json(['status' => 200]);
@@ -251,7 +251,7 @@ class OrderController extends Controller
                 'action' => 'Modification de la préparation',
                 'order_id' => $order->id,
                 'user_id' => $request->user_id,
-                'comment' => $request->comment
+                'comment' => $request->comment,
             ]);
 
             return true;
@@ -334,7 +334,7 @@ class OrderController extends Controller
                     'action' => 'Etat vers : Annulée',
                     'user_id' => $request->user_id,
                     'order_id' => $id,
-                    'comment' => $request->comment
+                    'comment' => $request->comment,
 
                 ]);
                 return response()->json(['status' => 200]);
@@ -354,13 +354,12 @@ class OrderController extends Controller
                             'parent_id' => $order->id,
                         ]);
                         foreach ($request->balance as $balance) {
-                   
 
                             $balanceOrder->products()->attach($balance['product_id'], [
-                              'unit' => $balance['qty'],
-                             'package' => ceil($balance['packing']/$balance['qty'])
-                             
-                             ]);
+                                'unit' => $balance['qty'],
+                                'package' => ceil($balance['packing'] / $balance['qty']),
+
+                            ]);
                         }
 
                     }
@@ -372,7 +371,7 @@ class OrderController extends Controller
                         'action' => 'Etat vers : Préparée',
                         'user_id' => $request->user_id,
                         'order_id' => $id,
-                        'comment' => $request->comment
+                        'comment' => $request->comment,
 
                     ]);
                     return response()->json(['status' => 200]);
@@ -563,6 +562,35 @@ class OrderController extends Controller
         }
         return response()->json(['status' => 404]);
 
+    }
+
+    public function handleUpdateDeliveryOrder($id, Request $request)
+    {
+        $order = Order::find($id);
+        if ($order) {
+
+            $order->update([
+
+                'carrier' => $request->carrier_mode,
+                'delivery_man_id' => $request->delivery_man_id,
+                'delivery_mode' => $request->delivery_mode,
+                'cartons_number' => $request->carton_number,
+                'pallets_number' => $request->palet_number,
+                'weight' => $request->weight,
+                'volume' => $request->volume,
+
+            ]);
+            OrderHistory::create([
+                'action' => 'Modification de la livraison',
+                'order_id' => $id,
+                'user_id' => $request->user_id,
+                'comment' => $request->comment,
+
+            ]);
+            return response()->json(['status' => 200]);
+        }
+
+        return response()->json(['status' => 404]);
     }
 
 }

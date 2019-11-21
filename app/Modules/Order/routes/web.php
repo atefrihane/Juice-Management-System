@@ -30,3 +30,11 @@ Route::group(['module' => 'Order', 'middleware' => ['web', 'isAuth', 'order.upda
     Route::get('order/update/{id}', 'OrderController@showUpdateOrder')->name('showUpdateOrder');
 
 });
+
+// routes below won't be accessed only if the upcoming order has a status >= 4  || status <=7 ( Delivery_mode)
+
+Route::group(['module' => 'Order', 'middleware' => ['web', 'isAuth', 'order.delivery'], 'namespace' => 'App\Modules\Order\Controllers'], function () {
+
+    Route::get('order/delivery/{id}', 'OrderController@showUpdateDeliveryOrder')->name('showUpdateDeliveryOrder');
+
+});

@@ -77,6 +77,7 @@ class Kernel extends HttpKernel
         'order.update' => \App\Http\Middleware\OrderUpdate::class,
         'order.update.status' => \App\Http\Middleware\OrderStatusUpdate::class,
         'order.archive' => \App\Http\Middleware\ArchiveOrder::class,
+        'order.delivery' => \App\Http\Middleware\OrderDelivery::class,
     ];
 
     /**

@@ -19,7 +19,7 @@
                 <div class="col-md-4">
                     <label for="exampleInputEmail1">Transporteur</label>
                     <select class="form-control" v-model="carrier_mode">
-                        <option value="" disabled> Séléctionner un type de transport</option>
+                        <option :value="null" disabled> Séléctionner un type de transport</option>
                         <option value="1">Interne</option>
                         <option value="2">Externe</option>
                     </select>
@@ -27,7 +27,7 @@
                 <div class="col-md-4">
                     <label for="exampleInputEmail1">Livreur</label>
                     <select class="form-control" v-model="delivery_man_id">
-                        <option value="" v-if="users.length > 0" disabled> Séléctionner un livreur</option>
+                        <option :value="null" v-if="users.length > 0" disabled> Séléctionner un livreur</option>
                         <option v-for="user in users" v-if="users.length > 0" :value="user.id">{{user.nom}}
                             {{user.prenom}}
                         </option>
@@ -38,7 +38,7 @@
                 <div class="col-md-4">
                     <label for="exampleInputEmail1">Mode de livraison</label>
                     <select class="form-control" v-model="delivery_mode">
-                        <option value="" disabled> Séléctionner un mode de livraison</option>
+                        <option :value="null" disabled> Séléctionner un mode de livraison</option>
                         <option value="0">Voiture</option>
                         <option value="1">Camion</option>
                         <option value="2">Avion</option>
@@ -102,18 +102,18 @@
         mounted() {
             this.loadUsers()
         },
-        props: ['order_id', 'user_id'],
+        props: ['order_id', 'user_id','order_full','history'],
         data() {
             return {
                 new_status: '',
-                carrier_mode: '',
-                delivery_man_id: '',
-                delivery_mode: '',
-                carton_number: '',
-                palet_number: '',
-                weight: '',
-                volume: '',
-                comment: '',
+                carrier_mode:this.order_full.carrier,
+                delivery_man_id: this.order_full.delivery_man_id,
+                delivery_mode: this.order_full.delivery_mode,
+                carton_number: this.order_full.cartons_number,
+                palet_number: this.order_full.pallets_number,
+                weight: this.order_full.weight,
+                volume: this.order_full.volume,
+                comment: this.history.comment,
                 users: []
 
             }

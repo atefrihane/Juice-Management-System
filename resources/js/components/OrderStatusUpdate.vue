@@ -63,6 +63,8 @@
                         v-if="status == 4" 
                         :order_id="this.order_id" 
                         :user_id="this.user_id"
+                        :order_full="this.order_full"
+                        :history="this.history"
                         v-on:requiredValue="updateError($event)"> 
                     </order-prepared>
 
@@ -162,7 +164,7 @@
         mounted() {
             this.formatStatus()
         },
-        props: ['order_id', 'user_id', 'status', 'code'],
+        props: ['order_id', 'user_id', 'status', 'code','order_full','history'],
 
         data() {
             return {

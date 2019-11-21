@@ -11,6 +11,7 @@ Route::group(['module' => 'Order', 'middleware' => ['api'], 'namespace' => 'App\
     Route::post('/api/order/{id}/prepare/submit', 'OrderController@handleSubmitOrderInPrepare')->name('handleSubmitOrderInPrepare'); // submit order after preparation
     Route::post('/api/order/{id}/prepare/after', 'OrderController@handleSubmitOrderAfterPrepare')->name('handleSubmitOrderAfterPrepare'); // submit status after prepared
     Route::post('/api/order/history/{id}', 'OrderController@handleUpdateHistory')->name('handleUpdateHistory'); 
+    Route::post('order/delivery/{id}', 'OrderController@handleUpdateDeliveryOrder')->name('handleUpdateDeliveryOrder');
 });
 
 
