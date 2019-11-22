@@ -25,7 +25,7 @@
                     </div>
 
                     <div class="box-body">
-                        <table class="tables table-bordered table-hover example2">
+                        <table class="table table-bordered table-hover example2">
                             <thead>
                                 <tr>
                                     <th>Code</th>
