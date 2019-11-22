@@ -34,7 +34,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <table class="table table-bordered table-hover example2">
+                        <table class="tables table-bordered table-hover example2">
                             <thead>
                                 <tr>
                                     <th>Code</th>
@@ -488,4 +488,18 @@
 
 </div>
 
+@endsection
+@section('scripts-custom')
+<script>
+    var oTable = $('.tables').DataTable({
+        "language": {
+            "url": "http://cdn.datatables.net/plug-ins/a5734b29083/i18n/French.json"
+        },
+        "bLengthChange": false,
+        "order": [[ 1, "desc" ]],
+
+        "pageLength": 20
+    });
+
+</script>
 @endsection
