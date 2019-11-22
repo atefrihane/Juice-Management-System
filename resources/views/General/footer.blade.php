@@ -67,11 +67,15 @@ var oTable = $('.table').DataTable( {
   
 
     },
+  
 
      ],
+     order: [ [ $('th.date-create').index(),  'desc' ] ],
 
     "pageLength": 20
 } );
+
+
 </script>
 
 
