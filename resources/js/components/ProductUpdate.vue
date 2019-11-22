@@ -340,35 +340,47 @@
 
             },
             deleteMixture: function (mixture) {
-                console.log(mixture);
-                if (mixture.id) {
-                    axios.post('api/mixture/delete/' + mixture.id, {
+                swal.fire({
+                    type: 'info',
+                    title: 'Voulez vous retirer ce mélange ?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Confirmer',
+                    cancelButtonText: 'Annuler',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        if (mixture.id) {
+                            axios.post('api/mixture/delete/' + mixture.id, {
 
-                        })
-                        .then((response) => {
-                            if (response.data.status == 200) {
-                                this.mixtures.splice(this.mixtures.indexOf(mixture), 1);
-                            } else {
-                                swal.fire({
-                                    type: 'error',
-                                    title: 'Mélange introuvable ! !',
-                                      allowOutsideClick: false,
-                                    showConfirmButton: true,
-                                    confirmButtonText: 'Fermer'
+                                })
+                                .then((response) => {
+                                    if (response.data.status == 200) {
+                                        this.mixtures.splice(this.mixtures.indexOf(mixture), 1);
+                                    } else {
+                                        swal.fire({
+                                            type: 'error',
+                                            title: 'Mélange introuvable ! !',
+                                            allowOutsideClick: false,
+                                            showConfirmButton: true,
+                                            confirmButtonText: 'Fermer'
 
 
+                                        });
+
+                                    }
+                                })
+                                .catch((error) => {
+                                    console.log(error);
                                 });
 
-                            }
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        });
 
-                } else {
-                    this.mixtures.splice(this.mixtures.indexOf(mixture), 1);
 
-                }
+                        } else {
+
+                            this.mixtures.splice(this.mixtures.indexOf(mixture), 1);
+                        }
+                    }
+                });
 
 
             },
@@ -488,7 +500,7 @@
                                     type: 'success',
                                     showConfirmButton: true,
                                     confirmButtonText: 'Fermer',
-                                      allowOutsideClick: false,
+                                    allowOutsideClick: false,
                                     allowOutsideClick: false,
                                 }).then((result) => {
                                     if (result.value) {
@@ -502,7 +514,7 @@
                                 swal.fire({
                                     title: 'Code déja existant !',
                                     type: 'error',
-                                      allowOutsideClick: false,
+                                    allowOutsideClick: false,
                                     showConfirmButton: true,
                                     confirmButtonText: 'Fermer'
                                 });

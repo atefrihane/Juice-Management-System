@@ -7401,27 +7401,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     deleteMixture: function deleteMixture(mixture) {
       var _this = this;
 
-      console.log(mixture);
-
-      if (mixture.id) {
-        axios.post('api/mixture/delete/' + mixture.id, {}).then(function (response) {
-          if (response.data.status == 200) {
-            _this.mixtures.splice(_this.mixtures.indexOf(mixture), 1);
-          } else {
-            swal.fire({
-              type: 'error',
-              title: 'Mélange introuvable ! !',
-              allowOutsideClick: false,
-              showConfirmButton: true,
-              confirmButtonText: 'Fermer'
+      swal.fire({
+        type: 'info',
+        title: 'Voulez vous retirer ce mélange ?',
+        showCancelButton: true,
+        confirmButtonText: 'Confirmer',
+        cancelButtonText: 'Annuler',
+        reverseButtons: true
+      }).then(function (result) {
+        if (result.value) {
+          if (mixture.id) {
+            axios.post('api/mixture/delete/' + mixture.id, {}).then(function (response) {
+              if (response.data.status == 200) {
+                _this.mixtures.splice(_this.mixtures.indexOf(mixture), 1);
+              } else {
+                swal.fire({
+                  type: 'error',
+                  title: 'Mélange introuvable ! !',
+                  allowOutsideClick: false,
+                  showConfirmButton: true,
+                  confirmButtonText: 'Fermer'
+                });
+              }
+            })["catch"](function (error) {
+              console.log(error);
             });
+          } else {
+            _this.mixtures.splice(_this.mixtures.indexOf(mixture), 1);
           }
-        })["catch"](function (error) {
-          console.log(error);
-        });
-      } else {
-        this.mixtures.splice(this.mixtures.indexOf(mixture), 1);
-      }
+        }
+      });
     },
     uploadImage: function uploadImage(event) {
       var _this2 = this;
