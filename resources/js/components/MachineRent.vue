@@ -294,7 +294,7 @@
                     })
             },
             cancelRental() {
-                window.location = '/wizefresh/public/machines';
+                window.location = axios.defaults.baseURL+'/machines';
 
             },
             onChangeStatus(event, selectedBac) {
@@ -408,7 +408,7 @@
 
 
                                 });
-                                setTimeout(() => window.location = '/wizefresh/public/machines', 2000);
+                                setTimeout(() => window.location = axios.defaults.baseURL+'/machines', 2000);
                             }
 
 

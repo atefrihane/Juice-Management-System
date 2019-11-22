@@ -345,7 +345,7 @@
 
                                 });
 
-                                setTimeout(() => window.location = '/wizefresh/public/static', 2000);
+                                setTimeout(() => window.location = axios.defaults.baseURL+'/static', 2000);
 
                             }
                         })
@@ -357,7 +357,7 @@
 
             },
             cancelRental() {
-                window.location = '/wizefresh/public/static'
+                window.location = axios.defaults.baseURL+'/static'
 
             }
 

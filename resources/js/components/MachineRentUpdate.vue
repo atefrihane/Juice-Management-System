@@ -379,7 +379,7 @@
 
 
                                 });
-                                setTimeout(() => window.location = '/wizefresh/public/machines', 2000);
+                                setTimeout(() => window.location = axios.defaults.baseURL+'/machines', 2000);
                             }
 
                         })
@@ -392,12 +392,12 @@
 
             },
             cancelRental() {
-                window.location = '/wizefresh/public/machines';
+                window.location = axios.defaults.baseURL+'/machines';
 
             },
             stopRental() {
 
-                window.location = '/wizefresh/public/machine/rental/show/end/' + this.rentalId;
+                window.location = axios.defaults.baseURL+'/machine/rental/show/end/' + this.rentalId;
 
 
             }

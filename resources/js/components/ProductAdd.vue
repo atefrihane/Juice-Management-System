@@ -642,7 +642,7 @@
                                     confirmButtonText: 'Fermer'
                                 }).then((result) => {
                                     if (result.value) {
-                                        window.location = '/wizefresh/public/products';
+                                        window.location = axios.defaults.baseURL+'/products';
                                     }
                                 })
 
@@ -674,7 +674,7 @@
 
          
             cancelProduct() {
-                window.location = '/wizefresh/public/products';
+                window.location = axios.defaults.baseURL+'/products';
 
             }
 

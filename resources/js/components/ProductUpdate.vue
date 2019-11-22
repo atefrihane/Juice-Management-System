@@ -417,7 +417,7 @@
                 }
             },
             cancelRental() {
-                window.location = '/wizefresh/public/products';
+                window.location = axios.defaults.baseURL+'/products';
 
             },
             fetchProduct() {
@@ -504,7 +504,7 @@
                                     allowOutsideClick: false,
                                 }).then((result) => {
                                     if (result.value) {
-                                        window.location = '/wizefresh/public/products';
+                                        window.location = axios.defaults.baseURL+'/products';
                                     }
                                 })
                             }

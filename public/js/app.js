@@ -2028,7 +2028,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               confirmButtonText: 'Fermer'
             });
             setTimeout(function () {
-              return window.location = '/wizefresh/public/static';
+              return window.location = axios.defaults.baseURL + '/static';
             }, 2000);
           }
         })["catch"](function (error) {
@@ -2037,7 +2037,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     cancelRental: function cancelRental() {
-      window.location = '/wizefresh/public/static';
+      window.location = axios.defaults.baseURL + '/static';
     }
   }
 });
@@ -2525,7 +2525,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               confirmButtonText: 'Fermer'
             });
             setTimeout(function () {
-              return window.location = '/wizefresh/public/static';
+              return window.location = axios.defaults.baseURL + '/static';
             }, 2000);
           }
         })["catch"](function (error) {
@@ -2534,7 +2534,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     cancelRental: function cancelRental() {
-      window.location = '/wizefresh/public/static';
+      window.location = axios.defaults.baseURL + '/static';
     }
   }
 });
@@ -2719,7 +2719,7 @@ __webpack_require__.r(__webpack_exports__);
               confirmButtonText: 'Fermer'
             }).then(function (result) {
               if (result.value) {
-                window.location = '/wizefresh/public/orders';
+                window.location = axios.defaults.baseURL + '/orders';
               }
             });
           }
@@ -2729,7 +2729,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     cancelOrder: function cancelOrder() {
-      window.location = "/wizefresh/public/orders";
+      window.location = axios.defaults.baseURL + "/orders";
     }
   }
 });
@@ -3036,7 +3036,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     cancelRental: function cancelRental() {
-      window.location = '/wizefresh/public/machines';
+      window.location = axios.defaults.baseURL + '/machines';
     },
     onChangeStatus: function onChangeStatus(event, selectedBac) {
       var value = event.target.value;
@@ -3126,7 +3126,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               confirmButtonText: 'Fermer'
             });
             setTimeout(function () {
-              return window.location = '/wizefresh/public/machines';
+              return window.location = axios.defaults.baseURL + '/machines';
             }, 2000);
           }
 
@@ -3544,7 +3544,7 @@ __webpack_require__.r(__webpack_exports__);
               showConfirmButton: true
             });
             setTimeout(function () {
-              return window.location = '/wizefresh/public/machines';
+              return window.location = axios.defaults.baseURL + '/machines';
             }, 2000);
           }
         })["catch"](function (error) {
@@ -3553,10 +3553,10 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     cancelRental: function cancelRental() {
-      window.location = '/wizefresh/public/machines';
+      window.location = axios.defaults.baseURL + '/machines';
     },
     stopRental: function stopRental() {
-      window.location = '/wizefresh/public/machine/rental/show/end/' + this.rentalId;
+      window.location = axios.defaults.baseURL + '/machine/rental/show/end/' + this.rentalId;
     }
   }
 });
@@ -4049,7 +4049,7 @@ __webpack_require__.r(__webpack_exports__);
               confirmButtonText: 'Fermer'
             }).then(function (result) {
               if (result.value) {
-                window.location = '/wizefresh/public/orders';
+                window.location = axios.defaults.baseURL + '/orders';
               }
             });
           }
@@ -4089,7 +4089,7 @@ __webpack_require__.r(__webpack_exports__);
               confirmButtonText: 'Fermer'
             }).then(function (result) {
               if (result.value) {
-                window.location = '/wizefresh/public/orders';
+                window.location = axios.defaults.baseURL + '/orders';
               }
             });
           }
@@ -4099,7 +4099,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     cancelOrder: function cancelOrder() {
-      window.location = '/wizefresh/public/orders';
+      window.location = axios.defaults.baseURL + '/orders';
     }
   }
 });
@@ -4709,7 +4709,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
               confirmButtonText: 'Fermer'
             }).then(function (result) {
               if (result.value) {
-                window.location = '/wizefresh/public/orders';
+                window.location = axios.defaults.baseURL + '/orders';
               }
             });
           } else {
@@ -4726,7 +4726,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       }
     },
     cancelOrder: function cancelOrder() {
-      window.location = "/wizefresh/public/orders";
+      window.location = axios.defaults.baseURL + "/orders";
     }
   }
 });
@@ -5557,7 +5557,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.total_order += this.total_ht + this.total_tva;
     },
     cancelOrder: function cancelOrder() {
-      window.location = '/wizefresh/public/orders';
+      window.location = axios.defaults.baseURL + '/orders';
     }
   }
 });
@@ -6346,7 +6346,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               confirmButtonText: 'Fermer'
             }).then(function (result) {
               if (result.value) {
-                window.location = '/wizefresh/public/orders';
+                window.location = axios.defaults.baseURL + '/orders';
               }
             });
           }
@@ -6376,7 +6376,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               allowOutsideClick: false
             }, _defineProperty(_swal$fire, "allowOutsideClick", false), _defineProperty(_swal$fire, "confirmButtonText", 'Fermer'), _swal$fire)).then(function (result) {
               if (result.value) {
-                window.location = '/wizefresh/public/orders';
+                window.location = axios.defaults.baseURL + '/orders';
               }
             });
           }
@@ -6386,7 +6386,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     cancelOrder: function cancelOrder() {
-      window.location = '/wizefresh/public/orders';
+      window.location = axios.defaults.baseURL + '/orders';
     }
   }
 });
@@ -7026,7 +7026,7 @@ __webpack_require__.r(__webpack_exports__);
               confirmButtonText: 'Fermer'
             }).then(function (result) {
               if (result.value) {
-                window.location = '/wizefresh/public/products';
+                window.location = axios.defaults.baseURL + '/products';
               }
             });
           }
@@ -7037,7 +7037,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     cancelProduct: function cancelProduct() {
-      window.location = '/wizefresh/public/products';
+      window.location = axios.defaults.baseURL + '/products';
     }
   }
 });
@@ -7465,7 +7465,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     cancelRental: function cancelRental() {
-      window.location = '/wizefresh/public/products';
+      window.location = axios.defaults.baseURL + '/products';
     },
     fetchProduct: function fetchProduct() {
       var _this3 = this;
@@ -7537,7 +7537,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               allowOutsideClick: false
             }, "allowOutsideClick", false)).then(function (result) {
               if (result.value) {
-                window.location = '/wizefresh/public/products';
+                window.location = axios.defaults.baseURL + '/products';
               }
             });
           }
@@ -7861,7 +7861,7 @@ __webpack_require__.r(__webpack_exports__);
               confirmButtonText: 'Fermer'
             }).then(function (result) {
               if (result.value) {
-                window.location = '/wizefresh/public/orders';
+                window.location = axios.defaults.baseURL + '/orders';
               }
             });
           } else if (response.data.status == 200 && !response.data.canceled) {
@@ -7873,7 +7873,7 @@ __webpack_require__.r(__webpack_exports__);
               confirmButtonText: 'Fermer'
             }).then(function (result) {
               if (result.value) {
-                window.location = '/wizefresh/public/orders';
+                window.location = axios.defaults.baseURL + '/orders';
               }
             });
           }
@@ -7883,7 +7883,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     cancelOrder: function cancelOrder() {
-      window.location = "/wizefresh/public/orders";
+      window.location = axios.defaults.baseURL + "/orders";
     }
   }
 });
@@ -7982,7 +7982,7 @@ __webpack_require__.r(__webpack_exports__);
               confirmButtonText: 'Fermer'
             }).then(function (result) {
               if (result.value) {
-                window.location = '/wizefresh/public/orders';
+                window.location = axios.defaults.baseURL + '/orders';
               }
             });
           } else if (response.data.status == 200 && !response.data.canceled) {
@@ -7994,7 +7994,7 @@ __webpack_require__.r(__webpack_exports__);
               confirmButtonText: 'Fermer'
             }).then(function (result) {
               if (result.value) {
-                window.location = '/wizefresh/public/orders';
+                window.location = axios.defaults.baseURL + '/orders';
               }
             });
           }
@@ -8004,7 +8004,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     cancelOrder: function cancelOrder() {
-      window.location = "/wizefresh/public/orders";
+      window.location = axios.defaults.baseURL + "/orders";
     }
   }
 });
@@ -8103,7 +8103,7 @@ __webpack_require__.r(__webpack_exports__);
               confirmButtonText: 'Fermer'
             }).then(function (result) {
               if (result.value) {
-                window.location = '/wizefresh/public/orders';
+                window.location = axios.defaults.baseURL + '/orders';
               }
             });
           } else if (response.data.status == 200 && !response.data.canceled) {
@@ -8115,7 +8115,7 @@ __webpack_require__.r(__webpack_exports__);
               confirmButtonText: 'Fermer'
             }).then(function (result) {
               if (result.value) {
-                window.location = '/wizefresh/public/orders';
+                window.location = axios.defaults.baseURL + '/orders';
               }
             });
           }
@@ -8125,7 +8125,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     cancelOrder: function cancelOrder() {
-      window.location = "/wizefresh/public/orders";
+      window.location = axios.defaults.baseURL + "/orders";
     }
   }
 });
@@ -8286,7 +8286,7 @@ __webpack_require__.r(__webpack_exports__);
                     confirmButtonText: 'Fermer'
                   }).then(function (result) {
                     if (result.value) {
-                      window.location = '/wizefresh/public/orders';
+                      window.location = axios.defaults.baseURL + '/orders';
                     }
                   });
                 }
@@ -8314,7 +8314,7 @@ __webpack_require__.r(__webpack_exports__);
                 confirmButtonText: 'Fermer'
               }).then(function (result) {
                 if (result.value) {
-                  window.location = '/wizefresh/public/orders';
+                  window.location = axios.defaults.baseURL + '/orders';
                 }
               });
             }
@@ -8325,7 +8325,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     cancelOrder: function cancelOrder() {
-      window.location = "/wizefresh/public/orders";
+      window.location = axios.defaults.baseURL + "/orders";
     }
   }
 });
@@ -8910,7 +8910,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                     confirmButtonText: 'Fermer'
                   }).then(function (result) {
                     if (result.value) {
-                      window.location = '/wizefresh/public/orders';
+                      window.location = axios.defaults.baseURL + '/orders';
                     }
                   });
                 }
@@ -9011,7 +9011,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                   confirmButtonText: 'Fermer'
                 }).then(function (result) {
                   if (result.value) {
-                    window.location = '/wizefresh/public/orders';
+                    window.location = axios.defaults.baseURL + '/orders';
                   }
                 });
               }
@@ -9034,7 +9034,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       });
     },
     cancelOrder: function cancelOrder() {
-      window.location = "/wizefresh/public/orders";
+      window.location = axios.defaults.baseURL + "/orders";
     }
   }
 });
@@ -9266,7 +9266,7 @@ __webpack_require__.r(__webpack_exports__);
                     confirmButtonText: 'Fermer'
                   }).then(function (result) {
                     if (result.value) {
-                      window.location = '/wizefresh/public/orders';
+                      window.location = axios.defaults.baseURL + '/orders';
                     }
                   });
                 }
@@ -9299,7 +9299,7 @@ __webpack_require__.r(__webpack_exports__);
                 confirmButtonText: 'Fermer'
               }).then(function (result) {
                 if (result.value) {
-                  window.location = '/wizefresh/public/orders';
+                  window.location = axios.defaults.baseURL + '/orders';
                 }
               });
             }
@@ -9310,7 +9310,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     cancelOrder: function cancelOrder() {
-      window.location = "/wizefresh/public/orders";
+      window.location = axios.defaults.baseURL + "/orders";
     }
   }
 });
@@ -9409,7 +9409,7 @@ __webpack_require__.r(__webpack_exports__);
               confirmButtonText: 'Fermer'
             }).then(function (result) {
               if (result.value) {
-                window.location = '/wizefresh/public/orders';
+                window.location = axios.defaults.baseURL + '/orders';
               }
             });
           } else if (response.data.status == 200 && !response.data.canceled) {
@@ -9421,7 +9421,7 @@ __webpack_require__.r(__webpack_exports__);
               confirmButtonText: 'Fermer'
             }).then(function (result) {
               if (result.value) {
-                window.location = '/wizefresh/public/orders';
+                window.location = axios.defaults.baseURL + '/orders';
               }
             });
           }
@@ -9431,7 +9431,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     cancelOrder: function cancelOrder() {
-      window.location = "/wizefresh/public/orders";
+      window.location = axios.defaults.baseURL + "/orders";
     }
   }
 });
@@ -9592,7 +9592,7 @@ __webpack_require__.r(__webpack_exports__);
                     confirmButtonText: 'Fermer'
                   }).then(function (result) {
                     if (result.value) {
-                      window.location = '/wizefresh/public/orders';
+                      window.location = axios.defaults.baseURL + '/orders';
                     }
                   });
                 }
@@ -9620,7 +9620,7 @@ __webpack_require__.r(__webpack_exports__);
                 confirmButtonText: 'Fermer'
               }).then(function (result) {
                 if (result.value) {
-                  window.location = '/wizefresh/public/orders';
+                  window.location = axios.defaults.baseURL + '/orders';
                 }
               });
             }
@@ -9631,7 +9631,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     cancelOrder: function cancelOrder() {
-      window.location = "/wizefresh/public/orders";
+      window.location = axios.defaults.baseURL + "/orders";
     }
   }
 });
@@ -9786,7 +9786,7 @@ __webpack_require__.r(__webpack_exports__);
                     confirmButtonText: 'Fermer'
                   }).then(function (result) {
                     if (result.value) {
-                      window.location = '/wizefresh/public/orders';
+                      window.location = axios.defaults.baseURL + '/orders';
                     }
                   });
                 }
@@ -9832,7 +9832,7 @@ __webpack_require__.r(__webpack_exports__);
                 confirmButtonText: 'Fermer'
               }).then(function (result) {
                 if (result.value) {
-                  window.location = '/wizefresh/public/orders';
+                  window.location = axios.defaults.baseURL + '/orders';
                 }
               });
             }
@@ -9863,7 +9863,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     cancelOrder: function cancelOrder() {
-      window.location = "/wizefresh/public/orders";
+      window.location = axios.defaults.baseURL + "/orders";
     }
   }
 });
