@@ -3895,10 +3895,11 @@ __webpack_require__.r(__webpack_exports__);
     getStoreData: function getStoreData(event) {
       var _this3 = this;
 
-      var id = event.target.value; // if(this.ordered_products.length )
-      // this.ordered_products=[]
-      // this.loadProduct()
-
+      //reset old items
+      this.ordered_products.forEach(function (ordered) {
+        ordered.packing = '', ordered.unit = '', ordered.product_packing = '', ordered.total = '', ordered.public_price = '', ordered.product_total_tva = 0, ordered.tva = '', ordered.product_id = '';
+      });
+      var id = event.target.value;
       axios.get('/api/store/' + id).then(function (response) {
         _this3.code = response.data.store.code + '-' + _this3.lastOrder;
       })["catch"](function (error) {

@@ -265,10 +265,20 @@
 
             },
             getStoreData(event) {
+                //reset old items
+                this.ordered_products.forEach(ordered => {
+                    ordered.packing = '',
+                        ordered.unit = '',
+                        ordered.product_packing = '',
+                        ordered.total = '',
+                        ordered.public_price = '',
+                        ordered.product_total_tva = 0,
+                        ordered.tva = '',
+                        ordered.product_id = ''
+
+                })
                 let id = event.target.value;
-                // if(this.ordered_products.length )
-                // this.ordered_products=[]
-                // this.loadProduct()
+
                 axios.get('/api/store/' + id)
                     .then((response) => {
                         this.code = response.data.store.code + '-' + this.lastOrder;
@@ -354,14 +364,13 @@
                                     this.ordered_products[index].public_price = response.data.custom_price.price;
                                     this.ordered_products[index].tva = response.data.product.tva;
 
-                                }
-                                else{
-                                     this.ordered_products[index].product_packing = response.data.product.packing;
-                               
-                                this.ordered_products[index].public_price = response.data.product
-                                            .public_price;
+                                } else {
+                                    this.ordered_products[index].product_packing = response.data.product.packing;
 
-                                    
+                                    this.ordered_products[index].public_price = response.data.product
+                                        .public_price;
+
+
 
                                     this.ordered_products[index].tva = response.data.product.tva;
                                 }
