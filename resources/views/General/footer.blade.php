@@ -54,62 +54,38 @@
 </script> -->
 
 @yield('scripts-custom')
-<script>
-var oTable = $('.table').DataTable( {
-    "language": {
-      "url": "http://cdn.datatables.net/plug-ins/a5734b29083/i18n/French.json"
-    },
-    "bLengthChange": false ,
-    "columnDefs": [ {
-        "targets": -1,
-    "orderable": false,
-
-  
-
-    },
-  
-
-     ],
-    //  order: [ [ $('th.date-create').index(),  'desc' ] ],
-
-    "pageLength": 20
-} );
-
-
-</script>
-
+@include('General.datatable')
 
 <script>
-$('document').ready(function(){
-$('.not-this > .btn-group > .dots').click(function(){
+    $('document').ready(function () {
+        $('.not-this > .btn-group > .dots').click(function () {
 
-  if ($(this).parent().hasClass('open')){
-     ($(this).parent().removeClass('open'));
-  }
-else {
-  ($(this).parent().addClass('open'));
+            if ($(this).parent().hasClass('open')) {
+                ($(this).parent().removeClass('open'));
+            } else {
+                ($(this).parent().addClass('open'));
 
-}
+            }
 
-});
+        });
 
 
-$('.dropdown-toggle').click(function(){
+        $('.dropdown-toggle').click(function () {
 
-if ($(this).parent().hasClass('open')){
-   ($(this).parent().removeClass('open'));
-}
-else {
-($(this).parent().addClass('open'));
+            if ($(this).parent().hasClass('open')) {
+                ($(this).parent().removeClass('open'));
+            } else {
+                ($(this).parent().addClass('open'));
 
-}
+            }
 
-});
+        });
 
-$('.vdp-datepicker > div > input').addClass('form-control');
-$(".vdp-datepicker > div > input").attr("placeholder", "Sélectionner une date");
+        $('.vdp-datepicker > div > input').addClass('form-control');
+        $(".vdp-datepicker > div > input").attr("placeholder", "Sélectionner une date");
 
-});
+    });
+
 </script>
 
 <script>
@@ -121,8 +97,8 @@ $(".vdp-datepicker > div > input").attr("placeholder", "Sélectionner une date")
             dataType: 'json',
             success: function (data) {
                 var response = JSON.parse(JSON.stringify(data));
-             
-             
+
+
                 var html = "";
                 if (data.cities.length > 0) {
                     for (var i = 0; i < data.cities.length; i++) {
@@ -131,14 +107,14 @@ $(".vdp-datepicker > div > input").attr("placeholder", "Sélectionner une date")
                         $('.cities').html(html);
                     }
                     $('.cc').val(data.code);
-                   var val= ($('.cities option:nth-child(1)').val())
+                    var val = ($('.cities option:nth-child(1)').val())
                     $.ajax({
                         type: 'GET', //THIS NEEDS TO BE GET
                         url: url + '/city/' + val,
                         dataType: 'json',
                         success: function (data) {
                             var response = JSON.parse(JSON.stringify(data));
-                
+
                             var html = "";
                             if (data.zipcodes.length > 0) {
                                 for (var i = 0; i < data.zipcodes.length; i++) {
@@ -164,7 +140,8 @@ $(".vdp-datepicker > div > input").attr("placeholder", "Sélectionner une date")
                 } else {
                     html += '<option value="" class="foobar">Aucune ville</option>'
                     $('.cities').html(html);
-                    $('.zipcodes').html($('<option value="" class="foobar">Aucun code postal</option>'));
+                    $('.zipcodes').html($(
+                        '<option value="" class="foobar">Aucun code postal</option>'));
 
                 }
 
@@ -186,7 +163,7 @@ $(".vdp-datepicker > div > input").attr("placeholder", "Sélectionner une date")
             dataType: 'json',
             success: function (data) {
                 var response = JSON.parse(JSON.stringify(data));
-             
+
                 var html = "";
                 if (data.zipcodes.length > 0) {
                     for (var i = 0; i < data.zipcodes.length; i++) {
@@ -212,14 +189,15 @@ $(".vdp-datepicker > div > input").attr("placeholder", "Sélectionner une date")
 </script>
 
 <script>
-$(document).ready(function(){
-  $(".designation").bind('change paste keyup' ,function(){
-    var value = $(this).val();
-    str = value.replace(/\s+/g, '');
-    var res = str.substr(0, 6).toUpperCase();
-    $('.code').val(res);
- });
-});
+    $(document).ready(function () {
+        $(".designation").bind('change paste keyup', function () {
+            var value = $(this).val();
+            str = value.replace(/\s+/g, '');
+            var res = str.substr(0, 6).toUpperCase();
+            $('.code').val(res);
+        });
+    });
+
 </script>
 
 
