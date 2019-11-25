@@ -75,6 +75,61 @@
                         </div>
 
                     </div>
+
+                    <div class="row" style="margin-top:20px;" v-if="status >=5">
+
+                        <div class="box-body">
+                            <label for="">Date et heure de livraison estimée</label>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+
+
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="date" class="form-control" v-model="estimated_arrival_date">
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="time" class="form-control" v-model="estimated_arrival_time">
+                        </div>
+
+
+
+
+                    </div>
+                    <div class="row" style="margin-top:20px;" v-if="status >=6">
+
+                        <div class="box-body">
+                            <label for="">Date et heure de livraison effective</label>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+
+
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="date" class="form-control" v-model="arrival_date">
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="time" class="form-control" v-model="arrival_time">
+                        </div>
+
+
+
+
+                    </div>
                     <div class="row" style="margin-top:20px;">
                         <div class="col-md-12">
                             <label>Commentaires (optionnel)</label>
@@ -115,7 +170,7 @@
         mounted() {
             this.loadUsers()
         },
-        props: ['order', 'user_id','history'],
+        props: ['order', 'user_id', 'history'],
         data() {
             return {
                 order_id: this.order.id,
@@ -128,7 +183,12 @@
                 weight: this.order.weight,
                 comment: this.history.comment,
                 users: [],
-                errors: []
+                errors: [],
+                estimated_arrival_time: this.order.estimated_arrival_time,
+                estimated_arrival_date: this.order.estimated_arrival_date,
+                arrival_date: this.order.arrival_date,
+                arrival_time: this.order.arrival_time,
+                status:this.order.status
 
             }
         },
@@ -173,6 +233,10 @@
                             volume: this.volume,
                             weight: this.weight,
                             user_id: this.user_id,
+                            estimated_arrival_date:this.estimated_arrival_date,
+                            estimated_arrival_time:this.estimated_arrival_time,
+                            arrival_date:this.arrival_date,
+                            arrival_time:this.arrival_time,
                             comment: this.comment
                         })
                         .then((response) => {
@@ -185,7 +249,7 @@
                                     confirmButtonText: 'Fermer'
                                 }).then((result) => {
                                     if (result.value) {
-                                        window.location =axios.defaults.baseURL+'/orders';
+                                        window.location = axios.defaults.baseURL + '/orders';
                                     }
                                 })
                             }
@@ -197,7 +261,7 @@
 
             },
             cancelOrder() {
-                window.location = axios.defaults.baseURL+"/orders"
+                window.location = axios.defaults.baseURL + "/orders"
             }
         }
     }

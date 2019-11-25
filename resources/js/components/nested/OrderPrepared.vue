@@ -72,6 +72,8 @@
             </div>
         </div>
 
+       
+
 
         <div class="row" style="margin-top:20px;">
             <div class="col-md-12">
@@ -114,7 +116,8 @@
                 weight: this.order_full.weight,
                 volume: this.order_full.volume,
                 comment: this.history.comment,
-                users: []
+                users: [],
+             
 
             }
         },
@@ -213,7 +216,8 @@
                                                 confirmButtonText: 'Fermer'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    window.location = axios.defaults.baseURL+'/orders';
+                                                    window.location = axios.defaults.baseURL +
+                                                        '/orders';
                                                 }
                                             })
 
@@ -254,7 +258,7 @@
                                         confirmButtonText: 'Fermer'
                                     }).then((result) => {
                                         if (result.value) {
-                                            window.location = axios.defaults.baseURL+'/orders';
+                                            window.location = axios.defaults.baseURL + '/orders';
                                         }
                                     })
 
@@ -276,7 +280,7 @@
                 }
             },
             cancelOrder() {
-                window.location = axios.defaults.baseURL+"/orders"
+                window.location = axios.defaults.baseURL + "/orders"
             }
         }
     }

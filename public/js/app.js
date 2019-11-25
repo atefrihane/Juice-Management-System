@@ -2662,6 +2662,61 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.loadUsers();
@@ -2679,7 +2734,12 @@ __webpack_require__.r(__webpack_exports__);
       weight: this.order.weight,
       comment: this.history.comment,
       users: [],
-      errors: []
+      errors: [],
+      estimated_arrival_time: this.order.estimated_arrival_time,
+      estimated_arrival_date: this.order.estimated_arrival_date,
+      arrival_date: this.order.arrival_date,
+      arrival_time: this.order.arrival_time,
+      status: this.order.status
     };
   },
   methods: {
@@ -2708,6 +2768,10 @@ __webpack_require__.r(__webpack_exports__);
           volume: this.volume,
           weight: this.weight,
           user_id: this.user_id,
+          estimated_arrival_date: this.estimated_arrival_date,
+          estimated_arrival_time: this.estimated_arrival_time,
+          arrival_date: this.arrival_date,
+          arrival_time: this.arrival_time,
           comment: this.comment
         }).then(function (response) {
           if (response.data.status == 200) {
@@ -5719,6 +5783,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -7945,11 +8014,11 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     console.log('Component mounted.');
   },
-  props: ['order_id', 'user_id'],
+  props: ['order_id', 'user_id', 'history'],
   data: function data() {
     return {
       new_status: 8,
-      comment: ''
+      comment: this.history.comment
     };
   },
   methods: {
@@ -8218,13 +8287,13 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     console.log('Component mounted.');
   },
-  props: ['order_id', 'user_id'],
+  props: ['order_id', 'user_id', 'order_full', 'history'],
   data: function data() {
     return {
       new_status: 7,
-      date: '',
-      time: '',
-      comment: ''
+      date: this.order_full.arrival_date,
+      time: this.order_full.arrival_time,
+      comment: this.history.comment
     };
   },
   methods: {
@@ -9149,6 +9218,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.loadUsers();
@@ -9524,13 +9595,13 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     console.log('Component mounted.');
   },
-  props: ['order_id', 'user_id'],
+  props: ['order_id', 'user_id', 'order_full', 'history'],
   data: function data() {
     return {
       new_status: 6,
-      date: '',
-      time: '',
-      comment: ''
+      date: this.order_full.estimated_arrival_date,
+      time: this.order_full.estimated_arrival_time,
+      comment: this.history.comment
     };
   },
   methods: {
@@ -65896,6 +65967,134 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
+          _vm.status >= 5
+            ? _c(
+                "div",
+                { staticClass: "row", staticStyle: { "margin-top": "20px" } },
+                [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("div", { staticClass: "input-group" }, [
+                        _vm._m(2),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.estimated_arrival_date,
+                              expression: "estimated_arrival_date"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "date" },
+                          domProps: { value: _vm.estimated_arrival_date },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.estimated_arrival_date = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.estimated_arrival_time,
+                          expression: "estimated_arrival_time"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "time" },
+                      domProps: { value: _vm.estimated_arrival_time },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.estimated_arrival_time = $event.target.value
+                        }
+                      }
+                    })
+                  ])
+                ]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.status >= 6
+            ? _c(
+                "div",
+                { staticClass: "row", staticStyle: { "margin-top": "20px" } },
+                [
+                  _vm._m(3),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("div", { staticClass: "input-group" }, [
+                        _vm._m(4),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.arrival_date,
+                              expression: "arrival_date"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "date" },
+                          domProps: { value: _vm.arrival_date },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.arrival_date = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.arrival_time,
+                          expression: "arrival_time"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "time" },
+                      domProps: { value: _vm.arrival_time },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.arrival_time = $event.target.value
+                        }
+                      }
+                    })
+                  ])
+                ]
+              )
+            : _vm._e(),
+          _vm._v(" "),
           _c(
             "div",
             { staticClass: "row", staticStyle: { "margin-top": "20px" } },
@@ -65979,6 +66178,42 @@ var staticRenderFns = [
       _c("h3", { staticClass: "box-title" }, [
         _vm._v("Mise à jour de la livraison ")
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-body" }, [
+      _c("label", { attrs: { for: "" } }, [
+        _vm._v("Date et heure de livraison estimée")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-calendar" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-body" }, [
+      _c("label", { attrs: { for: "" } }, [
+        _vm._v("Date et heure de livraison effective")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-calendar" })
     ])
   }
 ]
@@ -70504,7 +70739,12 @@ var render = function() {
             _vm._v(" "),
             _vm.status == 5
               ? _c("order-to-deliver", {
-                  attrs: { order_id: this.order_id, user_id: this.user_id },
+                  attrs: {
+                    order_full: this.order_full,
+                    order_id: this.order_id,
+                    user_id: this.user_id,
+                    history: this.history
+                  },
                   on: {
                     requiredValue: function($event) {
                       return _vm.updateError($event)
@@ -70515,7 +70755,12 @@ var render = function() {
             _vm._v(" "),
             _vm.status == 6
               ? _c("order-in-delivering", {
-                  attrs: { order_id: this.order_id, user_id: this.user_id },
+                  attrs: {
+                    order_full: this.order_full,
+                    order_id: this.order_id,
+                    user_id: this.user_id,
+                    history: this.history
+                  },
                   on: {
                     requiredValue: function($event) {
                       return _vm.updateError($event)
@@ -70526,7 +70771,11 @@ var render = function() {
             _vm._v(" "),
             _vm.status == 7
               ? _c("order-delivered", {
-                  attrs: { order_id: this.order_id, user_id: this.user_id },
+                  attrs: {
+                    order_id: this.order_id,
+                    user_id: this.user_id,
+                    history: this.history
+                  },
                   on: {
                     requiredValue: function($event) {
                       return _vm.updateError($event)

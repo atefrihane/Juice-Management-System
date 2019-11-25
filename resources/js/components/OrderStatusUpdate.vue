@@ -70,15 +70,19 @@
 
                     <order-to-deliver 
                         v-if="status == 5" 
+                        :order_full="this.order_full"
                         :order_id="this.order_id" 
                         :user_id="this.user_id"
+                        :history="this.history"
                          v-on:requiredValue="updateError($event)">
                     </order-to-deliver>
 
                     <order-in-delivering 
                         v-if="status == 6" 
+                        :order_full="this.order_full"
                         :order_id="this.order_id" 
                         :user_id="this.user_id"
+                        :history="this.history"
                          v-on:requiredValue="updateError($event)">
                     </order-in-delivering>
 
@@ -86,6 +90,7 @@
                         v-if="status == 7" 
                         :order_id="this.order_id" 
                         :user_id="this.user_id"
+                        :history="this.history"
                         v-on:requiredValue="updateError($event)">
                      </order-delivered>
 

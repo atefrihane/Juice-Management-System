@@ -578,6 +578,10 @@ class OrderController extends Controller
                 'pallets_number' => $request->palet_number,
                 'weight' => $request->weight,
                 'volume' => $request->volume,
+                'estimated_arrival_date' => $request->estimated_arrival_date,
+                'estimated_arrival_time' => $request->estimated_arrival_time,
+                'arrival_date' => $request->arrival_date,
+                'arrival_time' => $request->arrival_time
 
             ]);
             OrderHistory::create([

@@ -76,13 +76,13 @@
         mounted() {
             console.log('Component mounted.')
         },
-        props: ['order_id', 'user_id'],
+        props: ['order_id', 'user_id','order_full','history'],
         data() {
             return {
                 new_status: 7,
-                date: '',
-                time: '',
-                comment: ''
+                date: this.order_full.arrival_date,
+                time: this.order_full.arrival_time,
+                comment: this.history.comment
 
 
             }
