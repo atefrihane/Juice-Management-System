@@ -3887,13 +3887,7 @@ __webpack_require__.r(__webpack_exports__);
       this.stores = [];
       axios.get('/api/companies/' + id).then(function (response) {
         _this2.store_id = '';
-        _this2.stores = response.data.stores; // if(this.stores.length == 0)
-        // {
-        //     this.store_id =null;
-        // }
-        // else{
-        //     this.store_id=this.stores[0].id;
-        // }
+        _this2.stores = response.data.stores;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -3901,7 +3895,10 @@ __webpack_require__.r(__webpack_exports__);
     getStoreData: function getStoreData(event) {
       var _this3 = this;
 
-      var id = event.target.value;
+      var id = event.target.value; // if(this.ordered_products.length )
+      // this.ordered_products=[]
+      // this.loadProduct()
+
       axios.get('/api/store/' + id).then(function (response) {
         _this3.code = response.data.store.code + '-' + _this3.lastOrder;
       })["catch"](function (error) {
@@ -3930,37 +3927,67 @@ __webpack_require__.r(__webpack_exports__);
     getProductData: function getProductData(event, index) {
       var _this5 = this;
 
-      var id = event.target.value;
-      var found = false;
+      if (this.store_id) {
+        var id = event.target.value;
+        var found = false;
 
-      if (this.ordered_products.length > 1) {
-        var count = 0;
-        this.ordered_products.forEach(function (ordered) {
-          if (ordered.product_id == id) {
-            count++;
-          }
+        if (this.ordered_products.length > 1) {
+          var count = 0;
+          this.ordered_products.forEach(function (ordered) {
+            if (ordered.product_id == id) {
+              count++;
+            }
 
-          if (count > 1) {
-            found = true;
-            swal.fire({
-              type: 'error',
-              title: 'Ce produit est déja selectionné !',
-              showConfirmButton: true,
-              allowOutsideClick: false,
-              confirmButtonText: 'Fermer'
-            });
-            _this5.ordered_products[index].product_id = '';
-          }
-        });
-      }
+            if (count > 1) {
+              found = true;
+              swal.fire({
+                type: 'error',
+                title: 'Ce produit est déja selectionné !',
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                confirmButtonText: 'Fermer'
+              });
+              _this5.ordered_products[index].product_id = '';
+            }
+          });
+        }
 
-      if (!found) {
-        axios.get('api/product/details/' + id).then(function (response) {
-          _this5.ordered_products[index].product_packing = response.data.product.packing;
-          _this5.ordered_products[index].public_price = response.data.product.public_price;
-          _this5.ordered_products[index].tva = response.data.product.tva;
-        })["catch"](function (error) {
-          console.log(error);
+        if (!found) {
+          axios.post('api/product/prices/' + id, {
+            store_id: this.store_id
+          }).then(function (response) {
+            if (response.data.custom_price) {
+              swal.fire({
+                type: 'info',
+                title: 'Rappel',
+                html: "Ce magasin dispose déja d'un tarif à ce produit : <br><br>  Prix par défaut : <b>" + response.data.product.public_price + " € </b>  <br>" + "  Nouveau prix : <b>" + response.data.custom_price.price + " € </b>  <br>",
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                confirmButtonText: 'Fermer'
+              });
+              _this5.ordered_products[index].product_packing = response.data.product.packing;
+              _this5.ordered_products[index].public_price = response.data.custom_price.price;
+              _this5.ordered_products[index].tva = response.data.product.tva;
+            } else {
+              _this5.ordered_products[index].product_packing = response.data.product.packing;
+              _this5.ordered_products[index].public_price = response.data.product.public_price;
+              _this5.ordered_products[index].tva = response.data.product.tva;
+            }
+          })["catch"](function (error) {
+            console.log(error);
+          });
+        }
+      } else {
+        swal.fire({
+          type: 'error',
+          title: 'Veuillez séléctionner un magasin !',
+          showConfirmButton: true,
+          allowOutsideClick: false,
+          confirmButtonText: 'Fermer'
+        }).then(function (result) {
+          _this5.ordered_products.forEach(function (ordered) {
+            ordered.product_id = "";
+          });
         });
       }
     },

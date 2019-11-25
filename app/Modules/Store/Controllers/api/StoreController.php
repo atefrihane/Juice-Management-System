@@ -22,13 +22,13 @@ class StoreController extends Controller
     {
         $store = Store::find($id);
         if ($store) {
-            return response()->json(['status' => 200, 'store' => $store]);
+            return response()->json(['status' => 200, 'store' => $store, 'custom_prices' => $store->prices]);
         }
         return response()->json(['status' => 404]);
     }
     public function showStores()
     {
-        return response()->json(['status' => 200 , 'stores'=>Store::all() ]);
+        return response()->json(['status' => 200, 'stores' => Store::all()]);
 
     }
 

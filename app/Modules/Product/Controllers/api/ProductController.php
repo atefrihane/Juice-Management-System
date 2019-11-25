@@ -5,7 +5,7 @@ namespace App\Modules\Product\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Modules\Mixture\Models\Mixture;
 use App\Modules\Product\Models\Product;
-use App\Modules\Product\Models\ProductWarehouse;
+use App\Modules\Store\Models\Store;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -240,8 +240,22 @@ class ProductController extends Controller
     {
 
         $product = Product::find($id);
+
         if ($product) {
             return response()->json(['status' => '200', 'product' => $product]);
+
+        }
+        return response()->json(['status' => '404']);
+
+    }
+    public function handleGetProductPrices($id, Request $request)
+    {
+
+        $product = Product::find($id);
+        $checkCustomPrice = Store::find($request->store_id)->prices->where('product_id', $product->id)->first();
+
+        if ($product) {
+            return response()->json(['status' => '200', 'product' => $product, 'custom_price' => $checkCustomPrice]);
 
         }
         return response()->json(['status' => '404']);
@@ -254,9 +268,9 @@ class ProductController extends Controller
         if ($product) {
             $productInWarehouses = $product->warehouses()
                 ->where('quantity', '>', 0)
-                ->withPivot('id','packing', 'quantity', 'comment', 'creation_date', 'expiration_date')->get();
-    
-            return response()->json(['status' => 200, 'warehouse_products' => $productInWarehouses,'productName' => $product->nom]);
+                ->withPivot('id', 'packing', 'quantity', 'comment', 'creation_date', 'expiration_date')->get();
+
+            return response()->json(['status' => 200, 'warehouse_products' => $productInWarehouses, 'productName' => $product->nom]);
 
         }
         return response()->json(['status' => 404]);

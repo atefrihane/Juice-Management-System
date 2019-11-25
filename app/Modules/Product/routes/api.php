@@ -8,7 +8,8 @@ Route::group(['module' => 'Product', 'middleware' => ['api'], 'namespace' => 'Ap
     route::get('api/products', 'ProductController@index');
     route::get('api/product/{id}', 'ProductController@handleGetProductById'); //returns mixtures
     
-    route::get('api/product/details/{id}', 'ProductController@handleGetProductDetails');
+    route::get('api/product/details/{id}', 'ProductController@handleGetProductDetails'); //returns product details without specific price
+    route::post('api/product/prices/{id}', 'ProductController@handleGetProductPrices'); //returns product details with specific price
     route::get('api/product/name/{name}', 'ProductController@handleGetProductByName');
     route::get('api/product/barcode/{barcode}', 'ProductController@handleGetProductByBarcode');
     route::get('api/products/all', 'ProductController@handleGetAllProduct');

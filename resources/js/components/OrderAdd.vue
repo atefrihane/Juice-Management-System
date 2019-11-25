@@ -257,14 +257,6 @@
                     .then((response) => {
                         this.store_id = '';
                         this.stores = response.data.stores;
-
-                        // if(this.stores.length == 0)
-                        // {
-                        //     this.store_id =null;
-                        // }
-                        // else{
-                        //     this.store_id=this.stores[0].id;
-                        // }
                     })
                     .catch(function (error) {
 
@@ -274,6 +266,9 @@
             },
             getStoreData(event) {
                 let id = event.target.value;
+                // if(this.ordered_products.length )
+                // this.ordered_products=[]
+                // this.loadProduct()
                 axios.get('/api/store/' + id)
                     .then((response) => {
                         this.code = response.data.store.code + '-' + this.lastOrder;
@@ -310,43 +305,91 @@
 
             },
             getProductData(event, index) {
-                let id = event.target.value;
-                let found = false;
-                if (this.ordered_products.length > 1) {
-                    let count = 0;
-                    this.ordered_products.forEach((ordered) => {
-                        if (ordered.product_id == id) {
-                            count++;
-                        }
-                        if (count > 1) {
-                            found = true;
-                            swal.fire({
-                                type: 'error',
-                                title: 'Ce produit est déja selectionné !',
-                                showConfirmButton: true,
-                                allowOutsideClick: false,
-                                confirmButtonText: 'Fermer'
-                            });
-                            this.ordered_products[index].product_id = '';
-                        }
-                    });
+                if (this.store_id) {
+                    let id = event.target.value;
+                    let found = false;
+                    if (this.ordered_products.length > 1) {
+                        let count = 0;
+                        this.ordered_products.forEach((ordered) => {
+                            if (ordered.product_id == id) {
+                                count++;
+                            }
+                            if (count > 1) {
+                                found = true;
+                                swal.fire({
+                                    type: 'error',
+                                    title: 'Ce produit est déja selectionné !',
+                                    showConfirmButton: true,
+                                    allowOutsideClick: false,
+                                    confirmButtonText: 'Fermer'
+                                });
+                                this.ordered_products[index].product_id = '';
+                            }
+                        });
+
+                    }
+
+                    if (!found) {
+                        axios.post('api/product/prices/' + id, {
+                                store_id: this.store_id
+                            })
+                            .then((response) => {
+
+
+
+                                if (response.data.custom_price) {
+                                    swal.fire({
+                                        type: 'info',
+                                        title: 'Rappel',
+                                        html: "Ce magasin dispose déja d'un tarif à ce produit : <br><br>  Prix par défaut : <b>" +
+                                            response.data.product.public_price +
+                                            " € </b>  <br>" +
+                                            "  Nouveau prix : <b>" + response.data.custom_price.price +
+                                            " € </b>  <br>",
+                                        showConfirmButton: true,
+                                        allowOutsideClick: false,
+                                        confirmButtonText: 'Fermer'
+                                    });
+                                    this.ordered_products[index].product_packing = response.data.product.packing;
+                                    this.ordered_products[index].public_price = response.data.custom_price.price;
+                                    this.ordered_products[index].tva = response.data.product.tva;
+
+                                }
+                                else{
+                                     this.ordered_products[index].product_packing = response.data.product.packing;
+                               
+                                this.ordered_products[index].public_price = response.data.product
+                                            .public_price;
+
+                                    
+
+                                    this.ordered_products[index].tva = response.data.product.tva;
+                                }
+
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            })
+
+
+
+                    }
+
+                } else {
+                    swal.fire({
+                        type: 'error',
+                        title: 'Veuillez séléctionner un magasin !',
+                        showConfirmButton: true,
+                        allowOutsideClick: false,
+                        confirmButtonText: 'Fermer'
+                    }).then((result) => {
+                        this.ordered_products.forEach(ordered => {
+                            ordered.product_id = ""
+                        })
+                    })
 
                 }
 
-                if (!found) {
-                    axios.get('api/product/details/' + id)
-                        .then((response) => {
-
-                            this.ordered_products[index].product_packing = response.data.product.packing;
-                            this.ordered_products[index].public_price = response.data.product.public_price;
-                            this.ordered_products[index].tva = response.data.product.tva;
-
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        })
-
-                }
 
 
             },
@@ -357,25 +400,23 @@
                 this.total_order = 0;
 
                 for (let i in this.ordered_products) {
-                    if(this.ordered_products[i].total != "")
-                    {
-                         this.total_ht += this.ordered_products[i].total;
+                    if (this.ordered_products[i].total != "") {
+                        this.total_ht += this.ordered_products[i].total;
 
                     }
-                   
+
                 }
 
 
                 // //  total des tax //
 
                 for (let i in this.ordered_products) {
-                    if(this.ordered_products[i].total != "")
-                    {
-                         this.total_tva += (this.ordered_products[i].total * this
-                        .ordered_products[i].tva / 100);
+                    if (this.ordered_products[i].total != "") {
+                        this.total_tva += (this.ordered_products[i].total * this
+                            .ordered_products[i].tva / 100);
 
                     }
-                   
+
                 }
 
 
@@ -420,7 +461,7 @@
             setOrderdUnit(ordered, index) {
 
                 if (ordered.unit != '' && ordered.unit > 0) {
-           
+
                     ordered.packing = Math.ceil(ordered.unit / ordered.product_packing)
                     ordered.total = ordered.public_price * ordered.unit;
                     ordered.product_total_tva = (ordered.total * ordered.tva / 100);
@@ -537,7 +578,7 @@
                                     confirmButtonText: 'Fermer'
                                 }).then((result) => {
                                     if (result.value) {
-                                        window.location = axios.defaults.baseURL+'/orders';
+                                        window.location = axios.defaults.baseURL + '/orders';
                                     }
                                 })
 
@@ -589,7 +630,7 @@
                                     confirmButtonText: 'Fermer'
                                 }).then((result) => {
                                     if (result.value) {
-                                        window.location = axios.defaults.baseURL+'/orders';
+                                        window.location = axios.defaults.baseURL + '/orders';
                                     }
                                 })
 
@@ -604,7 +645,7 @@
 
             },
             cancelOrder() {
-                window.location = axios.defaults.baseURL+'/orders';
+                window.location = axios.defaults.baseURL + '/orders';
             }
 
 
