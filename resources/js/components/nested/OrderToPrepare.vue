@@ -8,7 +8,7 @@
                     <select class="form-control" v-model="new_status">
                         <option value="" disabled> Séléctionner un état</option>
                         <option value="3">En cours de préparation</option>
-                        <option value="12">Annuler</option>
+                        <option value="12">Annulée</option>
                     </select>
 
                 </div>

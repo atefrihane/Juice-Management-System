@@ -76064,7 +76064,7 @@ var render = function() {
                 _vm._v("En cours de préparation")
               ]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "12" } }, [_vm._v("Annuler")])
+              _c("option", { attrs: { value: "12" } }, [_vm._v("Annulée")])
             ]
           )
         ])
