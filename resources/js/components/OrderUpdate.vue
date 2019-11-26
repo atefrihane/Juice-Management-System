@@ -247,6 +247,7 @@
         },
         methods: {
             loadOrder() {
+                let custom_ordered=[]
                 axios.get('/api/order/' + this.order_id)
                     .then((response) => {
 
@@ -267,6 +268,27 @@
                                 product_total_tva: ''
 
                             });
+
+                            this.custom_ordered.forEach(custom => {
+                                axios.post('api/product/prices/' + custom.product_id, {
+                                        store_id: this.store_id
+                                    })
+                                    .then((response) => {
+                                       
+                                        if (response.data.custom_price) {
+                                            custom.public_price = response.data.custom_price
+                                                .price
+                                                custom.total=custom.public_price*custom.unit
+                                                   this.clearOrderedProducts()
+                                        }
+
+
+                                    })
+                                    .catch(function (error) {
+                                        console.log(error);
+                                    })
+
+                            })
 
                             this.total_ht += (ordered.public_price * ordered.pivot.unit);
                             this.total_tva += (this.total_ht * ordered.tva / 100);
@@ -382,12 +404,40 @@
                     });
 
                     if (!found) {
-                        axios.get('api/product/details/' + id)
+                       axios.post('api/product/prices/' + id, {
+                                store_id: this.store_id
+                            })
                             .then((response) => {
 
-                                this.custom_ordered[index].product_packing = response.data.product.packing;
-                                this.custom_ordered[index].public_price = response.data.product.public_price;
-                                this.custom_ordered[index].tva = response.data.product.tva;
+
+
+                                if (response.data.custom_price) {
+                                    swal.fire({
+                                        type: 'info',
+                                        title: 'Rappel',
+                                        html: "Ce magasin dispose déja d'un tarif à ce produit : <br><br>  Prix par défaut : <b>" +
+                                            response.data.product.public_price +
+                                            " € </b>  <br>" +
+                                            "  Nouveau prix : <b>" + response.data.custom_price.price +
+                                            " € </b>  <br>",
+                                        showConfirmButton: true,
+                                        allowOutsideClick: false,
+                                        confirmButtonText: 'Fermer'
+                                    });
+                                    this.custom_ordered[index].product_packing = response.data.product.packing;
+                                    this.custom_ordered[index].public_price = response.data.custom_price.price;
+                                    this.custom_ordered[index].tva = response.data.product.tva;
+
+                                } else {
+                                    this.custom_ordered[index].product_packing = response.data.product.packing;
+
+                                    this.custom_ordered[index].public_price = response.data.product
+                                        .public_price;
+
+
+
+                                    this.custom_ordered[index].tva = response.data.product.tva;
+                                }
 
                             })
                             .catch(function (error) {
@@ -572,7 +622,7 @@
                                     confirmButtonText: 'Fermer'
                                 }).then((result) => {
                                     if (result.value) {
-                                        window.location = axios.defaults.baseURL+'/orders';
+                                        window.location = axios.defaults.baseURL + '/orders';
                                     }
                                 })
 
@@ -612,7 +662,7 @@
                                     confirmButtonText: 'Fermer'
                                 }).then((result) => {
                                     if (result.value) {
-                                        window.location = axios.defaults.baseURL+'/orders';
+                                        window.location = axios.defaults.baseURL + '/orders';
                                     }
                                 })
 
@@ -627,7 +677,7 @@
 
             },
             cancelOrder() {
-                window.location = axios.defaults.baseURL+'/orders';
+                window.location = axios.defaults.baseURL + '/orders';
             }
 
 

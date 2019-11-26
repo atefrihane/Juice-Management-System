@@ -6173,6 +6173,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     loadOrder: function loadOrder() {
       var _this = this;
 
+      var custom_ordered = [];
       axios.get('/api/order/' + this.order_id).then(function (response) {
         _this.code = response.data.order.code;
         _this.store_id = response.data.order.store_id;
@@ -6190,6 +6191,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             product_id: ordered.id,
             total: ordered.public_price * ordered.pivot.unit,
             product_total_tva: ''
+          });
+
+          _this.custom_ordered.forEach(function (custom) {
+            axios.post('api/product/prices/' + custom.product_id, {
+              store_id: _this.store_id
+            }).then(function (response) {
+              if (response.data.custom_price) {
+                custom.public_price = response.data.custom_price.price;
+                custom.total = custom.public_price * custom.unit;
+
+                _this.clearOrderedProducts();
+              }
+            })["catch"](function (error) {
+              console.log(error);
+            });
           });
 
           _this.total_ht += ordered.public_price * ordered.pivot.unit;
@@ -6290,10 +6306,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
 
         if (!found) {
-          axios.get('api/product/details/' + id).then(function (response) {
-            _this7.custom_ordered[index].product_packing = response.data.product.packing;
-            _this7.custom_ordered[index].public_price = response.data.product.public_price;
-            _this7.custom_ordered[index].tva = response.data.product.tva;
+          axios.post('api/product/prices/' + id, {
+            store_id: this.store_id
+          }).then(function (response) {
+            if (response.data.custom_price) {
+              swal.fire({
+                type: 'info',
+                title: 'Rappel',
+                html: "Ce magasin dispose déja d'un tarif à ce produit : <br><br>  Prix par défaut : <b>" + response.data.product.public_price + " € </b>  <br>" + "  Nouveau prix : <b>" + response.data.custom_price.price + " € </b>  <br>",
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                confirmButtonText: 'Fermer'
+              });
+              _this7.custom_ordered[index].product_packing = response.data.product.packing;
+              _this7.custom_ordered[index].public_price = response.data.custom_price.price;
+              _this7.custom_ordered[index].tva = response.data.product.tva;
+            } else {
+              _this7.custom_ordered[index].product_packing = response.data.product.packing;
+              _this7.custom_ordered[index].public_price = response.data.product.public_price;
+              _this7.custom_ordered[index].tva = response.data.product.tva;
+            }
           })["catch"](function (error) {
             console.log(error);
           });
