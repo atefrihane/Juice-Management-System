@@ -94,7 +94,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        return Product::all();
+        return Product::where('status','disponible')->get();
     }
 
     public function handleGetProductById($id)
@@ -139,7 +139,7 @@ class ProductController extends Controller
 
     public function handleGetAllProduct()
     {
-        $products = Product::all();
+        $products = Product::where('status','disponible')->get();
         return response()->json(['status' => '200', 'products' => $products]);
 
     }

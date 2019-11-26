@@ -407,50 +407,26 @@
 </script>
 <script>
     $('document').ready(function () {
-        $("input[type=checkbox]").change(function () {
-            if ($('#frm input[type=checkbox]:checked').length > 0) {
-                if ($(this).closest('tr').find("td:eq(1)").find("input").prop('readonly')) {
-
-                    $(this).closest('tr').find("td:eq(1)").find("input").prop('readonly', false);
-                } else {
+        $('.form-check > input').each(function() {
+            $(this).click(function(){
+                if ($(this).is(":checked"))
+                {
                     $(this).closest('tr').find("td:eq(1)").find("input").prop('readonly', true);
-                }
-
-
-                if ($(this).closest('tr').find("td:eq(2)").find("input").prop('readonly')) {
-
-                    $(this).closest('tr').find("td:eq(2)").find("input").prop('readonly', false);
-                } else {
                     $(this).closest('tr').find("td:eq(2)").find("input").prop('readonly', true);
-                }
-
-
-
-                if ($(this).closest('tr').find("td:eq(3)").find("input").prop('readonly')) {
-
-                    $(this).closest('tr').find("td:eq(3)").find("input").prop('readonly', false);
-                } else {
                     $(this).closest('tr').find("td:eq(3)").find("input").prop('readonly', true);
-                }
-
-
-
-                if ($(this).closest('tr').find("td:eq(4)").find("input").prop('readonly')) {
-
-
-                    $(this).closest('tr').find("td:eq(4)").find("input").prop('readonly', false);
-                } else {
-
                     $(this).closest('tr').find("td:eq(4)").find("input").prop('readonly', true);
                 }
-
-
-
-
-
-            }
-
-        });
+                else{
+            
+                    $(this).closest('tr').find("td:eq(1)").find("input").prop('readonly', false);
+                    $(this).closest('tr').find("td:eq(2)").find("input").prop('readonly', false);
+                    $(this).closest('tr').find("td:eq(3)").find("input").prop('readonly', false);
+                    $(this).closest('tr').find("td:eq(4)").find("input").prop('readonly', false);
+                }
+      
+            })
+        })
+      
 
     })
 

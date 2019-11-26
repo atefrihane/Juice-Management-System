@@ -9090,7 +9090,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                           confirmButtonText: 'Fermer'
                         }).then(function (result) {
                           if (result.value) {
-                            window.location = '/wizefresh/public/orders';
+                            window.location = axios.defaults.baseURL + '/orders';
                           }
                         });
                       }
@@ -9114,7 +9114,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                           confirmButtonText: 'Fermer'
                         }).then(function (result) {
                           if (result.value) {
-                            window.location = '/wizefresh/public/orders';
+                            window.location = window.location = axios.defaults.baseURL + '/orders';
                           }
                         });
                       }
