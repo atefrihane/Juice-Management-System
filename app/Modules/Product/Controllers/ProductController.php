@@ -186,6 +186,8 @@ class ProductController extends Controller
 
     public function handleUpdateCustomProduct(Request $request, $id, $companyId)
     {
+      
+     
 
         $company = Company::find($companyId);
         $price = Price::find($id);
@@ -205,10 +207,12 @@ class ProductController extends Controller
                 $price->stores()->detach();
             }
             $exist = false;
+            //check if user has selected a different product and then make sure that the upcoming product not already exist
             if ($request->product_id != $price->product_id) {
-
+               
                 $checkPrice = Price::where('product_id', $request->product_id)
                     ->first();
+                  
 
                 if ($checkPrice) {
                     $exist = true;
@@ -218,6 +222,10 @@ class ProductController extends Controller
 
                 }
 
+            }
+            // if product always the same update the price
+            else{
+                $price->update(['price' => $request->price]);
             }
 
             if ($request->input('new_store_id')) {
