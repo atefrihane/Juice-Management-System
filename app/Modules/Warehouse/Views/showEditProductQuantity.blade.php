@@ -140,7 +140,7 @@
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Entrepôt</label>
                                     <select class="form-control" name="warehouse_id" required>
-                                        <option value="0">Selectionner un entrepôt </option>
+                                        <option disabled >Selectionner un entrepôt </option>
                                         @forelse($warehouses as $warehouse)
                                         <option value="{{$warehouse->id}}"
                                                 {{ $warehouse->id == $productQuantity->warehouse->id ? "selected" : "" }}>

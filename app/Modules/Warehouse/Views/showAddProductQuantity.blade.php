@@ -137,8 +137,8 @@
                                     <label for="exampleInputEmail1">Entrepôt</label>
                                     @if(count($warehouses) > 0)
                                     <select class="form-control" name="warehouse_id" required>
+                                    <option value="" selected disabled>Séléctionner un entrepôt</option>
                                      @foreach($warehouses as $warehouse)
-                                     <option value="" disabled>Séléctionner un entrepôt</option>
                                     <option value="{{$warehouse->id}}"  {{ old('warehouse_id') == $warehouse->id ? "selected" : "" }}>{{$warehouse->designation}}</option>
                                     @endforeach
                                    </select>

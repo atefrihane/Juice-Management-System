@@ -134,7 +134,7 @@
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Surface ( en m²)</label>
                                     <input type="number" name="surface" class="form-control" placeholder="Surface"
-                                    value="{{old('surface')}}"  required>
+                                    value="{{old('surface')}}" step="0.01"  required>
                                 </div>
                             </div>
                         </div>
