@@ -722,9 +722,7 @@
                                                             confirmButtonText: 'Fermer'
                                                         }).then((result) => {
                                                             if (result.value) {
-                                                                window
-                                                                    .location =
-                                                                    '/wizefresh/public/orders';
+                                                                window.location =axios.defaults.baseURL+'/orders';
                                                             }
                                                         })
                                                     }
@@ -752,9 +750,8 @@
                                                             confirmButtonText: 'Fermer'
                                                         }).then((result) => {
                                                             if (result.value) {
-                                                                window
-                                                                    .location =
-                                                                    '/wizefresh/public/orders';
+                                                                window.location =   window.location =axios.defaults.baseURL+'/orders';
+                                                                
                                                             }
                                                         })
                                                     }

@@ -110,7 +110,7 @@ class StoreController extends Controller
                 'start_night_time' => $startNight,
                 'end_night_time' => $endNight,
                 'closed' => $closed == 'on' ? 1 : 0,
-                'store_id'=>$storeId
+                'store_id' => $storeId,
 
             ]);
 
@@ -123,7 +123,6 @@ class StoreController extends Controller
 
     public function store($company_id, Request $request)
     {
-    
 
         $val = $request->validate([
             'code' => 'required',
@@ -215,8 +214,6 @@ class StoreController extends Controller
 
         ]);
 
-
-
         $checkMonday = $this->handleFillSchedule(1, $request->mondayDayStart, $request->mondayDayEnd, $request->mondayNightStart, $request->mondayNightEnd, $request->mondayClosed, $store->id);
         $checkTuesday = $this->handleFillSchedule(2, $request->tuesdayDayStart, $request->tuesdayDayEnd, $request->tuesdayNightStart, $request->tuesdayNightEnd, $request->tuesdayClosed, $store->id);
         $checkWednesday = $this->handleFillSchedule(3, $request->wednesdayDayStart, $request->wednesdayDayEnd, $request->wednesdayNightStart, $request->wednesdayNightEnd, $request->wednesdayClosed, $store->id);
@@ -248,18 +245,17 @@ class StoreController extends Controller
     public function edit($id)
     {
         $store = Store::find($id);
-       
-        if($store)
-        {
+
+        if ($store) {
             $company = Company::find($store->company_id);
             $countries = Country::all();
-            $cities = City::where('country_id',$store->country_id)->get();
+            $cities = City::where('country_id', $store->country_id)->get();
             $zipcodes = Zipcode::where('city_id', $store->city_id)->get();
-         
+
             return view("Store::editStore", compact('store', 'company', 'countries', 'cities', 'zipcodes'));
 
         }
-     
+
     }
 
     public function update($id, Request $request)
@@ -366,10 +362,9 @@ class StoreController extends Controller
                 alert()->error('Oups', 'Code déja utilisé !')->persistent('Femer');
                 return redirect()->back();
             }
-         
 
             $store->update($updateable);
-       
+
             if ($changes != '') {
                 StoreHistory::create([
                     'changes' => $changes,
@@ -379,12 +374,11 @@ class StoreController extends Controller
                 ]);
 
             }
-     
 
             if ($request->input('schedules')) {
 
                 foreach ($request->schedules as $schedule) {
-                   
+
                     if (isset($schedule[0])) {
                         $checkSchedule = StoreSchedule::find($schedule[0]);
                         $dayText = "";
@@ -412,7 +406,7 @@ class StoreController extends Controller
                                 break;
 
                         }
-             
+
                         $startDay = $schedule[1];
                         $endDay = $schedule[2];
                         $startNight = $schedule[3];
@@ -435,22 +429,20 @@ class StoreController extends Controller
                             }
                         }
 
-                            if ($startDay && $endDay && $startNight && $endNight) {
-                                if ($startNight <= $endDay or $startNight <= $startDay) {
-                                    alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
-                                    return redirect()->back();
-
-                                }
-
-                                if ($endNight <= $endDay or $endNight <= $startDay) {
-                                    alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
-                                    return redirect()->back();
-
-                                }
+                        if ($startDay && $endDay && $startNight && $endNight) {
+                            if ($startNight <= $endDay or $startNight <= $startDay) {
+                                alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
+                                return redirect()->back();
 
                             }
 
-                     
+                            if ($endNight <= $endDay or $endNight <= $startDay) {
+                                alert()->error('Oups', ' Verifier les horaires pour ' . $dayText)->persistent('Femer');
+                                return redirect()->back();
+
+                            }
+
+                        }
 
                         $checkSchedule->update([
                             'day' => $checkSchedule->day,
@@ -476,12 +468,18 @@ class StoreController extends Controller
     public function delete($id)
     {
         $store = Store::find($id);
+        if ($store) {
+            $companyId = $store->company_id;
+            $currentRentals = $store->rentals()->where('active', 1)->get();
+            foreach ($currentRentals as $currentRental) {
+                $currentRental->machine->update(['rented' => 0]);
+            }
+            $store->delete();
+            alert()->success('Succès!', 'Le magasin  a été supprimé avec succès ')->persistent("Fermer");
+            return redirect(route('showStores', $companyId));
 
-        $companyId = $store->company_id;
-
-        $store->delete();
-        alert()->success('Succès!', 'Le magasin  a été supprimé avec succès ')->persistent("Fermer");
-        return redirect(route('showStores', $companyId));
+        }
+        return view('General::notFound');
     }
 
     public function showStore($id, $idStore)

@@ -78,7 +78,7 @@ class CompanyController extends Controller
             alert()->error('Oups', 'Code déja utilisé !')->persistent('Femer');
             return redirect()->back()->withInput();
         }
-        
+
         $company = Company::create($insertable);
         CompanyHistory::create([
             'changes' => 'creation',
@@ -94,10 +94,10 @@ class CompanyController extends Controller
     public function edit($id)
     {
         $company = Company::find($id);
-     
+
         if ($company) {
             $countries = Country::all();
-            $cities = City::where('country_id',$company->country_id)->get();
+            $cities = City::where('country_id', $company->country_id)->get();
             $zipcodes = Zipcode::where('city_id', $company->city_id)->get();
 
             return view('Company::updateCompany', compact('company', 'countries', 'cities', 'zipcodes'));
@@ -129,9 +129,9 @@ class CompanyController extends Controller
             'tel.required' => 'le champs telephone est obligatoire',
 
         ]);
-       
+
         $company = Company::find($id);
-        
+
         if ($company) {
             $changes = array();
             if ($company->code != $request->code) {
@@ -166,7 +166,7 @@ class CompanyController extends Controller
                 array_push($changes, 'email');
             }
             $fullTel = $request->cc . ' ' . $request->tel;
-        
+
             if ($company->tel != $fullTel) {
                 array_push($changes, 'téléphone');
             }
@@ -185,30 +185,29 @@ class CompanyController extends Controller
                 alert()->error('Oups', 'Code déja utilisé !')->persistent('Femer');
                 return redirect()->back();
             }
-           $path=null;
-            if($request->logo)
-            {
+            $path = null;
+            if ($request->logo) {
                 $file = $request->logo;
-                $path = '/img/'.$file->getClientOriginalName();
+                $path = '/img/' . $file->getClientOriginalName();
 
                 $file->move('img', $file->getClientOriginalName());
 
             }
-      
+
             $company->update([
-                'code'=>$request->code,
-                'status'=>$request->status,
-                'name'=>$request->name,
-                'designation'=>$request->designation,
-                'country_id'=>$request->country_id,
-                'city_id'=>$request->city_id,
-                'zipcode_id'=>$request->zipcode_id,
-                'address'=>$request->address,
-                'complement'=>$request->complement,
-                'email'=>$request->email,
-                'tel'=>$fullTel,
-                'comment'=>$request->comment,
-                'logo' => isset($path) ? $path : $company->logo
+                'code' => $request->code,
+                'status' => $request->status,
+                'name' => $request->name,
+                'designation' => $request->designation,
+                'country_id' => $request->country_id,
+                'city_id' => $request->city_id,
+                'zipcode_id' => $request->zipcode_id,
+                'address' => $request->address,
+                'complement' => $request->complement,
+                'email' => $request->email,
+                'tel' => $fullTel,
+                'comment' => $request->comment,
+                'logo' => isset($path) ? $path : $company->logo,
             ]);
             if ($changes != "") {
                 CompanyHistory::create([
@@ -232,12 +231,22 @@ class CompanyController extends Controller
     {
         $company = Company::find($id);
         if ($company) {
+            // check related stores and  their rentals ( set up rented machines as free)
+            foreach ($company->stores as $store) {
+                $currentRentals = $store->rentals()->where('active', 1)->get();
+                if ($currentRentals) {
+                    foreach ($currentRentals as $currentRental) {
+                        $currentRental->machine->update(['rented' => 0]);
+                    }
+
+                }
+
+            }
             $company->delete();
             alert()->success('Succès!', 'La societé a été supprimé avec succès ')->persistent("Fermer");
             return redirect()->route('showHome');
         }
-        alert()->error('Succès!', 'Societé introuvable !')->persistent("Fermer");
-        return redirect()->back();
+        return view('General::notFound');
     }
 
 }
