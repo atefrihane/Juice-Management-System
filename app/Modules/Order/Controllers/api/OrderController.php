@@ -475,11 +475,26 @@ class OrderController extends Controller
 
                     case (8):
                         {
-
-                            $order->update([
+                           $order->update([
                                 'status' => $request->new_status,
 
                             ]);
+
+                            if($order->productwarehouses->count() > 0)
+                            {
+                                foreach($order->productwarehouses as $productwarehouse)
+                                {
+                                    $order->store->products()->attach($productwarehouse->product_id,[
+                                        'quantity' => $productwarehouse->quantity,
+                                        'creation_date' => $productwarehouse->creation_date,
+                                        'expiration_date' => $productwarehouse->expiration_date,
+                                        
+                                    ]);
+                                    
+                                }
+
+                            }
+                           
                             OrderHistory::create([
                                 'action' => 'Etat vers : A facturer',
                                 'order_id' => $order->id,
