@@ -5435,6 +5435,70 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getCompanies();
@@ -5460,9 +5524,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       total_ht: 0.00,
       total_tva: 0.00,
       total_order: 0.00,
+      billed_total_ht: 0.00,
+      billed_total_tva: 0.00,
+      billed_total_order: 0.00,
       comment: '',
       company_id: order.company_id
-    }, _defineProperty(_ref, "errors", []), _defineProperty(_ref, "final_prepared", []), _defineProperty(_ref, "estimated_arrival_time", ''), _defineProperty(_ref, "estimated_arrival_date", ''), _defineProperty(_ref, "arrival_time", ''), _defineProperty(_ref, "arrival_date", ''), _defineProperty(_ref, "delivery", ''), _defineProperty(_ref, "delivery_man", ''), _defineProperty(_ref, "delivery_mode", ''), _defineProperty(_ref, "palet_number", ''), _defineProperty(_ref, "carton_number", ''), _defineProperty(_ref, "volume", ''), _defineProperty(_ref, "weight", ''), _defineProperty(_ref, "parent", ''), _defineProperty(_ref, "preparator", ''), _defineProperty(_ref, "comment", ''), _defineProperty(_ref, "history_id", ''), _ref;
+    }, _defineProperty(_ref, "errors", []), _defineProperty(_ref, "final_prepared", []), _defineProperty(_ref, "estimated_arrival_time", ''), _defineProperty(_ref, "estimated_arrival_date", ''), _defineProperty(_ref, "arrival_time", ''), _defineProperty(_ref, "arrival_date", ''), _defineProperty(_ref, "delivery", ''), _defineProperty(_ref, "delivery_man", ''), _defineProperty(_ref, "delivery_mode", ''), _defineProperty(_ref, "palet_number", ''), _defineProperty(_ref, "carton_number", ''), _defineProperty(_ref, "volume", ''), _defineProperty(_ref, "weight", ''), _defineProperty(_ref, "parent", ''), _defineProperty(_ref, "preparator", ''), _defineProperty(_ref, "comment", ''), _defineProperty(_ref, "history_id", ''), _defineProperty(_ref, "billed_products", []), _ref;
   },
   methods: {
     showModal: function showModal(history) {
@@ -5513,6 +5580,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       axios.get('/api/order/' + this.order_id).then(function (response) {
         console.log(response);
+        _this3.billed_products = response.data.invoice;
         _this3.code = response.data.order.code;
         _this3.store_id = response.data.order.store_id;
         _this3.ordered_products = response.data.ordered_products;
@@ -5546,7 +5614,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             product_total_tva: ''
           });
 
-          _this3.clearOrderedProducts();
+          _this3.custom_ordered.forEach(function (custom) {
+            axios.post('api/product/prices/' + custom.product_id, {
+              store_id: _this3.store_id
+            }).then(function (response) {
+              if (response.data.custom_price) {
+                custom.public_price = response.data.custom_price.price;
+                custom.total = custom.public_price * custom.unit;
+
+                _this3.clearOrderedProducts();
+              }
+            })["catch"](function (error) {
+              console.log(error);
+            });
+          });
+        });
+
+        _this3.billed_products.forEach(function (billed) {
+          axios.post('api/product/prices/' + billed.product_id, {
+            store_id: _this3.store_id
+          }).then(function (response) {
+            if (response.data.custom_price) {
+              billed.public_price = response.data.custom_price.price;
+              billed.total = billed.public_price * parseInt(billed.sum);
+            }
+
+            _this3.billed_total_ht += billed.total;
+            _this3.billed_total_tva += billed.total * billed.tva / 100;
+            _this3.billed_total_order = _this3.billed_total_ht + _this3.billed_total_tva;
+          })["catch"](function (error) {
+            console.log(error);
+          });
         });
 
         if (_this3.prepared_products.length > 0) {
@@ -69823,6 +69921,58 @@ var render = function() {
         _vm._v(" "),
         _vm._m(8),
         _vm._v(" "),
+        _c("div", { staticClass: "box-body" }, [
+          _c("table", { staticClass: "table" }, [
+            _vm._m(9),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.billed_products, function(billed) {
+                return _vm.billed_products.length > 0
+                  ? _c("tr", [
+                      _c("td", [_vm._v(_vm._s(billed.name))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(billed.sum))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(billed.public_price))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(billed.tva))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(billed.total))])
+                    ])
+                  : _c("tr", [
+                      _c(
+                        "td",
+                        { staticClass: "text-center", attrs: { colspan: "5" } },
+                        [_vm._v("Aucune facture !")]
+                      )
+                    ])
+              }),
+              0
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "box-body" }, [
+          _vm._m(10),
+          _vm._v(" "),
+          _c("div", { staticClass: "pull-right" }, [
+            _c("h4", { staticClass: "box-title" }, [
+              _vm._v(" " + _vm._s(_vm.billed_total_ht) + "€")
+            ]),
+            _vm._v(" "),
+            _c("h4", { staticClass: "box-title" }, [
+              _vm._v(" " + _vm._s(_vm.billed_total_tva) + "€")
+            ]),
+            _vm._v(" "),
+            _c("h4", { staticClass: "box-title" }, [
+              _c("b", [_vm._v(_vm._s(_vm.billed_total_order) + "€")])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._m(11),
+        _vm._v(" "),
         _c("div", { staticClass: "container-fluid" }, [
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-4" }, [
@@ -70081,7 +70231,7 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "col-md-2" }, [
                 _c("div", { staticClass: "form-group" }, [
-                  _vm._m(9),
+                  _vm._m(12),
                   _vm._v(" "),
                   _vm.estimated_arrival_time
                     ? _c("input", {
@@ -70139,7 +70289,7 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "col-md-2" }, [
               _c("div", { staticClass: "form-group" }, [
-                _vm._m(10),
+                _vm._m(13),
                 _vm._v(" "),
                 _vm.arrival_time
                   ? _c("input", {
@@ -70166,11 +70316,11 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(11),
+        _vm._m(14),
         _vm._v(" "),
         _c("div", { staticClass: "box-body" }, [
           _c("table", { staticClass: "table" }, [
-            _vm._m(12),
+            _vm._m(15),
             _vm._v(" "),
             _c(
               "tbody",
@@ -70242,7 +70392,7 @@ var render = function() {
                       },
                       [
                         _c("div", { staticClass: "modal-content" }, [
-                          _vm._m(13),
+                          _vm._m(16),
                           _vm._v(" "),
                           _c("div", { staticClass: "modal-body" }, [
                             _c("div", { staticClass: "form-group" }, [
@@ -70505,6 +70655,59 @@ var staticRenderFns = [
           ])
         ])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "row", staticStyle: { "margin-top": "20px" } },
+      [
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("div", { staticClass: "form-group" }, [
+            _c(
+              "label",
+              {
+                staticStyle: { "font-size": "20px" },
+                attrs: { for: "exampleInputEmail1" }
+              },
+              [_vm._v("Facturation")]
+            )
+          ])
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Nom produit")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Total quantité préparée")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Prix unitaire")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("TVA ( % )")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Total produit")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "pull-left" }, [
+      _c("h4", { staticClass: "box-title" }, [_vm._v(" Total HT")]),
+      _vm._v(" "),
+      _c("h4", { staticClass: "box-title" }, [_vm._v(" TVA")]),
+      _vm._v(" "),
+      _c("h4", { staticClass: "box-title" }, [_c("b", [_vm._v("TOTAL TTC")])])
     ])
   },
   function() {

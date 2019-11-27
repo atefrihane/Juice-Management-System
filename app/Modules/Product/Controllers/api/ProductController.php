@@ -250,6 +250,7 @@ class ProductController extends Controller
     }
     public function handleGetProductPrices($id, Request $request)
     {
+     
 
         $product = Product::find($id);
         $checkCustomPrice = Store::find($request->store_id)->prices->where('product_id', $product->id)->first();

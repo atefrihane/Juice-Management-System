@@ -7,6 +7,7 @@ use App\Modules\Order\Models\Order;
 use App\Modules\Order\Models\OrderHistory;
 use App\Modules\Warehouse\Models\Warehouse;
 use Illuminate\Http\Request;
+use DB;
 
 class OrderController extends Controller
 {
@@ -62,6 +63,18 @@ class OrderController extends Controller
                 array_push($prepared_products, (object) $prepared);
             }
 
+            $invoice = DB::table('order_prepare')
+            ->where('order_id',$order->id)
+            ->join('product_warehouse', 'product_warehouse.id', '=', 'order_prepare.product_warehouse_id')
+            ->join('products', 'products.id', '=', 'product_warehouse.product_id')
+            ->select('products.nom as name','products.id as product_id',
+            'products.tva','products.public_price',
+             DB::raw('sum(order_prepare.quantity) as sum'),
+             DB::raw(' 0  as total')
+             )
+            ->groupBy('product_warehouse.product_id')
+            ->get();
+
             return response()->json([
                 'status' => 200,
                 'order' => $order,
@@ -71,6 +84,7 @@ class OrderController extends Controller
                 'preparator' => $order->preparator,
                 'delivery_man' => $order->delivery,
                 'parent' => $order->parent,
+                'invoice' => $invoice,
             ]);
 
         }
@@ -475,26 +489,24 @@ class OrderController extends Controller
 
                     case (8):
                         {
-                           $order->update([
+                            $order->update([
                                 'status' => $request->new_status,
 
                             ]);
 
-                            if($order->productwarehouses->count() > 0)
-                            {
-                                foreach($order->productwarehouses as $productwarehouse)
-                                {
-                                    $order->store->products()->attach($productwarehouse->product_id,[
+                            if ($order->productwarehouses->count() > 0) {
+                                foreach ($order->productwarehouses as $productwarehouse) {
+                                    $order->store->products()->attach($productwarehouse->product_id, [
                                         'quantity' => $productwarehouse->quantity,
                                         'creation_date' => $productwarehouse->creation_date,
                                         'expiration_date' => $productwarehouse->expiration_date,
-                                        
+
                                     ]);
-                                    
+
                                 }
 
                             }
-                           
+
                             OrderHistory::create([
                                 'action' => 'Etat vers : A facturer',
                                 'order_id' => $order->id,
@@ -518,6 +530,22 @@ class OrderController extends Controller
                                 'user_id' => $request->user_id,
                                 'comment' => $request->comment,
                             ]);
+
+                            // Generate Invoice
+
+                            // if($order->productwarehouses->count() > 0)
+                            // {
+                            //     foreach($order->productwarehouses as $productwarehouse)
+                            //     {
+                            //         $checkCustomPrice=$order->store->prices->where('product_id',$productwarehouse->product->id)->first();
+
+                            //             Invoice::create([
+                            //                 'order_id' => $order->id,
+                            //                 'price' => $checkCustomPrice ? $checkCustomPrice->price : $productwarehouse->product->public_price,
+                            //                 'product_warehouse_id' => $productwarehouse->id
+                            //             ]);
+                            //         }
+                            //     }
 
                         }
                         break;
@@ -596,7 +624,7 @@ class OrderController extends Controller
                 'estimated_arrival_date' => $request->estimated_arrival_date,
                 'estimated_arrival_time' => $request->estimated_arrival_time,
                 'arrival_date' => $request->arrival_date,
-                'arrival_time' => $request->arrival_time
+                'arrival_time' => $request->arrival_time,
 
             ]);
             OrderHistory::create([
@@ -609,6 +637,18 @@ class OrderController extends Controller
             return response()->json(['status' => 200]);
         }
 
+        return response()->json(['status' => 404]);
+    }
+
+    public function showOrderPrepared($id)
+    {
+
+        $order = Order::find($id);
+        if ($order) {
+
+            return response()->json(['status' => 200, 'billed_products' => $order->productwarehouses()->with('product')->get()]);
+
+        }
         return response()->json(['status' => 404]);
     }
 

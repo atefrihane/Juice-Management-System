@@ -325,6 +325,69 @@
 
                 </div>
 
+                <div class="row" style="margin-top:20px;">
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1" style="font-size:20px;">Facturation</label>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="box-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nom produit</th>
+                                <th>Total quantité préparée</th>
+                                <th>Prix unitaire</th>
+                                <th>TVA ( % )</th>
+                                <th>Total produit</th>
+
+
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr v-for="billed in billed_products" v-if="billed_products.length > 0">
+                                <td>{{billed.name}}</td>
+                                <td>{{billed.sum}}</td>
+                                <td>{{billed.public_price}}</td>
+                                <td>{{billed.tva}}</td>
+                                <td>{{billed.total}}</td>
+                            </tr>
+                            <tr v-else>
+                            <td colspan="5" class="text-center">Aucune facture !</td>
+                            
+                            </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <div class="box-body">
+                    <div class="pull-left">
+                        <h4 class="box-title"> Total HT</h4>
+                        <h4 class="box-title"> TVA</h4>
+
+                        <h4 class="box-title"> <b>TOTAL TTC</b></h4>
+
+
+                    </div>
+                    <div class="pull-right">
+                        <h4 class="box-title"> {{billed_total_ht}}€</h4>
+                        <h4 class="box-title"> {{billed_total_tva}}€</h4>
+
+                        <h4 class="box-title"> <b>{{billed_total_order}}€</b></h4>
+                    </div>
+                </div>
+
 
 
 
@@ -347,7 +410,8 @@
                                 <label for="exampleInputEmail1">Transporteur</label>
                                 <input type="text" class="form-control" value="Interne" v-if="delivery==1" disabled>
                                 <input type="text" class="form-control" value="Externe" v-if="delivery==2" disabled>
-                                <input type="text" class="form-control" value="Non specifié" v-if="delivery == null" disabled>
+                                <input type="text" class="form-control" value="Non specifié" v-if="delivery == null"
+                                    disabled>
                             </div>
                         </div>
 
@@ -612,11 +676,15 @@
                 order_history: [],
                 products: [],
                 errors: [],
+
                 store_id: '',
                 code: '',
                 total_ht: 0.00,
                 total_tva: 0.00,
                 total_order: 0.00,
+                billed_total_ht: 0.00,
+                billed_total_tva: 0.00,
+                billed_total_order: 0.00,
                 comment: '',
                 company_id: order.company_id,
                 errors: [],
@@ -635,7 +703,8 @@
                 parent: '',
                 preparator: '',
                 comment: '',
-                history_id: ''
+                history_id: '',
+                billed_products: [],
 
 
 
@@ -694,10 +763,13 @@
 
 
             },
+          
             loadOrder() {
+
                 axios.get('/api/order/' + this.order_id)
                     .then((response) => {
                         console.log(response)
+                        this.billed_products = response.data.invoice
                         this.code = response.data.order.code
                         this.store_id = response.data.order.store_id
                         this.ordered_products = response.data.ordered_products
@@ -730,12 +802,54 @@
                                 product_total_tva: ''
 
                             });
-                            this.clearOrderedProducts()
+                            this.custom_ordered.forEach(custom => {
+                                axios.post('api/product/prices/' + custom.product_id, {
+                                        store_id: this.store_id
+                                    })
+                                    .then((response) => {
+
+                                        if (response.data.custom_price) {
+                                            custom.public_price = response.data.custom_price
+                                                .price
+                                            custom.total = custom.public_price * custom.unit
+                                            this.clearOrderedProducts()
+                                        }
 
 
+                                    })
+                                    .catch(function (error) {
+                                        console.log(error);
+                                    })
+
+                            })
 
 
-                        });
+                });
+
+                          this.billed_products.forEach(billed => {
+                                axios.post('api/product/prices/' + billed.product_id, {
+                                        store_id: this.store_id
+                                    })
+                                    .then((response) => {
+
+                                        if (response.data.custom_price) {
+                                            billed.public_price = response.data.custom_price
+                                                .price
+                                            billed.total = billed.public_price * parseInt(billed.sum)
+
+                                        }
+                                        this.billed_total_ht+=billed.total
+                                        this.billed_total_tva+=(billed.total*billed.tva/100)
+                                        this.billed_total_order=  this.billed_total_ht+this.billed_total_tva
+
+
+                                    })
+                                    .catch(function (error) {
+                                        console.log(error);
+                                    })
+
+                            })
+                        
                         if (this.prepared_products.length > 0) {
                             this.prepared_products.forEach(prepared => {
                                 this.final_prepared.push({
@@ -787,6 +901,8 @@
                                             })
 
 
+
+
                                         }
 
 
@@ -801,6 +917,9 @@
                             this.clearPreparedProducts()
 
                         }
+
+
+                      
 
 
 
@@ -871,8 +990,9 @@
 
             },
             cancelOrder() {
-                window.location = axios.defaults.baseURL+'/orders';
-            }
+                window.location = axios.defaults.baseURL + '/orders';
+            },
+
 
 
         }
