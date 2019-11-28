@@ -16,6 +16,7 @@ class StoreProducts extends Migration
         Schema::create('store_products', function (Blueprint $table) {
             $table->increments('id');
             $table->float('quantity');
+            $table->integer('packing');
             $table->date('creation_date');
             $table->date('expiration_date');
             $table->integer('product_id')->unsigned();

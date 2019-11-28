@@ -170,10 +170,10 @@
 
                     </div>
                     <div class="pull-right">
-                        <h4 class="box-title"> {{total_ht}}€</h4>
-                        <h4 class="box-title"> {{total_tva}}€</h4>
+                        <h4 class="box-title"> {{convert_total_ht}}€</h4>
+                        <h4 class="box-title"> {{convert_total_tva}}€</h4>
 
-                        <h4 class="box-title"> <b>{{total_order}}€</b></h4>
+                        <h4 class="box-title"> <b>{{convert_total_order}}€</b></h4>
                     </div>
                 </div>
                 <div class="box-body">
@@ -245,9 +245,29 @@
             }
 
         },
+       
+          computed:{
+           convert_total_ht() {
+                       let val = (this.total_ht/1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                // return this.total_ht.toFixed(2).replace(/\d(?=(\d{3})+\,)/g, '$&,'); // 12.345,67
+            },
+            convert_total_tva() {
+                 let val = (this.total_tva/1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                // return this.total_tva.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+
+            },
+            convert_total_order() {
+                let val = (this.total_order/1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                // return this.total_order.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+            }
+        
+        },
         methods: {
             loadOrder() {
-                let custom_ordered=[]
+                let custom_ordered = []
                 axios.get('/api/order/' + this.order_id)
                     .then((response) => {
 
@@ -274,12 +294,12 @@
                                         store_id: this.store_id
                                     })
                                     .then((response) => {
-                                       
+
                                         if (response.data.custom_price) {
                                             custom.public_price = response.data.custom_price
                                                 .price
-                                                custom.total=custom.public_price*custom.unit
-                                                   this.clearOrderedProducts()
+                                            custom.total = custom.public_price * custom.unit
+                                            this.clearOrderedProducts()
                                         }
 
 
@@ -404,7 +424,7 @@
                     });
 
                     if (!found) {
-                       axios.post('api/product/prices/' + id, {
+                        axios.post('api/product/prices/' + id, {
                                 store_id: this.store_id
                             })
                             .then((response) => {

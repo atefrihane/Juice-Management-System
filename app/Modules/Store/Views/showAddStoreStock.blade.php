@@ -45,19 +45,78 @@
                         <div class="box-body">
                             <div class="row">
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1">Code produit</label>
                                     <input type="text" name="productCode" value="{{old('productCode')}}"
                                         class="form-control" placeholder="Code produit" id="productCode" disabled>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1">Code à barre</label>
                                     <input type="text" name="productBarcode" value="{{old('productBarcode')}}"
                                         class="form-control" placeholder="Code à barre" id="barCode" disabled>
                                 </div>
+                                <div class="col-md-4">
+                                    <label for="exampleInputEmail1">Colisage par défaut</label>
+                                    <input type="number" name="productPacking" value="{{old('productPacking')}}"
+                                        class="form-control" placeholder="Colisage" id="packing" readonly>
+                                </div>
 
                             </div>
                         </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="exampleInputEmail1">Colisage</label>
+                                    <input type="number" name="packing" value="{{old('packing')}}" class="form-control"
+                                        placeholder="Colisage" id="packing1" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="box-body">
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Date de fabrication</label>
+
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="date" name="creation_date" value="{{old('creation_date')}}"
+                                                class="form-control pull-right creation_date" id="datepicker" required>
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Date de préemption</label>
+
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="date" class="form-control pull-right expiration_date"
+                                                id="datepicker" name="expiration_date"
+                                                value="{{old('expiration_date')}}" required>
+                                        </div>
+                                   
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
 
                         <div class="box-body">
                             <div class="row">
@@ -71,42 +130,7 @@
                             </div>
                         </div>
 
-                        <div class="box-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Date de fabrication</label>
 
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                            </div>
-                                            <input type="date" name="creation_date" value="{{old('creation_date')}}"
-                                                class="form-control pull-right" id="datepicker" required>
-                                        </div>
-                                        <!-- /.input group -->
-                                    </div>
-                                </div>
-
-
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Date de préemption</label>
-
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                            </div>
-                                            <input type="date" class="form-control pull-right" id="datepicker"
-                                                name="expiration_date" value="{{old('expiration_date')}}" required>
-                                        </div>
-                                        <!-- /.input group -->
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
 
                         <div class="row">
                             <div class="container text-center">
@@ -142,7 +166,9 @@
         $('.selected_product').on('change', function () {
 
             var id = this.value;
-            var url = {!!json_encode(url('/'))!!}
+            var url = {
+                !!json_encode(url('/')) !!
+            }
 
 
             if (id == 0) {

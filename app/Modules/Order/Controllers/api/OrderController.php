@@ -6,45 +6,49 @@ use App\Http\Controllers\Controller;
 use App\Modules\Order\Models\Order;
 use App\Modules\Order\Models\OrderHistory;
 use App\Modules\Warehouse\Models\Warehouse;
-use Illuminate\Http\Request;
 use DB;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
     public function handleSaveOrder(Request $request)
     {
-        $checkOrder = Order::where('code', $request->code)->first();
-        if (!$checkOrder) {
-            $order = Order::create([
-                'code' => $request->code,
-                'status' => $request->status,
-                'total' => $request->total_order,
-                'store_id' => $request->store_id,
-
-            ]);
-
-            if ($request->input('ordered_products')) {
-                foreach ($request->input('ordered_products') as $ordered) {
-                    $order->products()->attach($ordered['product_id'], [
-                        'package' => $ordered['packing'],
-                        'unit' => $ordered['unit'],
-                    ]);
-
-                }
-            }
-            OrderHistory::create([
-                'action' => 'Création',
-                'order_id' => $order->id,
-                'user_id' => $request->user_id,
-                'comment' => $request->comment,
-            ]);
-            return response()->json(['status' => 200]);
-
+        $checkCount = Order::count();
+        if ($checkCount > 0) {
+            $code = Order::all()->last()->id + 1;
+        } else {
+            $code = 1;
         }
+        $orderCode = $request->code . '-' . $code;
+        
+        $order = Order::create([
+            'code' => $orderCode,
+            'status' => $request->status,
+            'total' => $request->total_order,
+            'store_id' => $request->store_id,
+            'comment' => $request->comment,
 
-        return response()->json(['status' => 400]);
+        ]);
+
+        if ($request->input('ordered_products')) {
+            foreach ($request->input('ordered_products') as $ordered) {
+                $order->products()->attach($ordered['product_id'], [
+                    'package' => $ordered['packing'],
+                    'unit' => $ordered['unit'],
+                ]);
+
+            }
+        }
+        OrderHistory::create([
+            'action' => 'Création',
+            'order_id' => $order->id,
+            'user_id' => $request->user_id,
+            'comment' => $request->comment,
+        ]);
+        return response()->json(['status' => 200]);
 
     }
+
     public function showOrder($id)
     {
 
@@ -64,16 +68,16 @@ class OrderController extends Controller
             }
 
             $invoice = DB::table('order_prepare')
-            ->where('order_id',$order->id)
-            ->join('product_warehouse', 'product_warehouse.id', '=', 'order_prepare.product_warehouse_id')
-            ->join('products', 'products.id', '=', 'product_warehouse.product_id')
-            ->select('products.nom as name','products.id as product_id',
-            'products.tva','products.public_price',
-             DB::raw('sum(order_prepare.quantity) as sum'),
-             DB::raw(' 0  as total')
-             )
-            ->groupBy('product_warehouse.product_id')
-            ->get();
+                ->where('order_id', $order->id)
+                ->join('product_warehouse', 'product_warehouse.id', '=', 'order_prepare.product_warehouse_id')
+                ->join('products', 'products.id', '=', 'product_warehouse.product_id')
+                ->select('products.nom as name', 'products.id as product_id',
+                    'products.tva', 'products.public_price',
+                    DB::raw('sum(order_prepare.quantity) as sum'),
+                    DB::raw(' 0  as total')
+                )
+                ->groupBy('product_warehouse.product_id')
+                ->get();
 
             return response()->json([
                 'status' => 200,
@@ -439,6 +443,7 @@ class OrderController extends Controller
                                 'pallets_number' => $request->palet_number,
                                 'weight' => $request->weight,
                                 'volume' => $request->volume,
+                                'comment' => $request->comment,
 
                             ]);
                             OrderHistory::create([
@@ -457,6 +462,7 @@ class OrderController extends Controller
                                 'status' => $request->new_status,
                                 'estimated_arrival_date' => $request->date,
                                 'estimated_arrival_time' => $request->time,
+                                'comment' => $request->comment,
 
                             ]);
                             OrderHistory::create([
@@ -475,6 +481,7 @@ class OrderController extends Controller
                                 'status' => $request->new_status,
                                 'arrival_date' => $request->date,
                                 'arrival_time' => $request->time,
+                                'comment' => $request->comment,
 
                             ]);
                             OrderHistory::create([
@@ -491,6 +498,7 @@ class OrderController extends Controller
                         {
                             $order->update([
                                 'status' => $request->new_status,
+                                'comment' => $request->comment,
 
                             ]);
 
@@ -522,6 +530,7 @@ class OrderController extends Controller
 
                             $order->update([
                                 'status' => $request->new_status,
+                                'comment' => $request->comment,
 
                             ]);
                             OrderHistory::create([
@@ -531,22 +540,6 @@ class OrderController extends Controller
                                 'comment' => $request->comment,
                             ]);
 
-                            // Generate Invoice
-
-                            // if($order->productwarehouses->count() > 0)
-                            // {
-                            //     foreach($order->productwarehouses as $productwarehouse)
-                            //     {
-                            //         $checkCustomPrice=$order->store->prices->where('product_id',$productwarehouse->product->id)->first();
-
-                            //             Invoice::create([
-                            //                 'order_id' => $order->id,
-                            //                 'price' => $checkCustomPrice ? $checkCustomPrice->price : $productwarehouse->product->public_price,
-                            //                 'product_warehouse_id' => $productwarehouse->id
-                            //             ]);
-                            //         }
-                            //     }
-
                         }
                         break;
 
@@ -555,6 +548,7 @@ class OrderController extends Controller
 
                             $order->update([
                                 'status' => $request->new_status,
+                                'comment' => $request->comment,
 
                             ]);
                             OrderHistory::create([
@@ -572,6 +566,7 @@ class OrderController extends Controller
 
                             $order->update([
                                 'status' => $request->new_status,
+                                'comment' => $request->comment,
 
                             ]);
                             OrderHistory::create([

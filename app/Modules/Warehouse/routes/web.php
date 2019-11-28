@@ -14,6 +14,7 @@ Route::group(['module' => 'Warehouse', 'middleware' => ['web','isAuth'], 'namesp
    Route::get('/warehouse/update/{id}','WarehouseController@showUpdateWarehouse')->name('showUpdateWarehouse');
    Route::post('/warehouse/update/{id}','WarehouseController@handleUpdateWarehouse')->name('handleUpdateWarehouse');
    Route::post('/warehouse/delete/{id}','WarehouseController@handleDeleteWarehouse')->name('handleDeleteWarehouse');
-   Route::get('/warehouse/detail/{id}','WarehouseController@showWarehouseDetail')->name('showWarehouseDetail');
+   Route::get('/warehouse/{id}','WarehouseController@showWarehouse')->name('showWarehouse');
+   Route::get('/warehouse/{id}/stock','WarehouseController@showAddWarehouseStock')->name('showAddWarehouseStock');
 
 });

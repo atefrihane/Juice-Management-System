@@ -555,6 +555,7 @@ class StoreController extends Controller
 
             $store->products()->attach($request->product_id, [
                 'quantity' => $request->quantity,
+                'packing' => $request->packing,
                 'creation_date' => $request->creation_date,
                 'expiration_date' => $request->expiration_date,
             ]);
@@ -607,6 +608,7 @@ class StoreController extends Controller
                 'product_id' => $request->product_id,
                 'store_id' => $idStore,
                 'quantity' => $request->quantity,
+                'packing' => $request->packing,
                 'creation_date' => $request->creation_date,
                 'expiration_date' => $request->expiration_date,
             ]);

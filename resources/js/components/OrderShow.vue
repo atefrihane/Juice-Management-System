@@ -164,10 +164,10 @@
 
                     </div>
                     <div class="pull-right">
-                        <h4 class="box-title"> {{total_ht}}€</h4>
-                        <h4 class="box-title"> {{total_tva}}€</h4>
+                        <h4 class="box-title"> {{convert_total_ht}}€</h4>
+                        <h4 class="box-title"> {{convert_total_tva}}€</h4>
 
-                        <h4 class="box-title"> <b>{{total_order}}€</b></h4>
+                        <h4 class="box-title"> <b>{{convert_total_order}}€</b></h4>
                     </div>
                 </div>
 
@@ -358,8 +358,8 @@
                                 <td>{{billed.total}}</td>
                             </tr>
                             <tr v-else>
-                            <td colspan="5" class="text-center">Aucune facture !</td>
-                            
+                                <td colspan="5" class="text-center">Aucune facture !</td>
+
                             </tr>
 
 
@@ -381,10 +381,10 @@
 
                     </div>
                     <div class="pull-right">
-                        <h4 class="box-title"> {{billed_total_ht}}€</h4>
-                        <h4 class="box-title"> {{billed_total_tva}}€</h4>
+                        <h4 class="box-title"> {{convert_billed_total_ht}}€</h4>
+                        <h4 class="box-title"> {{convert_billed_total_tva}}€</h4>
 
-                        <h4 class="box-title"> <b>{{billed_total_order}}€</b></h4>
+                        <h4 class="box-title"> <b>{{convert_billed_total_order}}€</b></h4>
                     </div>
                 </div>
 
@@ -712,6 +712,45 @@
             }
 
         },
+        computed: {
+
+            // a computed getter
+
+            convert_billed_total_ht() {
+                    let val = (this.billed_total_ht/1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                // return this.billed_total_ht.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+            },
+            convert_billed_total_tva() {
+              let val = (this.billed_total_tva/1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                // return this.billed_total_tva.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+
+            },
+            convert_billed_total_order() {
+                let val = (this.billed_total_order/1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                // return this.billed_total_order.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+            },
+
+
+           convert_total_ht() {
+                       let val = (this.total_ht/1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                // return this.total_ht.toFixed(2).replace(/\d(?=(\d{3})+\,)/g, '$&,'); // 12.345,67
+            },
+            convert_total_tva() {
+                 let val = (this.total_tva/1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                // return this.total_tva.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+
+            },
+            convert_total_order() {
+                let val = (this.total_order/1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                // return this.total_order.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+            }
+        },
         methods: {
             showModal(history) {
                 this.history_id = history.id
@@ -763,7 +802,7 @@
 
 
             },
-          
+
             loadOrder() {
 
                 axios.get('/api/order/' + this.order_id)
@@ -824,32 +863,33 @@
                             })
 
 
-                });
+                        });
 
-                          this.billed_products.forEach(billed => {
-                                axios.post('api/product/prices/' + billed.product_id, {
-                                        store_id: this.store_id
-                                    })
-                                    .then((response) => {
+                        this.billed_products.forEach(billed => {
+                            axios.post('api/product/prices/' + billed.product_id, {
+                                    store_id: this.store_id
+                                })
+                                .then((response) => {
 
-                                        if (response.data.custom_price) {
-                                            billed.public_price = response.data.custom_price
-                                                .price
-                                            billed.total = billed.public_price * parseInt(billed.sum)
+                                    if (response.data.custom_price) {
+                                        billed.public_price = response.data.custom_price
+                                            .price
+                                        billed.total = billed.public_price * parseInt(billed.sum)
 
-                                        }
-                                        this.billed_total_ht+=billed.total
-                                        this.billed_total_tva+=(billed.total*billed.tva/100)
-                                        this.billed_total_order=  this.billed_total_ht+this.billed_total_tva
+                                    }
+                                    this.billed_total_ht += billed.total
+                                    this.billed_total_tva += (billed.total * billed.tva / 100)
+                                    this.billed_total_order = this.billed_total_ht + this
+                                        .billed_total_tva
 
 
-                                    })
-                                    .catch(function (error) {
-                                        console.log(error);
-                                    })
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                })
 
-                            })
-                        
+                        })
+
                         if (this.prepared_products.length > 0) {
                             this.prepared_products.forEach(prepared => {
                                 this.final_prepared.push({
@@ -919,7 +959,7 @@
                         }
 
 
-                      
+
 
 
 

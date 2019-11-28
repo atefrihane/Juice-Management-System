@@ -144,7 +144,7 @@
                                         <td>{{final.product_name}} </td>
                                         <td>{{prepared.quantity}} </td>
                                         <td>{{prepared.packing}} </td>
-                                        <td>{{prepared.warehouse_name}} </td>
+                                        <td>{{prepared.warehouse.designation}} </td>
                                         <td>{{prepared.creation_date}} </td>
                                         <td>{{prepared.expiration_date}} </td>
                                         <td><input type="number" min="1" class="form-control"

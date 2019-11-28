@@ -7,7 +7,7 @@ Route::group(['module' => 'Product', 'middleware' => ['api'], 'namespace' => 'Ap
     route::post('api/product/update/{id}', 'ProductController@handleUpdateProduct');
     route::get('api/products', 'ProductController@index');
     route::get('api/product/{id}', 'ProductController@handleGetProductById'); //returns mixtures
-    
+    route::post('api/product/{id}/validity', 'ProductController@handleGetValidityAfterOpening'); //returns validity days
     route::get('api/product/details/{id}', 'ProductController@handleGetProductDetails'); //returns product details without specific price
     route::post('api/product/prices/{id}', 'ProductController@handleGetProductPrices'); //returns product details with specific price
     route::get('api/product/name/{name}', 'ProductController@handleGetProductByName');

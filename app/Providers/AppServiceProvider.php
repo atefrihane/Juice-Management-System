@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Laravel\Passport\Passport;
+use Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         Passport::routes();
+
+        Blade::directive('convert', function ($money) {
+            return "<?php echo number_format($money, 2, ',', ' '); ?>";
+        });
 
     }
 }

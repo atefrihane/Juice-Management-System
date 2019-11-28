@@ -65,6 +65,27 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="exampleInputEmail1">Addresse</label>
+                                    <input type="text" name="address" class="form-control" placeholder="Addresse"
+                                        value="{{$checkWarehouse->address}}" required>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="exampleInputEmail1">Complement d'addresse</label>
+                                    <input type="text" name="complement_address" class="form-control"
+                                        placeholder="Complement d'addresse"
+                                        value="{{$checkWarehouse->complement_address}}">
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="box-body">
                             <div class="row">
@@ -91,7 +112,8 @@
                                         <select class="form-control cities" name="city_id">
                                             @forelse($cities as $city)
                                             <option value="{{$city->id}}"
-                                                {{$city->id == $checkWarehouse->city_id ? 'selected' :  ''}}>{{$city->name}}
+                                                {{$city->id == $checkWarehouse->city_id ? 'selected' :  ''}}>
+                                                {{$city->name}}
                                             </option>
                                             @empty
                                             <option value=""> Aucune ville trouvé</option>
@@ -124,27 +146,7 @@
 
 
 
-                        <div class="box-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="exampleInputEmail1">Addresse</label>
-                                    <input type="text" name="address" class="form-control" placeholder="Addresse"
-                                        value="{{$checkWarehouse->address}}" required>
-                                </div>
-                            </div>
-                        </div>
 
-
-                        <div class="box-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="exampleInputEmail1">Complement d'addresse</label>
-                                    <input type="text" name="complement_address" class="form-control"
-                                        placeholder="Complement d'addresse"
-                                        value="{{$checkWarehouse->complement_address}}">
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="box-body">
                             <div class="row">

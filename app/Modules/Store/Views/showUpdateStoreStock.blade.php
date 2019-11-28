@@ -45,17 +45,32 @@
                         <div class="box-body">
                             <div class="row">
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1">Code produit</label>
                                     <input type="text" name="productCode" value="{{$stock->product->code}}"
                                         class="form-control" placeholder="Code produit" id="productCode" disabled>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1">Code à barre</label>
                                     <input type="text" name="productBarcode" value="{{$stock->product->barcode}}"
                                         class="form-control" placeholder="Code à barre" id="barCode" disabled>
                                 </div>
+                                <div class="col-md-4">
+                                    <label for="exampleInputEmail1">Colisage par défaut</label>
+                                    <input type="number" name="productPacking"value="{{$stock->product->packing}}"
+                                        class="form-control" placeholder="Colisage" id="packing" disabled>
+                                </div>
 
+                            </div>
+                        </div>
+
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="exampleInputEmail1">Colisage</label>
+                                    <input type="number" name="packing" value="{{$stock->packing}}" class="form-control"
+                                        placeholder="Colisage" id="packing1" required>
+                                </div>
                             </div>
                         </div>
 
@@ -70,10 +85,9 @@
 
                             </div>
                         </div>
-
                         <div class="box-body">
                             <div class="row">
-                                <div class="col-md-6">
+                            <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Date de fabrication</label>
 
@@ -82,15 +96,17 @@
                                                 <i class="fa fa-calendar"></i>
                                             </div>
                                             <input type="date" name="creation_date" value="{{$stock->creation_date}}"
-                                                class="form-control pull-right" id="datepicker" required>
+                                                class="form-control pull-right creation_date" id="datepicker" required>
                                         </div>
                                         <!-- /.input group -->
                                     </div>
                                 </div>
+                            </div>
+                            </div>
 
-
-
-                                <div class="col-md-6">
+                        <div class="box-body">
+                            <div class="row">
+                             <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Date de préemption</label>
 
@@ -98,7 +114,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="date" class="form-control pull-right" id="datepicker"
+                                            <input type="date" class="form-control pull-right expiration_date" id="datepicker"
                                                 name="expiration_date" value="{{$stock->expiration_date}}" required>
                                         </div>
                                         <!-- /.input group -->
@@ -135,40 +151,5 @@
 </section>
 </div>
 
-@section('customProducts')
-<script>
-    $('document').ready(function () {
-
-        $('.selected_product').on('change', function () {
-
-            var id = this.value;
-            var url = {!!json_encode(url('/')) !!}
-
-
-            if (id == 0) {
-                $('#productCode').val('');
-                $('#barCode').val('');
-
-
-            }
-            $.ajax({
-                type: 'GET', //THIS NEEDS TO BE GET
-                url: url + '/api/product/details/' + id,
-                dataType: 'json',
-                success: function (data) {
-                    var response = JSON.parse(JSON.stringify(data));
-                    $('#productCode').val(response.product.code);
-                    $('#barCode').val(response.product.barcode);
-
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            });
-        });
-    });
-
-</script>
-@endsection
 
 @endsection

@@ -3829,24 +3829,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getCompanies();
@@ -3869,6 +3851,20 @@ __webpack_require__.r(__webpack_exports__);
       user_id: order.userId,
       status: ''
     };
+  },
+  computed: {
+    convert_total_ht: function convert_total_ht() {
+      var val = (this.total_ht / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); // return this.total_ht.toFixed(2).replace(/\d(?=(\d{3})+\,)/g, '$&,'); // 12.345,67
+    },
+    convert_total_tva: function convert_total_tva() {
+      var val = (this.total_tva / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); // return this.total_tva.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+    },
+    convert_total_order: function convert_total_order() {
+      var val = (this.total_order / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); // return this.total_order.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+    }
   },
   methods: {
     getCompanies: function getCompanies() {
@@ -3901,7 +3897,7 @@ __webpack_require__.r(__webpack_exports__);
       });
       var id = event.target.value;
       axios.get('/api/store/' + id).then(function (response) {
-        _this3.code = response.data.store.code + '-' + _this3.lastOrder;
+        _this3.code = response.data.store.code;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -5531,6 +5527,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       company_id: order.company_id
     }, _defineProperty(_ref, "errors", []), _defineProperty(_ref, "final_prepared", []), _defineProperty(_ref, "estimated_arrival_time", ''), _defineProperty(_ref, "estimated_arrival_date", ''), _defineProperty(_ref, "arrival_time", ''), _defineProperty(_ref, "arrival_date", ''), _defineProperty(_ref, "delivery", ''), _defineProperty(_ref, "delivery_man", ''), _defineProperty(_ref, "delivery_mode", ''), _defineProperty(_ref, "palet_number", ''), _defineProperty(_ref, "carton_number", ''), _defineProperty(_ref, "volume", ''), _defineProperty(_ref, "weight", ''), _defineProperty(_ref, "parent", ''), _defineProperty(_ref, "preparator", ''), _defineProperty(_ref, "comment", ''), _defineProperty(_ref, "history_id", ''), _defineProperty(_ref, "billed_products", []), _ref;
   },
+  computed: {
+    // a computed getter
+    convert_billed_total_ht: function convert_billed_total_ht() {
+      var val = (this.billed_total_ht / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); // return this.billed_total_ht.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+    },
+    convert_billed_total_tva: function convert_billed_total_tva() {
+      var val = (this.billed_total_tva / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); // return this.billed_total_tva.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+    },
+    convert_billed_total_order: function convert_billed_total_order() {
+      var val = (this.billed_total_order / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); // return this.billed_total_order.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+    },
+    convert_total_ht: function convert_total_ht() {
+      var val = (this.total_ht / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); // return this.total_ht.toFixed(2).replace(/\d(?=(\d{3})+\,)/g, '$&,'); // 12.345,67
+    },
+    convert_total_tva: function convert_total_tva() {
+      var val = (this.total_tva / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); // return this.total_tva.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+    },
+    convert_total_order: function convert_total_order() {
+      var val = (this.total_order / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); // return this.total_order.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+    }
+  },
   methods: {
     showModal: function showModal(history) {
       var _this = this;
@@ -6266,6 +6289,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       comment: '',
       company_id: order.company_id
     }, "errors", []);
+  },
+  computed: {
+    convert_total_ht: function convert_total_ht() {
+      var val = (this.total_ht / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); // return this.total_ht.toFixed(2).replace(/\d(?=(\d{3})+\,)/g, '$&,'); // 12.345,67
+    },
+    convert_total_tva: function convert_total_tva() {
+      var val = (this.total_tva / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); // return this.total_tva.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+    },
+    convert_total_order: function convert_total_order() {
+      var val = (this.total_order / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); // return this.total_order.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+    }
   },
   methods: {
     loadOrder: function loadOrder() {
@@ -67841,73 +67878,6 @@ var render = function() {
             : _vm._e()
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-6" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                _vm._v("ID")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.lastOrder,
-                    expression: "lastOrder"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { id: "disabledInput", type: "text", disabled: "" },
-                domProps: { value: _vm.lastOrder },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.lastOrder = $event.target.value
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-6" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                _vm._v("Code")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.code,
-                    expression: "code"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: {
-                  type: "email",
-                  id: "exampleInputEmail1",
-                  placeholder: "Code..",
-                  disabled: ""
-                },
-                domProps: { value: _vm.code },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.code = $event.target.value
-                  }
-                }
-              })
-            ])
-          ])
-        ]),
-        _vm._v(" "),
         _vm._m(1),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
@@ -68342,15 +68312,15 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "pull-right" }, [
             _c("h4", { staticClass: "box-title" }, [
-              _vm._v(" " + _vm._s(_vm.total_ht) + "€")
+              _vm._v(" " + _vm._s(_vm.convert_total_ht) + "€")
             ]),
             _vm._v(" "),
             _c("h4", { staticClass: "box-title" }, [
-              _vm._v(" " + _vm._s(_vm.total_tva) + "€")
+              _vm._v(" " + _vm._s(_vm.convert_total_tva) + "€")
             ]),
             _vm._v(" "),
             _c("h4", { staticClass: "box-title" }, [
-              _c("b", [_vm._v(_vm._s(_vm.total_order) + "€")])
+              _c("b", [_vm._v(_vm._s(_vm.convert_total_order) + "€")])
             ])
           ])
         ]),
@@ -69674,15 +69644,15 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "pull-right" }, [
             _c("h4", { staticClass: "box-title" }, [
-              _vm._v(" " + _vm._s(_vm.total_ht) + "€")
+              _vm._v(" " + _vm._s(_vm.convert_total_ht) + "€")
             ]),
             _vm._v(" "),
             _c("h4", { staticClass: "box-title" }, [
-              _vm._v(" " + _vm._s(_vm.total_tva) + "€")
+              _vm._v(" " + _vm._s(_vm.convert_total_tva) + "€")
             ]),
             _vm._v(" "),
             _c("h4", { staticClass: "box-title" }, [
-              _c("b", [_vm._v(_vm._s(_vm.total_order) + "€")])
+              _c("b", [_vm._v(_vm._s(_vm.convert_total_order) + "€")])
             ])
           ])
         ]),
@@ -69958,15 +69928,15 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "pull-right" }, [
             _c("h4", { staticClass: "box-title" }, [
-              _vm._v(" " + _vm._s(_vm.billed_total_ht) + "€")
+              _vm._v(" " + _vm._s(_vm.convert_billed_total_ht) + "€")
             ]),
             _vm._v(" "),
             _c("h4", { staticClass: "box-title" }, [
-              _vm._v(" " + _vm._s(_vm.billed_total_tva) + "€")
+              _vm._v(" " + _vm._s(_vm.convert_billed_total_tva) + "€")
             ]),
             _vm._v(" "),
             _c("h4", { staticClass: "box-title" }, [
-              _c("b", [_vm._v(_vm._s(_vm.billed_total_order) + "€")])
+              _c("b", [_vm._v(_vm._s(_vm.convert_billed_total_order) + "€")])
             ])
           ])
         ]),
@@ -71647,15 +71617,15 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "pull-right" }, [
             _c("h4", { staticClass: "box-title" }, [
-              _vm._v(" " + _vm._s(_vm.total_ht) + "€")
+              _vm._v(" " + _vm._s(_vm.convert_total_ht) + "€")
             ]),
             _vm._v(" "),
             _c("h4", { staticClass: "box-title" }, [
-              _vm._v(" " + _vm._s(_vm.total_tva) + "€")
+              _vm._v(" " + _vm._s(_vm.convert_total_tva) + "€")
             ]),
             _vm._v(" "),
             _c("h4", { staticClass: "box-title" }, [
-              _c("b", [_vm._v(_vm._s(_vm.total_order) + "€")])
+              _c("b", [_vm._v(_vm._s(_vm.convert_total_order) + "€")])
             ])
           ])
         ]),
@@ -75237,7 +75207,8 @@ var render = function() {
                                     _vm._v(" "),
                                     _c("td", [
                                       _vm._v(
-                                        _vm._s(prepared.warehouse_name) + " "
+                                        _vm._s(prepared.warehouse.designation) +
+                                          " "
                                       )
                                     ]),
                                     _vm._v(" "),
@@ -91713,14 +91684,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!***********************************************!*\
   !*** ./resources/js/components/OrderShow.vue ***!
   \***********************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _OrderShow_vue_vue_type_template_id_f3d107e0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OrderShow.vue?vue&type=template&id=f3d107e0& */ "./resources/js/components/OrderShow.vue?vue&type=template&id=f3d107e0&");
 /* harmony import */ var _OrderShow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./OrderShow.vue?vue&type=script&lang=js& */ "./resources/js/components/OrderShow.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _OrderShow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _OrderShow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -91750,7 +91722,7 @@ component.options.__file = "resources/js/components/OrderShow.vue"
 /*!************************************************************************!*\
   !*** ./resources/js/components/OrderShow.vue?vue&type=script&lang=js& ***!
   \************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

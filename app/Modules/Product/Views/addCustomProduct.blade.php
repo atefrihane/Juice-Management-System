@@ -37,17 +37,26 @@
                                 <div class="col-md-8">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Magasins concernés par la remise </label>
+                                        <div class="form-check" style="margin: 10px 15px 20px;">
+                                    <input type="checkbox" class="form-check-input" id="selectAll">
+                                    Tout séléctionner
+                                </div>
+                                        <div class="scrollable">
                                         @forelse($company->stores as $store)
                                         <div class="col-md-12">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" name="store_id[]" id="exampleCheck1" value="{{$store->id}}">
+                                            <div class="form-check" style="margin-bottom:5px;">
+                                                <input type="checkbox" class="form-check-input willCheck" name="store_id[]" id="exampleCheck1" value="{{$store->id}}">
                                                 <span>{{$store->designation}}</span>
                                             </div>
                                         </div>
-
                                         @empty
                                         <p>Aucun magasin trouvé!</p>
                                         @endforelse
+                                        
+                                        </div>
+                                    
+
+                                     
                                     </div>
                                 </div>
                             </div>

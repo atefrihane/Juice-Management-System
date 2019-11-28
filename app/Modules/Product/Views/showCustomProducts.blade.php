@@ -32,9 +32,9 @@
                                     <th>Nom produit</th>
                                     <th>Code produit</th>
                                     <th>Type de produit</th>
-                                    <th>Prix unitaire de base</th>
-                                    <th>Prix unitaire remisé</th>
-                                    <th>Magasin</th>
+                                    <th>Prix unitaire de base (€)</th>
+                                    <th>Prix unitaire remisé (€)</th>
+                                    <th>Nombre de magasins</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -51,8 +51,8 @@
                                     <td>{{$price->product->nom}}</td>
                                     <td>{{$price->product->code}}</td>
                                     <td>{{$price->product->type}}</td>
-                                    <td>{{$price->product->public_price}}</td>
-                                    <td>{{$price->price}}</td>
+                                    <td>@convert($price->product->public_price)</td>
+                                    <td>@convert($price->price)</td>
                                     <td>{{$price->stores()->count()}}</td>
                                     <td>
                                         <div class="btn-group">

@@ -47,7 +47,7 @@
                                         {{$rental->store->company->name}}</td>
                                     <td data-url="{{route('showRental', $rental->id)}}">{{$rental->store->designation}}
                                     </td>
-                                    <td data-url="{{route('showRental', $rental->id)}}">{{$rental->price }}</td>
+                                    <td data-url="{{route('showRental', $rental->id)}}">@convert($rental->price)</td>
                                     <td>{{$rental->end_reason}}</td>
                                     <td style="width:30%;">{{$rental->Comment}}</td>
                                     <td>

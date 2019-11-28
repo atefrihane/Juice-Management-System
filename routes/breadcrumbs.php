@@ -244,6 +244,10 @@ Breadcrumbs::for('productQuantityEdit', function ($trail) {
 Breadcrumbs::for('warhouses', function ($trail) {
     $trail->push('Liste des entrepôts', route('showWarehouses'));
 });
+Breadcrumbs::for('warhouse', function ($trail,$warehouse) {
+    $trail->push('Liste des entrepôts', route('showWarehouses'));
+    $trail->push($warehouse);
+});
 Breadcrumbs::for('addWarhouse', function ($trail) {
     $trail->parent('warhouses');
     $trail->push('Ajouter un entrepôt', route('showAddWarehouse'));

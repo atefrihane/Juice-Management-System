@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class StoreProduct extends Model
 {
-    protected $fillable = ['product_id', 'store_id', 'quantity', 'expiration_date', 'creation_date'];
+    protected $guarded = ['id'];
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');

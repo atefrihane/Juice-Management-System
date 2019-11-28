@@ -47,4 +47,8 @@ class Order extends Model
         return $this->belongsTo(Order::class, 'parent_id');
     }
 
+    public function getAmountAttribute($value)
+{
+    return money_format('$%i', $value);
+}
 }

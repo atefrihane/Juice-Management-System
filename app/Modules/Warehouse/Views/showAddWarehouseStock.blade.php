@@ -86,7 +86,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="date" name="creation_date" value="{{old('creation_date')}}" 
+                                            <input type="date" name="creation_date" data-url="{{$warehouse->id}}" value="{{old('creation_date')}}" 
                                                 class="form-control pull-right creation_date" id="datepicker" required>
                                         </div>
                                         <!-- /.input group -->
@@ -136,8 +136,8 @@
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Entrepôt</label>
                                     @if(count($warehouses) > 0)
-                                    <select class="form-control" name="warehouse_id" required>
-                                    <option value="" selected disabled>Séléctionner un entrepôt</option>
+                                    <select class="form-control" name="warehouse_id" readonly>
+                             
                                      @foreach($warehouses as $warehouse)
                                     <option value="{{$warehouse->id}}"  {{ old('warehouse_id') == $warehouse->id ? "selected" : "" }}>{{$warehouse->designation}}</option>
                                     @endforeach
@@ -194,6 +194,6 @@
 
 </section>
 </div>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
 
 @endsection

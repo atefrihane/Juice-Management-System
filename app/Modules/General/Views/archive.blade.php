@@ -32,7 +32,8 @@
                                     <th class="date-create">Date et heure de création</th>
                                     <th>Magasin</th>
                                     <th>Code postal</th>
-                                    <th>Montant</th>
+                                    <th>Montant (€) </th>
+                                    <th>Commentaire</th>
                                     <th>Etat</th>
                                     <th></th>
                                 </tr>
@@ -45,8 +46,9 @@
                                         {{ $order->created_at->timezone('Europe/Paris')->format('H:i:s')}}</td>
                                     <td>{{$order->store->designation}}</td>
                                     <td>{{$order->store->zipcode->code}}</td>
-                                    <td> {{$order->total}}€</td>
+                                    <td>  @convert($order->total)</td>
                                     <td>Comptabilisée</td>
+                                    <th>{{$order->comment}}</th>
                                     <td class="not-this text-center">
 
                                         <div class="btn-group">

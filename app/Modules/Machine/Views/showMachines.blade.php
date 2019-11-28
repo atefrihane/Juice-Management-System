@@ -31,7 +31,7 @@
                                     <th>Codes à barres </th>
                                     <th>Désignation</th>
                                     <th>Nbr de bacs</th>
-                                    <th>Prix loc mens</th>
+                                    <th>Prix loc mens (€)</th>
                                     <th>Statut</th>
                                     <th>Etat</th>
                                     <th></th>
@@ -51,7 +51,7 @@
                                     <td>{{$machine->barcode}}</td>
                                     <td>{{$machine->designation}}</td>
                                     <td>{{$machine->number_bacs}}</td>
-                                    <td>{{$machine->price_month}}</td>
+                                    <td>@convert($machine->price_month)</td>
                                     <td>{{$machine->rented ? 'En location' : 'Libre'}}</td>
                                     <td>{{$machine->status}}</td>
                                     <td class="not-this text-center">

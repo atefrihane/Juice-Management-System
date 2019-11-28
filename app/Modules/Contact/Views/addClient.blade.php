@@ -241,16 +241,4 @@
 
 @endsection
 
-@section('scripts-custom')
-<script>
-    $('#selectAll').click(function () {
 
-        if ($(this).prop("checked")) {
-            $(".willCheck").prop("checked", true);
-        } else {
-            $(".willCheck").prop("checked", false);
-        }
-    })
-
-</script>
-@endsection

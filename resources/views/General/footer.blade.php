@@ -55,6 +55,7 @@
 
 @yield('scripts-custom')
 @include('General.datatable')
+@include('General.productDetails')
 
 <script>
     $('document').ready(function () {
@@ -194,7 +195,13 @@
             var value = $(this).val();
             str = value.replace(/\s+/g, '');
             var res = str.substr(0, 6).toUpperCase();
-            $('.code').val(res);
+
+            if($('.code').val() == "")
+            {
+                $('.code').val(res);
+
+            }
+         
         });
     });
 

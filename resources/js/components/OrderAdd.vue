@@ -17,25 +17,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="row">
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">ID</label>
-                            <input class="form-control" id="disabledInput" type="text" v-model="lastOrder" disabled>
-
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Code</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Code.."
-                                v-model="code" disabled>
-                        </div>
-                    </div>
-
-                </div>
+       
 
                 <div class="row">
 
@@ -168,10 +150,10 @@
 
                     </div>
                     <div class="pull-right">
-                        <h4 class="box-title"> {{total_ht}}€</h4>
-                        <h4 class="box-title"> {{total_tva}}€</h4>
+                        <h4 class="box-title"> {{convert_total_ht}}€</h4>
+                        <h4 class="box-title"> {{convert_total_tva}}€</h4>
 
-                        <h4 class="box-title"> <b>{{total_order}}€</b></h4>
+                        <h4 class="box-title"> <b>{{convert_total_order}}€</b></h4>
                     </div>
                 </div>
                 <div class="box-body">
@@ -238,6 +220,24 @@
             }
 
         },
+        computed:{
+           convert_total_ht() {
+                       let val = (this.total_ht/1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                // return this.total_ht.toFixed(2).replace(/\d(?=(\d{3})+\,)/g, '$&,'); // 12.345,67
+            },
+            convert_total_tva() {
+                 let val = (this.total_tva/1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                // return this.total_tva.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+
+            },
+            convert_total_order() {
+                let val = (this.total_order/1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                // return this.total_order.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+            }
+        },
         methods: {
 
             getCompanies() {
@@ -281,7 +281,7 @@
 
                 axios.get('/api/store/' + id)
                     .then((response) => {
-                        this.code = response.data.store.code + '-' + this.lastOrder;
+                        this.code = response.data.store.code;
                     })
                     .catch(function (error) {
 

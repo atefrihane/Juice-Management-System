@@ -41,7 +41,8 @@
                                     <th class="date-create">Date et heure de création</th>
                                     <th>Magasin</th>
                                     <th>Code postal</th>
-                                    <th>Montant</th>
+                                    <th>Montant (€)</th>
+                                    <th>Commentaire</th>
                                     <th>Etat</th>
                                     <th></th>
                                 </tr>
@@ -54,7 +55,8 @@
                                         {{ $order->created_at->timezone('Europe/Paris')->format('H:i:s')}}</td>
                                     <td>{{$order->store->designation}}</td>
                                     <td>{{$order->store->zipcode->code}}</td>
-                                    <td> {{$order->total}}€</td>
+                                    <td>@convert($order->total)</td>
+                                    <td> @if($order->comment) {{$order->comment }} @else Aucun @endif</td>
 
                                     @switch($order->status)
 
@@ -218,10 +220,10 @@
             <div class="btn-group">
                 <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                 <ul class="dropdown-menu edit" role="menu">
-                <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
-                <li><a href="{{route('showOrderPreparedProducts',$order->id)}}"">Modifier la préparation</a></li>
-                <li><a href="{{route('showUpdateDeliveryOrder',$order->id)}}"">Modifier la livraison</a></li>
-                <li><a href=" {{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
+                    <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
+                    <li><a href="{{route('showOrderPreparedProducts',$order->id)}}"">Modifier la préparation</a></li>
+                <li><a href=" {{route('showUpdateDeliveryOrder',$order->id)}}"">Modifier la livraison</a></li>
+                    <li><a href=" {{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
                 </ul>
             </div>
 </div>
@@ -238,10 +240,10 @@
     <div class="btn-group">
         <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
         <ul class="dropdown-menu edit" role="menu">
-                <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
-                <li><a href="{{route('showOrderPreparedProducts',$order->id)}}"">Modifier la préparation</a></li>
-                <li><a href="{{route('showUpdateDeliveryOrder',$order->id)}}"">Modifier la livraison</a></li>
-                <li><a href=" {{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
+            <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
+            <li><a href="{{route('showOrderPreparedProducts',$order->id)}}"">Modifier la préparation</a></li>
+                <li><a href=" {{route('showUpdateDeliveryOrder',$order->id)}}"">Modifier la livraison</a></li>
+            <li><a href=" {{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
         </ul>
     </div>
     </div>
@@ -259,10 +261,10 @@
     <div class="btn-group">
         <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
         <ul class="dropdown-menu edit" role="menu">
-                <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
-                <li><a href="{{route('showOrderPreparedProducts',$order->id)}}"">Modifier la préparation</a></li>
-                <li><a href="{{route('showUpdateDeliveryOrder',$order->id)}}"">Modifier la livraison</a></li>
-                <li><a href=" {{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
+            <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
+            <li><a href="{{route('showOrderPreparedProducts',$order->id)}}"">Modifier la préparation</a></li>
+                <li><a href=" {{route('showUpdateDeliveryOrder',$order->id)}}"">Modifier la livraison</a></li>
+            <li><a href=" {{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
         </ul>
     </div>
     </div>
@@ -278,10 +280,10 @@
     <div class="btn-group">
         <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
         <ul class="dropdown-menu edit" role="menu">
-                <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
-                <li><a href="{{route('showOrderPreparedProducts',$order->id)}}"">Modifier la préparation</a></li>
-                <li><a href="{{route('showUpdateDeliveryOrder',$order->id)}}"">Modifier la livraison</a></li>
-                <li><a href=" {{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
+            <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
+            <li><a href="{{route('showOrderPreparedProducts',$order->id)}}"">Modifier la préparation</a></li>
+                <li><a href=" {{route('showUpdateDeliveryOrder',$order->id)}}"">Modifier la livraison</a></li>
+            <li><a href=" {{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
         </ul>
     </div>
     </div>
@@ -489,5 +491,3 @@
 </div>
 
 @endsection
-
-

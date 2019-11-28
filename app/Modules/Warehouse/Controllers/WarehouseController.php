@@ -36,6 +36,7 @@ class WarehouseController extends Controller
 
     public function showAddWarehouse()
     {
+       
         $countries = Country::all();
         $users = User::all();
         $count = Warehouse::count() + 1;
@@ -82,9 +83,28 @@ class WarehouseController extends Controller
 
     }
 
-    public function showWarehouseDetail($id)
+    public function showWarehouse($id)
     {
-        return view('Warehouse::showWarehouseDetail');
+        $warehouse = Warehouse::find($id);
+
+        if ($warehouse) {
+            return view('Warehouse::showWarehouse', compact('warehouse'));
+
+        }
+        return view('General::notFound');
+
+    }
+
+    public function showAddWarehouseStock($id)
+    {
+        $warehouse = Warehouse::find($id);
+        $products=Product::all();
+        $warehouses=Warehouse::all();
+        if ($warehouse) {
+            return view('Warehouse::showAddWarehouseStock', compact('warehouse','products','warehouses'));
+
+        }
+        return view('General::notFound');
 
     }
 
@@ -240,5 +260,7 @@ class WarehouseController extends Controller
         }
         return view('General::notFound');
     }
+
+  
 
 }

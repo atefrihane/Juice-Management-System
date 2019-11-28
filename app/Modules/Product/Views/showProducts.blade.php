@@ -38,7 +38,7 @@
                                     <th>Nom Produit</th>
                                     <th>Type</th>
                                     <th>Désignation</th>
-                                    <th>Prix unitaire de base</th>
+                                    <th>Prix unitaire de base (€)</th>
                                     <th>Etat</th>
                                     <th></th>
                                 </tr>
@@ -58,7 +58,7 @@
                                     <td>{{$product->type}}</td>
                                     <td>{{$product->designation}}</td>
 
-                                    <td>{{$product->public_price}}</td>
+                                    <td>@convert($product->public_price)</td>
                                     <td> {{$product->status}}</td>
 
                                     <td class="not-this text-center">

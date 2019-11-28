@@ -38,31 +38,27 @@
                             </thead>
                             <tbody>
                                 @forelse($warehouses as $warehouse)
-                                <tr>
-                                @if($warehouse->photo)
-                                    <td> <img src="{{asset('/img')}}/{{$warehouse->photo}}" height="80"
+                                <tr class="table-tr">
+                                    @if($warehouse->photo)
+                                    <td data-url="{{route('showWarehouse',$warehouse->id)}}" style="width: 150px"> <img src="{{asset('/img')}}/{{$warehouse->photo}}" height="80"
                                             class="user-image" alt="User Image"> </td>
-                                            @else
-                                            <td> <img src="{{asset('/img')}}/no-logo.png" height="80"
-                                            class="user-image" alt="User Image"> </td>
-                                            @endif
-                                    <td>{{$warehouse->code}}</td>
-                                    <td>{{$warehouse->designation}}</td>
-                                    <td>{{ucfirst($warehouse->city->name)}}</td>
-                                    <td>{{$warehouse->zipcode->code}}</td>
+                                    @else
+                                    <td data-url="{{route('showWarehouse',$warehouse->id)}}" style="width: 150px"> <img src="{{asset('/img')}}/no-logo.png" height="80" class="user-image"
+                                            alt="User Image"> </td>
+                                    @endif
+                                    <td data-url="{{route('showWarehouse',$warehouse->id)}}">{{$warehouse->code}}</td>
+                                    <td data-url="{{route('showWarehouse',$warehouse->id)}}">{{$warehouse->designation}}</td>
+                                    <td data-url="{{route('showWarehouse',$warehouse->id)}}">{{ucfirst($warehouse->city->name)}}</td>
+                                    <td data-url="{{route('showWarehouse',$warehouse->id)}}">{{$warehouse->zipcode->code}}</td>
                                     <td class="not-this text-center">
                                         <div class="btn-group">
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
-
-
-                                                <li><a
-                                                        href="{{ route('showUpdateWarehouse',$warehouse->id) }}">Modifier</a>
-                                                </li>
-                                                <li><a data-toggle="modal"
-                                                        data-target="#modal-default{{$warehouse->id}}">Supprimer</a>
-                                                </li>
+                                               
+                                                <li><a href="{{ route('showWarehouse',$warehouse->id) }}">Détail</a> </li>
+                                                <li><a href="{{ route('showUpdateWarehouse',$warehouse->id) }}">Modifier</a></li>
+                                                <li><a data-toggle="modal" data-target="#modal-default{{$warehouse->id}}">Supprimer</a></li>
 
                                             </ul>
 
@@ -74,12 +70,14 @@
                                                                 aria-label="Close">
                                                                 <span aria-hidden="true">×</span></button>
                                                             <h4 class="modal-title">Voulez vous vraiment supprimer cet
-                                                            entrepôt ?</h4>
+                                                                entrepôt ?</h4>
                                                         </div>
                                                         <div class="modal-body">
-                                                        <h5 class="modal-title">  <b>Attention !</b> : Cette opération peut affecter la suppression des éléments associés à cet
-                                                            entrepôt  ! 
-                                                </h5>
+                                                            <h5 class="modal-title"> <b>Attention !</b> : Cette
+                                                                opération peut affecter la suppression des éléments
+                                                                associés à cet
+                                                                entrepôt !
+                                                            </h5>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <div class="text-center">
@@ -91,7 +89,7 @@
                                                                         data-dismiss="modal">Annuler</a>
                                                                     <button type="submit"
                                                                         class="btn btn-success">Confirmer</button>
-                                                                  
+
 
 
                                                                 </form>

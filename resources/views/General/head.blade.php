@@ -98,6 +98,11 @@
         }
 
         .swal2-popup { font-size: 1.6rem !important; }
+        .scrollable{
+            max-height:200px;
+            overflow-y:scroll;
+            width:250px;;
+        }
 
     </style>
 

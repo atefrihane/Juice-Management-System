@@ -8,6 +8,7 @@ use App\Modules\Product\Models\Product;
 use App\Modules\Store\Models\Store;
 use Illuminate\Http\Request;
 use Validator;
+use Carbon\Carbon;
 
 class ProductController extends Controller
 {
@@ -94,7 +95,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        return Product::where('status','disponible')->get();
+        return Product::where('status', 'disponible')->get();
     }
 
     public function handleGetProductById($id)
@@ -139,7 +140,7 @@ class ProductController extends Controller
 
     public function handleGetAllProduct()
     {
-        $products = Product::where('status','disponible')->get();
+        $products = Product::where('status', 'disponible')->get();
         return response()->json(['status' => '200', 'products' => $products]);
 
     }
@@ -250,7 +251,6 @@ class ProductController extends Controller
     }
     public function handleGetProductPrices($id, Request $request)
     {
-     
 
         $product = Product::find($id);
         $checkCustomPrice = Store::find($request->store_id)->prices->where('product_id', $product->id)->first();
@@ -272,6 +272,21 @@ class ProductController extends Controller
                 ->withPivot('id', 'packing', 'quantity', 'comment', 'creation_date', 'expiration_date')->get();
 
             return response()->json(['status' => 200, 'warehouse_products' => $productInWarehouses, 'productName' => $product->nom]);
+
+        }
+        return response()->json(['status' => 404]);
+
+    }
+    public function handleGetValidityAfterOpening($id, Request $request)
+    {
+     
+        $product = Product::find($id);
+        if ($product) {
+           
+            $date=Carbon::parse($request->date);
+            $finalDate = $date->addDays($product->period_of_validity);
+          
+            return response()->json(['status' => 200 ,'finalDate'=> $date->format('Y-m-d')]);
 
         }
         return response()->json(['status' => 404]);
