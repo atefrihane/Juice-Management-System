@@ -85,7 +85,7 @@
                 <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelRental()">
                     Annuler</button>
 
-                <button type="button" class="btn btn-success pl-1" style="margin: 1em" @click="submitRental()">
+                <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled" @click="submitRental()">
                     Confirmer</button>
 
             </div>
@@ -113,6 +113,7 @@
                 errors: [],
                 citiesZipCodes: [],
                 deleted: [],
+                disabled:false
 
             }
 
@@ -488,6 +489,7 @@
             },
             submitRental() {
                 if (this.validateForm()) {
+                    this.disabled=true
 
                     axios.post('/country/update/' + this.id, {
                             name: this.name,

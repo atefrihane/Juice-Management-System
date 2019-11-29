@@ -1822,7 +1822,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       name: '',
       code: '',
       cities: [],
-      errors: []
+      errors: [],
+      disabled: false
     };
   },
   methods: {
@@ -1994,6 +1995,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     submitRental: function submitRental() {
       if (this.validateForm()) {
+        this.disabled = true;
         axios.post('/country/add', {
           name: this.name,
           code: this.code,
@@ -2181,7 +2183,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       cities: data.zipcodes,
       errors: [],
       citiesZipCodes: [],
-      deleted: []
+      deleted: [],
+      disabled: false
     };
   }),
   methods: {
@@ -2479,6 +2482,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     submitRental: function submitRental() {
       if (this.validateForm()) {
+        this.disabled = true;
         axios.post('/country/update/' + this.id, {
           name: this.name,
           code: this.code,
@@ -3041,7 +3045,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       countBacs: data.machine.number_bacs,
       storeId: '',
       companySelected: ''
-    }, _defineProperty(_ref, "localisation", ''), _defineProperty(_ref, "bacs", []), _defineProperty(_ref, "errors", []), _ref;
+    }, _defineProperty(_ref, "localisation", ''), _defineProperty(_ref, "bacs", []), _defineProperty(_ref, "errors", []), _defineProperty(_ref, "disabled", false), _ref;
   }),
   methods: {
     getCompanies: function getCompanies() {
@@ -3168,9 +3172,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return x;
     },
     submitRental: function submitRental() {
+      var _this7 = this;
+
       var x = this.validateForm();
 
       if (x == true) {
+        this.disabled = true;
         axios.post('api/rentals', {
           id: this.machineId,
           startDate: this.startDate,
@@ -3190,10 +3197,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               showConfirmButton: true,
               allowOutsideClick: false,
               confirmButtonText: 'Fermer'
+            }).then(function (result) {
+              if (result.value) {
+                window.location = axios.defaults.baseURL + '/machines';
+              }
             });
-            setTimeout(function () {
-              return window.location = axios.defaults.baseURL + '/machines';
-            }, 2000);
           }
 
           if (response.data.status == 400) {
@@ -3214,6 +3222,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
+            _this7.disabled = false;
           }
 
           if (response.data.status == 405) {
@@ -3224,6 +3233,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
+            _this7.disabled = false;
           }
         })["catch"](function (error) {
           console.log(error);
@@ -7050,7 +7060,8 @@ __webpack_require__.r(__webpack_exports__);
         glassNumber: '',
         type: null
       }],
-      errors: []
+      errors: [],
+      disabled: false
     };
   },
   mounted: function mounted() {
@@ -7305,6 +7316,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.validateForm());
 
       if (this.validateForm()) {
+        this.disabled = true;
         this.$Progress.start();
         axios.post('/api/products', {
           code: this.code,
@@ -7707,7 +7719,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       productId: data.product.id,
       error: 0,
       mixtures: [],
-      errors: []
+      errors: [],
+      disabled: false
     };
   }),
   methods: {
@@ -7824,6 +7837,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var form = this.validateForm(); // input front end validation returns false if error
 
       if (form != false) {
+        this.disabled = true;
         this.$Progress.start();
         axios.post('api/product/update/' + this.productId, _defineProperty({
           code: this.code,
@@ -65579,7 +65593,7 @@ var render = function() {
           {
             staticClass: "btn btn-success pl-1",
             staticStyle: { margin: "1em" },
-            attrs: { type: "button" },
+            attrs: { type: "button", disabled: _vm.disabled },
             on: {
               click: function($event) {
                 return _vm.submitRental()
@@ -65908,7 +65922,7 @@ var render = function() {
           {
             staticClass: "btn btn-success pl-1",
             staticStyle: { margin: "1em" },
-            attrs: { type: "button" },
+            attrs: { type: "button", disabled: _vm.disabled },
             on: {
               click: function($event) {
                 return _vm.submitRental()
@@ -67209,7 +67223,7 @@ var render = function() {
           {
             staticClass: "btn btn-success pl-1",
             staticStyle: { margin: "1em" },
-            attrs: { type: "button" },
+            attrs: { type: "button", disabled: _vm.disabled },
             on: {
               click: function($event) {
                 return _vm.submitRental()
@@ -73099,7 +73113,7 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-success pl-1",
-                  attrs: { type: "button" },
+                  attrs: { type: "button", disabled: _vm.disabled },
                   on: {
                     click: function($event) {
                       return _vm.submitProduct()
@@ -74304,7 +74318,7 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-success pl-1",
-                  attrs: { type: "button" },
+                  attrs: { type: "button", disabled: _vm.disabled },
                   on: {
                     click: function($event) {
                       return _vm.submitProduct()

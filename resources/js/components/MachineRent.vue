@@ -172,7 +172,7 @@
                 <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelRental()">
                     Annuler</button>
 
-                <button type="button" class="btn btn-success pl-1" style="margin: 1em" @click="submitRental()">
+                <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled" @click="submitRental()">
                     Confirmer</button>
 
             </div>
@@ -220,7 +220,8 @@
                 companySelected: '',
                 localisation: '',
                 bacs: [],
-                errors: []
+                errors: [],
+                disabled:false
             }
 
         },
@@ -383,7 +384,7 @@
                 var x = this.validateForm()
 
                 if (x == true) {
-
+                    this.disabled=true
                     axios.post('api/rentals', {
                             id: this.machineId,
                             startDate: this.startDate,
@@ -407,8 +408,13 @@
                                     confirmButtonText: 'Fermer'
 
 
-                                });
-                                setTimeout(() => window.location = axios.defaults.baseURL+'/machines', 2000);
+                                }).then((result) => {
+                                    if (result.value) {
+                                        window.location = axios.defaults.baseURL+'/machines';
+                                    }
+                                })
+                                
+                          
                             }
 
 
@@ -433,6 +439,8 @@
                                     confirmButtonText: 'Fermer'
 
                                 });
+                                  this.disabled=false
+
                             }
 
                             if (response.data.status == 405) {
@@ -445,6 +453,7 @@
 
 
                                 });
+                                this.disabled=false
 
 
 

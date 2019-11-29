@@ -272,7 +272,7 @@
                     <div class="container text-center">
 
                         <button href="" class="btn btn-danger pl-1" @click="cancelProduct()">Annuler</button>
-                        <button class="btn btn-success pl-1" type="button" @click="submitProduct()">Confirmer</button>
+                        <button class="btn btn-success pl-1" type="button" :disabled="disabled" @click="submitProduct()">Confirmer</button>
 
                     </div>
                 </div>
@@ -325,7 +325,8 @@
                     glassNumber: '',
                     type: null
                 }],
-                errors: []
+                errors: [],
+                disabled:false
             }
         },
         mounted() {
@@ -587,6 +588,7 @@
                   console.log(this.validateForm());
           
                 if (this.validateForm()) {
+                    this.disabled=true
                     this.$Progress.start()
                     axios.post('/api/products', {
 

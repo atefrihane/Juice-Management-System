@@ -271,7 +271,7 @@
 
                         <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelRental()">
                             Annuler</button>
-                        <button class="btn btn-success pl-1" type="button" @click="submitProduct()">Confirmer</button>
+                        <button class="btn btn-success pl-1" type="button" :disabled="disabled" @click="submitProduct()">Confirmer</button>
 
                     </div>
                 </div>
@@ -319,7 +319,8 @@
                 productId: data.product.id,
                 error: 0,
                 mixtures: [],
-                errors: []
+                errors: [],
+                disabled:false
             }
         },
 
@@ -456,6 +457,7 @@
 
 
                 if (form != false) {
+                    this.disabled=true
 
 
 
