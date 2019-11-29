@@ -61,7 +61,7 @@
                 <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelOrder()">
                     Annuler</button>
 
-                <button type="button" class="btn btn-success pl-1" style="margin: 1em" @click="submitOrderToDeliver()">
+                <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled" @click="submitOrderToDeliver()">
                     Enregistrer</button>
 
 
@@ -82,25 +82,30 @@
                 new_status: 6,
                 date: this.order_full.estimated_arrival_date,
                 time: this.order_full.estimated_arrival_time,
-                comment: this.history.comment
+                comment: this.history.comment,
+                disabled:false
 
 
             }
         },
         methods: {
+            
             validateForm() {
 
                 if (!this.new_status) {
                     this.$emit('requiredValue', 'Veuillez séléctionner un état  ')
+                        this.disabled=false
                     return false;
                 }
                 if (this.new_status != 12) {
                     if (!this.date) {
                         this.$emit('requiredValue', 'Veuillez séléctionner une date de livraison à estimer  ')
+                            this.disabled=false
                         return false;
                     }
                     if (!this.time) {
                         this.$emit('requiredValue', 'Veuillez séléctionner une heure de livraison à estimer  ')
+                            this.disabled=false
                         return false;
                     }
 
@@ -112,11 +117,12 @@
 
             },
             submitOrderToDeliver() {
-                let validation = this.validateForm();
-                console.log(validation)
+            
+                let validation = this.validateForm()
                 if (validation) {
+                    this.disabled=true
                     if (this.new_status == 12) {
-                        ;
+                        
                         swal.fire({
                             type: 'info',
                             title: 'Attention !',
@@ -125,7 +131,8 @@
                             showCancelButton: true,
                             confirmButtonText: 'Confirmer',
                             cancelButtonText: 'Annuler',
-                            reverseButtons: true
+                            reverseButtons: true,
+                              allowOutsideClick: false,
                         }).then((result) => {
                             if (result.value) {
                                 axios.post(`/api/order/${this.order_id}/prepare/after`, {
@@ -157,6 +164,10 @@
                                         console.log(error);
                                     })
 
+                            }
+                            else if(result.dismiss =='cancel')
+                            {
+                                this.disabled=false
                             }
                         });
                     } else {

@@ -11,7 +11,14 @@
         <div class="row">
             <div class="container-fluid">
 
-             <order-update order_id="{{$order->id}}" company_id="{{$order->store->company->id}}" user_id="{{Auth::user()->id}}"></order-update>
+             <order-update 
+             :order_id="{{$order->id}}" 
+             :company_id="{{$order->store->company->id}}" 
+             :user_id="{{Auth::user()->id}}"
+             :history="{{$history}}"
+             >
+             
+             </order-update>
                 <!-- /.col -->
             </div>
 

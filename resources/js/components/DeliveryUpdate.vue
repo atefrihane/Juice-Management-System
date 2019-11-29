@@ -147,7 +147,7 @@
                                 Annuler</button>
 
                             <button type="button" class="btn btn-success pl-1" style="margin: 1em"
-                                @click="submitOrderDelivery()">
+                                :disabled="disabled" @click="submitOrderDelivery()">
                                 Enregistrer</button>
 
 
@@ -188,7 +188,8 @@
                 estimated_arrival_date: this.order.estimated_arrival_date,
                 arrival_date: this.order.arrival_date,
                 arrival_time: this.order.arrival_time,
-                status:this.order.status
+                status:this.order.status,
+                disabled:false
 
             }
         },
@@ -223,7 +224,7 @@
 
                 } else {
 
-
+                    this.disabled=true        
                     axios.post(`/order/delivery/${this.order_id}`, {
                             carrier_mode: this.carrier,
                             delivery_man_id: this.delivery_man_id,

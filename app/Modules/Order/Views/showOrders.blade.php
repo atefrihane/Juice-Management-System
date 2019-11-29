@@ -56,7 +56,7 @@
                                     <td>{{$order->store->designation}}</td>
                                     <td>{{$order->store->zipcode->code}}</td>
                                     <td>@convert($order->total)</td>
-                                    <td> @if($order->comment) {{$order->comment }} @else Aucun @endif</td>
+                                    <td> @if($order->histories && $order->histories->first()->comment) {{$order->histories->first()->comment }} @else Aucun @endif</td>
 
                                     @switch($order->status)
 

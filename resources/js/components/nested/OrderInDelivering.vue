@@ -61,7 +61,7 @@
                 <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelOrder()">
                     Annuler</button>
 
-                <button type="button" class="btn btn-success pl-1" style="margin: 1em" @click="submitOrderToDeliver()">
+                <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled" @click="submitOrderToDeliver()">
                     Enregistrer</button>
 
 
@@ -82,7 +82,8 @@
                 new_status: 7,
                 date: this.order_full.arrival_date,
                 time: this.order_full.arrival_time,
-                comment: this.history.comment
+                comment: this.history.comment,
+                disabled:false
 
 
             }
@@ -115,6 +116,7 @@
                 let validation = this.validateForm();
                 console.log(validation)
                 if (validation) {
+                    this.disabled=true
                     if (this.new_status == 12) {
                         ;
                         swal.fire({
@@ -125,7 +127,8 @@
                             showCancelButton: true,
                             confirmButtonText: 'Confirmer',
                             cancelButtonText: 'Annuler',
-                            reverseButtons: true
+                            reverseButtons: true,
+                               allowOutsideClick: false,
                         }).then((result) => {
                             if (result.value) {
                                 axios.post(`/api/order/${this.order_id}/prepare/after`, {
@@ -157,6 +160,10 @@
                                         console.log(error);
                                     })
 
+                            }
+                            if(result.dismiss =='cancel')
+                            {
+                                 this.disabled=false
                             }
                         });
                     } else {

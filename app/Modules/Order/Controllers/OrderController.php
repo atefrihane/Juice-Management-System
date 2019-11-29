@@ -23,7 +23,7 @@ class OrderController extends Controller
     {
         $order = Order::find($id);
         if ($order) {
-            return view('Order::updateOrder', ['order' => $order]);
+            return view('Order::updateOrder', ['order' => $order ,'history' => $order->histories->first()]);
 
         }
         return view('General::notFound');

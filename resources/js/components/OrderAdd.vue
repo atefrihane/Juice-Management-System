@@ -179,10 +179,10 @@
                 <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelOrder()">
                     Annuler</button>
 
-                <button type="button" class="btn btn-warning pl-1" style="margin: 1em" @click="submitSaveOrder()">
+                <button type="button" class="btn btn-warning pl-1" style="margin: 1em" :disabled="disabled" @click="submitSaveOrder()">
                     Enregistrer</button>
 
-                <button type="button" class="btn btn-success pl-1" style="margin: 1em" @click="submitStoreOrder()">
+                <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled" @click="submitStoreOrder()">
                     Enregistrer et valider</button>
 
             </div>
@@ -214,7 +214,8 @@
                 total_order: 0.00,
                 comment: '',
                 user_id: order.userId,
-                status: ''
+                status: '',
+                disabled:false
 
 
             }
@@ -515,11 +516,13 @@
                     this.errors.push('Veuillez séléctionner une societé');
                     window.scrollTo(0, 0);
                     x = false;
+                    this.disabled=false;
                 }
                 if (!this.store_id) {
                     this.errors.push('Veuillez séléctionner un magasin');
                     window.scrollTo(0, 0);
                     x = false;
+                    this.disabled=false;
                 }
 
 
@@ -528,6 +531,7 @@
                     this.errors.push(' Le code du magasin est requis');
                     window.scrollTo(0, 0);
                     x = false;
+                    this.disabled=false;
                 }
 
                 this.ordered_products.forEach((ordered, index) => {
@@ -535,17 +539,20 @@
                         this.errors.push('Veuillez séléctionner un produit');
                         window.scrollTo(0, 0);
                         x = false;
+                        this.disabled=false;
                     }
                     if (!ordered.packing) {
                         this.errors.push('Le champs nombre de colis est requis');
                         window.scrollTo(0, 0);
                         x = false;
+                        this.disabled=false;
                     }
 
                     if (!ordered.unit) {
                         this.errors.push('Le champs nombre d\'unités est requis');
                         window.scrollTo(0, 0);
                         x = false;
+                        this.disabled=false;
                     }
 
 
@@ -559,6 +566,7 @@
 
             },
             submitSaveOrder() {
+                this.disabled=true;
                 if (this.validateForm()) {
                     axios.post('api/order/save', {
                             code: this.code,
@@ -582,6 +590,7 @@
 
 
                                 });
+                                 this.disabled=false;
 
 
 
@@ -599,6 +608,7 @@
                                         window.location = axios.defaults.baseURL + '/orders';
                                     }
                                 })
+                                   
 
 
 
@@ -611,6 +621,7 @@
 
             },
             submitStoreOrder() {
+                  this.disabled=true;
                 if (this.validateForm()) {
                     axios.post('api/order/save', {
                             code: this.code,
@@ -634,6 +645,7 @@
 
 
                                 });
+                                  this.disabled=false;
 
 
 

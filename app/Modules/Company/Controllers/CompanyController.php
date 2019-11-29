@@ -40,7 +40,6 @@ class CompanyController extends Controller
             'designation' => 'required',
             'zipcode_id' => 'required',
             'address' => 'required',
-            'email' => 'required|email|unique:companies',
             'tel' => 'required',
             'cc' => 'required',
             'logo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
@@ -51,9 +50,6 @@ class CompanyController extends Controller
             'designation.required' => 'le champs designation est obligatoire',
             'address.required' => 'le champs addresse est obligatoire',
             'zipcode_id.required' => 'le champs code postale est obligatoire',
-            'email.required' => 'le champs email est obligatoire',
-            'email.unique' => 'Email deja existant',
-            'email.email' => 'Email non valide',
             'cc.required' => 'le premier champs telephone est obligatoire',
             'tel.required' => 'le deuxieme champs telephone est obligatoire',
             'logo.image' => 'Le format du logo importé est non supporté ',
@@ -115,7 +111,6 @@ class CompanyController extends Controller
             'designation' => 'required',
             'zipcode_id' => 'required',
             'address' => 'required',
-            'email' => 'required|email',
             'tel' => 'required',
 
         ], [
@@ -124,8 +119,6 @@ class CompanyController extends Controller
             'designation.required' => 'le champs designation est obligatoire',
             'address.required' => 'le champs addresse est obligatoire',
             'zipcode_id.required' => 'le champs code postale est obligatoire',
-            'email.required' => 'le champs email est obligatoire',
-            'email.email' => 'email non valide',
             'tel.required' => 'le champs telephone est obligatoire',
 
         ]);

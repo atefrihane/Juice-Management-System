@@ -47,7 +47,7 @@
                 <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelOrder()">
                     Annuler</button>
 
-                <button type="button" class="btn btn-success pl-1" style="margin: 1em" @click="saveNewOrderStatus()">
+                <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled" @click="saveNewOrderStatus()">
                     Enregistrer</button>
 
 
@@ -71,7 +71,8 @@
                 new_status: 3,
                 new_status_text: 'En cours de préparation',
                 preparator_id: '',
-                comment: null
+                comment: null,
+                disabled:false
 
             }
         },
@@ -94,10 +95,12 @@
                 if (!this.preparator_id && this.new_status != 12) {
                     this.$emit('requiredValue', 'Veuillez séléctionner un préparateur')
                     x = false;
+                       this.disabled=false;
                 }
                 if (!this.new_status) {
                     this.$emit('requiredValue', 'Veuillez séléctionner un état')
                     x = false;
+                       this.disabled=false;
                 }
 
 
@@ -107,6 +110,7 @@
 
             },
             saveNewOrderStatus() {
+                this.disabled=true;
                 let validation = this.validateForm()
                 console.log(validation)
                 if (validation) {

@@ -26,7 +26,7 @@ class OrderController extends Controller
             'status' => $request->status,
             'total' => $request->total_order,
             'store_id' => $request->store_id,
-            'comment' => $request->comment,
+        
 
         ]);
 
@@ -443,7 +443,7 @@ class OrderController extends Controller
                                 'pallets_number' => $request->palet_number,
                                 'weight' => $request->weight,
                                 'volume' => $request->volume,
-                                'comment' => $request->comment,
+                              
 
                             ]);
                             OrderHistory::create([
@@ -462,7 +462,7 @@ class OrderController extends Controller
                                 'status' => $request->new_status,
                                 'estimated_arrival_date' => $request->date,
                                 'estimated_arrival_time' => $request->time,
-                                'comment' => $request->comment,
+                                
 
                             ]);
                             OrderHistory::create([
@@ -481,7 +481,7 @@ class OrderController extends Controller
                                 'status' => $request->new_status,
                                 'arrival_date' => $request->date,
                                 'arrival_time' => $request->time,
-                                'comment' => $request->comment,
+                               
 
                             ]);
                             OrderHistory::create([
@@ -498,7 +498,7 @@ class OrderController extends Controller
                         {
                             $order->update([
                                 'status' => $request->new_status,
-                                'comment' => $request->comment,
+                               
 
                             ]);
 
@@ -530,7 +530,7 @@ class OrderController extends Controller
 
                             $order->update([
                                 'status' => $request->new_status,
-                                'comment' => $request->comment,
+                              
 
                             ]);
                             OrderHistory::create([
@@ -548,7 +548,7 @@ class OrderController extends Controller
 
                             $order->update([
                                 'status' => $request->new_status,
-                                'comment' => $request->comment,
+                                
 
                             ]);
                             OrderHistory::create([
@@ -566,8 +566,7 @@ class OrderController extends Controller
 
                             $order->update([
                                 'status' => $request->new_status,
-                                'comment' => $request->comment,
-
+                               
                             ]);
                             OrderHistory::create([
                                 'action' => 'Etat vers : Comptabilisée',

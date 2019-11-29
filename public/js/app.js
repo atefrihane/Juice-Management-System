@@ -2739,7 +2739,8 @@ __webpack_require__.r(__webpack_exports__);
       estimated_arrival_date: this.order.estimated_arrival_date,
       arrival_date: this.order.arrival_date,
       arrival_time: this.order.arrival_time,
-      status: this.order.status
+      status: this.order.status,
+      disabled: false
     };
   },
   methods: {
@@ -2759,6 +2760,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.carrier == null && this.delivery_man_id == null && this.delivery_mode == null && this.carton_number == null && this.palet_number == null && this.volume == null && this.weight == null && this.comment == '') {
         this.errors.push('Veuillez renseigner au moins une valeur');
       } else {
+        this.disabled = true;
         axios.post("/order/delivery/".concat(this.order_id), {
           carrier_mode: this.carrier,
           delivery_man_id: this.delivery_man_id,
@@ -3849,7 +3851,8 @@ __webpack_require__.r(__webpack_exports__);
       total_order: 0.00,
       comment: '',
       user_id: order.userId,
-      status: ''
+      status: '',
+      disabled: false
     };
   },
   computed: {
@@ -4075,18 +4078,21 @@ __webpack_require__.r(__webpack_exports__);
         this.errors.push('Veuillez séléctionner une societé');
         window.scrollTo(0, 0);
         x = false;
+        this.disabled = false;
       }
 
       if (!this.store_id) {
         this.errors.push('Veuillez séléctionner un magasin');
         window.scrollTo(0, 0);
         x = false;
+        this.disabled = false;
       }
 
       if (!this.code) {
         this.errors.push(' Le code du magasin est requis');
         window.scrollTo(0, 0);
         x = false;
+        this.disabled = false;
       }
 
       this.ordered_products.forEach(function (ordered, index) {
@@ -4095,6 +4101,7 @@ __webpack_require__.r(__webpack_exports__);
 
           window.scrollTo(0, 0);
           x = false;
+          _this6.disabled = false;
         }
 
         if (!ordered.packing) {
@@ -4102,6 +4109,7 @@ __webpack_require__.r(__webpack_exports__);
 
           window.scrollTo(0, 0);
           x = false;
+          _this6.disabled = false;
         }
 
         if (!ordered.unit) {
@@ -4109,11 +4117,16 @@ __webpack_require__.r(__webpack_exports__);
 
           window.scrollTo(0, 0);
           x = false;
+          _this6.disabled = false;
         }
       });
       return x;
     },
     submitSaveOrder: function submitSaveOrder() {
+      var _this7 = this;
+
+      this.disabled = true;
+
       if (this.validateForm()) {
         axios.post('api/order/save', {
           code: this.code,
@@ -4133,6 +4146,7 @@ __webpack_require__.r(__webpack_exports__);
               allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
+            _this7.disabled = false;
           }
 
           if (response.data.status == 200) {
@@ -4154,6 +4168,10 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     submitStoreOrder: function submitStoreOrder() {
+      var _this8 = this;
+
+      this.disabled = true;
+
       if (this.validateForm()) {
         axios.post('api/order/save', {
           code: this.code,
@@ -4173,6 +4191,7 @@ __webpack_require__.r(__webpack_exports__);
               showConfirmButton: true,
               confirmButtonText: 'Fermer'
             });
+            _this8.disabled = false;
           }
 
           if (response.data.status == 200) {
@@ -4485,7 +4504,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       prepared_products: [],
       response_array: [],
       errors: [],
-      warehouse_products: []
+      warehouse_products: [],
+      disabled: false
     };
   },
   components: {
@@ -4795,6 +4815,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var validation = this.validateForm();
 
       if (validation) {
+        this.disabled = true;
         axios.post("/api/order/".concat(this.order_id, "/prepare"), {
           final_prepared: this.final_prepared,
           user_id: this.user_id
@@ -6296,9 +6317,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.loadOrder();
     this.clearOrderedProducts();
   },
-  props: ['order_id', 'user_id'],
+  props: ['order_id', 'user_id', 'history'],
   data: function data() {
-    return _defineProperty({
+    var _ref;
+
+    return _ref = {
       companies: [],
       stores: [],
       ordered_products: [],
@@ -6312,7 +6335,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       total_order: 0.00,
       comment: '',
       company_id: order.company_id
-    }, "errors", []);
+    }, _defineProperty(_ref, "errors", []), _defineProperty(_ref, "disabled", false), _ref;
   },
   computed: {
     convert_total_ht: function convert_total_ht() {
@@ -6576,18 +6599,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.errors.push('Veuillez séléctionner une societé');
         window.scrollTo(0, 0);
         x = false;
+        this.disabled = false;
       }
 
       if (!this.store_id) {
         this.errors.push('Veuillez séléctionner un magasin');
         window.scrollTo(0, 0);
         x = false;
+        this.disabled = false;
       }
 
       if (!this.code) {
         this.errors.push(' Le code du pays est requis');
         window.scrollTo(0, 0);
         x = false;
+        this.disabled = false;
       }
 
       this.custom_ordered.forEach(function (ordered, index) {
@@ -6596,6 +6622,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
           window.scrollTo(0, 0);
           x = false;
+          _this9.disabled = false;
         }
 
         if (!ordered["package"]) {
@@ -6603,6 +6630,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
           window.scrollTo(0, 0);
           x = false;
+          _this9.disabled = false;
         }
 
         if (!ordered.unit) {
@@ -6610,11 +6638,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
           window.scrollTo(0, 0);
           x = false;
+          _this9.disabled = false;
         }
       });
       return x;
     },
     saveOrder: function saveOrder() {
+      this.disabled = true;
+
       if (this.validateForm()) {
         axios.post('/api/order/product/update/' + this.order_id, {
           company_id: this.company_id,
@@ -6644,6 +6675,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     updateOrder: function updateOrder() {
+      this.disabled = true;
+
       if (this.validateForm()) {
         axios.post('/api/order/product/update/' + this.order_id, {
           company_id: this.company_id,
@@ -8120,7 +8153,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       new_status: 10,
-      comment: ''
+      comment: '',
+      disabled: false
     };
   },
   methods: {
@@ -8137,6 +8171,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log(validation);
 
       if (validation) {
+        this.disabled = true;
         axios.post("/api/order/".concat(this.order_id, "/prepare/after"), {
           new_status: this.new_status,
           comment: this.comment,
@@ -8241,7 +8276,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       new_status: 8,
-      comment: this.history.comment
+      comment: this.history.comment,
+      disabled: false
     };
   },
   methods: {
@@ -8258,6 +8294,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log(validation);
 
       if (validation) {
+        this.disabled = true;
         axios.post("/api/order/".concat(this.order_id, "/prepare/after"), {
           new_status: this.new_status,
           comment: this.comment,
@@ -8362,7 +8399,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       new_status: 9,
-      comment: ''
+      comment: '',
+      disabled: false
     };
   },
   methods: {
@@ -8379,6 +8417,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log(validation);
 
       if (validation) {
+        this.disabled = true;
         axios.post("/api/order/".concat(this.order_id, "/prepare/after"), {
           new_status: this.new_status,
           comment: this.comment,
@@ -8516,7 +8555,8 @@ __webpack_require__.r(__webpack_exports__);
       new_status: 7,
       date: this.order_full.arrival_date,
       time: this.order_full.arrival_time,
-      comment: this.history.comment
+      comment: this.history.comment,
+      disabled: false
     };
   },
   methods: {
@@ -8547,6 +8587,8 @@ __webpack_require__.r(__webpack_exports__);
       console.log(validation);
 
       if (validation) {
+        this.disabled = true;
+
         if (this.new_status == 12) {
           ;
           swal.fire({
@@ -8557,7 +8599,8 @@ __webpack_require__.r(__webpack_exports__);
             showCancelButton: true,
             confirmButtonText: 'Confirmer',
             cancelButtonText: 'Annuler',
-            reverseButtons: true
+            reverseButtons: true,
+            allowOutsideClick: false
           }).then(function (result) {
             if (result.value) {
               axios.post("/api/order/".concat(_this.order_id, "/prepare/after"), {
@@ -8585,6 +8628,10 @@ __webpack_require__.r(__webpack_exports__);
               })["catch"](function (error) {
                 console.log(error);
               });
+            }
+
+            if (result.dismiss == 'cancel') {
+              _this.disabled = false;
             }
           });
         } else {
@@ -8849,6 +8896,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
  // Import stylesheet
 
 
@@ -8867,7 +8917,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       custom_ordered: [],
       prepared_products: [],
       response_array: [],
-      balance: []
+      balance: [],
+      disabled: false
     };
   },
   components: {
@@ -9096,6 +9147,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           if (count <= 0) {
             this.$emit('requiredValue', 'Veuillez renseigner au moins une quantité à préparer  ');
             x = false;
+            this.disabled = false;
           }
 
           this.final_prepared.forEach(function (prepared) {
@@ -9103,12 +9155,14 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
               _this6.$emit('requiredValue', 'Veuillez séléctionner un produit ');
 
               x = false;
+              _this6.disabled = false;
             }
           });
 
           if (this.new_status == '') {
             this.$emit('requiredValue', 'Veuillez séléctionner un etat ');
             x = false;
+            this.disabled = false;
           }
         }
       }
@@ -9170,6 +9224,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     submitOrderInPrepare: function submitOrderInPrepare() {
       var _this8 = this;
 
+      this.disabled = true;
       var validation = this.validateForm();
 
       if (validation) {
@@ -9209,6 +9264,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
               })["catch"](function (error) {
                 console.log(error);
               });
+            } else if (result.dismiss == 'cancel') {
+              _this8.disabled = false;
             }
           });
         } else {
@@ -9284,8 +9341,12 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                     })["catch"](function (error) {
                       console.log(error);
                     });
+                  } else {
+                    _this8.disabled = false;
                   }
                 });
+              } else if (result.dismiss == 'cancel') {
+                _this8.disabled = false;
               }
             });
           } else {
@@ -9443,6 +9504,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.loadUsers();
@@ -9459,7 +9521,8 @@ __webpack_require__.r(__webpack_exports__);
       weight: this.order_full.weight,
       volume: this.order_full.volume,
       comment: this.history.comment,
-      users: []
+      users: [],
+      disabled: false
     };
   },
   methods: {
@@ -9475,42 +9538,50 @@ __webpack_require__.r(__webpack_exports__);
     validateForm: function validateForm() {
       if (!this.new_status) {
         this.$emit('requiredValue', 'Veuillez séléctionner un état  ');
+        this.disabled = false;
         return false;
       }
 
       if (this.new_status != 12) {
         if (!this.carrier_mode) {
           this.$emit('requiredValue', 'Veuillez séléctionner un transporteur  ');
+          this.disabled = false;
           return false;
         }
 
         if (!this.delivery_man_id) {
           this.$emit('requiredValue', 'Veuillez séléctionner un livreur  ');
+          this.disabled = false;
           return false;
         }
 
-        if (!this.delivery_mode) {
+        if (this.delivery_mode == null || this.deliver_mode < 0) {
           this.$emit('requiredValue', 'Veuillez séléctionner un mode de livraison  ');
+          this.disabled = false;
           return false;
         }
 
         if (!this.carton_number) {
           this.$emit('requiredValue', 'Veuillez renseigner un nombre de cartons  ');
+          this.disabled = false;
           return false;
         }
 
         if (!this.palet_number) {
           this.$emit('requiredValue', 'Veuillez renseigner un nombre de palette  ');
+          this.disabled = false;
           return false;
         }
 
         if (!this.volume) {
           this.$emit('requiredValue', 'Veuillez renseigner un volume  ');
+          this.disabled = false;
           return false;
         }
 
         if (!this.weight) {
           this.$emit('requiredValue', 'Veuillez renseigner un  poids  ');
+          this.disabled = false;
           return false;
         }
       }
@@ -9520,8 +9591,8 @@ __webpack_require__.r(__webpack_exports__);
     submitOrderPrepared: function submitOrderPrepared() {
       var _this2 = this;
 
+      this.disabled = true;
       var validation = this.validateForm();
-      console.log(validation);
 
       if (validation) {
         if (this.new_status == 12) {
@@ -9567,6 +9638,8 @@ __webpack_require__.r(__webpack_exports__);
               })["catch"](function (error) {
                 console.log(error);
               });
+            } else if (result.dismiss = 'cancel') {
+              _this2.disabled = false;
             }
           });
         } else {
@@ -9670,7 +9743,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       new_status: 11,
-      comment: ''
+      comment: '',
+      disabled: false
     };
   },
   methods: {
@@ -9687,6 +9761,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log(validation);
 
       if (validation) {
+        this.disabled = true;
         axios.post("/api/order/".concat(this.order_id, "/prepare/after"), {
           new_status: this.new_status,
           comment: this.comment,
@@ -9824,24 +9899,28 @@ __webpack_require__.r(__webpack_exports__);
       new_status: 6,
       date: this.order_full.estimated_arrival_date,
       time: this.order_full.estimated_arrival_time,
-      comment: this.history.comment
+      comment: this.history.comment,
+      disabled: false
     };
   },
   methods: {
     validateForm: function validateForm() {
       if (!this.new_status) {
         this.$emit('requiredValue', 'Veuillez séléctionner un état  ');
+        this.disabled = false;
         return false;
       }
 
       if (this.new_status != 12) {
         if (!this.date) {
           this.$emit('requiredValue', 'Veuillez séléctionner une date de livraison à estimer  ');
+          this.disabled = false;
           return false;
         }
 
         if (!this.time) {
           this.$emit('requiredValue', 'Veuillez séléctionner une heure de livraison à estimer  ');
+          this.disabled = false;
           return false;
         }
       }
@@ -9852,11 +9931,11 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var validation = this.validateForm();
-      console.log(validation);
 
       if (validation) {
+        this.disabled = true;
+
         if (this.new_status == 12) {
-          ;
           swal.fire({
             type: 'info',
             title: 'Attention !',
@@ -9865,7 +9944,8 @@ __webpack_require__.r(__webpack_exports__);
             showCancelButton: true,
             confirmButtonText: 'Confirmer',
             cancelButtonText: 'Annuler',
-            reverseButtons: true
+            reverseButtons: true,
+            allowOutsideClick: false
           }).then(function (result) {
             if (result.value) {
               axios.post("/api/order/".concat(_this.order_id, "/prepare/after"), {
@@ -9893,6 +9973,8 @@ __webpack_require__.r(__webpack_exports__);
               })["catch"](function (error) {
                 console.log(error);
               });
+            } else if (result.dismiss == 'cancel') {
+              _this.disabled = false;
             }
           });
         } else {
@@ -10013,7 +10095,8 @@ __webpack_require__.r(__webpack_exports__);
       new_status: 3,
       new_status_text: 'En cours de préparation',
       preparator_id: '',
-      comment: null
+      comment: null,
+      disabled: false
     };
   },
   methods: {
@@ -10035,11 +10118,13 @@ __webpack_require__.r(__webpack_exports__);
       if (!this.preparator_id && this.new_status != 12) {
         this.$emit('requiredValue', 'Veuillez séléctionner un préparateur');
         x = false;
+        this.disabled = false;
       }
 
       if (!this.new_status) {
         this.$emit('requiredValue', 'Veuillez séléctionner un état');
         x = false;
+        this.disabled = false;
       }
 
       return x;
@@ -10047,6 +10132,7 @@ __webpack_require__.r(__webpack_exports__);
     saveNewOrderStatus: function saveNewOrderStatus() {
       var _this2 = this;
 
+      this.disabled = true;
       var validation = this.validateForm();
       console.log(validation);
 
@@ -66375,7 +66461,7 @@ var render = function() {
                   {
                     staticClass: "btn btn-success pl-1",
                     staticStyle: { margin: "1em" },
-                    attrs: { type: "button" },
+                    attrs: { type: "button", disabled: _vm.disabled },
                     on: {
                       click: function($event) {
                         return _vm.submitOrderDelivery()
@@ -68409,7 +68495,7 @@ var render = function() {
           {
             staticClass: "btn btn-warning pl-1",
             staticStyle: { margin: "1em" },
-            attrs: { type: "button" },
+            attrs: { type: "button", disabled: _vm.disabled },
             on: {
               click: function($event) {
                 return _vm.submitSaveOrder()
@@ -68424,7 +68510,7 @@ var render = function() {
           {
             staticClass: "btn btn-success pl-1",
             staticStyle: { margin: "1em" },
-            attrs: { type: "button" },
+            attrs: { type: "button", disabled: _vm.disabled },
             on: {
               click: function($event) {
                 return _vm.submitStoreOrder()
@@ -69049,7 +69135,7 @@ var render = function() {
                     {
                       staticClass: "btn btn-success pl-1",
                       staticStyle: { margin: "1em" },
-                      attrs: { type: "button" },
+                      attrs: { type: "button", disabled: _vm.disabled },
                       on: {
                         click: function($event) {
                           return _vm.submitOrderPreparedProducts()
@@ -71675,19 +71761,19 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.comment,
-                  expression: "comment"
+                  value: _vm.history.comment,
+                  expression: "history.comment"
                 }
               ],
               staticClass: "form-control",
               attrs: { rows: "3", placeholder: "Commentaires" },
-              domProps: { value: _vm.comment },
+              domProps: { value: _vm.history.comment },
               on: {
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.comment = $event.target.value
+                  _vm.$set(_vm.history, "comment", $event.target.value)
                 }
               }
             })
@@ -71718,7 +71804,7 @@ var render = function() {
           {
             staticClass: "btn btn-warning pl-1",
             staticStyle: { margin: "1em" },
-            attrs: { type: "button" },
+            attrs: { type: "button", disabled: _vm.disabled },
             on: {
               click: function($event) {
                 return _vm.saveOrder()
@@ -71733,7 +71819,7 @@ var render = function() {
           {
             staticClass: "btn btn-success pl-1",
             staticStyle: { margin: "1em" },
-            attrs: { type: "button" },
+            attrs: { type: "button", disabled: _vm.disabled },
             on: {
               click: function($event) {
                 return _vm.updateOrder()
@@ -74413,7 +74499,7 @@ var render = function() {
           {
             staticClass: "btn btn-success pl-1",
             staticStyle: { margin: "1em" },
-            attrs: { type: "button" },
+            attrs: { type: "button", disabled: _vm.disabled },
             on: {
               click: function($event) {
                 return _vm.submitOrderToDeliver()
@@ -74546,7 +74632,7 @@ var render = function() {
           {
             staticClass: "btn btn-success pl-1",
             staticStyle: { margin: "1em" },
-            attrs: { type: "button" },
+            attrs: { type: "button", disabled: _vm.disabled },
             on: {
               click: function($event) {
                 return _vm.submitOrderToDeliver()
@@ -74679,7 +74765,7 @@ var render = function() {
           {
             staticClass: "btn btn-success pl-1",
             staticStyle: { margin: "1em" },
-            attrs: { type: "button" },
+            attrs: { type: "button", disabled: _vm.disabled },
             on: {
               click: function($event) {
                 return _vm.submitOrderToDeliver()
@@ -74876,7 +74962,7 @@ var render = function() {
           {
             staticClass: "btn btn-success pl-1",
             staticStyle: { margin: "1em" },
-            attrs: { type: "button" },
+            attrs: { type: "button", disabled: _vm.disabled },
             on: {
               click: function($event) {
                 return _vm.submitOrderToDeliver()
@@ -74996,9 +75082,9 @@ var render = function() {
                       return _c("tr", [
                         _c("td", [
                           _vm._v(
-                            "\n                                " +
+                            "\n                                    " +
                               _vm._s(ordered.name) +
-                              "\n                            "
+                              "\n                                "
                           )
                         ]),
                         _vm._v(" "),
@@ -75112,7 +75198,7 @@ var render = function() {
                                         { attrs: { value: "", disabled: "" } },
                                         [
                                           _vm._v(
-                                            " Selectionner un\n                                        produit\n                                    "
+                                            " Selectionner un\n                                            produit\n                                        "
                                           )
                                         ]
                                       )
@@ -75127,7 +75213,7 @@ var render = function() {
                                       [
                                         _vm._v(
                                           _vm._s(product.nom) +
-                                            "\n                                    "
+                                            "\n                                        "
                                         )
                                       ]
                                     )
@@ -75194,7 +75280,7 @@ var render = function() {
                                           final.product_id == ""
                                             ? _c("h4", [
                                                 _vm._v(
-                                                  "Veuillez sélectionner un produit !"
+                                                  "Veuillez sélectionner un produit !\n                                            "
                                                 )
                                               ])
                                             : _c("h4", [
@@ -75359,7 +75445,7 @@ var render = function() {
           {
             staticClass: "btn btn-success pl-1",
             staticStyle: { margin: "1em" },
-            attrs: { type: "button" },
+            attrs: { type: "button", disabled: _vm.disabled },
             on: {
               click: function($event) {
                 return _vm.submitOrderInPrepare()
@@ -75873,7 +75959,7 @@ var render = function() {
           {
             staticClass: "btn btn-success pl-1",
             staticStyle: { margin: "1em" },
-            attrs: { type: "button" },
+            attrs: { type: "button", disabled: _vm.disabled },
             on: {
               click: function($event) {
                 return _vm.submitOrderPrepared()
@@ -76008,7 +76094,7 @@ var render = function() {
           {
             staticClass: "btn btn-success pl-1",
             staticStyle: { margin: "1em" },
-            attrs: { type: "button" },
+            attrs: { type: "button", disabled: _vm.disabled },
             on: {
               click: function($event) {
                 return _vm.submitOrderToDeliver()
@@ -76207,7 +76293,7 @@ var render = function() {
           {
             staticClass: "btn btn-success pl-1",
             staticStyle: { margin: "1em" },
-            attrs: { type: "button" },
+            attrs: { type: "button", disabled: _vm.disabled },
             on: {
               click: function($event) {
                 return _vm.submitOrderToDeliver()
@@ -76421,7 +76507,7 @@ var render = function() {
           {
             staticClass: "btn btn-success pl-1",
             staticStyle: { margin: "1em" },
-            attrs: { type: "button" },
+            attrs: { type: "button", disabled: _vm.disabled },
             on: {
               click: function($event) {
                 return _vm.saveNewOrderStatus()

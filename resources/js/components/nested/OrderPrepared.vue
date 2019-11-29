@@ -72,7 +72,7 @@
             </div>
         </div>
 
-       
+
 
 
         <div class="row" style="margin-top:20px;">
@@ -89,7 +89,8 @@
                 <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelOrder()">
                     Annuler</button>
 
-                <button type="button" class="btn btn-success pl-1" style="margin: 1em" @click="submitOrderPrepared()">
+                <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled"
+                    @click="submitOrderPrepared()">
                     Enregistrer</button>
 
 
@@ -117,7 +118,8 @@
                 volume: this.order_full.volume,
                 comment: this.history.comment,
                 users: [],
-             
+                disabled: false
+
 
             }
         },
@@ -137,35 +139,44 @@
 
                 if (!this.new_status) {
                     this.$emit('requiredValue', 'Veuillez séléctionner un état  ')
+                    this.disabled=false
                     return false;
+                    
                 }
                 if (this.new_status != 12) {
                     if (!this.carrier_mode) {
                         this.$emit('requiredValue', 'Veuillez séléctionner un transporteur  ')
+                        this.disabled=false
                         return false;
                     }
                     if (!this.delivery_man_id) {
                         this.$emit('requiredValue', 'Veuillez séléctionner un livreur  ')
+                        this.disabled=false
                         return false;
                     }
-                    if (!this.delivery_mode) {
+                    if (this.delivery_mode==null || this.deliver_mode < 0) {
                         this.$emit('requiredValue', 'Veuillez séléctionner un mode de livraison  ')
+                        this.disabled=false
                         return false;
                     }
                     if (!this.carton_number) {
                         this.$emit('requiredValue', 'Veuillez renseigner un nombre de cartons  ')
+                        this.disabled=false
                         return false;
                     }
                     if (!this.palet_number) {
                         this.$emit('requiredValue', 'Veuillez renseigner un nombre de palette  ')
+                        this.disabled=false     
                         return false;
                     }
                     if (!this.volume) {
                         this.$emit('requiredValue', 'Veuillez renseigner un volume  ')
+                        this.disabled=false
                         return false;
                     }
                     if (!this.weight) {
                         this.$emit('requiredValue', 'Veuillez renseigner un  poids  ')
+                        this.disabled=false
                         return false;
                     }
 
@@ -176,8 +187,8 @@
 
             },
             submitOrderPrepared() {
+                this.disabled = true;
                 let validation = this.validateForm();
-                console.log(validation)
                 if (validation) {
                     if (this.new_status == 12) {
                         this.new_status_text = 'Annulée';
@@ -219,6 +230,7 @@
                                                     window.location = axios.defaults.baseURL +
                                                         '/orders';
                                                 }
+
                                             })
 
                                         }
@@ -231,6 +243,8 @@
                                         console.log(error);
                                     })
 
+                            } else if (result.dismiss = 'cancel') {
+                                this.disabled = false
                             }
                         });
                     } else {

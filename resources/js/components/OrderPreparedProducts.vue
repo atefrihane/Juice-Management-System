@@ -211,7 +211,7 @@
                                     Annuler</button>
 
                                 <button type="button" class="btn btn-success pl-1" style="margin: 1em"
-                                    @click="submitOrderPreparedProducts()">
+                                    :disabled="disabled" @click="submitOrderPreparedProducts()">
                                     Enregistrer</button>
 
 
@@ -261,7 +261,8 @@
                 prepared_products: [],
                 response_array: [],
                 errors: [],
-                warehouse_products: []
+                warehouse_products: [],
+                disabled:false
 
             }
         },
@@ -631,6 +632,7 @@
             submitOrderPreparedProducts() {
                 let validation = this.validateForm();
                 if (validation) {
+                    this.disabled=true;
 
                     axios.post(`/api/order/${this.order_id}/prepare`, {
                             final_prepared: this.final_prepared,

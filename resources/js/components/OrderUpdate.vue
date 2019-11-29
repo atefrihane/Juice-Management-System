@@ -179,7 +179,7 @@
                 <div class="box-body">
                     <div class="form-group">
                         <label>Commentaires (optionnel)</label>
-                        <textarea class="form-control" rows="3" placeholder="Commentaires" v-model="comment"></textarea>
+                        <textarea class="form-control" rows="3" placeholder="Commentaires" v-model="history.comment"></textarea>
                     </div>
                 </div>
 
@@ -197,9 +197,9 @@
 
                 <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelOrder()">
                     Annuler</button>
-                <button type="button" class="btn btn-warning pl-1" style="margin: 1em" @click="saveOrder()">
+                <button type="button" class="btn btn-warning pl-1" style="margin: 1em" :disabled="disabled" @click="saveOrder()">
                     Enregistrer</button>
-                <button type="button" class="btn btn-success pl-1" style="margin: 1em" @click="updateOrder()">
+                <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled" @click="updateOrder()">
                     Enregistrer et confirmer</button>
 
 
@@ -220,7 +220,7 @@
 
 
         },
-        props: ['order_id', 'user_id'],
+        props: ['order_id', 'user_id','history'],
         data() {
             return {
 
@@ -237,7 +237,8 @@
                 total_order: 0.00,
                 comment: '',
                 company_id: order.company_id,
-                errors: []
+                errors: [],
+                disabled:false
 
 
 
@@ -583,11 +584,13 @@
                     this.errors.push('Veuillez séléctionner une societé');
                     window.scrollTo(0, 0);
                     x = false;
+                    this.disabled=false;
                 }
                 if (!this.store_id) {
                     this.errors.push('Veuillez séléctionner un magasin');
                     window.scrollTo(0, 0);
                     x = false;
+                      this.disabled=false;
                 }
 
 
@@ -596,6 +599,7 @@
                     this.errors.push(' Le code du pays est requis');
                     window.scrollTo(0, 0);
                     x = false;
+                      this.disabled=false;
                 }
 
                 this.custom_ordered.forEach((ordered, index) => {
@@ -603,17 +607,20 @@
                         this.errors.push('Veuillez séléctionner un produit');
                         window.scrollTo(0, 0);
                         x = false;
+                          this.disabled=false;
                     }
                     if (!ordered.package) {
                         this.errors.push('Le champs nombre de colis est requis');
                         window.scrollTo(0, 0);
                         x = false;
+                          this.disabled=false;
                     }
 
                     if (!ordered.unit) {
                         this.errors.push('Le champs nombre d\'unités est requis');
                         window.scrollTo(0, 0);
                         x = false;
+                          this.disabled=false;
                     }
 
 
@@ -624,6 +631,7 @@
 
             },
             saveOrder() {
+                this.disabled=true;
                 if (this.validateForm()) {
                     axios.post('/api/order/product/update/' + this.order_id, {
 
@@ -663,6 +671,7 @@
             },
 
             updateOrder() {
+                  this.disabled=true;
                 if (this.validateForm()) {
                     axios.post('/api/order/product/update/' + this.order_id, {
 

@@ -14,166 +14,168 @@
                 </div>
             </div>
         </div>
-        <div v-if="new_status !=12">    
-        <div class="row" style="margin-top:40px;">
+        <div v-if="new_status !=12">
+            <div class="row" style="margin-top:40px;">
 
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label for="exampleInputEmail1" style="font-size:20px;">Produits commandés</label>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1" style="font-size:20px;">Produits commandés</label>
 
-                </div>
-            </div>
-
-        </div>
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="box-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Nom Produit</th>
-                                <th>Quantité commandée</th>
-                                <th>Nombre de colis</th>
-                                <th>Colisage</th>
-
-                            </tr>
-
-                        </thead>
-                        <tbody>
-                            <tr v-for="(ordered,index) in custom_ordered">
-                                <td>
-                                    {{ordered.name}}
-                                </td>
-                                <td> {{ordered.unit}}</td>
-                                <td>{{ordered.package}}</td>
-                                <td>{{ordered.product_packing}}</td>
-
-
-
-                                <td>
-
-                                </td>
-                            </tr>
-
-
-
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="row" style="margin-top:40px;">
-
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label for="exampleInputEmail1" style="font-size:20px;">Produits préparés</label>
-
-                </div>
-            </div>
-
-        </div>
-        <div class="container-fluid">
-            <div class="box" style="border:1px solid rgb(228, 228, 228);padding:20px;"
-                v-for="(final,i) in final_prepared">
-                <div class="box-body">
-                    <div class="" v-if="i > 0">
-                        <a href="" class="pull-right btn btn-default" @click.prevent="removePrepared(final)"><i
-                                class="fa fa-minus"></i></a>
                     </div>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Nom du produit</label>
-                                    <select class="form-control" v-model="final.product_id"
-                                        @change="($event, index) => getProductData($event,i)">
-                                        <option value="" v-if="products.length > 0" disabled> Selectionner un
-                                            produit
-                                        </option>
-                                        <option value="" v-else> Aucun produit </option>
-                                        <option v-for="product in products" :value="product.id ">{{product.nom}}
-                                        </option>
-                                    </select>
+                </div>
 
-                                </div>
-                            </div>
+            </div>
 
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Total des quantités préparés</label>
-                                    <input type="text" class="form-control" v-model="final.total" disabled>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="box-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Nom Produit</th>
+                                    <th>Quantité commandée</th>
+                                    <th>Nombre de colis</th>
+                                    <th>Colisage</th>
 
-                                </div>
-                            </div>
+                                </tr>
 
-                        </div>
-                        <div class="row">
-
-
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Nom Produit</th>
-                                        <th>Quantité</th>
-                                        <th>Colisage</th>
-                                        <th>Entrepôt</th>
-                                        <th>Date de fabrication</th>
-                                        <th>Date de préemption</th>
-                                        <th>Quantité preparée</th>
-
-                                    </tr>
-
-                                </thead>
-                                <tbody>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(ordered,index) in custom_ordered">
+                                    <td>
+                                        {{ordered.name}}
+                                    </td>
+                                    <td> {{ordered.unit}}</td>
+                                    <td>{{ordered.package}}</td>
+                                    <td>{{ordered.product_packing}}</td>
 
 
 
-                                    <tr v-if="final.prepared_products.length == 0">
-                                        <td colspan="6" class="text-center">
-                                            <h4 v-if="final.product_id == ''">Veuillez sélectionner un produit !</h4>
-                                            <h4 v-else>Aucun produit trouvé !</h4>
-                                        </td>
-                                    </tr>
-                                    <loading :active.sync="final.isLoading" :is-full-page="false" :opacity="0.7"
-                                        loader="dots" color="#3c8dbc"></loading>
+                                    <td>
 
-                                    <tr v-for="(prepared,index) in final.prepared_products">
-                                        <td>{{final.product_name}} </td>
-                                        <td>{{prepared.quantity}} </td>
-                                        <td>{{prepared.packing}} </td>
-                                        <td>{{prepared.warehouse.designation}} </td>
-                                        <td>{{prepared.creation_date}} </td>
-                                        <td>{{prepared.expiration_date}} </td>
-                                        <td><input type="number" min="1" class="form-control"
-                                                placeholder="Quantité préparée"
-                                                @change="updateTotalQuantity(prepared,index,i)"
-                                                v-model.number="prepared.pivot.quantity">
-                                        </td>
-
-
-                                        </td>
-                                    </tr>
+                                    </td>
+                                </tr>
 
 
 
 
-
-
-                                </tbody>
-                            </table>
-
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn btn-default" @click="loadPrepared()"><i class="fa fa-plus"></i></button>
+
+            <div class="row" style="margin-top:40px;">
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1" style="font-size:20px;">Produits préparés</label>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="container-fluid">
+                <div class="box" style="border:1px solid rgb(228, 228, 228);padding:20px;"
+                    v-for="(final,i) in final_prepared">
+                    <div class="box-body">
+                        <div class="" v-if="i > 0">
+                            <a href="" class="pull-right btn btn-default" @click.prevent="removePrepared(final)"><i
+                                    class="fa fa-minus"></i></a>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Nom du produit</label>
+                                        <select class="form-control" v-model="final.product_id"
+                                            @change="($event, index) => getProductData($event,i)">
+                                            <option value="" v-if="products.length > 0" disabled> Selectionner un
+                                                produit
+                                            </option>
+                                            <option value="" v-else> Aucun produit </option>
+                                            <option v-for="product in products" :value="product.id ">{{product.nom}}
+                                            </option>
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Total des quantités préparés</label>
+                                        <input type="text" class="form-control" v-model="final.total" disabled>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nom Produit</th>
+                                            <th>Quantité</th>
+                                            <th>Colisage</th>
+                                            <th>Entrepôt</th>
+                                            <th>Date de fabrication</th>
+                                            <th>Date de préemption</th>
+                                            <th>Quantité preparée</th>
+
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
 
 
 
-        </div>
+                                        <tr v-if="final.prepared_products.length == 0">
+                                            <td colspan="6" class="text-center">
+                                                <h4 v-if="final.product_id == ''">Veuillez sélectionner un produit !
+                                                </h4>
+                                                <h4 v-else>Aucun produit trouvé !</h4>
+                                            </td>
+                                        </tr>
+                                        <loading :active.sync="final.isLoading" :is-full-page="false" :opacity="0.7"
+                                            loader="dots" color="#3c8dbc"></loading>
+
+                                        <tr v-for="(prepared,index) in final.prepared_products">
+                                            <td>{{final.product_name}} </td>
+                                            <td>{{prepared.quantity}} </td>
+                                            <td>{{prepared.packing}} </td>
+                                            <td>{{prepared.warehouse.designation}} </td>
+                                            <td>{{prepared.creation_date}} </td>
+                                            <td>{{prepared.expiration_date}} </td>
+                                            <td><input type="number" min="1" class="form-control"
+                                                    placeholder="Quantité préparée"
+                                                    @change="updateTotalQuantity(prepared,index,i)"
+                                                    v-model.number="prepared.pivot.quantity">
+                                            </td>
+
+
+                                            </td>
+                                        </tr>
+
+
+
+
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-default" @click="loadPrepared()"><i
+                        class="fa fa-plus"></i></button>
+
+
+
+            </div>
         </div>
 
         <div class="row">
@@ -183,7 +185,8 @@
                 <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelOrder()">
                     Annuler</button>
 
-                <button type="button" class="btn btn-success pl-1" style="margin: 1em" @click="submitOrderInPrepare()">
+                <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled"
+                    @click="submitOrderInPrepare()">
                     Enregistrer</button>
 
 
@@ -225,6 +228,7 @@
                 prepared_products: [],
                 response_array: [],
                 balance: [],
+                disabled: false
 
 
 
@@ -508,47 +512,49 @@
             },
             validateForm() {
                 let x = true;
-                if(this.new_status != 12)
-                {
-
-               
-                if (this.final_prepared.length > 0) {
+                if (this.new_status != 12) {
 
 
-                    let count = 0;
-                    this.final_prepared.forEach((prepared) => {
-
-                        count += prepared.total;
-                    });
-                    if (count <= 0) {
-                        this.$emit('requiredValue', 'Veuillez renseigner au moins une quantité à préparer  ')
-                        x = false;
-                    }
+                    if (this.final_prepared.length > 0) {
 
 
-                    this.final_prepared.forEach((prepared) => {
+                        let count = 0;
+                        this.final_prepared.forEach((prepared) => {
 
-                        if (!prepared.product_id) {
-                            this.$emit('requiredValue', 'Veuillez séléctionner un produit ')
-
+                            count += prepared.total;
+                        });
+                        if (count <= 0) {
+                            this.$emit('requiredValue', 'Veuillez renseigner au moins une quantité à préparer  ')
                             x = false;
+                            this.disabled = false;
                         }
 
 
-                    });
+                        this.final_prepared.forEach((prepared) => {
+
+                            if (!prepared.product_id) {
+                                this.$emit('requiredValue', 'Veuillez séléctionner un produit ')
+
+                                x = false;
+                                this.disabled = false;
+                            }
 
 
-                    if (this.new_status == '') {
-                        this.$emit('requiredValue', 'Veuillez séléctionner un etat ')
+                        });
 
-                        x = false;
+
+                        if (this.new_status == '') {
+                            this.$emit('requiredValue', 'Veuillez séléctionner un etat ')
+
+                            x = false;
+                            this.disabled = false;
+
+                        }
+
+
 
                     }
-
-
-
                 }
-                 }
 
                 return x;
             },
@@ -615,6 +621,7 @@
 
             },
             submitOrderInPrepare() {
+                this.disabled = true;
                 let validation = this.validateForm();
                 if (validation) {
                     this.$emit('requiredValue', '')
@@ -622,7 +629,7 @@
 
                     if (this.new_status == 12) {
                         swal.fire({
-                             type: 'info',
+                            type: 'info',
                             title: 'Attention !',
                             text: "L'annulation d'une commande est une opération irréversible !",
                             icon: 'warning',
@@ -647,8 +654,10 @@
                                                 confirmButtonText: 'Fermer'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    window.location = axios.defaults.baseURL+'/orders';
+                                                    window.location = axios.defaults.baseURL +
+                                                        '/orders';
                                                 }
+
                                             })
 
                                         }
@@ -656,6 +665,8 @@
                                     .catch((error) => {
                                         console.log(error);
                                     });
+                            } else if (result.dismiss == 'cancel') {
+                                this.disabled = false
                             }
                         });
 
@@ -722,7 +733,9 @@
                                                             confirmButtonText: 'Fermer'
                                                         }).then((result) => {
                                                             if (result.value) {
-                                                                window.location =axios.defaults.baseURL+'/orders';
+                                                                window.location = axios
+                                                                    .defaults.baseURL +
+                                                                    '/orders';
                                                             }
                                                         })
                                                     }
@@ -750,8 +763,11 @@
                                                             confirmButtonText: 'Fermer'
                                                         }).then((result) => {
                                                             if (result.value) {
-                                                                window.location =   window.location =axios.defaults.baseURL+'/orders';
-                                                                
+                                                                window.location = window
+                                                                    .location = axios
+                                                                    .defaults.baseURL +
+                                                                    '/orders';
+
                                                             }
                                                         })
                                                     }
@@ -763,9 +779,15 @@
                                                 });
 
                                         }
+                                        else{
+
+                                          this.disabled=false
+                                        }
 
 
                                     });
+                                } else if (result.dismiss == 'cancel') {
+                                    this.disabled = false
                                 }
 
                             })
@@ -786,8 +808,9 @@
                                             confirmButtonText: 'Fermer'
                                         }).then((result) => {
                                             if (result.value) {
-                                                window.location = axios.defaults.baseURL+'/orders';
+                                                window.location = axios.defaults.baseURL + '/orders';
                                             }
+
                                         })
                                     }
                                 })
@@ -818,7 +841,7 @@
 
             },
             cancelOrder() {
-                window.location = axios.defaults.baseURL+"/orders"
+                window.location = axios.defaults.baseURL + "/orders"
             }
         }
     }

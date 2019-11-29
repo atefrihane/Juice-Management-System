@@ -30,7 +30,7 @@
                 <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelOrder()">
                     Annuler</button>
 
-                <button type="button" class="btn btn-success pl-1" style="margin: 1em" @click="submitOrderToDeliver()">
+                <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled" @click="submitOrderToDeliver()">
                     Enregistrer</button>
 
 
@@ -49,7 +49,8 @@
         data() {
             return {
                 new_status: 8,
-                comment: this.history.comment
+                comment: this.history.comment,
+                disabled:false
 
 
             }
@@ -71,6 +72,7 @@
                 let validation = this.validateForm();
                 console.log(validation)
                 if (validation) {
+                this.disabled=true
 
                     axios.post(`/api/order/${this.order_id}/prepare/after`, {
                             new_status: this.new_status,
