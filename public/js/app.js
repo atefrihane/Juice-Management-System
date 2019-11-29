@@ -3864,6 +3864,12 @@ __webpack_require__.r(__webpack_exports__);
     convert_total_order: function convert_total_order() {
       var val = (this.total_order / 1).toFixed(2).replace('.', ',');
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); // return this.total_order.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+    },
+    formatOrdered: function formatOrdered() {
+      this.ordered_products.forEach(function (ordered) {
+        var val = (ordered.public_price / 1).toFixed(2).replace('.', ',');
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+      });
     }
   },
   methods: {
@@ -3965,9 +3971,10 @@ __webpack_require__.r(__webpack_exports__);
               _this5.ordered_products[index].product_packing = response.data.product.packing;
               _this5.ordered_products[index].public_price = response.data.custom_price.price;
               _this5.ordered_products[index].tva = response.data.product.tva;
+              _this5.ordered_products[index].public_price = _this5.convertCurrency(_this5.ordered_products[index].public_price);
             } else {
               _this5.ordered_products[index].product_packing = response.data.product.packing;
-              _this5.ordered_products[index].public_price = response.data.product.public_price;
+              _this5.ordered_products[index].public_price = _this5.convertCurrency(response.data.product.public_price);
               _this5.ordered_products[index].tva = response.data.product.tva;
             }
           })["catch"](function (error) {
@@ -3996,19 +4003,19 @@ __webpack_require__.r(__webpack_exports__);
 
       for (var i in this.ordered_products) {
         if (this.ordered_products[i].total != "") {
-          this.total_ht += this.ordered_products[i].total;
+          this.total_ht += parseInt(this.ordered_products[i].total);
         }
       } // //  total des tax //
 
 
       for (var _i in this.ordered_products) {
         if (this.ordered_products[_i].total != "") {
-          this.total_tva += this.ordered_products[_i].total * this.ordered_products[_i].tva / 100;
+          this.total_tva += parseFloat(this.ordered_products[_i].total) * this.ordered_products[_i].tva / 100;
         }
       } // //  cout total de la commande  //
 
 
-      this.total_order += this.total_ht + this.total_tva;
+      this.total_order += parseFloat(this.total_ht) + this.total_tva; // this.convertOrderedProducts(this.ordered_products)
     },
     removeOrdered: function removeOrdered(ordered) {
       this.ordered_products.splice(this.ordered_products.indexOf(ordered), 1);
@@ -4017,8 +4024,8 @@ __webpack_require__.r(__webpack_exports__);
     setOrderdPacking: function setOrderdPacking(ordered, index) {
       if (ordered.packing != '' && ordered.packing > 0) {
         ordered.unit = ordered.packing * ordered.product_packing;
-        ordered.total = ordered.public_price * ordered.unit;
-        ordered.product_total_tva = ordered.total + ordered.total * ordered.tva / 100;
+        ordered.total = this.convertCurrency(parseFloat(ordered.public_price) * ordered.unit);
+        ordered.product_total_tva = parseFloat(ordered.total) + parseFloat(ordered.total) * ordered.tva / 100;
         this.clearOrderedProducts();
       } else {
         swal.fire({
@@ -4039,8 +4046,8 @@ __webpack_require__.r(__webpack_exports__);
     setOrderdUnit: function setOrderdUnit(ordered, index) {
       if (ordered.unit != '' && ordered.unit > 0) {
         ordered.packing = Math.ceil(ordered.unit / ordered.product_packing);
-        ordered.total = ordered.public_price * ordered.unit;
-        ordered.product_total_tva = ordered.total * ordered.tva / 100;
+        ordered.total = this.convertCurrency(parseFloat(ordered.public_price) * ordered.unit);
+        ordered.product_total_tva = parseFloat(ordered.total) * ordered.tva / 100;
         this.clearOrderedProducts();
       } else {
         swal.fire({
@@ -4188,6 +4195,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     cancelOrder: function cancelOrder() {
       window.location = axios.defaults.baseURL + '/orders';
+    },
+    convertCurrency: function convertCurrency(value) {
+      var val = (value / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "");
     }
   }
 });
@@ -5629,7 +5640,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             "package": ordered.pivot["package"],
             unit: ordered.pivot.unit,
             product_packing: ordered.packing,
-            public_price: ordered.public_price,
+            public_price: _this3.convertCurrency(ordered.public_price),
             tva: ordered.tva,
             products: _this3.products,
             product_id: ordered.id,
@@ -5642,8 +5653,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               store_id: _this3.store_id
             }).then(function (response) {
               if (response.data.custom_price) {
-                custom.public_price = response.data.custom_price.price;
-                custom.total = custom.public_price * custom.unit;
+                custom.public_price = _this3.convertCurrency(response.data.custom_price.price);
+                custom.total = _this3.convertCurrency(parseFloat(custom.public_price) * custom.unit);
+
+                _this3.clearOrderedProducts();
+              } else {
+                custom.public_price = _this3.convertCurrency(response.data.product.public_price);
+                custom.total = _this3.convertCurrency(parseFloat(response.data.product.public_price) * custom.unit);
 
                 _this3.clearOrderedProducts();
               }
@@ -5658,12 +5674,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             store_id: _this3.store_id
           }).then(function (response) {
             if (response.data.custom_price) {
-              billed.public_price = response.data.custom_price.price;
-              billed.total = billed.public_price * parseInt(billed.sum);
+              billed.public_price = _this3.convertCurrency(response.data.custom_price.price);
+              billed.total = _this3.convertCurrency(parseFloat(billed.public_price) * parseInt(billed.sum));
             }
 
-            _this3.billed_total_ht += billed.total;
-            _this3.billed_total_tva += billed.total * billed.tva / 100;
+            _this3.billed_total_ht += parseFloat(billed.total);
+            _this3.billed_total_tva += parseFloat(billed.total) * billed.tva / 100;
             _this3.billed_total_order = _this3.billed_total_ht + _this3.billed_total_tva;
           })["catch"](function (error) {
             console.log(error);
@@ -5758,19 +5774,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.total_order = 0;
 
       for (var i in this.custom_ordered) {
-        this.total_ht += this.custom_ordered[i].total;
-      } // //  total cout produit avec  tax //
+        if (this.custom_ordered[i].total != "") {
+          this.total_ht += parseFloat(this.custom_ordered[i].total);
+        }
+      } // //  total des tax //
 
 
       for (var _i in this.custom_ordered) {
-        this.total_tva += this.custom_ordered[_i].total * this.custom_ordered[_i].tva / 100;
+        if (this.custom_ordered[_i].total != "") {
+          this.total_tva += parseFloat(this.custom_ordered[_i].total) * this.custom_ordered[_i].tva / 100;
+        }
       } // //  cout total de la commande  //
 
 
-      this.total_order += this.total_ht + this.total_tva;
+      this.total_order += parseFloat(this.total_ht) + this.total_tva; // this.convertOrderedProducts(this.ordered_products)
     },
     cancelOrder: function cancelOrder() {
       window.location = axios.defaults.baseURL + '/orders';
+    },
+    convertCurrency: function convertCurrency(value) {
+      var val = (value / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "");
     }
   }
 });
@@ -6320,11 +6344,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             "package": ordered.pivot["package"],
             unit: ordered.pivot.unit,
             product_packing: ordered.packing,
-            public_price: ordered.public_price,
+            public_price: _this.convertCurrency(ordered.public_price),
             tva: ordered.tva,
             products: _this.products,
             product_id: ordered.id,
-            total: ordered.public_price * ordered.pivot.unit,
+            total: _this.convertCurrency(parseFloat(ordered.public_price) * ordered.pivot.unit),
             product_total_tva: ''
           });
 
@@ -6333,8 +6357,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               store_id: _this.store_id
             }).then(function (response) {
               if (response.data.custom_price) {
-                custom.public_price = response.data.custom_price.price;
-                custom.total = custom.public_price * custom.unit;
+                custom.public_price = _this.convertCurrency(response.data.custom_price.price);
+                custom.total = _this.convertCurrency(parseFloat(custom.public_price) * custom.unit);
 
                 _this.clearOrderedProducts();
               }
@@ -6454,11 +6478,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 confirmButtonText: 'Fermer'
               });
               _this7.custom_ordered[index].product_packing = response.data.product.packing;
-              _this7.custom_ordered[index].public_price = response.data.custom_price.price;
+              _this7.custom_ordered[index].public_price = _this7.convertCurrency(_this7.custom_ordered[index].public_price);
               _this7.custom_ordered[index].tva = response.data.product.tva;
             } else {
               _this7.custom_ordered[index].product_packing = response.data.product.packing;
-              _this7.custom_ordered[index].public_price = response.data.product.public_price;
+              _this7.custom_ordered[index].public_price = _this7.convertCurrency(response.data.product.public_price);
               _this7.custom_ordered[index].tva = response.data.product.tva;
             }
           })["catch"](function (error) {
@@ -6485,19 +6509,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       for (var i in this.custom_ordered) {
         if (this.custom_ordered[i].total != "") {
-          this.total_ht += this.custom_ordered[i].total;
+          this.total_ht += parseFloat(this.custom_ordered[i].total);
         }
-      } // //  total cout produit avec  tax //
+      } // //  total des tax //
 
 
       for (var _i in this.custom_ordered) {
         if (this.custom_ordered[_i].total != "") {
-          this.total_tva += this.custom_ordered[_i].total * this.custom_ordered[_i].tva / 100;
+          this.total_tva += parseFloat(this.custom_ordered[_i].total) * this.custom_ordered[_i].tva / 100;
         }
       } // //  cout total de la commande  //
 
 
-      this.total_order += this.total_ht + this.total_tva;
+      this.total_order += parseFloat(this.total_ht) + this.total_tva; // this.convertOrderedProducts(this.ordered_products)
     },
     removeOrdered: function removeOrdered(ordered) {
       var _this8 = this;
@@ -6527,8 +6551,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     setOrderdPacking: function setOrderdPacking(ordered, index) {
       if (ordered["package"] != '') {
         ordered.unit = ordered["package"] * ordered.product_packing;
-        ordered.total = ordered.public_price * ordered.unit;
-        ordered.product_total_tva = ordered.total + ordered.total * ordered.tva / 100;
+        ordered.total = this.convertCurrency(parseFloat(ordered.public_price) * ordered.unit);
+        ordered.product_total_tva = parseFloat(ordered.total) + parseFloat(ordered.total) * ordered.tva / 100;
         this.clearOrderedProducts();
       }
     },
@@ -6537,8 +6561,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         ordered.product_total_tva = 0;
         ordered.total = 0;
         ordered["package"] = Math.ceil(ordered.unit / ordered.product_packing);
-        ordered.total = ordered.public_price * ordered.unit;
-        ordered.product_total_tva = ordered.total * ordered.tva / 100;
+        ordered.total = this.convertCurrency(parseFloat(ordered.public_price) * ordered.unit);
+        ordered.product_total_tva = parseFloat(ordered.total) + parseFloat(ordered.total) * ordered.tva / 100;
         this.clearOrderedProducts();
       }
     },
@@ -6651,6 +6675,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     cancelOrder: function cancelOrder() {
       window.location = axios.defaults.baseURL + '/orders';
+    },
+    convertCurrency: function convertCurrency(value) {
+      var val = (value / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "");
     }
   }
 });
@@ -68016,7 +68044,7 @@ var render = function() {
             _c(
               "tbody",
               _vm._l(_vm.ordered_products, function(ordered, index) {
-                return _c("tr", [
+                return _c("tr", { attrs: { items: _vm.formatOrdered } }, [
                   _c("td", { staticStyle: { width: "15%" } }, [
                     _c(
                       "select",
@@ -69897,34 +69925,34 @@ var render = function() {
             _vm._v(" "),
             _c(
               "tbody",
-              _vm._l(_vm.billed_products, function(billed) {
-                return _vm.billed_products.length > 0
-                  ? _c("tr", [
-                      _c("td", [_vm._v(_vm._s(billed.name))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(billed.sum))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(billed.public_price))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(billed.tva))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(billed.total))])
-                    ])
-                  : _c("tr", [
-                      _c(
-                        "td",
-                        { staticClass: "text-center", attrs: { colspan: "5" } },
-                        [_vm._v("Aucune facture !")]
-                      )
-                    ])
-              }),
-              0
+              [
+                _vm._l(_vm.billed_products, function(billed) {
+                  return _vm.billed_products.length > 0
+                    ? _c("tr", [
+                        _c("td", [_vm._v(_vm._s(billed.name))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(billed.sum))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(billed.public_price))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(billed.tva))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(billed.total))])
+                      ])
+                    : _vm._e()
+                }),
+                _vm._v(" "),
+                _vm.billed_products.length == 0
+                  ? _c("tr", [_vm._m(10)])
+                  : _vm._e()
+              ],
+              2
             )
           ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "box-body" }, [
-          _vm._m(10),
+          _vm._m(11),
           _vm._v(" "),
           _c("div", { staticClass: "pull-right" }, [
             _c("h4", { staticClass: "box-title" }, [
@@ -69941,7 +69969,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(11),
+        _vm._m(12),
         _vm._v(" "),
         _c("div", { staticClass: "container-fluid" }, [
           _c("div", { staticClass: "row" }, [
@@ -70201,7 +70229,7 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "col-md-2" }, [
                 _c("div", { staticClass: "form-group" }, [
-                  _vm._m(12),
+                  _vm._m(13),
                   _vm._v(" "),
                   _vm.estimated_arrival_time
                     ? _c("input", {
@@ -70259,7 +70287,7 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "col-md-2" }, [
               _c("div", { staticClass: "form-group" }, [
-                _vm._m(13),
+                _vm._m(14),
                 _vm._v(" "),
                 _vm.arrival_time
                   ? _c("input", {
@@ -70286,11 +70314,11 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(14),
+        _vm._m(15),
         _vm._v(" "),
         _c("div", { staticClass: "box-body" }, [
           _c("table", { staticClass: "table" }, [
-            _vm._m(15),
+            _vm._m(16),
             _vm._v(" "),
             _c(
               "tbody",
@@ -70362,7 +70390,7 @@ var render = function() {
                       },
                       [
                         _c("div", { staticClass: "modal-content" }, [
-                          _vm._m(16),
+                          _vm._m(17),
                           _vm._v(" "),
                           _c("div", { staticClass: "modal-body" }, [
                             _c("div", { staticClass: "form-group" }, [
@@ -70617,7 +70645,7 @@ var staticRenderFns = [
               _c("tr", [
                 _c(
                   "td",
-                  { staticClass: "text-center", attrs: { colspan: "6" } },
+                  { staticClass: "text-center", attrs: { colspan: "7" } },
                   [_c("h4", [_vm._v("Aucun produit déja préparé !")])]
                 )
               ])
@@ -70666,6 +70694,14 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Total produit")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { staticClass: "text-center", attrs: { colspan: "5" } }, [
+      _c("h4", [_vm._v("Aucune facture !")])
     ])
   },
   function() {
@@ -91684,15 +91720,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!***********************************************!*\
   !*** ./resources/js/components/OrderShow.vue ***!
   \***********************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _OrderShow_vue_vue_type_template_id_f3d107e0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OrderShow.vue?vue&type=template&id=f3d107e0& */ "./resources/js/components/OrderShow.vue?vue&type=template&id=f3d107e0&");
 /* harmony import */ var _OrderShow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./OrderShow.vue?vue&type=script&lang=js& */ "./resources/js/components/OrderShow.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _OrderShow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _OrderShow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -91722,7 +91757,7 @@ component.options.__file = "resources/js/components/OrderShow.vue"
 /*!************************************************************************!*\
   !*** ./resources/js/components/OrderShow.vue?vue&type=script&lang=js& ***!
   \************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -91823,14 +91858,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!*************************************************!*\
   !*** ./resources/js/components/OrderUpdate.vue ***!
   \*************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _OrderUpdate_vue_vue_type_template_id_5cccc11c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OrderUpdate.vue?vue&type=template&id=5cccc11c& */ "./resources/js/components/OrderUpdate.vue?vue&type=template&id=5cccc11c&");
 /* harmony import */ var _OrderUpdate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./OrderUpdate.vue?vue&type=script&lang=js& */ "./resources/js/components/OrderUpdate.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _OrderUpdate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _OrderUpdate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -91860,7 +91896,7 @@ component.options.__file = "resources/js/components/OrderUpdate.vue"
 /*!**************************************************************************!*\
   !*** ./resources/js/components/OrderUpdate.vue?vue&type=script&lang=js& ***!
   \**************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

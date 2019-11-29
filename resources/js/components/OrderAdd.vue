@@ -94,7 +94,7 @@
 
                         </thead>
                         <tbody>
-                            <tr v-for="(ordered,index) in ordered_products">
+                            <tr v-for="(ordered,index) in ordered_products" :items="formatOrdered">
                                 <td style="width:15%;">
                                     <select class="form-control" v-model="ordered.product_id"
                                         @change="getProductData($event,index)">
@@ -236,6 +236,14 @@
                 let val = (this.total_order/1).toFixed(2).replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
                 // return this.total_order.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+            },
+            formatOrdered()
+            {
+                this.ordered_products.forEach(ordered => {
+                   let val = (ordered.public_price/1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                })
+
             }
         },
         methods: {
@@ -363,12 +371,12 @@
                                     this.ordered_products[index].product_packing = response.data.product.packing;
                                     this.ordered_products[index].public_price = response.data.custom_price.price;
                                     this.ordered_products[index].tva = response.data.product.tva;
-
+                                          this.ordered_products[index].public_price=this.convertCurrency(this.ordered_products[index].public_price)
                                 } else {
                                     this.ordered_products[index].product_packing = response.data.product.packing;
 
-                                    this.ordered_products[index].public_price = response.data.product
-                                        .public_price;
+                                    this.ordered_products[index].public_price = this.convertCurrency(response.data.product
+                                        .public_price);
 
 
 
@@ -410,8 +418,8 @@
 
                 for (let i in this.ordered_products) {
                     if (this.ordered_products[i].total != "") {
-                        this.total_ht += this.ordered_products[i].total;
-
+                        this.total_ht += parseInt(this.ordered_products[i].total);
+                    
                     }
 
                 }
@@ -421,7 +429,7 @@
 
                 for (let i in this.ordered_products) {
                     if (this.ordered_products[i].total != "") {
-                        this.total_tva += (this.ordered_products[i].total * this
+                        this.total_tva += (parseFloat(this.ordered_products[i].total) * this
                             .ordered_products[i].tva / 100);
 
                     }
@@ -430,7 +438,8 @@
 
 
                 // //  cout total de la commande  //
-                this.total_order += this.total_ht + this.total_tva;
+                this.total_order += parseFloat(this.total_ht) + this.total_tva;
+                // this.convertOrderedProducts(this.ordered_products)
 
             },
             removeOrdered(ordered) {
@@ -444,8 +453,8 @@
                 if (ordered.packing != '' && ordered.packing > 0) {
 
                     ordered.unit = ordered.packing * ordered.product_packing;
-                    ordered.total = ordered.public_price * ordered.unit;
-                    ordered.product_total_tva = ordered.total + ordered.total * ordered.tva / 100;
+                    ordered.total = this.convertCurrency(parseFloat(ordered.public_price) * ordered.unit);
+                    ordered.product_total_tva = parseFloat(ordered.total) + parseFloat(ordered.total) * ordered.tva / 100;
                     this.clearOrderedProducts();
                 } else {
 
@@ -472,8 +481,8 @@
                 if (ordered.unit != '' && ordered.unit > 0) {
 
                     ordered.packing = Math.ceil(ordered.unit / ordered.product_packing)
-                    ordered.total = ordered.public_price * ordered.unit;
-                    ordered.product_total_tva = (ordered.total * ordered.tva / 100);
+                      ordered.total = this.convertCurrency(parseFloat(ordered.public_price) * ordered.unit);
+                    ordered.product_total_tva = (parseFloat(ordered.total) * ordered.tva / 100);
                     this.clearOrderedProducts();
                 } else {
 
@@ -655,6 +664,12 @@
             },
             cancelOrder() {
                 window.location = axios.defaults.baseURL + '/orders';
+            },
+            convertCurrency(value)
+            {
+                     let val = (value/1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "")
+
             }
 
 

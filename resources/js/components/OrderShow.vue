@@ -303,7 +303,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td colspan="6" class="text-center">
+                                                <td colspan="7" class="text-center">
                                                     <h4>Aucun produit déja préparé !</h4>
                                                 </td>
                                             </tr>
@@ -357,8 +357,8 @@
                                 <td>{{billed.tva}}</td>
                                 <td>{{billed.total}}</td>
                             </tr>
-                            <tr v-else>
-                                <td colspan="5" class="text-center">Aucune facture !</td>
+                            <tr  v-if="billed_products.length == 0">
+                                <td colspan="5" class="text-center"><h4>Aucune facture !</h4></td>
 
                             </tr>
 
@@ -717,36 +717,36 @@
             // a computed getter
 
             convert_billed_total_ht() {
-                    let val = (this.billed_total_ht/1).toFixed(2).replace('.', ',')
+                let val = (this.billed_total_ht / 1).toFixed(2).replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
                 // return this.billed_total_ht.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
             },
             convert_billed_total_tva() {
-              let val = (this.billed_total_tva/1).toFixed(2).replace('.', ',')
+                let val = (this.billed_total_tva / 1).toFixed(2).replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
                 // return this.billed_total_tva.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
 
             },
             convert_billed_total_order() {
-                let val = (this.billed_total_order/1).toFixed(2).replace('.', ',')
+                let val = (this.billed_total_order / 1).toFixed(2).replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
                 // return this.billed_total_order.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
             },
 
 
-           convert_total_ht() {
-                       let val = (this.total_ht/1).toFixed(2).replace('.', ',')
+            convert_total_ht() {
+                let val = (this.total_ht / 1).toFixed(2).replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
                 // return this.total_ht.toFixed(2).replace(/\d(?=(\d{3})+\,)/g, '$&,'); // 12.345,67
             },
             convert_total_tva() {
-                 let val = (this.total_tva/1).toFixed(2).replace('.', ',')
+                let val = (this.total_tva / 1).toFixed(2).replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
                 // return this.total_tva.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
 
             },
             convert_total_order() {
-                let val = (this.total_order/1).toFixed(2).replace('.', ',')
+                let val = (this.total_order / 1).toFixed(2).replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
                 // return this.total_order.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
             }
@@ -833,7 +833,7 @@
                                 package: ordered.pivot.package,
                                 unit: ordered.pivot.unit,
                                 product_packing: ordered.packing,
-                                public_price: ordered.public_price,
+                                public_price: this.convertCurrency(ordered.public_price),
                                 tva: ordered.tva,
                                 products: this.products,
                                 product_id: ordered.id,
@@ -847,12 +847,23 @@
                                     })
                                     .then((response) => {
 
-                                        if (response.data.custom_price) {
-                                            custom.public_price = response.data.custom_price
-                                                .price
-                                            custom.total = custom.public_price * custom.unit
+                                         if (response.data.custom_price) {
+                                            custom.public_price = this.convertCurrency(response.data.custom_price
+                                                .price)
+                                            custom.total = this.convertCurrency(parseFloat(custom.public_price) * custom.unit)
                                             this.clearOrderedProducts()
                                         }
+                                        else{
+                                            custom.public_price = this.convertCurrency(response.data.product
+                                                .public_price)
+                                            custom.total = this.convertCurrency(parseFloat(response.data.product
+                                                .public_price) * custom.unit)
+                                            this.clearOrderedProducts()
+
+
+                                        }
+                                        
+                                       
 
 
                                     })
@@ -872,13 +883,13 @@
                                 .then((response) => {
 
                                     if (response.data.custom_price) {
-                                        billed.public_price = response.data.custom_price
-                                            .price
-                                        billed.total = billed.public_price * parseInt(billed.sum)
+                                        billed.public_price = this.convertCurrency(response.data.custom_price
+                                            .price)
+                                        billed.total = this.convertCurrency(parseFloat(billed.public_price) * parseInt(billed.sum))
 
                                     }
-                                    this.billed_total_ht += billed.total
-                                    this.billed_total_tva += (billed.total * billed.tva / 100)
+                                    this.billed_total_ht += parseFloat(billed.total)
+                                    this.billed_total_tva += (parseFloat(billed.total) * billed.tva / 100)
                                     this.billed_total_order = this.billed_total_ht + this
                                         .billed_total_tva
 
@@ -940,10 +951,7 @@
                                                 }
                                             })
 
-
-
-
-                                        }
+                                    }
 
 
                                     })
@@ -958,18 +966,7 @@
 
                         }
 
-
-
-
-
-
-
-
-
-
-
-
-                    })
+                         })
                     .catch(function (error) {
                         console.log(error);
                     })
@@ -1006,33 +1003,49 @@
                     })
 
             },
-            clearOrderedProducts() {
+                 clearOrderedProducts() {
                 //  total cout produit hors tax //
                 this.total_ht = 0;
                 this.total_tva = 0;
                 this.total_order = 0;
 
                 for (let i in this.custom_ordered) {
-                    this.total_ht += this.custom_ordered[i].total;
+                    if (this.custom_ordered[i].total != "") {
+                        this.total_ht += parseFloat(this.custom_ordered[i].total);
+                    
+                    }
+
                 }
 
 
-                // //  total cout produit avec  tax //
+                // //  total des tax //
 
                 for (let i in this.custom_ordered) {
-                    this.total_tva += (this.custom_ordered[i].total * this
-                        .custom_ordered[i].tva / 100);
+                    if (this.custom_ordered[i].total != "") {
+                        this.total_tva += ( parseFloat(this.custom_ordered[i].total) * this
+                            .custom_ordered[i].tva / 100);
+
+                    }
+
                 }
 
 
                 // //  cout total de la commande  //
-                this.total_order += this.total_ht + this.total_tva;
+                this.total_order += parseFloat(this.total_ht) + this.total_tva;
+                // this.convertOrderedProducts(this.ordered_products)
+
+          
 
             },
             cancelOrder() {
                 window.location = axios.defaults.baseURL + '/orders';
             },
+            convertCurrency(value) {
+                let val = (value / 1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "")
 
+            },
+              
 
 
         }

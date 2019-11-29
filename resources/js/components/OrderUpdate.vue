@@ -280,11 +280,11 @@
                                 package: ordered.pivot.package,
                                 unit: ordered.pivot.unit,
                                 product_packing: ordered.packing,
-                                public_price: ordered.public_price,
+                                public_price: this.convertCurrency(ordered.public_price),
                                 tva: ordered.tva,
                                 products: this.products,
                                 product_id: ordered.id,
-                                total: (ordered.public_price * ordered.pivot.unit),
+                                total: this.convertCurrency(parseFloat(ordered.public_price) * ordered.pivot.unit),
                                 product_total_tva: ''
 
                             });
@@ -296,9 +296,9 @@
                                     .then((response) => {
 
                                         if (response.data.custom_price) {
-                                            custom.public_price = response.data.custom_price
-                                                .price
-                                            custom.total = custom.public_price * custom.unit
+                                            custom.public_price = this.convertCurrency(response.data.custom_price
+                                                .price)
+                                            custom.total = this.convertCurrency(parseFloat(custom.public_price) * custom.unit)
                                             this.clearOrderedProducts()
                                         }
 
@@ -445,14 +445,14 @@
                                         confirmButtonText: 'Fermer'
                                     });
                                     this.custom_ordered[index].product_packing = response.data.product.packing;
-                                    this.custom_ordered[index].public_price = response.data.custom_price.price;
+                                    this.custom_ordered[index].public_price=this.convertCurrency(this.custom_ordered[index].public_price)
                                     this.custom_ordered[index].tva = response.data.product.tva;
 
                                 } else {
                                     this.custom_ordered[index].product_packing = response.data.product.packing;
 
-                                    this.custom_ordered[index].public_price = response.data.product
-                                        .public_price;
+                                    this.custom_ordered[index].public_price = this.convertCurrency(response.data.product
+                                        .public_price);
 
 
 
@@ -485,6 +485,7 @@
 
 
             },
+         
             clearOrderedProducts() {
                 //  total cout produit hors tax //
                 this.total_ht = 0;
@@ -493,17 +494,18 @@
 
                 for (let i in this.custom_ordered) {
                     if (this.custom_ordered[i].total != "") {
-                        this.total_ht += this.custom_ordered[i].total;
+                        this.total_ht += parseFloat(this.custom_ordered[i].total);
+                    
                     }
 
                 }
 
 
-                // //  total cout produit avec  tax //
+                // //  total des tax //
 
                 for (let i in this.custom_ordered) {
                     if (this.custom_ordered[i].total != "") {
-                        this.total_tva += (this.custom_ordered[i].total * this
+                        this.total_tva += ( parseFloat(this.custom_ordered[i].total) * this
                             .custom_ordered[i].tva / 100);
 
                     }
@@ -512,7 +514,10 @@
 
 
                 // //  cout total de la commande  //
-                this.total_order += this.total_ht + this.total_tva;
+                this.total_order += parseFloat(this.total_ht) + this.total_tva;
+                // this.convertOrderedProducts(this.ordered_products)
+
+          
 
             },
             removeOrdered(ordered) {
@@ -548,10 +553,11 @@
             setOrderdPacking(ordered, index) {
 
                 if (ordered.package != '') {
+                     
 
                     ordered.unit = ordered.package * ordered.product_packing;
-                    ordered.total = ordered.public_price * ordered.unit;
-                    ordered.product_total_tva = ordered.total + ordered.total * ordered.tva / 100;
+                    ordered.total = this.convertCurrency(parseFloat(ordered.public_price) * ordered.unit);
+                    ordered.product_total_tva = parseFloat(ordered.total) + parseFloat(ordered.total) * ordered.tva / 100;
                     this.clearOrderedProducts();
                 }
             },
@@ -561,8 +567,8 @@
                     ordered.product_total_tva = 0;
                     ordered.total = 0;
                     ordered.package = Math.ceil(ordered.unit / ordered.product_packing)
-                    ordered.total = ordered.public_price * ordered.unit;
-                    ordered.product_total_tva = (ordered.total * ordered.tva / 100);
+                    ordered.total = this.convertCurrency(parseFloat(ordered.public_price) * ordered.unit);
+                   ordered.product_total_tva = parseFloat(ordered.total) + parseFloat(ordered.total) * ordered.tva / 100;
                     this.clearOrderedProducts();
                 }
 
@@ -698,7 +704,14 @@
             },
             cancelOrder() {
                 window.location = axios.defaults.baseURL + '/orders';
-            }
+            },
+               convertCurrency(value)
+            {
+                     let val = (value/1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "")
+
+            },
+         
 
 
         }
