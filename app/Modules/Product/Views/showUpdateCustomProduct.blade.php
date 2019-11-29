@@ -39,13 +39,14 @@
                                 <div class="col-md-8">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Magasins concernés par la remise </label>
+
                                         @if($price->stores->count() > 0)
                                         @foreach($price->stores as $key => $store)
 
                                         <div class="col-md-12">
                                             <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" name="store_id[]"
-                                                    id="exampleCheck1" value="{{$store->id}}" checked>
+                                                <input type="checkbox" class="form-check-input"
+                                                    name="store_id[]" id="exampleCheck1" value="{{$store->id}}" checked>
                                                 <span>{{$store->designation}}</span>
                                             </div>
                                         </div>
@@ -58,6 +59,11 @@
                                             <p>Aucun magasin trouvé !</p>
                                         </div>
                                         @endif
+
+
+
+
+
 
 
 
@@ -75,25 +81,33 @@
                                     <div class="col-md-8">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Autres magasins </label>
+                                            @if(count($freeStores) >0)
+                                            <div class="form-check" style="margin: 10px 15px 20px;">
+                                         
+                                                <input type="checkbox" class="form-check-input" id="selectAll">
+                                                Tout séléctionner
+                                            </div>
+                                            @endif
+                                            <div class="scrollable">
+                                                @forelse($freeStores as $key => $freeStore)
 
-                                            @forelse($freeStores as $key => $freeStore)
-
-                                            <div class="col-md-12">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input"
-                                                        name="new_store_id[]" id="exampleCheck1"
-                                                        value="{{$freeStore->id}}">
-                                                    <span>{{$freeStore->designation}}</span>
+                                                <div class="col-md-12">
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="form-check-input willCheck"
+                                                            name="new_store_id[]" id="exampleCheck1"
+                                                            value="{{$freeStore->id}}">
+                                                        <span>{{$freeStore->designation}}</span>
+                                                    </div>
                                                 </div>
+                                                @empty
+                                                <div class="box-body">
+                                                    <p>Aucun magasin trouvé !</p>
+                                                </div>
+
+
+                                                @endforelse
+
                                             </div>
-                                            @empty
-                                            <div class="box-body">
-                                                <p>Aucun magasin trouvé !</p>
-                                            </div>
-
-
-                                            @endforelse
-
                                         </div>
                                     </div>
                                 </div>
@@ -104,7 +118,8 @@
                                 <label for="exampleInputEmail1">Nom Produit</label>
                                 <select class="form-control selected_product" name="product_id" required>
                                     @forelse($products as $product)
-                                    <option value="{{$product->id}}" {{ $product->id == $price->product->id ? 'selected' : ''}}>
+                                    <option value="{{$product->id}}"
+                                        {{ $product->id == $price->product->id ? 'selected' : ''}}>
                                         {{$product->nom}}</option>
                                     @empty
                                     @endforelse
@@ -168,41 +183,5 @@
 
 </div>
 
-@section('customProducts')
-<script>
-    $('document').ready(function () {
 
-        $('.selected_product').on('change', function () {
-
-            var id = this.value;
-            var url = {
-                !!json_encode(url('/')) !!
-            }
-
-
-            if (id == 0) {
-                $('#productCode').val('');
-                $('#barCode').val('');
-
-
-            }
-            $.ajax({
-                type: 'GET', //THIS NEEDS TO BE GET
-                url: url + '/api/product/details/' + id,
-                dataType: 'json',
-                success: function (data) {
-                    var response = JSON.parse(JSON.stringify(data));
-                    $('#productCode').val(response.product.code);
-                    $('#barCode').val(response.product.barcode);
-                    $('#productPrice').val(response.product.public_price);
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            });
-        });
-    });
-
-</script>
-@endsection
 @endsection

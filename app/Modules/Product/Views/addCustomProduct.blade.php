@@ -38,25 +38,26 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Magasins concernés par la remise </label>
                                         <div class="form-check" style="margin: 10px 15px 20px;">
-                                    <input type="checkbox" class="form-check-input" id="selectAll">
-                                    Tout séléctionner
-                                </div>
+                                            <input type="checkbox" class="form-check-input" id="selectAll">
+                                            Tout séléctionner
+                                        </div>
                                         <div class="scrollable">
-                                        @forelse($company->stores as $store)
-                                        <div class="col-md-12">
-                                            <div class="form-check" style="margin-bottom:5px;">
-                                                <input type="checkbox" class="form-check-input willCheck" name="store_id[]" id="exampleCheck1" value="{{$store->id}}">
-                                                <span>{{$store->designation}}</span>
+                                            @forelse($company->stores as $store)
+                                            <div class="col-md-12">
+                                                <div class="form-check" style="margin-bottom:5px;">
+                                                    <input type="checkbox" class="form-check-input willCheck"
+                                                        name="store_id[]" id="exampleCheck1" value="{{$store->id}}">
+                                                    <span>{{$store->designation}}</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        @empty
-                                        <p>Aucun magasin trouvé!</p>
-                                        @endforelse
-                                        
-                                        </div>
-                                    
+                                            @empty
+                                            <p>Aucun magasin trouvé!</p>
+                                            @endforelse
 
-                                     
+                                        </div>
+
+
+
                                     </div>
                                 </div>
                             </div>
@@ -65,7 +66,9 @@
                                 <select class="form-control selected_product" name="product_id" required>
                                     <option value="">Séléctionner un produit</option>
                                     @forelse($products as $product)
-                                    <option value="{{$product->id}}" {{ old('product_id') == $product->id ? 'Selected' :  '' }}> {{$product->nom}}</option>
+                                    <option value="{{$product->id}}"
+                                        {{ old('product_id') == $product->id ? 'Selected' :  '' }}> {{$product->nom}}
+                                    </option>
                                     @empty
                                     @endforelse
                                 </select>
@@ -75,16 +78,18 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Code produit</label>
-                                        <input class="form-control"  name="productCode" type="text" placeholder="Code produit"
-                                            id="productCode" value="{{old('productCode')}}" readonly>
+                                        <input class="form-control" name="productCode" type="text"
+                                            placeholder="Code produit" id="productCode" value="{{old('productCode')}}"
+                                            readonly>
                                     </div>
                                 </div>
 
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Code à barre</label>
-                                        <input class="form-control" type="text"  name="productBarCode"  placeholder="Code à barre" id="barCode"
-                                        value="{{old('productBarCode')}}" readonly>
+                                        <input class="form-control" type="text" name="productBarCode"
+                                            placeholder="Code à barre" id="barCode" value="{{old('productBarCode')}}"
+                                            readonly>
                                     </div>
                                 </div>
 
@@ -92,7 +97,8 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Prix unitaire de base (euro)</label>
                                         <input class="form-control" type="text" name="productPrice"
-                                            placeholder="Prix unitaire de base (euro)" id="productPrice" value="{{old('productPrice')}}" readonly>
+                                            placeholder="Prix unitaire de base (euro)" id="productPrice"
+                                            value="{{old('productPrice')}}" readonly>
                                     </div>
                                 </div>
 
@@ -101,7 +107,8 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Prix unitaire remisé</label>
                                 <input class="form-control" id="disabledInput" name="price" type="number"
-                                    placeholder="Prix unitaire remisé" min="0" step="0.01" value="{{old('price')}}"required>
+                                    placeholder="Prix unitaire remisé" min="0" step="0.01" value="{{old('price')}}"
+                                    required>
                             </div>
 
 
@@ -133,7 +140,9 @@
         $('.selected_product').on('change', function () {
 
             var id = this.value;
-            var url = {!!json_encode(url('/')) !!}
+            var url = {
+                !!json_encode(url('/')) !!
+            }
 
 
             if (id == 0) {
