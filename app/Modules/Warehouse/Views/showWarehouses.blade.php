@@ -56,7 +56,7 @@
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
                                                
-                                                <li><a href="{{ route('showWarehouse',$warehouse->id) }}">Détail</a> </li>
+                                                <li><a href="{{ route('showWarehouse',$warehouse->id) }}">Voir les détails</a> </li>
                                                 <li><a href="{{ route('showUpdateWarehouse',$warehouse->id) }}">Modifier</a></li>
                                                 <li><a data-toggle="modal" data-target="#modal-default{{$warehouse->id}}">Supprimer</a></li>
 
