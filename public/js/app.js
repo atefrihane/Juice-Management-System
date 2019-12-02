@@ -70596,7 +70596,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v("\n                Quitter")]
+          [_vm._v("\n                Fermer")]
         )
       ])
     ])

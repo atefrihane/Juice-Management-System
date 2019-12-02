@@ -172,7 +172,7 @@
                             @endif
                             <div class="row">
                                 <div class="container text-center">
-                                    <a href="{{url()->previous()}}" class="btn btn-danger pl-1">Quitter</a>
+                                    <a href="{{url()->previous()}}" class="btn btn-danger pl-1">Fermer</a>
                                 </div>
                             </div>
 

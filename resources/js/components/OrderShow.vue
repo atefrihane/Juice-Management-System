@@ -643,7 +643,7 @@
 
 
                 <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelOrder()">
-                    Quitter</button>
+                    Fermer</button>
 
 
 
