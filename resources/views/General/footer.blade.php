@@ -209,15 +209,11 @@
 
 
 @yield('customProducts')
-<!-- <script>
-$('document').ready(function(){
-$('.btn-success').click(function(){
-
-    $(this).attr('disabled','disabled');
-})
-
-})
-</script> -->
+<script>
+$('form').submit(function(e){
+    $('.btn-success').attr('disabled','disabled');
+}); 
+</script>
 
 
 
