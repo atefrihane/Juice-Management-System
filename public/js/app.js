@@ -1842,6 +1842,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     send: function send(city) {
       if (city.zipcode != '') {
+        city.zipcode = city.zipcode.replace(/\s/g, '');
         var found = false;
         city.zipcodes.forEach(function (zipcode, index) {
           if (city.zipcode == zipcode) {
@@ -3099,8 +3100,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       axios.get('api/machine/bacs/' + this.machineId).then(function (response) {
         console.log(response.data);
+        var bacs = response.data.bacs;
+        bacs.forEach(function (bac) {
+          bac.status = "fonctionnelle";
+        });
 
-        _this5.bacs.push(response.data.bacs);
+        _this5.bacs.push(bacs);
       })["catch"](function (error) {
         console.log(error);
       });

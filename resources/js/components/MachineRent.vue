@@ -287,7 +287,11 @@
                 axios.get('api/machine/bacs/' + this.machineId)
                     .then((response) => {
                         console.log(response.data);
-                        this.bacs.push(response.data.bacs);
+                        let bacs=response.data.bacs
+                        bacs.forEach(bac => {
+                            bac.status="fonctionnelle"
+                        })
+                        this.bacs.push(bacs);
 
                     })
                     .catch(function (error) {
