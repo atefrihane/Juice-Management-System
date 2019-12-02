@@ -138,7 +138,15 @@
 
                             <div class="form-group">
                                 <label for="exampleInputFile">Photo du machine (Optionnel)</label>
-                                <input type="file" name="photo" id="exampleInputFile">
+                                @if($machine->photo_url)
+                                    <div class="row">
+                                        <div class="container">
+                                            <img src="{{asset('/')}}{{$machine->photo_url}}" alt="..." class="img-thumbnail"
+                                                style="width:100px;">
+                                        </div>
+                                    </div>
+                                    @endif
+                                <input type="file" name="photo" id="exampleInputFile" style="margin-top:20px;">
 
 
                             </div>

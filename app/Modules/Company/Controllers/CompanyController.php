@@ -224,21 +224,30 @@ class CompanyController extends Controller
     {
         $company = Company::find($id);
         if ($company) {
-            // check related stores and  their rentals ( set up rented machines as free)
-            foreach ($company->stores as $store) {
-                $currentRentals = $store->rentals()->where('active', 1)->get();
-                if ($currentRentals) {
-                    foreach ($currentRentals as $currentRental) {
-                        $currentRental->machine->update(['rented' => 0]);
+            if (!$company->stores()->exists() && (count($company->rentedMachines()) == 0)) {
+
+                // check related stores and  their rentals ( set up rented machines as free)
+                foreach ($company->stores as $store) {
+                    $currentRentals = $store->rentals()->where('active', 1)->get();
+                    if ($currentRentals) {
+                        foreach ($currentRentals as $currentRental) {
+                            $currentRental->machine->update(['rented' => 0]);
+                        }
+
                     }
 
                 }
+                $company->delete();
+                alert()->success('Succès!', 'La societé a été supprimé avec succès ')->persistent("Fermer");
+                return redirect()->route('showHome');
+            } else {
+                alert()->error('Impossible de supprimer cette societé !', 'Oups! ')->persistent("Fermer");
+                return redirect()->route('showHome');
 
             }
-            $company->delete();
-            alert()->success('Succès!', 'La societé a été supprimé avec succès ')->persistent("Fermer");
-            return redirect()->route('showHome');
+
         }
+
         return view('General::notFound');
     }
 

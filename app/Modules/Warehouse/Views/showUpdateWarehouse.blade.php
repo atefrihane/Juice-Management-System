@@ -176,7 +176,15 @@
 
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Photo de l'entrepôt (optionnelle)</label>
-                                    <input type="file" class="form-control" name="photo">
+                                    @if($checkWarehouse->photo)
+                                    <div class="row">
+                                        <div class="container">
+                                            <img src="{{asset('/img')}}/{{$checkWarehouse->photo}}" alt="..." class="img-thumbnail"
+                                                style="width:100px;">
+                                        </div>
+                                    </div>
+                                    @endif
+                                    <input type="file" class="form-control" name="photo" style="margin-top:20px;">
                                 </div>
                             </div>
                         </div>
@@ -206,6 +214,7 @@
 
             <!-- /.col -->
         </div>
+        
 
 </div>
 

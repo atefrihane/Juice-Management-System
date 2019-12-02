@@ -160,8 +160,16 @@
             </div>
 
             <div class="form-group">
+              
                 <label for="exampleInputFile">Photo du produit (optionnel)</label>
-                <input type="file" id="exampleInputFile" @change="uploadImage($event)">
+                  <div class="row" v-if="photo != ''">
+                    <div class="container">
+              
+                        <img :src="url" alt="" class="img-thumbnail" style="width:100px;">
+                    </div>
+                </div>
+                
+                <input type="file" id="exampleInputFile" @change="uploadImage($event)" style="margin-top:20px;">
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Nombre d'unitée par display</label>
@@ -271,7 +279,8 @@
 
                         <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelRental()">
                             Annuler</button>
-                        <button class="btn btn-success pl-1" type="button" :disabled="disabled" @click="submitProduct()">Confirmer</button>
+                        <button class="btn btn-success pl-1" type="button" :disabled="disabled"
+                            @click="submitProduct()">Confirmer</button>
 
                     </div>
                 </div>
@@ -320,7 +329,13 @@
                 error: 0,
                 mixtures: [],
                 errors: [],
-                disabled:false
+                disabled: false
+            }
+        },
+        computed:{
+            url()
+            {
+                return axios.defaults.baseURL+'/img/'+this.photo
             }
         },
 
@@ -418,7 +433,7 @@
                 }
             },
             cancelRental() {
-                window.location = axios.defaults.baseURL+'/products';
+                window.location = axios.defaults.baseURL + '/products';
 
             },
             fetchProduct() {
@@ -427,6 +442,7 @@
                         // handle success
                         if (response.data.product.length > 0) {
                             this.mixtures = response.data.product;
+                  
                         } else {
                             if (this.type != 'Jettable') {
                                 this.mixtures.push({
@@ -457,7 +473,7 @@
 
 
                 if (form != false) {
-                    this.disabled=true
+                    this.disabled = true
 
 
 
@@ -506,7 +522,7 @@
                                     allowOutsideClick: false,
                                 }).then((result) => {
                                     if (result.value) {
-                                        window.location = axios.defaults.baseURL+'/products';
+                                        window.location = axios.defaults.baseURL + '/products';
                                     }
                                 })
                             }

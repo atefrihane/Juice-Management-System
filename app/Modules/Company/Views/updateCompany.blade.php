@@ -182,15 +182,20 @@
                                 <textarea class="form-control" rows="3" name="comment"
                                     placeholder="Commentaires">{{$company->comment}}</textarea>
                             </div>
-                            <div class="row">
-                                <div class="container">
 
-                                </div>
-                            </div>
                             <div class="container center-block">
                                 <div class="form-group">
+
                                     <label for="exampleInputFile">Logo du societé (optionnel)</label>
-                                    <input type="file" name="logo" id="exampleInputFile">
+                                    @if($company->logo)
+                                    <div class="row">
+                                        <div class="container">
+                                            <img src="{{asset('/')}}{{$company->logo}}" alt="..." class="img-thumbnail"
+                                                style="width:100px;">
+                                        </div>
+                                    </div>
+                                    @endif
+                                    <input type="file" name="logo" id="exampleInputFile" style="margin-top:20px;">
 
 
                                 </div>

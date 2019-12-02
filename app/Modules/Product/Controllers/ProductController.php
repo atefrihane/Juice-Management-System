@@ -140,9 +140,24 @@ class ProductController extends Controller
     public function delete($id)
     {
         $product = Product::find($id);
-        $product->delete();
-        alert()->success('Succès!', 'Produit supprimé')->persistent("Fermer");
-        return redirect('/products');
+        if ($product) {
+            if (!$product->prices()->exists() &&
+                !$product->orders()->exists() &&
+                !$product->bacs()->exists()
+            ) {
+                $product->delete();
+                alert()->success('Succès!', 'Produit supprimé')->persistent("Fermer");
+                return redirect('/products');
+
+            } else {
+
+                alert()->error('Impossible de supprimer ce produit !', 'Oups! ')->persistent("Fermer");
+                return redirect()->back();
+            }
+
+        }
+        return view('General::notFound');
+
     }
 
     public function handleUpdateStatus($id, Request $request)
@@ -186,8 +201,6 @@ class ProductController extends Controller
 
     public function handleUpdateCustomProduct(Request $request, $id, $companyId)
     {
-      
-     
 
         $company = Company::find($companyId);
         $price = Price::find($id);
@@ -209,10 +222,9 @@ class ProductController extends Controller
             $exist = false;
             //check if user has selected a different product and then make sure that the upcoming product not already exist
             if ($request->product_id != $price->product_id) {
-               
+
                 $checkPrice = Price::where('product_id', $request->product_id)
                     ->first();
-                  
 
                 if ($checkPrice) {
                     $exist = true;
@@ -224,7 +236,7 @@ class ProductController extends Controller
 
             }
             // if product always the same update the price
-            else{
+            else {
                 $price->update(['price' => $request->price]);
             }
 
@@ -235,7 +247,7 @@ class ProductController extends Controller
                 }
             }
             if ($exist) {
-                alert()->error('Oups!', $checkPrice->product->nom.' a déja un tarif !')->persistent("Fermer");
+                alert()->error('Oups!', $checkPrice->product->nom . ' a déja un tarif !')->persistent("Fermer");
                 return redirect()->back()->withInput();
 
             }

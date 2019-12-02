@@ -7678,6 +7678,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.fetchProduct();
@@ -7723,6 +7732,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       disabled: false
     };
   }),
+  computed: {
+    url: function url() {
+      return axios.defaults.baseURL + '/img/' + this.photo;
+    }
+  },
   methods: {
     btnClick: function btnClick() {
       this.mixtures.push({
@@ -73787,7 +73801,20 @@ var render = function() {
             _vm._v("Photo du produit (optionnel)")
           ]),
           _vm._v(" "),
+          _vm.photo != ""
+            ? _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "container" }, [
+                  _c("img", {
+                    staticClass: "img-thumbnail",
+                    staticStyle: { width: "100px" },
+                    attrs: { src: _vm.url, alt: "" }
+                  })
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
           _c("input", {
+            staticStyle: { "margin-top": "20px" },
             attrs: { type: "file", id: "exampleInputFile" },
             on: {
               change: function($event) {

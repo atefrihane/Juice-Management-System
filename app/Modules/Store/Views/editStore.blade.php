@@ -221,8 +221,16 @@
 
 
                             <div class="form-group">
-                                <label for="exampleInputFile"> photo du magasion (optionnel)</label>
-                                <input type="file" name="photo" id="exampleInputFile">
+                                <label for="exampleInputFile"> Photo du magasin (optionnel)</label>
+                                @if($store->photo)
+                                    <div class="row">
+                                        <div class="container">
+                                            <img src="{{asset('/')}}{{$store->photo}}" alt="..." class="img-thumbnail"
+                                                style="width:100px;">
+                                        </div>
+                                    </div>
+                                    @endif
+                                <input type="file" name="photo" id="exampleInputFile" style="margin-top:20px;">
                             </div>
                             <label> Facturation</label>
                             <div class="row">

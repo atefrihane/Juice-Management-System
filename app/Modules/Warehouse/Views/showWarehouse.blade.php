@@ -65,7 +65,7 @@
             <div class="row">
                 <div class="col-md-4">
                     @if($warehouse->photo)
-                    <img class="img-responsive" src="{{asset('/')}}/{{$warehouse->photo}}"
+                    <img class="img-responsive" src="{{asset('/img')}}/{{$warehouse->photo}}"
                         style="width:100%;padding:40px; alt=" Photo">
                     @else
                     <img class="img-responsive" src="{{asset('/img')}}/no-logo.png"
@@ -258,6 +258,11 @@
                     </tbody>
 
                 </table>
+                <div class="row">
+                                <div class="container text-center">
+                                    <a href="{{url()->previous()}}" class="btn btn-danger pl-1">Quitter</a>
+                                </div>
+                            </div>
             </div>
         </div>
 

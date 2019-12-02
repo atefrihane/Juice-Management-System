@@ -36,7 +36,7 @@ class WarehouseController extends Controller
 
     public function showAddWarehouse()
     {
-       
+
         $countries = Country::all();
         $users = User::all();
         $count = Warehouse::count() + 1;
@@ -98,10 +98,10 @@ class WarehouseController extends Controller
     public function showAddWarehouseStock($id)
     {
         $warehouse = Warehouse::find($id);
-        $products=Product::all();
-        $warehouses=Warehouse::all();
+        $products = Product::all();
+        $warehouses = Warehouse::all();
         if ($warehouse) {
-            return view('Warehouse::showAddWarehouseStock', compact('warehouse','products','warehouses'));
+            return view('Warehouse::showAddWarehouseStock', compact('warehouse', 'products', 'warehouses'));
 
         }
         return view('General::notFound');
@@ -113,9 +113,17 @@ class WarehouseController extends Controller
         $checkWarehouse = Warehouse::find($id);
 
         if ($checkWarehouse) {
-            $checkWarehouse->delete();
-            alert()->success('Succés!', 'Entrepôt a été supprimé avec succés !')->persistent('Femer');
-            return redirect()->back();
+            if (!$checkWarehouse->products()->exists()) {
+                $checkWarehouse->delete();
+                alert()->success('Succés!', 'Entrepôt a été supprimé avec succés !')->persistent('Femer');
+                return redirect()->back();
+
+            }
+            else{
+                alert()->error('Impossible de supprimer cet entrepôt !', 'Oups! ')->persistent("Fermer");
+                return redirect()->back();
+            }
+
         }
         return view('General::notFound');
 
@@ -260,7 +268,5 @@ class WarehouseController extends Controller
         }
         return view('General::notFound');
     }
-
-  
 
 }

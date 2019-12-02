@@ -52,10 +52,10 @@
                                             <a class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
-                                                <li>
+                                                <!-- <li>
                                                     <a data-toggle="modal"
                                                         data-target="#modal-default-detail{{$country->id}}">Détail</a>
-                                                </li>
+                                                </li> -->
                                                 <li><a href="{{route('showUpdateCountry',$country->id)}}">Modifier</a>
                                                 </li>
                                                 <li>

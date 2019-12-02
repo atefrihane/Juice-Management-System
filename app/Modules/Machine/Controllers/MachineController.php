@@ -162,9 +162,24 @@ class MachineController extends Controller
     public function delete($id)
     {
         $machine = Machine::find($id);
-        $machine->delete();
-        alert()->success('Succès!', 'La machine a été supprimé avec succès ')->persistent("Fermer");
-        return redirect(route('showMachines'));
+        if($machine)
+        {
+            if(!$machine->machineRentals()->exists())
+            {
+                $machine->delete();
+                alert()->success('Succès!', 'La machine a été supprimé avec succès ')->persistent("Fermer");
+                return redirect(route('showMachines'));
+
+            }
+            else{
+                alert()->error('Impossible de supprimer cette machine !', 'Oups! ')->persistent("Fermer");
+                return redirect()->back();
+            }
+           
+
+        }
+        return view('General::notFound');
+     
     }
     public function startRentalMachine($id)
     {

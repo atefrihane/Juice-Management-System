@@ -124,7 +124,7 @@
                                 </div>
                             </div>
                             @foreach($rental->machine->bacs as $bac)
-                       
+
                             <div style="background-color: #e4e4e4; margin: 16px; padding: 24px">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -164,27 +164,29 @@
 
                                     </div>
                                 </div>
-                             
+
 
                             </div>
-                 
+
                             @endforeach
                             @endif
-
-
-
-
-
+                            <div class="row">
+                                <div class="container text-center">
+                                    <a href="{{url()->previous()}}" class="btn btn-danger pl-1">Quitter</a>
+                                </div>
+                            </div>
 
                         </div>
-
                     </form>
                 </div>
+
 
                 <!-- /.col -->
             </div>
 
+
         </div>
+
 
     </section>
 
@@ -192,5 +194,4 @@
 
 
 
-</script>
 @endsection

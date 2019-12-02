@@ -469,16 +469,27 @@ class StoreController extends Controller
     {
         $store = Store::find($id);
         if ($store) {
-            $companyId = $store->company_id;
-            $currentRentals = $store->rentals()->where('active', 1)->get();
-            foreach ($currentRentals as $currentRental) {
-                $currentRental->machine->update(['rented' => 0]);
+            if (!$store->rentals()->exists() &&
+                !$store->products()->exists() &&
+                !$store->orders()->exists()
+            ) {
+                $companyId = $store->company_id;
+                $currentRentals = $store->rentals()->where('active', 1)->get();
+                foreach ($currentRentals as $currentRental) {
+                    $currentRental->machine->update(['rented' => 0]);
+                }
+                $store->delete();
+                alert()->success('Succès!', 'Le magasin  a été supprimé avec succès ')->persistent("Fermer");
+                return redirect(route('showStores', $companyId));
+
+            } else {
+                alert()->error('Impossible de supprimer ce magasin !', 'Oups! ')->persistent("Fermer");
+                return redirect()->back();
+
             }
-            $store->delete();
-            alert()->success('Succès!', 'Le magasin  a été supprimé avec succès ')->persistent("Fermer");
-            return redirect(route('showStores', $companyId));
 
         }
+
         return view('General::notFound');
     }
 
