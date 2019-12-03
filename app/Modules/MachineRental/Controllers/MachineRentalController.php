@@ -170,7 +170,7 @@ class MachineRentalController extends Controller
         $rental = MachineRental::find($id);
         if ($rental) {
             $rental->update($request->all());
-            alert()->success('Location modifiée avec succès')->persistent('Femer');
+            alert()->success('Succés!','Location modifiée avec succès')->persistent('Femer');
             return redirect()->back();
 
         }

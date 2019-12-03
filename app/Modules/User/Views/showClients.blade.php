@@ -40,72 +40,12 @@
                                 @forelse($contacts as $contact)
                                     @if($contact != null)
                                     @switch($contact->user->getType())
-                                        @case('directeur')
-                                <tr>
-                                    <td ><a href="{{route('detailClient',[$company->id, $contact->user->id])}}">{{$contact->user->code}}</a></td>
-                                    <td>{{$contact->user->nom.' '. $contact->user->prenom}}</td>
-                                    <td>{{ucfirst($contact->user->getType())}}</td>
-
-                                    <td>
-                                        {{$contact->company->stores->count()}}
-                                    </td>
-                                    <td class="not-this text-center">
-
-                                        <div class="btn-group">
-                                            <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-                                            <ul class="dropdown-menu edit" role="menu">
-                                                <li><a href="{{route('editClient', [$company->id, $contact->user->id])}}">Modifier</a></li>
-                                                <li><a data-toggle="modal"
-                                                        data-target="#modal-default{{$contact->user->id}}" href="{{route('deleteContact',  [$company->id, $contact->user->id])}}">Supprimer</a></li>
-
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <div class="modal fade" id="modal-default{{$contact->user->id}}">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">×</span></button>
-                                                    <h4 class="modal-title">Voulez vous vraiment supprimer ce
-                                                    contact ?</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                <h5 class="modal-title">  <b>Attention !</b> : Cette opération peut affecter la suppression des éléments associés à ce  contact  ! 
-                                                </h5>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <div class="text-center">
-                                                        <form
-                                                            action="{{route('deleteContact',  [$company->id, $contact->user->id])}}"
-                                                            method="post">
-                                                            {{csrf_field()}}
-                                                            <a href="#" class="btn btn-danger"
-                                                                data-dismiss="modal">Annuler</a>
-
-                                                            <button type="submit"
-                                                                class="btn btn-success">Confirmer</button>
-                                                        
-
-                                                        </form>
-
-                                                    </div>
-
-
-                                                </div>
-                                            </div>
-                                            <!-- /.modal-content -->
-                                        </div>
-                                        <!-- /.modal-dialog -->
-                                    </div>
-                                    @break
+                                
                                     @case('superviseur')
                                         <tr>
                                             <td ><a href="{{route('detailClient',[$company->id, $contact->user->id])}}">{{$contact->user->code}}</a></td>
                                             <td >{{$contact->user->nom.' '. $contact->user->prenom}}</td>
-                                            <td >{{ucfirst($contact->user->getType())}}</td>
+                                            <td >{{ucfirst($contact->user->getType())}}/Autre</td>
                                             <td>{{$contact->stores->count()}}  </td>
                                              <td class="not-this text-center">
 

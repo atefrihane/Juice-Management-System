@@ -130,7 +130,7 @@ class StoreController extends Controller
             'designation' => 'required',
             'zipcode_id' => 'required',
             'address' => 'required',
-            'email' => 'required|email|unique:companies',
+            'email' => 'required|email',
             'tel' => 'required',
             'cc' => 'required',
 
@@ -141,7 +141,6 @@ class StoreController extends Controller
             'address.required' => 'le champs addresse est obligatoire',
             'zipcode_id.required' => 'le champs code postale est obligatoire',
             'email.required' => 'le champs email est obligatoire',
-            'email.unique' => 'email deja existant',
             'email.email' => 'email non valide',
             'cc.required' => 'le premier champs telephone est obligatoire',
             'tel.required' => 'le deuxieme champs telephone est obligatoire',

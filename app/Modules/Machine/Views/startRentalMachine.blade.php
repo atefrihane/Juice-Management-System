@@ -1,10 +1,5 @@
 @extends('General.layout') @section('pageTitle', 'Commencer location machine') @section('content')
-<style>
-.vdp-datepicker > div > input {
 
-    background-color:transparent !important;
-}
-</style>
 
 <div class="content-wrapper" id="app">
 

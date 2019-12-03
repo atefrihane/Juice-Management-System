@@ -100,7 +100,8 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Affichage tablette</label>
                                 <input class="form-control" name="tablet" id="disabledInput" type="text"
-                                    placeholder="tablet" value="{{$machine->display_tablet == 1 ? 'Oui' : ' Non'}}" disabled>
+                                    placeholder="tablet" value="{{$machine->display_tablet == 1 ? 'Oui' : ' Non'}}"
+                                    disabled>
 
 
                             </div>
@@ -155,12 +156,12 @@
                                     <tbody>
 
                                         @forelse($machine->histories as $machineHistory)
-                                        <tr class="table-tr">
+                                        <tr>
 
                                             <td>{{$machine->created_at}}</td>
                                             <td>{{$machineHistory->event}}</td>
                                             <td>{{$machineHistory->user->nom}}</td>
-                                            <td style="width:50%">{{$machineHistory->comment}}</td>
+                                            <td style="width:50%">@if($machineHistory->comment){{$machineHistory->comment}} @else Aucun @endif</td>
                                             <td>
                                                 <a href="#" data-toggle="modal"
                                                     data-target="#modal-default{{$machineHistory->id}}"
@@ -176,33 +177,36 @@
                                                             aria-label="Close">
                                                             <span aria-hidden="true">×</span></button>
                                                         <h4 class="modal-title">Modifier l'historique de la
-                                                            location "
-                                                            "
+                                                            machine
+                                                            <small>{{$machineHistory->machine->designation}}</small>
+
                                                         </h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form method="post" action="{{route('handleHistoryChange',$machineHistory->id)}}">
+                                                        <form method="post"
+                                                            action="{{route('handleHistoryChange',$machineHistory->id)}}">
                                                             {{csrf_field()}}
                                                             <div class="form-group">
                                                                 <label for="exampleInputEmail1">Etat</label>
                                                                 <select class="form-control" name="event">
-                                                                    @if($machineHistory->machine->status !=
-                                                                    'Fonctionnelle')
-                                                                    <option value="Fonctionnelle">Fonctionnelle</option>
-                                                                    @endif
-                                                                    @if($machineHistory->machine->status != 'Non
-                                                                    utilisé')
-                                                                    <option value="Non utilisé">Non utilisé</option>
-                                                                    @endif
-                                                                    @if($machineHistory->machine->status != 'En panne')
-                                                                    <option value="En panne">En panne</option>
-                                                                    @endif
+                                                                    <option value="Fonctionnelle" @if($machineHistory->
+                                                                        event == 'Fonctionnelle') selected
+                                                                        @endif>Fonctionnelle</option>
+                                                                    <option value="Non utilisé" @if($machineHistory->
+                                                                        event == 'Non utilisé') selected @endif>Non
+                                                                        utilisé</option>
+                                                                    <option value="En panne" @if($machineHistory->event
+                                                                        == 'En panne') selected @endif>En panne</option>
+
                                                                 </select>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="">Commentaire</label>
-                                                                <textarea name="comment" id="" cols="30" rows="3"
-                                                                    class="form-control">{{$machineHistory->comment}}</textarea>
+                                                                @if($machineHistory->comment)
+                                                                <textarea name="comment" id="" cols="30" rows="3" class="form-control">{{$machineHistory->comment}} </textarea> 
+                                                                @else
+                                                                <textarea name="comment" id="" cols="30" rows="3" class="form-control">Aucun</textarea>
+                                                                @endif
                                                             </div>
                                                             <div class="text-center">
 
@@ -233,10 +237,10 @@
 
                                 </table>
                                 <div class="row">
-                                <div class="container text-center">
-                                    <a href="{{url()->previous()}}" class="btn btn-danger pl-1">Fermer</a>
+                                    <div class="container text-center">
+                                        <a href="{{url()->previous()}}" class="btn btn-danger pl-1">Fermer</a>
+                                    </div>
                                 </div>
-                            </div>
                             </div>
                             <!-- /.box-body -->
                         </div>

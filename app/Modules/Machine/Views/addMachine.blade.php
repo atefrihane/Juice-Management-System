@@ -82,9 +82,9 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Type</label>
                                         <select class="form-control" name="type">
-                                            <option value="Jus-granité">Jus </option>
-                                            <option value="Jus-granité">Granité</option>
-                                        <option value="Jus-granité">Jus et granité</option>
+                                            <option value="jus">Jus </option>
+                                            <option value="granite">Granité</option>
+                                    
                                         </select>
 
 

@@ -55,11 +55,11 @@
                                     @endif
                                     <td>{{$product->code}}</td>
                                     <td>{{$product->nom}}</td>
-                                    <td>{{$product->type}}</td>
+                                    <td>{{ucfirst($product->type)}}</td>
                                     <td>{{$product->designation}}</td>
 
                                     <td>@convert($product->public_price)</td>
-                                    <td> {{$product->status}}</td>
+                                    <td> {{ucfirst($product->status)}}</td>
 
                                     <td class="not-this text-center">
                                         <div class="btn-group">

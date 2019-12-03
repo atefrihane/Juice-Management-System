@@ -3259,6 +3259,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuejs_datepicker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuejs-datepicker */ "./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js");
 //
 //
 //
@@ -3474,8 +3475,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    Datepicker: vuejs_datepicker__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   mounted: function mounted() {
     this.getProducts();
     this.getBacs();
@@ -3500,12 +3504,13 @@ __webpack_require__.r(__webpack_exports__);
       endDate: data.rental.date_fin,
       price: data.rental.price,
       location: data.rental.location,
-      comment: data.rental.comment,
+      comment: data.rental.Comment,
       bacs: [],
       customBacs: [],
       rentalId: data.rental.id,
       userId: data.userId,
       products: [],
+      disabled: false,
       errors: []
     };
   }),
@@ -3600,7 +3605,9 @@ __webpack_require__.r(__webpack_exports__);
       var _this4 = this;
 
       if (this.validateForm()) {
+        this.disabled = true;
         axios.post('api/rental/' + this.rentalId, {
+          startDate: this.startDate,
           endDate: this.endDate,
           price: this.price,
           location: this.location,
@@ -3611,9 +3618,14 @@ __webpack_require__.r(__webpack_exports__);
           console.log(response);
 
           if (response.data.status == 400) {
-            _this4.errors.push('Erreur date de fin !');
-
-            window.scrollTo(0, 0);
+            swal.fire({
+              type: 'error',
+              title: 'Erreur date!',
+              showConfirmButton: true,
+              allowOutsideClick: false,
+              confirmButtonText: 'Fermer'
+            });
+            _this4.disabled = false;
             return false;
           }
 
@@ -67441,68 +67453,51 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-md-4" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                    _vm._v("Date du début de location")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                      _vm._v("Date du début de location")
+                    ]),
+                    _vm._v(" "),
+                    _c("Datepicker", {
+                      attrs: { placeholder: "" },
+                      model: {
                         value: _vm.startDate,
+                        callback: function($$v) {
+                          _vm.startDate = $$v
+                        },
                         expression: "startDate"
                       }
-                    ],
-                    staticClass: "form-control",
-                    attrs: {
-                      readonly: "",
-                      value: "",
-                      id: "disabledInput",
-                      type: "date"
-                    },
-                    domProps: { value: _vm.startDate },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.startDate = $event.target.value
-                      }
-                    }
-                  })
-                ])
+                    })
+                  ],
+                  1
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-4" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                    _vm._v("Date de fin de location")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                      _vm._v("Date de fin de location")
+                    ]),
+                    _vm._v(" "),
+                    _c("Datepicker", {
+                      attrs: { placeholder: "" },
+                      model: {
                         value: _vm.endDate,
+                        callback: function($$v) {
+                          _vm.endDate = $$v
+                        },
                         expression: "endDate"
                       }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { id: "disabledInput", value: "", type: "date" },
-                    domProps: { value: _vm.endDate },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.endDate = $event.target.value
-                      }
-                    }
-                  })
-                ])
+                    })
+                  ],
+                  1
+                )
               ])
             ]),
             _vm._v(" "),
@@ -67944,7 +67939,7 @@ var render = function() {
                   {
                     staticClass: "btn btn-success pl-1",
                     staticStyle: { margin: "1em" },
-                    attrs: { type: "button" },
+                    attrs: { type: "button", disabled: _vm.disabled },
                     on: {
                       click: function($event) {
                         $event.preventDefault()

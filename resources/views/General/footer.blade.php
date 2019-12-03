@@ -157,7 +157,7 @@
     });
 
     $('.cities').on('change', function () {
-        var url = {!!json_encode(url('/')) !!}
+        var url = {!!json_encode(url('/'))!!}
         $.ajax({
             type: 'GET', //THIS NEEDS TO BE GET
             url: url + '/city/' + this.value,
@@ -192,32 +192,42 @@
 <script>
     $(document).ready(function () {
         $(".designation").bind('change paste keyup', function () {
-            var value = $(this).val();
-            str = value.replace(/\s+/g, '');
-            var res = str.substr(0, 6).toUpperCase();
+          
+                    if ($('.code').val() == "") {
+                    var value = $(this).val();
+                    str = value.replace(/\s+/g, '');
+                    var res = str.substr(0, 6).toUpperCase();
+                    $('.code').val(res);
 
-            if($('.code').val() == "")
-            {
-                $('.code').val(res);
+                    }
 
-            }
-         
+                
+
+
+
+
+            
+
+
         });
     });
 
 </script>
 
 
-@yield('customProducts')
+@yield('custom')
 <script>
-$('form').submit(function(e){
-    $('.btn-success').attr('disabled','disabled');
-}); 
+    $('form').submit(function (e) {
+        $('.btn-success').attr('disabled', 'disabled');
+    });
 
-$('form').on('blur', 'input[type=number]', function (e) {
-  $(this).off('wheel.disableScroll')
-})
+    $('form').on('blur', 'input[type=number]', function (e) {
+        $(this).off('wheel.disableScroll')
+    })
+
 </script>
+
+
 
 
 

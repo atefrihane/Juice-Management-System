@@ -46,7 +46,8 @@ class User extends Authenticatable
     }
     public function getType()
     {
-        $type = '';
+
+     
         switch ($this->child_type) {
             case Responsable::class:return 'responsable';
                 break;

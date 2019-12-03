@@ -125,6 +125,7 @@ class MachineRentalController extends Controller
 
     public function handleUpdateRental($id, Request $request)
     {
+        
  
 
         $rental = MachineRental::find($id);
@@ -134,6 +135,7 @@ class MachineRentalController extends Controller
 
             }
             $rental->update([
+                'date_debut' => $request->startDate,
                 'date_fin' => $request->endDate,
                 'location' => $request->location,
                 'Comment' => $request->comment,

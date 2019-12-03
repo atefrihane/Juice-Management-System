@@ -71,14 +71,13 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Date du début de location</label>
-                            <input class="form-control" readonly value="" id="disabledInput" type="date"
-                                v-model="startDate">
+                            <Datepicker v-model="startDate" placeholder=""></Datepicker>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Date de fin de location</label>
-                            <input class="form-control" id="disabledInput"  value="" type="date" v-model="endDate">
+                             <Datepicker v-model="endDate" placeholder=""></Datepicker>
                         </div>
                     </div>
                 </div>
@@ -195,7 +194,7 @@
                         <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelRental()">
                             Annuler</button>
 
-                        <button type="button" class="btn btn-success pl-1" style="margin: 1em"
+                        <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled"
                             @click.prevent="submitRental()">
                             Confirmer</button>
 
@@ -215,7 +214,12 @@
 </template>
 
 <script>
+ import Datepicker from 'vuejs-datepicker';
     export default {
+
+           components: {
+            Datepicker
+        },
 
         mounted() {
             this.getProducts()
@@ -231,18 +235,20 @@
                 endDate: data.rental.date_fin,
                 price: data.rental.price,
                 location: data.rental.location,
-                comment: data.rental.comment,
+                comment: data.rental.Comment,
                 bacs: [],
                 customBacs: [],
                 rentalId: data.rental.id,
                 userId: data.userId,
                 products: [],
+                disabled:false,
 
                 errors: []
 
             }
 
         },
+     
         methods: {
             getProducts() {
                 axios.get(axios.defaults.baseURL+'/api/products/')
@@ -353,8 +359,9 @@
 
             submitRental() {
                 if (this.validateForm()) {
-
+                    this.disabled=true    
                     axios.post('api/rental/' + this.rentalId, {
+                            startDate: this.startDate,
                             endDate: this.endDate,
                             price: this.price,
                             location: this.location,
@@ -365,8 +372,16 @@
                         .then((response) => {
                             console.log(response);
                             if (response.data.status == 400) {
-                                this.errors.push('Erreur date de fin !');
-                                window.scrollTo(0, 0);
+                                 swal.fire({
+                                    type: 'error',
+                                    title: 'Erreur date!',
+                                    showConfirmButton: true,
+                                      allowOutsideClick: false,
+                                    confirmButtonText: 'Fermer'
+
+
+                                });
+                                  this.disabled=false  
                                 return false;
                             }
 

@@ -33,6 +33,10 @@
     margin: 9px; 
 }
 
+.vdp-datepicker > div > input {
+
+background-color:transparent !important;
+}
 
 </style>
     <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">

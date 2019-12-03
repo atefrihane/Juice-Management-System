@@ -21,6 +21,7 @@ class ContactController extends Controller
         foreach ($stores as $store) {
             if ($store->super_visor_id != null) {
                 $supervisor = SuperVisor::find($store->super_visor_id);
+               
 
                 $contacts[] = $supervisor;
             }
@@ -30,8 +31,10 @@ class ContactController extends Controller
             }
         }
         $contacts = array_unique($contacts);
-
+       
         if ($company) {
+            
+  
             return view('User::showClients', compact('company', 'contacts'));
         }
         return view('General::notFound');

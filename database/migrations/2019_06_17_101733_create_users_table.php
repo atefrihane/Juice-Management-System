@@ -1,4 +1,5 @@
-<?php
+'email.required' => 'le champs email est obligatoire',
+            'email.email' => 'vous devez saisir un email valide ',<?php
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;

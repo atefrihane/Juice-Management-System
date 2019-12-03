@@ -77,13 +77,11 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Type</label>
                                         <select class="form-control" name="type">
-                                            <option value="Jus-granité"
-                                                {{$machine->type == 'Jus-granité' ? 'selected':''}}>Jus et ganité
-                                            </option>
-                                            <option value="Autre" {{$machine->type == 'Autre' ? 'selected':''}}>Autre
-                                            </option>
+                                            <option value="jus" @if($machine->type == 'jus')  {{'selected="selected"'}} @endif
+                                            >Jus </option>
+                                            <option value="granite" @if($machine->type == 'granite')  {{'selected="selected"'}} @endif>Granité</option>
+                                       
                                         </select>
-
 
                                     </div>
                                 </div>

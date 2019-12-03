@@ -123,7 +123,7 @@
                                 <select class="form-control" onchange="changeInputs(this)" name="type"
                                     value="{{old('type')}}">
                                     <option value="responsable">Responsable</option>
-                                    <option value="supervisor">Superviseur</option>
+                                    <option value="supervisor">Superviseur/Autre</option>
 
                                 </select>
 
@@ -147,11 +147,13 @@
                             </div>
                             <div class="form-group magasins supervisor" hidden>
 
-                                <label for="exampleInputEmail1">Magasins a superviser </label>
+                                <label for="exampleInputEmail1">Magasins à superviser </label>
                                 <div class="form-check" style="margin: 10px 0px 20px;">
                                     <input type="checkbox" class="form-check-input" id="selectAll">
                                     Tout séléctionner
                                 </div>
+                                <div class="scrollable">
+                              
                                 @foreach($company->stores as $store)
                                 <div class="form-group">
                                     <div class="checkbox">
@@ -163,6 +165,7 @@
                                     </div>
                                 </div>
                                 @endforeach
+                            </div>
                             </div>
                             <div class="form-group magasins director" hidden>
                                 <label for="exampleInputEmail1">Magasins </label>
@@ -189,10 +192,11 @@
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Mot de passe</label>
-                                <input class="form-control" name="password" id="disabledInput" type="password"
-                                    placeholder="Mot de passe" value="{{old('password')}}">
+                                <input class="form-control" name="passWord" id="disabledInput" type="text"
+                                    placeholder="Mot de passe" value="{{old('passWord')}}">
 
                             </div>
+
 
                             <div class="form-group">
                                 <label>Commentaire (optionnel)</label>
