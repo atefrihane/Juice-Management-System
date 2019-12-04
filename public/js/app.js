@@ -2817,6 +2817,10 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuejs_datepicker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuejs-datepicker */ "./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js");
+/* harmony import */ var vue_loading_overlay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-loading-overlay */ "./node_modules/vue-loading-overlay/dist/vue-loading.min.js");
+/* harmony import */ var vue_loading_overlay__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vue_loading_overlay_dist_vue_loading_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-loading-overlay/dist/vue-loading.css */ "./node_modules/vue-loading-overlay/dist/vue-loading.css");
+/* harmony import */ var vue_loading_overlay_dist_vue_loading_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_loading_overlay_dist_vue_loading_css__WEBPACK_IMPORTED_MODULE_2__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -3028,10 +3032,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+
+ // Import stylesheet
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    Datepicker: vuejs_datepicker__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Datepicker: vuejs_datepicker__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Loading: vue_loading_overlay__WEBPACK_IMPORTED_MODULE_1___default.a
   },
   mounted: function mounted() {
     this.getCompanies();
@@ -3058,7 +3068,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       countBacs: '',
       storeId: '',
       companySelected: ''
-    }, _defineProperty(_ref, "localisation", ''), _defineProperty(_ref, "bacs", []), _defineProperty(_ref, "errors", []), _defineProperty(_ref, "disabled", false), _defineProperty(_ref, "disabledChoice", false), _ref;
+    }, _defineProperty(_ref, "localisation", ''), _defineProperty(_ref, "bacs", []), _defineProperty(_ref, "errors", []), _defineProperty(_ref, "disabled", false), _defineProperty(_ref, "disabledCompanyChoice", false), _defineProperty(_ref, "disabledStoreChoice", false), _defineProperty(_ref, "isLoading", false), _ref;
   },
   props: ['user', 'machines', 'last'],
   methods: {
@@ -3085,8 +3095,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getMachineData: function getMachineData(event) {
       var _this3 = this;
 
+      this.bacs = [];
       var id = event.target.value;
+      this.isLoading = true;
       axios.get("api/machines/".concat(id)).then(function (response) {
+        _this3.isLoading = false;
+
         if (response.data.machine) {
           _this3.code = response.data.machine.code;
           _this3.designation = response.data.machine.designation;
@@ -67551,6 +67565,21 @@ var render = function() {
               [_vm._v(" Aucun bac\n            disponible\n        ")]
             )
           : _vm._e(),
+        _vm._v(" "),
+        _c("loading", {
+          attrs: {
+            active: _vm.isLoading,
+            "is-full-page": false,
+            opacity: 0.7,
+            loader: "dots",
+            color: "#3c8dbc"
+          },
+          on: {
+            "update:active": function($event) {
+              _vm.isLoading = $event
+            }
+          }
+        }),
         _vm._v(" "),
         _vm._l(_vm.bacs[0], function(bac, index) {
           return _c(

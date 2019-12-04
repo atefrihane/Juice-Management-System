@@ -1,5 +1,11 @@
 @extends('General.layout') @section('pageTitle', 'Commencer location machine') @section('content')
+<style>
+.vld-overlay .vld-icon, .vld-parent {
+    position: absolute;
+    top: 75%;
+}
 
+</style>
 
 <div class="content-wrapper" id="app">
 

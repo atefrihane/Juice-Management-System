@@ -122,6 +122,8 @@
             <h4 style="font-size: 16px; margin-top: 20px" class="text-center" v-if="bacs.length == 0"> Aucun bac
                 disponible
             </h4>
+              <loading :active.sync="isLoading" :is-full-page="false" :opacity="0.7"
+                                            loader="dots" color="#3c8dbc"></loading>
             <div class="container-fluid " style="background-color: #e4e4e4; margin: 16px; padding: 24px"
                 v-for="(bac,index) in bacs[0]">
                 <div class="row">
@@ -209,12 +211,15 @@
 
 <script>
     import Datepicker from 'vuejs-datepicker';
-
+ import Loading from 'vue-loading-overlay';
+    // Import stylesheet
+    import 'vue-loading-overlay/dist/vue-loading.css';
 
     export default {
 
         components: {
-            Datepicker
+            Datepicker,
+             Loading
         },
 
         mounted() {
@@ -245,7 +250,9 @@
                 bacs: [],
                 errors: [],
                 disabled: false,
-                disabledChoice: false
+                disabledCompanyChoice: false,
+                disabledStoreChoice:false,
+                isLoading:false
             }
 
         },
@@ -276,10 +283,12 @@
 
             },
             getMachineData(event) {
+                this.bacs=[]
                 let id = event.target.value;
-
+                this.isLoading=true
                 axios.get(`api/machines/${id}`)
                     .then((response) => {
+                             this.isLoading=false
                         if (response.data.machine) {
                             this.code = response.data.machine.code
                             this.designation = response.data.machine.designation
