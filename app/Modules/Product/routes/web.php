@@ -3,6 +3,7 @@
 Route::group(['module' => 'Product', 'middleware' => ['web','isAuth'], 'namespace' => 'App\Modules\Product\Controllers'], function() {
 
     Route::get('products', 'ProductController@showProducts')->name('showProducts');
+    Route::get('product/{id}', 'ProductController@showProduct')->name('showProduct');
     Route::get('product/add', 'ProductController@showAddProduct')->name('showAddProduct');
     Route::get('products/custom/{id}', 'ProductController@showCustomProducts')->name('showCustomProducts');
     Route::get('products/update/custom/{id}/price/{price_id}', 'ProductController@showUpdateCustomProducts')->name('showUpdateCustomProducts');

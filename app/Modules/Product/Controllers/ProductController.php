@@ -360,4 +360,14 @@ class ProductController extends Controller
 
     }
 
+    public function showProduct($id)
+    {
+        $product = Product::find($id);
+        if ($product) {
+            return view('Product::showProduct',compact('product'));
+
+        }
+        return view('General::notFound');
+    }
+
 }

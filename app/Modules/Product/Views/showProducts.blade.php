@@ -77,6 +77,8 @@
                                                         vers disponible</a></li>
 
                                                         @endif
+                                                        <li><a href="{{route('showProduct', $product->id)}}">Voir détails</a></li>
+                                                <li>
                                                 <li><a href="{{route('editProduct', $product->id)}}">Modifier</a></li>
                                                 <li>
                                                     <a data-toggle="modal"

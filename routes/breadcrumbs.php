@@ -205,6 +205,10 @@ Breadcrumbs::for('product', function ($trail) {
 
     $trail->push('Liste des produits', route('showProducts'));
 });
+Breadcrumbs::for('showProduct', function ($trail,$product) {
+    $trail->parent('product');
+    $trail->push($product->nom);
+});
 
 Breadcrumbs::for('addProduct', function ($trail) {
     $trail->parent('product');
