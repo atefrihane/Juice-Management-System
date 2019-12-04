@@ -7,11 +7,12 @@
 
 </style>
 
+
 <div class="content-wrapper" id="app">
 
     <section class="content-header">
 
-
+    {{ Breadcrumbs::render('startRental') }}
 
     </section>
 

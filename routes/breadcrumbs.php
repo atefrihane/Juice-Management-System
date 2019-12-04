@@ -153,6 +153,10 @@ Breadcrumbs::for('rental', function ($trail, $machine) {
     $trail->parent('machine');
     $trail->push('Commencer location machine', route('startRental', $machine));
 });
+Breadcrumbs::for('startRental', function ($trail) {
+
+    $trail->push('Commencer location machine');
+});
 Breadcrumbs::for('addMachine', function ($trail) {
     $trail->parent('machine');
     $trail->push('Ajouter une  machine', route('showAddMachine'));
