@@ -51,13 +51,10 @@
                                     <td>{{$rental->end_reason}}</td>
                                     <td style="width:30%;">{{$rental->Comment}}</td>
                                     <td>
-                                        @if($rental->active == 0)
-                                        <a href="#" data-toggle="modal" data-target="#modal-default{{$rental->id}}"
-                                            class="btn btn-success">Modifier</a>
-                                            @else
+                                   
                                             <a href="{{route('showEditRental',$rental->id)}}" class="btn btn-success">Modifier location</a>
 
-                                            @endif
+                                            
 
                                     </td>
 

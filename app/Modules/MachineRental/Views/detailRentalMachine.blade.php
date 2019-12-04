@@ -91,11 +91,13 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Prix location mensuel</label>
-                                        <input class="form-control" value="{{$rental->price}}" readonly
-                                            name="designation" type="number" placeholder="Prix">
+                                        <label for="exampleInputEmail1">Prix location mensuel (€)</label>
+                                
+                    
+                                            <p class="form-control" style="background-color:#eee;">@convert($rental->price)</p>
 
                                     </div>
+                                   
                                 </div>
                             </div>
                             <div class="row">

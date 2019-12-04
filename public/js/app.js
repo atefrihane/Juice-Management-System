@@ -3514,6 +3514,7 @@ __webpack_require__.r(__webpack_exports__);
       errors: []
     };
   }),
+  props: ['last'],
   methods: {
     getProducts: function getProducts() {
       var _this = this;
@@ -3646,7 +3647,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     cancelRental: function cancelRental() {
-      window.location = axios.defaults.baseURL + '/machines';
+      window.location = this.last;
     },
     stopRental: function stopRental() {
       window.location = axios.defaults.baseURL + '/machine/rental/show/end/' + this.rentalId;
@@ -67522,6 +67523,7 @@ var render = function() {
                       value: "",
                       name: "designation",
                       type: "number",
+                      step: "0.01",
                       placeholder: "Prix"
                     },
                     domProps: { value: _vm.price },

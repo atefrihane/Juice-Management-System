@@ -56,6 +56,8 @@ class MachineRentalController extends Controller
         // ->get();
 
         if ($rental) {
+
+     
             $store = Store::find($rental->store_id);
             return view('MachineRental::detailRentalMachine', compact('rental', 'store'));
         }
@@ -170,7 +172,7 @@ class MachineRentalController extends Controller
         $rental = MachineRental::find($id);
         if ($rental) {
             $rental->update($request->all());
-            alert()->success('Succés!','Location modifiée avec succès')->persistent('Femer');
+            alert()->success('Succés!', 'Location modifiée avec succès')->persistent('Femer');
             return redirect()->back();
 
         }

@@ -85,7 +85,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Prix location mensuel</label>
-                            <input class="form-control" value="" name="designation" type="number" placeholder="Prix"
+                            <input class="form-control" value="" name="designation" type="number" step="0.01" placeholder="Prix"
                                 v-model="price">
 
                         </div>
@@ -248,6 +248,7 @@
             }
 
         },
+        props:['last'],
      
         methods: {
             getProducts() {
@@ -407,7 +408,7 @@
 
             },
             cancelRental() {
-                window.location = axios.defaults.baseURL+'/machines';
+                window.location = this.last;
 
             },
             stopRental() {

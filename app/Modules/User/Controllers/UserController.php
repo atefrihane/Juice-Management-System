@@ -104,6 +104,7 @@ class UserController extends Controller
                 $user = User::create([
                     'code' => $request->code,
                     'nom' => $request->nom,
+                    'prenom' => $request->prenom,
                     'civilite' => $request->civilite,
                     'email' => $request->email,
                     'telephone' => $request->telephone,
@@ -238,28 +239,28 @@ class UserController extends Controller
                     break;
 
                 case 'responsable':
-       
+
                     if ($request->input('storesHidden')) {
                         $user->child->delete();
-                        $newSupervisor=SuperVisor::create(['comment' => null]);
+                        $newSupervisor = SuperVisor::create(['comment' => null]);
                         $newSupervisor->user()->save($user);
-            
-                   
-                        $user->update([
-                            'child_type'=>SuperVisor::class,
-                            'child_id'=>$newSupervisor->id
-                        ]);
-                      
 
-                        foreach($request->input('storesHidden') as $storeId)
-                        {
+                        $user->update([
+                            'child_type' => SuperVisor::class,
+                            'child_id' => $newSupervisor->id,
+                        ]);
+
+                        foreach ($request->input('storesHidden') as $storeId) {
                             $updateStore = Store::find($storeId);
-                            $updateStore->update(['super_visor_id' => $newSupervisor->id]);
+                            if (!$updateStore->super_visor_id) {
+                                $updateStore->update(['super_visor_id' => $newSupervisor->id]);
+
+                            } else {
+                                alert()->error('Ce magasin a déja un superviseur!', 'Oups!');
+                                return redirect()->back()->withInput();
+                            }
 
                         }
-                    
-
-                        
 
                     } else {
                         $user->child->update(['store_id' => $request->store]);
@@ -270,7 +271,7 @@ class UserController extends Controller
             }
 
             $user = $request->all();
-      
+
             unset($user['_token']);
             unset($user['stores']);
             unset($user['newStores']);
