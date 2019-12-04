@@ -237,6 +237,7 @@ class MachineController extends Controller
         $machines = Machine::where('rented', 0)
             ->where('status', 'Fonctionnelle')
             ->get();
+   
 
         if (count($machines) == 0) {
 

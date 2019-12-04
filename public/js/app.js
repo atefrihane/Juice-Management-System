@@ -3027,6 +3027,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3035,6 +3036,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     this.getCompanies();
     this.getProducts();
+    this.checkLast();
   },
   data: function data() {
     var _ref;
@@ -3056,7 +3058,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       countBacs: '',
       storeId: '',
       companySelected: ''
-    }, _defineProperty(_ref, "localisation", ''), _defineProperty(_ref, "bacs", []), _defineProperty(_ref, "errors", []), _defineProperty(_ref, "disabled", false), _ref;
+    }, _defineProperty(_ref, "localisation", ''), _defineProperty(_ref, "bacs", []), _defineProperty(_ref, "errors", []), _defineProperty(_ref, "disabled", false), _defineProperty(_ref, "disabledChoice", false), _ref;
   },
   props: ['user', 'machines', 'last'],
   methods: {
@@ -3266,6 +3268,45 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         })["catch"](function (error) {
           console.log(error);
         });
+      }
+    },
+    getStores: function getStores() {
+      var _this8 = this;
+
+      axios.get(axios.defaults.baseURL + '/api/stores/').then(function (response) {
+        _this8.stores.push(response.data.stores);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    checkLast: function checkLast() {
+      var _this9 = this;
+
+      var storeId = '';
+      var companyId = '';
+      var extractUrl = this.last.slice(-7);
+      console.log(extractUrl);
+
+      if (extractUrl != '/rental') {
+        if (extractUrl == 'rentals') {
+          this.getStores();
+          storeId = this.last.charAt(this.last.length - 9);
+          companyId = this.last.charAt(this.last.length - 18);
+          this.companySelected = companyId;
+          this.storeId = storeId;
+          this.disabledCompanyChoice = true;
+          this.disabledStoreChoice = true;
+        } else {
+          companyId = this.last.charAt(this.last.length - 1);
+          this.companySelected = companyId;
+          axios.get('/api/companies/' + companyId).then(function (response) {
+            _this9.stores.push(response.data.stores);
+
+            _this9.disabledCompanyChoice = true;
+          })["catch"](function (error) {
+            console.log(error);
+          });
+        }
       }
     }
   }
@@ -67226,6 +67267,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
+                  attrs: { disabled: _vm.disabledCompanyChoice },
                   on: {
                     change: [
                       function($event) {
@@ -67287,6 +67329,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
+                  attrs: { disabled: _vm.disabledStoreChoice },
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter

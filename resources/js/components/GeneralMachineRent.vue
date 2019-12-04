@@ -50,7 +50,8 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Societé</label>
-                        <select class="form-control" @change="getCompanyData($event)" v-model="companySelected">
+                        <select class="form-control" @change="getCompanyData($event)" v-model="companySelected"
+                            :disabled="disabledCompanyChoice">
                             <option value="" v-if="companies.length && companies[0].length > 0">Selectionner une societé
                             </option>
                             <option value="" v-else> Aucune societé </option>
@@ -62,7 +63,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Magasin</label>
-                        <select class="form-control" v-model="storeId">
+                        <select class="form-control" v-model="storeId" :disabled="disabledStoreChoice">
                             <option value="" v-if="stores.length > 0 && stores[0].length > 0">Selectionner un magasin
                             </option>
                             <option value="" v-else> Aucun magasin </option>
@@ -219,6 +220,7 @@
         mounted() {
             this.getCompanies()
             this.getProducts()
+            this.checkLast()
 
         },
         data() {
@@ -242,11 +244,12 @@
                 localisation: '',
                 bacs: [],
                 errors: [],
-                disabled: false
+                disabled: false,
+                disabledChoice: false
             }
 
         },
-        props: ['user', 'machines','last'],
+        props: ['user', 'machines', 'last'],
         methods: {
 
             getCompanies() {
@@ -280,9 +283,9 @@
                         if (response.data.machine) {
                             this.code = response.data.machine.code
                             this.designation = response.data.machine.designation
-                            let bacs=response.data.machine.bacs;
+                            let bacs = response.data.machine.bacs;
                             bacs.forEach(bac => {
-                                bac.status ='fonctionnelle'
+                                bac.status = 'fonctionnelle'
                             })
                             this.bacs.push(bacs)
                         }
@@ -351,7 +354,7 @@
             validateForm() {
 
                 this.errors = [];
-                 if (!this.machineId) {
+                if (!this.machineId) {
                     this.errors.push('Veuillez séléctionner une machine');
                     window.scrollTo(0, 0);
                     return false;
@@ -434,7 +437,7 @@
                             storeId: this.storeId,
                             active: 1,
                             bacs: this.bacs,
-                            userId:this.userId
+                            userId: this.userId
 
                         })
                         .then((response) => {
@@ -504,7 +507,57 @@
                         })
                 }
 
+            },
+            getStores() {
+                axios.get(axios.defaults.baseURL + '/api/stores/')
+                    .then((response) => {
+                        this.stores.push(response.data.stores)
+
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+
+            },
+            checkLast() {
+                let storeId = ''
+                let companyId = ''
+                let extractUrl = this.last.slice(-7)
+                console.log(extractUrl)
+                if (extractUrl != '/rental') {
+                    if (extractUrl == 'rentals') {
+                        this.getStores()
+                        storeId = this.last.charAt(this.last.length - 9)
+                        companyId = this.last.charAt(this.last.length - 18)
+                        this.companySelected = companyId
+                        this.storeId = storeId
+                        this.disabledCompanyChoice = true
+                         this.disabledStoreChoice = true
+                    }
+                    else{
+                   
+                       companyId=this.last.charAt(this.last.length-1)
+                       this.companySelected=companyId
+                     
+                axios.get('/api/companies/' + companyId)
+                    .then((response) => {
+                        this.stores.push(response.data.stores);
+                        this.disabledCompanyChoice = true
+                    })
+                    .catch(function (error) {
+
+                        console.log(error);
+                    })
+
+                    }
+
+                }
+
+
+
             }
+
+
 
 
 

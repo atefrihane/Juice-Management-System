@@ -17,7 +17,7 @@
                     <div class="box-header">
                         <h3 class="box-title">Machines en location pour la societé &nbsp;&nbsp; <small>
                                 {{$company->name}}</small></h3>
-                        <a href="{{route('showMachines')}}" class="btn btn-primary pull-right">Commencer location</a>
+                        <a href="{{route('showStartRentalMachines')}}" class="btn btn-primary pull-right">Commencer location</a>
 
                         <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
                     </div>
