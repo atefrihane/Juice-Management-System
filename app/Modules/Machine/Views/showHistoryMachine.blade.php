@@ -143,8 +143,8 @@
                                     <thead>
                                         <tr>
                                             <th>Date et Heure</th>
-                                            <th>Etat</th>
-                                            <th>Effectué par</th>
+                                            <th>Utilisateur</th>
+                                            <th>Action</th>
                                             <th>Commentaire</th>
                                             <th></th>
 
@@ -159,8 +159,9 @@
                                         <tr>
 
                                             <td>{{$machine->created_at}}</td>
-                                            <td>{{$machineHistory->event}}</td>
                                             <td>{{$machineHistory->user->nom}}</td>
+                                            <td>{{$machineHistory->event}}</td>
+                                           
                                             <td style="width:50%">@if($machineHistory->comment){{$machineHistory->comment}} @else Aucun @endif</td>
                                             <td>
                                                 <a href="#" data-toggle="modal"
@@ -186,7 +187,7 @@
                                                         <form method="post"
                                                             action="{{route('handleHistoryChange',$machineHistory->id)}}">
                                                             {{csrf_field()}}
-                                                            <div class="form-group">
+                                                            <!-- <div class="form-group">
                                                                 <label for="exampleInputEmail1">Etat</label>
                                                                 <select class="form-control" name="event">
                                                                     <option value="Fonctionnelle" @if($machineHistory->
@@ -199,7 +200,7 @@
                                                                         == 'En panne') selected @endif>En panne</option>
 
                                                                 </select>
-                                                            </div>
+                                                            </div> -->
                                                             <div class="form-group">
                                                                 <label for="">Commentaire</label>
                                                                 @if($machineHistory->comment)

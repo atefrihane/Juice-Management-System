@@ -162,24 +162,20 @@ class MachineController extends Controller
     public function delete($id)
     {
         $machine = Machine::find($id);
-        if($machine)
-        {
-            if(!$machine->machineRentals()->exists())
-            {
+        if ($machine) {
+            if (!$machine->machineRentals()->exists()) {
                 $machine->delete();
                 alert()->success('Succès!', 'La machine a été supprimé avec succès ')->persistent("Fermer");
                 return redirect(route('showMachines'));
 
-            }
-            else{
+            } else {
                 alert()->error('Impossible de supprimer cette machine !', 'Oups! ')->persistent("Fermer");
                 return redirect()->back();
             }
-           
 
         }
         return view('General::notFound');
-     
+
     }
     public function startRentalMachine($id)
     {
@@ -235,6 +231,21 @@ class MachineController extends Controller
         }
         return view('General::notFound');
     }
-  
+
+    public function showStartRentalMachines()
+    {
+        $machines = Machine::where('rented', 0)
+            ->where('status', 'Fonctionnelle')
+            ->get();
+
+        if (count($machines) == 0) {
+
+            alert()->error('Oups!', 'Aucune machine disponible')->persistent('Fermer');
+            return redirect()->back();
+        }
+
+        return view('Machine::startRentalGeneral', compact('machines'));
+
+    }
 
 }

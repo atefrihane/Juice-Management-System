@@ -12,4 +12,5 @@ Route::group(['module' => 'Machine', 'middleware' => ['web','isAuth'], 'namespac
     Route::post('machine/state/update/{id}', 'MachineController@handleUpdateState')->name('handleUpdateState');
     route::post('machine/delete/{id}', 'MachineController@delete')->name('deleteMachine');
     route::get('machine/rental/{id}', 'MachineController@startRentalMachine')->name('startRental');
+    route::get('machines/rental', 'MachineController@showStartRentalMachines')->name('showStartRentalMachines');
 });

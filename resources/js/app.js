@@ -12,6 +12,7 @@ import Vue from 'vue'
 import ProductAdd from './components/ProductAdd.vue'
 import ProductUpdate from './components/ProductUpdate.vue'
 import MachineRent from './components/MachineRent.vue'
+import GeneralMachineRent from './components/GeneralMachineRent.vue'
 import MachineRentUpdate from './components/MachineRentUpdate.vue'
 import CountryAdd from './components/CountryAdd.vue'
 import CountryUpdate from './components/CountryUpdate.vue'
@@ -45,6 +46,7 @@ Vue.component('order-show', require('./components/OrderShow.vue'));
 Vue.component('order-status-update', require('./components/OrderStatusUpdate.vue'));
 Vue.component('order-prepared-products', require('./components/OrderPreparedProducts.vue'));
 Vue.component('delivery-update', require('./components/DeliveryUpdate.vue'));
+Vue.component('general-machine-rent', require('./components/GeneralMachineRent.vue'));
 axios.defaults.baseURL = '/wizefresh/public/'
 const app = new Vue({
     el: '#app',
@@ -61,7 +63,8 @@ const app = new Vue({
         'order-show': OrderShow,
         'order-status-update': OrderStatusUpdate,
         'order-prepared-products': OrderPreparedProducts,
-        'delivery-update': DeliveryUpdate
+        'delivery-update': DeliveryUpdate,
+        'general-machine-rent': GeneralMachineRent
 
 
 

@@ -17,7 +17,7 @@
                     <div class="box-header">
                         <h3 class="box-title">Liste des machines en location </h3>
 
-                        <a href="{{route('showMachines')}}" class="btn btn-primary pull-right">Commencer location</a>
+                        <a href="{{route('showStartRentalMachines')}}" class="btn btn-primary pull-right">Commencer location</a>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
