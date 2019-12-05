@@ -119,6 +119,7 @@ class MachineRentalController extends Controller
 
     public function endRental(Request $request, $id)
     {
+ 
 
         if (!$request->date_fin) {
             alert()->error('Oups!', 'Veuillez renseigner une date de fin')->persistent('Femer');
@@ -156,8 +157,8 @@ class MachineRentalController extends Controller
                 'machine_rental_id' => $machineRental->id,
                 'user_id' => Auth::user()->id,
             ]);
-            alert()->success('Succès!', 'La machine ' . $machineRental->machine->code . ' est maintenant libre !')->persistent("Fermer");
-            return redirect(route('showMachines'));
+            alert()->success('Succès!',  $machineRental->machine->designation . ' est maintenant libre !')->persistent("Fermer");
+            return redirect()->route('showMachines');
 
         }
 

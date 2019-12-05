@@ -22,6 +22,7 @@
                         <form role="form" method="post" enctype="multipart/form-data" action="{{route('endRental', $rental->id)}}">
                             {{csrf_field()}}
                             <div class="box-body">
+                            <input type="hidden" name="url" value="{{url()->previous()}}">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -106,7 +107,7 @@
                             <div class="row">
                                 <div class="container text-center">
 
-                                    <a href="{{route('showMachines')}}" class="btn btn-danger pl-1" style="margin: 1em">Annuler</a>
+                                    <a href="{{url()->previous()}}" class="btn btn-danger pl-1" style="margin: 1em">Annuler</a>
                                     <button type="submit" class="btn btn-success pl-1" style="margin: 1em">Confirmer</button>
 
                                 </div>

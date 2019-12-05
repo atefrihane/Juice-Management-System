@@ -22,8 +22,9 @@
                             <ul class="dropdown-menu" role="menu" x-placement="bottom-start"
                                 style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(5px, 31px, 0px);">
                                 <li><a href="{{route('showEditRental',$rental->id)}}">Modifier</a></li>
-
+                                @if($rental->active == 1)    
                                 <li><a href="{{route('showEndRental',$rental->id)}}">Arrêter location</a></li>
+                                @endif
 
                             </ul>
                         </div>
