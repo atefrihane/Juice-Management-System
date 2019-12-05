@@ -29,6 +29,7 @@ class WarehouseController extends Controller
     }
     public function showAddProductQuantity()
     {
+       
         $products = Product::all();
         $warehouses = Warehouse::all();
         return view('Warehouse::showAddProductQuantity', compact('products', 'warehouses'));
