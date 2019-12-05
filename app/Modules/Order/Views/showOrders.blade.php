@@ -51,8 +51,7 @@
                                 @forelse($orders as $order)
                                 <tr>
                                     <td>{{$order->code}}</td>
-                                    <td>{{ $order->created_at->format('d-m-Y')}} à
-                                        {{ $order->created_at->timezone('Europe/Paris')->format('H:i:s')}}</td>
+                                    <td>@formatDate($order->created_at)</td>
                                     <td>{{$order->store->designation}}</td>
                                     <td>{{$order->store->zipcode->code}}</td>
                                     <td>@convert($order->total)</td>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Modules\BacHistory\Models\BacHistory;
 use App\Modules\Bac\Models\Bac;
 use App\Modules\MachineRental\Models\MachineRental;
+use App\Modules\MachineRental\Models\MachineRentalHistory;
 use App\Modules\Machine\Models\Machine;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -42,8 +43,6 @@ class MachineRentalController extends Controller
      */
     public function store(Request $request)
     {
-      
-    
 
         $parsedStartDate = Carbon::parse($request->startDate)->toDateString();
         $parsedEndDate = Carbon::parse($request->endDate)->toDateString();
@@ -100,6 +99,11 @@ class MachineRentalController extends Controller
             }
 
             $checkMachine->update(['rented' => 1]);
+            MachineRentalHistory::create([
+                'action' => 'Création',
+                'machine_rental_id' => $rental->id,
+                'user_id' => $request->userId,
+            ]);
 
             return response()->json(['status' => 200]);
 
@@ -125,8 +129,6 @@ class MachineRentalController extends Controller
 
     public function handleUpdateRental($id, Request $request)
     {
-        
- 
 
         $rental = MachineRental::find($id);
         if ($rental) {
@@ -140,25 +142,34 @@ class MachineRentalController extends Controller
                 'location' => $request->location,
                 'Comment' => $request->comment,
                 'price' => $request->price,
+                'end_reason' => $request->end_reason,
             ]);
+            if ($rental->active == 1) {
+                foreach ($request->customBacs as $bac) {
 
-            foreach ($request->customBacs as $bac) {
-            
-                $checkBac = Bac::find($bac['id']);
-                $checkBac->update([
-                    'status' => $bac['status'],
-                    'product_id' => $bac['product_id'],
-                    'mixture_id' => $bac['mixture_id'],
-                ]);
+                    $checkBac = Bac::find($bac['id']);
+                    $checkBac->update([
+                        'status' => $bac['status'],
+                        'product_id' => $bac['product_id'],
+                        'mixture_id' => $bac['mixture_id'],
+                    ]);
 
-                BacHistory::create([
-                    'action' => $bac['status'],
-                    'bac_id' => $checkBac->id,
-                    'user_id' => $request->userId,
-                    'machine_rental_id' => $rental->id,
-                ]);
+                    BacHistory::create([
+                        'action' => $bac['status'],
+                        'bac_id' => $checkBac->id,
+                        'user_id' => $request->userId,
+                        'machine_rental_id' => $rental->id,
+                    ]);
+
+                }
 
             }
+
+            MachineRentalHistory::create([
+                'action' => 'Modification',
+                'machine_rental_id' => $rental->id,
+                'user_id' => $request->userId,
+            ]);
             return response()->json(['status' => 200]);
 
         }
@@ -168,12 +179,12 @@ class MachineRentalController extends Controller
     public function handleGetRentalData($id)
     {
         $rental = MachineRental::find($id);
-       
+
         if ($rental) {
-            $bacs=Bac::where('machine_id',$rental->machine->id)->with('product','product.mixtures')->get();
-            return response()->json(['status' => 200 ,'bacs' =>$bacs ]);
+            $bacs = Bac::where('machine_id', $rental->machine->id)->with('product', 'product.mixtures')->get();
+            return response()->json(['status' => 200, 'bacs' => $bacs]);
         }
-        return response()->json(['status' => 404 ]);
+        return response()->json(['status' => 404]);
 
     }
 }

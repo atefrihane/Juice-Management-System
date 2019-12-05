@@ -315,6 +315,7 @@
                 tva:'',
                 productId: product.productId,
                 error: 0,
+                userId:this.user_id,
 
                 mixtures: [{
                     endQuantityProduct: '',
@@ -329,6 +330,7 @@
                 disabled:false
             }
         },
+        props:['user_id'],
         mounted() {
             this.$Progress.finish()
 
@@ -616,6 +618,7 @@
                             comment: this.comment,
                             productId: this.productId,
                             mixtures: this.mixtures,
+                            userId:this.userId
 
 
                         })

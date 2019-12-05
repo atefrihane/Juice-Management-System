@@ -84,7 +84,7 @@
                                         <select class="form-control" name="type">
                                             <option value="jus">Jus </option>
                                             <option value="granite">Granité</option>
-                                    
+                                            <option value="jus-granite">Jus et Granité</option>
                                         </select>
 
 

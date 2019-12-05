@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class CompanyHistory extends Model
 {
 
-    protected $fillable = ['changes', 'company_id', 'user_id'];
+    protected $guarded = ['id'];
     
     public function company()
     {

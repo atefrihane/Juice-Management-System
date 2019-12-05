@@ -15,7 +15,7 @@ class CreateStoreHistory extends Migration
     {
         Schema::create('store_histories', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('changes');
+            $table->string('action');
             $table->integer('store_id')->unsigned();
             $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
             $table->integer('user_id')->unsigned();

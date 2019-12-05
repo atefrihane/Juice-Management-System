@@ -364,6 +364,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         if ($product) {
+
             return view('Product::showProduct',compact('product'));
 
         }

@@ -7,6 +7,7 @@ use App\Modules\Order\Models\Order;
 use App\Modules\Store\Models\Price;
 use App\Modules\Store\Models\Store;
 use App\Modules\Warehouse\Models\Warehouse;
+use App\Modules\Product\Models\ProductHistory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
@@ -32,7 +33,7 @@ class Product extends Model
 
     public function warehouses()
     {
-        return $this->belongsToMany(Warehouse::class)->withPivot('id','warehouse_id', 'product_id', 'packing', 'quantity', 'comment', 'creation_date', 'expiration_date');
+        return $this->belongsToMany(Warehouse::class)->withPivot('id', 'warehouse_id', 'product_id', 'packing', 'quantity', 'comment', 'creation_date', 'expiration_date');
 
     }
     public function stores()
@@ -44,6 +45,12 @@ class Product extends Model
     public function bacs()
     {
         return $this->hasMany('\App\Modules\Bac\Models\Bac');
+
+    }
+
+    public function histories()
+    {
+        return $this->hasMany(ProductHistory::class);
 
     }
 

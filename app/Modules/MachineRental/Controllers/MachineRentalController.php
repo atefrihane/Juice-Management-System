@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Machine\Models\Machine;
 use App\Modules\Store\Models\Store;
+use App\Modules\MachineRental\Models\MachineRentalHistory;
+use Auth;
 use Illuminate\Http\Request;
 
 class MachineRentalController extends Controller
@@ -149,6 +151,11 @@ class MachineRentalController extends Controller
 
                 ]);
             }
+            MachineRentalHistory::create([
+                'action' => 'Arrêt',
+                'machine_rental_id' => $machineRental->id,
+                'user_id' => Auth::user()->id,
+            ]);
             alert()->success('Succès!', 'La machine ' . $machineRental->machine->code . ' est maintenant libre !')->persistent("Fermer");
             return redirect(route('showMachines'));
 

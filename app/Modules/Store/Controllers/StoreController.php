@@ -207,7 +207,7 @@ class StoreController extends Controller
         $store = Store::create($insertable);
         $store->schedules()->update(['store_id' => $store]);
         StoreHistory::create([
-            'changes' => 'creation',
+            'action' => 'Creation',
             'store_id' => $store->id,
             'user_id' => Auth::id(),
 
@@ -299,60 +299,7 @@ class StoreController extends Controller
                 unset($updateable['logo']);
             }
 
-            $changes = array();
-            $fullTel = $request->cc . ' ' . $request->tel;
-
-            if ($store->code != $request->code) {
-                array_push($changes, 'code');
-            }
-            if ($store->status != $request->status) {
-                array_push($changes, 'status');
-            }
-
-            if ($store->designation != $request->designation) {
-                array_push($changes, 'designation');
-            }
-            if ($store->sign != $request->sign) {
-                array_push($changes, 'signe');
-            }
-            if ($store->country_id != $request->country_id) {
-                array_push($changes, 'pays');
-            }
-            if ($store->city_id != $request->city_id) {
-                array_push($changes, 'ville');
-            }
-            if ($store->zipcode_id != $request->zipcode_id) {
-                array_push($changes, 'code postal');
-            }
-            if ($store->address != $request->address) {
-                array_push($changes, 'addresse');
-            }
-            if ($store->complement != $request->complement) {
-                array_push($changes, 'complement addresse');
-            }
-            if ($store->email != $request->email) {
-                array_push($changes, 'email');
-            }
-            if ($fullTel != $store->tel) {
-                array_push($changes, 'téléphone');
-            }
-            if ($store->comment != $request->comment) {
-                array_push($changes, 'comment');
-            }
-            if ($request->photo && $store->photo != $request->photo) {
-                array_push($changes, 'photo');
-            }
-
-            if ($request->bill_type && $store->bill_type != $request->bill_type) {
-                array_push($changes, 'Type de facturation');
-            }
-            if ($request->bill_to && $store->bill_type != $request->bill_to) {
-                array_push($changes, 'Facture addressée vers');
-            }
-            if ($request->deliveryRec && $store->deliveryRec != $request->deliveryRec) {
-                array_push($changes, 'Recommendation pour livreur ');
-            }
-            $changes = implode(",", $changes);
+         
 
             $checkCode = Store::where('code', preg_replace('/\s/', '', $request->code))
                 ->where('id', '!=', $store->id)
@@ -364,15 +311,15 @@ class StoreController extends Controller
 
             $store->update($updateable);
 
-            if ($changes != '') {
+         
                 StoreHistory::create([
-                    'changes' => $changes,
+                    'action' => 'Modification',
                     'store_id' => $store->id,
                     'user_id' => Auth::id(),
 
                 ]);
 
-            }
+            
 
             if ($request->input('schedules')) {
 

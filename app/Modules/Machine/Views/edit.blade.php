@@ -80,7 +80,7 @@
                                             <option value="jus" @if($machine->type == 'jus')  {{'selected="selected"'}} @endif
                                             >Jus </option>
                                             <option value="granite" @if($machine->type == 'granite')  {{'selected="selected"'}} @endif>Granité</option>
-                                       
+                                            <option value="jus-granite" @if($machine->type == 'jus-granite')  {{'selected="selected"'}} @endif>Jus et Granité</option>
                                         </select>
 
                                     </div>

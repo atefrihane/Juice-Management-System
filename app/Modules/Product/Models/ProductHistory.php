@@ -1,23 +1,25 @@
 <?php
 
-namespace App\Modules\Store\Models;
+namespace App\Modules\Product\Models;
 
-use App\Modules\Store\Models\Store;
+use App\Modules\Product\Models\Product;
 use App\Modules\User\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
-class StoreHistory extends Model
+class ProductHistory extends Model
 {
 
     protected $guarded = ['id'];
 
-    public function store()
+    public function product()
     {
-        return $this->belongsTo(Company::class, 'company_id');
+        return $this->belongsTo(Product::class, 'product_id');
+
     }
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+
     }
 
 }

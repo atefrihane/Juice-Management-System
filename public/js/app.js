@@ -3996,6 +3996,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -4031,7 +4048,9 @@ __webpack_require__.r(__webpack_exports__);
       rentalId: data.rental.id,
       userId: data.userId,
       products: [],
+      status: data.rental.active,
       disabled: false,
+      end_reason: data.rental.end_reason,
       errors: []
     };
   }),
@@ -4135,7 +4154,8 @@ __webpack_require__.r(__webpack_exports__);
           location: this.location,
           comment: this.comment,
           customBacs: this.customBacs,
-          userId: this.userId
+          userId: this.userId,
+          end_reason: this.end_reason
         }).then(function (response) {
           console.log(response);
 
@@ -4155,12 +4175,14 @@ __webpack_require__.r(__webpack_exports__);
             swal.fire({
               type: 'success',
               title: 'La location a été modifiée avec succés !',
+              showConfirmButton: true,
               allowOutsideClick: false,
-              showConfirmButton: true
+              confirmButtonText: 'Fermer'
+            }).then(function (result) {
+              if (result.value) {
+                window.location = axios.defaults.baseURL + '/machines';
+              }
             });
-            setTimeout(function () {
-              return window.location = axios.defaults.baseURL + '/machines';
-            }, 2000);
           }
         })["catch"](function (error) {
           console.log(error);
@@ -7590,6 +7612,7 @@ __webpack_require__.r(__webpack_exports__);
       tva: '',
       productId: product.productId,
       error: 0,
+      userId: this.user_id,
       mixtures: [{
         endQuantityProduct: '',
         necessaryWeight: '',
@@ -7603,6 +7626,7 @@ __webpack_require__.r(__webpack_exports__);
       disabled: false
     };
   },
+  props: ['user_id'],
   mounted: function mounted() {
     this.$Progress.finish();
   },
@@ -7881,7 +7905,8 @@ __webpack_require__.r(__webpack_exports__);
           tva: this.tva,
           comment: this.comment,
           productId: this.productId,
-          mixtures: this.mixtures
+          mixtures: this.mixtures,
+          userId: this.userId
         }).then(function (response) {
           if (response.data.status == 400) {
             swal.fire({
@@ -8268,9 +8293,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       error: 0,
       mixtures: [],
       errors: [],
+      userId: this.user_id,
       disabled: false
     };
   }),
+  props: ['user_id'],
   computed: {
     url: function url() {
       return axios.defaults.baseURL + '/img/' + this.photo;
@@ -8390,9 +8417,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var form = this.validateForm(); // input front end validation returns false if error
 
       if (form != false) {
+        var _axios$post;
+
         this.disabled = true;
         this.$Progress.start();
-        axios.post('api/product/update/' + this.productId, _defineProperty({
+        axios.post('api/product/update/' + this.productId, (_axios$post = {
           code: this.code,
           state: this.state,
           name: this.name,
@@ -8417,7 +8446,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           comment: this.comment,
           productId: this.productId,
           mixtures: this.mixtures
-        }, "photo", this.photo)).then(function (response) {
+        }, _defineProperty(_axios$post, "photo", this.photo), _defineProperty(_axios$post, "userId", this.userId), _axios$post)).then(function (response) {
           _this4.$Progress.finish();
 
           if (response.data.status == 200) {
@@ -68942,305 +68971,403 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _vm._m(1),
-            _vm._v(" "),
-            _vm._l(_vm.customBacs, function(bac, index) {
-              return _c(
-                "div",
-                {
-                  staticStyle: {
-                    "background-color": "#e4e4e4",
-                    margin: "16px",
-                    padding: "24px"
-                  }
-                },
-                [
-                  _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "col-md-6" }, [
-                      _c("div", { staticClass: "form-group d-flex" }, [
-                        _c("label", { staticClass: "col-10" }, [
-                          _vm._v("Numero du bac: ")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
+            _vm.status == 0
+              ? _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-8" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Raison fin de location")]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
                           directives: [
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: bac.order,
-                              expression: "bac.order"
+                              value: _vm.end_reason,
+                              expression: "end_reason"
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", value: "", disabled: "" },
-                          domProps: { value: bac.order },
                           on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(bac, "order", $event.target.value)
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.end_reason = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
                             }
                           }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-6" }, [
-                      _c(
-                        "div",
-                        {
-                          staticClass: "form-group ",
-                          staticStyle: {
-                            display: "flex",
-                            "flex-direction": "column"
-                          }
                         },
                         [
-                          _c("label", [_vm._v("Etat : ")]),
+                          _c(
+                            "option",
+                            {
+                              attrs: { disabled: "" },
+                              domProps: { value: null }
+                            },
+                            [_vm._v("Séléctionner une raison d'arrêt")]
+                          ),
                           _vm._v(" "),
                           _c(
-                            "select",
-                            {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: bac.status,
-                                  expression: "bac.status"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              on: {
-                                change: [
-                                  function($event) {
-                                    var $$selectedVal = Array.prototype.filter
-                                      .call($event.target.options, function(o) {
-                                        return o.selected
-                                      })
-                                      .map(function(o) {
-                                        var val =
-                                          "_value" in o ? o._value : o.value
-                                        return val
-                                      })
-                                    _vm.$set(
-                                      bac,
-                                      "status",
-                                      $event.target.multiple
-                                        ? $$selectedVal
-                                        : $$selectedVal[0]
-                                    )
-                                  },
-                                  function($event) {
-                                    return _vm.onChangeStatus($event, bac)
-                                  }
-                                ]
-                              }
-                            },
-                            [
-                              _c(
-                                "option",
-                                {
-                                  attrs: { disabled: "" },
-                                  domProps: { value: null }
-                                },
-                                [_vm._v(" Séléctionner un etat")]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "option",
-                                { attrs: { value: "fonctionnelle" } },
-                                [_vm._v("Fonctionnelle")]
-                              ),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "en panne" } }, [
-                                _vm._v("En panne")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "en sommeil" } }, [
-                                _vm._v("En Sommeil")
-                              ])
-                            ]
-                          )
-                        ]
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "col-md-6" }, [
-                      _c(
-                        "div",
-                        {
-                          staticClass: "form-group ",
-                          staticStyle: {
-                            display: "flex",
-                            "flex-direction": "column"
-                          }
-                        },
-                        [
-                          _c("label", [_vm._v("Produit en bac ")]),
+                            "option",
+                            { attrs: { value: "Fin du contrat de location" } },
+                            [_vm._v("Fin du contrat de location")]
+                          ),
                           _vm._v(" "),
                           _c(
-                            "select",
-                            {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: bac.product_id,
-                                  expression: "bac.product_id"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: {
-                                disabled:
-                                  bac.status == "en panne" ||
-                                  bac.status == "en sommeil"
-                              },
-                              on: {
-                                change: [
-                                  function($event) {
-                                    var $$selectedVal = Array.prototype.filter
-                                      .call($event.target.options, function(o) {
-                                        return o.selected
-                                      })
-                                      .map(function(o) {
-                                        var val =
-                                          "_value" in o ? o._value : o.value
-                                        return val
-                                      })
-                                    _vm.$set(
-                                      bac,
-                                      "product_id",
-                                      $event.target.multiple
-                                        ? $$selectedVal
-                                        : $$selectedVal[0]
-                                    )
-                                  },
-                                  function($event) {
-                                    return _vm.getProductData($event, index)
-                                  }
-                                ]
-                              }
-                            },
-                            [
-                              _vm.products.length > 0
-                                ? _c("option", { domProps: { value: null } }, [
-                                    _vm._v(
-                                      " Séléctionner un \n                                    produit\n                                "
-                                    )
-                                  ])
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _vm._l(_vm.products, function(product) {
-                                return _c(
-                                  "option",
-                                  { domProps: { value: product.id } },
-                                  [_vm._v(_vm._s(product.nom))]
-                                )
-                              })
-                            ],
-                            2
-                          )
-                        ]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-6" }, [
-                      _c(
-                        "div",
-                        {
-                          staticClass: "form-group ",
-                          staticStyle: {
-                            display: "flex",
-                            "flex-direction": "column"
-                          }
-                        },
-                        [
-                          _c("label", { staticClass: "col-12" }, [
-                            _vm._v("Melange par defaut ")
-                          ]),
+                            "option",
+                            { attrs: { value: "Machine non rentable" } },
+                            [_vm._v("Machine non rentable")]
+                          ),
                           _vm._v(" "),
                           _c(
-                            "select",
-                            {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: bac.mixture_id,
-                                  expression: "bac.mixture_id"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: {
-                                disabled:
-                                  bac.status == "en panne" ||
-                                  bac.status == "en sommeil"
-                              },
-                              on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.$set(
-                                    bac,
-                                    "mixture_id",
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  )
-                                }
-                              }
-                            },
-                            [
-                              bac.mixtures.length == 0
-                                ? _c("option", { domProps: { value: null } }, [
-                                    _vm._v(
-                                      " Aucun\n                                    mélange\n                                "
-                                    )
-                                  ])
-                                : _vm._e(),
-                              _vm._v(" "),
-                              bac.mixtures.length > 0
-                                ? _c("option", { domProps: { value: null } }, [
-                                    _vm._v(
-                                      " Séléctionner un \n                                    mélange\n                                "
-                                    )
-                                  ])
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _vm._l(bac.mixtures, function(mixture, i) {
-                                return bac.mixtures.length > 0
-                                  ? _c(
-                                      "option",
-                                      { domProps: { value: mixture.id } },
-                                      [
-                                        _vm._v(
-                                          "\n                                    " +
-                                            _vm._s(mixture.name) +
-                                            "\n                                "
-                                        )
-                                      ]
-                                    )
-                                  : _vm._e()
-                              })
-                            ],
-                            2
-                          )
+                            "option",
+                            { attrs: { value: "Machine en panne" } },
+                            [_vm._v("Machine en panne")]
+                          ),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "Autre" } }, [
+                            _vm._v("Autre")
+                          ])
                         ]
                       )
                     ])
                   ])
-                ]
-              )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.status == 1
+              ? _c("div", { staticClass: "row" }, [_vm._m(1)])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._l(_vm.customBacs, function(bac, index) {
+              return _vm.status == 1
+                ? _c(
+                    "div",
+                    {
+                      staticStyle: {
+                        "background-color": "#e4e4e4",
+                        margin: "16px",
+                        padding: "24px"
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c("div", { staticClass: "form-group d-flex" }, [
+                            _c("label", { staticClass: "col-10" }, [
+                              _vm._v("Numero du bac: ")
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: bac.order,
+                                  expression: "bac.order"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "text", value: "", disabled: "" },
+                              domProps: { value: bac.order },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(bac, "order", $event.target.value)
+                                }
+                              }
+                            })
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "form-group ",
+                              staticStyle: {
+                                display: "flex",
+                                "flex-direction": "column"
+                              }
+                            },
+                            [
+                              _c("label", [_vm._v("Etat : ")]),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: bac.status,
+                                      expression: "bac.status"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  on: {
+                                    change: [
+                                      function($event) {
+                                        var $$selectedVal = Array.prototype.filter
+                                          .call($event.target.options, function(
+                                            o
+                                          ) {
+                                            return o.selected
+                                          })
+                                          .map(function(o) {
+                                            var val =
+                                              "_value" in o ? o._value : o.value
+                                            return val
+                                          })
+                                        _vm.$set(
+                                          bac,
+                                          "status",
+                                          $event.target.multiple
+                                            ? $$selectedVal
+                                            : $$selectedVal[0]
+                                        )
+                                      },
+                                      function($event) {
+                                        return _vm.onChangeStatus($event, bac)
+                                      }
+                                    ]
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "option",
+                                    {
+                                      attrs: { disabled: "" },
+                                      domProps: { value: null }
+                                    },
+                                    [_vm._v(" Séléctionner un etat")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "fonctionnelle" } },
+                                    [_vm._v("Fonctionnelle")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "en panne" } },
+                                    [_vm._v("En panne")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "en sommeil" } },
+                                    [_vm._v("En Sommeil")]
+                                  )
+                                ]
+                              )
+                            ]
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "form-group ",
+                              staticStyle: {
+                                display: "flex",
+                                "flex-direction": "column"
+                              }
+                            },
+                            [
+                              _c("label", [_vm._v("Produit en bac ")]),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: bac.product_id,
+                                      expression: "bac.product_id"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    disabled:
+                                      bac.status == "en panne" ||
+                                      bac.status == "en sommeil"
+                                  },
+                                  on: {
+                                    change: [
+                                      function($event) {
+                                        var $$selectedVal = Array.prototype.filter
+                                          .call($event.target.options, function(
+                                            o
+                                          ) {
+                                            return o.selected
+                                          })
+                                          .map(function(o) {
+                                            var val =
+                                              "_value" in o ? o._value : o.value
+                                            return val
+                                          })
+                                        _vm.$set(
+                                          bac,
+                                          "product_id",
+                                          $event.target.multiple
+                                            ? $$selectedVal
+                                            : $$selectedVal[0]
+                                        )
+                                      },
+                                      function($event) {
+                                        return _vm.getProductData($event, index)
+                                      }
+                                    ]
+                                  }
+                                },
+                                [
+                                  _vm.products.length > 0
+                                    ? _c(
+                                        "option",
+                                        { domProps: { value: null } },
+                                        [
+                                          _vm._v(
+                                            " Séléctionner un\n                                    produit\n                                "
+                                          )
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.products, function(product) {
+                                    return _c(
+                                      "option",
+                                      { domProps: { value: product.id } },
+                                      [_vm._v(_vm._s(product.nom))]
+                                    )
+                                  })
+                                ],
+                                2
+                              )
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "form-group ",
+                              staticStyle: {
+                                display: "flex",
+                                "flex-direction": "column"
+                              }
+                            },
+                            [
+                              _c("label", { staticClass: "col-12" }, [
+                                _vm._v("Melange par defaut ")
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: bac.mixture_id,
+                                      expression: "bac.mixture_id"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    disabled:
+                                      bac.status == "en panne" ||
+                                      bac.status == "en sommeil"
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        bac,
+                                        "mixture_id",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  bac.mixtures.length == 0
+                                    ? _c(
+                                        "option",
+                                        { domProps: { value: null } },
+                                        [
+                                          _vm._v(
+                                            " Aucun\n                                    mélange\n                                "
+                                          )
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  bac.mixtures.length > 0
+                                    ? _c(
+                                        "option",
+                                        { domProps: { value: null } },
+                                        [
+                                          _vm._v(
+                                            " Séléctionner un\n                                    mélange\n                                "
+                                          )
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm._l(bac.mixtures, function(mixture, i) {
+                                    return bac.mixtures.length > 0
+                                      ? _c(
+                                          "option",
+                                          { domProps: { value: mixture.id } },
+                                          [
+                                            _vm._v(
+                                              "\n                                    " +
+                                                _vm._s(mixture.name) +
+                                                "\n                                "
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  })
+                                ],
+                                2
+                              )
+                            ]
+                          )
+                        ])
+                      ])
+                    ]
+                  )
+                : _vm._e()
             }),
             _vm._v(" "),
             _c("div", { staticClass: "row" }, [
@@ -69299,10 +69426,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c("label", [_vm._v("Configurations des bacs : ")])
-      ])
+    return _c("div", { staticClass: "col-md-12" }, [
+      _c("label", [_vm._v("Configurations des bacs : ")])
     ])
   }
 ]

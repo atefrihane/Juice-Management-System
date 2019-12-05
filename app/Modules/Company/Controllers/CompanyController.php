@@ -77,7 +77,7 @@ class CompanyController extends Controller
 
         $company = Company::create($insertable);
         CompanyHistory::create([
-            'changes' => 'creation',
+            'action' => 'Création',
             'company_id' => $company->id,
             'user_id' => Auth::id(),
 
@@ -126,50 +126,7 @@ class CompanyController extends Controller
         $company = Company::find($id);
 
         if ($company) {
-            $changes = array();
-            if ($company->code != $request->code) {
-                array_push($changes, 'code');
-            }
-            if ($company->status != $request->status) {
-                array_push($changes, 'status');
-            }
-            if ($company->name != $request->name) {
-                array_push($changes, 'nom');
-            }
-
-            if ($company->country_id != $request->country_id) {
-                array_push($changes, 'pays');
-            }
-            if ($company->designation != $request->designation) {
-                array_push($changes, 'designation');
-            }
-            if ($company->city_id != $request->city_id) {
-                array_push($changes, 'ville');
-            }
-            if ($company->zipcode_id != $request->zipcode_id) {
-                array_push($changes, 'code postal');
-            }
-            if ($company->address != $request->address) {
-                array_push($changes, 'addresse');
-            }
-            if ($company->complement != $request->complement) {
-                array_push($changes, 'complement addresse');
-            }
-            if ($company->email != $request->email) {
-                array_push($changes, 'email');
-            }
-            $fullTel = $request->cc . ' ' . $request->tel;
-
-            if ($company->tel != $fullTel) {
-                array_push($changes, 'téléphone');
-            }
-            if ($company->comment != $request->comment) {
-                array_push($changes, 'comment');
-            }
-            if ($request->logo && $company->logo != $request->logo) {
-                array_push($changes, 'logo');
-            }
-            $changes = implode(",", $changes);
+           
 
             $checkCode = Company::where('code', preg_replace('/\s/', '', $request->code))
                 ->where('id', '!=', $company->id)
@@ -186,6 +143,7 @@ class CompanyController extends Controller
                 $file->move('img', $file->getClientOriginalName());
 
             }
+            $fullTel = $request->cc . ' ' . $request->tel;
 
             $company->update([
                 'code' => $request->code,
@@ -202,15 +160,15 @@ class CompanyController extends Controller
                 'comment' => $request->comment,
                 'logo' => isset($path) ? $path : $company->logo,
             ]);
-            if ($changes != "") {
+         
                 CompanyHistory::create([
-                    'changes' => $changes,
+                    'action' => 'Modification',
                     'company_id' => $company->id,
                     'user_id' => Auth::id(),
 
                 ]);
 
-            }
+            
 
             alert()->success('Succès!', 'La societé a été modifié avec succès ')->persistent("Fermer");
             return redirect()->route('showHome');

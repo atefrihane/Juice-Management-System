@@ -16,7 +16,7 @@
                 <div class="box box-primary">
 
                     <div class="box-header">
-                        <h3 class="box-title"> Détails machines</h3>
+                        <h3 class="box-title"> Détails machine</h3>
 
                     </div>
 
@@ -158,7 +158,7 @@
                                         @forelse($machine->histories as $machineHistory)
                                         <tr>
 
-                                            <td>{{$machine->created_at}}</td>
+                                            <td>@formatDate($machine->created_at)</td>
                                             <td>{{$machineHistory->user->nom}}</td>
                                             <td>{{$machineHistory->event}}</td>
                                            

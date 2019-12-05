@@ -329,9 +329,11 @@
                 error: 0,
                 mixtures: [],
                 errors: [],
+                userId:this.user_id,
                 disabled: false
             }
         },
+        props:['user_id'],
         computed:{
             url()
             {
@@ -505,7 +507,8 @@
                             comment: this.comment,
                             productId: this.productId,
                             mixtures: this.mixtures,
-                            photo: this.photo
+                            photo: this.photo,
+                            userId:this.userId
 
                         })
                         .then((response) => {

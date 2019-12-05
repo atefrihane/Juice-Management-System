@@ -118,7 +118,7 @@
 
 
                                 <div class="row">
-                                <div class="col-md-4">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Pays</label>
                                             <input type="text" class="form-control" value="{{$company->country->name}}"
@@ -186,18 +186,21 @@
                     <table class="table table-bordered table-hover example2">
                         <thead>
                             <tr>
-                                <th>Modifications</th>
-                                <th>Effectuée par</th>
+
+
                                 <th> Date et heure</th>
+                                <th>Utilisateur</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($company->histories as $history)
                             <tr>
-                                <td>{{$history->changes}}</td>
+                                <td>@formatDate($history->created_at)</td>
                                 <td>{{ucfirst($history->user->nom)}} {{ucfirst($history->user->prenom)}}</td>
-                                <td>{{ $history->created_at->format('d-m-Y')}}
-                                    {{ $history->created_at->timezone('Europe/Paris')->format('H:i:s')}}</td>
+                                <td>{{$history->action}}</td>
+                             
+                     
                             </tr>
                             @empty
 

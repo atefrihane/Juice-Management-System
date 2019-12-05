@@ -5,10 +5,11 @@ namespace App\Modules\Product\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Modules\Mixture\Models\Mixture;
 use App\Modules\Product\Models\Product;
+use App\Modules\Product\Models\ProductHistory;
 use App\Modules\Store\Models\Store;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
-use Carbon\Carbon;
 
 class ProductController extends Controller
 {
@@ -89,6 +90,11 @@ class ProductController extends Controller
             }
 
         }
+        ProductHistory::create([
+            'action' => 'Création',
+            'product_id' => $product->id,
+            'user_id' => $request->userId,
+        ]);
         return response()->json(['status' => 200]);
 
     }
@@ -232,6 +238,11 @@ class ProductController extends Controller
                 $product->mixtures()->delete();
 
             }
+            ProductHistory::create([
+                'action' => 'Modification',
+                'user_id' => $request->userId,
+                'product_id' => $product->id,
+            ]);
 
             return response()->json(['status' => 200]);
 
@@ -279,14 +290,14 @@ class ProductController extends Controller
     }
     public function handleGetValidityAfterOpening($id, Request $request)
     {
-     
+
         $product = Product::find($id);
         if ($product) {
-           
-            $date=Carbon::parse($request->date);
+
+            $date = Carbon::parse($request->date);
             $finalDate = $date->addDays($product->period_of_validity);
-          
-            return response()->json(['status' => 200 ,'finalDate'=> $date->format('Y-m-d')]);
+
+            return response()->json(['status' => 200, 'finalDate' => $date->format('Y-m-d')]);
 
         }
         return response()->json(['status' => 404]);

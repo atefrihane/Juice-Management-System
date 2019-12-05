@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCompanyHistory extends Migration
+class CreateProductHistories extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateCompanyHistory extends Migration
      */
     public function up()
     {
-        Schema::create('company_histories', function (Blueprint $table) {
+        Schema::create('product_histories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('action');
-            $table->integer('company_id')->unsigned();
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->integer('product_id')->unsigned();
+            $table->foreign('product_id')->references('id')->on('products');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('products');
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateCompanyHistory extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_histories');
+        Schema::dropIfExists('product_histories');
     }
 }

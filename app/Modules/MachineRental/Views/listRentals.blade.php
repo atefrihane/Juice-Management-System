@@ -51,7 +51,7 @@
                                     <td>{{$rental->end_reason}}</td>
                                     <td style="width:30%;">{{$rental->Comment}}</td>
                                     <td>
-                                   
+                                            <a href="{{route('showRental',$rental->id)}}" class="btn btn-warning">Voir détails</a>
                                             <a href="{{route('showEditRental',$rental->id)}}" class="btn btn-success">Modifier location</a>
 
                                             

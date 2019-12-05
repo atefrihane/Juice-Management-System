@@ -253,19 +253,17 @@
                     <table class="tables">
                         <thead>
                             <tr>
-                                <th>Modifications</th>
-                                <th>Effectuée par</th>
                                 <th> Date et heure</th>
+                                <th>Utilisateur</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($store->histories as $history)
                             <tr>
-                                <td>{{$history->changes}}</td>
-                                <td>{{ucfirst($history->user->nom)}} {{ucfirst($history->user->prenom)}}</td>
-                                <td>{{ $history->created_at->format('d-m-Y')}}
-                                    {{ $history->created_at->timezone('Europe/Paris')->format('H:i:s')}}</td>
-
+                                    <td>@formatDate($history->created_at)</td>
+                                    <td>{{ucfirst($history->user->nom)}} {{ucfirst($history->user->prenom)}}</td>
+                                    <td>{{$history->action}}</td>
                             </tr>
                             @empty
 

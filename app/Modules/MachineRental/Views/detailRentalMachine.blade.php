@@ -172,11 +172,7 @@
 
                             @endforeach
                             @endif
-                            <div class="row">
-                                <div class="container text-center">
-                                    <a href="{{url()->previous()}}" class="btn btn-danger pl-1">Fermer</a>
-                                </div>
-                            </div>
+                          
 
                         </div>
                     </form>
@@ -189,6 +185,61 @@
 
         </div>
 
+
+    </section>
+
+    <section class="content-header">
+        <div class="container">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <h4>
+                        Historique de la location
+                        <small> {{$rental->machine->code}}</small>
+                    </h4>
+                    <table class="table table-bordered table-hover example2">
+                        <thead>
+                            <tr>
+                                <th> Date et heure</th>
+                                <th>Utilisateur</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($rental->histories as $history)
+                            <tr>
+                                <td>@formatDate($history->created_at)</td>
+                                <td>{{$history->user->nom}} {{$history->user->prenom}}</td>
+                                <td>{{$history->action}}</td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="3" class="text-center">
+                                    <h4>Aucun historique trouvé!</h4>
+                                </td>
+                            </tr>
+                            @endforelse
+
+
+
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+
+                <div class="box-body">
+                    <div class="row">
+                        <div class="container text-center">
+                            <a href="{{url()->previous() }}" class="btn btn-danger">Fermer</a>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
 
     </section>
 

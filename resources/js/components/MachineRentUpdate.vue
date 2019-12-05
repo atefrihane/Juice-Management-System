@@ -77,7 +77,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Date de fin de location</label>
-                             <Datepicker v-model="endDate" placeholder=""></Datepicker>
+                            <Datepicker v-model="endDate" placeholder=""></Datepicker>
                         </div>
                     </div>
                 </div>
@@ -85,8 +85,8 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Prix location mensuel</label>
-                            <input class="form-control" value="" name="designation" type="number" step="0.01" placeholder="Prix"
-                                v-model="price">
+                            <input class="form-control" value="" name="designation" type="number" step="0.01"
+                                placeholder="Prix" v-model="price">
 
                         </div>
                     </div>
@@ -110,14 +110,30 @@
                         </div>
                     </div>
                 </div>
+                <div class="row" v-if="status == 0">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                              <label>Raison fin de location</label>
+                        <select class="form-control" v-model="end_reason">
+                            <option :value="null" disabled>Séléctionner une raison d'arrêt</option>
+                            <option value="Fin du contrat de location">Fin du contrat de location</option>
+                            <option value="Machine non rentable">Machine non rentable</option>
+                            <option value="Machine en panne">Machine en panne</option>
+                            <option value="Autre">Autre</option>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+         
 
-                <div class="row">
+
+                <div class="row" v-if="status == 1">
                     <div class="col-md-12">
                         <label>Configurations des bacs : </label>
                     </div>
                 </div>
 
-                <div style="background-color: #e4e4e4; margin: 16px; padding: 24px" v-for="(bac,index) in customBacs">
+                <div style="background-color: #e4e4e4; margin: 16px; padding: 24px" v-for="(bac,index) in customBacs" v-if="status == 1">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group d-flex">
@@ -128,7 +144,7 @@
                         <div class="col-md-6">
                             <div class="form-group " style="display: flex; flex-direction: column">
                                 <label>Etat : </label>
-                                <select class="form-control" v-model="bac.status"@change="onChangeStatus($event,bac)">
+                                <select class="form-control" v-model="bac.status" @change="onChangeStatus($event,bac)">
                                     <option :value="null" disabled> Séléctionner un etat</option>
                                     <option value="fonctionnelle">Fonctionnelle</option>
                                     <option value="en panne">En panne</option>
@@ -149,11 +165,11 @@
                                 <select class="form-control" @change="getProductData($event,index)"
                                     v-model="bac.product_id"
                                     :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
-                            
-                           <option :value="null"  v-if="products.length> 0"> Séléctionner un 
+
+                                    <option :value="null" v-if="products.length> 0"> Séléctionner un
                                         produit
-                                    </option>            
-                     <option v-for="product in products" :value="product.id ">{{product.nom}}</option>
+                                    </option>
+                                    <option v-for="product in products" :value="product.id ">{{product.nom}}</option>
 
                                 </select>
                             </div>
@@ -164,19 +180,20 @@
                                 <select class="form-control" v-model="bac.mixture_id"
                                     :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
 
-                                    <option :value="null"  v-if="bac.mixtures.length == 0"> Aucun
+                                    <option :value="null" v-if="bac.mixtures.length == 0"> Aucun
                                         mélange
                                     </option>
-                                       <option :value="null"  v-if="bac.mixtures.length > 0"> Séléctionner un 
+                                    <option :value="null" v-if="bac.mixtures.length > 0"> Séléctionner un
                                         mélange
                                     </option>
-                                    <option v-if="bac.mixtures.length > 0" v-for="(mixture,i) in bac.mixtures" :value="mixture.id">
+                                    <option v-if="bac.mixtures.length > 0" v-for="(mixture,i) in bac.mixtures"
+                                        :value="mixture.id">
                                         {{mixture.name}}
                                     </option>
 
 
                                 </select>
-                               
+
                             </div>
 
                         </div>
@@ -214,10 +231,10 @@
 </template>
 
 <script>
- import Datepicker from 'vuejs-datepicker';
+    import Datepicker from 'vuejs-datepicker';
     export default {
 
-           components: {
+        components: {
             Datepicker
         },
 
@@ -241,18 +258,19 @@
                 rentalId: data.rental.id,
                 userId: data.userId,
                 products: [],
-                disabled:false,
-
+                status:data.rental.active,
+                disabled: false,
+                end_reason:data.rental.end_reason,
                 errors: []
 
             }
 
         },
-        props:['last'],
-     
+        props: ['last'],
+
         methods: {
             getProducts() {
-                axios.get(axios.defaults.baseURL+'/api/products/')
+                axios.get(axios.defaults.baseURL + '/api/products/')
                     .then((response) => {
                         console.log(response.data)
 
@@ -276,7 +294,7 @@
                         this.bacs.map((bac, i) => {
                             if (bac.product) {
                                 this.customBacs.push({
-                                    id:bac.id,
+                                    id: bac.id,
                                     order: bac.order,
                                     status: bac.status,
                                     product_id: bac.product_id,
@@ -286,7 +304,7 @@
 
                             } else {
                                 this.customBacs.push({
-                                    id:bac.id,
+                                    id: bac.id,
                                     order: bac.order,
                                     status: bac.status,
                                     product_id: bac.product_id,
@@ -305,7 +323,7 @@
 
 
             },
-                 onChangeStatus(event, selectedBac) {
+            onChangeStatus(event, selectedBac) {
 
                 let value = event.target.value;
                 this.customBacs.map((bac, i) => {
@@ -328,11 +346,11 @@
                     .then((response) => {
 
                         console.log(response);
-                            this.customBacs[index].mixtures=[]
+                        this.customBacs[index].mixtures = []
                         if (response.data.product.length > 0) {
-                        this.customBacs[index].mixtures=response.data.product;
+                            this.customBacs[index].mixtures = response.data.product;
 
-                }
+                        }
 
                     })
                     .catch(function (error) {
@@ -360,7 +378,7 @@
 
             submitRental() {
                 if (this.validateForm()) {
-                    this.disabled=true    
+                    this.disabled = true
                     axios.post('api/rental/' + this.rentalId, {
                             startDate: this.startDate,
                             endDate: this.endDate,
@@ -368,34 +386,41 @@
                             location: this.location,
                             comment: this.comment,
                             customBacs: this.customBacs,
-                            userId: this.userId
+                            userId: this.userId,
+                            end_reason:this.end_reason
                         })
                         .then((response) => {
                             console.log(response);
                             if (response.data.status == 400) {
-                                 swal.fire({
+                                swal.fire({
                                     type: 'error',
                                     title: 'Erreur date!',
+                                    showConfirmButton: true,
+                                    allowOutsideClick: false,
+                                    confirmButtonText: 'Fermer'
+
+
+                                });
+                                this.disabled = false
+                                return false;
+                            }
+
+                            if (response.data.status == 200) {
+
+                                  swal.fire({
+                                    type: 'success',
+                                    title: 'La location a été modifiée avec succés !',
                                     showConfirmButton: true,
                                       allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
 
-                                });
-                                  this.disabled=false  
-                                return false;
-                            }
-
-                            if (response.data.status == 200) {
-                                swal.fire({
-                                    type: 'success',
-                                    title: 'La location a été modifiée avec succés !',
-                                      allowOutsideClick: false,
-                                    showConfirmButton: true,
-
-
-                                });
-                                setTimeout(() => window.location = axios.defaults.baseURL+'/machines', 2000);
+                                }).then((result) => {
+                                    if (result.value) {
+                                        window.location = axios.defaults.baseURL+'/machines';
+                                    }
+                                })
+                             
                             }
 
                         })
@@ -413,7 +438,7 @@
             },
             stopRental() {
 
-                window.location = axios.defaults.baseURL+'/machine/rental/show/end/' + this.rentalId;
+                window.location = axios.defaults.baseURL + '/machine/rental/show/end/' + this.rentalId;
 
 
             }

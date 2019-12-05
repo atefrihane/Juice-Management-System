@@ -12,7 +12,7 @@
         <div class="row">
             <div class="container">
 
-               <product-add> </product-add>
+               <product-add :user_id="{{Auth::user()->id}}"> </product-add>
                <vue-progress-bar></vue-progress-bar>
 
                 <!-- /.col -->
