@@ -1813,6 +1813,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.loadCity();
@@ -1841,7 +1842,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.cities[i].zipcodes.splice(this.cities[i].zipcodes.indexOf(zipcode), 1);
     },
     send: function send(city) {
-      if (city.zipcode != '') {
+      if (city.zipcode && city.zipcode.replace(/\s/g, '').length) {
         city.zipcode = city.zipcode.replace(/\s/g, '');
         var found = false;
         city.zipcodes.forEach(function (zipcode, index) {
@@ -2026,13 +2027,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           if (response.data.status == 200) {
             swal.fire({
               type: 'success',
-              title: 'Pays ajouté avec succés ! ',
+              title: 'Le pays a été ajouté avec succés !',
               showConfirmButton: true,
+              allowOutsideClick: false,
               confirmButtonText: 'Fermer'
+            }).then(function (result) {
+              if (result.value) {
+                window.location = axios.defaults.baseURL + '/static';
+              }
             });
-            setTimeout(function () {
-              return window.location = axios.defaults.baseURL + '/static';
-            }, 2000);
           }
         })["catch"](function (error) {
           console.log(error);
@@ -2396,7 +2399,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     send: function send(city) {
-      if (city.zipcode != '') {
+      if (city.zipcode && city.zipcode.replace(/\s/g, '').length) {
+        city.zipcode = city.zipcode.replace(/\s/g, '');
         var found = false;
         city.zipCodes.forEach(function (zipcode, index) {
           if (city.zipcode == zipcode.code) {
@@ -66003,7 +66007,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "tbody",
-          _vm._l(_vm.cities, function(city, i) {
+          _vm._l(_vm.cities, function(city, index) {
             return _c("tr", [
               _c("td", [
                 _c("input", {
@@ -66085,7 +66089,7 @@ var render = function() {
                             attrs: { type: "button" },
                             on: {
                               click: function($event) {
-                                return _vm.updateCode($event, i, j, city)
+                                return _vm.updateCode($event, _vm.i, j, city)
                               }
                             }
                           },
@@ -66099,7 +66103,7 @@ var render = function() {
                             attrs: { type: "button" },
                             on: {
                               click: function($event) {
-                                return _vm.removeZipcode(zipcode, i, j)
+                                return _vm.removeZipcode(zipcode, _vm.i, j)
                               }
                             }
                           },
@@ -66117,20 +66121,22 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("td", [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-default",
-                    staticStyle: { "margin-top": "4px" },
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        return _vm.removeCity(city, _vm.index)
-                      }
-                    }
-                  },
-                  [_c("i", { staticClass: "fa fa-minus" })]
-                )
+                index > 0
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-default",
+                        staticStyle: { "margin-top": "4px" },
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.removeCity(city, index)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fa fa-minus" })]
+                    )
+                  : _vm._e()
               ])
             ])
           }),

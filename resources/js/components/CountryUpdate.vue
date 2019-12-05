@@ -379,7 +379,8 @@
 
             send(city) {
 
-                if (city.zipcode != '') {
+                if (city.zipcode && (city.zipcode.replace(/\s/g, '').length)) {
+                           city.zipcode = city.zipcode.replace(/\s/g, '');
                     let found = false;
                     city.zipCodes.forEach((zipcode, index) => {
 

@@ -41,7 +41,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(city,i) in cities">
+                    <tr v-for="(city,index) in cities">
                         <td>
                             <input type="text" class="form-control" placeholder="Ville" v-model="city.name"
                                 @change="checkCity(city)">
@@ -66,7 +66,7 @@
                         <td>
 
                             <button type="button" class="btn btn-default" style="margin-top:4px;"
-                                @click="removeCity(city,index)"><i class="fa fa-minus"></i></button>
+                                @click="removeCity(city,index)" v-if="index > 0"><i class="fa fa-minus"></i></button>
                         </td>
                     </tr>
 
@@ -85,7 +85,8 @@
                 <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelRental()">
                     Annuler</button>
 
-                <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled" @click="submitRental()">
+                <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled"
+                    @click="submitRental()">
                     Confirmer</button>
 
             </div>
@@ -106,7 +107,7 @@
                 code: '',
                 cities: [],
                 errors: [],
-                disabled:false
+                disabled: false
 
 
 
@@ -142,15 +143,15 @@
             },
             send(city) {
 
-                if (city.zipcode != '') {
-                   city.zipcode = city.zipcode.replace(/\s/g, '');
+                if (city.zipcode && (city.zipcode.replace(/\s/g, '').length)) {
+                    city.zipcode = city.zipcode.replace(/\s/g, '');
                     let found = false;
                     city.zipcodes.forEach((zipcode, index) => {
                         if (city.zipcode == zipcode) {
                             swal.fire({
                                 type: 'error',
                                 title: 'Code postal déja renseigné !  ',
-                         allowOutsideClick: false,
+                                allowOutsideClick: false,
                                 showConfirmButton: true,
                                 confirmButtonText: 'Fermer'
 
@@ -168,12 +169,13 @@
 
 
                 } else {
+
                     swal.fire({
                         type: 'error',
                         title: 'Veuillez entrer un code postal ',
                         showConfirmButton: true,
                         confirmButtonText: 'Fermer',
-                          allowOutsideClick: false,
+                        allowOutsideClick: false,
 
                     });
                 }
@@ -183,11 +185,12 @@
 
             checkCity(city) {
                 let count = 0;
+
                 if (city.name != '') {
                     if (this.cities.length > 1) {
                         this.cities.forEach((oldCity, index) => {
                             if (oldCity.name == city.name) {
-                            count++;
+                                count++;
                             }
 
                         });
@@ -197,7 +200,7 @@
                                 title: 'Nom de la ville déja existant !  ',
                                 showConfirmButton: true,
                                 confirmButtonText: 'Fermer',
-                                  allowOutsideClick: false,
+                                allowOutsideClick: false,
 
                             });
                             city.name = ''
@@ -257,7 +260,7 @@
                         swal.fire({
                             type: 'error',
                             title: 'Veuillez entrer une valeur non vide!  ',
-                              allowOutsideClick: false,
+                            allowOutsideClick: false,
                             showConfirmButton: true,
                             confirmButtonText: 'Fermer'
 
@@ -307,7 +310,7 @@
             },
             submitRental() {
                 if (this.validateForm()) {
-                    this.disabled=true
+                    this.disabled = true
 
                     axios.post('/country/add', {
                             name: this.name,
@@ -322,7 +325,7 @@
                                     title: 'Nom déja existant! ',
                                     showConfirmButton: true,
                                     confirmButtonText: 'Fermer',
-                                      allowOutsideClick: false,
+                                    allowOutsideClick: false,
 
                                 });
 
@@ -342,13 +345,18 @@
                             if (response.data.status == 200) {
                                 swal.fire({
                                     type: 'success',
-                                    title: 'Pays ajouté avec succés ! ',
+                                    title: 'Le pays a été ajouté avec succés !',
                                     showConfirmButton: true,
+                                    allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
-                                });
 
-                                setTimeout(() => window.location = axios.defaults.baseURL+'/static', 2000);
+                                }).then((result) => {
+                                    if (result.value) {
+                                        window.location = axios.defaults.baseURL + '/static';
+                                    }
+                                })
+
 
                             }
                         })
@@ -360,7 +368,7 @@
 
             },
             cancelRental() {
-                window.location = axios.defaults.baseURL+'/static'
+                window.location = axios.defaults.baseURL + '/static'
 
             }
 
