@@ -40,7 +40,7 @@
                             </thead>
                             <tbody>
                                 @forelse($rentals as $rental)
-                                <tr class="table-tr">
+                                <tr>
                                     <td data-url="{{route('showRental', $rental->id)}}">{{$rental->date_debut}}</td>
                                     <td data-url="{{route('showRental', $rental->id)}}">{{$rental->date_fin}}</td>
                                     <td data-url="{{route('showRental', $rental->id)}}">
@@ -50,12 +50,22 @@
                                     <td data-url="{{route('showRental', $rental->id)}}">@convert($rental->price)</td>
                                     <td>{{$rental->end_reason}}</td>
                                     <td style="width:30%;">{{$rental->Comment}}</td>
-                                    <td>
-                                            <a href="{{route('showRental',$rental->id)}}" class="btn btn-warning">Voir détails</a>
-                                            <a href="{{route('showEditRental',$rental->id)}}" class="btn btn-success">Modifier location</a>
+                                    <td class="text-center">
+                                        <div class="row">
+                                            <a href="{{route('showRental',$rental->id)}}" class="btn btn-warning" style="width:150px;margin:4px;">Voir
+                                                détails</a>
+                                                </div>
 
-                                            
-
+                                        <div class="row">
+                                            <a href="{{route('showEditRental',$rental->id)}}"
+                                            style="width:150px;margin:2px;" class="btn btn-success">Modifier location</a>
+                                                </div>
+                                                @if($rental->active == 1)
+                                                <div class="row">
+                                            <a href="{{route('showEndRental',$rental->id)}}"
+                                            style="width:150px;margin:2px;" class="btn btn-danger">Arrêter location</a>
+                                                </div>
+                                                @endif
                                     </td>
 
                                 </tr>
@@ -75,32 +85,36 @@
                                                     {{csrf_field()}}
                                                     <div class="form-group">
 
-                                                    <div class="form-group">
-                                                <label>Raison fin de location</label>
-                                                <select  class="form-control" name="end_reason">
-                                                    <option value="Fin du contrat de location">Fin du contrat de location</option>
-                                                    <option value="Machine non rentable">Machine non rentable</option>
-                                                    <option value="Machine en panne">Machine en panne</option>
-                                                    <option value="Autre">Autre</option>
-                                                </select>
-                                            </div>
-                                                    <div class="form-group">
-
                                                         <div class="form-group">
-                                                            <label for="exampleFormControlTextarea1">
-                                                                Commentaire</label>
-                                                            <textarea class="form-control"
-                                                                id="exampleFormControlTextarea1" name="Comment"
-                                                                rows="3">{{$rental->Comment}}</textarea>
+                                                            <label>Raison fin de location</label>
+                                                            <select class="form-control" name="end_reason">
+                                                                <option value="Fin du contrat de location">Fin du
+                                                                    contrat de location</option>
+                                                                <option value="Machine non rentable">Machine non
+                                                                    rentable</option>
+                                                                <option value="Machine en panne">Machine en panne
+                                                                </option>
+                                                                <option value="Autre">Autre</option>
+                                                            </select>
                                                         </div>
-                                                    </div>
-                                                    <div class="text-center">
+                                                        <div class="form-group">
 
-                                                        <button type="submit" class="btn btn-danger"
-                                                            data-dismiss="modal" aria-label="Close">Annuler</button>
-                                                        <button type="submit" class="btn btn-success">Confirmer</button>
+                                                            <div class="form-group">
+                                                                <label for="exampleFormControlTextarea1">
+                                                                    Commentaire</label>
+                                                                <textarea class="form-control"
+                                                                    id="exampleFormControlTextarea1" name="Comment"
+                                                                    rows="3">{{$rental->Comment}}</textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-center">
 
-                                                    </div>
+                                                            <button type="submit" class="btn btn-danger"
+                                                                data-dismiss="modal" aria-label="Close">Annuler</button>
+                                                            <button type="submit"
+                                                                class="btn btn-success">Confirmer</button>
+
+                                                        </div>
 
                                                 </form>
                                             </div>

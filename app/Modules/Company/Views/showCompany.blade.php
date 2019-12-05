@@ -199,8 +199,8 @@
                                 <td>@formatDate($history->created_at)</td>
                                 <td>{{ucfirst($history->user->nom)}} {{ucfirst($history->user->prenom)}}</td>
                                 <td>{{$history->action}}</td>
-                             
-                     
+
+
                             </tr>
                             @empty
 
