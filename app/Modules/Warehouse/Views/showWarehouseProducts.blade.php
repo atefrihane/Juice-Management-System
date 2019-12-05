@@ -16,7 +16,7 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Liste des produits en stock</h3>
-                        <a href="{{route('addProductQuantity')}}" class="btn btn-primary pull-right">Ajouter une
+                        <a href="{{route('showAddProductQuantity')}}" class="btn btn-primary pull-right">Ajouter une
                             entrée</a>
 
 
