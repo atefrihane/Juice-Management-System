@@ -48,105 +48,112 @@
                                     <td data-url="{{route('showRental', $rental->id)}}">{{$rental->store->designation}}
                                     </td>
                                     <td data-url="{{route('showRental', $rental->id)}}">@convert($rental->price)</td>
+                                    @if($rental->end_reason)
                                     <td>{{$rental->end_reason}}</td>
+                                    @else
+                                    <td>Non renseigné</td>
+                                    @endif
+                                    
+                                    @if($rental->comment)
                                     <td style="width:30%;">{{$rental->Comment}}</td>
-                                    <td class="text-center">
-                                        <div class="row">
-                                            <a href="{{route('showRental',$rental->id)}}" class="btn btn-warning" style="width:150px;margin:4px;">Voir
-                                                détails</a>
-                                                </div>
+                                    @else
+                                    <td style="width:30%;">Non renseigné</td>
+                                    @endif
+                                    <td class="not-this text-center">
 
-                                        <div class="row">
-                                            <a href="{{route('showEditRental',$rental->id)}}"
-                                            style="width:150px;margin:2px;" class="btn btn-success">Modifier location</a>
-                                                </div>
+                                        <div class="btn-group">
+                                            <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false"></a>
+                                            <ul class="dropdown-menu edit" role="menu">
+                                                <li><a href="{{route('showRental',$rental->id)}}">Voir détails</a></li>
+                                                <li><a href="{{route('showEditRental',$rental->id)}}">Modifier
+                                                        location</a></li>
                                                 @if($rental->active == 1)
-                                                <div class="row">
-                                            <a href="{{route('showEndRental',$rental->id)}}"
-                                            style="width:150px;margin:2px;" class="btn btn-danger">Arrêter location</a>
-                                                </div>
+                                                <li><a href="{{route('showEndRental',$rental->id)}}">Arrêter
+                                                        location</a></li>
                                                 @endif
-                                    </td>
-
-                                </tr>
-                                <div class="modal fade" id="modal-default{{$rental->id}}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">×</span></button>
-                                                <h4 class="modal-title">Modifier l'historique de la location "
-                                                    {{$rental->store->designation}} "
-                                                </h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form method="post" action="{{route('handleEditRental',$rental->id)}}">
-                                                    {{csrf_field()}}
-                                                    <div class="form-group">
-
-                                                        <div class="form-group">
-                                                            <label>Raison fin de location</label>
-                                                            <select class="form-control" name="end_reason">
-                                                                <option value="Fin du contrat de location">Fin du
-                                                                    contrat de location</option>
-                                                                <option value="Machine non rentable">Machine non
-                                                                    rentable</option>
-                                                                <option value="Machine en panne">Machine en panne
-                                                                </option>
-                                                                <option value="Autre">Autre</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group">
-
-                                                            <div class="form-group">
-                                                                <label for="exampleFormControlTextarea1">
-                                                                    Commentaire</label>
-                                                                <textarea class="form-control"
-                                                                    id="exampleFormControlTextarea1" name="Comment"
-                                                                    rows="3">{{$rental->Comment}}</textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-center">
-
-                                                            <button type="submit" class="btn btn-danger"
-                                                                data-dismiss="modal" aria-label="Close">Annuler</button>
-                                                            <button type="submit"
-                                                                class="btn btn-success">Confirmer</button>
-
-                                                        </div>
-
-                                                </form>
-                                            </div>
-
+                                            </ul>
                                         </div>
-                                        <!-- /.modal-content -->
-                                    </div>
-
-                                    <!-- /.modal-dialog -->
-                                </div>
-                                @empty
-                                <tr>
-                                    <td colspan="7">
-                                        <h4 colspan="7" class="text-center">Aucune location trouvée !</h4>
-                                    </td>
-                                </tr>
-                                @endforelse
-
-
-                            </tbody>
-
-                        </table>
                     </div>
+                    </td>
 
+
+                    </tr>
+                    <div class="modal fade" id="modal-default{{$rental->id}}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span></button>
+                                    <h4 class="modal-title">Modifier l'historique de la location "
+                                        {{$rental->store->designation}} "
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="post" action="{{route('handleEditRental',$rental->id)}}">
+                                        {{csrf_field()}}
+                                        <div class="form-group">
+
+                                            <div class="form-group">
+                                                <label>Raison fin de location</label>
+                                                <select class="form-control" name="end_reason">
+                                                    <option value="Fin du contrat de location">Fin du
+                                                        contrat de location</option>
+                                                    <option value="Machine non rentable">Machine non
+                                                        rentable</option>
+                                                    <option value="Machine en panne">Machine en panne
+                                                    </option>
+                                                    <option value="Autre">Autre</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+
+                                                <div class="form-group">
+                                                    <label for="exampleFormControlTextarea1">
+                                                        Commentaire</label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1"
+                                                        name="Comment" rows="3">{{$rental->Comment}}</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="text-center">
+
+                                                <button type="submit" class="btn btn-danger" data-dismiss="modal"
+                                                    aria-label="Close">Annuler</button>
+                                                <button type="submit" class="btn btn-success">Confirmer</button>
+
+                                            </div>
+
+                                    </form>
+                                </div>
+
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+
+                        <!-- /.modal-dialog -->
+                    </div>
+                    @empty
+                    <tr>
+                        <td colspan="7">
+                            <h4 colspan="7" class="text-center">Aucune location trouvée !</h4>
+                        </td>
+                    </tr>
+                    @endforelse
+
+
+                    </tbody>
+
+                    </table>
                 </div>
-
 
             </div>
 
+
         </div>
 
-    </section>
+</div>
+
+</section>
 
 </div>
 @endsection
