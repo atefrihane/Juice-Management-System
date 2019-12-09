@@ -36,6 +36,7 @@ class MachineHistoryController extends Controller
                 'event'=>$request->event,
                 'comment'=>$request->comment
             ]);
+      
 
             alert()->success('Succès!', 'Historique modifié avec succès !')->persistent('Femer');
             return redirect()->back();

@@ -18,6 +18,10 @@
         window.location = $(this).data("url");
     });
 
+    $('.table-t > td:not(:last-child').click(function () {
+        window.location = $(this).data("url");
+    });
+
 </script>
 
 
@@ -191,15 +195,15 @@
 
 <script>
     $(document).ready(function () {
-        $(".designation").bind('change paste keyup', function () {
+        $(".designation").on('change', function () {
           
-                    if ($('.code').val() == "") {
+                    $('.code').val("")
                     var value = $(this).val();
                     str = value.replace(/\s+/g, '');
                     var res = str.substr(0, 6).toUpperCase();
                     $('.code').val(res);
 
-                    }
+                    
 
                 
 

@@ -39,16 +39,9 @@
                         <div class="box-body">
                             <div class="row">
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">ID</label>
-                                        <input required class="form-control" id="disabledInput" type="text"
-                                            placeholder="{{$lastCompanyId}}" disabled>
+                            
 
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Code</label>
                                         <input required type="text" class="form-control code" name="code"
@@ -56,7 +49,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Statut</label>
                                         <select class="form-control" name="status" value="{{old('status')}}">

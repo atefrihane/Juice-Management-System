@@ -113,6 +113,26 @@
                                     <input type="text" class="form-control" value="{{$store->designation}}" readonly
                                         placeholder="Nom du groupe">
                                 </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Nom de la société</label>
+                                    <input type="text" class="form-control" value="{{ucfirst($store->company->name)}}"
+                                        readonly placeholder="Nom du groupe">
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Adresse de siége</label>
+                                    <input type="text" class="form-control" value="{{$store->address}}" readonly
+                                        placeholder="Adresse de siége">
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Complément addresse (optionnel )</label>
+                                    <input type="text" class="form-control" value="{{$store->complement}}" readonly
+                                        placeholder="Complément addresse">
+                                </div>
 
                                 <div class="row">
                                     <div class="col-md-4">
@@ -141,17 +161,38 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="exampleInputPassword1">Adresse de siége</label>
-                                    <input type="text" class="form-control" value="{{$store->address}}" readonly
-                                        placeholder="Adresse de siége">
+                                    <label for="exampleInputPassword1">Email</label>
+                                    <input type="text" class="form-control" value="{{$store->email}}" readonly
+                                        placeholder="Email">
                                 </div>
 
-
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Numéro de téléphone</label>
+                                    <input type="text" class="form-control" value="{{$store->tel}}" readonly
+                                        placeholder="Email">
+                                </div>
 
                                 <div class="form-group">
-                                    <label for="exampleInputPassword1">Complément addresse (optionnel )</label>
-                                    <input type="text" class="form-control" value="{{$store->complement}}" readonly
-                                        placeholder="Complément addresse">
+                                    <label for="exampleInputEmail1">Type d'envoi des factures</label>
+                                    <input type="text" class="form-control" value="{{$store->bill_type}}" disabled>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Facture addressée vers</label>
+                                    <input type="text" class="form-control" value="{{$store->bill_to}}" disabled>
+
+                                </div>
+                                <div class="form-group">
+                                    <label>Recommendation pour livreur (optionnel)</label>
+                                    @if($store->deliveryRec)
+                                    <textarea class="form-control" rows="3"
+                                        placeholder="Recommendarion pour liveruer ...">{{$store->deliveryRec}}</textarea>
+                                        @else
+                                        <textarea class="form-control" rows="3"
+                                        placeholder="Recommendarion pour liveruer ...">Aucun</textarea>
+
+                                        @endif
                                 </div>
 
                                 <div class="form-group">
@@ -261,9 +302,9 @@
                         <tbody>
                             @forelse($store->histories as $history)
                             <tr>
-                                    <td>@formatDate($history->created_at)</td>
-                                    <td>{{ucfirst($history->user->nom)}} {{ucfirst($history->user->prenom)}}</td>
-                                    <td>{{$history->action}}</td>
+                                <td>@formatDate($history->created_at)</td>
+                                <td>{{ucfirst($history->user->nom)}} {{ucfirst($history->user->prenom)}}</td>
+                                <td>{{$history->action}}</td>
                             </tr>
                             @empty
 

@@ -34,16 +34,9 @@
                         <div class="box-body">
                             <div class="row">
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">ID</label>
-                                        <input required class="form-control" id="disabledInput" type="text"
-                                            placeholder="ID" value="{{$lastStoreId}}" disabled>
+                               
 
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Code</label>
                                         <input required required type="text" class="form-control code" name="code"
@@ -51,7 +44,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Etat</label>
                                         <select name="status" class="form-control">

@@ -49,13 +49,13 @@
                             </thead>
                             <tbody>
                                 @forelse($orders as $order)
-                                <tr>
-                                    <td>{{$order->code}}</td>
-                                    <td>@formatDate($order->created_at)</td>
-                                    <td>{{$order->store->designation}}</td>
-                                    <td>{{$order->store->zipcode->code}}</td>
-                                    <td>@convert($order->total)</td>
-                                    <td> @if($order->histories && $order->histories->first()->comment) {{$order->histories->first()->comment }} @else Aucun @endif</td>
+                                <tr @if($order->status >=2) class="table-tr" @endif>
+                                    <td data-url="{{route('showOrder',$order->id)}}">{{$order->code}}</td>
+                                    <td data-url="{{route('showOrder',$order->id)}}">@formatDate($order->created_at)</td>
+                                    <td data-url="{{route('showOrder',$order->id)}}">{{$order->store->designation}}</td>
+                                    <td data-url="{{route('showOrder',$order->id)}}">{{$order->store->zipcode->code}}</td>
+                                    <td data-url="{{route('showOrder',$order->id)}}">@convert($order->total)</td>
+                                    <td data-url="{{route('showOrder',$order->id)}}"> @if($order->histories && $order->histories->first()->comment) {{$order->histories->first()->comment }} @else Aucun @endif</td>
 
                                     @switch($order->status)
 

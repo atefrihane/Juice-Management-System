@@ -33,23 +33,16 @@
                         <div class="box-body">
                             <div class="row">
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">ID</label>
-                                        <input class="form-control" id="disabledInput" type="text" value="{{$count}}"
-                                            disabled>
+                              
 
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Code</label>
                                         <input type="text" name="code" class="form-control" id="exampleInputEmail1"
                                             placeholder="Code.." value="{{ old('code') }}">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nom societé</label>
                                         <input type="text" class="form-control" id="exampleInputEmail1" readonly

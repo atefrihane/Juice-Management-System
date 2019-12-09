@@ -14,10 +14,16 @@
 <!-- <script src="{{ asset('/js/morris.min.js') }}" ></script>  -->
 
 <script>
+$('document').ready(function(){
     $('.table-tr > td:not(:last-child').click(function () {
         window.location = $(this).data("url");
     });
+    $('.table-t > td:not(:last-child').click(function () {
+        window.location = $(this).data("url");
+    });
 
+})
+  
 </script>
 
 

@@ -29,17 +29,14 @@
                         <div class="box-body">
                             <div class="row">
 
-                                <div class="col-md-4">
-                                    <label for="exampleInputEmail1">ID</label>
-                                    <input type="text" name="id" class="form-control" value="{{$count}}" disabled>
-                                </div>
-                                <div class="col-md-4">
+                           
+                                <div class="col-md-6">
                                     <label for="exampleInputEmail1">Code</label>
                                     <input type="text" name="code" class="form-control code" placeholder="Code" value="{{old('code')}}"
                                         required>
                                 </div>
 
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <label>Résponsable</label>
                                     <select class="form-control" name="user_id" 
                                         required>

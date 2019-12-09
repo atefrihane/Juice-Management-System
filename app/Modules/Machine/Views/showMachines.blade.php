@@ -32,28 +32,34 @@
                                     <th>Désignation</th>
                                     <th>Nbr de bacs</th>
                                     <th>Prix loc mens (€)</th>
-                                    <th>Statut</th>
+                                    <th style="width:20%;">Statut</th>
                                     <th>Etat</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($machines as $machine)
-                                <tr>
+                                <tr class="table-t">
                                     @if($machine->photo_url)
-                                    <td> <img src="{{$machine->photo_url}}" height="70" class="user-image"
+                                    <td data-url="{{route('showHistoryMachine',$machine->id)}}"> <img src="{{$machine->photo_url}}" height="70" class="user-image"
                                             alt="User Image"> </td>
                                     @else
-                                    <td> <img src="{{asset('/img')}}/no-logo.png" height="80" class="user-image"
+                                    <td data-url="{{route('showHistoryMachine',$machine->id)}}"> <img src="{{asset('/img')}}/no-logo.png" height="80" class="user-image"
                                             alt="User Image"> </td>
                                     @endif
-                                    <td>{{$machine->code}}</td>
-                                    <td>{{$machine->barcode}}</td>
-                                    <td>{{$machine->designation}}</td>
-                                    <td>{{$machine->number_bacs}}</td>
-                                    <td>@convert($machine->price_month)</td>
-                                    <td>{{$machine->rented ? 'En location' : 'Libre'}}</td>
-                                    <td>{{$machine->status}}</td>
+                                    <td data-url="{{route('showHistoryMachine',$machine->id)}}">{{$machine->code}}</td>
+                                    <td data-url="{{route('showHistoryMachine',$machine->id)}}">{{$machine->barcode}}</td>
+                                    <td data-url="{{route('showHistoryMachine',$machine->id)}}">{{$machine->designation}}</td>
+                                    <td data-url="{{route('showHistoryMachine',$machine->id)}}">{{$machine->number_bacs}}</td>
+                                    <td data-url="{{route('showHistoryMachine',$machine->id)}}">@convert($machine->price_month)</td>
+                                    @if($machine->rented)
+                                    <td data-url="{{route('showHistoryMachine',$machine->id)}}">En location <br> <br>
+                                    <b>{{ $machine->machineRentals->first()->store->designation }} ({{$machine->machineRentals->first()->store->city->name }}) </b>
+                                    </td>
+                                    @else
+                                    <td data-url="{{route('showHistoryMachine',$machine->id)}}">Libre</td>
+                                    @endif
+                                    <td data-url="{{route('showHistoryMachine',$machine->id)}}">{{$machine->status}}</td>
                                     <td class="not-this text-center">
                                         <div class="btn-group">
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"

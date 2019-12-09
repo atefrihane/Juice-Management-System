@@ -539,16 +539,23 @@
                          
 
                             if (response.data.status == 200) {
-                                swal.fire({
+
+                                 swal.fire({
                                     type: 'success',
-                                    title: 'Pays modifié avec succés ! ',
+                                    title: 'Le pays a été modifié avec succés !',
                                     showConfirmButton: true,
                                     allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
-                                });
 
-                                setTimeout(() => window.location = axios.defaults.baseURL+'/static', 2000);
+                                }).then((result) => {
+                                    if (result.value) {
+                                        window.location = axios.defaults.baseURL + '/static';
+                                    }
+                                })
+
+
+                            
 
                             }
                         })

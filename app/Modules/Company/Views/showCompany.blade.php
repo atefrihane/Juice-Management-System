@@ -117,6 +117,22 @@
                                 </div>
 
 
+                             
+
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Adresse de siége</label>
+                                    <input type="text" class="form-control" value="{{$company->address}}" readonly
+                                        placeholder="Adresse de siége">
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Complément addresse (optionnel )</label>
+                                    <input type="text" class="form-control" value="{{$company->complement}}" readonly
+                                        placeholder="Complément addresse">
+                                </div>
+
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -144,17 +160,15 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="exampleInputPassword1">Adresse de siége</label>
-                                    <input type="text" class="form-control" value="{{$company->address}}" readonly
-                                        placeholder="Adresse de siége">
+                                    <label for="exampleInputPassword1">Email</label>
+                                    <input type="text" class="form-control" value="{{$company->email}}" readonly
+                                        placeholder="Email">
                                 </div>
 
-
-
                                 <div class="form-group">
-                                    <label for="exampleInputPassword1">Complément addresse (optionnel )</label>
-                                    <input type="text" class="form-control" value="{{$company->complement}}" readonly
-                                        placeholder="Complément addresse">
+                                    <label for="exampleInputPassword1">Numéro de téléphone</label>
+                                    <input type="text" class="form-control" value="{{$company->tel}}" readonly
+                                        placeholder="Email">
                                 </div>
 
                                 <div class="form-group">

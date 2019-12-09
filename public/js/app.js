@@ -2528,14 +2528,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           if (response.data.status == 200) {
             swal.fire({
               type: 'success',
-              title: 'Pays modifié avec succés ! ',
+              title: 'Le pays a été modifié avec succés !',
               showConfirmButton: true,
               allowOutsideClick: false,
               confirmButtonText: 'Fermer'
+            }).then(function (result) {
+              if (result.value) {
+                window.location = axios.defaults.baseURL + '/static';
+              }
             });
-            setTimeout(function () {
-              return window.location = axios.defaults.baseURL + '/static';
-            }, 2000);
           }
         })["catch"](function (error) {
           console.log(error);
@@ -7295,12 +7296,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -73425,37 +73420,7 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-4" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                _vm._v("ID")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: this.productId,
-                    expression: "this.productId"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { id: "disabledInput", type: "text", disabled: "" },
-                domProps: { value: this.productId },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(this, "productId", $event.target.value)
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-4" }, [
+          _c("div", { staticClass: "col-md-6" }, [
             _c("div", { staticClass: "form-group" }, [
               _c("label", { attrs: { for: "exampleInputEmail1" } }, [
                 _vm._v("Code ")
@@ -73490,7 +73455,7 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-4" }, [
+          _c("div", { staticClass: "col-md-6" }, [
             _c("div", { staticClass: "form-group" }, [
               _c("label", { attrs: { for: "exampleInputEmail1" } }, [
                 _vm._v("Etat")

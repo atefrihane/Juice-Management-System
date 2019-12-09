@@ -45,21 +45,21 @@
                             </thead>
                             <tbody>
                                 @forelse($products as $product)
-                                <tr>
+                                <tr class="table-t">
                                     @if($product->photo_url)
-                                    <td> <img src="{{asset('/img')}}/{{$product->photo_url}}" height="80"
+                                    <td data-url="{{route('showProduct',$product->id)}}"> <img src="{{asset('/img')}}/{{$product->photo_url}}" height="80"
                                             class="user-image" alt="User Image"> </td>
                                     @else
-                                    <td> <img src="{{asset('/img')}}/no-logo.png" height="80" class="user-image"
+                                    <td data-url="{{route('showProduct',$product->id)}}"> <img src="{{asset('/img')}}/no-logo.png" height="80" class="user-image"
                                             alt="User Image"> </td>
                                     @endif
-                                    <td>{{$product->code}}</td>
-                                    <td>{{$product->nom}}</td>
-                                    <td>{{ucfirst($product->type)}}</td>
-                                    <td>{{$product->designation}}</td>
+                                    <td data-url="{{route('showProduct',$product->id)}}">{{$product->code}}</td>
+                                    <td data-url="{{route('showProduct',$product->id)}}">{{$product->nom}}</td>
+                                    <td data-url="{{route('showProduct',$product->id)}}">{{ucfirst($product->type)}}</td>
+                                    <td data-url="{{route('showProduct',$product->id)}}">{{$product->designation}}</td>
 
-                                    <td>@convert($product->public_price)</td>
-                                    <td> {{ucfirst($product->status)}}</td>
+                                    <td data-url="{{route('showProduct',$product->id)}}">@convert($product->public_price)</td>
+                                    <td data-url="{{route('showProduct',$product->id)}}"> {{ucfirst($product->status)}}</td>
 
                                     <td class="not-this text-center">
                                         <div class="btn-group">

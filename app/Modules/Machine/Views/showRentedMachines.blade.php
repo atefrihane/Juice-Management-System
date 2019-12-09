@@ -38,20 +38,20 @@
                             </thead>
                             <tbody>
                                 @forelse($machines as $machine)
-                                <tr>
+                                <tr class="table-t">
                                 @if($machine->machine->photo_url)
-                                    <td> <img src="{{asset('/')}}{{$machine->machine->photo_url}}" height="80"
+                                    <td data-url="{{route('showRental', ['id' => $machine->id])}}""> <img src="{{asset('/')}}{{$machine->machine->photo_url}}" height="80"
                                             class="user-image" alt="User Image"> </td>
                                             @else
-                                            <td> <img src="{{asset('/img')}}/no-logo.png" height="80"
+                                            <td data-url="{{route('showRental', ['id' => $machine->id])}}""> <img src="{{asset('/img')}}/no-logo.png" height="80"
                                             class="user-image" alt="User Image"> </td>
                                             @endif
-                                    <td>{{$machine->machine->code}}</td>
-                                    <td>{{$machine->machine->designation}}</td>
-                                    <td>{{$machine->machine->number_bacs}}</td>
+                                    <td data-url="{{route('showRental', ['id' => $machine->id])}}"">{{$machine->machine->code}}</td>
+                                    <td data-url="{{route('showRental', ['id' => $machine->id])}}"">{{$machine->machine->designation}}</td>
+                                    <td data-url="{{route('showRental', ['id' => $machine->id])}}"">{{$machine->machine->number_bacs}}</td>
 
-                                    <td>{{$machine->store->designation}}</td>
-                                    <td>{{$machine->machine->status}}</td>
+                                    <td data-url="{{route('showRental', ['id' => $machine->id])}}"">{{$machine->store->designation}}</td>
+                                    <td data-url="{{route('showRental', ['id' => $machine->id])}}"">{{$machine->machine->status}}</td>
                                     <td class="not-this text-center">
                                         <div class="btn-group">
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"

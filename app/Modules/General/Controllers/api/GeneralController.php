@@ -110,6 +110,7 @@ class GeneralController extends Controller
                 'name' => $request->name,
                 'code' => $request->code,
             ]);
+   
 
             if ($request->cities) {
 
@@ -138,7 +139,7 @@ class GeneralController extends Controller
                         }
 
                     } else if (isset($city['cityName']) && !isset($city['cityID'])) {
-                      
+                  
                         $checkCity = City::where('name', $city['cityName'])
                         ->where('country_id',$country->id)
                         ->first();
@@ -146,22 +147,26 @@ class GeneralController extends Controller
                             return response()->json(['status' => 403]);
 
                         }
+                     
 
                         $newCity = City::create([
                             'name' => $city['cityName'],
                             'country_id' => $country->id,
                         ]);
+                     
 
                         if (array_key_exists('zipCodes', $city)) {
-
+                       
                             foreach ($city['zipCodes'] as $zipcode) {
+                      
 
                                 Zipcode::create([
-                                    'code' =>  $zipcode,
+                                    'code' =>  $zipcode['code'],
                                     'city_id' => $newCity->id,
                                 ]);
 
                             }
+                 
                         }
 
                     }

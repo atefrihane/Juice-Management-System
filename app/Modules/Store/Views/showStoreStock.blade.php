@@ -35,7 +35,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="table-tr">
+                                <tr>
                                     @forelse($stocks as $stock)
                                     <td>{{$stock->product->nom}}</td>
                                     <td>{{$stock->product->designation}}</td>

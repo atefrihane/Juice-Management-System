@@ -71,6 +71,7 @@
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
+                                            <li><a href="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}">Voir détails</a></li>
                                                 <li><a href="{{route('editStore', $store->id)}}">Modifier</a></li>
                                                 <li>
                                                     <a data-toggle="modal"

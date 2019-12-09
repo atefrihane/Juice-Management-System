@@ -44,7 +44,7 @@
                             <tbody>
                                 @forelse($companies as $company)
                                 <tr class="table-tr">
-                                    <td data-url="{{route('showStores',$company->id)}}" style="width: 150px"><img
+                                    <td data-url="{{route('showCompany',$company->id)}}" style="width: 150px"><img
                                             src="{{asset('/')}}{{$company->logo}}" height="50" alt=""></td>
                                     <td data-url="{{route('showStores',$company->id)}}">{{$company->name}}</td>
                                     <td data-url="{{route('showStores',$company->id)}}">{{$company->code}}</td>
@@ -57,6 +57,8 @@
                                             <a class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
+                                            <li><a href="{{route('showCompany', $company->id)}}">Voir détails</a></li>
+                                                <li>
                                                 <li><a href="{{route('editCompany', $company->id)}}">Modifier</a></li>
                                                 <li>
                                                     <a data-toggle="modal"

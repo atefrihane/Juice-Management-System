@@ -238,6 +238,7 @@ class ProductController extends Controller
                 $product->mixtures()->delete();
 
             }
+            // dd($request->userId);
             ProductHistory::create([
                 'action' => 'Modification',
                 'user_id' => $request->userId,

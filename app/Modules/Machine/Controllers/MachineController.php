@@ -15,7 +15,11 @@ class MachineController extends Controller
 {
     public function showMachines()
     {
-        $machines = Machine::all();
+
+        $machines = Machine::with(['machineRentals.store.city', 'machineRentals' => function ($q) {
+            $q->where('active', 1);
+        }])->get();
+
         return view('Machine::showMachines', compact('machines'));
 
     }
@@ -74,13 +78,7 @@ class MachineController extends Controller
         unset($instertable['_token']);
         $instertable['display_tablet'] = $instertable['display_tablet'] == 'true';
         $machine = Machine::create($instertable);
-        MachineHistory::create([
-            'event' => $request->status,
-            'comment' => $request->comment,
-            'machine_id' => $machine->id,
-            'user_id' => Auth::id(),
 
-        ]);
         for ($i = 0; $i < $request->number_bacs; $i++) {
             Bac::create([
                 'order' => $i + 1,
@@ -88,6 +86,14 @@ class MachineController extends Controller
             ]);
 
         }
+
+        MachineHistory::create([
+            'event' => 'Création',
+            'comment' => $request->comment,
+            'machine_id' => $machine->id,
+            'user_id' => Auth::id(),
+
+        ]);
 
         alert()->success('Succès!', 'une nouvelle machine a été crée avec succès !')->persistent("Fermer");
         return redirect(route('showMachines'));
@@ -126,6 +132,8 @@ class MachineController extends Controller
         $machine = Machine::find($id);
         if ($machine) {
             $machine->update($updatable);
+         
+         
             if ($request->has('number_bacs')) {
                 $oldBacs = $machine->number_bacs;
                 $newBacs = $request->number_bacs;
@@ -151,6 +159,15 @@ class MachineController extends Controller
                 }
 
             }
+ 
+          
+            MachineHistory::create([
+                'event' => 'Modification',
+                'comment' => $request->comment,
+                'machine_id' => $machine->id,
+                'user_id' => Auth::id(),
+
+            ]);
             alert()->success('Succès!', 'La machine a été modifiée avec succès ')->persistent("Fermer");
             return redirect(route('showMachines'));
 
@@ -206,7 +223,7 @@ class MachineController extends Controller
             $rental = $checkMachine->machineRentals->where('active', 1)->first();
 
             MachineHistory::create([
-                'event' => $request->status,
+                'event' => 'Etat vers : '.$request->status,
                 'comment' => $request->comment,
                 'machine_id' => $checkMachine->id,
                 'user_id' => Auth::id(),
@@ -237,7 +254,6 @@ class MachineController extends Controller
         $machines = Machine::where('rented', 0)
             ->where('status', 'Fonctionnelle')
             ->get();
-   
 
         if (count($machines) == 0) {
 
