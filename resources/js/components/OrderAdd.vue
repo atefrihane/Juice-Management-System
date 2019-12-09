@@ -527,12 +527,7 @@
 
 
 
-                if (!this.code) {
-                    this.errors.push(' Le code du magasin est requis');
-                    window.scrollTo(0, 0);
-                    x = false;
-                    this.disabled=false;
-                }
+              
 
                 this.ordered_products.forEach((ordered, index) => {
                     if (!ordered.product_id) {

@@ -4663,13 +4663,6 @@ __webpack_require__.r(__webpack_exports__);
         this.disabled = false;
       }
 
-      if (!this.code) {
-        this.errors.push(' Le code du magasin est requis');
-        window.scrollTo(0, 0);
-        x = false;
-        this.disabled = false;
-      }
-
       this.ordered_products.forEach(function (ordered, index) {
         if (!ordered.product_id) {
           _this6.errors.push('Veuillez séléctionner un produit');
