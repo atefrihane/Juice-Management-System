@@ -224,10 +224,11 @@
     $('form').submit(function (e) {
         $('.btn-success').attr('disabled', 'disabled');
     });
+    
+    $('input[type=number]').on('wheel', function(e){
+    return false;
+});
 
-    $('form').on('blur', 'input[type=number]', function (e) {
-        $(this).off('wheel.disableScroll')
-    })
 
 </script>
 
