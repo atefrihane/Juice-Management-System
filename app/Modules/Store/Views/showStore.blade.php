@@ -129,7 +129,7 @@
 
 
                                 <div class="form-group">
-                                    <label for="exampleInputPassword1">Complément addresse (optionnel )</label>
+                                    <label for="exampleInputPassword1">Complément addresse</label>
                                     <input type="text" class="form-control" value="{{$store->complement}}" readonly
                                         placeholder="Complément addresse">
                                 </div>
@@ -184,19 +184,19 @@
 
                                 </div>
                                 <div class="form-group">
-                                    <label>Recommendation pour livreur (optionnel)</label>
+                                    <label>Recommendation pour livreur </label>
                                     @if($store->deliveryRec)
                                     <textarea class="form-control" rows="3"
-                                        placeholder="Recommendarion pour liveruer ...">{{$store->deliveryRec}}</textarea>
+                                        placeholder="Recommendation pour livereur ..." disabled>{{$store->deliveryRec}}</textarea>
                                         @else
                                         <textarea class="form-control" rows="3"
-                                        placeholder="Recommendarion pour liveruer ...">Aucun</textarea>
+                                        placeholder="Recommendation pour livereur ..." disabled>Aucun</textarea>
 
                                         @endif
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Commentaires (optionnel)</label>
+                                    <label>Commentaires</label>
                                     <textarea class="form-control" rows="3" readonly
                                         placeholder="Commentaires">{{$store->comment}}</textarea>
                                 </div>

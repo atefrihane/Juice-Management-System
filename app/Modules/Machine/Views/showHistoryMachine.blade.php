@@ -41,6 +41,15 @@
                                             placeholder="Code" value="{{$machine->code}}" disabled>
                                     </div>
 
+                                    <div class="form-group">
+
+
+                                        <label for="exampleInputEmail1">Status</label>
+                                        <input type="text" name="code" class="form-control" id="exampleInputEmail1"
+                                            placeholder="Code" value=" {{ $machine->rented == 1 ? 'En location' : 'Libre' }}" disabled>
+
+                                    </div>
+
 
                                     <div class="form-group">
 
@@ -50,6 +59,8 @@
                                             placeholder="Code" value="{{$machine->status}}" disabled>
 
                                     </div>
+
+
 
                                 </div>
 
@@ -161,8 +172,10 @@
                                             <td>@formatDate($machine->created_at)</td>
                                             <td>{{$machineHistory->user->nom}}</td>
                                             <td>{{$machineHistory->event}}</td>
-                                           
-                                            <td style="width:50%">@if($machineHistory->comment){{$machineHistory->comment}} @else Aucun @endif</td>
+
+                                            <td style="width:50%">
+                                                @if($machineHistory->comment){{$machineHistory->comment}} @else Aucun
+                                                @endif</td>
                                             <td>
                                                 <a href="#" data-toggle="modal"
                                                     data-target="#modal-default{{$machineHistory->id}}"
@@ -204,9 +217,11 @@
                                                             <div class="form-group">
                                                                 <label for="">Commentaire</label>
                                                                 @if($machineHistory->comment)
-                                                                <textarea name="comment" id="" cols="30" rows="3" class="form-control">{{$machineHistory->comment}} </textarea> 
+                                                                <textarea name="comment" id="" cols="30" rows="3"
+                                                                    class="form-control">{{$machineHistory->comment}} </textarea>
                                                                 @else
-                                                                <textarea name="comment" id="" cols="30" rows="3" class="form-control">Aucun</textarea>
+                                                                <textarea name="comment" id="" cols="30" rows="3"
+                                                                    class="form-control">Aucun</textarea>
                                                                 @endif
                                                             </div>
                                                             <div class="text-center">
