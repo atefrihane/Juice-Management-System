@@ -2,9 +2,9 @@
 
 namespace App\Modules\User\Models;
 
-use App\Modules\Diractor\Models\Diractor;
-use App\Modules\Responsable\Models\Responsable;
-use App\Modules\SuperVisor\Models\SuperVisor;
+
+use App\Modules\User\Models\Responsible;
+use App\Modules\User\Models\Director;
 use App\Modules\Warehouse\Models\Warehouse;
 use App\Modules\Order\Models\Order;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -49,11 +49,9 @@ class User extends Authenticatable
 
      
         switch ($this->child_type) {
-            case Responsable::class:return 'responsable';
+            case Responsible::class:return 'responsable';
                 break;
-            case SuperVisor::class:return 'superviseur';
-                break;
-            case Diractor::class:return 'directeur';
+            case Director::class:return 'directeur';
                 break;
         }
         return 'admin';

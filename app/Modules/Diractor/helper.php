@@ -1,5 +1,0 @@
-<?php
-
-/**
- *	Diractor Helper  
- */

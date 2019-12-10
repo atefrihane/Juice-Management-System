@@ -2,7 +2,7 @@
 
 namespace App\Modules\Company\Models;
 
-use App\Modules\Diractor\Models\Diractor;
+
 use App\Modules\General\Models\City;
 use App\Modules\General\Models\Country;
 use App\Modules\General\Models\Zipcode;
@@ -20,10 +20,7 @@ class Company extends Model
     {
         return $this->hasMany(Store::class);
     }
-    public function director()
-    {
-        return $this->hasOne(Diractor::class)->with('user');
-    }
+   
     public function getStatus()
     {
         $status = '';

@@ -28,8 +28,6 @@ class CreateStoresTable extends Migration
             $table->string('bill_type');
             $table->string('bill_to');
             $table->text('deliveryRec')->nullable();
-            $table->integer('super_visor_id')->unsigned()->nullable();
-            $table->foreign('super_visor_id')->references('id')->on('super_visors')->onDelete('SET NULL');
             $table->integer('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->integer('country_id')->unsigned();
@@ -38,7 +36,8 @@ class CreateStoresTable extends Migration
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
             $table->integer('zipcode_id')->unsigned();
             $table->foreign('zipcode_id')->references('id')->on('zipcodes')->onDelete('cascade');
-
+            $table->integer('director_id')->unsigned()->nullable();
+            $table->foreign('director_id')->references('id')->on('directors')->onDelete('SET NULL');
             $table->timestamps();
         });
     }

@@ -2,12 +2,10 @@
 
 use App\Modules\Bac\Models\Bac;
 use App\Modules\Company\Models\Company;
-use App\Modules\Diractor\Models\Diractor;
 use App\Modules\General\Models\City;
 use App\Modules\General\Models\Country;
 use App\Modules\General\Models\Zipcode;
 use App\Modules\Machine\Models\Machine;
-use App\Modules\Responsable\Models\Responsable;
 use App\Modules\Store\Models\Store;
 use App\Modules\Store\Models\StoreSchedule;
 use App\Modules\User\Models\User;
@@ -300,39 +298,7 @@ class CompaniesTableSeeder extends Seeder
             ]);
         }
 
-        Responsable::create([
-            'store_id' => $storeOne->id,
-        ]);
-
-        Diractor::create([
-            'company_id' => $carrefour->id,
-        ]);
-
-        $director = User::create([
-            'email' => 'directeur@directeur.fr',
-            'code' => 't1158',
-            'nom' => 'Albert ',
-            'prenom' => 'Gagnier',
-            'civilite' => 'homme',
-            'telephone' => '33 55612719',
-            'accessCode' => 'ji5848',
-            'password' => bcrypt('123456'),
-            'child_type' => \App\Modules\Diractor\Models\Diractor::class,
-            'child_id' => '1',
-        ]);
-
-        $responsible = User::create([
-            'email' => 'responsable@resposnable.fr',
-            'code' => 't1158',
-            'nom' => 'Jules ',
-            'prenom' => 'Julian',
-            'civilite' => 'homme',
-            'telephone' => '33 55612719',
-            'accessCode' => 'ji5848',
-            'password' => bcrypt('123456'),
-            'child_type' => \App\Modules\Responsable\Models\Responsable::class,
-            'child_id' => '1',
-        ]);
+       
 
     }
 }

@@ -10,27 +10,26 @@ use App\Modules\General\Models\Zipcode;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Machine\Models\Machine;
 use App\Modules\Product\Models\Product;
-use App\Modules\Responsable\Models\Responsable;
+use App\Modules\User\Models\Responsible;
+use App\Modules\User\Models\Director;
 use App\Modules\Store\Models\StoreHistory;
 use App\Modules\Store\Models\StoreSchedule;
 use App\Modules\Store\Models\Price;
-use App\Modules\SuperVisor\Models\SuperVisor;
 use App\Modules\Order\Models\Order;
 use Illuminate\Database\Eloquent\Model;
 
 class Store extends Model
 {
 
-    //
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    public function responsables()
+    public function director()
     {
-        return $this->hasMany(Responsable::class)->with('user');
+        return $this->belongsTo(Director::class,'director_id');
     }
-    public function supervisor()
+    public function responsibles()
     {
-        return $this->belongsTo(SuperVisor::class, 'super_visor_id');
+        return $this->belongsToMany(Responsible::class, 'responsible_stores');
     }
     public function company()
     {

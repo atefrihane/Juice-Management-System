@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSuperVisorsTable extends Migration
+class CreateResponsiblesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateSuperVisorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('super_visors', function (Blueprint $table) {
+        Schema::create('responsibles', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('comment')->nullable();
+             $table->text('comment')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateSuperVisorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('super_visors');
+        Schema::dropIfExists('responsibles');
     }
 }

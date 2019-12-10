@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDiractorsTable extends Migration
+class CreateDirectorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateDiractorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('diractors', function (Blueprint $table) {
+        Schema::create('directors', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('company_id')->unsigned()->unique();
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->text('comment')->nullable();
             $table->timestamps();
         });
@@ -29,6 +27,6 @@ class CreateDiractorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('diractors');
+        Schema::dropIfExists('directors');
     }
 }
