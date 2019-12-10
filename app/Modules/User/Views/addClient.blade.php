@@ -70,7 +70,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Prénomm</label>
+                                        <label for="exampleInputEmail1">Prénom</label>
                                         <input class="form-control" name="prenom" id="disabledInput" type="text"
                                             placeholder="Prénom" value="{{old('prenom')}}">
 
@@ -115,14 +115,14 @@
                                 <label for="exampleInputEmail1">Type de contact</label>
                                 <select class="form-control" onchange="changeInputs(this)" name="type"
                                     value="{{old('type')}}">
-                                    <option value="responsable">Responsable</option>
-                                    <option value="supervisor">Superviseur/Autre</option>
+                                    <option value="director">Directeur</option>
+                                    <option value="responsible">Autre</option>
 
                                 </select>
 
                             </div>
 
-                            <div class="form-group magasins responsable">
+                            <div class="form-group magasins director">
                                 <label for="exampleInputEmail1">Magasins de responsabilités</label>
                                 @foreach ($company->stores as $store)
                                 <div class="form-group">
@@ -138,7 +138,7 @@
                                 </div>
                                 @endforeach
                             </div>
-                            <div class="form-group magasins supervisor" hidden>
+                            <div class="form-group magasins responsible" hidden>
 
                                 <label for="exampleInputEmail1">Magasins à superviser </label>
                                 <div class="form-check" style="margin: 10px 0px 20px;">
@@ -160,20 +160,7 @@
                                 @endforeach
                             </div>
                             </div>
-                            <div class="form-group magasins director" hidden>
-                                <label for="exampleInputEmail1">Magasins </label>
-                                @foreach($company->stores as $store)
-                                <div class="form-group">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input checked disabled type="checkbox" name="stores[]"
-                                                value="{{$store->id}}">
-                                            {{$store->designation}}
-                                        </label>
-                                    </div>
-                                </div>
-                                @endforeach
-                            </div>
+                          
 
 
                             <div class="form-group">

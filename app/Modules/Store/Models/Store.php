@@ -29,7 +29,7 @@ class Store extends Model
     }
     public function responsibles()
     {
-        return $this->belongsToMany(Responsible::class, 'responsible_stores');
+        return $this->belongsToMany(Responsible::class, 'responsible_stores')->withTimestamps();
     }
     public function company()
     {

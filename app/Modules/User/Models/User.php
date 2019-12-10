@@ -49,12 +49,16 @@ class User extends Authenticatable
 
      
         switch ($this->child_type) {
-            case Responsible::class:return 'responsable';
+            case Responsible::class:return 'Autre';
                 break;
-            case Director::class:return 'directeur';
+            case Director::class:return 'Directeur';
                 break;
         }
         return 'admin';
+    }
+    public function formatName()
+    {
+        return ucfirst($this->nom).' '.ucfirst($this->prenom);
     }
 
     public function warehouses()

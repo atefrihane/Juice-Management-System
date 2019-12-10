@@ -96,7 +96,8 @@
                                             compte</a>
                                     </div>
                                     <div class="text-center">
-                                        <a href="{{route('addAdmin')}}" class="btn btn-default btn-flat btn-width">Gestion des comptes</a>
+                                        <a href="{{route('addAdmin')}}"
+                                            class="btn btn-default btn-flat btn-width">Gestion des comptes</a>
                                     </div>
                                     <div class="text-center">
                                         <a href="{{route('showStaticManagement')}}"
@@ -146,13 +147,13 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-
-                            <li class="{{ Route::is('showWarehouseProducts') ? 'active' : '' }}"><a
-                                    href="{{route('showWarehouseProducts')}}"><i class="fa fa-cubes"></i> <span>Produits
-                                        en stock</span></a></li>
                             <li class="{{ Route::is('showWarehouses') ? 'active' : '' }}"><a
                                     href="{{route('showWarehouses')}}"><i class="fa fa-building "></i> <span>Nos
                                         Entrepôts</span></a></li>
+                            <li class="{{ Route::is('showWarehouseProducts') ? 'active' : '' }}"><a
+                                    href="{{route('showWarehouseProducts')}}"><i class="fa fa-cubes"></i> <span>Produits
+                                        en stock</span></a></li>
+
                         </ul>
                     </li>
                 </ul>
@@ -161,8 +162,8 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
-      
-     
+
+
         <script>
 
 

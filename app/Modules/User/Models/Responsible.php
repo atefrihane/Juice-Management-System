@@ -4,6 +4,7 @@ namespace App\Modules\User\Models;
 
 use App\Modules\Store\Models\Store;
 use App\Modules\User\Models\User;
+use Illuminate\Database\Eloquent\Model;
 
 class Responsible extends Model
 {
@@ -22,7 +23,7 @@ class Responsible extends Model
 
     public function stores()
     {
-        return $this->belongsToMany(Store::class, 'responsible_stores');
+        return $this->belongsToMany(Store::class, 'responsible_stores')->withTimestamps();
     }
 
 }

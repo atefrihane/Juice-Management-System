@@ -197,11 +197,15 @@
     $(document).ready(function () {
         $(".designation").on('change', function () {
           
-                    $('.code').val("")
-                    var value = $(this).val();
+                    if($('.code').val().length == 0 )
+                    {
+                        var value = $(this).val();
                     str = value.replace(/\s+/g, '');
                     var res = str.substr(0, 6).toUpperCase();
                     $('.code').val(res);
+
+                    }
+               
 
                     
 

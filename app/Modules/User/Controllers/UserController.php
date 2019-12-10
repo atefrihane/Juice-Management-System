@@ -5,10 +5,9 @@ namespace App\Modules\User\Controllers;
 use Alert;
 use App\Http\Controllers\Controller;
 use App\Modules\Company\Models\Company;
+use App\Modules\Store\Models\Store;
 use App\Modules\User\Models\Director;
 use App\Modules\User\Models\Responsible;
-use App\Modules\Store\Models\Store;
-use App\Modules\SuperVisor\Models\SuperVisor;
 use App\Modules\User\Models\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -39,6 +38,46 @@ class UserController extends Controller
     {
         Auth::logout();
         return redirect()->route('showLogin');
+    }
+
+    public function showContacts($id)
+    {
+        $company = Company::find($id);
+        $contacts = [];
+        if ($company) {
+            if ($company->stores()->exists()) {
+                foreach ($company->stores as $store) {
+                    if ($store->director) {
+                        $director = Director::find($store->director_id);
+
+                        $contacts[] = $director;
+                    }
+
+                    foreach ($store->responsibles as $responsible) {
+                        $contacts[] = $responsible;
+                    }
+                }
+
+            }
+
+            // $contacts = array_unique($contacts);
+            return view('User::showClients', compact('company', 'contacts'));
+
+        }
+
+        return view('General::notFound');
+    }
+
+    public function showAddContact($id)
+    {
+
+        $company = Company::find($id);
+
+        if ($company) {
+
+            return view('User::addClient', compact('company'));
+        }
+        return view('General::notFound');
     }
 
     public function getUsers()
@@ -85,48 +124,53 @@ class UserController extends Controller
         }
         switch ($request->type) {
 
-            case 'supervisor':
+            case 'director':
+
                 $user = $request->all();
-                foreach ($request->stores as $store) {
-                    $checkStore = Store::find($store);
-                    if ($checkStore->supervisor) {
-                        alert()->error('Oups!', ucfirst($checkStore->designation) . ' a déja un superviseur')->persistent("Fermer");
+
+                $checkStore = Store::find($request->store);
+                if ($checkStore) {
+                    if ($checkStore->director) {
+                        alert()->error('Oups!', ucfirst($checkStore->designation) . ' a déja un directeur')->persistent("Fermer");
                         return redirect()->back()->withInput();
 
                     }
-                }
 
-                $rules['stores'] = 'required';
-                $messages['stores.required'] = 'selectionner au moin un magasin pour le superviseur';
-                $val = $request->validate($rules, $messages);
-                $supervisor = SuperVisor::create(['comment' => $request->comment]);
+                    $rules['store'] = 'required';
+                    $messages['store.required'] = 'Séléctionner  un magasin';
+                    $val = $request->validate($rules, $messages);
+                    $director = Director::create(['comment' => $request->comment]);
 
-                $user = User::create([
-                    'code' => $request->code,
-                    'nom' => $request->nom,
-                    'prenom' => $request->prenom,
-                    'civilite' => $request->civilite,
-                    'email' => $request->email,
-                    'telephone' => $request->telephone,
-                    'accessCode' => $request->accessCode,
-                    'password' => $request->passWord,
-                    'child_type' => SuperVisor::class,
-                    'child_id' => $supervisor->id,
-                ]);
+                    $user = User::create([
+                        'code' => $request->code,
+                        'nom' => $request->nom,
+                        'prenom' => $request->prenom,
+                        'civilite' => $request->civilite,
+                        'email' => $request->email,
+                        'telephone' => $request->telephone,
+                        'accessCode' => $request->accessCode,
+                        'password' => $request->passWord,
+                    ]);
+                    $director->user()->save($user);
 
-                foreach ($request->stores as $storeId) {
-                    Store::where('id', $storeId)->update(['super_visor_id' => $supervisor->id]);
+                    $checkStore->update(['director_id' => $director->id]);
+
+                } else {
+                    alert()->error('Oups!', 'Magasin introuvable')->persistent("Fermer");
+                    return redirect()->back()->withInput();
+
                 }
 
                 break;
 
-            case 'responsable':
+            case 'responsible':
                 $user = $request->all();
-                $rules['store'] = 'required';
-                $messages['store.required'] = 'selectionner un magasin pour le responsable';
+
+                $rules['stores'] = 'required';
+                $messages['stores.required'] = 'Séléctionner au moins un magasin';
                 $val = $request->validate($rules, $messages);
 
-                $responsable = Responsable::create(['store_id' => $request->store, 'comment' => $request->comment]);
+                $responsible = Responsible::create(['comment' => $request->comment]);
 
                 $user = User::create([
                     'code' => $request->code,
@@ -136,21 +180,28 @@ class UserController extends Controller
                     'telephone' => $request->telephone,
                     'accessCode' => $request->accessCode,
                     'password' => $request->passWord,
-                    'child_type' => Responsable::class,
-                    'child_id' => $responsable->id,
                 ]);
+
+                $responsible->user()->save($user);
+                foreach ($request->stores as $store) {
+                    $responsible->stores()->attach($store);
+                }
+
                 break;
         }
         alert()->success('Succès!', 'Le contact a été ajouté avec succès!')->persistent("Fermer");
+
         return redirect(route('showContacts', $id));
     }
 
     public function edit($cid, $id)
     {
+
         $company = Company::find($cid);
         $user = User::find($id);
         $freeStores = [];
-        if ($user->getType() == 'superviseur') {
+        if ($user->getType() == 'Autre') {
+
             $storedIds = $user->child->stores()->pluck('stores.id')->toArray();
 
             $freeStores = Store::whereNotIn('id', $storedIds)
@@ -290,16 +341,27 @@ class UserController extends Controller
 
     public function deleteClient($cid, $id)
     {
+
         $user = User::find($id);
+
         switch ($user->child_type) {
-            case Responsable::class:$responsable = Responsable::find($user->child_id);
-                $responsable->delete();
-                break;
-            case SuperVisor::class:$supervisor = SuperVisor::find($user->child_id);
-                $supervisor->delete();
-                break;
-            case Diractor::class:$director = Diractor::find($user->child_id);
+
+            case Director::class:
+
+                $director = Director::find($user->child_id);
+                if ($director->store) {
+                    alert()->error('Ce contact a déja un élément associé !', 'Oups')->persistent('Fermer');
+                    return redirect()->back()->withInput();
+                }
                 $director->delete();
+                break;
+            case Responsible::class:
+                $responsible = Responsible::find($user->child_id);
+                if ($responsible->stores()->exists()) {
+                    alert()->error('Ce contact a déja ' . $responsible->stores->count() . ' élément(s) associé(s) !', 'Oups')->persistent('Fermer');
+                    return redirect()->back()->withInput();
+                }
+                $responsable->delete();
                 break;
         }
         $user->delete();

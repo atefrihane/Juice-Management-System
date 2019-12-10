@@ -137,10 +137,10 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Type de contact</label>
                                 <select class="form-control type" name="type" value="{{old('type')}}">
-                                    <option value="responsable" @if($user->getType() == 'responsable') selected
-                                        @endif>Responsable</option>
-                                    <option value="supervisor" @if($user->getType() == 'superviseur') selected
-                                        @endif>Superviseur/Autre</option>
+                                    <option value="responsable" @if($user->getType() == 'Directeur') selected
+                                        @endif>Directeur</option>
+                                    <option value="supervisor" @if($user->getType() == 'Autre') selected
+                                        @endif>Autre</option>
 
                                 </select>
 
@@ -186,7 +186,7 @@
                                 </div>
                             </div>
 
-                            @if($user->getType() == 'responsable')
+                            @if($user->getType() == 'Directeur')
 
                             <div class="form-group magasins responsable">
                                 <label for="exampleInputEmail1">Magasins de responsabilités</label>
@@ -196,7 +196,7 @@
 
                                         <label>
                                             <input type="radio" value="{{$store->id}}" name="store"
-                                                @if($user->child->store_id == $store->id) checked @endif>
+                                                @if($user->child->store->id == $store->id) checked @endif>
                                             {{$store->designation}}
                                         </label>
 
