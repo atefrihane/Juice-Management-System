@@ -195,7 +195,7 @@
 
 <script>
     $(document).ready(function () {
-        $(".designation").on('change', function () {
+                 $(".designation").on('change', function () {
           
                     if($('.code').val().length == 0 )
                     {
@@ -205,6 +205,7 @@
                     $('.code').val(res);
 
                     }
+               
                
 
                     
