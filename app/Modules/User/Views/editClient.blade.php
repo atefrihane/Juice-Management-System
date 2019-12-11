@@ -45,7 +45,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Code</label>
-                                        <input type="text" name="code" value="{{$user->code}}" class="form-control"
+                                        <input type="text" name="code" value="{{$user->code}}" class="form-control code"
                                             id="exampleInputEmail1" placeholder="Code..">
                                     </div>
                                 </div>
@@ -69,7 +69,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nom</label>
-                                        <input class="form-control" value="{{$user->nom}}" name="nom" id="disabledInput"
+                                        <input class="form-control designation" value="{{$user->nom}}" name="nom" id="disabledInput"
                                             type="text" placeholder="Nom">
 
                                     </div>
