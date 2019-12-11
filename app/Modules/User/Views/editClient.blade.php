@@ -120,20 +120,6 @@
                                 </div>
 
                             </div>
-
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Code d'accés</label>
-                                <input class="form-control" value="{{$user->accessCode}}" name="accessCode"
-                                    id="disabledInput" type="text" placeholder="Code d'accés">
-
-                            </div>
-
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Mot de passe</label>
-                                <input class="form-control" name="password" id="disabledInput" type="text"
-                                    placeholder="Mot de passe" value="{{$user->password}}" required>
-
-                            </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Type de contact</label>
                                 <select class="form-control type" name="type" value="{{old('type')}}">
@@ -147,7 +133,7 @@
                             </div>
 
                             <div class="form-group responsable_hidden" style="display:none;">
-                                <label for="exampleInputEmail1">Magasins de responsabilités</label>
+                                <label for="exampleInputEmail1">Magasin(s) de responsabilité(s)</label>
                                 @foreach ($company->stores as $store)
                                 <div class="form-group">
                                     <div class="checkbox">
@@ -189,7 +175,7 @@
                             @if($user->getType() == 'Directeur')
 
                             <div class="form-group magasins responsable">
-                                <label for="exampleInputEmail1">Magasins de responsabilités</label>
+                                <label for="exampleInputEmail1">Magasin(s) de responsabilité(s)</label>
                                 @foreach ($company->stores as $store)
                                 <div class="form-group">
                                     <div class="checkbox">
@@ -269,6 +255,28 @@
 
                             </div>
                             @endif
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Code d'accés</label>
+                                <input class="form-control" value="{{$user->accessCode}}" name="accessCode"
+                                    id="disabledInput" type="text" placeholder="Code d'accés">
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Mot de passe</label>
+                                <input class="form-control" name="password" id="disabledInput" type="text"
+                                    placeholder="Mot de passe" value="{{$user->password}}" required>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label>Commentaire (optionnel)</label>
+                                <textarea class="form-control" rows="3" name="comment"
+                                    placeholder="Commentaires">{{$user->child->comment}}</textarea>
+                            </div>
+
+                          
 
                             <div class="row">
                                 <div class="container text-center">

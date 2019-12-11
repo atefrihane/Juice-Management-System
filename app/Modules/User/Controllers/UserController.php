@@ -90,7 +90,7 @@ class UserController extends Controller
             'prenom' => 'required',
             'civilite' => 'required',
             'telephone' => 'required',
-            'email' => 'required|email',
+            // 'email' => 'required|email',
             'accessCode' => 'required',
             'passWord' => 'required',
         ];
@@ -100,18 +100,18 @@ class UserController extends Controller
             'prenom.required' => 'le champs prenom est obligatoire',
             'civilite.required' => 'le champs civilite est obligatoire',
             'telephone.required' => 'le champs telephone est obligatoire',
-            'email.required' => 'le champs email est obligatoire',
-            'email.email' => 'vous devez saisir un email valide ',
+            // 'email.required' => 'le champs email est obligatoire',
+            // 'email.email' => 'vous devez saisir un email valide ',
             'accessCode.required' => 'le champs code d\'acces est obligatoire',
             'passWord.required' => 'le champs mot de passe est obligatoire',
 
         ];
 
-        $checkEmail = User::where('email', $request->email)->first();
-        if ($checkEmail) {
-            alert()->error('Oups', 'Email déja existant !')->persistent('Fermer');
-            return redirect()->back()->withInput();
-        }
+        // $checkEmail = User::where('email', $request->email)->first();
+        // if ($checkEmail) {
+        //     alert()->error('Oups', 'Email déja existant !')->persistent('Fermer');
+        //     return redirect()->back()->withInput();
+        // }
 
         $checkCode = User::where('code', $request->code)->first();
         if ($checkCode) {
@@ -217,7 +217,7 @@ class UserController extends Controller
             'prenom' => 'required',
             'civilite' => 'required',
             'telephone' => 'required',
-            'email' => 'required|email',
+            // 'email' => 'required|email',
             'accessCode' => 'required',
         ], [
             'code.required' => 'le champs code est obligatoire',
@@ -225,8 +225,8 @@ class UserController extends Controller
             'prenom.required' => 'le champs prenom est obligatoire',
             'civilite.required' => 'le champs sexe est obligatoire',
             'telephone.required' => 'le champs telephone est obligatoire',
-            'email.required' => 'le champs email est obligatoire',
-            'email.email' => 'vous devez saisir un email valide ',
+            // 'email.required' => 'le champs email est obligatoire',
+            // 'email.email' => 'vous devez saisir un email valide ',
             'accessCode.required' => 'le champs code d\'acces est obligatoire',
 
         ]);
@@ -234,13 +234,13 @@ class UserController extends Controller
         //check old stores for supervisor && affect new ones
         $user = User::find($id);
         if ($user) {
-            $checkEmail = User::where('email', $request->email)
-                ->where('id', '!=', $user->id)
-                ->first();
-            if ($checkEmail) {
-                alert()->error('Oups', 'Email déja existant !')->persistent('Fermer');
-                return redirect()->back()->withInput();
-            }
+            // $checkEmail = User::where('email', $request->email)
+            //     ->where('id', '!=', $user->id)
+            //     ->first();
+            // if ($checkEmail) {
+            //     alert()->error('Oups', 'Email déja existant !')->persistent('Fermer');
+            //     return redirect()->back()->withInput();
+            // }
 
             $checkCode = User::where('code', $request->code)
                 ->where('id', '!=', $user->id)
@@ -264,7 +264,7 @@ class UserController extends Controller
                     }
                     // Update Directeur
                     else {
-
+                    
                         $checkStore = Store::find($request->store);
 
                         if ($checkStore) {
@@ -285,6 +285,8 @@ class UserController extends Controller
                                 }
 
                             }
+
+                            $user->child->update(['comment' => $request->comment]);
 
                         } else {
                             alert()->error('Magasin n\'est plus disponible !', 'Oups!')->persistent('Femer');
@@ -337,6 +339,7 @@ class UserController extends Controller
                                 }
 
                             }
+                            $user->child->update(['comment' => $request->comment]);
 
                         }
 
@@ -369,6 +372,7 @@ class UserController extends Controller
             unset($user['storesHidden']);
             unset($user['responsableHidden']);
             unset($user['directorHidden']);
+            unset($user['comment']);
 
             User::where('id', $id)->update($user);
             alert()->success('Succés', 'Contact modifié avec succés!')->persistent('Fermer');
