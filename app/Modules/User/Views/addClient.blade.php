@@ -142,7 +142,7 @@
 
                                 <label for="exampleInputEmail1">Magasins à superviser </label>
                                 <div class="form-check" style="margin: 10px 0px 20px;">
-                                    <input type="checkbox" class="form-check-input" id="selectAll">
+                                    <input type="checkbox" class="form-check-input selectAll">
                                     Tout séléctionner
                                 </div>
                                 <div class="scrollable">

@@ -10,6 +10,7 @@ use App\Modules\User\Models\Director;
 use App\Modules\User\Models\Responsible;
 use App\Modules\User\Models\User;
 use Auth;
+use DB;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -42,25 +43,20 @@ class UserController extends Controller
 
     public function showContacts($id)
     {
+
         $company = Company::find($id);
         $contacts = [];
         if ($company) {
             if ($company->stores()->exists()) {
-                foreach ($company->stores as $store) {
-                    if ($store->director) {
-                        $director = Director::find($store->director_id);
 
-                        $contacts[] = $director;
-                    }
+                $directors = Director::whereIn('id', $company->stores->pluck('director_id'))->get();
+                $responsibles = Responsible::whereHas('stores', function ($q) use ($company) {
+                    $q->whereIn('store_id', $company->stores->pluck('id'));
+                })->get();
 
-                    foreach ($store->responsibles as $responsible) {
-                        $contacts[] = $responsible;
-                    }
-                }
-
+                $contacts = $directors->toBase()->merge($responsibles);
             }
 
-            // $contacts = array_unique($contacts);
             return view('User::showClients', compact('company', 'contacts'));
 
         }
@@ -131,7 +127,7 @@ class UserController extends Controller
                 $checkStore = Store::find($request->store);
                 if ($checkStore) {
                     if ($checkStore->director) {
-                        alert()->error('Oups!', ucfirst($checkStore->designation) . ' a déja un directeur')->persistent("Fermer");
+                        alert()->error(ucfirst($checkStore->designation) . ' a déja un directeur !', 'Oups!')->persistent("Fermer");
                         return redirect()->back()->withInput();
 
                     }
@@ -255,70 +251,112 @@ class UserController extends Controller
             }
             switch ($user->getType()) {
 
-                case 'superviseur':
-                    if ($user->child->stores()->exists()) {
-                        if ($request->input('stores')) {
-                            foreach ($user->child->stores as $store) {
-                                if (!in_array($store->id, $request->input('stores'))) {
-                                    $updateStore = Store::find($store->id);
-                                    if ($updateStore) {
-                                        $updateStore->update(['super_visor_id' => null]);
+                case 'Directeur':
+                    // Directeur -> Autre
+                    if ($request->input('directorHidden')) {
 
-                                    }
+                        Director::find($user->child_id)->delete();
 
+                        $newResponsible = Responsible::create(['comment' => $request->comment]);
+                        $newResponsible->user()->save($user);
+                        $newResponsible->stores()->attach($request->input('directorHidden'));
+
+                    }
+                    // Update Directeur
+                    else {
+
+                        $checkStore = Store::find($request->store);
+
+                        if ($checkStore) {
+                            //Check if store had already a director
+                            if ($checkStore->director_id && $checkStore->director_id != $user->child_id) {
+                                alert()->error('Ce magasin a déja un directeur', 'Oups!')->persistent('Femer');
+                                return redirect()->back()->withInput();
+
+                            }
+                            //Check if director's store is not his current one in order to update it
+                            if ($user->child->store->id != $checkStore->id) {
+                                $oldStore = Store::where('director_id', $user->child_id)->first();
+
+                                if ($oldStore) {
+                                    $oldStore->update(['director_id' => null]);
+
+                                    $checkStore->update(['director_id' => $user->child_id]);
                                 }
 
                             }
 
                         } else {
-                            // if old stores are empty
-
-                            alert()->error('Vous devez affécter au moins un magasin!', 'Oups!')->persistent('Femer');
-                            return redirect()->back();
-                        }
-
-                    }
-
-                    if ($request->input('newStores')) {
-                        foreach ($request->input('newStores') as $newStore) {
-                            $updateStore = Store::find($newStore);
-                            $updateStore->update(['super_visor_id' => $user->child->id]);
+                            alert()->error('Magasin n\'est plus disponible !', 'Oups!')->persistent('Femer');
+                            return redirect()->back()->withInput();
 
                         }
+
                     }
 
                     break;
 
-                case 'responsable':
+                case 'Autre':
 
-                    if ($request->input('storesHidden')) {
-                        $user->child->delete();
-                        $newSupervisor = SuperVisor::create(['comment' => null]);
-                        $newSupervisor->user()->save($user);
+                    if ($user->child->stores()->exists()) {
+                        // Autre -> Directeur
+                        if ($request->input('responsableHidden')) {
 
-                        $user->update([
-                            'child_type' => SuperVisor::class,
-                            'child_id' => $newSupervisor->id,
-                        ]);
+                            $checkStore = Store::find($request->responsableHidden);
+                            if ($checkStore) {
+                                if ($checkStore->director_id) {
+                                    alert()->error('Ce magasin a déja un directeur!', 'Oups!')->persistent('Fermer');
+                                    return redirect()->back()->withInput();
 
-                        foreach ($request->input('storesHidden') as $storeId) {
-                            $updateStore = Store::find($storeId);
-                            if (!$updateStore->super_visor_id) {
-                                $updateStore->update(['super_visor_id' => $newSupervisor->id]);
+                                }
+
+                                Responsible::find($user->child->id)->delete();
+                                $newDirector = Director::create(['comment' => $request->comment]);
+                                $newDirector->user()->save($user);
+                                $checkStore->update(['director_id' => $newDirector->id]);
 
                             } else {
-                                alert()->error('Ce magasin a déja un superviseur!', 'Oups!');
+                                alert()->error('Magasin nn\'est plus disponible', 'Oups')->persistent('Fermer');
+                                return redirect()->back();
+
+                            }
+
+                            // Update  Autre
+
+                        } else {
+
+                            if (!$request->input('stores')) {
+                                alert()->error('Veuillez séléctionner au moins un magasin', 'Oups!')->persistent('Femer');
                                 return redirect()->back()->withInput();
+                            }
+                            // detach a related store from user
+                            if ($user->child->stores->count() > count($request->input('stores'))) {
+                                if (!in_array($user->child->stores->pluck('id'), $request->input('stores'))) {
+
+                                    DB::table('responsible_stores')->whereIn('store_id', $request->input('stores'))->delete();
+                                }
+
                             }
 
                         }
 
-                    } else {
-                        $user->child->update(['store_id' => $request->store]);
+                    }
+
+                    try {
+
+                        if ($request->input('newStores')) {
+
+                            $user->child->stores()->attach($request->input('newStores'));
+
+                        }
+                    } catch (\Exception $e) {
+                        alert()->error('Magasin non disponible', 'Oups')->persistent('Fermer');
+                        return redirect()->back();
 
                     }
 
                     break;
+
             }
 
             $user = $request->all();
@@ -329,6 +367,8 @@ class UserController extends Controller
             unset($user['store']);
             unset($user['type']);
             unset($user['storesHidden']);
+            unset($user['responsableHidden']);
+            unset($user['directorHidden']);
 
             User::where('id', $id)->update($user);
             alert()->success('Succés', 'Contact modifié avec succés!')->persistent('Fermer');
@@ -348,20 +388,10 @@ class UserController extends Controller
 
             case Director::class:
 
-                $director = Director::find($user->child_id);
-                if ($director->store) {
-                    alert()->error('Ce contact a déja un élément associé !', 'Oups')->persistent('Fermer');
-                    return redirect()->back()->withInput();
-                }
-                $director->delete();
+                $director = Director::find($user->child_id)->delete();
                 break;
             case Responsible::class:
-                $responsible = Responsible::find($user->child_id);
-                if ($responsible->stores()->exists()) {
-                    alert()->error('Ce contact a déja ' . $responsible->stores->count() . ' élément(s) associé(s) !', 'Oups')->persistent('Fermer');
-                    return redirect()->back()->withInput();
-                }
-                $responsable->delete();
+                $responsible = Responsible::find($user->child_id)->delete();
                 break;
         }
         $user->delete();

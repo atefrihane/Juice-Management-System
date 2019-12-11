@@ -84,7 +84,7 @@
 </script>
 
 <script>
-    $('#selectAll').click(function () {
+    $('.selectAll').click(function () {
 
         if ($(this).prop("checked")) {
             $(".willCheck").prop("checked", true);

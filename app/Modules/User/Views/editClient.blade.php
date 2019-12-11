@@ -137,9 +137,9 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Type de contact</label>
                                 <select class="form-control type" name="type" value="{{old('type')}}">
-                                    <option value="responsable" @if($user->getType() == 'Directeur') selected
+                                    <option value="directeur" @if($user->getType() == 'Directeur') selected
                                         @endif>Directeur</option>
-                                    <option value="supervisor" @if($user->getType() == 'Autre') selected
+                                    <option value="autre" @if($user->getType() == 'Autre') selected
                                         @endif>Autre</option>
 
                                 </select>
@@ -167,7 +167,7 @@
 
                                 <label for="exampleInputEmail1">Magasins à superviser </label>
                                 <div class="form-check" style="margin: 10px 0px 20px;">
-                                    <input type="checkbox" class="form-check-input" id="selectAll">
+                                    <input type="checkbox" class="form-check-input selectAll">
                                     Tout séléctionner
                                 </div>
                                 <div class="scrollable">
@@ -176,7 +176,7 @@
                                     <div class="form-group">
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" class="willCheck" name="storesHidden[]"
+                                                <input type="checkbox" class="willCheck" name="directorHidden[]"
                                                     value="{{$store->id}}">
                                                 {{$store->designation}}
                                             </label>
@@ -212,13 +212,13 @@
 
                                 <label for="exampleInputEmail1">Magasins supervisés </label>
                                 <div class="form-check" style="margin: 10px 0px 20px;">
-                                    <div class="form-check" style="margin: 10px 0px 20px;">
+                                  
 
                                         @foreach($user->child->stores as $key => $store)
                                         <div class="form-group">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" class="" name="stores[]"
+                                                    <input type="checkbox" name="stores[]"
                                                         value="{{$store->id}}" checked>
                                                     {{$store->designation}}
                                                 </label>
@@ -234,14 +234,14 @@
                                             <p>Aucun magasin trouvé !</p>
                                         </div>
                                         @endif
-                                        @endif
+                                    
 
                                         @if(count($freeStores) > 0)
 
 
                                         <label for="exampleInputEmail1">Autres magasins </label>
                                         <div class="form-check" style="margin: 10px 0px 20px;">
-                                            <input type="checkbox" class="form-check-input" id="selectAll">
+                                            <input type="checkbox" class="form-check-input selectAll">
                                             Tout séléctionner
                                         </div>
                                         <div class="scrollable">
@@ -257,6 +257,7 @@
                                             </div>
                                             @endforeach
                                         </div>
+
                                     </div>
 
 
@@ -265,16 +266,23 @@
 
                                 </div>
 
-                                <div class="row">
-                                    <div class="container text-center">
 
-                                        <a href="{{route('showContacts', $company->id)}}" class="btn btn-danger pl-1"
-                                            style="margin: 1em">Annuler</a>
-                                        <button type="submit" class="btn btn-success pl-1"
-                                            style="margin: 1em">Confirmer</button>
+                            </div>
+                            @endif
 
-                                    </div>
+                            <div class="row">
+                                <div class="container text-center">
+
+                                    <a href="{{route('showContacts', $company->id)}}" class="btn btn-danger pl-1"
+                                        style="margin: 1em">Annuler</a>
+                                    <button type="submit" class="btn btn-success pl-1"
+                                        style="margin: 1em">Confirmer</button>
+
                                 </div>
+                            </div>
+
+
+
                     </form>
 
 
@@ -301,12 +309,15 @@
         // $('.responsable_hidden').hide()
         $('.type').change(function () {
             switch ($(this).val()) {
-                case 'responsable':
+                case 'directeur':
 
                     if ($(".supervisor")[0]) {
                         $('.supervisor').css('display', 'none')
                     } else {
+                      
                         $('.supervisor_hidden').css('display', 'none')
+                 
+             
                     }
 
 
@@ -318,7 +329,7 @@
 
 
                     break;
-                case 'supervisor':
+                case 'autre':
                     // $('.responsable').css('display', 'none')
                     if ($(".responsable")[0]) {
                         $('.responsable').css('display', 'none')
@@ -329,7 +340,7 @@
                         $('.supervisor').show()
                     } else {
                         $('.supervisor_hidden').css('display', 'block')
-                        
+
                     }
 
 

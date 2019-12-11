@@ -206,7 +206,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label>Recommendation pour livreur (optionnel)</label>
+                                <label>Recommandation pour livreur (optionnel)</label>
                                 <textarea class="form-control" rows="3" name="deliveryRec"
                                     placeholder="Recommendarion pour liveruer ..."></textarea>
                             </div>

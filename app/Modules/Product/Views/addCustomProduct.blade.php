@@ -38,7 +38,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Magasins concernés par la remise </label>
                                         <div class="form-check" style="margin: 10px 15px 20px;">
-                                            <input type="checkbox" class="form-check-input" id="selectAll">
+                                            <input type="checkbox" class="form-check-input selectAll">
                                             Tout séléctionner
                                         </div>
                                         <div class="scrollable">

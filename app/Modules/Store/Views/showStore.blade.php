@@ -184,7 +184,7 @@
 
                                 </div>
                                 <div class="form-group">
-                                    <label>Recommendation pour livreur </label>
+                                    <label>Recommandation pour livreur </label>
                                     @if($store->deliveryRec)
                                     <textarea class="form-control" rows="3"
                                         placeholder="Recommendation pour livereur ..." disabled>{{$store->deliveryRec}}</textarea>

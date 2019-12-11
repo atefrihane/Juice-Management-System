@@ -84,7 +84,7 @@
                                             @if(count($freeStores) >0)
                                             <div class="form-check" style="margin: 10px 15px 20px;">
                                          
-                                                <input type="checkbox" class="form-check-input" id="selectAll">
+                                                <input type="checkbox selectAll" class="form-check-input">
                                                 Tout séléctionner
                                             </div>
                                             @endif
