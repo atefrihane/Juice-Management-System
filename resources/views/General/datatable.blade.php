@@ -1,6 +1,7 @@
 <script>
     if ($(".date-create")[0]) {
         var oTable = $('.table').DataTable({
+            responsive: true,
             "language": {
                 "url": "http://cdn.datatables.net/plug-ins/a5734b29083/i18n/French.json"
             },
@@ -19,6 +20,7 @@
         });
     } else {
         var oTable = $('.table').DataTable({
+            responsive: true,
             "language": {
                 "url": "http://cdn.datatables.net/plug-ins/a5734b29083/i18n/French.json"
             },

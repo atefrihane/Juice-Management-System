@@ -123,7 +123,7 @@
                             </div>
 
                             <div class="form-group magasins director">
-                                <label for="exampleInputEmail1">Magasins de responsabilités</label>
+                                <label for="exampleInputEmail1">Magasin(s) de responsabilité(s)</label>
                                 @foreach ($company->stores as $store)
                                 <div class="form-group">
                                     <div class="checkbox">
@@ -140,7 +140,7 @@
                             </div>
                             <div class="form-group magasins responsible" hidden>
 
-                                <label for="exampleInputEmail1">Magasins à superviser </label>
+                                <label for="exampleInputEmail1">Magasin(s) de responsabilité(s)</label>
                                 <div class="form-check" style="margin: 10px 0px 20px;">
                                     <input type="checkbox" class="form-check-input selectAll">
                                     Tout séléctionner

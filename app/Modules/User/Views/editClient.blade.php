@@ -120,6 +120,9 @@
                                 </div>
 
                             </div>
+                            <div class="row">
+                            <div class="col-md-12">
+
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Type de contact</label>
                                 <select class="form-control type" name="type" value="{{old('type')}}">
@@ -153,7 +156,8 @@
 
                                 <label for="exampleInputEmail1">Magasins à superviser </label>
                                 <div class="form-check" style="margin: 10px 0px 20px;">
-                                    <input type="checkbox" class="form-check-input selectAll">
+                              
+                                <input type="checkbox" class="form-check-input selectAll">
                                     Tout séléctionner
                                 </div>
                                 <div class="scrollable">
@@ -170,7 +174,9 @@
                                     </div>
                                     @endforeach
                                 </div>
-                            </div>
+                                </div>
+                                  
+                            
 
                             @if($user->getType() == 'Directeur')
 
@@ -196,7 +202,7 @@
                             <div class="form-group magasins supervisor">
                                 @if($user->child->stores->count() > 0)
 
-                                <label for="exampleInputEmail1">Magasins supervisés </label>
+                                <label for="exampleInputEmail1">Magasin(s) de responsabilité(s) </label>
                                 <div class="form-check" style="margin: 10px 0px 20px;">
                                   
 
@@ -227,7 +233,9 @@
 
                                         <label for="exampleInputEmail1">Autres magasins </label>
                                         <div class="form-check" style="margin: 10px 0px 20px;">
-                                            <input type="checkbox" class="form-check-input selectAll">
+                                     
+                                       
+                                        <input type="checkbox" class="form-check-input selectAll">
                                             Tout séléctionner
                                         </div>
                                         <div class="scrollable">
@@ -242,7 +250,11 @@
                                                 </div>
                                             </div>
                                             @endforeach
+                                        
+                                    
+                                       
                                         </div>
+                                            
 
                                     </div>
 
@@ -255,13 +267,17 @@
 
                             </div>
                             @endif
-
+                            
+                            </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Code d'accés</label>
                                 <input class="form-control" value="{{$user->accessCode}}" name="accessCode"
                                     id="disabledInput" type="text" placeholder="Code d'accés">
 
                             </div>
+                            
+                         
+                            
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Mot de passe</label>
@@ -275,6 +291,11 @@
                                 <textarea class="form-control" rows="3" name="comment"
                                     placeholder="Commentaires">{{$user->child->comment}}</textarea>
                             </div>
+                            </div>
+                            
+                         
+
+                           
 
                           
 

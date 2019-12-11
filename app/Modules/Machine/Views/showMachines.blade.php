@@ -23,7 +23,8 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <table class="table table-bordered table-hover example2">
+                    <div>
+                       <table class="table table-bordered table-hover example2">
                             <thead>
                                 <tr>
                                     <th>Photo</th>
@@ -164,6 +165,9 @@
                             </tbody>
 
                         </table>
+                    
+                    </div>
+                     
                     </div>
 
                 </div>
