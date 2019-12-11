@@ -186,7 +186,7 @@ class MachineController extends Controller
                 return redirect(route('showMachines'));
 
             } else {
-                alert()->error('Impossible de supprimer cette machine !', 'Oups! ')->persistent("Fermer");
+                alert()->error('Cette entité ne peut pas être supprimée, autres entités y sont liées', 'Oups! ')->persistent("Fermer");
                 return redirect()->back();
             }
 

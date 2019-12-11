@@ -84,11 +84,12 @@
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">×</span></button>
-                                                <h4 class="modal-title">Voulez vous vraiment supprimer ce magasin ?
+                                                <h4 class="modal-title">Voulez vous vraiment supprimer cette machine ?
                                                 </h4>
                                             </div>
                                             <div class="modal-body">
-                                            <h5 class="modal-title">  <b>Attention !</b> : Cette opération peut affecter la suppression des éléments associés à ce magasin ! </h4>
+                                                <h5 class="modal-title"> <b>Attention </b> : La suppression de cette entité est irreversible, procéder à la suppression?
+                                                    
                                                 </h5>
                                             </div>
                                             <div class="modal-footer">

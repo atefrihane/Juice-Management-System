@@ -54,8 +54,9 @@
                         </h4>
                     </div>
                     <div class="modal-body">
-                        <h5 class="modal-title"> <b>NB</b> : Cette opération peut affecter la suppression des éléments
-                            associés à ce magasin !
+                        <h5 class="modal-title"> <b>Attention </b> : La suppression de cette entité est irreversible,
+                            procéder à la suppression?
+
                         </h5>
                     </div>
                     <div class="modal-footer">
@@ -187,12 +188,13 @@
                                     <label>Recommandation pour livreur </label>
                                     @if($store->deliveryRec)
                                     <textarea class="form-control" rows="3"
-                                        placeholder="Recommendation pour livereur ..." disabled>{{$store->deliveryRec}}</textarea>
-                                        @else
-                                        <textarea class="form-control" rows="3"
+                                        placeholder="Recommendation pour livereur ..."
+                                        disabled>{{$store->deliveryRec}}</textarea>
+                                    @else
+                                    <textarea class="form-control" rows="3"
                                         placeholder="Recommendation pour livereur ..." disabled>Aucun</textarea>
 
-                                        @endif
+                                    @endif
                                 </div>
 
                                 <div class="form-group">

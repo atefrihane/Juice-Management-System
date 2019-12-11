@@ -121,7 +121,7 @@ class WarehouseController extends Controller
 
             }
             else{
-                alert()->error('Impossible de supprimer cet entrepôt !', 'Oups! ')->persistent("Fermer");
+                alert()->error('Cette entité ne peut pas être supprimée, autres entités y sont liées', 'Oups! ')->persistent("Fermer");
                 return redirect()->back();
             }
 

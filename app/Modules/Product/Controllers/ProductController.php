@@ -151,7 +151,7 @@ class ProductController extends Controller
 
             } else {
 
-                alert()->error('Impossible de supprimer ce produit !', 'Oups! ')->persistent("Fermer");
+                alert()->error('Cette entité ne peut pas être supprimée, autres entités y sont liées', 'Oups! ')->persistent("Fermer");
                 return redirect()->back();
             }
 
@@ -292,6 +292,10 @@ class ProductController extends Controller
         $price = Price::find($id);
 
         if ($price) {
+            if ($price->stores()->exists()) {
+                alert()->error('Cette entité ne peut pas être supprimée, autres entités y sont liées', 'Oups! ')->persistent("Fermer");
+                return redirect()->back();
+            }
             $price->delete();
             alert()->success('Succès!', 'Produit est supprimé du tarif avec sucées')->persistent("Fermer");
             return redirect()->back();
@@ -365,7 +369,7 @@ class ProductController extends Controller
         $product = Product::find($id);
         if ($product) {
 
-            return view('Product::showProduct',compact('product'));
+            return view('Product::showProduct', compact('product'));
 
         }
         return view('General::notFound');

@@ -66,8 +66,10 @@
                                                             stock ?</h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p> Ce processus ne peut pas être annulé.</p>
-                                                    </div>
+                                                <h5 class="modal-title"> <b>Attention </b> : La suppression de cette entité est irreversible, procéder à la suppression?
+                                                    
+                                                </h5>
+                                            </div>
                                                     <div class="modal-footer">
                                                         <div class="text-center">
                                                             <form action="{{route('handleDeleteStock',$stock->id)}}"

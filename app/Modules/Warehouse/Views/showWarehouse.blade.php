@@ -33,8 +33,9 @@
 
                         </div>
                         <div class="modal-body">
-                            <h5 class="modal-title"> <b>Attention !</b> : Cette opération peut affecter la suppression
-                                des éléments associés à cet entrepôt ! </h4>
+                            <h5 class="modal-title"> <b>Attention </b> : La suppression de cette entité est
+                                irreversible, procéder à la suppression?
+
                             </h5>
                         </div>
                         <div class="modal-footer">
@@ -165,12 +166,13 @@
         </section>
         <div class="box box-primary">
             <div class="box-body">
-            <div class="box-header" style="margin-bottom:25px;">
-                        <h3 class="box-title">Liste des produits en stock</h3>
-                        <a href="{{route('showAddWarehouseStock',$warehouse->id)}}" class="btn btn-primary pull-right">Ajouter une
-                            entrée</a>
-                    </div>
-         
+                <div class="box-header" style="margin-bottom:25px;">
+                    <h3 class="box-title">Liste des produits en stock</h3>
+                    <a href="{{route('showAddWarehouseStock',$warehouse->id)}}"
+                        class="btn btn-primary pull-right">Ajouter une
+                        entrée</a>
+                </div>
+
                 <table class="table table-bordered table-hover example2">
                     <thead>
                         <tr>
@@ -250,7 +252,9 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="6" class="text-center"> <h4>Aucun produit en stock !</h4> </td>
+                            <td colspan="6" class="text-center">
+                                <h4>Aucun produit en stock !</h4>
+                            </td>
                         </tr>
 
                         @endforelse
@@ -259,10 +263,10 @@
 
                 </table>
                 <div class="row">
-                                <div class="container text-center">
-                                    <a href="{{url()->previous()}}" class="btn btn-danger pl-1">Fermer</a>
-                                </div>
-                            </div>
+                    <div class="container text-center">
+                        <a href="{{url()->previous()}}" class="btn btn-danger pl-1">Fermer</a>
+                    </div>
+                </div>
             </div>
         </div>
 

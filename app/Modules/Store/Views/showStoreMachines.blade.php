@@ -91,9 +91,10 @@
                                                             machine ?</h4>
                                                         </div>
                                                         <div class="modal-body">
-                                                        <h5 class="modal-title">  <b>Attention !</b> : Cette opération peut affecter la suppression des éléments associés à cette machine ! 
+                                                <h5 class="modal-title"> <b>Attention </b> : La suppression de cette entité est irreversible, procéder à la suppression?
+                                                    
                                                 </h5>
-                                                        </div>
+                                            </div>
                                                         <div class="modal-footer">
                                                             <div class="text-center">
                                                                 <form

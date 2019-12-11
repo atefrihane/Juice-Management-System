@@ -199,7 +199,7 @@ class CompanyController extends Controller
                 alert()->success('Succès!', 'La societé a été supprimé avec succès ')->persistent("Fermer");
                 return redirect()->route('showHome');
             } else {
-                alert()->error('Impossible de supprimer cette societé !', 'Oups! ')->persistent("Fermer");
+                alert()->error('Cette entité ne peut pas être supprimée, autres entités y sont liées', 'Oups! ')->persistent("Fermer");
                 return redirect()->route('showHome');
 
             }

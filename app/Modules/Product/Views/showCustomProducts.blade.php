@@ -80,6 +80,11 @@
                                     <h4 class="modal-title">Voulez cous vraiment supprimer ce produit du tarif?
                                     </h4>
                                 </div>
+                                <div class="modal-body">
+                                                <h5 class="modal-title"> <b>Attention </b> : La suppression de cette entité est irreversible, procéder à la suppression?
+                                                    
+                                                </h5>
+                                            </div>
 
                                 <div class="modal-footer">
                                     <div class="text-center">

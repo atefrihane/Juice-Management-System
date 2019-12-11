@@ -429,7 +429,7 @@ class StoreController extends Controller
                 return redirect(route('showStores', $companyId));
 
             } else {
-                alert()->error('Impossible de supprimer ce magasin !', 'Oups! ')->persistent("Fermer");
+                alert()->error('Cette entité ne peut pas être supprimée, autres entités y sont liées', 'Oups! ')->persistent("Fermer");
                 return redirect()->back();
 
             }

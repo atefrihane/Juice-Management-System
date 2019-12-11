@@ -107,7 +107,7 @@ class CompaniesTableSeeder extends Seeder
 
         Company::create([
             'code' => str_random(6),
-            'status' => 3,
+            'status' => 1,
             'name' => 'Cora',
             'zipcode_id' => $zipCodeTwo->id,
             'address' => 'Paris Sud',
@@ -123,7 +123,7 @@ class CompaniesTableSeeder extends Seeder
 
         Company::create([
             'code' => str_random(6),
-            'status' => 4,
+            'status' => 1,
             'name' => 'Géant Casino',
             'zipcode_id' => $zipCodeTwo->id,
             'address' => 'Paris Sud',
@@ -139,7 +139,7 @@ class CompaniesTableSeeder extends Seeder
 
         Company::create([
             'code' => str_random(6),
-            'status' => 5,
+            'status' => 1,
             'name' => 'Hyper U ',
             'zipcode_id' => $zipCodeOne->id,
             'address' => 'Paris Sud',
@@ -155,7 +155,7 @@ class CompaniesTableSeeder extends Seeder
 
         Company::create([
             'code' => str_random(6),
-            'status' => 6,
+            'status' => 1,
             'name' => 'Intermarché Hyper ',
             'zipcode_id' => $zipCodeOne->id,
             'address' => 'Paris Sud',
@@ -171,7 +171,7 @@ class CompaniesTableSeeder extends Seeder
 
         Company::create([
             'code' => str_random(6),
-            'status' => 7,
+            'status' => 1,
             'name' => 'E.Leclerc',
             'country_id' => $country->id,
             'city_id' => $cityTwo->id,
