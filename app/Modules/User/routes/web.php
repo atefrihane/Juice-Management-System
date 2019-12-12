@@ -8,9 +8,9 @@ Route::group(['module' => 'User', 'middleware' => ['web','isGuest'], 'namespace'
 Route::group(['module' => 'User', 'middleware' => ['web','isAuth'], 'namespace' => 'App\Modules\User\Controllers'], function() {
 
     Route::get('/logout','UserController@handleSignOut')->name('handleSignOut');
-    Route::post('contact/save/{id}', 'UserController@storeClient')->name('storeClient');
+
     Route::get('contact/edit/{cid}/{id}', 'UserController@edit')->name('editClient');
-    Route::post('contact/update/{cid}/{id}', 'UserController@updateClient')->name('updateClient');
+   
     route::post('contact/delete/{cid}/{id}', 'UserController@deleteClient')->name('deleteContact');
     route::get('contact/{cid}/{id}', 'UserController@detailClient')->name('detailClient');
     Route::get('contacts/{id}', 'UserController@showContacts')->name('showContacts');
