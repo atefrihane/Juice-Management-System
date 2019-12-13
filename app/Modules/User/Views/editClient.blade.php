@@ -5,7 +5,7 @@
 
     <section class="content-header" >
 
-        {{ Breadcrumbs::render('addContact',$company) }}
+        {{ Breadcrumbs::render('editContact',$company,$user) }}
     </section>
    
 

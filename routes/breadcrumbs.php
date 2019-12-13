@@ -107,6 +107,11 @@ Breadcrumbs::for('addContact', function ($trail, $company) {
     $trail->parent('contact', $company);
     $trail->push('Ajouter un contact', route('showAddContact', $company));
 });
+Breadcrumbs::for('editContact', function ($trail, $company,$user) {
+    $trail->parent('contact', $company);
+    $trail->push('Modifier un contact');
+    $trail->push($user->formatName());
+});
 
 Breadcrumbs::for('showContact', function ($trail, $company,$user) {
     $trail->parent('contact', $company);
