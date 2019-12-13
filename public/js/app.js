@@ -6163,7 +6163,52 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
           _this2.clearPreparedProducts();
         } else {
-          _this2.loadPrepared();
+          _this2.custom_ordered.forEach(function (ordered) {
+            _this2.final_prepared.push({
+              product_id: ordered.product_id,
+              product_name: ordered.name,
+              total: 0,
+              prepared_products: [],
+              isLoading: false
+            });
+          });
+
+          _this2.final_prepared.forEach(function (_final3) {
+            axios.get("api/product/warehouses/".concat(_final3.product_id)).then(function (response) {
+              _this2.warehouse_products = response.data.warehouse_products;
+
+              if (_this2.warehouse_products.length > 0) {
+                _this2.warehouse_products.forEach(function (warehouse_product) {
+                  var prepareIndex = _final3.prepared_products.findIndex(function (preparedItem) {
+                    return preparedItem.id == warehouse_product.pivot.id;
+                  });
+
+                  if (prepareIndex == -1) {
+                    console.log(warehouse_product);
+
+                    _final3.prepared_products.push({
+                      id: warehouse_product.pivot.id,
+                      comment: warehouse_product.pivot.comment,
+                      creation_date: warehouse_product.pivot.creation_date,
+                      expiration_date: warehouse_product.pivot.expiration_date,
+                      packing: warehouse_product.pivot.packing,
+                      quantity: warehouse_product.pivot.quantity,
+                      warehouse: {
+                        designation: warehouse_product.designation
+                      },
+                      pivot: {
+                        quantity: ''
+                      }
+                    });
+                  }
+                });
+              }
+            })["catch"](function (error) {
+              // handle error
+              console.log(error);
+            });
+          }); // this.loadPrepared()
+
         }
       })["catch"](function (error) {
         console.log(error);
@@ -6178,7 +6223,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         product_name: ''
       });
     },
-    removePrepared: function removePrepared(_final3) {
+    removePrepared: function removePrepared(_final4) {
       var _this3 = this;
 
       swal.fire({
@@ -6191,10 +6236,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       }).then(function (result) {
         if (result.value) {
           axios.post("/api/order/".concat(_this3.order_id, "/prepare/delete"), {
-            final_prepared: _final3
+            final_prepared: _final4
           }).then(function (response) {
             if (response.data.status == 200) {
-              _this3.final_prepared.splice(_this3.final_prepared.indexOf(_final3), 1);
+              _this3.final_prepared.splice(_this3.final_prepared.indexOf(_final4), 1);
             }
           })["catch"](function (error) {
             console.log(error);
@@ -6261,11 +6306,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       }
     },
     clearPrepared: function clearPrepared() {
-      this.final_prepared.forEach(function (_final4) {
-        _final4.total = 0;
+      this.final_prepared.forEach(function (_final5) {
+        _final5.total = 0;
 
-        _final4.prepared_products.forEach(function (prepared) {
-          if (prepared.prepared_quantity != "") _final4.total += prepared.prepared_quantity;
+        _final5.prepared_products.forEach(function (prepared) {
+          if (prepared.prepared_quantity != "") _final5.total += prepared.prepared_quantity;
         });
       });
     },
@@ -72685,7 +72730,10 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "container-fluid" },
+                {
+                  staticClass: "container-fluid",
+                  staticStyle: { "margin-top": "50px" }
+                },
                 [
                   _vm._l(_vm.final_prepared, function(final, i) {
                     return _c(

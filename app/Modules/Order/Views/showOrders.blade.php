@@ -65,7 +65,7 @@
                                     @case(0)
 
                                     <!--- En cours de saisie -->
-                                    <td>En cours de saisie</td>
+                                    <td data-url="{{route('showOrder',$order->id)}}">En cours de saisie</td>
 
                                     <td class="not-this text-center">
 
@@ -121,7 +121,7 @@
 
                     @case(1)
                     <!--- En attente de validation -->
-                    <td>En attente de validation</td>
+                    <td data-url="{{route('showOrder',$order->id)}}">En attente de validation</td>
                     <td class="not-this text-center">
 
                         <div class="btn-group">
@@ -173,7 +173,7 @@
 
                 @case(2)
                 <!--- A préparer -->
-                <td>A préparer</td>
+                <td data-url="{{route('showOrder',$order->id)}}">A préparer</td>
                 <td class="not-this text-center">
 
                     <div class="btn-group">
@@ -192,7 +192,7 @@
 
             @case(3)
             <!--- En cours de préparation -->
-            <td>En cours de préparation</td>
+            <td data-url="{{route('showOrder',$order->id)}}">En cours de préparation</td>
             <td class="not-this text-center">
 
                 <div class="btn-group">
@@ -213,7 +213,7 @@
 
         @case(4)
         <!--- Préparée -->
-        <td>Préparée</td>
+        <td data-url="{{route('showOrder',$order->id)}}">Préparée</td>
         <td class="not-this text-center">
 
             <div class="btn-group">
@@ -233,7 +233,7 @@
 
 @case(5)
 <!--- A livrer -->
-<td>A livrer</td>
+<td data-url="{{route('showOrder',$order->id)}}">A livrer</td>
 <td class="not-this text-center">
 
     <div class="btn-group">
@@ -254,7 +254,7 @@
 
 @case(6)
 <!--- En cours de livraison -->
-<td>En cours de livraison</td>
+<td data-url="{{route('showOrder',$order->id)}}">En cours de livraison</td>
 <td class="not-this text-center">
 
     <div class="btn-group">
@@ -273,7 +273,7 @@
 
 @case(7)
 <!--- Livrée -->
-<td>Livrée</td>
+<td data-url="{{route('showOrder',$order->id)}}">Livrée</td>
 <td class="not-this text-center">
 
     <div class="btn-group">
@@ -295,7 +295,7 @@
 
 @case(8)
 <!--- A facturer -->
-<td>A facturer</td>
+<td data-url="{{route('showOrder',$order->id)}}">A facturer</td>
 <td class="not-this text-center">
 
     <div class="btn-group">
@@ -314,7 +314,7 @@
 
 @case(9)
 <!--- Facturée -->
-<td>Facturée</td>
+<td data-url="{{route('showOrder',$order->id)}}">Facturée</td>
 <td class="not-this text-center">
 
     <div class="btn-group">
@@ -332,7 +332,7 @@
 
 @case(10)
 <!--- A envoyer en comptabilité -->
-<td>A envoyer en comptabilité</td>
+<td data-url="{{route('showOrder',$order->id)}}">A envoyer en comptabilité</td>
 <td class="not-this text-center">
 
     <div class="btn-group">
@@ -350,7 +350,7 @@
 
 @case(11)
 <!--- Comptabilisée -->
-<td>Comptabilisée</td>
+<td data-url="{{route('showOrder',$order->id)}}">Comptabilisée</td>
 <td class="not-this text-center">
 
     <div class="btn-group">
@@ -405,7 +405,7 @@
 
 @case(12)
 <!--- Annulée -->
-<td>Annulée</td>
+<td data-url="{{route('showOrder',$order->id)}}">Annulée</td>
 <td class="not-this text-center">
 
     <div class="btn-group">

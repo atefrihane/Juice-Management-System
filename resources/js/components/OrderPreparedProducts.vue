@@ -103,7 +103,7 @@
 
                             </div>
                         </div>
-                        <div class="container-fluid">
+                        <div class="container-fluid" style="margin-top:50px;">
                             <div class="box" style="border:1px solid rgb(228, 228, 228);padding:20px;"
                                 v-for="(final,i) in final_prepared">
                                 <div class="box-body">
@@ -438,7 +438,68 @@
                             this.clearPreparedProducts()
 
                         } else {
-                            this.loadPrepared()
+
+                                this.custom_ordered.forEach(ordered => {
+                                this.final_prepared.push({
+                                    product_id: ordered.product_id,
+                                    product_name: ordered.name,
+                                    total: 0,
+                                    prepared_products: [],
+                                    isLoading :false
+                                })
+                            });
+
+                                this.final_prepared.forEach(final => {
+
+                                axios.get(`api/product/warehouses/${final.product_id}`)
+                                    .then((response) => {
+                                        this.warehouse_products = response.data.warehouse_products;
+                                        if (this.warehouse_products.length > 0) {
+
+                                            this.warehouse_products.forEach(warehouse_product => {
+                                                let prepareIndex = final.prepared_products
+                                                    .findIndex(preparedItem => preparedItem
+                                                        .id == warehouse_product.pivot.id);
+                                                if (prepareIndex == -1) {
+                                                    console.log(warehouse_product)
+                                                    final.prepared_products.push({
+                                                        id: warehouse_product.pivot.id,
+                                                        comment: warehouse_product.pivot
+                                                            .comment,
+                                                        creation_date: warehouse_product
+                                                            .pivot.creation_date,
+                                                        expiration_date: warehouse_product
+                                                            .pivot.expiration_date,
+                                                        packing: warehouse_product.pivot
+                                                            .packing,
+                                                        quantity: warehouse_product
+                                                            .pivot.quantity,
+                                                        warehouse: {
+                                                            designation: warehouse_product
+                                                                .designation
+                                                        },
+                                                        pivot: {
+                                                            quantity: ''
+                                                        }
+
+
+                                                    })
+
+                                                }
+                                            })
+
+
+                                        }
+
+
+                                    })
+                                    .catch((error) => {
+                                        // handle error
+                                        console.log(error);
+                                    })
+
+                            })
+                            // this.loadPrepared()
 
                         }
 
