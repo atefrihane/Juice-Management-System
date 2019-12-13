@@ -205,7 +205,7 @@
         mounted() {
             this.getStores()
         },
-        props: ['company'],
+        props: ['company','user'],
         data() {
             return {
                 company_name: this.company.name,
@@ -347,6 +347,7 @@
                             accessCode: this.accessCode,
                             passWord: this.passWord,
                             comment: this.comment,
+                            user_id:this.user.id
                         })
                         .then((response) => {
                             console.log(response);

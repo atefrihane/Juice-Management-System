@@ -1915,7 +1915,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.getStores();
   },
-  props: ['company'],
+  props: ['company', 'user'],
   data: function data() {
     return {
       company_name: this.company.name,
@@ -2048,7 +2048,8 @@ __webpack_require__.r(__webpack_exports__);
           storesChosen: this.storesChosen,
           accessCode: this.accessCode,
           passWord: this.passWord,
-          comment: this.comment
+          comment: this.comment,
+          user_id: this.user.id
         }).then(function (response) {
           console.log(response);
 
@@ -2366,7 +2367,7 @@ __webpack_require__.r(__webpack_exports__);
     this.getStores();
     this.fillOldData();
   },
-  props: ['company', 'user', 'related_data', 'user_type', 'is_director', 'free_stores'],
+  props: ['company', 'user', 'related_data', 'user_type', 'is_director', 'free_stores', 'user_id'],
   data: function data() {
     return {
       company_name: this.company.name,
@@ -2568,7 +2569,8 @@ __webpack_require__.r(__webpack_exports__);
           storesChosen: this.storesChosen,
           accessCode: this.accessCode,
           passWord: this.passWord,
-          comment: this.comment
+          comment: this.comment,
+          user_id: this.user_id
         }).then(function (response) {
           console.log(response);
 

@@ -246,7 +246,7 @@
             this.getStores()
             this.fillOldData()
         },
-        props: ['company', 'user', 'related_data', 'user_type', 'is_director', 'free_stores'],
+        props: ['company', 'user', 'related_data', 'user_type', 'is_director', 'free_stores','user_id'],
         data() {
             return {
                 company_name: this.company.name,
@@ -470,6 +470,7 @@
                             accessCode: this.accessCode,
                             passWord: this.passWord,
                             comment: this.comment,
+                            user_id:this.user_id
                         })
                         .then((response) => {
                             console.log(response);

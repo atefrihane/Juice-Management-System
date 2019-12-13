@@ -4,6 +4,7 @@ namespace App\Modules\User\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Store\Models\Store;
+use App\Modules\User\Models\ContactHistory;
 use App\Modules\User\Models\Director;
 use App\Modules\User\Models\Responsible;
 use App\Modules\User\Models\User;
@@ -67,6 +68,7 @@ class UserController extends Controller
                     $director->user()->save($user);
 
                     $checkStore->update(['director_id' => $director->id]);
+                 
 
                 } else {
                     return response()->json(['status' => 404]);
@@ -95,6 +97,13 @@ class UserController extends Controller
 
                 break;
         }
+        ContactHistory::create([
+            'action' => 'Création',
+            'contact_id' => $user->id,
+            'user_id' => $request->user_id,
+            'comment'=>$request->comment
+
+        ]);
         return response()->json(['status' => 200]);
 
     }
@@ -200,8 +209,8 @@ class UserController extends Controller
                                 $userStoresIds = $user->child->stores->pluck('id')->toArray();
                                 $detachedStores = array_diff($userStoresIds, $request->input('oldStoresChosen'));
                                 DB::table('responsible_stores')
-                                ->where('responsible_id',$user->child_id)
-                                ->whereIn('store_id', $detachedStores)->delete();
+                                    ->where('responsible_id', $user->child_id)
+                                    ->whereIn('store_id', $detachedStores)->delete();
                             }
 
                             $user->child->update(['comment' => $request->comment]);
@@ -224,8 +233,8 @@ class UserController extends Controller
                     break;
 
             }
-
-            User::where('id', $id)->update([
+            
+        $user= User::where('id', $id)->update([
                 'code' => $request->code,
                 'nom' => $request->name,
                 'prenom' => $request->surname,
@@ -234,6 +243,15 @@ class UserController extends Controller
                 'telephone' => $request->phone,
                 'accessCode' => $request->accessCode,
                 'password' => $request->passWord,
+            ]);
+ 
+       
+            ContactHistory::create([
+                'action' => 'Modification',
+                'contact_id' => $id,
+                'user_id' => $request->user_id,
+                'comment'=>$request->comment
+    
             ]);
             return response()->json(['status' => 200]);
 

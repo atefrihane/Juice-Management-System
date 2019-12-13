@@ -5,6 +5,7 @@ namespace App\Modules\User\Models;
 
 use App\Modules\User\Models\Responsible;
 use App\Modules\User\Models\Director;
+use App\Modules\User\Models\ContactHistory;
 use App\Modules\Warehouse\Models\Warehouse;
 use App\Modules\Order\Models\Order;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -73,6 +74,11 @@ class User extends Authenticatable
     public function delivries()
     {
         return $this->hasMany(Order::class);
+    }
+    public function histories()
+    {
+        return $this->hasMany(ContactHistory::class,'contact_id','id');
+
     }
 
 

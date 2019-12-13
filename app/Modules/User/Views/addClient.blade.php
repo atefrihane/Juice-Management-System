@@ -8,7 +8,7 @@
         {{ Breadcrumbs::render('addContact',$company) }}
     </section>
 
-    <contact-add :company="{{$company}}"> </contact-add>
+    <contact-add :company="{{$company}}" :user="{{Auth::user()}}"> </contact-add>
 
 </div>
 

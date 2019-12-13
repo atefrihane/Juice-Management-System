@@ -209,12 +209,6 @@
                             </div>
 
 
-                            <div class="text-center">
-
-                                <a href="{{url()->previous()}}" class="btn btn-danger" data-dismiss="modal">Fermer</a>
-
-                            </div>
-
 
 
                         </div>
@@ -228,6 +222,59 @@
         </div>
 
     </section>
+    <div class="container">
+    <section class="content-header">
+        <div class="box box-primary">
+            <div class="box-body">
+                <h4>
+                    Historique du contact
+                    <small> {{$user->formatName()}}</small>
+                </h4>
+                <table class="table table-bordered table-hover example2">
+                    <thead>
+                        <tr>
+                            <th> Date et heure</th>
+                            <th>Utilisateur</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($user->histories as $history)
+                        <tr>
+                            <td>@formatDate($history->created_at)</td>
+                            <td>{{$history->user->formatName()}}</td>
+                            <td>{{$history->action}}</td>
+
+
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="3" class="text-center">Auccun contact trouvé !</td>
+                        </tr>
+
+                        @endforelse
+
+
+
+
+                    </tbody>
+
+                </table>
+
+
+                <div class="text-center">
+
+                    <a href="{{url()->previous()}}" class="btn btn-danger" data-dismiss="modal">Fermer</a>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    </div>
+ 
+   
 </div>
-</div>
+
 @endsection

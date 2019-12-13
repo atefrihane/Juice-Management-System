@@ -9,6 +9,7 @@ use App\Modules\Store\Models\Store;
 use App\Modules\User\Models\Director;
 use App\Modules\User\Models\Responsible;
 use App\Modules\User\Models\User;
+use App\Modules\User\Models\ContactHistory;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -54,7 +55,7 @@ class UserController extends Controller
                 })->get();
 
                 $contacts = $directors->toBase()->merge($responsibles);
-               
+          
             }
           
 

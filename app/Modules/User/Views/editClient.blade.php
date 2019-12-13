@@ -10,9 +10,9 @@
    
 
    @if($user->getType() == 'Directeur')
-    <contact-update :company="{{$company}}" :user="{{$user}}" :related_data="{{$relatedData}}" user_type="{{$type}}" :is_director="true"> </contact-update>
+    <contact-update :company="{{$company}}" :user="{{$user}}" :related_data="{{$relatedData}}" user_type="{{$type}}" :is_director="true" user_id="{{Auth::user()->id}}"> </contact-update>
     @elseif($user->getType() == 'Autre')
-    <contact-update :company="{{$company}}" :user="{{$user}}" :related_data="{{$relatedData}}" user_type="{{$type}}" :free_stores="{{$freeStores}}" :is_director="false"> </contact-update>
+    <contact-update :company="{{$company}}" :user="{{$user}}" :related_data="{{$relatedData}}" user_type="{{$type}}" :free_stores="{{$freeStores}}" :is_director="false" user_id="{{Auth::user()->id}}"> </contact-update>
     @endif
 
 </div>

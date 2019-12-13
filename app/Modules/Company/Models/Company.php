@@ -78,6 +78,7 @@ class Company extends Model
             $q->where('responsible_id', $user->child_id);
         })->get();
         $contacts = $directors->toBase()->merge($responsibles);
+     
         if (count($contacts) > 0) {
             return true;
         }
