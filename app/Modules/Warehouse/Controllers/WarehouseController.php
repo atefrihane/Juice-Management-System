@@ -29,7 +29,7 @@ class WarehouseController extends Controller
     }
     public function showAddProductQuantity()
     {
-       
+
         $products = Product::all();
         $warehouses = Warehouse::all();
         return view('Warehouse::showAddProductQuantity', compact('products', 'warehouses'));
@@ -111,6 +111,7 @@ class WarehouseController extends Controller
 
     public function handleDeleteWarehouse($id)
     {
+
         $checkWarehouse = Warehouse::find($id);
 
         if ($checkWarehouse) {
@@ -119,8 +120,7 @@ class WarehouseController extends Controller
                 alert()->success('Succés!', 'Entrepôt a été supprimé avec succés !')->persistent('Femer');
                 return redirect()->back();
 
-            }
-            else{
+            } else {
                 alert()->error('Cette entité ne peut pas être supprimée, autres entités y sont liées', 'Oups! ')->persistent("Fermer");
                 return redirect()->back();
             }
@@ -209,8 +209,8 @@ class WarehouseController extends Controller
         }
 
         ProductWarehouse::create($request->all());
-        alert()->success('Succés!', 'Le produit a été ajouté avec succés ! !')->persistent('Femer');
-        return redirect()->route('showWarehouseProducts');
+        alert()->success('Succés!', 'Le produit a été ajouté avec succés')->persistent('Femer');
+        return redirect($request->url);
 
     }
 
@@ -258,13 +258,13 @@ class WarehouseController extends Controller
 
     public function handleDeleteProductQuantity($id)
     {
+        $productWarehouse = ProductWarehouse::where('product_id', $id)->first();
 
-        $productWarehouse = ProductWarehouse::find($id);
         if ($productWarehouse) {
 
             $productWarehouse->delete();
 
-            alert()->success('Succés!', 'Le produit a été supprimé avec succés !')->persistent('Femer');
+            alert()->success('Succés!', 'Le produit a été supprimé avec succés')->persistent('Femer');
             return redirect()->back();
         }
         return view('General::notFound');
