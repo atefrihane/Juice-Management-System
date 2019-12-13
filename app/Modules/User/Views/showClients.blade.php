@@ -22,7 +22,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-
+                     
                         <table class="table table-bordered table-hover example2">
                             <thead>
                                 <tr>
@@ -42,7 +42,11 @@
                                     <td data-url="{{route('showContact',['company_id'=>$company->id,'contact_id'=>$contact->user->id])}}">{{$contact->user->code}}</td>
                                     <td data-url="{{route('showContact',['company_id'=>$company->id,'contact_id'=>$contact->user->id])}}">{{$contact->user->formatName()}}</td>
                                     <td data-url="{{route('showContact',['company_id'=>$company->id,'contact_id'=>$contact->user->id])}}">{{$contact->user->getType()}}</td>
+                                    @if($contact->user->getType() == 'Directeur')
                                     <td data-url="{{route('showContact',['company_id'=>$company->id,'contact_id'=>$contact->user->id])}}">1</td>
+                                    @elseif($contact->user->getType() == 'Autre') 
+                                    <td data-url="{{route('showContact',['company_id'=>$company->id,'contact_id'=>$contact->user->id])}}">{{count($contact->stores)}}</td>
+                                    @endif
                                     <td class="not-this text-center">
 
                                         <div class="btn-group">

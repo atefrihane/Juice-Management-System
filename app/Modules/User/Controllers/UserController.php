@@ -56,6 +56,7 @@ class UserController extends Controller
                 $contacts = $directors->toBase()->merge($responsibles);
                
             }
+          
 
             return view('User::showClients', compact('company', 'contacts'));
 
