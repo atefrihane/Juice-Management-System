@@ -7,7 +7,7 @@
                     <div class="box box-primary">
 
                         <div class="box-header">
-                            <h3 class="box-title"> Ajouter un contact</h3>
+                            <h3 class="box-title"> Modifier un contact</h3>
 
                         </div>
 
@@ -113,8 +113,8 @@
                                 <div class="form-group" v-if="type == 1">
 
                                     <label for="exampleInputEmail1">Magasin(s) de responsabilité(s)</label>
-
-                                    <div class="form-group">
+                                    <div class="scrollable">
+                                      <div class="form-group">
                                         <div class="checkbox" v-for="(store,index) in stores">
 
                                             <label>
@@ -126,6 +126,8 @@
 
                                         </div>
                                     </div>
+                                    </div>
+                                  
 
                                 </div>
 
@@ -154,12 +156,15 @@
 
                                 <div class="form-group" v-if="type == 2 && !isDirector">
                                     <label for="exampleInputEmail1">Magasin(s) de responsabilité(s)</label>
-                                    <div class="form-check" style="margin: 10px 0px 20px;"
+                                    <div class="scrollable">
+                                        <div class="form-check" style="margin: 10px 0px 20px;"
                                         v-for="store in storesChosen">
                                         <input type="checkbox" class="form-check-input" :value="store.id"
                                             v-model="oldStoresChosen">
                                         {{store.designation}}
                                     </div>
+                                    </div>
+                                
                                     <div v-if="freeStores.length > 0">
 
                                         <label for="exampleInputEmail1">Autres Magasins</label>

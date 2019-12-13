@@ -15,7 +15,7 @@
                 <p>
 
                     Nous n'avons pas trouvé la page que vous cherchiez.
-                    En attendant, vous pouvez revenir au <a href="{{route('showHome')}}">tableau de bord </a>
+                    En attendant, vous pouvez revenir en <a href="{{url()->previous()}}">arrière </a>
 
                 </p>
 

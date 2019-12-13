@@ -2,13 +2,12 @@
 
 namespace App\Modules\Company\Models;
 
-
+use App\Modules\Company\Models\CompanyHistory;
 use App\Modules\General\Models\City;
 use App\Modules\General\Models\Country;
 use App\Modules\General\Models\Zipcode;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Store\Models\Store;
-use App\Modules\Company\Models\CompanyHistory;
 use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
@@ -20,7 +19,7 @@ class Company extends Model
     {
         return $this->hasMany(Store::class);
     }
-   
+
     public function getStatus()
     {
         $status = '';
@@ -51,7 +50,6 @@ class Company extends Model
         return $rentedMachines;
     }
 
-
     public function city()
     {
         return $this->belongsTo(City::class, 'city_id');
@@ -68,5 +66,21 @@ class Company extends Model
     {
         return $this->hasMany(CompanyHistory::class);
 
+    }
+
+    public function contacts($user)
+    {
+        $directors = $this->stores()->whereHas('director', function ($q) use ($user) {
+            $q->where('director_id', $user->child_id);
+        })->get();
+
+        $responsibles = $this->stores()->whereHas('responsibles', function ($q) use ($user) {
+            $q->where('responsible_id', $user->child_id);
+        })->get();
+        $contacts = $directors->toBase()->merge($responsibles);
+        if (count($contacts) > 0) {
+            return true;
+        }
+        return false;
     }
 }

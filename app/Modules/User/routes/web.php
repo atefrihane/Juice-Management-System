@@ -12,7 +12,7 @@ Route::group(['module' => 'User', 'middleware' => ['web','isAuth'], 'namespace' 
     Route::get('contact/edit/{cid}/{id}', 'UserController@edit')->name('editClient');
    
     route::post('contact/delete/{cid}/{id}', 'UserController@deleteClient')->name('deleteContact');
-    route::get('contact/{cid}/{id}', 'UserController@detailClient')->name('detailClient');
+    route::get('contact/{cid}/{id}', 'UserController@showContact')->name('showContact');
     Route::get('contacts/{id}', 'UserController@showContacts')->name('showContacts');
     Route::get('contact/show//add/{id}', 'UserController@showAddContact')->name('showAddContact');
 

@@ -10,7 +10,6 @@ use App\Modules\User\Models\Director;
 use App\Modules\User\Models\Responsible;
 use App\Modules\User\Models\User;
 use Auth;
-use DB;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -55,6 +54,7 @@ class UserController extends Controller
                 })->get();
 
                 $contacts = $directors->toBase()->merge($responsibles);
+               
             }
 
             return view('User::showClients', compact('company', 'contacts'));
@@ -101,12 +101,10 @@ class UserController extends Controller
             }
 
         }
-   
 
-        return view("User::editClient", compact('user', 'company', 'relatedData', 'type','freeStores'));
+        return view("User::editClient", compact('user', 'company', 'relatedData', 'type', 'freeStores'));
 
     }
-   
 
     public function deleteClient($cid, $id)
     {
@@ -128,37 +126,20 @@ class UserController extends Controller
         return redirect(route('showContacts', $cid));
     }
 
-    public function detailClient($cid, $id)
+    public function showContact($cid, $id)
     {
-
+      
         $user = User::find($id);
-        if ($user) {
-            $type = $user->getType();
-            switch ($type) {
+ 
+        $company = Company::find($cid);
 
-                case ('responsable'):
-                    $company = Company::find($cid);
-                    $store = $user->child->store;
-                    return view('User::detail', compact('user', 'company', 'store'));
+        if ($user && $company) {
+            $contacts = $company->contacts($user);
+            if ($contacts) {
+                return view('User::detail', compact('user', 'company'));
 
-                    break;
-
-                case ('superviseur'):
-                    $company = Company::find($cid);
-                    $supervisorId = $user->child->id;
-                    $supervisor = SuperVisor::find($supervisorId);
-                    if ($supervisor) {
-                        $store = Store::where('super_visor_id', $supervisor->id)->first();
-                    }
-                    return view('User::detail', compact('user', 'company', 'store'));
-
-                    break;
-
-                case ('directeur'):
-                    $company = Company::find($cid);
-                    return view('User::detail', compact('user', 'company'));
-                    break;
             }
+            return view('General::notFound');
 
         }
 

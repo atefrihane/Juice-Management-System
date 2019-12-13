@@ -2353,6 +2353,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getStores();
@@ -67826,46 +67831,51 @@ var render = function() {
                           _vm._v("Magasin(s) de responsabilité(s)")
                         ]),
                         _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "form-group" },
-                          _vm._l(_vm.stores, function(store, index) {
-                            return _c("div", { staticClass: "checkbox" }, [
-                              _c("label", [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.storeChecked,
-                                      expression: "storeChecked"
+                        _c("div", { staticClass: "scrollable" }, [
+                          _c(
+                            "div",
+                            { staticClass: "form-group" },
+                            _vm._l(_vm.stores, function(store, index) {
+                              return _c("div", { staticClass: "checkbox" }, [
+                                _c("label", [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.storeChecked,
+                                        expression: "storeChecked"
+                                      }
+                                    ],
+                                    attrs: {
+                                      type: "radio",
+                                      name: "store",
+                                      checked: ""
+                                    },
+                                    domProps: {
+                                      value: store.id,
+                                      checked: _vm._q(
+                                        _vm.storeChecked,
+                                        store.id
+                                      )
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        _vm.storeChecked = store.id
+                                      }
                                     }
-                                  ],
-                                  attrs: {
-                                    type: "radio",
-                                    name: "store",
-                                    checked: ""
-                                  },
-                                  domProps: {
-                                    value: store.id,
-                                    checked: _vm._q(_vm.storeChecked, store.id)
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      _vm.storeChecked = store.id
-                                    }
-                                  }
-                                }),
-                                _vm._v(
-                                  "\n                                            " +
-                                    _vm._s(store.designation) +
-                                    "\n                                        "
-                                )
+                                  }),
+                                  _vm._v(
+                                    "\n                                            " +
+                                      _vm._s(store.designation) +
+                                      "\n                                        "
+                                  )
+                                ])
                               ])
-                            ])
-                          }),
-                          0
-                        )
+                            }),
+                            0
+                          )
+                        ])
                       ])
                     : _vm._e(),
                   _vm._v(" "),
@@ -67962,16 +67972,14 @@ var render = function() {
                     : _vm._e(),
                   _vm._v(" "),
                   _vm.type == 2 && !_vm.isDirector
-                    ? _c(
-                        "div",
-                        { staticClass: "form-group" },
-                        [
-                          _c(
-                            "label",
-                            { attrs: { for: "exampleInputEmail1" } },
-                            [_vm._v("Magasin(s) de responsabilité(s)")]
-                          ),
-                          _vm._v(" "),
+                    ? _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                          _vm._v("Magasin(s) de responsabilité(s)")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "scrollable" },
                           _vm._l(_vm.storesChosen, function(store) {
                             return _c(
                               "div",
@@ -68031,119 +68039,118 @@ var render = function() {
                               ]
                             )
                           }),
-                          _vm._v(" "),
-                          _vm.freeStores.length > 0
-                            ? _c("div", [
-                                _c(
-                                  "label",
-                                  { attrs: { for: "exampleInputEmail1" } },
-                                  [_vm._v("Autres Magasins")]
-                                ),
-                                _vm._v(" "),
+                          0
+                        ),
+                        _vm._v(" "),
+                        _vm.freeStores.length > 0
+                          ? _c("div", [
+                              _c(
+                                "label",
+                                { attrs: { for: "exampleInputEmail1" } },
+                                [_vm._v("Autres Magasins")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "form-check",
+                                  staticStyle: { margin: "10px 0px 20px" }
+                                },
+                                [
+                                  _c("input", {
+                                    ref: "selectNewChosen",
+                                    staticClass: "form-check-input",
+                                    attrs: { type: "checkbox" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.selectNewChosen()
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(
+                                    "\n                                        Tout séléctionner\n                                    "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "scrollable" }, [
                                 _c(
                                   "div",
-                                  {
-                                    staticClass: "form-check",
-                                    staticStyle: { margin: "10px 0px 20px" }
-                                  },
-                                  [
-                                    _c("input", {
-                                      ref: "selectNewChosen",
-                                      staticClass: "form-check-input",
-                                      attrs: { type: "checkbox" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.selectNewChosen()
-                                        }
-                                      }
-                                    }),
-                                    _vm._v(
-                                      "\n                                        Tout séléctionner\n                                    "
-                                    )
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "scrollable" }, [
-                                  _c(
-                                    "div",
-                                    { staticClass: "form-group" },
-                                    _vm._l(_vm.freeStores, function(
-                                      store,
-                                      index
-                                    ) {
-                                      return _c(
-                                        "div",
-                                        { staticClass: "checkbox" },
-                                        [
-                                          _c("label", [
-                                            _c("input", {
-                                              directives: [
-                                                {
-                                                  name: "model",
-                                                  rawName: "v-model",
-                                                  value: _vm.freeStoresChosen,
-                                                  expression: "freeStoresChosen"
-                                                }
-                                              ],
-                                              attrs: { type: "checkbox" },
-                                              domProps: {
-                                                value: store.id,
-                                                checked: Array.isArray(
-                                                  _vm.freeStoresChosen
-                                                )
-                                                  ? _vm._i(
-                                                      _vm.freeStoresChosen,
-                                                      store.id
-                                                    ) > -1
-                                                  : _vm.freeStoresChosen
-                                              },
-                                              on: {
-                                                change: function($event) {
-                                                  var $$a =
-                                                      _vm.freeStoresChosen,
-                                                    $$el = $event.target,
-                                                    $$c = $$el.checked
-                                                      ? true
-                                                      : false
-                                                  if (Array.isArray($$a)) {
-                                                    var $$v = store.id,
-                                                      $$i = _vm._i($$a, $$v)
-                                                    if ($$el.checked) {
-                                                      $$i < 0 &&
-                                                        (_vm.freeStoresChosen = $$a.concat(
-                                                          [$$v]
-                                                        ))
-                                                    } else {
-                                                      $$i > -1 &&
-                                                        (_vm.freeStoresChosen = $$a
-                                                          .slice(0, $$i)
-                                                          .concat(
-                                                            $$a.slice($$i + 1)
-                                                          ))
-                                                    }
+                                  { staticClass: "form-group" },
+                                  _vm._l(_vm.freeStores, function(
+                                    store,
+                                    index
+                                  ) {
+                                    return _c(
+                                      "div",
+                                      { staticClass: "checkbox" },
+                                      [
+                                        _c("label", [
+                                          _c("input", {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value: _vm.freeStoresChosen,
+                                                expression: "freeStoresChosen"
+                                              }
+                                            ],
+                                            attrs: { type: "checkbox" },
+                                            domProps: {
+                                              value: store.id,
+                                              checked: Array.isArray(
+                                                _vm.freeStoresChosen
+                                              )
+                                                ? _vm._i(
+                                                    _vm.freeStoresChosen,
+                                                    store.id
+                                                  ) > -1
+                                                : _vm.freeStoresChosen
+                                            },
+                                            on: {
+                                              change: function($event) {
+                                                var $$a = _vm.freeStoresChosen,
+                                                  $$el = $event.target,
+                                                  $$c = $$el.checked
+                                                    ? true
+                                                    : false
+                                                if (Array.isArray($$a)) {
+                                                  var $$v = store.id,
+                                                    $$i = _vm._i($$a, $$v)
+                                                  if ($$el.checked) {
+                                                    $$i < 0 &&
+                                                      (_vm.freeStoresChosen = $$a.concat(
+                                                        [$$v]
+                                                      ))
                                                   } else {
-                                                    _vm.freeStoresChosen = $$c
+                                                    $$i > -1 &&
+                                                      (_vm.freeStoresChosen = $$a
+                                                        .slice(0, $$i)
+                                                        .concat(
+                                                          $$a.slice($$i + 1)
+                                                        ))
                                                   }
+                                                } else {
+                                                  _vm.freeStoresChosen = $$c
                                                 }
                                               }
-                                            }),
-                                            _vm._v(
-                                              "\n                                                    " +
-                                                _vm._s(store.designation) +
-                                                "\n\n                                                "
-                                            )
-                                          ])
-                                        ]
-                                      )
-                                    }),
-                                    0
-                                  )
-                                ])
+                                            }
+                                          }),
+                                          _vm._v(
+                                            "\n                                                    " +
+                                              _vm._s(store.designation) +
+                                              "\n\n                                                "
+                                          )
+                                        ])
+                                      ]
+                                    )
+                                  }),
+                                  0
+                                )
                               ])
-                            : _vm._e()
-                        ],
-                        2
-                      )
+                            ])
+                          : _vm._e()
+                      ])
                     : _vm._e(),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
@@ -68292,7 +68299,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header" }, [
-      _c("h3", { staticClass: "box-title" }, [_vm._v(" Ajouter un contact")])
+      _c("h3", { staticClass: "box-title" }, [_vm._v(" Modifier un contact")])
     ])
   }
 ]

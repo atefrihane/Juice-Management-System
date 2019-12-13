@@ -199,7 +199,9 @@ class UserController extends Controller
                             if ($user->child->stores->count() > count($request->input('oldStoresChosen'))) {
                                 $userStoresIds = $user->child->stores->pluck('id')->toArray();
                                 $detachedStores = array_diff($userStoresIds, $request->input('oldStoresChosen'));
-                                DB::table('responsible_stores')->whereIn('store_id', $detachedStores)->delete();
+                                DB::table('responsible_stores')
+                                ->where('responsible_id',$user->child_id)
+                                ->whereIn('store_id', $detachedStores)->delete();
                             }
 
                             $user->child->update(['comment' => $request->comment]);

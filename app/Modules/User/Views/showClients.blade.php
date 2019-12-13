@@ -22,7 +22,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                     
+
                         <table class="table table-bordered table-hover example2">
                             <thead>
                                 <tr>
@@ -34,44 +34,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            @if(count($contacts) >0)
+                                @if(count($contacts) >0)
                                 @foreach($contacts as $contact)
 
-                                @if($contact->user->getType() == 'Directeur')
-                                <tr>
-                                    <td>{{$contact->user->code}}</td>
-                                    <td>{{$contact->user->formatName()}}</td>
-                                    <td>{{$contact->user->getType()}}</td>
-                                    <td>1</td>
+
+                                <tr class="table-tr">
+                                    <td data-url="{{route('showContact',['company_id'=>$company->id,'contact_id'=>$contact->user->id])}}">{{$contact->user->code}}</td>
+                                    <td data-url="{{route('showContact',['company_id'=>$company->id,'contact_id'=>$contact->user->id])}}">{{$contact->user->formatName()}}</td>
+                                    <td data-url="{{route('showContact',['company_id'=>$company->id,'contact_id'=>$contact->user->id])}}">{{$contact->user->getType()}}</td>
+                                    <td data-url="{{route('showContact',['company_id'=>$company->id,'contact_id'=>$contact->user->id])}}">1</td>
                                     <td class="not-this text-center">
 
                                         <div class="btn-group">
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
-                                                <li><a
-                                                        href="{{route('editClient', [$company->id, $contact->user->id])}}">Modifier</a>
+                                            <li><a
+                                                        href="{{route('showContact', [$company->id, $contact->user->id])}}">Voir détails</a>
                                                 </li>
-                                                <li><a data-toggle="modal"
-                                                        data-target="#modal-default{{$contact->user->id}}">Supprimer</a>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @else
-                                <tr>
-                                    <td>{{$contact->user->code}}</td>
-                                    <td>{{$contact->user->formatName()}}</td>
-                                    <td>{{$contact->user->getType()}}</td>
-                                    <td>{{count($contact->stores)}}</td>
-                                    <td class="not-this text-center">
-
-                                        <div class="btn-group">
-                                            <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false"></a>
-                                            <ul class="dropdown-menu edit" role="menu">
                                                 <li><a
                                                         href="{{route('editClient', [$company->id, $contact->user->id])}}">Modifier</a>
                                                 </li>
@@ -84,47 +64,48 @@
                                     </td>
                                 </tr>
 
-                                @endif
+
+
                                 <div class="modal fade" id="modal-default{{$contact->user->id}}">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">×</span></button>
-                                                    <h4 class="modal-title">Voulez vous vraiment supprimer ce
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">×</span></button>
+                                                <h4 class="modal-title">Voulez vous vraiment supprimer ce
                                                     contact ?</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                <h5 class="modal-title"> <b>Attention </b> : La suppression de cette entité est irreversible, procéder à la suppression?
-                                                    
+                                            </div>
+                                            <div class="modal-body">
+                                                <h5 class="modal-title"> <b>Attention </b> : La suppression de cette
+                                                    entité est irreversible, procéder à la suppression?
+
                                                 </h5>
                                             </div>
-                                                <div class="modal-footer">
-                                                    <div class="text-center">
-                                                        <form
-                                                            action="{{route('deleteContact',  [$company->id, $contact->user->id])}}"
-                                                            method="post">
-                                                            {{csrf_field()}}
-                                                            <a href="#" class="btn btn-danger"
-                                                                data-dismiss="modal">Annuler</a>
+                                            <div class="modal-footer">
+                                                <div class="text-center">
+                                                    <form
+                                                        action="{{route('deleteContact',  [$company->id, $contact->user->id])}}"
+                                                        method="post">
+                                                        {{csrf_field()}}
+                                                        <a href="#" class="btn btn-danger"
+                                                            data-dismiss="modal">Annuler</a>
 
-                                                            <button type="submit"
-                                                                class="btn btn-success">Confirmer</button>
-                                                        
+                                                        <button type="submit" class="btn btn-success">Confirmer</button>
 
-                                                        </form>
 
-                                                    </div>
-
+                                                    </form>
 
                                                 </div>
+
+
                                             </div>
-                                            <!-- /.modal-content -->
                                         </div>
-                                        </div>
-                                        <!-- /.modal-dialog -->
-                                        @endforeach
+                                        <!-- /.modal-content -->
+                                    </div>
+                                </div>
+                                <!-- /.modal-dialog -->
+                                @endforeach
                                 @else
                                 <tr>
                                     <td colspan="5" class="text-center">
@@ -133,7 +114,7 @@
                                 </tr>
                                 @endif
 
-                               
+
 
 
 
