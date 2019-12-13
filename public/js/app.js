@@ -1908,6 +1908,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getStores();
@@ -67181,42 +67184,47 @@ var render = function() {
                           _vm._v("Magasin(s) de responsabilité(s)")
                         ]),
                         _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "form-group" },
-                          _vm._l(_vm.stores, function(store, index) {
-                            return _c("div", { staticClass: "checkbox" }, [
-                              _c("label", [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.storeChecked,
-                                      expression: "storeChecked"
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "div",
+                            { staticClass: "scrollable" },
+                            _vm._l(_vm.stores, function(store, index) {
+                              return _c("div", { staticClass: "checkbox" }, [
+                                _c("label", [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.storeChecked,
+                                        expression: "storeChecked"
+                                      }
+                                    ],
+                                    attrs: { type: "radio", name: "store" },
+                                    domProps: {
+                                      value: store.id,
+                                      checked: _vm._q(
+                                        _vm.storeChecked,
+                                        store.id
+                                      )
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        _vm.storeChecked = store.id
+                                      }
                                     }
-                                  ],
-                                  attrs: { type: "radio", name: "store" },
-                                  domProps: {
-                                    value: store.id,
-                                    checked: _vm._q(_vm.storeChecked, store.id)
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      _vm.storeChecked = store.id
-                                    }
-                                  }
-                                }),
-                                _vm._v(
-                                  "\n                                            " +
-                                    _vm._s(store.designation) +
-                                    "\n                                        "
-                                )
+                                  }),
+                                  _vm._v(
+                                    "\n                                            " +
+                                      _vm._s(store.designation) +
+                                      "\n                                        "
+                                  )
+                                ])
                               ])
-                            ])
-                          }),
-                          0
-                        )
+                            }),
+                            0
+                          )
+                        ])
                       ])
                     : _vm._e(),
                   _vm._v(" "),

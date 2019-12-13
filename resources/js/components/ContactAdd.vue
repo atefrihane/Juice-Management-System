@@ -114,7 +114,8 @@
                                     <label for="exampleInputEmail1">Magasin(s) de responsabilité(s)</label>
 
                                     <div class="form-group">
-                                        <div class="checkbox" v-for="(store,index) in stores">
+                                    <div class="scrollable">
+                                    <div class="checkbox" v-for="(store,index) in stores">
 
                                             <label>
                                                 <input type="radio" name="store" :value="store.id"
@@ -124,6 +125,8 @@
 
 
                                         </div>
+                                    </div>
+                                        
                                     </div>
 
                                 </div>
