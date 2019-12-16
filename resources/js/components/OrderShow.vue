@@ -357,8 +357,10 @@
                                 <td>{{billed.tva}}</td>
                                 <td>{{billed.total}}</td>
                             </tr>
-                            <tr  v-if="billed_products.length == 0">
-                                <td colspan="5" class="text-center"><h4>Aucune facture !</h4></td>
+                            <tr v-if="billed_products.length == 0">
+                                <td colspan="5" class="text-center">
+                                    <h4>Aucune facture !</h4>
+                                </td>
 
                             </tr>
 
@@ -492,7 +494,24 @@
 
                     </div>
 
+                    <div class="row">
 
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Date de livraison souhaitée</label>
+                                  <input class="form-control" id="disabledInput" v-if="arrival_date_wished" type="text" v-model="arrival_date_wished"
+                                    disabled>
+                                <input class="form-control" id="disabledInput" v-if="!arrival_date_wished" type="text" value="Non specifié"
+                                    disabled>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
                     <div class="row" style="margin-top:40px;">
 
                         <div class="col-md-4">
@@ -547,6 +566,7 @@
 
 
                     </div>
+
 
 
                 </div>
@@ -705,6 +725,7 @@
                 comment: '',
                 history_id: '',
                 billed_products: [],
+                arrival_date_wished:''
 
 
 
@@ -826,7 +847,8 @@
                         this.volume = response.data.order.volume
                         this.weight = response.data.order.weight
                         this.preparator = response.data.preparator
-                        this.parent = response.data.parent
+                        this.parent = response.data.parent,
+                        this.arrival_date_wished=response.data.order.arrival_date_wished,
                         this.ordered_products.forEach((ordered, index) => {
                             this.custom_ordered.push({
                                 name: ordered.nom,
@@ -847,23 +869,26 @@
                                     })
                                     .then((response) => {
 
-                                         if (response.data.custom_price) {
-                                            custom.public_price = this.convertCurrency(response.data.custom_price
+                                        if (response.data.custom_price) {
+                                            custom.public_price = this.convertCurrency(response
+                                                .data.custom_price
                                                 .price)
-                                            custom.total = this.convertCurrency(parseFloat(custom.public_price) * custom.unit)
+                                            custom.total = this.convertCurrency(parseFloat(
+                                                custom.public_price) * custom.unit)
                                             this.clearOrderedProducts()
-                                        }
-                                        else{
-                                            custom.public_price = this.convertCurrency(response.data.product
+                                        } else {
+                                            custom.public_price = this.convertCurrency(response
+                                                .data.product
                                                 .public_price)
-                                            custom.total = this.convertCurrency(parseFloat(response.data.product
+                                            custom.total = this.convertCurrency(parseFloat(
+                                                response.data.product
                                                 .public_price) * custom.unit)
                                             this.clearOrderedProducts()
 
 
                                         }
-                                        
-                                       
+
+
 
 
                                     })
@@ -883,13 +908,16 @@
                                 .then((response) => {
 
                                     if (response.data.custom_price) {
-                                        billed.public_price = this.convertCurrency(response.data.custom_price
+                                        billed.public_price = this.convertCurrency(response.data
+                                            .custom_price
                                             .price)
-                                        billed.total = this.convertCurrency(parseFloat(billed.public_price) * parseInt(billed.sum))
+                                        billed.total = this.convertCurrency(parseFloat(billed
+                                            .public_price) * parseInt(billed.sum))
 
                                     }
                                     this.billed_total_ht += parseFloat(billed.total)
-                                    this.billed_total_tva += (parseFloat(billed.total) * billed.tva / 100)
+                                    this.billed_total_tva += (parseFloat(billed.total) * billed.tva /
+                                        100)
                                     this.billed_total_order = this.billed_total_ht + this
                                         .billed_total_tva
 
@@ -951,7 +979,7 @@
                                                 }
                                             })
 
-                                    }
+                                        }
 
 
                                     })
@@ -966,7 +994,7 @@
 
                         }
 
-                         })
+                    })
                     .catch(function (error) {
                         console.log(error);
                     })
@@ -1003,7 +1031,7 @@
                     })
 
             },
-                 clearOrderedProducts() {
+            clearOrderedProducts() {
                 //  total cout produit hors tax //
                 this.total_ht = 0;
                 this.total_tva = 0;
@@ -1012,7 +1040,7 @@
                 for (let i in this.custom_ordered) {
                     if (this.custom_ordered[i].total != "") {
                         this.total_ht += parseFloat(this.custom_ordered[i].total);
-                    
+
                     }
 
                 }
@@ -1022,7 +1050,7 @@
 
                 for (let i in this.custom_ordered) {
                     if (this.custom_ordered[i].total != "") {
-                        this.total_tva += ( parseFloat(this.custom_ordered[i].total) * this
+                        this.total_tva += (parseFloat(this.custom_ordered[i].total) * this
                             .custom_ordered[i].tva / 100);
 
                     }
@@ -1034,7 +1062,7 @@
                 this.total_order += parseFloat(this.total_ht) + this.total_tva;
                 // this.convertOrderedProducts(this.ordered_products)
 
-          
+
 
             },
             cancelOrder() {
@@ -1045,7 +1073,7 @@
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "")
 
             },
-              
+
 
 
         }

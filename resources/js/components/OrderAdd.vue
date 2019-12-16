@@ -17,7 +17,7 @@
                         </ul>
                     </div>
                 </div>
-       
+
 
                 <div class="row">
 
@@ -50,7 +50,11 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Magasin</label>
+                            <label for="exampleInputEmail1">
+                                Magasin <a href="#" data-toggle="modal" data-target="#exampleModal"><i
+                                        class="fa fa-info-circle"></i></a>
+
+                            </label>
                             <select class="form-control" v-model="store_id" @change="getStoreData($event)">
                                 <option value="" v-if="stores.length > 0" disabled>Selectionner un
                                     magasin
@@ -60,6 +64,58 @@
                                     {{store.designation}}</option>
 
                             </select>
+
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="exampleModalLabel">Information du magasin
+                                                <small>{{store.name}}</small></h4>
+
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label>Addresse</label>
+                                                <input type="text" class="form-control" :value="store.address" disabled>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Complément d'addresse</label>
+                                                <input type="text" class="form-control" :value="store.complement"
+                                                    disabled>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Pays</label>
+                                                <input type="text" class="form-control" :value="store.country" disabled>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Ville</label>
+                                                <input type="text" class="form-control" :value="store.city" disabled>
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label>Code postal</label>
+                                                <input type="text" class="form-control" :value="store.zipcode" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="text-center">
+                                                <a href="#" data-dismiss="modal" class="btn btn-danger">Fermer</a>
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
 
 
@@ -157,6 +213,18 @@
                     </div>
                 </div>
                 <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Date d'arrivée souhaitée (optionnel)</label>
+                                <input type="date" class="form-control" v-model="arrival_date_wished">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="box-body">
                     <div class="form-group">
                         <label>Commentaires (optionnel)</label>
                         <textarea class="form-control" rows="3" name="comment" placeholder="Commentaires"
@@ -179,10 +247,12 @@
                 <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelOrder()">
                     Annuler</button>
 
-                <button type="button" class="btn btn-warning pl-1" style="margin: 1em" :disabled="disabled" @click="submitSaveOrder()">
+                <button type="button" class="btn btn-warning pl-1" style="margin: 1em" :disabled="disabled"
+                    @click="submitSaveOrder()">
                     Enregistrer</button>
 
-                <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled" @click="submitStoreOrder()">
+                <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled"
+                    @click="submitStoreOrder()">
                     Enregistrer et valider</button>
 
             </div>
@@ -215,34 +285,42 @@
                 comment: '',
                 user_id: order.userId,
                 status: '',
-                disabled:false
+                disabled: false,
+                store: {
+                    name: '',
+                    address: '',
+                    complement: '',
+                    country: '',
+                    city: '',
+                    zipcode: ''
+                },
+                arrival_date_wished: ''
 
 
             }
 
         },
-        computed:{
-           convert_total_ht() {
-                       let val = (this.total_ht/1).toFixed(2).replace('.', ',')
+        computed: {
+            convert_total_ht() {
+                let val = (this.total_ht / 1).toFixed(2).replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
                 // return this.total_ht.toFixed(2).replace(/\d(?=(\d{3})+\,)/g, '$&,'); // 12.345,67
             },
             convert_total_tva() {
-                 let val = (this.total_tva/1).toFixed(2).replace('.', ',')
+                let val = (this.total_tva / 1).toFixed(2).replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
                 // return this.total_tva.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
 
             },
             convert_total_order() {
-                let val = (this.total_order/1).toFixed(2).replace('.', ',')
+                let val = (this.total_order / 1).toFixed(2).replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
                 // return this.total_order.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
             },
-            formatOrdered()
-            {
+            formatOrdered() {
                 this.ordered_products.forEach(ordered => {
-                   let val = (ordered.public_price/1).toFixed(2).replace('.', ',')
-                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                    let val = (ordered.public_price / 1).toFixed(2).replace('.', ',')
+                    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
                 })
 
             }
@@ -290,7 +368,16 @@
 
                 axios.get('/api/store/' + id)
                     .then((response) => {
+                        console.log(response)
                         this.code = response.data.store.code;
+
+                        this.store.name = response.data.store.designation
+                        this.store.address = response.data.store.address
+                        this.store.complement = response.data.store.complement
+                        this.store.country = response.data.store.country.name
+                        this.store.city = response.data.store.city.name
+                        this.store.zipcode = response.data.store.zipcode.code
+
                     })
                     .catch(function (error) {
 
@@ -372,11 +459,13 @@
                                     this.ordered_products[index].product_packing = response.data.product.packing;
                                     this.ordered_products[index].public_price = response.data.custom_price.price;
                                     this.ordered_products[index].tva = response.data.product.tva;
-                                          this.ordered_products[index].public_price=this.convertCurrency(this.ordered_products[index].public_price)
+                                    this.ordered_products[index].public_price = this.convertCurrency(this
+                                        .ordered_products[index].public_price)
                                 } else {
                                     this.ordered_products[index].product_packing = response.data.product.packing;
 
-                                    this.ordered_products[index].public_price = this.convertCurrency(response.data.product
+                                    this.ordered_products[index].public_price = this.convertCurrency(response.data
+                                        .product
                                         .public_price);
 
 
@@ -420,7 +509,7 @@
                 for (let i in this.ordered_products) {
                     if (this.ordered_products[i].total != "") {
                         this.total_ht += parseInt(this.ordered_products[i].total);
-                    
+
                     }
 
                 }
@@ -455,7 +544,8 @@
 
                     ordered.unit = ordered.packing * ordered.product_packing;
                     ordered.total = this.convertCurrency(parseFloat(ordered.public_price) * ordered.unit);
-                    ordered.product_total_tva = parseFloat(ordered.total) + parseFloat(ordered.total) * ordered.tva / 100;
+                    ordered.product_total_tva = parseFloat(ordered.total) + parseFloat(ordered.total) * ordered.tva /
+                        100;
                     this.clearOrderedProducts();
                 } else {
 
@@ -482,7 +572,7 @@
                 if (ordered.unit != '' && ordered.unit > 0) {
 
                     ordered.packing = Math.ceil(ordered.unit / ordered.product_packing)
-                      ordered.total = this.convertCurrency(parseFloat(ordered.public_price) * ordered.unit);
+                    ordered.total = this.convertCurrency(parseFloat(ordered.public_price) * ordered.unit);
                     ordered.product_total_tva = (parseFloat(ordered.total) * ordered.tva / 100);
                     this.clearOrderedProducts();
                 } else {
@@ -516,38 +606,38 @@
                     this.errors.push('Veuillez séléctionner une societé');
                     window.scrollTo(0, 0);
                     x = false;
-                    this.disabled=false;
+                    this.disabled = false;
                 }
                 if (!this.store_id) {
                     this.errors.push('Veuillez séléctionner un magasin');
                     window.scrollTo(0, 0);
                     x = false;
-                    this.disabled=false;
+                    this.disabled = false;
                 }
 
 
 
-              
+
 
                 this.ordered_products.forEach((ordered, index) => {
                     if (!ordered.product_id) {
                         this.errors.push('Veuillez séléctionner un produit');
                         window.scrollTo(0, 0);
                         x = false;
-                        this.disabled=false;
+                        this.disabled = false;
                     }
                     if (!ordered.packing) {
                         this.errors.push('Le champs nombre de colis est requis');
                         window.scrollTo(0, 0);
                         x = false;
-                        this.disabled=false;
+                        this.disabled = false;
                     }
 
                     if (!ordered.unit) {
                         this.errors.push('Le champs nombre d\'unités est requis');
                         window.scrollTo(0, 0);
                         x = false;
-                        this.disabled=false;
+                        this.disabled = false;
                     }
 
 
@@ -561,7 +651,7 @@
 
             },
             submitSaveOrder() {
-                this.disabled=true;
+                this.disabled = true;
                 if (this.validateForm()) {
                     axios.post('api/order/save', {
                             code: this.code,
@@ -571,6 +661,7 @@
                             comment: this.comment,
                             total_order: this.total_order,
                             user_id: this.user_id,
+                            arrival_date_wished: this.arrival_date_wished,
                             status: 0
 
                         })
@@ -585,7 +676,7 @@
 
 
                                 });
-                                 this.disabled=false;
+                                this.disabled = false;
 
 
 
@@ -603,7 +694,7 @@
                                         window.location = axios.defaults.baseURL + '/orders';
                                     }
                                 })
-                                   
+
 
 
 
@@ -616,7 +707,7 @@
 
             },
             submitStoreOrder() {
-                  this.disabled=true;
+                this.disabled = true;
                 if (this.validateForm()) {
                     axios.post('api/order/save', {
                             code: this.code,
@@ -640,7 +731,7 @@
 
 
                                 });
-                                  this.disabled=false;
+                                this.disabled = false;
 
 
 
@@ -672,9 +763,8 @@
             cancelOrder() {
                 window.location = axios.defaults.baseURL + '/orders';
             },
-            convertCurrency(value)
-            {
-                     let val = (value/1).toFixed(2).replace('.', ',')
+            convertCurrency(value) {
+                let val = (value / 1).toFixed(2).replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "")
 
             }

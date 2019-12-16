@@ -5339,6 +5339,76 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getCompanies();
@@ -5360,7 +5430,16 @@ __webpack_require__.r(__webpack_exports__);
       comment: '',
       user_id: order.userId,
       status: '',
-      disabled: false
+      disabled: false,
+      store: {
+        name: '',
+        address: '',
+        complement: '',
+        country: '',
+        city: '',
+        zipcode: ''
+      },
+      arrival_date_wished: ''
     };
   },
   computed: {
@@ -5414,7 +5493,14 @@ __webpack_require__.r(__webpack_exports__);
       });
       var id = event.target.value;
       axios.get('/api/store/' + id).then(function (response) {
+        console.log(response);
         _this3.code = response.data.store.code;
+        _this3.store.name = response.data.store.designation;
+        _this3.store.address = response.data.store.address;
+        _this3.store.complement = response.data.store.complement;
+        _this3.store.country = response.data.store.country.name;
+        _this3.store.city = response.data.store.city.name;
+        _this3.store.zipcode = response.data.store.zipcode.code;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -5637,6 +5723,7 @@ __webpack_require__.r(__webpack_exports__);
           comment: this.comment,
           total_order: this.total_order,
           user_id: this.user_id,
+          arrival_date_wished: this.arrival_date_wished,
           status: 0
         }).then(function (response) {
           if (response.data.status == 400) {
@@ -7073,6 +7160,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getCompanies();
@@ -7103,7 +7210,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       billed_total_order: 0.00,
       comment: '',
       company_id: order.company_id
-    }, _defineProperty(_ref, "errors", []), _defineProperty(_ref, "final_prepared", []), _defineProperty(_ref, "estimated_arrival_time", ''), _defineProperty(_ref, "estimated_arrival_date", ''), _defineProperty(_ref, "arrival_time", ''), _defineProperty(_ref, "arrival_date", ''), _defineProperty(_ref, "delivery", ''), _defineProperty(_ref, "delivery_man", ''), _defineProperty(_ref, "delivery_mode", ''), _defineProperty(_ref, "palet_number", ''), _defineProperty(_ref, "carton_number", ''), _defineProperty(_ref, "volume", ''), _defineProperty(_ref, "weight", ''), _defineProperty(_ref, "parent", ''), _defineProperty(_ref, "preparator", ''), _defineProperty(_ref, "comment", ''), _defineProperty(_ref, "history_id", ''), _defineProperty(_ref, "billed_products", []), _ref;
+    }, _defineProperty(_ref, "errors", []), _defineProperty(_ref, "final_prepared", []), _defineProperty(_ref, "estimated_arrival_time", ''), _defineProperty(_ref, "estimated_arrival_date", ''), _defineProperty(_ref, "arrival_time", ''), _defineProperty(_ref, "arrival_date", ''), _defineProperty(_ref, "delivery", ''), _defineProperty(_ref, "delivery_man", ''), _defineProperty(_ref, "delivery_mode", ''), _defineProperty(_ref, "palet_number", ''), _defineProperty(_ref, "carton_number", ''), _defineProperty(_ref, "volume", ''), _defineProperty(_ref, "weight", ''), _defineProperty(_ref, "parent", ''), _defineProperty(_ref, "preparator", ''), _defineProperty(_ref, "comment", ''), _defineProperty(_ref, "history_id", ''), _defineProperty(_ref, "billed_products", []), _defineProperty(_ref, "arrival_date_wished", ''), _ref;
   },
   computed: {
     // a computed getter
@@ -7199,9 +7306,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this3.volume = response.data.order.volume;
         _this3.weight = response.data.order.weight;
         _this3.preparator = response.data.preparator;
-        _this3.parent = response.data.parent;
-
-        _this3.ordered_products.forEach(function (ordered, index) {
+        _this3.parent = response.data.parent, _this3.arrival_date_wished = response.data.order.arrival_date_wished, _this3.ordered_products.forEach(function (ordered, index) {
           _this3.custom_ordered.push({
             name: ordered.nom,
             "package": ordered.pivot["package"],
@@ -7855,6 +7960,74 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getCompanies();
@@ -7881,7 +8054,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       total_order: 0.00,
       comment: '',
       company_id: order.company_id
-    }, _defineProperty(_ref, "errors", []), _defineProperty(_ref, "disabled", false), _ref;
+    }, _defineProperty(_ref, "errors", []), _defineProperty(_ref, "disabled", false), _defineProperty(_ref, "store", {
+      name: '',
+      address: '',
+      complement: '',
+      country: '',
+      city: '',
+      zipcode: ''
+    }), _defineProperty(_ref, "arrival_date_wished", ''), _ref;
   },
   computed: {
     convert_total_ht: function convert_total_ht() {
@@ -7905,6 +8085,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios.get('/api/order/' + this.order_id).then(function (response) {
         _this.code = response.data.order.code;
         _this.store_id = response.data.order.store_id;
+        _this.arrival_date_wished = response.data.order.arrival_date_wished;
         _this.ordered_products = response.data.ordered_products;
 
         _this.ordered_products.forEach(function (ordered, index) {
@@ -7918,27 +8099,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             products: _this.products,
             product_id: ordered.id,
             total: _this.convertCurrency(parseFloat(ordered.public_price) * ordered.pivot.unit),
-            product_total_tva: ''
+            product_total_tva: ordered.tva
           });
+        });
 
-          _this.custom_ordered.forEach(function (custom) {
-            axios.post('api/product/prices/' + custom.product_id, {
-              store_id: _this.store_id
-            }).then(function (response) {
-              if (response.data.custom_price) {
-                custom.public_price = _this.convertCurrency(response.data.custom_price.price);
-                custom.total = _this.convertCurrency(parseFloat(custom.public_price) * custom.unit);
+        _this.store.name = response.data.store.designation;
+        _this.store.address = response.data.store.address;
+        _this.store.complement = response.data.store.complement;
+        _this.store.country = response.data.store.country.name;
+        _this.store.city = response.data.store.city.name;
+        _this.store.zipcode = response.data.store.zipcode.code;
 
-                _this.clearOrderedProducts();
-              }
-            })["catch"](function (error) {
-              console.log(error);
-            });
+        _this.custom_ordered.forEach(function (custom) {
+          axios.post('api/product/prices/' + custom.product_id, {
+            store_id: _this.store_id
+          }).then(function (response) {
+            if (response.data.custom_price) {
+              custom.public_price = _this.convertCurrency(response.data.custom_price.price);
+              custom.total = _this.convertCurrency(parseFloat(custom.public_price) * custom.unit);
+
+              _this.clearOrderedProducts();
+            }
+
+            _this.total_ht += parseInt(custom.public_price) * parseInt(custom.unit);
+            _this.total_tva += parseInt(custom.total) * parseInt(custom.tva) / 100;
+            _this.total_order = _this.total_ht + _this.total_tva;
+          })["catch"](function (error) {
+            console.log(error);
           });
-
-          _this.total_ht += ordered.public_price * ordered.pivot.unit;
-          _this.total_tva += _this.total_ht * ordered.tva / 100;
-          _this.total_order = _this.total_ht + _this.total_tva;
         });
       })["catch"](function (error) {
         console.log(error);
@@ -7989,6 +8177,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var id = event.target.value;
       axios.get('/api/store/' + id).then(function (response) {
         _this6.code = response.data.store.code + '-' + _this6.order_id;
+        _this6.store.name = response.data.store.designation;
+        _this6.store.address = response.data.store.address;
+        _this6.store.complement = response.data.store.complement;
+        _this6.store.country = response.data.store.country.name;
+        _this6.store.city = response.data.store.city.name;
+        _this6.store.zipcode = response.data.store.zipcode.code;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -8200,6 +8394,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           comment: this.comment,
           total_order: this.total_order,
           user_id: this.user_id,
+          arrival_date_wished: this.arrival_date_wished,
           status: 0
         }).then(function (response) {
           if (response.data.status == 200) {
@@ -8231,7 +8426,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           comment: this.comment,
           total_order: this.total_order,
           user_id: this.user_id,
-          status: 2
+          status: 2,
+          arrival_date_wished: this.arrival_date_wished
         }).then(function (response) {
           if (response.data.status == 200) {
             var _swal$fire;
@@ -72004,9 +72200,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-6" }, [
             _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                _vm._v("Magasin")
-              ]),
+              _vm._m(2),
               _vm._v(" "),
               _c(
                 "select",
@@ -72062,16 +72256,114 @@ var render = function() {
                   })
                 ],
                 2
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "modal fade",
+                  attrs: {
+                    id: "exampleModal",
+                    tabindex: "-1",
+                    role: "dialog",
+                    "aria-labelledby": "exampleModalLabel",
+                    "aria-hidden": "true"
+                  }
+                },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "modal-dialog",
+                      attrs: { role: "document" }
+                    },
+                    [
+                      _c("div", { staticClass: "modal-content" }, [
+                        _c("div", { staticClass: "modal-header" }, [
+                          _c(
+                            "h4",
+                            {
+                              staticClass: "modal-title",
+                              attrs: { id: "exampleModalLabel" }
+                            },
+                            [
+                              _vm._v(
+                                "Information du magasin\n                                            "
+                              ),
+                              _c("small", [_vm._v(_vm._s(_vm.store.name))])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _vm._m(3)
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "modal-body" }, [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", [_vm._v("Addresse")]),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: { type: "text", disabled: "" },
+                              domProps: { value: _vm.store.address }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", [_vm._v("Complément d'addresse")]),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: { type: "text", disabled: "" },
+                              domProps: { value: _vm.store.complement }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", [_vm._v("Pays")]),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: { type: "text", disabled: "" },
+                              domProps: { value: _vm.store.country }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", [_vm._v("Ville")]),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: { type: "text", disabled: "" },
+                              domProps: { value: _vm.store.city }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", [_vm._v("Code postal")]),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: { type: "text", disabled: "" },
+                              domProps: { value: _vm.store.zipcode }
+                            })
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(4)
+                      ])
+                    ]
+                  )
+                ]
               )
             ])
           ])
         ]),
         _vm._v(" "),
-        _vm._m(2),
+        _vm._m(5),
         _vm._v(" "),
         _c("div", { staticClass: "box-body" }, [
           _c("table", { staticClass: "table" }, [
-            _vm._m(3),
+            _vm._m(6),
             _vm._v(" "),
             _c(
               "tbody",
@@ -72368,7 +72660,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "box-body" }, [
-          _vm._m(4),
+          _vm._m(7),
           _vm._v(" "),
           _c("div", { staticClass: "pull-right" }, [
             _c("h4", { staticClass: "box-title" }, [
@@ -72381,6 +72673,38 @@ var render = function() {
             _vm._v(" "),
             _c("h4", { staticClass: "box-title" }, [
               _c("b", [_vm._v(_vm._s(_vm.convert_total_order) + "€")])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "box-body" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", [_vm._v("Date d'arrivée souhaitée (optionnel)")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.arrival_date_wished,
+                      expression: "arrival_date_wished"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "date" },
+                  domProps: { value: _vm.arrival_date_wished },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.arrival_date_wished = $event.target.value
+                    }
+                  }
+                })
+              ])
             ])
           ])
         ]),
@@ -72489,6 +72813,59 @@ var staticRenderFns = [
             _vm._v("Bénéficiaire")
           ])
         ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+      _vm._v("\n                            Magasin "),
+      _c(
+        "a",
+        {
+          attrs: {
+            href: "#",
+            "data-toggle": "modal",
+            "data-target": "#exampleModal"
+          }
+        },
+        [_c("i", { staticClass: "fa fa-info-circle" })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c("div", { staticClass: "text-center" }, [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-danger",
+            attrs: { href: "#", "data-dismiss": "modal" }
+          },
+          [_vm._v("Fermer")]
+        )
       ])
     ])
   },
@@ -74230,6 +74607,56 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                  _vm._v("Date de livraison souhaitée")
+                ]),
+                _vm._v(" "),
+                _vm.arrival_date_wished
+                  ? _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.arrival_date_wished,
+                          expression: "arrival_date_wished"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        id: "disabledInput",
+                        type: "text",
+                        disabled: ""
+                      },
+                      domProps: { value: _vm.arrival_date_wished },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.arrival_date_wished = $event.target.value
+                        }
+                      }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                !_vm.arrival_date_wished
+                  ? _c("input", {
+                      staticClass: "form-control",
+                      attrs: {
+                        id: "disabledInput",
+                        type: "text",
+                        value: "Non specifié",
+                        disabled: ""
+                      }
+                    })
+                  : _vm._e()
+              ])
+            ])
+          ]),
+          _vm._v(" "),
           _c(
             "div",
             { staticClass: "row", staticStyle: { "margin-top": "40px" } },
@@ -75321,9 +75748,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-6" }, [
             _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                _vm._v("Magasin")
-              ]),
+              _vm._m(2),
               _vm._v(" "),
               _c(
                 "select",
@@ -75379,16 +75804,114 @@ var render = function() {
                   })
                 ],
                 2
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "modal fade",
+                  attrs: {
+                    id: "exampleModal",
+                    tabindex: "-1",
+                    role: "dialog",
+                    "aria-labelledby": "exampleModalLabel",
+                    "aria-hidden": "true"
+                  }
+                },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "modal-dialog",
+                      attrs: { role: "document" }
+                    },
+                    [
+                      _c("div", { staticClass: "modal-content" }, [
+                        _c("div", { staticClass: "modal-header" }, [
+                          _c(
+                            "h4",
+                            {
+                              staticClass: "modal-title",
+                              attrs: { id: "exampleModalLabel" }
+                            },
+                            [
+                              _vm._v(
+                                "Information du magasin\n                                            "
+                              ),
+                              _c("small", [_vm._v(_vm._s(_vm.store.name))])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _vm._m(3)
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "modal-body" }, [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", [_vm._v("Addresse")]),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: { type: "text", disabled: "" },
+                              domProps: { value: _vm.store.address }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", [_vm._v("Complément d'addresse")]),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: { type: "text", disabled: "" },
+                              domProps: { value: _vm.store.complement }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", [_vm._v("Pays")]),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: { type: "text", disabled: "" },
+                              domProps: { value: _vm.store.country }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", [_vm._v("Ville")]),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: { type: "text", disabled: "" },
+                              domProps: { value: _vm.store.city }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", [_vm._v("Code postal")]),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: { type: "text", disabled: "" },
+                              domProps: { value: _vm.store.zipcode }
+                            })
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(4)
+                      ])
+                    ]
+                  )
+                ]
               )
             ])
           ])
         ]),
         _vm._v(" "),
-        _vm._m(2),
+        _vm._m(5),
         _vm._v(" "),
         _c("div", { staticClass: "box-body" }, [
           _c("table", { staticClass: "table" }, [
-            _vm._m(3),
+            _vm._m(6),
             _vm._v(" "),
             _c(
               "tbody",
@@ -75684,7 +76207,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "box-body" }, [
-          _vm._m(4),
+          _vm._m(7),
           _vm._v(" "),
           _c("div", { staticClass: "pull-right" }, [
             _c("h4", { staticClass: "box-title" }, [
@@ -75697,6 +76220,38 @@ var render = function() {
             _vm._v(" "),
             _c("h4", { staticClass: "box-title" }, [
               _c("b", [_vm._v(_vm._s(_vm.convert_total_order) + "€")])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "box-body" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", [_vm._v("Date d'arrivée souhaitée (optionnel)")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.arrival_date_wished,
+                      expression: "arrival_date_wished"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "date" },
+                  domProps: { value: _vm.arrival_date_wished },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.arrival_date_wished = $event.target.value
+                    }
+                  }
+                })
+              ])
             ])
           ])
         ]),
@@ -75801,6 +76356,59 @@ var staticRenderFns = [
             _vm._v("Bénéficiaire")
           ])
         ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+      _vm._v("\n                        Magasin "),
+      _c(
+        "a",
+        {
+          attrs: {
+            href: "#",
+            "data-toggle": "modal",
+            "data-target": "#exampleModal"
+          }
+        },
+        [_c("i", { staticClass: "fa fa-info-circle" })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c("div", { staticClass: "text-center" }, [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-danger",
+            attrs: { href: "#", "data-dismiss": "modal" }
+          },
+          [_vm._v("Fermer")]
+        )
       ])
     ])
   },

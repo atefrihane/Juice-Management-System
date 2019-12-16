@@ -5,6 +5,7 @@ namespace App\Modules\Order\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Modules\Order\Models\Order;
 use App\Modules\Order\Models\OrderHistory;
+use App\Modules\Store\Models\Store;
 use App\Modules\Warehouse\Models\Warehouse;
 use DB;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ class OrderController extends Controller
 {
     public function handleSaveOrder(Request $request)
     {
+
         $checkCount = Order::count();
         if ($checkCount > 0) {
             $code = Order::all()->last()->id + 1;
@@ -20,25 +22,33 @@ class OrderController extends Controller
             $code = 1;
         }
         $orderCode = $request->code . '-' . $code;
-        
+
         $order = Order::create([
             'code' => $orderCode,
             'status' => $request->status,
             'total' => $request->total_order,
             'store_id' => $request->store_id,
-        
+            'arrival_date_wished' => $request->arrival_date_wished,
 
         ]);
-
+        $newProducts = [];
+        $customisedProduct = [];
         if ($request->input('ordered_products')) {
             foreach ($request->input('ordered_products') as $ordered) {
-                $order->products()->attach($ordered['product_id'], [
-                    'package' => $ordered['packing'],
-                    'unit' => $ordered['unit'],
-                ]);
 
+                $customisedProduct = [
+                    'package' => (int) $ordered['packing'],
+                    'unit' => (int) $ordered['unit'],
+                    'order_id' => $order->id,
+                    'product_id' => $ordered['product_id'],
+                ];
+                array_push($newProducts, $customisedProduct);
             }
+
         }
+
+        DB::table('order_product')->insert($newProducts);
+
         OrderHistory::create([
             'action' => 'Création',
             'order_id' => $order->id,
@@ -59,6 +69,7 @@ class OrderController extends Controller
 
             $order_history = OrderHistory::with('user')->where('order_id', $order->id)->get();
             $prepared_products_as_object = $order->productwarehouses()->with('product', 'warehouse')->get()->groupBy('product.id');
+            $store = Store::with('country', 'city', 'zipcode')->where('id', $order->store_id)->first();
 
             // convert object of arrays -> array of arrays :(
             $prepared_products = array();
@@ -88,6 +99,7 @@ class OrderController extends Controller
                 'preparator' => $order->preparator,
                 'delivery_man' => $order->delivery,
                 'parent' => $order->parent,
+                'store' => $store,
                 'invoice' => $invoice,
             ]);
 
@@ -114,23 +126,63 @@ class OrderController extends Controller
 
         $order = Order::find($id);
         if ($order) {
-
+   
+         
             $order->update([
                 'store_id' => $request->store_id,
                 'total' => $request->total_order,
                 'status' => $request->status,
+                'arrival_date_wished' => $request->arrival_date_wished,
             ]);
+         
+
+            $products_keys = array_pluck($request->custom_ordered, 'product_id');
+
+            $checkProducts = DB::table('order_product')->whereIn('product_id', $products_keys)
+                ->where('order_id', $order->id)
+                ->get();
+
+            $newProducts = [];
+            $customisedProduct = [];
+
             foreach ($request->custom_ordered as $custom) {
-                $checkProduct = $order->products()->where('product_id', $custom['product_id'])->first();
 
-                if ($checkProduct) {
-                    $order->products()->updateExistingPivot($custom['product_id'], ['package' => $custom['package'], 'unit' => $custom['unit']]);
+                $customisedProduct = [
+                    'package' => (int) $custom['package'],
+                    'unit' => (int) $custom['unit'],
+                    'order_id' => $order->id,
+                    'product_id' => $custom['product_id'],
+                ];
 
-                } else {
-                    $order->products()->attach($custom['product_id'], ['package' => $custom['package'], 'unit' => $custom['unit']]);
-                }
+                array_push($newProducts, $customisedProduct);
 
             }
+
+          
+
+            DB::table('order_product')->where('order_id', $order->id)->delete();
+            DB::table('order_product')->insert($newProducts);
+        
+            // foreach ($request->custom_ordered as $custom) {
+
+            //     $checkProduct = DB::table('order_product')->where('product_id', $custom['product_id'])
+            //         ->where('order_id', $order->id)
+            //         ->first();
+
+            //     if ($checkProduct) {
+            //         DB::table('order_product')->where('product_id', $custom['product_id'])
+            //             ->where('order_id', $order->id)
+            //             ->update([
+            //                 'package' => $custom['package'],
+            //                 'unit' => $custom['unit'],
+            //             ]);
+
+            //     } else {
+            //         $order->products()->attach($custom['product_id'], ['package' => $custom['package'], 'unit' => $custom['unit']]);
+            //     }
+
+            // }
+
             OrderHistory::create([
                 'action' => $request->status == 0 ? 'Modification' : 'Etat vers : A préparer',
                 'user_id' => $request->user_id,
@@ -443,7 +495,6 @@ class OrderController extends Controller
                                 'pallets_number' => $request->palet_number,
                                 'weight' => $request->weight,
                                 'volume' => $request->volume,
-                              
 
                             ]);
                             OrderHistory::create([
@@ -462,7 +513,6 @@ class OrderController extends Controller
                                 'status' => $request->new_status,
                                 'estimated_arrival_date' => $request->date,
                                 'estimated_arrival_time' => $request->time,
-                                
 
                             ]);
                             OrderHistory::create([
@@ -481,7 +531,6 @@ class OrderController extends Controller
                                 'status' => $request->new_status,
                                 'arrival_date' => $request->date,
                                 'arrival_time' => $request->time,
-                               
 
                             ]);
                             OrderHistory::create([
@@ -498,7 +547,6 @@ class OrderController extends Controller
                         {
                             $order->update([
                                 'status' => $request->new_status,
-                               
 
                             ]);
 
@@ -530,7 +578,6 @@ class OrderController extends Controller
 
                             $order->update([
                                 'status' => $request->new_status,
-                              
 
                             ]);
                             OrderHistory::create([
@@ -548,7 +595,6 @@ class OrderController extends Controller
 
                             $order->update([
                                 'status' => $request->new_status,
-                                
 
                             ]);
                             OrderHistory::create([
@@ -566,7 +612,7 @@ class OrderController extends Controller
 
                             $order->update([
                                 'status' => $request->new_status,
-                               
+
                             ]);
                             OrderHistory::create([
                                 'action' => 'Etat vers : Comptabilisée',

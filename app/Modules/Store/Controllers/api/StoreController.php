@@ -20,7 +20,9 @@ class StoreController extends Controller
 
     public function showStore($id)
     {
-        $store = Store::find($id);
+        $store = Store::with('country', 'city', 'zipcode')
+            ->where('id', $id)
+            ->first();
         if ($store) {
             return response()->json(['status' => 200, 'store' => $store, 'custom_prices' => $store->prices]);
         }

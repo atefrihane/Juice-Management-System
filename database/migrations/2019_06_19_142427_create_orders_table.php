@@ -27,6 +27,7 @@ class CreateOrdersTable extends Migration
             $table->string('estimated_arrival_time')->nullable();
             $table->date('arrival_date')->nullable();
             $table->string('arrival_time')->nullable();
+            $table->date('arrival_date_wished')->nullable();
             $table->float('total');
             $table->string('comment')->nullable();
             $table->integer('store_id')->unsigned();

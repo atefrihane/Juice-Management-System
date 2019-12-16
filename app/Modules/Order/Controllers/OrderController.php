@@ -10,6 +10,7 @@ class OrderController extends Controller
 
     public function showOrders()
     {
+     
         return view('Order::showOrders', ['orders' => Order::with('store')->where('status', '<', 13)->get()]);
 
     }
