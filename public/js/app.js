@@ -7180,6 +7180,61 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getCompanies();
@@ -7210,7 +7265,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       billed_total_order: 0.00,
       comment: '',
       company_id: order.company_id
-    }, _defineProperty(_ref, "errors", []), _defineProperty(_ref, "final_prepared", []), _defineProperty(_ref, "estimated_arrival_time", ''), _defineProperty(_ref, "estimated_arrival_date", ''), _defineProperty(_ref, "arrival_time", ''), _defineProperty(_ref, "arrival_date", ''), _defineProperty(_ref, "delivery", ''), _defineProperty(_ref, "delivery_man", ''), _defineProperty(_ref, "delivery_mode", ''), _defineProperty(_ref, "palet_number", ''), _defineProperty(_ref, "carton_number", ''), _defineProperty(_ref, "volume", ''), _defineProperty(_ref, "weight", ''), _defineProperty(_ref, "parent", ''), _defineProperty(_ref, "preparator", ''), _defineProperty(_ref, "comment", ''), _defineProperty(_ref, "history_id", ''), _defineProperty(_ref, "billed_products", []), _defineProperty(_ref, "arrival_date_wished", ''), _ref;
+    }, _defineProperty(_ref, "errors", []), _defineProperty(_ref, "final_prepared", []), _defineProperty(_ref, "estimated_arrival_time", ''), _defineProperty(_ref, "estimated_arrival_date", ''), _defineProperty(_ref, "arrival_time", ''), _defineProperty(_ref, "arrival_date", ''), _defineProperty(_ref, "delivery", ''), _defineProperty(_ref, "delivery_man", ''), _defineProperty(_ref, "delivery_mode", ''), _defineProperty(_ref, "palet_number", ''), _defineProperty(_ref, "carton_number", ''), _defineProperty(_ref, "volume", ''), _defineProperty(_ref, "weight", ''), _defineProperty(_ref, "parent", ''), _defineProperty(_ref, "preparator", ''), _defineProperty(_ref, "comment", ''), _defineProperty(_ref, "history_id", ''), _defineProperty(_ref, "billed_products", []), _defineProperty(_ref, "arrival_date_wished", ''), _defineProperty(_ref, "store", {
+      name: '',
+      address: '',
+      complement: '',
+      country: '',
+      city: '',
+      zipcode: ''
+    }), _ref;
   },
   computed: {
     // a computed getter
@@ -7306,7 +7368,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this3.volume = response.data.order.volume;
         _this3.weight = response.data.order.weight;
         _this3.preparator = response.data.preparator;
-        _this3.parent = response.data.parent, _this3.arrival_date_wished = response.data.order.arrival_date_wished, _this3.ordered_products.forEach(function (ordered, index) {
+        _this3.parent = response.data.parent, _this3.arrival_date_wished = response.data.order.arrival_date_wished, _this3.store.name = response.data.store.designation;
+        _this3.store.address = response.data.store.address;
+        _this3.store.complement = response.data.store.complement;
+        _this3.store.country = response.data.store.country.name;
+        _this3.store.city = response.data.store.city.name;
+        _this3.store.zipcode = response.data.store.zipcode.code;
+
+        _this3.ordered_products.forEach(function (ordered, index) {
           _this3.custom_ordered.push({
             name: ordered.nom,
             "package": ordered.pivot["package"],
@@ -73741,9 +73810,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-6" }, [
             _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                _vm._v("Magasin")
-              ]),
+              _vm._m(2),
               _vm._v(" "),
               _c(
                 "select",
@@ -73800,16 +73867,114 @@ var render = function() {
                   })
                 ],
                 2
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "modal fade",
+                  attrs: {
+                    id: "exampleModal",
+                    tabindex: "-1",
+                    role: "dialog",
+                    "aria-labelledby": "exampleModalLabel",
+                    "aria-hidden": "true"
+                  }
+                },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "modal-dialog",
+                      attrs: { role: "document" }
+                    },
+                    [
+                      _c("div", { staticClass: "modal-content" }, [
+                        _c("div", { staticClass: "modal-header" }, [
+                          _c(
+                            "h4",
+                            {
+                              staticClass: "modal-title",
+                              attrs: { id: "exampleModalLabel" }
+                            },
+                            [
+                              _vm._v(
+                                "Information du magasin\n                                            "
+                              ),
+                              _c("small", [_vm._v(_vm._s(_vm.store.name))])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _vm._m(3)
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "modal-body" }, [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", [_vm._v("Addresse")]),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: { type: "text", disabled: "" },
+                              domProps: { value: _vm.store.address }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", [_vm._v("Complément d'addresse")]),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: { type: "text", disabled: "" },
+                              domProps: { value: _vm.store.complement }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", [_vm._v("Pays")]),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: { type: "text", disabled: "" },
+                              domProps: { value: _vm.store.country }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", [_vm._v("Ville")]),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: { type: "text", disabled: "" },
+                              domProps: { value: _vm.store.city }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", [_vm._v("Code postal")]),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: { type: "text", disabled: "" },
+                              domProps: { value: _vm.store.zipcode }
+                            })
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(4)
+                      ])
+                    ]
+                  )
+                ]
               )
             ])
           ])
         ]),
         _vm._v(" "),
-        _vm._m(2),
+        _vm._m(5),
         _vm._v(" "),
         _c("div", { staticClass: "box-body" }, [
           _c("table", { staticClass: "table" }, [
-            _vm._m(3),
+            _vm._m(6),
             _vm._v(" "),
             _c(
               "tbody",
@@ -74080,7 +74245,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "box-body" }, [
-          _vm._m(4),
+          _vm._m(7),
           _vm._v(" "),
           _c("div", { staticClass: "pull-right" }, [
             _c("h4", { staticClass: "box-title" }, [
@@ -74097,7 +74262,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(5),
+        _vm._m(8),
         _vm._v(" "),
         _c("div", { staticClass: "container-fluid" }, [
           _c("div", { staticClass: "row" }, [
@@ -74225,7 +74390,7 @@ var render = function() {
                           _vm._v(" "),
                           _c("div", { staticClass: "row" }, [
                             _c("table", { staticClass: "table" }, [
-                              _vm._m(6, true),
+                              _vm._m(9, true),
                               _vm._v(" "),
                               _c(
                                 "tbody",
@@ -74322,18 +74487,18 @@ var render = function() {
                       padding: "20px"
                     }
                   },
-                  [_vm._m(7)]
+                  [_vm._m(10)]
                 )
               : _vm._e()
           ],
           2
         ),
         _vm._v(" "),
-        _vm._m(8),
+        _vm._m(11),
         _vm._v(" "),
         _c("div", { staticClass: "box-body" }, [
           _c("table", { staticClass: "table" }, [
-            _vm._m(9),
+            _vm._m(12),
             _vm._v(" "),
             _c(
               "tbody",
@@ -74355,7 +74520,7 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _vm.billed_products.length == 0
-                  ? _c("tr", [_vm._m(10)])
+                  ? _c("tr", [_vm._m(13)])
                   : _vm._e()
               ],
               2
@@ -74364,7 +74529,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "box-body" }, [
-          _vm._m(11),
+          _vm._m(14),
           _vm._v(" "),
           _c("div", { staticClass: "pull-right" }, [
             _c("h4", { staticClass: "box-title" }, [
@@ -74381,7 +74546,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(12),
+        _vm._m(15),
         _vm._v(" "),
         _c("div", { staticClass: "container-fluid" }, [
           _c("div", { staticClass: "row" }, [
@@ -74691,7 +74856,7 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "col-md-2" }, [
                 _c("div", { staticClass: "form-group" }, [
-                  _vm._m(13),
+                  _vm._m(16),
                   _vm._v(" "),
                   _vm.estimated_arrival_time
                     ? _c("input", {
@@ -74749,7 +74914,7 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "col-md-2" }, [
               _c("div", { staticClass: "form-group" }, [
-                _vm._m(14),
+                _vm._m(17),
                 _vm._v(" "),
                 _vm.arrival_time
                   ? _c("input", {
@@ -74776,11 +74941,11 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(15),
+        _vm._m(18),
         _vm._v(" "),
         _c("div", { staticClass: "box-body" }, [
           _c("table", { staticClass: "table" }, [
-            _vm._m(16),
+            _vm._m(19),
             _vm._v(" "),
             _c(
               "tbody",
@@ -74852,7 +75017,7 @@ var render = function() {
                       },
                       [
                         _c("div", { staticClass: "modal-content" }, [
-                          _vm._m(17),
+                          _vm._m(20),
                           _vm._v(" "),
                           _c("div", { staticClass: "modal-body" }, [
                             _c("div", { staticClass: "form-group" }, [
@@ -74970,6 +75135,59 @@ var staticRenderFns = [
             _vm._v("Bénéficiaire")
           ])
         ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+      _vm._v("Magasin\n                        "),
+      _c(
+        "a",
+        {
+          attrs: {
+            href: "#",
+            "data-toggle": "modal",
+            "data-target": "#exampleModal"
+          }
+        },
+        [_c("i", { staticClass: "fa fa-info-circle" })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c("div", { staticClass: "text-center" }, [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-danger",
+            attrs: { href: "#", "data-dismiss": "modal" }
+          },
+          [_vm._v("Fermer")]
+        )
       ])
     ])
   },

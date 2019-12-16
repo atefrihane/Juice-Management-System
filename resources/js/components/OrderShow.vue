@@ -68,7 +68,10 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Magasin</label>
+                            <label for="exampleInputEmail1">Magasin
+                            <a href="#" data-toggle="modal" data-target="#exampleModal"><i
+                                        class="fa fa-info-circle"></i></a>  
+                            </label>
                             <select class="form-control" v-model="store_id" @change="getStoreData($event)" disabled>
                                 <option value="" v-if="stores.length > 0" disabled>Selectionner un
                                     magasin
@@ -78,6 +81,58 @@
                                     {{store.designation}}</option>
 
                             </select>
+
+                              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="exampleModalLabel">Information du magasin
+                                                <small>{{store.name}}</small></h4>
+
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label>Addresse</label>
+                                                <input type="text" class="form-control" :value="store.address" disabled>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Complément d'addresse</label>
+                                                <input type="text" class="form-control" :value="store.complement"
+                                                    disabled>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Pays</label>
+                                                <input type="text" class="form-control" :value="store.country" disabled>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Ville</label>
+                                                <input type="text" class="form-control" :value="store.city" disabled>
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label>Code postal</label>
+                                                <input type="text" class="form-control" :value="store.zipcode" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="text-center">
+                                                <a href="#" data-dismiss="modal" class="btn btn-danger">Fermer</a>
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
 
 
@@ -725,7 +780,15 @@
                 comment: '',
                 history_id: '',
                 billed_products: [],
-                arrival_date_wished:''
+                arrival_date_wished:'',
+                   store: {
+                    name: '',
+                    address: '',
+                    complement: '',
+                    country: '',
+                    city: '',
+                    zipcode: ''
+                },
 
 
 
@@ -849,6 +912,13 @@
                         this.preparator = response.data.preparator
                         this.parent = response.data.parent,
                         this.arrival_date_wished=response.data.order.arrival_date_wished,
+                          this.store.name=response.data.store.designation
+                        this.store.address=response.data.store.address
+                        this.store.complement=response.data.store.complement
+                        this.store.country=response.data.store.country.name
+                        this.store.city=response.data.store.city.name
+                        this.store.zipcode=response.data.store.zipcode.code
+                        
                         this.ordered_products.forEach((ordered, index) => {
                             this.custom_ordered.push({
                                 name: ordered.nom,
