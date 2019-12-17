@@ -97,37 +97,43 @@
                                         <div class="modal-body">
                                             <div class="form-group">
                                                 <label>Addresse</label>
-                                                <input type="text" class="form-control" :value="store.address" disabled>
+                                                <input type="text" class="form-control" v-if="store.address" :value="store.address" disabled>
+                                                  <input type="text" class="form-control" v-else value="Aucun" disabled>
                                             </div>
 
-                                               <div class="form-group">
+                                            <div class="form-group">
                                                 <label>Complément d'addresse</label>
-                                                   <input type="text" class="form-control" v-if="store.complement" :value="store.complement"
-                                                    disabled>
-                                                      <input type="text" class="form-control" v-if="!store.complement" value="Aucun"
-                                                    disabled>
+                                                <input type="text" class="form-control" v-if="store.complement"
+                                                    :value="store.complement" disabled>
+                                                <input type="text" class="form-control" v-if="!store.complement"
+                                                    value="Aucun" disabled>
                                             </div>
 
                                             <div class="form-group">
                                                 <label>Pays</label>
-                                                <input type="text" class="form-control" :value="store.country" disabled>
+                                                <input type="text" class="form-control" v-if="store.country"
+                                                    :value="store.country" disabled>
+                                                <input type="text" class="form-control" v-else value="Aucun" disabled>
                                             </div>
 
                                             <div class="form-group">
                                                 <label>Ville</label>
-                                                <input type="text" class="form-control" :value="store.city" disabled>
+                                                <input type="text" class="form-control" v-if="store.city"
+                                                    :value="store.city" disabled>
+                                                <input type="text" class="form-control" v-else value="Aucun" disabled>
                                             </div>
 
 
                                             <div class="form-group">
                                                 <label>Code postal</label>
-                                                <input type="text" class="form-control" :value="store.zipcode" disabled>
+                                                <input type="text" class="form-control" v-if="store.zipcode" :value="store.zipcode" disabled>
+                                                  <input type="text" class="form-control" v-else value="Aucun" disabled>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
                                             <div class="text-center">
                                                 <a href="#" data-dismiss="modal" class="btn btn-danger">Fermer</a>
-                                               
+
                                             </div>
 
 

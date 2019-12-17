@@ -69,7 +69,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Magasin
-                            <a href="#" data-toggle="modal" data-target="#exampleModal"><i
+                            <a href="#" data-toggle="modal" data-target="#exampleModal1"><i
                                         class="fa fa-info-circle"></i></a>  
                             </label>
                             <select class="form-control" v-model="store_id" @change="getStoreData($event)" disabled>
@@ -82,7 +82,7 @@
 
                             </select>
 
-                              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -97,32 +97,37 @@
                                         <div class="modal-body">
                                             <div class="form-group">
                                                 <label>Addresse</label>
-                                                <input type="text" class="form-control" :value="store.address" disabled>
+                                                <input type="text" class="form-control" v-if="store.address" :value="store.address" disabled>
+                                                  <input type="text" class="form-control" v-else value="Aucun" disabled>
                                             </div>
 
                                             <div class="form-group">
                                                 <label>Complément d'addresse</label>
-                                                 <input type="text" class="form-control" v-if="store.complement" :value="store.complement"
-                                                    disabled>
-                                                      <input type="text" class="form-control" v-if="!store.complement" value="Aucun"
-                                                    disabled>
-                                                    
+                                                <input type="text" class="form-control" v-if="store.complement"
+                                                    :value="store.complement" disabled>
+                                                <input type="text" class="form-control" v-if="!store.complement"
+                                                    value="Aucun" disabled>
                                             </div>
 
                                             <div class="form-group">
                                                 <label>Pays</label>
-                                                <input type="text" class="form-control" :value="store.country" disabled>
+                                                <input type="text" class="form-control" v-if="store.country"
+                                                    :value="store.country" disabled>
+                                                <input type="text" class="form-control" v-else value="Aucun" disabled>
                                             </div>
 
                                             <div class="form-group">
                                                 <label>Ville</label>
-                                                <input type="text" class="form-control" :value="store.city" disabled>
+                                                <input type="text" class="form-control" v-if="store.city"
+                                                    :value="store.city" disabled>
+                                                <input type="text" class="form-control" v-else value="Aucun" disabled>
                                             </div>
 
 
                                             <div class="form-group">
                                                 <label>Code postal</label>
-                                                <input type="text" class="form-control" :value="store.zipcode" disabled>
+                                                <input type="text" class="form-control" v-if="store.zipcode" :value="store.zipcode" disabled>
+                                                  <input type="text" class="form-control" v-else value="Aucun" disabled>
                                             </div>
                                         </div>
                                         <div class="modal-footer">

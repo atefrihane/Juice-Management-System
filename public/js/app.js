@@ -5411,6 +5411,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getCompanies();
@@ -7240,6 +7246,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getCompanies();
@@ -7823,6 +7834,12 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -72378,11 +72395,20 @@ var render = function() {
                           _c("div", { staticClass: "form-group" }, [
                             _c("label", [_vm._v("Addresse")]),
                             _vm._v(" "),
-                            _c("input", {
-                              staticClass: "form-control",
-                              attrs: { type: "text", disabled: "" },
-                              domProps: { value: _vm.store.address }
-                            })
+                            _vm.store.address
+                              ? _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: { type: "text", disabled: "" },
+                                  domProps: { value: _vm.store.address }
+                                })
+                              : _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    value: "Aucun",
+                                    disabled: ""
+                                  }
+                                })
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group" }, [
@@ -72411,31 +72437,58 @@ var render = function() {
                           _c("div", { staticClass: "form-group" }, [
                             _c("label", [_vm._v("Pays")]),
                             _vm._v(" "),
-                            _c("input", {
-                              staticClass: "form-control",
-                              attrs: { type: "text", disabled: "" },
-                              domProps: { value: _vm.store.country }
-                            })
+                            _vm.store.country
+                              ? _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: { type: "text", disabled: "" },
+                                  domProps: { value: _vm.store.country }
+                                })
+                              : _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    value: "Aucun",
+                                    disabled: ""
+                                  }
+                                })
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group" }, [
                             _c("label", [_vm._v("Ville")]),
                             _vm._v(" "),
-                            _c("input", {
-                              staticClass: "form-control",
-                              attrs: { type: "text", disabled: "" },
-                              domProps: { value: _vm.store.city }
-                            })
+                            _vm.store.city
+                              ? _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: { type: "text", disabled: "" },
+                                  domProps: { value: _vm.store.city }
+                                })
+                              : _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    value: "Aucun",
+                                    disabled: ""
+                                  }
+                                })
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group" }, [
                             _c("label", [_vm._v("Code postal")]),
                             _vm._v(" "),
-                            _c("input", {
-                              staticClass: "form-control",
-                              attrs: { type: "text", disabled: "" },
-                              domProps: { value: _vm.store.zipcode }
-                            })
+                            _vm.store.zipcode
+                              ? _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: { type: "text", disabled: "" },
+                                  domProps: { value: _vm.store.zipcode }
+                                })
+                              : _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    value: "Aucun",
+                                    disabled: ""
+                                  }
+                                })
                           ])
                         ]),
                         _vm._v(" "),
@@ -73895,7 +73948,7 @@ var render = function() {
                 {
                   staticClass: "modal fade",
                   attrs: {
-                    id: "exampleModal",
+                    id: "exampleModal1",
                     tabindex: "-1",
                     role: "dialog",
                     "aria-labelledby": "exampleModalLabel",
@@ -73933,11 +73986,20 @@ var render = function() {
                           _c("div", { staticClass: "form-group" }, [
                             _c("label", [_vm._v("Addresse")]),
                             _vm._v(" "),
-                            _c("input", {
-                              staticClass: "form-control",
-                              attrs: { type: "text", disabled: "" },
-                              domProps: { value: _vm.store.address }
-                            })
+                            _vm.store.address
+                              ? _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: { type: "text", disabled: "" },
+                                  domProps: { value: _vm.store.address }
+                                })
+                              : _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    value: "Aucun",
+                                    disabled: ""
+                                  }
+                                })
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group" }, [
@@ -73966,31 +74028,58 @@ var render = function() {
                           _c("div", { staticClass: "form-group" }, [
                             _c("label", [_vm._v("Pays")]),
                             _vm._v(" "),
-                            _c("input", {
-                              staticClass: "form-control",
-                              attrs: { type: "text", disabled: "" },
-                              domProps: { value: _vm.store.country }
-                            })
+                            _vm.store.country
+                              ? _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: { type: "text", disabled: "" },
+                                  domProps: { value: _vm.store.country }
+                                })
+                              : _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    value: "Aucun",
+                                    disabled: ""
+                                  }
+                                })
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group" }, [
                             _c("label", [_vm._v("Ville")]),
                             _vm._v(" "),
-                            _c("input", {
-                              staticClass: "form-control",
-                              attrs: { type: "text", disabled: "" },
-                              domProps: { value: _vm.store.city }
-                            })
+                            _vm.store.city
+                              ? _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: { type: "text", disabled: "" },
+                                  domProps: { value: _vm.store.city }
+                                })
+                              : _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    value: "Aucun",
+                                    disabled: ""
+                                  }
+                                })
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group" }, [
                             _c("label", [_vm._v("Code postal")]),
                             _vm._v(" "),
-                            _c("input", {
-                              staticClass: "form-control",
-                              attrs: { type: "text", disabled: "" },
-                              domProps: { value: _vm.store.zipcode }
-                            })
+                            _vm.store.zipcode
+                              ? _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: { type: "text", disabled: "" },
+                                  domProps: { value: _vm.store.zipcode }
+                                })
+                              : _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    value: "Aucun",
+                                    disabled: ""
+                                  }
+                                })
                           ])
                         ]),
                         _vm._v(" "),
@@ -75184,7 +75273,7 @@ var staticRenderFns = [
           attrs: {
             href: "#",
             "data-toggle": "modal",
-            "data-target": "#exampleModal"
+            "data-target": "#exampleModal1"
           }
         },
         [_c("i", { staticClass: "fa fa-info-circle" })]
@@ -76101,11 +76190,20 @@ var render = function() {
                           _c("div", { staticClass: "form-group" }, [
                             _c("label", [_vm._v("Addresse")]),
                             _vm._v(" "),
-                            _c("input", {
-                              staticClass: "form-control",
-                              attrs: { type: "text", disabled: "" },
-                              domProps: { value: _vm.store.address }
-                            })
+                            _vm.store.address
+                              ? _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: { type: "text", disabled: "" },
+                                  domProps: { value: _vm.store.address }
+                                })
+                              : _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    value: "Aucun",
+                                    disabled: ""
+                                  }
+                                })
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group" }, [
@@ -76134,31 +76232,58 @@ var render = function() {
                           _c("div", { staticClass: "form-group" }, [
                             _c("label", [_vm._v("Pays")]),
                             _vm._v(" "),
-                            _c("input", {
-                              staticClass: "form-control",
-                              attrs: { type: "text", disabled: "" },
-                              domProps: { value: _vm.store.country }
-                            })
+                            _vm.store.country
+                              ? _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: { type: "text", disabled: "" },
+                                  domProps: { value: _vm.store.country }
+                                })
+                              : _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    value: "Aucun",
+                                    disabled: ""
+                                  }
+                                })
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group" }, [
                             _c("label", [_vm._v("Ville")]),
                             _vm._v(" "),
-                            _c("input", {
-                              staticClass: "form-control",
-                              attrs: { type: "text", disabled: "" },
-                              domProps: { value: _vm.store.city }
-                            })
+                            _vm.store.city
+                              ? _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: { type: "text", disabled: "" },
+                                  domProps: { value: _vm.store.city }
+                                })
+                              : _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    value: "Aucun",
+                                    disabled: ""
+                                  }
+                                })
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group" }, [
                             _c("label", [_vm._v("Code postal")]),
                             _vm._v(" "),
-                            _c("input", {
-                              staticClass: "form-control",
-                              attrs: { type: "text", disabled: "" },
-                              domProps: { value: _vm.store.zipcode }
-                            })
+                            _vm.store.zipcode
+                              ? _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: { type: "text", disabled: "" },
+                                  domProps: { value: _vm.store.zipcode }
+                                })
+                              : _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    value: "Aucun",
+                                    disabled: ""
+                                  }
+                                })
                           ])
                         ]),
                         _vm._v(" "),
