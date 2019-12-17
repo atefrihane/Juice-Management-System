@@ -102,7 +102,10 @@
 
                                                <div class="form-group">
                                                 <label>Complément d'addresse</label>
-                                                <input type="text" class="form-control" :value="store.complement" disabled>
+                                                   <input type="text" class="form-control" v-if="store.complement" :value="store.complement"
+                                                    disabled>
+                                                      <input type="text" class="form-control" v-if="!store.complement" value="Aucun"
+                                                    disabled>
                                             </div>
 
                                             <div class="form-group">
