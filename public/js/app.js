@@ -77373,7 +77373,7 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-            _vm._v("Nombre d'unitée par display")
+            _vm._v("Nombre d'unités par display")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -77389,7 +77389,7 @@ var render = function() {
             attrs: {
               id: "disabledInput",
               type: "number",
-              placeholder: "Nombre d'unitée par display"
+              placeholder: "Nombre d'unités par display"
             },
             domProps: { value: _vm.unityPerDisplay },
             on: {
@@ -78590,7 +78590,7 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-            _vm._v("Nombre d'unitée par display")
+            _vm._v("Nombre d'unités par display")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -78606,7 +78606,7 @@ var render = function() {
             attrs: {
               id: "disabledInput",
               type: "number",
-              placeholder: "Nombre d'unitée par display"
+              placeholder: "Nombre d'unités par display"
             },
             domProps: { value: _vm.unityPerDisplay },
             on: {

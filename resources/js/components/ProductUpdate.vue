@@ -172,8 +172,8 @@
                 <input type="file" id="exampleInputFile" @change="uploadImage($event)" style="margin-top:20px;">
             </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Nombre d'unitée par display</label>
-                <input class="form-control" id="disabledInput" type="number" placeholder="Nombre d'unitée par display"
+                <label for="exampleInputEmail1">Nombre d'unités par display</label>
+                <input class="form-control" id="disabledInput" type="number" placeholder="Nombre d'unités par display"
                     v-model="unityPerDisplay">
             </div>
             <div class="form-group">

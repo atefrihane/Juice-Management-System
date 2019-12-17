@@ -189,9 +189,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Nombre d'unitée par display</label>
+                            <label for="exampleInputEmail1">Nombre d'unités par display</label>
                             <input class="form-control" id="disabledInput" type="number"
-                                placeholder="Nombre d'unitée par display" value="{{$product->unit_by_display}}"
+                                placeholder="Nombre d'unités par display" value="{{$product->unit_by_display}}"
                                 disabled>
                         </div>
                         <div class="form-group">
