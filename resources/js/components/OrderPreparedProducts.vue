@@ -1,7 +1,7 @@
 <template>
     <div class="box">
         <div class="box-header">
-            <h3 class="box-title">Produits préparés </h3>
+            <h3 class="box-title">Préparation de la commande </h3>
 
         </div>
 

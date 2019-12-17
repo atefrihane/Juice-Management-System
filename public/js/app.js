@@ -5146,6 +5146,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
 //
 //
 //
@@ -5496,9 +5500,29 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       //reset old items
-      this.ordered_products.forEach(function (ordered) {
-        ordered.packing = '', ordered.unit = '', ordered.product_packing = '', ordered.total = '', ordered.public_price = '', ordered.product_total_tva = 0, ordered.tva = '', ordered.product_id = '';
-      });
+      if (this.total_ht > 0) {
+        swal.fire(_defineProperty({
+          type: 'info',
+          title: 'Oups !',
+          html: "<b> Attention : </b> Le changement du magasin aura recours à la  reinitialisation des champs déja saisis ",
+          showConfirmButton: true,
+          confirmButtonText: 'Confirmer',
+          showCancelButton: true,
+          cancelButtonText: 'Fermer',
+          allowOutsideClick: false
+        }, "allowOutsideClick", false)).then(function (result) {
+          if (result.value) {
+            _this3.ordered_products.forEach(function (ordered) {
+              ordered.packing = '', ordered.unit = '', ordered.product_packing = '', ordered.total = '', ordered.public_price = '', ordered.product_total_tva = 0, ordered.tva = '', ordered.product_id = '';
+            });
+          }
+        });
+      } else {
+        this.ordered_products.forEach(function (ordered) {
+          ordered.packing = '', ordered.unit = '', ordered.product_packing = '', ordered.total = '', ordered.public_price = '', ordered.product_total_tva = 0, ordered.tva = '', ordered.product_id = '';
+        });
+      }
+
       var id = event.target.value;
       axios.get('/api/store/' + id).then(function (response) {
         console.log(response);
@@ -5565,14 +5589,18 @@ __webpack_require__.r(__webpack_exports__);
             store_id: this.store_id
           }).then(function (response) {
             if (response.data.custom_price) {
-              swal.fire({
-                type: 'info',
-                title: 'Rappel',
-                html: "Ce magasin dispose déja d'un tarif à ce produit : <br><br>  Prix par défaut : <b>" + response.data.product.public_price + " € </b>  <br>" + "  Nouveau prix : <b>" + response.data.custom_price.price + " € </b>  <br>",
-                showConfirmButton: true,
-                allowOutsideClick: false,
-                confirmButtonText: 'Fermer'
-              });
+              // swal.fire({
+              //     type: 'info',
+              //     title: 'Rappel',
+              //     html: "Ce magasin dispose déja d'un tarif à ce produit : <br><br>  Prix par défaut : <b>" +
+              //         response.data.product.public_price +
+              //         " € </b>  <br>" +
+              //         "  Nouveau prix : <b>" + response.data.custom_price.price +
+              //         " € </b>  <br>",
+              //     showConfirmButton: true,
+              //     allowOutsideClick: false,
+              //     confirmButtonText: 'Fermer'
+              // });
               _this5.ordered_products[index].product_packing = response.data.product.packing;
               _this5.ordered_products[index].public_price = response.data.custom_price.price;
               _this5.ordered_products[index].tva = response.data.product.tva;
@@ -5608,29 +5636,32 @@ __webpack_require__.r(__webpack_exports__);
 
       for (var i in this.ordered_products) {
         if (this.ordered_products[i].total != "") {
-          this.total_ht += parseInt(this.ordered_products[i].total);
+          this.total_ht += this.convertMoneyFormat(this.ordered_products[i].total);
         }
       } // //  total des tax //
 
 
       for (var _i in this.ordered_products) {
         if (this.ordered_products[_i].total != "") {
-          this.total_tva += parseFloat(this.ordered_products[_i].total) * this.ordered_products[_i].tva / 100;
+          this.total_tva += this.convertMoneyFormat(this.ordered_products[_i].total) * this.ordered_products[_i].tva / 100;
         }
       } // //  cout total de la commande  //
 
 
-      this.total_order += parseFloat(this.total_ht) + this.total_tva; // this.convertOrderedProducts(this.ordered_products)
+      this.total_order += this.total_ht + this.total_tva;
     },
     removeOrdered: function removeOrdered(ordered) {
       this.ordered_products.splice(this.ordered_products.indexOf(ordered), 1);
       this.clearOrderedProducts();
     },
+    convertMoneyFormat: function convertMoneyFormat(value) {
+      return parseFloat(value.replace(',', '.'));
+    },
     setOrderdPacking: function setOrderdPacking(ordered, index) {
       if (ordered.packing != '' && ordered.packing > 0) {
         ordered.unit = ordered.packing * ordered.product_packing;
-        ordered.total = this.convertCurrency(parseFloat(ordered.public_price) * ordered.unit);
-        ordered.product_total_tva = parseFloat(ordered.total) + parseFloat(ordered.total) * ordered.tva / 100;
+        ordered.total = this.convertCurrency(this.convertMoneyFormat(ordered.public_price) * ordered.unit);
+        ordered.product_total_tva = this.convertMoneyFormat(ordered.total) + this.convertMoneyFormat(ordered.total) * ordered.tva / 100;
         this.clearOrderedProducts();
       } else {
         swal.fire({
@@ -5649,10 +5680,12 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     setOrderdUnit: function setOrderdUnit(ordered, index) {
+      console.log(parseFloat(ordered.public_price));
+
       if (ordered.unit != '' && ordered.unit > 0) {
         ordered.packing = Math.ceil(ordered.unit / ordered.product_packing);
-        ordered.total = this.convertCurrency(parseFloat(ordered.public_price) * ordered.unit);
-        ordered.product_total_tva = parseFloat(ordered.total) * ordered.tva / 100;
+        ordered.total = this.convertCurrency(this.convertMoneyFormat(ordered.public_price) * ordered.unit);
+        ordered.product_total_tva = this.convertMoneyFormat(ordered.total) * ordered.tva / 100;
         this.clearOrderedProducts();
       } else {
         swal.fire({
@@ -73628,7 +73661,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header" }, [
-      _c("h3", { staticClass: "box-title" }, [_vm._v("Produits préparés ")])
+      _c("h3", { staticClass: "box-title" }, [
+        _vm._v("Préparation de la commande ")
+      ])
     ])
   },
   function() {

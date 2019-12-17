@@ -80,8 +80,9 @@
                                         <div class="modal-body">
                                             <div class="form-group">
                                                 <label>Addresse</label>
-                                                <input type="text" class="form-control" v-if="store.address" :value="store.address" disabled>
-                                                  <input type="text" class="form-control" v-else value="Aucun" disabled>
+                                                <input type="text" class="form-control" v-if="store.address"
+                                                    :value="store.address" disabled>
+                                                <input type="text" class="form-control" v-else value="Aucun" disabled>
                                             </div>
 
                                             <div class="form-group">
@@ -109,8 +110,9 @@
 
                                             <div class="form-group">
                                                 <label>Code postal</label>
-                                                <input type="text" class="form-control" v-if="store.zipcode" :value="store.zipcode" disabled>
-                                                  <input type="text" class="form-control" v-else value="Aucun" disabled>
+                                                <input type="text" class="form-control" v-if="store.zipcode"
+                                                    :value="store.zipcode" disabled>
+                                                <input type="text" class="form-control" v-else value="Aucun" disabled>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -361,17 +363,50 @@
             },
             getStoreData(event) {
                 //reset old items
-                this.ordered_products.forEach(ordered => {
-                    ordered.packing = '',
-                        ordered.unit = '',
-                        ordered.product_packing = '',
-                        ordered.total = '',
-                        ordered.public_price = '',
-                        ordered.product_total_tva = 0,
-                        ordered.tva = '',
-                        ordered.product_id = ''
+                if (this.total_ht > 0) {
+                    swal.fire({
+                        type: 'info',
+                        title: 'Oups !',
+                        html: "<b> Attention : </b> Le changement du magasin aura recours à la  reinitialisation des champs déja saisis ",
+                        showConfirmButton: true,
+                        confirmButtonText: 'Confirmer',
+                        showCancelButton: true,
+                        cancelButtonText: 'Fermer',
+                        allowOutsideClick: false,
+                        allowOutsideClick: false,
 
-                })
+                    }).then((result) => {
+                        if (result.value) {
+                            this.ordered_products.forEach(ordered => {
+                                ordered.packing = '',
+                                    ordered.unit = '',
+                                    ordered.product_packing = '',
+                                    ordered.total = '',
+                                    ordered.public_price = '',
+                                    ordered.product_total_tva = 0,
+                                    ordered.tva = '',
+                                    ordered.product_id = ''
+
+                            })
+                        }
+                    })
+
+                } else {
+
+                    this.ordered_products.forEach(ordered => {
+                        ordered.packing = '',
+                            ordered.unit = '',
+                            ordered.product_packing = '',
+                            ordered.total = '',
+                            ordered.public_price = '',
+                            ordered.product_total_tva = 0,
+                            ordered.tva = '',
+                            ordered.product_id = ''
+
+                    })
+                }
+
+
                 let id = event.target.value;
 
                 axios.get('/api/store/' + id)
@@ -452,18 +487,18 @@
 
 
                                 if (response.data.custom_price) {
-                                    swal.fire({
-                                        type: 'info',
-                                        title: 'Rappel',
-                                        html: "Ce magasin dispose déja d'un tarif à ce produit : <br><br>  Prix par défaut : <b>" +
-                                            response.data.product.public_price +
-                                            " € </b>  <br>" +
-                                            "  Nouveau prix : <b>" + response.data.custom_price.price +
-                                            " € </b>  <br>",
-                                        showConfirmButton: true,
-                                        allowOutsideClick: false,
-                                        confirmButtonText: 'Fermer'
-                                    });
+                                    // swal.fire({
+                                    //     type: 'info',
+                                    //     title: 'Rappel',
+                                    //     html: "Ce magasin dispose déja d'un tarif à ce produit : <br><br>  Prix par défaut : <b>" +
+                                    //         response.data.product.public_price +
+                                    //         " € </b>  <br>" +
+                                    //         "  Nouveau prix : <b>" + response.data.custom_price.price +
+                                    //         " € </b>  <br>",
+                                    //     showConfirmButton: true,
+                                    //     allowOutsideClick: false,
+                                    //     confirmButtonText: 'Fermer'
+                                    // });
                                     this.ordered_products[index].product_packing = response.data.product.packing;
                                     this.ordered_products[index].public_price = response.data.custom_price.price;
                                     this.ordered_products[index].tva = response.data.product.tva;
@@ -516,8 +551,9 @@
 
                 for (let i in this.ordered_products) {
                     if (this.ordered_products[i].total != "") {
-                        this.total_ht += parseInt(this.ordered_products[i].total);
-
+                      
+                        this.total_ht += this.convertMoneyFormat(this.ordered_products[i].total);
+                       
                     }
 
                 }
@@ -527,7 +563,8 @@
 
                 for (let i in this.ordered_products) {
                     if (this.ordered_products[i].total != "") {
-                        this.total_tva += (parseFloat(this.ordered_products[i].total) * this
+                            
+                        this.total_tva += (this.convertMoneyFormat(this.ordered_products[i].total) * this
                             .ordered_products[i].tva / 100);
 
                     }
@@ -536,8 +573,9 @@
 
 
                 // //  cout total de la commande  //
-                this.total_order += parseFloat(this.total_ht) + this.total_tva;
-                // this.convertOrderedProducts(this.ordered_products)
+             
+                this.total_order += this.total_ht + this.total_tva;
+            
 
             },
             removeOrdered(ordered) {
@@ -546,13 +584,20 @@
                 this.clearOrderedProducts();
 
             },
+            convertMoneyFormat(value) {
+
+                return parseFloat(value.replace(',', '.'))
+
+            },
             setOrderdPacking(ordered, index) {
 
+            
                 if (ordered.packing != '' && ordered.packing > 0) {
 
                     ordered.unit = ordered.packing * ordered.product_packing;
-                    ordered.total = this.convertCurrency(parseFloat(ordered.public_price) * ordered.unit);
-                    ordered.product_total_tva = parseFloat(ordered.total) + parseFloat(ordered.total) * ordered.tva /
+                    ordered.total = this.convertCurrency(this.convertMoneyFormat(ordered.public_price) * ordered.unit);
+                    ordered.product_total_tva = this.convertMoneyFormat(ordered.total) + this.convertMoneyFormat(ordered
+                            .total) * ordered.tva /
                         100;
                     this.clearOrderedProducts();
                 } else {
@@ -576,12 +621,12 @@
                 }
             },
             setOrderdUnit(ordered, index) {
-
+                console.log(parseFloat(ordered.public_price))
                 if (ordered.unit != '' && ordered.unit > 0) {
 
                     ordered.packing = Math.ceil(ordered.unit / ordered.product_packing)
-                    ordered.total = this.convertCurrency(parseFloat(ordered.public_price) * ordered.unit);
-                    ordered.product_total_tva = (parseFloat(ordered.total) * ordered.tva / 100);
+                    ordered.total = this.convertCurrency(this.convertMoneyFormat(ordered.public_price) * ordered.unit);
+                    ordered.product_total_tva = (this.convertMoneyFormat(ordered.total) * ordered.tva / 100);
                     this.clearOrderedProducts();
                 } else {
 
@@ -776,6 +821,7 @@
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "")
 
             }
+
 
 
         }
