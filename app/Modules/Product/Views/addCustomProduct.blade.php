@@ -133,41 +133,5 @@
 
 </div>
 
-@section('customProducts')
-<script>
-    $('document').ready(function () {
 
-        $('.selected_product').on('change', function () {
-
-            var id = this.value;
-            var url = {
-                !!json_encode(url('/')) !!
-            }
-
-
-            if (id == 0) {
-                $('#productCode').val('');
-                $('#barCode').val('');
-
-
-            }
-            $.ajax({
-                type: 'GET', //THIS NEEDS TO BE GET
-                url: url + '/api/product/details/' + id,
-                dataType: 'json',
-                success: function (data) {
-                    var response = JSON.parse(JSON.stringify(data));
-                    $('#productCode').val(response.product.code);
-                    $('#barCode').val(response.product.barcode);
-                    $('#productPrice').val(response.product.public_price);
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            });
-        });
-    });
-
-</script>
-@endsection
 @endsection

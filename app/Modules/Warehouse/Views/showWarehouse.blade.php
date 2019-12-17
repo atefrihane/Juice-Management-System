@@ -141,6 +141,12 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Résponsable</label>
+                                    <input type="text" class="form-control" value="{{$warehouse->user->formatName()}}" readonly
+                                        placeholder="surface">
+                                </div>
+
 
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Surface (m²)</label>
@@ -193,15 +199,15 @@
                             <td>{{$warehouseProduct->pivot->quantity}}</td>
                             <td>{{$warehouseProduct->packing}}</td>
                             <td>{{$warehouseProduct->designation}}</td>
-                            <td> {{ Carbon\Carbon::parse($warehouseProduct->creation_date)->format('d-m-Y') }}</td>
-                            <td> {{ Carbon\Carbon::parse($warehouseProduct->expiration_date)->format('d-m-Y') }}</td>
+                            <td> {{ Carbon\Carbon::parse($warehouseProduct->pivot->creation_date)->format('d-m-Y') }}</td>
+                            <td> {{ Carbon\Carbon::parse($warehouseProduct->pivot->expiration_date)->format('d-m-Y') }}</td>
                             <td class="not-this text-center">
                                 <div class="btn-group">
                                     <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false"></a>
                                     <ul class="dropdown-menu edit" role="menu">
                                         <li><a
-                                                href="{{route('showEditProductQuantity',$warehouseProduct->id)}}">Modifier</a>
+                                                href="{{route('showEditProductQuantity',$warehouseProduct->pivot->id)}}">Modifier</a>
                                         </li>
                                         <li><a href="#" data-toggle="modal"
                                                 data-target="#modal-default{{$warehouseProduct->id}}">Supprimer</a>

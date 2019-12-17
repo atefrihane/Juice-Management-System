@@ -69,6 +69,48 @@
                         </div>
                         <div class="box-body">
                             <div class="row">
+
+                                <div class="col-md-6">
+                                    <label for="exampleInputEmail1">Nombre d'unitée par display par défaut</label>
+                                    <input type="text" name="defaultDisplay" value="{{$productQuantity->product->unit_by_display}}"
+                                        class="form-control" placeholder="Code produit" id="defaultDisplay" disabled>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="exampleInputEmail1">Nombre d'unitée par colis par défaut</label>
+                                    <input type="text" name="defaultPacking" value="{{$productQuantity->product->unit_per_package}}"
+                                        class="form-control" placeholder="Code à barre" id="defaultPacking" disabled>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+
+                        <div class="box-body">
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <label for="exampleInputEmail1">Nombre d'unitée par display</label>
+                                    <input type="number" name="stock_display" value="{{$productQuantity->stock_display}}"
+                                        class="form-control" placeholder="Nombre d'unitée par display" required>
+                                </div>
+                         </div>
+                        </div>
+
+
+                        <div class="box-body">
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <label for="exampleInputEmail1">Nombre d'unitée par colis</label>
+                                    <input type="number" name="packing_display" value="{{$productQuantity->packing_display}}"
+                                        class="form-control" placeholder="Nombre d'unitée par colis" required>
+                                </div>
+                         </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Colisage</label>
                                     <input type="number" name="packing" class="form-control" value="{{$productQuantity->packing}}"  placeholder="Colisage" required>

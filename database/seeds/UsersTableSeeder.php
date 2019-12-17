@@ -1,7 +1,6 @@
 <?php
 
 use App\Modules\Admin\Models\Admin;
-use App\Modules\Role\Models\Role;
 use App\Modules\User\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -28,9 +27,33 @@ class UsersTableSeeder extends Seeder
             'child_id' => '1',
         ]);
 
+        User::create([
+            'email' => 'test@test.fr',
+            'code' => 't1158',
+            'nom' => 'Jérôme ',
+            'prenom' => 'Auclair',
+            'civilite' => 'homme',
+            'telephone' => '55612719',
+            'accessCode' => 'ji5848',
+            'password' => bcrypt('123456'),
+            'child_type' => \App\Modules\User\Models\Director::class,
+            'child_id' => '1',
+        ]);
 
-      
-   
+
+
+        User::create([
+            'email' => 'test@test.fr',
+            'code' => 't1158',
+            'nom' => 'Philibert ',
+            'prenom' => 'Blaise',
+            'civilite' => 'homme',
+            'telephone' => '55612719',
+            'accessCode' => 'ji5848',
+            'password' => bcrypt('123456'),
+            'child_type' => \App\Modules\User\Models\Responsible::class,
+            'child_id' => '1',
+        ]);
 
     }
 }

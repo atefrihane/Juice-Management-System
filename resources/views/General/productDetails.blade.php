@@ -27,8 +27,12 @@
 
                         $('#productCode').val(response.product.code);
                         $('#barCode').val(response.product.barcode);
+                        $('#productPrice').val(response.product.public_price);
+                        $('#defaultDisplay').val(response.product.unit_by_display);
+                        $('#defaultPacking').val(response.product.unit_per_package);
                         $('#packing').val(response.product.packing);
                         $('#packing1').val(response.product.packing);
+
                     },
                     error: function (data) {
                         console.log(data);

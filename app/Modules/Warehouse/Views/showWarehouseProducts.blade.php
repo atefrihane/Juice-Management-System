@@ -79,7 +79,7 @@
                                                 <div class="modal-footer">
                                                     <div class="text-center">
                                                         <form
-                                                            action="{{ route('handleDeleteProductQuantity',$warehouseProduct->id) }}"
+                                                            action="{{ route('handleDeleteWarehouseQuantity',$warehouseProduct->id) }}"
                                                             method="post">
                                                             {{csrf_field()}}
                                                             <a href="#" class="btn btn-danger"

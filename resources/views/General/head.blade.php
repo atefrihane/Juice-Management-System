@@ -5,40 +5,53 @@
     <!-- Bootstrap 3.3.7 -->
     <title>@yield('pageTitle')</title>
     <style>
-.times-webkit-datetime-edit-ampm-field {
-   display: none;
-}
+        .times-webkit-datetime-edit-ampm-field {
+            display: none;
+        }
 
-.times::-webkit-inner-spin-button, 
-.times::-webkit-outer-spin-button { 
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    margin: 9px; 
-}
+        .times::-webkit-inner-spin-button,
+        .times::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            margin: 9px;
+        }
 
-.times::-ms-inner-spin-button, 
-.times::-ms-outer-spin-button { 
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    margin: 9px; 
-}
+        .times::-ms-inner-spin-button,
+        .times::-ms-outer-spin-button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            margin: 9px;
+        }
 
-.times::-ms-moz-spin-button, 
-.times::-ms-moz-spin-button { 
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    margin: 9px; 
-}
+        .times::-ms-moz-spin-button,
+        .times::-ms-moz-spin-button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            margin: 9px;
+        }
 
-.vdp-datepicker > div > input {
+        .vdp-datepicker>div>input {
 
-background-color:transparent !important;
-}
+            background-color: transparent !important;
+        }
 
-</style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            /* display: none; <- Crashes Chrome on hover */
+            -webkit-appearance: none;
+            margin: 0;
+            /* <-- Apparently some margin are still there even though it's hidden */
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+            /* Firefox */
+        }
+
+    </style>
     <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
 
@@ -95,20 +108,23 @@ background-color:transparent !important;
         .swal-footer {
             text-align: center !important;
         }
-        .table-tr > td > img {
-            display:block;
-            width:50%;
-            height:60px;
+
+        .table-tr>td>img {
+            display: block;
+            width: 50%;
+            height: 60px;
         }
 
-        .swal2-popup { font-size: 1.6rem !important; }
-        .scrollable{
-            max-height:200px;
-            overflow-y:scroll;
-            width:250px;;
+        .swal2-popup {
+            font-size: 1.6rem !important;
         }
 
-        
+        .scrollable {
+            max-height: 200px;
+            overflow-y: scroll;
+            width: 250px;
+            ;
+        }
 
     </style>
 

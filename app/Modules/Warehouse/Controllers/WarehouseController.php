@@ -192,6 +192,7 @@ class WarehouseController extends Controller
 
     public function handleAddProductQuantity(Request $request)
     {
+   
 
         if ($request->product_id == 0) {
             alert()->error('Oups!', 'Veuillez selectionner un produit ! !')->persistent('Femer');
@@ -210,12 +211,13 @@ class WarehouseController extends Controller
 
         ProductWarehouse::create($request->all());
         alert()->success('Succés!', 'Le produit a été ajouté avec succés')->persistent('Femer');
-        return redirect($request->url);
+        return redirect()->route('showWarehouses');
 
     }
 
     public function showEditProductQuantity($id)
     {
+       
         $productQuantity = ProductWarehouse::find($id);
         if ($productQuantity) {
             $products = Product::all();
@@ -259,6 +261,22 @@ class WarehouseController extends Controller
     public function handleDeleteProductQuantity($id)
     {
         $productWarehouse = ProductWarehouse::where('product_id', $id)->first();
+     
+
+        if ($productWarehouse) {
+
+            $productWarehouse->delete();
+
+            alert()->success('Succés!', 'Le produit a été supprimé avec succés')->persistent('Femer');
+            return redirect()->back();
+        }
+        return view('General::notFound');
+    }
+
+    public function handleDeleteWarehouseQuantity($id)
+    {
+        $productWarehouse = ProductWarehouse::find($id);
+    
 
         if ($productWarehouse) {
 

@@ -67,6 +67,49 @@
 
                             </div>
                         </div>
+
+                        <div class="box-body">
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <label for="exampleInputEmail1">Nombre d'unitée par display par défaut</label>
+                                    <input type="text" name="defaultDisplay" value="{{old('defaultDisplay')}}"
+                                        class="form-control" placeholder="Code produit" id="defaultDisplay" disabled>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="exampleInputEmail1">Nombre d'unitée par colis par défaut</label>
+                                    <input type="text" name="defaultPacking" value="{{old('defaultPacking')}}"
+                                        class="form-control" placeholder="Code à barre" id="defaultPacking" disabled>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+
+                        <div class="box-body">
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <label for="exampleInputEmail1">Nombre d'unitée par display</label>
+                                    <input type="number" name="stock_display" value="{{old('stockDisplay')}}"
+                                        class="form-control" placeholder="Nombre d'unitée par display" required>
+                                </div>
+                         </div>
+                        </div>
+
+
+                        <div class="box-body">
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <label for="exampleInputEmail1">Nombre d'unitée par colis</label>
+                                    <input type="number" name="packing_display" value="{{old('packingDisplay')}}"
+                                        class="form-control" placeholder="Nombre d'unitée par colis" required>
+                                </div>
+                         </div>
+                        </div>
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-12">

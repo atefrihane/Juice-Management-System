@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class ProductWarehouse extends Model
 {
 
-    protected $fillable = ['packing', 'quantity', 'creation_date', 'expiration_date', 'comment', 'product_id', 'warehouse_id'];
+    protected $guarded = ['id','productCode','productBarcode','productPacking','url'];
     protected $table = "product_warehouse";
 
     public function orders()

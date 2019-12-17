@@ -20,6 +20,8 @@ class CreateProductWarehouse extends Migration
             $table->text('comment')->nullable();
             $table->date('creation_date');
             $table->date('expiration_date');
+            $table->integer('stock_display');
+            $table->integer('packing_display');
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->integer('warehouse_id')->unsigned();

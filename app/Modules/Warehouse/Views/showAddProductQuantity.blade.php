@@ -33,7 +33,8 @@
                                     <select class="form-control selected_product" name="product_id" required>
                                         <option value="">Selectionner un produit </option>
                                         @forelse($products as $product)
-                                        <option value="{{$product->id}}" {{ old('product_id') == $product->id ? "selected" : "" }}>{{$product->nom}}
+                                        <option value="{{$product->id}}"
+                                            {{ old('product_id') == $product->id ? "selected" : "" }}>{{$product->nom}}
                                         </option>
                                         @empty
                                         <option value="0">Aucun produit</option>
@@ -66,6 +67,49 @@
 
                             </div>
                         </div>
+
+                        <div class="box-body">
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <label for="exampleInputEmail1">Nombre d'unitée par display par défaut</label>
+                                    <input type="text" name="defaultDisplay" value="{{old('defaultDisplay')}}"
+                                        class="form-control" placeholder="Code produit" id="defaultDisplay" disabled>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="exampleInputEmail1">Nombre d'unitée par colis par défaut</label>
+                                    <input type="text" name="defaultPacking" value="{{old('defaultPacking')}}"
+                                        class="form-control" placeholder="Code à barre" id="defaultPacking" disabled>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+
+                        <div class="box-body">
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <label for="exampleInputEmail1">Nombre d'unitée par display</label>
+                                    <input type="number" name="stock_display" value="{{old('stockDisplay')}}"
+                                        class="form-control" placeholder="Nombre d'unitée par display" required>
+                                </div>
+                         </div>
+                        </div>
+
+
+                        <div class="box-body">
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <label for="exampleInputEmail1">Nombre d'unitée par colis</label>
+                                    <input type="number" name="packing_display" value="{{old('packingDisplay')}}"
+                                        class="form-control" placeholder="Nombre d'unitée par colis" required>
+                                </div>
+                         </div>
+                        </div>
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -86,7 +130,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="date" name="creation_date" value="{{old('creation_date')}}" 
+                                            <input type="date" name="creation_date" value="{{old('creation_date')}}"
                                                 class="form-control pull-right creation_date" id="datepicker" required>
                                         </div>
                                         <!-- /.input group -->
@@ -106,8 +150,9 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="date" class="form-control pull-right expiration_date" id="datepicker"
-                                                name="expiration_date" value="{{old('expiration_date')}}" required>
+                                            <input type="date" class="form-control pull-right expiration_date"
+                                                id="datepicker" name="expiration_date"
+                                                value="{{old('expiration_date')}}" required>
                                         </div>
                                         <!-- /.input group -->
                                     </div>
@@ -137,16 +182,18 @@
                                     <label for="exampleInputEmail1">Entrepôt</label>
                                     @if(count($warehouses) > 0)
                                     <select class="form-control" name="warehouse_id" required>
-                                    <option value="" selected disabled>Séléctionner un entrepôt</option>
-                                     @foreach($warehouses as $warehouse)
-                                    <option value="{{$warehouse->id}}"  {{ old('warehouse_id') == $warehouse->id ? "selected" : "" }}>{{$warehouse->designation}}</option>
-                                    @endforeach
-                                   </select>
-                                   @else
-                                   <select name="warehouse_id" class="form-control" required>
-                                   <option value=""> Aucun entrepôt</option>
-                                   </select>
-                                   @endif
+                                        <option value="" selected disabled>Séléctionner un entrepôt</option>
+                                        @foreach($warehouses as $warehouse)
+                                        <option value="{{$warehouse->id}}"
+                                            {{ old('warehouse_id') == $warehouse->id ? "selected" : "" }}>
+                                            {{$warehouse->designation}}</option>
+                                        @endforeach
+                                    </select>
+                                    @else
+                                    <select name="warehouse_id" class="form-control" required>
+                                        <option value=""> Aucun entrepôt</option>
+                                    </select>
+                                    @endif
                                 </div>
                             </div>
                         </div>
