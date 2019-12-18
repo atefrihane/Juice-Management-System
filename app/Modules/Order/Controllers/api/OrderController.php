@@ -5,8 +5,8 @@ namespace App\Modules\Order\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Modules\Order\Models\Order;
 use App\Modules\Order\Models\OrderHistory;
+use App\Modules\Product\Models\ProductWarehouse;
 use App\Modules\Store\Models\Store;
-use App\Modules\Warehouse\Models\Warehouse;
 use DB;
 use Illuminate\Http\Request;
 
@@ -126,15 +126,13 @@ class OrderController extends Controller
 
         $order = Order::find($id);
         if ($order) {
-   
-         
+
             $order->update([
                 'store_id' => $request->store_id,
                 'total' => $request->total_order,
                 'status' => $request->status,
                 'arrival_date_wished' => $request->arrival_date_wished,
             ]);
-         
 
             $products_keys = array_pluck($request->custom_ordered, 'product_id');
 
@@ -158,11 +156,9 @@ class OrderController extends Controller
 
             }
 
-          
-
             DB::table('order_product')->where('order_id', $order->id)->delete();
             DB::table('order_product')->insert($newProducts);
-        
+
             // foreach ($request->custom_ordered as $custom) {
 
             //     $checkProduct = DB::table('order_product')->where('product_id', $custom['product_id'])
@@ -227,96 +223,70 @@ class OrderController extends Controller
         return response()->json(['status' => 404]);
 
     }
-    public function handlePreparation($id, $request)
+    public function handlePreparation($id, $request, $check)
     {
         $order = Order::find($id);
 
         if ($order) {
-            if ($order->productwarehouses->count() == 0) {
-                foreach ($request->final_prepared as $final) {
-                    foreach ($final['prepared_products'] as $prepared) {
+            if ($order->productwarehouses) {
+                DB::table('order_prepare')->where('order_id', $id)->delete();
 
-                        if (isset($prepared['pivot']['quantity'])) {
-                            $order->productwarehouses()->attach($prepared['id'], [
-                                'quantity' => $prepared['pivot']['quantity'],
-                            ]);
-
-                            $getWarehouse = Warehouse::where('designation', $prepared['warehouse']['designation'])->first();
-                            $getStock = $getWarehouse->products()->where('product_warehouse.id', $prepared['id'])->first();
-                            $getStock->pivot->quantity -= $prepared['pivot']['quantity'];
-                            $getStock->pivot->save();
-                        }
-
-                    }
-
-                }
-
-            } else {
-
-                foreach ($request->final_prepared as $final) {
-
-                    foreach ($final['prepared_products'] as $prepared) {
-
-                        $checkPrepare = $order->productwarehouses()->wherePivot('product_warehouse_id', $prepared['id'])->first();
-
-                        if ($checkPrepare) {
-
-                            if (isset($prepared['pivot']['quantity'])) {
-                                if ($prepared['pivot']['quantity'] > $checkPrepare->pivot->quantity) {
-
-                                    $difference = $prepared['pivot']['quantity'] - $checkPrepare->pivot->quantity;
-
-                                    $getWarehouse = Warehouse::where('designation', $prepared['warehouse']['designation'])->first();
-                                    $getStock = $getWarehouse->products()->where('product_warehouse.id', $checkPrepare->pivot->product_warehouse_id)->first();
-
-                                    $getStock->pivot->quantity -= $difference;
-                                    $getStock->pivot->save();
-                                    $checkPrepare->pivot->quantity = $prepared['pivot']['quantity'];
-                                    $checkPrepare->pivot->save();
-
-                                }
-                                if ($prepared['pivot']['quantity'] < $checkPrepare->pivot->quantity) {
-
-                                    $difference = $checkPrepare->pivot->quantity - $prepared['pivot']['quantity'];
-                                    $getWarehouse = Warehouse::where('designation', $prepared['warehouse']['designation'])->first();
-                                    $getStock = $getWarehouse->products()->where('product_warehouse.id', $checkPrepare->pivot->product_warehouse_id)->first();
-                                    $getStock->pivot->quantity += $difference;
-                                    $getStock->pivot->save();
-                                    $checkPrepare->pivot->quantity = $prepared['pivot']['quantity'];
-                                    $checkPrepare->pivot->save();
-
-                                }
-                            } else {
-
-                                $checkItem = $order->productwarehouses()->wherePivot('product_warehouse_id', $prepared['id'])->first();
-
-                                if ($checkItem) {
-
-                                    $checkItem->quantity += $checkItem->pivot->quantity;
-                                    $checkItem->save();
-                                    $order->productwarehouses()->detach($prepared['id']);
-
-                                }
-
-                            }
-
-                        } else {
-                            if (isset($prepared['pivot']['quantity'])) {
-                                $order->productwarehouses()->attach($prepared['id'], [
-                                    'quantity' => $prepared['pivot']['quantity'],
-                                ]);
-
-                                $getWarehouse = Warehouse::where('designation', $prepared['warehouse']['designation'])->first();
-                                $getStock = $getWarehouse->products()->where('product_warehouse.id', $prepared['id'])->first();
-                                $getStock->pivot->quantity -= $prepared['pivot']['quantity'];
-                                $getStock->pivot->save();
-                            }
-                        }
-
-                    }
-
-                }
             }
+
+            $newProducts = [];
+            $array = [];
+            // create a custom array for bulk insert
+            foreach ($request->final_prepared as $final) {
+
+                foreach ($final['prepared_products'] as $prepared) {
+                    if ($prepared['pivot']['quantity']) {
+                        $array = [
+                            'quantity' => $prepared['pivot']['quantity'],
+                            'order_id' => $order->id,
+                            'product_warehouse_id' => $prepared['id'],
+                        ];
+                        array_push($newProducts, $array);
+
+                    }
+
+                }
+
+            }
+
+            //add new prepared products
+            DB::table('order_prepare')->insert($newProducts);
+
+            //update stock items in the warehouses
+            if ($check == 1) {
+
+                $allStock = DB::table('product_warehouse')->get();
+                $newStock = [];
+                $newArray = [];
+
+                foreach ($allStock as $stock) {
+
+                    foreach ($newProducts as $newProduct) {
+                        if ($stock->id == $newProduct['product_warehouse_id']) {
+
+                            $newArray = [
+                                'quantity' => $stock->quantity - $newProduct['quantity'],
+                                'id' => $newProduct['product_warehouse_id'],
+
+                            ];
+
+                            array_push($newStock, $newArray);
+
+                        }
+                    }
+                }
+                //bulk update
+                $stockInstance = new ProductWarehouse;
+                $index = 'id';
+
+                \Batch::update($stockInstance, $newStock, $index);
+
+            }
+
             OrderHistory::create([
                 'action' => 'Modification de la préparation',
                 'order_id' => $order->id,
@@ -331,8 +301,8 @@ class OrderController extends Controller
     }
 
     public function handleOrderPreparedProducts($id, Request $request)
-    {
-        $checkPreparation = $this->handlePreparation($id, $request);
+    { // 0 =   add prepared products without updating warehouse stock //   1 =  vice versa
+        $checkPreparation = $this->handlePreparation($id, $request, 0);
         if ($checkPreparation) {
             return response()->json(['status' => 200]);
         }
@@ -410,7 +380,7 @@ class OrderController extends Controller
                 return response()->json(['status' => 200]);
 
             } else {
-                $checkPreparation = $this->handlePreparation($id, $request);
+                $checkPreparation = $this->handlePreparation($id, $request, 1);
 
                 if ($checkPreparation) {
 
@@ -423,14 +393,29 @@ class OrderController extends Controller
                             'store_id' => $order->store_id,
                             'parent_id' => $order->id,
                         ]);
+                        $newProducts = [];
+                        $array = [];
+                  
                         foreach ($request->balance as $balance) {
-
-                            $balanceOrder->products()->attach($balance['product_id'], [
-                                'unit' => $balance['qty'],
+                            $array = [
+                                'order_id' => $balanceOrder->id,
+                                'product_id' => $balance['product_id'],
                                 'package' => ceil($balance['packing'] / $balance['qty']),
+                                'unit' => $balance['qty'],
+                            ];
+                            array_push($newProducts, $array);
 
-                            ]);
                         }
+
+                        DB::table('order_product')->insert($newProducts);
+
+                        OrderHistory::create([
+                            'action' => 'Création',
+                            'user_id' => $request->user_id,
+                            'order_id' => $balanceOrder->id,
+                            'comment' => $request->comment,
+    
+                        ]);
 
                     }
                     $order->update([

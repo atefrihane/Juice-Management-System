@@ -55,7 +55,17 @@
                                     <td data-url="{{route('showOrder',$order->id)}}">{{$order->store->designation}}</td>
                                     <td data-url="{{route('showOrder',$order->id)}}">{{$order->store->zipcode->code}}</td>
                                     <td data-url="{{route('showOrder',$order->id)}}">@convert($order->total)</td>
-                                    <td data-url="{{route('showOrder',$order->id)}}"> @if($order->histories && $order->histories->first()->comment) {{$order->histories->first()->comment }} @else Aucun @endif</td>
+                                    <td data-url="{{route('showOrder',$order->id)}}"> 
+                                    @if($order->histories->first()) 
+                                    @if($order->histories->first()->comment)
+                                    {{$order->histories->first()->comment }}
+                                    @else
+                                    Aucun
+                                    @endif 
+                                    @else Aucun 
+                                    @endif
+                                    
+                                    </td>
 
                                     @switch($order->status)
 

@@ -8,6 +8,7 @@ use App\Modules\Product\Models\Product;
 use App\Modules\Product\Models\ProductHistory;
 use App\Modules\Store\Models\Store;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -279,10 +280,10 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         if ($product) {
-        
+
             $productInWarehouses = $product->warehouses()
                 ->where('quantity', '>', 0)
-                ->orderBy('pivot_expiration_date','ASC')
+                ->orderBy('pivot_expiration_date', 'ASC')
                 ->withPivot('id', 'packing', 'quantity', 'comment', 'creation_date', 'expiration_date')->get();
 
             return response()->json(['status' => 200, 'warehouse_products' => $productInWarehouses, 'productName' => $product->nom]);
@@ -302,6 +303,20 @@ class ProductController extends Controller
 
             return response()->json(['status' => 200, 'finalDate' => $date->format('Y-m-d')]);
 
+        }
+        return response()->json(['status' => 404]);
+
+    }
+
+    public function handleCheckQuantityInWarehouses($id, Request $request)
+    {
+        $checkProductInWarehouse = DB::table('product_warehouse')->find($id);
+        if ($checkProductInWarehouse) {
+            if ($checkProductInWarehouse->quantity >= $request->preparedQuantity) {
+                return response()->json(['status' => 200,'warehouseQuantity' => $checkProductInWarehouse->quantity]);
+
+            }
+            return response()->json(['status' => 400,'warehouseQuantity' => $checkProductInWarehouse->quantity]);
         }
         return response()->json(['status' => 404]);
 

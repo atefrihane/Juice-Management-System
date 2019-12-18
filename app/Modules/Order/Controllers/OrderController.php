@@ -58,6 +58,7 @@ class OrderController extends Controller
     {
         $order = Order::find($id);
         if ($order) {
+        
 
             return view('Order::showUpdateStatusOrder', ['order' => $order,'history' => $order->histories->last()]);
 

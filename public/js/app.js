@@ -6443,23 +6443,64 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       });
     },
     updateTotalQuantity: function updateTotalQuantity(prepared, index, i) {
-      if (prepared.pivot.quantity < 0 || prepared.pivot.quantity > prepared.quantity) {
-        swal.fire({
-          type: 'error',
-          title: 'La quantité préparée saisie  est invalide ! ',
-          showConfirmButton: true,
-          allowOutsideClick: false,
-          confirmButtonText: 'Fermer'
+      var _this5 = this;
+
+      if (prepared.pivot.quantity) {
+        axios.post("api/check/warehouses/".concat(prepared.id), {
+          preparedQuantity: prepared.pivot.quantity
+        }).then(function (response) {
+          // update current stock 
+          console.log(response.data);
+
+          switch (response.data.status) {
+            case 400:
+              prepared.quantity = response.data.warehouseQuantity;
+              swal.fire({
+                type: 'error',
+                title: 'Stock epuisé !',
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                confirmButtonText: 'Fermer'
+              });
+              break;
+
+            case 404:
+              swal.fire({
+                type: 'error',
+                title: 'Stock n\'est plus disponible !',
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                confirmButtonText: 'Fermer'
+              });
+              break;
+
+            case 200:
+              if (prepared.pivot.quantity < 0 || prepared.pivot.quantity > prepared.quantity) {
+                swal.fire({
+                  type: 'error',
+                  title: 'La quantité préparée saisie  est invalide ! ',
+                  showConfirmButton: true,
+                  allowOutsideClick: false,
+                  confirmButtonText: 'Fermer'
+                });
+                prepared.pivot.quantity = "";
+
+                _this5.clearPreparedProducts();
+              } else {
+                _this5.errors = [];
+
+                _this5.clearPreparedProducts();
+              }
+
+              break;
+          }
+        })["catch"](function (error) {
+          console.log(error);
         });
-        prepared.pivot.quantity = "";
-        this.clearPreparedProducts();
-      } else {
-        this.errors = [];
-        this.clearPreparedProducts();
       }
     },
     validateForm: function validateForm() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.errors = [];
       var x = true;
@@ -6467,7 +6508,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       if (this.final_prepared.length > 0) {
         this.final_prepared.forEach(function (prepared) {
           if (!prepared.product_id) {
-            _this5.errors.push('Veuillez séléctionner un produit ');
+            _this6.errors.push('Veuillez séléctionner un produit ');
 
             x = false;
           }
@@ -10918,7 +10959,51 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
           _this2.clearPreparedProducts();
         } else {
-          _this2.loadPrepared();
+          _this2.custom_ordered.forEach(function (ordered) {
+            _this2.final_prepared.push({
+              product_id: ordered.product_id,
+              product_name: ordered.name,
+              total: 0,
+              prepared_products: [],
+              isLoading: false
+            });
+          });
+
+          _this2.final_prepared.forEach(function (_final2) {
+            axios.get("api/product/warehouses/".concat(_final2.product_id)).then(function (response) {
+              _this2.warehouse_products = response.data.warehouse_products;
+
+              if (_this2.warehouse_products.length > 0) {
+                _this2.warehouse_products.forEach(function (warehouse_product) {
+                  var prepareIndex = _final2.prepared_products.findIndex(function (preparedItem) {
+                    return preparedItem.id == warehouse_product.pivot.id;
+                  });
+
+                  if (prepareIndex == -1) {
+                    console.log(warehouse_product);
+
+                    _final2.prepared_products.push({
+                      id: warehouse_product.pivot.id,
+                      comment: warehouse_product.pivot.comment,
+                      creation_date: warehouse_product.pivot.creation_date,
+                      expiration_date: warehouse_product.pivot.expiration_date,
+                      packing: warehouse_product.pivot.packing,
+                      quantity: warehouse_product.pivot.quantity,
+                      warehouse: {
+                        designation: warehouse_product.designation
+                      },
+                      pivot: {
+                        quantity: ''
+                      }
+                    });
+                  }
+                });
+              }
+            })["catch"](function (error) {
+              // handle error
+              console.log(error);
+            });
+          });
         }
       })["catch"](function (error) {
         console.log(error);
@@ -10933,7 +11018,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         isLoading: false
       });
     },
-    removePrepared: function removePrepared(_final2) {
+    removePrepared: function removePrepared(_final3) {
       var _this3 = this;
 
       swal.fire({
@@ -10946,10 +11031,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       }).then(function (result) {
         if (result.value) {
           axios.post("/api/order/".concat(_this3.order_id, "/prepare/delete"), {
-            final_prepared: _final2
+            final_prepared: _final3
           }).then(function (response) {
             if (response.data.status == 200) {
-              _this3.final_prepared.splice(_this3.final_prepared.indexOf(_final2), 1);
+              _this3.final_prepared.splice(_this3.final_prepared.indexOf(_final3), 1);
             }
           })["catch"](function (error) {
             console.log(error);
@@ -11085,10 +11170,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var balances = [];
       var rmvBalances = [];
       this.custom_ordered.map(function (custom) {
-        _this7.final_prepared.map(function (_final3) {
-          if (custom.product_id === _final3.product_id) {
-            if (_final3.total < custom.unit) {
-              var qty = custom.unit - _final3.total;
+        _this7.final_prepared.map(function (_final4) {
+          if (custom.product_id === _final4.product_id) {
+            if (_final4.total < custom.unit) {
+              var qty = custom.unit - _final4.total;
               balances.push({
                 product_id: custom.product_id,
                 name: custom.name,
@@ -11118,9 +11203,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       newBalances = _.uniqBy(newBalances, 'product_id');
       newBalances = _.sortBy(newBalances, ['product_id']);
       this.custom_ordered.map(function (custom) {
-        _this7.final_prepared.map(function (_final4) {
+        _this7.final_prepared.map(function (_final5) {
           newBalances.map(function (balance) {
-            if (custom.product_id === balance.product_id && custom.unit <= balance.qty && _final4.product_id === custom.product_id && _final4.total > 0) {
+            if (custom.product_id === balance.product_id && custom.unit <= balance.qty && _final5.product_id === custom.product_id && _final5.total > 0) {
               rmvBalances.push(balance);
             }
           });
@@ -11283,12 +11368,12 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       }
     },
     clearPreparedProducts: function clearPreparedProducts() {
-      this.final_prepared.forEach(function (_final5) {
-        _final5.total = 0;
+      this.final_prepared.forEach(function (_final6) {
+        _final6.total = 0;
 
-        _final5.prepared_products.forEach(function (prepared) {
+        _final6.prepared_products.forEach(function (prepared) {
           if (prepared.pivot.quantity != '') {
-            _final5.total += prepared.pivot.quantity;
+            _final6.total += prepared.pivot.quantity;
           }
         });
       });

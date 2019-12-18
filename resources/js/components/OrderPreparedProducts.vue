@@ -165,8 +165,8 @@
                                                             <h4 v-else>Aucun produit trouvé !</h4>
                                                         </td>
                                                     </tr>
-                                                                 <loading :active.sync="final.isLoading" 
-                                        :is-full-page="false" :opacity="0.7" loader="dots" color="#3c8dbc" ></loading>
+                                                    <loading :active.sync="final.isLoading" :is-full-page="false"
+                                                        :opacity="0.7" loader="dots" color="#3c8dbc"></loading>
                                                     <tr v-for="(prepared,index) in final.prepared_products">
                                                         <td>{{final.product_name}} </td>
                                                         <td>{{prepared.quantity}} </td>
@@ -238,7 +238,7 @@
 </template>
 
 <script>
-  import Loading from 'vue-loading-overlay';
+    import Loading from 'vue-loading-overlay';
     // Import stylesheet
     import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
@@ -262,11 +262,11 @@
                 response_array: [],
                 errors: [],
                 warehouse_products: [],
-                disabled:false
+                disabled: false
 
             }
         },
-             components: {
+        components: {
             Loading
         },
         methods: {
@@ -379,12 +379,12 @@
                                     product_name: prepared[0].product.nom,
                                     total: '',
                                     prepared_products: prepared,
-                                    isLoading :false
+                                    isLoading: false
                                 })
                             });
 
 
-                                this.final_prepared.forEach(final => {
+                            this.final_prepared.forEach(final => {
 
                                 axios.get(`api/product/warehouses/${final.product_id}`)
                                     .then((response) => {
@@ -439,17 +439,17 @@
 
                         } else {
 
-                                this.custom_ordered.forEach(ordered => {
+                            this.custom_ordered.forEach(ordered => {
                                 this.final_prepared.push({
                                     product_id: ordered.product_id,
                                     product_name: ordered.name,
                                     total: 0,
                                     prepared_products: [],
-                                    isLoading :false
+                                    isLoading: false
                                 })
                             });
 
-                                this.final_prepared.forEach(final => {
+                            this.final_prepared.forEach(final => {
 
                                 axios.get(`api/product/warehouses/${final.product_id}`)
                                     .then((response) => {
@@ -502,15 +502,7 @@
                             // this.loadPrepared()
 
                         }
-
-
-
-
-
-
-
-
-
+    
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -538,28 +530,27 @@
                     cancelButtonText: 'Fermer'
 
                 }).then((result) => {
-                    if(result.value)
-                    {
-                          axios.post(`/api/order/${this.order_id}/prepare/delete`, {
-                        final_prepared: final,
+                    if (result.value) {
+                        axios.post(`/api/order/${this.order_id}/prepare/delete`, {
+                                final_prepared: final,
 
-                    })
-                    .then((response) => {
-                        if (response.data.status == 200) {
-                            this.final_prepared.splice(this.final_prepared.indexOf(final), 1);
+                            })
+                            .then((response) => {
+                                if (response.data.status == 200) {
+                                    this.final_prepared.splice(this.final_prepared.indexOf(final), 1);
 
-                        }
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
+                                }
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            });
 
                     }
 
 
                 });
 
-              
+
 
 
             },
@@ -588,10 +579,10 @@
                 }
 
                 if (!found) {
-                        this.final_prepared[i].isLoading = true
+                    this.final_prepared[i].isLoading = true
                     axios.get('api/product/warehouses/' + id)
                         .then((response) => {
-                                this.final_prepared[i].isLoading = false
+                            this.final_prepared[i].isLoading = false
                             // this.response_array = response.data
                             this.response_array = response.data.warehouse_products
                             this.final_prepared[i].prepared_products = []
@@ -642,22 +633,66 @@
 
             },
             updateTotalQuantity(prepared, index, i) {
- 
-                if ( prepared.pivot.quantity < 0 || prepared.pivot.quantity >prepared.quantity) {
-                    swal.fire({
-                        type: 'error',
-                        title: 'La quantité préparée saisie  est invalide ! ',
-                        showConfirmButton: true,
-                        allowOutsideClick: false,
-                        confirmButtonText: 'Fermer'
-                    });
-                    prepared.pivot.quantity = "";
-                    this.clearPreparedProducts()
-                } else {
-                    this.errors = []
-                    this.clearPreparedProducts()
+                if (prepared.pivot.quantity) {
+                    axios.post(`api/check/warehouses/${prepared.id}`, {
+                            preparedQuantity: prepared.pivot.quantity
+                        })
+                        .then((response) => {
+                            // update current stock 
+                            console.log(response.data)
+                        
+                            switch(response.data.status)
+                            {
+                                case 400 :
+                                    prepared.quantity = response.data.warehouseQuantity
+                                   swal.fire({
+                                    type: 'error',
+                                    title: 'Stock epuisé !',
+                                    showConfirmButton: true,
+                                    allowOutsideClick: false,
+                                    confirmButtonText: 'Fermer'
+                                })
+                                break;
+                                case 404:
+                                    swal.fire({
+                                    type: 'error',
+                                    title: 'Stock n\'est plus disponible !',
+                                    showConfirmButton: true,
+                                    allowOutsideClick: false,
+                                    confirmButtonText: 'Fermer'
+                                })
+                                break;
+                                case 200:
+                                if (prepared.pivot.quantity < 0 || prepared.pivot.quantity > prepared.quantity) {
+                                swal.fire({
+                                    type: 'error',
+                                    title: 'La quantité préparée saisie  est invalide ! ',
+                                    showConfirmButton: true,
+                                    allowOutsideClick: false,
+                                    confirmButtonText: 'Fermer'
+                                });
+                                prepared.pivot.quantity = "";
+                                this.clearPreparedProducts()
+                            } else {
+                                this.errors = []
+                                this.clearPreparedProducts()
+
+                            }
+                                break;
+                            }
+                          
+
+                          
+
+
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
 
                 }
+
+
 
             },
             validateForm() {
@@ -684,8 +719,8 @@
                         this.errors.push('Veuillez renseigner au moins une quantité à préparer  ')
                         x = false;
                     }
-                    
-                    
+
+
                 }
 
                 return x;
@@ -693,11 +728,11 @@
             submitOrderPreparedProducts() {
                 let validation = this.validateForm();
                 if (validation) {
-                    this.disabled=true;
+                    this.disabled = true;
 
                     axios.post(`/api/order/${this.order_id}/prepare`, {
                             final_prepared: this.final_prepared,
-                            user_id:this.user_id
+                            user_id: this.user_id
 
                         })
                         .then(function (response) {
@@ -710,7 +745,7 @@
                                     confirmButtonText: 'Fermer'
                                 }).then((result) => {
                                     if (result.value) {
-                                        window.location = axios.defaults.baseURL+'/orders';
+                                        window.location = axios.defaults.baseURL + '/orders';
                                     }
                                 })
                             } else {
@@ -732,8 +767,8 @@
 
 
             },
-               cancelOrder() {
-                window.location = axios.defaults.baseURL+"/orders"
+            cancelOrder() {
+                window.location = axios.defaults.baseURL + "/orders"
             }
         }
     }

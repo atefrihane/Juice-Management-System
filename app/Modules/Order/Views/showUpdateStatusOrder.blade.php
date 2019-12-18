@@ -23,7 +23,14 @@
         <div class="row">
             <div class="container-fluid">
 
-                <order-status-update :order_full="{{$order}}" :order_id="{{$order->id}}" code="{{$order->code}}" :status="{{$order->status}}" :user_id="{{Auth::user()->id}}" :history="{{$history}}">  </order-status-update>
+                <order-status-update 
+                :order_full="{{$order}}"
+                :order_id="{{$order->id}}"
+                code="{{$order->code}}"
+               :status="{{$order->status}}"
+               :user_id="{{Auth::user()->id}}" 
+               :history="{{$history}}"> 
+                </order-status-update>
 
 
             </div>

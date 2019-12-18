@@ -15,4 +15,5 @@ Route::group(['module' => 'Product', 'middleware' => ['api'], 'namespace' => 'Ap
     route::get('api/products/all', 'ProductController@handleGetAllProduct');
     route::post('api/image', 'ProductController@handleUploadImage');
     route::get('api/product/warehouses/{id}', 'ProductController@handleGetProductInWarehouses'); //returns occurence of product in all warehouses
+    route::post('api/check/warehouses/{id}', 'ProductController@handleCheckQuantityInWarehouses'); //returns occurence of product in all warehouses
 });
