@@ -69,8 +69,8 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Magasin
-                            <a href="#" data-toggle="modal" data-target="#exampleModal1"><i
-                                        class="fa fa-info-circle"></i></a>  
+                                <a href="#" data-toggle="modal" data-target="#exampleModal1"><i
+                                        class="fa fa-info-circle"></i></a>
                             </label>
                             <select class="form-control" v-model="store_id" @change="getStoreData($event)" disabled>
                                 <option value="" v-if="stores.length > 0" disabled>Selectionner un
@@ -82,7 +82,7 @@
 
                             </select>
 
-                                <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog"
+                            <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -97,8 +97,9 @@
                                         <div class="modal-body">
                                             <div class="form-group">
                                                 <label>Addresse</label>
-                                                <input type="text" class="form-control" v-if="store.address" :value="store.address" disabled>
-                                                  <input type="text" class="form-control" v-else value="Aucun" disabled>
+                                                <input type="text" class="form-control" v-if="store.address"
+                                                    :value="store.address" disabled>
+                                                <input type="text" class="form-control" v-else value="Aucun" disabled>
                                             </div>
 
                                             <div class="form-group">
@@ -126,8 +127,9 @@
 
                                             <div class="form-group">
                                                 <label>Code postal</label>
-                                                <input type="text" class="form-control" v-if="store.zipcode" :value="store.zipcode" disabled>
-                                                  <input type="text" class="form-control" v-else value="Aucun" disabled>
+                                                <input type="text" class="form-control" v-if="store.zipcode"
+                                                    :value="store.zipcode" disabled>
+                                                <input type="text" class="form-control" v-else value="Aucun" disabled>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -562,10 +564,10 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Date de livraison souhaitée</label>
-                                  <input class="form-control" id="disabledInput" v-if="arrival_date_wished" type="text" v-model="arrival_date_wished"
-                                    disabled>
-                                <input class="form-control" id="disabledInput" v-if="!arrival_date_wished" type="text" value="Non specifié"
-                                    disabled>
+                                <input class="form-control" id="disabledInput" v-if="arrival_date_wished" type="text"
+                                    v-model="arrival_date_wished" disabled>
+                                <input class="form-control" id="disabledInput" v-if="!arrival_date_wished" type="text"
+                                    value="Non specifié" disabled>
 
                             </div>
                         </div>
@@ -788,8 +790,8 @@
                 comment: '',
                 history_id: '',
                 billed_products: [],
-                arrival_date_wished:'',
-                   store: {
+                arrival_date_wished: '',
+                store: {
                     name: '',
                     address: '',
                     complement: '',
@@ -918,15 +920,17 @@
                         this.volume = response.data.order.volume
                         this.weight = response.data.order.weight
                         this.preparator = response.data.preparator
-                        this.parent = response.data.parent,
-                        this.arrival_date_wished=response.data.order.arrival_date_wished,
-                          this.store.name=response.data.store.designation
-                        this.store.address=response.data.store.address
-                        this.store.complement=response.data.store.complement
-                        this.store.country=response.data.store.country.name
-                        this.store.city=response.data.store.city.name
-                        this.store.zipcode=response.data.store.zipcode.code
-                        
+                        this.parent = response.data.parent
+                        this.arrival_date_wished = response.data.order.arrival_date_wished
+
+
+                        this.store.name = response.data.store.designation
+                        this.store.address = response.data.store.address
+                        this.store.complement = response.data.store.complement
+                        this.store.country = response.data.store.country.name
+                        this.store.city = response.data.store.city.name
+                        this.store.zipcode = response.data.store.zipcode.code
+
                         this.ordered_products.forEach((ordered, index) => {
                             this.custom_ordered.push({
                                 name: ordered.nom,
@@ -937,47 +941,51 @@
                                 tva: ordered.tva,
                                 products: this.products,
                                 product_id: ordered.id,
-                                total: (ordered.public_price * ordered.pivot.unit),
-                                product_total_tva: ''
+                                total: this.convertCurrency(parseFloat(ordered.public_price) *
+                                    ordered.pivot.unit),
+                                product_total_tva: ordered.tva
 
                             });
-                            this.custom_ordered.forEach(custom => {
-                                axios.post('api/product/prices/' + custom.product_id, {
-                                        store_id: this.store_id
-                                    })
-                                    .then((response) => {
 
-                                        if (response.data.custom_price) {
-                                            custom.public_price = this.convertCurrency(response
-                                                .data.custom_price
-                                                .price)
-                                            custom.total = this.convertCurrency(parseFloat(
-                                                custom.public_price) * custom.unit)
-                                            this.clearOrderedProducts()
-                                        } else {
-                                            custom.public_price = this.convertCurrency(response
-                                                .data.product
-                                                .public_price)
-                                            custom.total = this.convertCurrency(parseFloat(
-                                                response.data.product
-                                                .public_price) * custom.unit)
-                                            this.clearOrderedProducts()
-
-
-                                        }
-
-
-
-
-                                    })
-                                    .catch(function (error) {
-                                        console.log(error);
-                                    })
-
-                            })
 
 
                         });
+
+                        this.store.name=response.data.store.designation
+                        this.store.address=response.data.store.address
+                        this.store.complement=response.data.store.complement
+                        this.store.country=response.data.store.country.name
+                        this.store.city=response.data.store.city.name
+                        this.store.zipcode=response.data.store.zipcode.code
+
+
+                        this.custom_ordered.forEach(custom => {
+                            axios.post('api/product/prices/' + custom.product_id, {
+                                    store_id: this.store_id
+                                })
+                                .then((response) => {
+                                   
+
+                                    if (response.data.custom_price) {
+                                        custom.public_price = this.convertCurrency(response.data.custom_price.price)
+                                        custom.total = this.convertCurrency(this.convertMoneyFormat(custom
+                                            .public_price) * custom.unit)
+                                        this.clearOrderedProducts()
+                                    }
+
+                                    // this.total_ht += (parseInt(custom.public_price) * parseInt(custom
+                                    //     .unit));
+                                    // this.total_tva += (parseInt(custom.total) * parseInt(custom.tva) /
+                                    //     100);
+                                    // this.total_order = this.total_ht + this.total_tva;
+
+
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                })
+
+                        })
 
                         this.billed_products.forEach(billed => {
                             axios.post('api/product/prices/' + billed.product_id, {
@@ -1109,7 +1117,7 @@
                     })
 
             },
-            clearOrderedProducts() {
+             clearOrderedProducts() {
                 //  total cout produit hors tax //
                 this.total_ht = 0;
                 this.total_tva = 0;
@@ -1128,7 +1136,7 @@
 
                 for (let i in this.custom_ordered) {
                     if (this.custom_ordered[i].total != "") {
-                        this.total_tva += (parseFloat(this.custom_ordered[i].total) * this
+                        this.total_tva += (this.convertMoneyFormat(this.custom_ordered[i].total) * this
                             .custom_ordered[i].tva / 100);
 
                     }
@@ -1149,6 +1157,11 @@
             convertCurrency(value) {
                 let val = (value / 1).toFixed(2).replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "")
+
+            },
+            convertMoneyFormat(value) {
+
+                return parseFloat(value.replace(',', '.'))
 
             },
 

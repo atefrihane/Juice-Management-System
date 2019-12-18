@@ -53,7 +53,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Societé</label>
-                            <select class="form-control" @change="getCompanyData($event)" v-model="company_id">
+                            <select class="form-control" @change="getCompanyData($event)" v-model="company_id" disabled>
                                 <option value="" v-if="companies.length && companies.length > 0" disabled>
                                     Selectionner une
                                     societé
@@ -72,7 +72,7 @@
                             Magasin <a href="#" data-toggle="modal" data-target="#exampleModal"><i
                                         class="fa fa-info-circle"></i></a>
                             </label>
-                            <select class="form-control" v-model="store_id" @change="getStoreData($event)">
+                            <select class="form-control" v-model="store_id" @change="getStoreData($event)" disabled>
                                 <option value="" v-if="stores.length > 0" disabled>Selectionner un
                                     magasin
                                 </option>
@@ -293,7 +293,7 @@
             this.getStores()
             this.loadProducts()
             this.loadOrder()
-            this.clearOrderedProducts()
+            // this.clearOrderedProducts()
 
 
         },
@@ -395,21 +395,20 @@
                                     store_id: this.store_id
                                 })
                                 .then((response) => {
+                                   
 
                                     if (response.data.custom_price) {
-                                        custom.public_price = this.convertCurrency(response.data
-                                            .custom_price
-                                            .price)
-                                        custom.total = this.convertCurrency(parseFloat(custom
+                                        custom.public_price = this.convertCurrency(response.data.custom_price.price)
+                                        custom.total = this.convertCurrency(this.convertMoneyFormat(custom
                                             .public_price) * custom.unit)
                                         this.clearOrderedProducts()
                                     }
 
-                                    this.total_ht += (parseInt(custom.public_price) * parseInt(custom
-                                        .unit));
-                                    this.total_tva += (parseInt(custom.total) * parseInt(custom.tva) /
-                                        100);
-                                    this.total_order = this.total_ht + this.total_tva;
+                                    // this.total_ht += (parseInt(custom.public_price) * parseInt(custom
+                                    //     .unit));
+                                    // this.total_tva += (parseInt(custom.total) * parseInt(custom.tva) /
+                                    //     100);
+                                    // this.total_order = this.total_ht + this.total_tva;
 
 
                                 })
@@ -541,6 +540,7 @@
 
 
                                 if (response.data.custom_price) {
+                                      //update old price to the newest one
                                     swal.fire({
                                         type: 'info',
                                         title: 'Rappel',
@@ -553,9 +553,9 @@
                                         allowOutsideClick: false,
                                         confirmButtonText: 'Fermer'
                                     });
+                                  
                                     this.custom_ordered[index].product_packing = response.data.product.packing;
-                                    this.custom_ordered[index].public_price = this.convertCurrency(this
-                                        .custom_ordered[index].public_price)
+                                    this.custom_ordered[index].public_price = this.convertCurrency(response.data.custom_price.price)
                                     this.custom_ordered[index].tva = response.data.product.tva;
 
                                 } else {
@@ -579,20 +579,20 @@
 
                 }
 
-                if (!found) {
-                    axios.get('api/product/details/' + id)
-                        .then((response) => {
+                // if (!found) {
+                //     axios.get('api/product/details/' + id)
+                //         .then((response) => {
 
-                            this.custom_ordered[index].product_packing = response.data.product.packing;
-                            this.custom_ordered[index].public_price = response.data.product.public_price;
-                            this.custom_ordered[index].tva = response.data.product.tva;
+                //             this.custom_ordered[index].product_packing = response.data.product.packing;
+                //             this.custom_ordered[index].public_price = response.data.product.public_price;
+                //             this.custom_ordered[index].tva = response.data.product.tva;
 
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        })
+                //         })
+                //         .catch(function (error) {
+                //             console.log(error);
+                //         })
 
-                }
+                // }
 
 
             },
@@ -616,7 +616,7 @@
 
                 for (let i in this.custom_ordered) {
                     if (this.custom_ordered[i].total != "") {
-                        this.total_tva += (parseFloat(this.custom_ordered[i].total) * this
+                        this.total_tva += (this.convertMoneyFormat(this.custom_ordered[i].total) * this
                             .custom_ordered[i].tva / 100);
 
                     }
@@ -667,8 +667,8 @@
 
 
                     ordered.unit = ordered.package * ordered.product_packing;
-                    ordered.total = this.convertCurrency(parseFloat(ordered.public_price) * ordered.unit);
-                    ordered.product_total_tva = parseFloat(ordered.total) + parseFloat(ordered.total) * ordered.tva /
+                    ordered.total = this.convertCurrency(this.convertMoneyFormat(ordered.public_price) * ordered.unit);
+                    ordered.product_total_tva = this.convertMoneyFormat(ordered.total) + this.convertMoneyFormat(ordered.total) * ordered.tva /
                         100;
                     this.clearOrderedProducts();
                 }
@@ -679,12 +679,17 @@
                     ordered.product_total_tva = 0;
                     ordered.total = 0;
                     ordered.package = Math.ceil(ordered.unit / ordered.product_packing)
-                    ordered.total = this.convertCurrency(parseFloat(ordered.public_price) * ordered.unit);
-                    ordered.product_total_tva = parseFloat(ordered.total) + parseFloat(ordered.total) * ordered.tva /
+                    ordered.total = this.convertCurrency(this.convertMoneyFormat(ordered.public_price) * ordered.unit);
+                    ordered.product_total_tva = this.convertMoneyFormat(ordered.total) + this.convertMoneyFormat(ordered.total) * ordered.tva /
                         100;
                     this.clearOrderedProducts();
                 }
 
+
+            },
+              convertMoneyFormat(value) {
+
+                return parseFloat(value.replace(',', '.'))
 
             },
             validateForm() {

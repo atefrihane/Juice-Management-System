@@ -7284,6 +7284,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getCompanies();
@@ -7417,7 +7419,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this3.volume = response.data.order.volume;
         _this3.weight = response.data.order.weight;
         _this3.preparator = response.data.preparator;
-        _this3.parent = response.data.parent, _this3.arrival_date_wished = response.data.order.arrival_date_wished, _this3.store.name = response.data.store.designation;
+        _this3.parent = response.data.parent;
+        _this3.arrival_date_wished = response.data.order.arrival_date_wished;
+        _this3.store.name = response.data.store.designation;
         _this3.store.address = response.data.store.address;
         _this3.store.complement = response.data.store.complement;
         _this3.store.country = response.data.store.country.name;
@@ -7434,28 +7438,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             tva: ordered.tva,
             products: _this3.products,
             product_id: ordered.id,
-            total: ordered.public_price * ordered.pivot.unit,
-            product_total_tva: ''
+            total: _this3.convertCurrency(parseFloat(ordered.public_price) * ordered.pivot.unit),
+            product_total_tva: ordered.tva
           });
+        });
 
-          _this3.custom_ordered.forEach(function (custom) {
-            axios.post('api/product/prices/' + custom.product_id, {
-              store_id: _this3.store_id
-            }).then(function (response) {
-              if (response.data.custom_price) {
-                custom.public_price = _this3.convertCurrency(response.data.custom_price.price);
-                custom.total = _this3.convertCurrency(parseFloat(custom.public_price) * custom.unit);
+        _this3.store.name = response.data.store.designation;
+        _this3.store.address = response.data.store.address;
+        _this3.store.complement = response.data.store.complement;
+        _this3.store.country = response.data.store.country.name;
+        _this3.store.city = response.data.store.city.name;
+        _this3.store.zipcode = response.data.store.zipcode.code;
 
-                _this3.clearOrderedProducts();
-              } else {
-                custom.public_price = _this3.convertCurrency(response.data.product.public_price);
-                custom.total = _this3.convertCurrency(parseFloat(response.data.product.public_price) * custom.unit);
+        _this3.custom_ordered.forEach(function (custom) {
+          axios.post('api/product/prices/' + custom.product_id, {
+            store_id: _this3.store_id
+          }).then(function (response) {
+            if (response.data.custom_price) {
+              custom.public_price = _this3.convertCurrency(response.data.custom_price.price);
+              custom.total = _this3.convertCurrency(_this3.convertMoneyFormat(custom.public_price) * custom.unit);
 
-                _this3.clearOrderedProducts();
-              }
-            })["catch"](function (error) {
-              console.log(error);
-            });
+              _this3.clearOrderedProducts();
+            } // this.total_ht += (parseInt(custom.public_price) * parseInt(custom
+            //     .unit));
+            // this.total_tva += (parseInt(custom.total) * parseInt(custom.tva) /
+            //     100);
+            // this.total_order = this.total_ht + this.total_tva;
+
+          })["catch"](function (error) {
+            console.log(error);
           });
         });
 
@@ -7572,7 +7583,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       for (var _i in this.custom_ordered) {
         if (this.custom_ordered[_i].total != "") {
-          this.total_tva += parseFloat(this.custom_ordered[_i].total) * this.custom_ordered[_i].tva / 100;
+          this.total_tva += this.convertMoneyFormat(this.custom_ordered[_i].total) * this.custom_ordered[_i].tva / 100;
         }
       } // //  cout total de la commande  //
 
@@ -7585,6 +7596,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     convertCurrency: function convertCurrency(value) {
       var val = (value / 1).toFixed(2).replace('.', ',');
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "");
+    },
+    convertMoneyFormat: function convertMoneyFormat(value) {
+      return parseFloat(value.replace(',', '.'));
     }
   }
 });
@@ -8160,8 +8174,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.getCompanies();
     this.getStores();
     this.loadProducts();
-    this.loadOrder();
-    this.clearOrderedProducts();
+    this.loadOrder(); // this.clearOrderedProducts()
   },
   props: ['order_id', 'user_id', 'history'],
   data: function data() {
@@ -8243,14 +8256,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }).then(function (response) {
             if (response.data.custom_price) {
               custom.public_price = _this.convertCurrency(response.data.custom_price.price);
-              custom.total = _this.convertCurrency(parseFloat(custom.public_price) * custom.unit);
+              custom.total = _this.convertCurrency(_this.convertMoneyFormat(custom.public_price) * custom.unit);
 
               _this.clearOrderedProducts();
-            }
+            } // this.total_ht += (parseInt(custom.public_price) * parseInt(custom
+            //     .unit));
+            // this.total_tva += (parseInt(custom.total) * parseInt(custom.tva) /
+            //     100);
+            // this.total_order = this.total_ht + this.total_tva;
 
-            _this.total_ht += parseInt(custom.public_price) * parseInt(custom.unit);
-            _this.total_tva += parseInt(custom.total) * parseInt(custom.tva) / 100;
-            _this.total_order = _this.total_ht + _this.total_tva;
           })["catch"](function (error) {
             console.log(error);
           });
@@ -8359,6 +8373,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             store_id: this.store_id
           }).then(function (response) {
             if (response.data.custom_price) {
+              //update old price to the newest one
               swal.fire({
                 type: 'info',
                 title: 'Rappel',
@@ -8368,7 +8383,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 confirmButtonText: 'Fermer'
               });
               _this7.custom_ordered[index].product_packing = response.data.product.packing;
-              _this7.custom_ordered[index].public_price = _this7.convertCurrency(_this7.custom_ordered[index].public_price);
+              _this7.custom_ordered[index].public_price = _this7.convertCurrency(response.data.custom_price.price);
               _this7.custom_ordered[index].tva = response.data.product.tva;
             } else {
               _this7.custom_ordered[index].product_packing = response.data.product.packing;
@@ -8379,17 +8394,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             console.log(error);
           });
         }
-      }
+      } // if (!found) {
+      //     axios.get('api/product/details/' + id)
+      //         .then((response) => {
+      //             this.custom_ordered[index].product_packing = response.data.product.packing;
+      //             this.custom_ordered[index].public_price = response.data.product.public_price;
+      //             this.custom_ordered[index].tva = response.data.product.tva;
+      //         })
+      //         .catch(function (error) {
+      //             console.log(error);
+      //         })
+      // }
 
-      if (!found) {
-        axios.get('api/product/details/' + id).then(function (response) {
-          _this7.custom_ordered[index].product_packing = response.data.product.packing;
-          _this7.custom_ordered[index].public_price = response.data.product.public_price;
-          _this7.custom_ordered[index].tva = response.data.product.tva;
-        })["catch"](function (error) {
-          console.log(error);
-        });
-      }
     },
     clearOrderedProducts: function clearOrderedProducts() {
       //  total cout produit hors tax //
@@ -8406,7 +8422,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       for (var _i in this.custom_ordered) {
         if (this.custom_ordered[_i].total != "") {
-          this.total_tva += parseFloat(this.custom_ordered[_i].total) * this.custom_ordered[_i].tva / 100;
+          this.total_tva += this.convertMoneyFormat(this.custom_ordered[_i].total) * this.custom_ordered[_i].tva / 100;
         }
       } // //  cout total de la commande  //
 
@@ -8441,8 +8457,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     setOrderdPacking: function setOrderdPacking(ordered, index) {
       if (ordered["package"] != '') {
         ordered.unit = ordered["package"] * ordered.product_packing;
-        ordered.total = this.convertCurrency(parseFloat(ordered.public_price) * ordered.unit);
-        ordered.product_total_tva = parseFloat(ordered.total) + parseFloat(ordered.total) * ordered.tva / 100;
+        ordered.total = this.convertCurrency(this.convertMoneyFormat(ordered.public_price) * ordered.unit);
+        ordered.product_total_tva = this.convertMoneyFormat(ordered.total) + this.convertMoneyFormat(ordered.total) * ordered.tva / 100;
         this.clearOrderedProducts();
       }
     },
@@ -8451,10 +8467,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         ordered.product_total_tva = 0;
         ordered.total = 0;
         ordered["package"] = Math.ceil(ordered.unit / ordered.product_packing);
-        ordered.total = this.convertCurrency(parseFloat(ordered.public_price) * ordered.unit);
-        ordered.product_total_tva = parseFloat(ordered.total) + parseFloat(ordered.total) * ordered.tva / 100;
+        ordered.total = this.convertCurrency(this.convertMoneyFormat(ordered.public_price) * ordered.unit);
+        ordered.product_total_tva = this.convertMoneyFormat(ordered.total) + this.convertMoneyFormat(ordered.total) * ordered.tva / 100;
         this.clearOrderedProducts();
       }
+    },
+    convertMoneyFormat: function convertMoneyFormat(value) {
+      return parseFloat(value.replace(',', '.'));
     },
     validateForm: function validateForm() {
       var _this9 = this;
@@ -75301,7 +75320,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-      _vm._v("Magasin\n                        "),
+      _vm._v("Magasin\n                            "),
       _c(
         "a",
         {
@@ -76079,6 +76098,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
+                  attrs: { disabled: "" },
                   on: {
                     change: [
                       function($event) {
@@ -76138,6 +76158,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
+                  attrs: { disabled: "" },
                   on: {
                     change: [
                       function($event) {
@@ -97128,14 +97149,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!*************************************************!*\
   !*** ./resources/js/components/OrderUpdate.vue ***!
   \*************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _OrderUpdate_vue_vue_type_template_id_5cccc11c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OrderUpdate.vue?vue&type=template&id=5cccc11c& */ "./resources/js/components/OrderUpdate.vue?vue&type=template&id=5cccc11c&");
 /* harmony import */ var _OrderUpdate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./OrderUpdate.vue?vue&type=script&lang=js& */ "./resources/js/components/OrderUpdate.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _OrderUpdate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _OrderUpdate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -97165,7 +97187,7 @@ component.options.__file = "resources/js/components/OrderUpdate.vue"
 /*!**************************************************************************!*\
   !*** ./resources/js/components/OrderUpdate.vue?vue&type=script&lang=js& ***!
   \**************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
