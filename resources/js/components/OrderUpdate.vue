@@ -537,22 +537,27 @@
                             })
                             .then((response) => {
 
-
+                                
+                                this.custom_ordered[index].unit = ''
+                                this.custom_ordered[index].package = ''
+                                this.custom_ordered[index].packing = ''
+                                this.custom_ordered[index].total = ''
+                                this.clearOrderedProducts()    
 
                                 if (response.data.custom_price) {
                                       //update old price to the newest one
-                                    swal.fire({
-                                        type: 'info',
-                                        title: 'Rappel',
-                                        html: "Ce magasin dispose déja d'un tarif à ce produit : <br><br>  Prix par défaut : <b>" +
-                                            response.data.product.public_price +
-                                            " € </b>  <br>" +
-                                            "  Nouveau prix : <b>" + response.data.custom_price.price +
-                                            " € </b>  <br>",
-                                        showConfirmButton: true,
-                                        allowOutsideClick: false,
-                                        confirmButtonText: 'Fermer'
-                                    });
+                                    // swal.fire({
+                                    //     type: 'info',
+                                    //     title: 'Rappel',
+                                    //     html: "Ce magasin dispose déja d'un tarif à ce produit : <br><br>  Prix par défaut : <b>" +
+                                    //         response.data.product.public_price +
+                                    //         " € </b>  <br>" +
+                                    //         "  Nouveau prix : <b>" + response.data.custom_price.price +
+                                    //         " € </b>  <br>",
+                                    //     showConfirmButton: true,
+                                    //     allowOutsideClick: false,
+                                    //     confirmButtonText: 'Fermer'
+                                    // });
                                   
                                     this.custom_ordered[index].product_packing = response.data.product.packing;
                                     this.custom_ordered[index].public_price = this.convertCurrency(response.data.custom_price.price)

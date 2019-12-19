@@ -484,26 +484,19 @@
                             })
                             .then((response) => {
 
-
+                                this.ordered_products[index].unit = ''
+                                this.ordered_products[index].package = ''
+                                this.ordered_products[index].packing = ''
+                                this.ordered_products[index].total = ''
+                                this.clearOrderedProducts()  
 
                                 if (response.data.custom_price) {
-                                    // swal.fire({
-                                    //     type: 'info',
-                                    //     title: 'Rappel',
-                                    //     html: "Ce magasin dispose déja d'un tarif à ce produit : <br><br>  Prix par défaut : <b>" +
-                                    //         response.data.product.public_price +
-                                    //         " € </b>  <br>" +
-                                    //         "  Nouveau prix : <b>" + response.data.custom_price.price +
-                                    //         " € </b>  <br>",
-                                    //     showConfirmButton: true,
-                                    //     allowOutsideClick: false,
-                                    //     confirmButtonText: 'Fermer'
-                                    // });
+                                 
                                     this.ordered_products[index].product_packing = response.data.product.packing;
                                     this.ordered_products[index].public_price = response.data.custom_price.price;
                                     this.ordered_products[index].tva = response.data.product.tva;
-                                    this.ordered_products[index].public_price = this.convertCurrency(this
-                                        .ordered_products[index].public_price)
+                                    this.ordered_products[index].public_price = this.convertCurrency(this.ordered_products[index].public_price)
+                                  
                                 } else {
                                     this.ordered_products[index].product_packing = response.data.product.packing;
 

@@ -5588,19 +5588,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           axios.post('api/product/prices/' + id, {
             store_id: this.store_id
           }).then(function (response) {
+            _this5.ordered_products[index].unit = '';
+            _this5.ordered_products[index]["package"] = '';
+            _this5.ordered_products[index].packing = '';
+            _this5.ordered_products[index].total = '';
+
+            _this5.clearOrderedProducts();
+
             if (response.data.custom_price) {
-              // swal.fire({
-              //     type: 'info',
-              //     title: 'Rappel',
-              //     html: "Ce magasin dispose déja d'un tarif à ce produit : <br><br>  Prix par défaut : <b>" +
-              //         response.data.product.public_price +
-              //         " € </b>  <br>" +
-              //         "  Nouveau prix : <b>" + response.data.custom_price.price +
-              //         " € </b>  <br>",
-              //     showConfirmButton: true,
-              //     allowOutsideClick: false,
-              //     confirmButtonText: 'Fermer'
-              // });
               _this5.ordered_products[index].product_packing = response.data.product.packing;
               _this5.ordered_products[index].public_price = response.data.custom_price.price;
               _this5.ordered_products[index].tva = response.data.product.tva;
@@ -8413,16 +8408,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           axios.post('api/product/prices/' + id, {
             store_id: this.store_id
           }).then(function (response) {
+            _this7.custom_ordered[index].unit = '';
+            _this7.custom_ordered[index]["package"] = '';
+            _this7.custom_ordered[index].packing = '';
+            _this7.custom_ordered[index].total = '';
+
+            _this7.clearOrderedProducts();
+
             if (response.data.custom_price) {
               //update old price to the newest one
-              swal.fire({
-                type: 'info',
-                title: 'Rappel',
-                html: "Ce magasin dispose déja d'un tarif à ce produit : <br><br>  Prix par défaut : <b>" + response.data.product.public_price + " € </b>  <br>" + "  Nouveau prix : <b>" + response.data.custom_price.price + " € </b>  <br>",
-                showConfirmButton: true,
-                allowOutsideClick: false,
-                confirmButtonText: 'Fermer'
-              });
+              // swal.fire({
+              //     type: 'info',
+              //     title: 'Rappel',
+              //     html: "Ce magasin dispose déja d'un tarif à ce produit : <br><br>  Prix par défaut : <b>" +
+              //         response.data.product.public_price +
+              //         " € </b>  <br>" +
+              //         "  Nouveau prix : <b>" + response.data.custom_price.price +
+              //         " € </b>  <br>",
+              //     showConfirmButton: true,
+              //     allowOutsideClick: false,
+              //     confirmButtonText: 'Fermer'
+              // });
               _this7.custom_ordered[index].product_packing = response.data.product.packing;
               _this7.custom_ordered[index].public_price = _this7.convertCurrency(response.data.custom_price.price);
               _this7.custom_ordered[index].tva = response.data.product.tva;
