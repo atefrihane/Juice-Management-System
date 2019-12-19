@@ -6537,64 +6537,25 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       });
     },
     updateTotalQuantity: function updateTotalQuantity(prepared, index, i) {
-      var _this5 = this;
-
       if (prepared.pivot.quantity) {
-        axios.post("api/check/warehouses/".concat(prepared.id), {
-          preparedQuantity: prepared.pivot.quantity
-        }).then(function (response) {
-          // update current stock 
-          console.log(response.data);
-
-          switch (response.data.status) {
-            case 400:
-              prepared.quantity = response.data.warehouseQuantity;
-              swal.fire({
-                type: 'error',
-                title: 'Stock epuisé !',
-                showConfirmButton: true,
-                allowOutsideClick: false,
-                confirmButtonText: 'Fermer'
-              });
-              break;
-
-            case 404:
-              swal.fire({
-                type: 'error',
-                title: 'Stock n\'est plus disponible !',
-                showConfirmButton: true,
-                allowOutsideClick: false,
-                confirmButtonText: 'Fermer'
-              });
-              break;
-
-            case 200:
-              if (prepared.pivot.quantity < 0 || prepared.pivot.quantity > prepared.quantity) {
-                swal.fire({
-                  type: 'error',
-                  title: 'La quantité préparée saisie  est invalide ! ',
-                  showConfirmButton: true,
-                  allowOutsideClick: false,
-                  confirmButtonText: 'Fermer'
-                });
-                prepared.pivot.quantity = "";
-
-                _this5.clearPreparedProducts();
-              } else {
-                _this5.errors = [];
-
-                _this5.clearPreparedProducts();
-              }
-
-              break;
-          }
-        })["catch"](function (error) {
-          console.log(error);
-        });
+        if (prepared.pivot.quantity < 0 || prepared.pivot.quantity > prepared.quantity) {
+          swal.fire({
+            type: 'error',
+            title: 'La quantité préparée saisie  est invalide ! ',
+            showConfirmButton: true,
+            allowOutsideClick: false,
+            confirmButtonText: 'Fermer'
+          });
+          prepared.pivot.quantity = "";
+          this.clearPreparedProducts();
+        } else {
+          this.errors = [];
+          this.clearPreparedProducts();
+        }
       }
     },
     validateForm: function validateForm() {
-      var _this6 = this;
+      var _this5 = this;
 
       this.errors = [];
       var x = true;
@@ -6602,7 +6563,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       if (this.final_prepared.length > 0) {
         this.final_prepared.forEach(function (prepared) {
           if (!prepared.product_id) {
-            _this6.errors.push('Veuillez séléctionner un produit ');
+            _this5.errors.push('Veuillez séléctionner un produit ');
 
             x = false;
           }

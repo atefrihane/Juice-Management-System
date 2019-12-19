@@ -753,35 +753,7 @@
             },
             updateTotalQuantity(prepared, index, i) {
                 if (prepared.pivot.quantity) {
-                    axios.post(`api/check/warehouses/${prepared.id}`, {
-                            preparedQuantity: prepared.pivot.quantity
-                        })
-                        .then((response) => {
-                            // update current stock 
-                            console.log(response.data)
-
-                            switch (response.data.status) {
-                                case 400:
-                                    prepared.quantity = response.data.warehouseQuantity
-                                    swal.fire({
-                                        type: 'error',
-                                        title: 'Stock epuisé !',
-                                        showConfirmButton: true,
-                                        allowOutsideClick: false,
-                                        confirmButtonText: 'Fermer'
-                                    })
-                                    break;
-                                case 404:
-                                    swal.fire({
-                                        type: 'error',
-                                        title: 'Stock n\'est plus disponible !',
-                                        showConfirmButton: true,
-                                        allowOutsideClick: false,
-                                        confirmButtonText: 'Fermer'
-                                    })
-                                    break;
-                                case 200:
-                             
+                  
                                     if (prepared.pivot.quantity < 0 || prepared.pivot.quantity > prepared
                                         .quantity) {
                                         swal.fire({
@@ -798,17 +770,6 @@
                                         this.clearPreparedProducts()
 
                                     }
-                                    break;
-                            }
-
-
-
-
-
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        });
 
                 }
 
