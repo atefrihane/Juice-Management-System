@@ -201,23 +201,22 @@ class ProductController extends Controller
 
     public function handleUpdateCustomProduct(Request $request, $id, $companyId)
     {
+       
 
         $company = Company::find($companyId);
         $price = Price::find($id);
         $stores = Store::all();
 
         if ($price) {
+            $storesIds = $stores->pluck('id')->toArray();
             if ($request->input('store_id')) {
-                foreach ($stores as $store) {
-                    if (!in_array($store->id, $request->input('store_id'))) {
-                        $price->stores()->detach($store->id);
-
-                    }
-
-                }
+                $detachedIds = array_diff($storesIds, $request->input('store_id'));
+                $price->stores()->detach($detachedIds);
 
             } else {
-                $price->stores()->detach();
+                alert()->error('Veuillez séléctionner au moins un magasin','Oups!')->persistent('Fermer');
+                return redirect()->back();
+                // $price->stores()->detach();
             }
             $exist = false;
             //check if user has selected a different product and then make sure that the upcoming product not already exist
@@ -241,10 +240,9 @@ class ProductController extends Controller
             }
 
             if ($request->input('new_store_id')) {
-                foreach ($request->input('new_store_id') as $new_store_id) {
-                    $price->stores()->attach($new_store_id);
 
-                }
+                $price->stores()->attach($request->input('new_store_id'));
+
             }
             if ($exist) {
                 alert()->error('Oups!', $checkPrice->product->nom . ' a déja un tarif !')->persistent("Fermer");
@@ -256,32 +254,7 @@ class ProductController extends Controller
 
             return redirect()->route('showCustomProducts', $company->id)->with(['company' => $company, 'prices' => Price::all()]);
 
-            // else {
-            //     $price->stores()->detach();
-            // }
-
-            //check if old store exists in upcoming array otherwise delete it
-
-            //check if the upcoming store already exists otherwise add it
-            // if ($request->input('new_store_id')) {
-            //     foreach ($request->input('store_id') as $store_id) {
-            //         $checkStorePrice = StorePrice::where('price_id', $price->id)
-            //             ->where('store_id', $store_id)
-            //             ->first();
-            //         if (!$checkStorePrice) {
-
-            //             $price->stores()->attach($store_id);
-
-            //         } else {
-
-            //             alert()->error('Oups!', $checkStorePrice->store->designation . ' a déja un tarif à ce produit')->persistent('Femer');
-            //             return redirect()->back();
-
-            //         }
-
-            //     }
-
-            // }
+           
 
         }
 

@@ -42,7 +42,7 @@
 
                                         @if($price->stores->count() > 0)
                                         @foreach($price->stores as $key => $store)
-
+                                        <div class="scrollable">
                                         <div class="col-md-12">
                                             <div class="form-check">
                                                 <input type="checkbox" class="form-check-input"
@@ -50,6 +50,8 @@
                                                 <span>{{$store->designation}}</span>
                                             </div>
                                         </div>
+                                        </div>    
+                                    
 
 
 
@@ -84,7 +86,7 @@
                                             @if(count($freeStores) >0)
                                             <div class="form-check" style="margin: 10px 15px 20px;">
                                          
-                                                <input type="checkbox selectAll" class="form-check-input">
+                                                <input type="checkbox" class="form-check-input selectAll">
                                                 Tout séléctionner
                                             </div>
                                             @endif
