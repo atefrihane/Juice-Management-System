@@ -798,6 +798,39 @@
                                                             }
                                                         })
                                                     }
+
+                                                    if(response.data.status == 400)
+                                                    {
+                                                          this.disabled = false;
+                                                        let unavailable_stock=response.data.unavailableStock;
+                                                           swal.fire({
+                                                            type: 'error',
+                                                            title: 'Stock epuisé !',
+                                                            showConfirmButton: true,
+                                                            allowOutsideClick: false,
+                                                            confirmButtonText: 'Fermer'
+                                                        })
+
+                                                        this.final_prepared.forEach(final => {
+                                                         final.prepared_products.forEach(prepared => {
+                                                            
+                                                         unavailable_stock.forEach(stock => {
+                                                           if(prepared.id == stock.id )
+                                                           {
+                                                                    prepared.quantity = stock.quantity  
+                                                                    prepared.pivot.quantity='' 
+
+                                                           }
+                                                        
+
+                                                        });
+
+                                                         });   
+
+                                                        });
+                                                      
+
+                                                    }
                                                 })
                                                 .catch((error) => {
                                                     console.log(error);
@@ -829,6 +862,39 @@
 
                                                             }
                                                         })
+                                                    }
+
+                                                      if(response.data.status == 400)
+                                                    {
+                                                         this.disabled = false;
+                                                        let unavailable_stock=response.data.unavailableStock;
+                                                           swal.fire({
+                                                            type: 'error',
+                                                            title: 'Stock epuisé !',
+                                                            showConfirmButton: true,
+                                                            allowOutsideClick: false,
+                                                            confirmButtonText: 'Fermer'
+                                                        })
+                                                        
+                                                        this.final_prepared.forEach(final => {
+                                                         final.prepared_products.forEach(prepared => {
+                                                            
+                                                         unavailable_stock.forEach(stock => {
+                                                           if(prepared.id == stock.id )
+                                                           {
+                                                                    prepared.quantity = stock.quantity  
+                                                                    prepared.pivot.quantity='' 
+
+                                                           }
+                                                        
+
+                                                        });
+
+                                                         });   
+
+                                                        });
+                                                      
+
                                                     }
 
 

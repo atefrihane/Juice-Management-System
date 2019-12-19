@@ -11306,6 +11306,29 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                           }
                         });
                       }
+
+                      if (response.data.status == 400) {
+                        _this8.disabled = false;
+                        var unavailable_stock = response.data.unavailableStock;
+                        swal.fire({
+                          type: 'error',
+                          title: 'Stock epuisé !',
+                          showConfirmButton: true,
+                          allowOutsideClick: false,
+                          confirmButtonText: 'Fermer'
+                        });
+
+                        _this8.final_prepared.forEach(function (_final6) {
+                          _final6.prepared_products.forEach(function (prepared) {
+                            unavailable_stock.forEach(function (stock) {
+                              if (prepared.id == stock.id) {
+                                prepared.quantity = stock.quantity;
+                                prepared.pivot.quantity = '';
+                              }
+                            });
+                          });
+                        });
+                      }
                     })["catch"](function (error) {
                       console.log(error);
                     });
@@ -11328,6 +11351,29 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                           if (result.value) {
                             window.location = window.location = axios.defaults.baseURL + '/orders';
                           }
+                        });
+                      }
+
+                      if (response.data.status == 400) {
+                        _this8.disabled = false;
+                        var unavailable_stock = response.data.unavailableStock;
+                        swal.fire({
+                          type: 'error',
+                          title: 'Stock epuisé !',
+                          showConfirmButton: true,
+                          allowOutsideClick: false,
+                          confirmButtonText: 'Fermer'
+                        });
+
+                        _this8.final_prepared.forEach(function (_final7) {
+                          _final7.prepared_products.forEach(function (prepared) {
+                            unavailable_stock.forEach(function (stock) {
+                              if (prepared.id == stock.id) {
+                                prepared.quantity = stock.quantity;
+                                prepared.pivot.quantity = '';
+                              }
+                            });
+                          });
                         });
                       }
                     })["catch"](function (error) {
@@ -11368,12 +11414,12 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       }
     },
     clearPreparedProducts: function clearPreparedProducts() {
-      this.final_prepared.forEach(function (_final6) {
-        _final6.total = 0;
+      this.final_prepared.forEach(function (_final8) {
+        _final8.total = 0;
 
-        _final6.prepared_products.forEach(function (prepared) {
+        _final8.prepared_products.forEach(function (prepared) {
           if (prepared.pivot.quantity != '') {
-            _final6.total += prepared.pivot.quantity;
+            _final8.total += prepared.pivot.quantity;
           }
         });
       });
@@ -12086,7 +12132,7 @@ __webpack_require__.r(__webpack_exports__);
       users: [],
       new_status: 3,
       new_status_text: 'En cours de préparation',
-      preparator_id: '',
+      preparator_id: this.user_id,
       comment: null,
       disabled: false
     };
@@ -97234,15 +97280,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!*************************************************!*\
   !*** ./resources/js/components/OrderUpdate.vue ***!
   \*************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _OrderUpdate_vue_vue_type_template_id_5cccc11c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OrderUpdate.vue?vue&type=template&id=5cccc11c& */ "./resources/js/components/OrderUpdate.vue?vue&type=template&id=5cccc11c&");
 /* harmony import */ var _OrderUpdate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./OrderUpdate.vue?vue&type=script&lang=js& */ "./resources/js/components/OrderUpdate.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _OrderUpdate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _OrderUpdate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -97272,7 +97317,7 @@ component.options.__file = "resources/js/components/OrderUpdate.vue"
 /*!**************************************************************************!*\
   !*** ./resources/js/components/OrderUpdate.vue?vue&type=script&lang=js& ***!
   \**************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

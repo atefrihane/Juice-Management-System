@@ -70,7 +70,7 @@
                 users: [],
                 new_status: 3,
                 new_status_text: 'En cours de préparation',
-                preparator_id: '',
+                preparator_id: this.user_id,
                 comment: null,
                 disabled:false
 
