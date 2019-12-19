@@ -26,45 +26,81 @@
 
             </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="box-body">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Nom Produit</th>
-                                    <th>Quantité commandée</th>
-                                    <th>Nombre de colis</th>
-                                    <th>Colisage</th>
+            <div class="box-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Produit</th>
+                            <th>Nombre de colis</th>
+                            <th>Nombre d'unités</th>
+                            <th>Colisage</th>
+                            <th>Prix unitaire</th>
+                            <th>TVA ( % )</th>
+                            <th>Total Produit</th>
+                            <th></th>
+                        </tr>
 
-                                </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(ordered,index) in custom_ordered">
+                            <td style="width:15%;">
+                                <select class="form-control" v-model="ordered.product_id"
+                                    @change="getProductData($event,index)" disabled>
+                                    <option value="" v-if="ordered.products.length > 0 && ordered.products.length > 0"
+                                        disabled>
+                                        Selectionner un
+                                        produit
+                                    </option>
+                                    <option value="" v-else> Aucun produit </option>
+                                    <option v-for="product in ordered.products" :value="product.id ">
+                                        {{product.nom}}
+                                    </option>
+                                </select>
+                            </td>
+                            <td><input type="number" class="form-control" placeholder="Nombre de colis"
+                                    v-model="ordered.package" @change="setOrderdPacking(ordered,index)"
+                                    :disabled="ordered.product_id == ''" disabled></td>
+                            <td> <input type="number" class="form-control" placeholder="Nombre d'unités"
+                                    v-model="ordered.unit" @change="setOrderdUnit(ordered,index)"
+                                    :disabled="ordered.product_id == ''" disabled></td>
+                            <td><input type="text" class="form-control" disabled placeholder="Colisage.."
+                                    v-model="ordered.product_packing" disabled></td>
+                            <td><input type="text" class="form-control" disabled placeholder="Prix unitaire.."
+                                    v-model="ordered.public_price" disabled></td>
+                            <td><input type="text" class="form-control" disabled placeholder="TVA.."
+                                    v-model="ordered.tva" disabled></td>
+                            <td><input type="text" class="form-control" disabled placeholder="Total Produit.."
+                                    v-model="ordered.total" disabled></td>
 
-                            </thead>
-                            <tbody>
-                                <tr v-for="(ordered,index) in custom_ordered">
-                                    <td>
-                                        {{ordered.name}}
-                                    </td>
-                                    <td> {{ordered.unit}}</td>
-                                    <td>{{ordered.package}}</td>
-                                    <td>{{ordered.product_packing}}</td>
+                            <td>
 
-
-
-                                    <td>
-
-                                    </td>
-                                </tr>
+                            </td>
+                        </tr>
 
 
 
 
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                    </tbody>
+                </table>
             </div>
 
+
+            <div class="box-body">
+                <div class="pull-left">
+                    <h4 class="box-title"> Total HT</h4>
+                    <h4 class="box-title"> TVA</h4>
+
+                    <h4 class="box-title"> <b>TOTAL TTC</b></h4>
+
+
+                </div>
+                <div class="pull-right">
+                    <h4 class="box-title"> {{convert_total_ht}}€</h4>
+                    <h4 class="box-title"> {{convert_total_tva}}€</h4>
+
+                    <h4 class="box-title"> <b>{{convert_total_order}}€</b></h4>
+                </div>
+            </div>
             <div class="row" style="margin-top:40px;">
 
                 <div class="col-md-12">
@@ -84,7 +120,7 @@
                                     class="fa fa-minus"></i></a>
                         </div>
                         <div class="container-fluid">
-                            <div class="row">
+                            <div class="row" style="margin-top:35px;">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nom du produit</label>
@@ -97,6 +133,13 @@
                                             <option v-for="product in products" :value="product.id ">{{product.nom}}
                                             </option>
                                         </select>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Total des quantités restantes</label>
+                                        <input type="text" class="form-control" v-model="final.total_rest" disabled>
 
                                     </div>
                                 </div>
@@ -228,7 +271,10 @@
                 prepared_products: [],
                 response_array: [],
                 balance: [],
-                disabled: false
+                disabled: false,
+                total_ht: 0.00,
+                total_tva: 0.00,
+                total_order: 0.00,
 
 
 
@@ -238,6 +284,29 @@
         },
         components: {
             Loading
+        },
+        computed: {
+
+            // a computed getter
+
+
+
+            convert_total_ht() {
+                let val = (this.total_ht / 1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                // return this.total_ht.toFixed(2).replace(/\d(?=(\d{3})+\,)/g, '$&,'); // 12.345,67
+            },
+            convert_total_tva() {
+                let val = (this.total_tva / 1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                // return this.total_tva.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+
+            },
+            convert_total_order() {
+                let val = (this.total_order / 1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                // return this.total_order.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+            }
         },
         methods: {
             loadProducts() {
@@ -252,7 +321,7 @@
 
             },
             loadOrder() {
-                console.log(this.order_id)
+
                 axios.get('/api/order/' + this.order_id)
                     .then((response) => {
                         console.log(response)
@@ -267,20 +336,41 @@
                                 package: ordered.pivot.package,
                                 unit: ordered.pivot.unit,
                                 product_packing: ordered.packing,
-                                public_price: ordered.public_price,
+                                public_price: this.convertCurrency(ordered.public_price),
                                 tva: ordered.tva,
                                 products: this.products,
                                 product_id: ordered.id,
-                                total: (ordered.public_price * ordered.pivot.unit),
-                                product_total_tva: ''
+                                total: this.convertCurrency(parseFloat(ordered.public_price) *
+                                    ordered.pivot.unit),
+                                product_total_tva: ordered.tva
 
                             });
-
-                            // this.clearOrderedProducts()
-
-
-
                         });
+
+
+                        this.custom_ordered.forEach(custom => {
+                            axios.post('api/product/prices/' + custom.product_id, {
+                                    store_id: this.store_id
+                                })
+                                .then((response) => {
+
+
+                                    if (response.data.custom_price) {
+                                        custom.public_price = this.convertCurrency(response.data
+                                            .custom_price.price)
+                                        custom.total = this.convertCurrency(this.convertMoneyFormat(
+                                            custom
+                                            .public_price) * custom.unit)
+                                        this.clearOrderedProducts()
+                                    }
+
+
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                })
+
+                        })
 
 
                         if (this.prepared_products.length > 0) {
@@ -288,14 +378,24 @@
                                 this.final_prepared.push({
                                     product_id: prepared[0].product.id,
                                     product_name: prepared[0].product.nom,
-                                    total: '',
+                                    total: 0,
+                                    total_rest: 0,
+                                    fullQuantity: 0,
                                     prepared_products: prepared,
                                     isLoading: false
                                 })
                             });
 
 
+
+
                             this.final_prepared.forEach(final => {
+                                this.custom_ordered.forEach(ordered => {
+                                    if(ordered.product_id == final.product_id){
+                                        final.total_rest=ordered.unit
+                                           final.fullQuantity=ordered.unit
+                                    }
+                                })
 
                                 axios.get(`api/product/warehouses/${final.product_id}`)
                                     .then((response) => {
@@ -349,17 +449,25 @@
                             this.clearPreparedProducts()
 
                         } else {
-                              this.custom_ordered.forEach(ordered => {
+                            this.custom_ordered.forEach(ordered => {
                                 this.final_prepared.push({
                                     product_id: ordered.product_id,
                                     product_name: ordered.name,
                                     total: 0,
+                                    total_rest: 0,
+                                    fullQuantity: 0,
                                     prepared_products: [],
                                     isLoading: false
                                 })
                             });
 
                             this.final_prepared.forEach(final => {
+                                 this.custom_ordered.forEach(ordered => {
+                                    if(ordered.product_id == final.product_id){
+                                        final.total_rest=ordered.unit
+                                           final.fullQuantity=ordered.unit
+                                    }
+                                })
 
                                 axios.get(`api/product/warehouses/${final.product_id}`)
                                     .then((response) => {
@@ -418,16 +526,16 @@
                     })
             },
             loadPrepared() {
+              
                 this.final_prepared.push({
                     products: this.products,
                     total: 0,
+                    total_rest:0,
+                    fullQuantity:0,
                     prepared_products: [],
                     product_id: '',
                     isLoading: false,
-
-
-
-                })
+                    })
             },
             removePrepared(final) {
 
@@ -493,7 +601,14 @@
 
                     this.final_prepared[i].isLoading = true
 
+                        this.custom_ordered.forEach(custom => {
+                         if(custom.product_id == this.final_prepared[i].product_id)
+                         {
+                             this.final_prepared[i].total_rest=custom.unit
+                               this.final_prepared[i].fullQuantity=custom.unit
+                         }   
 
+                        })
 
 
                     axios.get('api/product/warehouses/' + id)
@@ -799,11 +914,11 @@
                                                         })
                                                     }
 
-                                                    if(response.data.status == 400)
-                                                    {
-                                                          this.disabled = false;
-                                                        let unavailable_stock=response.data.unavailableStock;
-                                                           swal.fire({
+                                                    if (response.data.status == 400) {
+                                                        this.disabled = false;
+                                                        let unavailable_stock = response.data
+                                                            .unavailableStock;
+                                                        swal.fire({
                                                             type: 'error',
                                                             title: 'Stock epuisé !',
                                                             showConfirmButton: true,
@@ -812,23 +927,28 @@
                                                         })
 
                                                         this.final_prepared.forEach(final => {
-                                                         final.prepared_products.forEach(prepared => {
-                                                            
-                                                         unavailable_stock.forEach(stock => {
-                                                           if(prepared.id == stock.id )
-                                                           {
-                                                                    prepared.quantity = stock.quantity  
-                                                                    prepared.pivot.quantity='' 
+                                                            final.prepared_products.forEach(prepared => {
 
-                                                           }
-                                                        
+                                                            unavailable_stock.forEach(stock => {
+                                                        if (prepared.id ==stock.id) {
+                                                                                    prepared
+                                                                                        .quantity =
+                                                                                        stock
+                                                                                        .quantity
+                                                                                    prepared
+                                                                                        .pivot
+                                                                                        .quantity =
+                                                                                        ''
+
+                                                                                }
+
+
+                                                                            });
+
+                                                                });
 
                                                         });
 
-                                                         });   
-
-                                                        });
-                                                      
 
                                                     }
                                                 })
@@ -864,36 +984,48 @@
                                                         })
                                                     }
 
-                                                      if(response.data.status == 400)
-                                                    {
-                                                         this.disabled = false;
-                                                        let unavailable_stock=response.data.unavailableStock;
-                                                           swal.fire({
+                                                    if (response.data.status == 400) {
+                                                        this.disabled = false;
+                                                        let unavailable_stock = response.data
+                                                            .unavailableStock;
+                                                        swal.fire({
                                                             type: 'error',
                                                             title: 'Stock epuisé !',
                                                             showConfirmButton: true,
                                                             allowOutsideClick: false,
                                                             confirmButtonText: 'Fermer'
                                                         })
-                                                        
+
                                                         this.final_prepared.forEach(final => {
-                                                         final.prepared_products.forEach(prepared => {
-                                                            
-                                                         unavailable_stock.forEach(stock => {
-                                                           if(prepared.id == stock.id )
-                                                           {
-                                                                    prepared.quantity = stock.quantity  
-                                                                    prepared.pivot.quantity='' 
+                                                            final.prepared_products.forEach(
+                                                                prepared => {
 
-                                                           }
-                                                        
+                                                                    unavailable_stock
+                                                                        .forEach(
+                                                                            stock => {
+                                                                                if (prepared
+                                                                                    .id ==
+                                                                                    stock
+                                                                                    .id
+                                                                                ) {
+                                                                                    prepared
+                                                                                        .quantity =
+                                                                                        stock
+                                                                                        .quantity
+                                                                                    prepared
+                                                                                        .pivot
+                                                                                        .quantity =
+                                                                                        ''
+
+                                                                                }
+
+
+                                                                            });
+
+                                                                });
 
                                                         });
 
-                                                         });   
-
-                                                        });
-                                                      
 
                                                     }
 
@@ -903,10 +1035,9 @@
                                                     console.log(error);
                                                 });
 
-                                        }
-                                        else{
+                                        } else {
 
-                                          this.disabled=false
+                                            this.disabled = false
                                         }
 
 
@@ -960,11 +1091,60 @@
                         }
 
                     })
+                    final.total_rest = final.fullQuantity - final.total
+                    if (final.total_rest < 0) {
+                        final.total_rest = 0;
+                    }
 
                 })
 
 
             },
+            convertCurrency(value) {
+                let val = (value / 1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "")
+
+            },
+            convertMoneyFormat(value) {
+
+                return parseFloat(value.replace(',', '.'))
+
+            },
+            clearOrderedProducts() {
+                //  total cout produit hors tax //
+                this.total_ht = 0;
+                this.total_tva = 0;
+                this.total_order = 0;
+
+                for (let i in this.custom_ordered) {
+                    if (this.custom_ordered[i].total != "") {
+                        this.total_ht += parseFloat(this.custom_ordered[i].total);
+
+                    }
+
+                }
+
+
+                // //  total des tax //
+
+                for (let i in this.custom_ordered) {
+                    if (this.custom_ordered[i].total != "") {
+                        this.total_tva += (this.convertMoneyFormat(this.custom_ordered[i].total) * this
+                            .custom_ordered[i].tva / 100);
+
+                    }
+
+                }
+
+
+                // //  cout total de la commande  //
+                this.total_order += parseFloat(this.total_ht) + this.total_tva;
+                // this.convertOrderedProducts(this.ordered_products)
+
+
+
+            },
+
             cancelOrder() {
                 window.location = axios.defaults.baseURL + "/orders"
             }

@@ -973,12 +973,6 @@
                                         this.clearOrderedProducts()
                                     }
 
-                                    // this.total_ht += (parseInt(custom.public_price) * parseInt(custom
-                                    //     .unit));
-                                    // this.total_tva += (parseInt(custom.total) * parseInt(custom.tva) /
-                                    //     100);
-                                    // this.total_order = this.total_ht + this.total_tva;
-
 
                                 })
                                 .catch(function (error) {

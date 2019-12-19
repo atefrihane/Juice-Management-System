@@ -56,42 +56,80 @@
 
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="box-body">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Nom Produit</th>
-                                            <th>Quantité commandée</th>
-                                            <th>Nombre de colis</th>
-                                            <th>Colisage</th>
+                    <div class="box-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Produit</th>
+                                    <th>Nombre de colis</th>
+                                    <th>Nombre d'unités</th>
+                                    <th>Colisage</th>
+                                    <th>Prix unitaire</th>
+                                    <th>TVA ( % )</th>
+                                    <th>Total Produit</th>
+                                    <th></th>
+                                </tr>
 
-                                        </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(ordered,index) in custom_ordered">
+                                    <td style="width:15%;">
+                                        <select class="form-control" v-model="ordered.product_id"
+                                            @change="getProductData($event,index)" disabled>
+                                            <option value=""
+                                                v-if="ordered.products.length > 0 && ordered.products.length > 0"
+                                                disabled>
+                                                Selectionner un
+                                                produit
+                                            </option>
+                                            <option value="" v-else> Aucun produit </option>
+                                            <option v-for="product in ordered.products" :value="product.id ">
+                                                {{product.nom}}
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td><input type="number" class="form-control" placeholder="Nombre de colis"
+                                            v-model="ordered.package" @change="setOrderdPacking(ordered,index)"
+                                            :disabled="ordered.product_id == ''" disabled></td>
+                                    <td> <input type="number" class="form-control" placeholder="Nombre d'unités"
+                                            v-model="ordered.unit" @change="setOrderdUnit(ordered,index)"
+                                            :disabled="ordered.product_id == ''" disabled></td>
+                                    <td><input type="text" class="form-control" disabled placeholder="Colisage.."
+                                            v-model="ordered.product_packing" disabled></td>
+                                    <td><input type="text" class="form-control" disabled placeholder="Prix unitaire.."
+                                            v-model="ordered.public_price" disabled></td>
+                                    <td><input type="text" class="form-control" disabled placeholder="TVA.."
+                                            v-model="ordered.tva" disabled></td>
+                                    <td><input type="text" class="form-control" disabled placeholder="Total Produit.."
+                                            v-model="ordered.total" disabled></td>
 
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(ordered,index) in custom_ordered">
-                                            <td>
-                                                {{ordered.name}}
-                                            </td>
-                                            <td> {{ordered.unit}}</td>
-                                            <td>{{ordered.package}}</td>
-                                            <td>{{ordered.product_packing}}</td>
+                                    <td>
 
-
-
-                                            <td>
-
-                                            </td>
-                                        </tr>
+                                    </td>
+                                </tr>
 
 
 
 
-                                    </tbody>
-                                </table>
-                            </div>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <div class="box-body">
+                        <div class="pull-left">
+                            <h4 class="box-title"> Total HT</h4>
+                            <h4 class="box-title"> TVA</h4>
+
+                            <h4 class="box-title"> <b>TOTAL TTC</b></h4>
+
+
+                        </div>
+                        <div class="pull-right">
+                            <h4 class="box-title"> {{convert_total_ht}}€</h4>
+                            <h4 class="box-title"> {{convert_total_tva}}€</h4>
+
+                            <h4 class="box-title"> <b>{{convert_total_order}}€</b></h4>
                         </div>
                     </div>
 
@@ -111,8 +149,9 @@
                                         <a href="" class="pull-right btn btn-default"
                                             @click.prevent="removePrepared(final)"><i class="fa fa-minus"></i></a>
                                     </div>
+                                   
                                     <div class="container-fluid">
-                                        <div class="row">
+                                        <div class="row" style="margin-top:35px;">
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Nom du produit</label>
@@ -128,6 +167,15 @@
                                                             {{product.nom}}
                                                         </option>
                                                     </select>
+
+                                                </div>
+                                            </div>
+
+                                             <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Total des quantités restantes</label>
+                                                    <input type="text" class="form-control" v-model="final.total_rest"
+                                                        disabled>
 
                                                 </div>
                                             </div>
@@ -262,12 +310,37 @@
                 response_array: [],
                 errors: [],
                 warehouse_products: [],
-                disabled: false
+                disabled: false,
+                total_ht: 0.00,
+                total_tva: 0.00,
+                total_order: 0.00,
 
             }
         },
         components: {
             Loading
+        },
+        computed: {
+
+            // a computed getter
+
+
+            convert_total_ht() {
+                let val = (this.total_ht / 1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                // return this.total_ht.toFixed(2).replace(/\d(?=(\d{3})+\,)/g, '$&,'); // 12.345,67
+            },
+            convert_total_tva() {
+                let val = (this.total_tva / 1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                // return this.total_tva.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+
+            },
+            convert_total_order() {
+                let val = (this.total_order / 1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                // return this.total_order.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
+            }
         },
         methods: {
 
@@ -329,7 +402,9 @@
 
             },
             clearPreparedProducts() {
-
+                this.custom_ordered.forEach(custom =>{
+                    
+                })    
                 this.final_prepared.forEach(final => {
                     final.total = 0;
                     final.prepared_products.forEach(prepared => {
@@ -339,6 +414,10 @@
                         }
 
                     })
+                    final.total_rest=final.fullQuantity-final.total
+                    if (final.total_rest < 0) {
+                        final.total_rest=0;
+                    }
 
                 })
 
@@ -353,35 +432,61 @@
                         this.ordered_products = response.data.ordered_products
                         this.order_history = response.data.order_history
                         this.prepared_products = response.data.prepared_products
+
                         this.ordered_products.forEach((ordered, index) => {
                             this.custom_ordered.push({
                                 name: ordered.nom,
                                 package: ordered.pivot.package,
                                 unit: ordered.pivot.unit,
                                 product_packing: ordered.packing,
-                                public_price: ordered.public_price,
+                                public_price: this.convertCurrency(ordered.public_price),
                                 tva: ordered.tva,
                                 products: this.products,
                                 product_id: ordered.id,
-                                total: (ordered.public_price * ordered.pivot.unit),
-                                product_total_tva: ''
+                                total: this.convertCurrency(parseFloat(ordered.public_price) *
+                                    ordered.pivot.unit),
+                                product_total_tva: ordered.tva
 
                             });
-
-
-
-
                         });
+
+                        this.custom_ordered.forEach(custom => {
+                            axios.post('api/product/prices/' + custom.product_id, {
+                                    store_id: this.store_id
+                                })
+                                .then((response) => {
+
+
+                                    if (response.data.custom_price) {
+                                        custom.public_price = this.convertCurrency(response.data
+                                            .custom_price.price)
+                                        custom.total = this.convertCurrency(this.convertMoneyFormat(
+                                            custom
+                                            .public_price) * custom.unit)
+                                        this.clearOrderedProducts()
+                                    }
+
+
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                })
+
+                        })
                         if (this.prepared_products.length > 0) {
                             this.prepared_products.forEach(prepared => {
                                 this.final_prepared.push({
                                     product_id: prepared[0].product.id,
                                     product_name: prepared[0].product.nom,
                                     total: '',
+                                    total_rest:'',
                                     prepared_products: prepared,
                                     isLoading: false
                                 })
                             });
+
+
+
 
 
                             this.final_prepared.forEach(final => {
@@ -444,6 +549,8 @@
                                     product_id: ordered.product_id,
                                     product_name: ordered.name,
                                     total: 0,
+                                    total_rest:ordered.unit,
+                                    fullQuantity:ordered.unit,
                                     prepared_products: [],
                                     isLoading: false
                                 })
@@ -502,7 +609,7 @@
                             // this.loadPrepared()
 
                         }
-    
+
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -512,6 +619,8 @@
                 this.final_prepared.push({
                     products: this.products,
                     total: 0,
+                    total_rest:0,
+                    fullQuantity:0,
                     prepared_products: [],
                     product_id: '',
                     product_name: ''
@@ -580,6 +689,16 @@
 
                 if (!found) {
                     this.final_prepared[i].isLoading = true
+
+                        this.custom_ordered.forEach(custom => {
+                         if(custom.product_id == this.final_prepared[i].product_id)
+                         {
+                             this.final_prepared[i].total_rest=custom.unit
+                               this.final_prepared[i].fullQuantity=custom.unit
+                         }   
+
+                        })
+
                     axios.get('api/product/warehouses/' + id)
                         .then((response) => {
                             this.final_prepared[i].isLoading = false
@@ -640,49 +759,50 @@
                         .then((response) => {
                             // update current stock 
                             console.log(response.data)
-                        
-                            switch(response.data.status)
-                            {
-                                case 400 :
+
+                            switch (response.data.status) {
+                                case 400:
                                     prepared.quantity = response.data.warehouseQuantity
-                                   swal.fire({
-                                    type: 'error',
-                                    title: 'Stock epuisé !',
-                                    showConfirmButton: true,
-                                    allowOutsideClick: false,
-                                    confirmButtonText: 'Fermer'
-                                })
-                                break;
+                                    swal.fire({
+                                        type: 'error',
+                                        title: 'Stock epuisé !',
+                                        showConfirmButton: true,
+                                        allowOutsideClick: false,
+                                        confirmButtonText: 'Fermer'
+                                    })
+                                    break;
                                 case 404:
                                     swal.fire({
-                                    type: 'error',
-                                    title: 'Stock n\'est plus disponible !',
-                                    showConfirmButton: true,
-                                    allowOutsideClick: false,
-                                    confirmButtonText: 'Fermer'
-                                })
-                                break;
+                                        type: 'error',
+                                        title: 'Stock n\'est plus disponible !',
+                                        showConfirmButton: true,
+                                        allowOutsideClick: false,
+                                        confirmButtonText: 'Fermer'
+                                    })
+                                    break;
                                 case 200:
-                                if (prepared.pivot.quantity < 0 || prepared.pivot.quantity > prepared.quantity) {
-                                swal.fire({
-                                    type: 'error',
-                                    title: 'La quantité préparée saisie  est invalide ! ',
-                                    showConfirmButton: true,
-                                    allowOutsideClick: false,
-                                    confirmButtonText: 'Fermer'
-                                });
-                                prepared.pivot.quantity = "";
-                                this.clearPreparedProducts()
-                            } else {
-                                this.errors = []
-                                this.clearPreparedProducts()
+                             
+                                    if (prepared.pivot.quantity < 0 || prepared.pivot.quantity > prepared
+                                        .quantity) {
+                                        swal.fire({
+                                            type: 'error',
+                                            title: 'La quantité préparée saisie  est invalide ! ',
+                                            showConfirmButton: true,
+                                            allowOutsideClick: false,
+                                            confirmButtonText: 'Fermer'
+                                        });
+                                        prepared.pivot.quantity = "";
+                                        this.clearPreparedProducts()
+                                    } else {
+                                        this.errors = []
+                                        this.clearPreparedProducts()
 
+                                    }
+                                    break;
                             }
-                                break;
-                            }
-                          
 
-                          
+
+
 
 
                         })
@@ -764,6 +884,50 @@
                             console.log(error);
                         });
                 }
+
+
+            },
+            convertCurrency(value) {
+                let val = (value / 1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "")
+
+            },
+            convertMoneyFormat(value) {
+
+                return parseFloat(value.replace(',', '.'))
+
+            },
+            clearOrderedProducts() {
+                //  total cout produit hors tax //
+                this.total_ht = 0;
+                this.total_tva = 0;
+                this.total_order = 0;
+
+                for (let i in this.custom_ordered) {
+                    if (this.custom_ordered[i].total != "") {
+                        this.total_ht += parseFloat(this.custom_ordered[i].total);
+
+                    }
+
+                }
+
+
+                // //  total des tax //
+
+                for (let i in this.custom_ordered) {
+                    if (this.custom_ordered[i].total != "") {
+                        this.total_tva += (this.convertMoneyFormat(this.custom_ordered[i].total) * this
+                            .custom_ordered[i].tva / 100);
+
+                    }
+
+                }
+
+
+                // //  cout total de la commande  //
+                this.total_order += parseFloat(this.total_ht) + this.total_tva;
+                // this.convertOrderedProducts(this.ordered_products)
+
 
 
             },
