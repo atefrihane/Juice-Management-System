@@ -398,11 +398,13 @@
                                    
 
                                     if (response.data.custom_price) {
+                                      
                                         custom.public_price = this.convertCurrency(response.data.custom_price.price)
                                         custom.total = this.convertCurrency(this.convertMoneyFormat(custom
                                             .public_price) * custom.unit)
-                                        this.clearOrderedProducts()
+                                        // this.clearOrderedProducts()
                                     }
+                                     this.clearOrderedProducts()
 
                                     // this.total_ht += (parseInt(custom.public_price) * parseInt(custom
                                     //     .unit));

@@ -7582,9 +7582,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             if (response.data.custom_price) {
               custom.public_price = _this3.convertCurrency(response.data.custom_price.price);
               custom.total = _this3.convertCurrency(_this3.convertMoneyFormat(custom.public_price) * custom.unit);
-
-              _this3.clearOrderedProducts();
             }
+
+            _this3.clearOrderedProducts();
           })["catch"](function (error) {
             console.log(error);
           });
@@ -8376,10 +8376,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }).then(function (response) {
             if (response.data.custom_price) {
               custom.public_price = _this.convertCurrency(response.data.custom_price.price);
-              custom.total = _this.convertCurrency(_this.convertMoneyFormat(custom.public_price) * custom.unit);
+              custom.total = _this.convertCurrency(_this.convertMoneyFormat(custom.public_price) * custom.unit); // this.clearOrderedProducts()
+            }
 
-              _this.clearOrderedProducts();
-            } // this.total_ht += (parseInt(custom.public_price) * parseInt(custom
+            _this.clearOrderedProducts(); // this.total_ht += (parseInt(custom.public_price) * parseInt(custom
             //     .unit));
             // this.total_tva += (parseInt(custom.total) * parseInt(custom.tva) /
             //     100);

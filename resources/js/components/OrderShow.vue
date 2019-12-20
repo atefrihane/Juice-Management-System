@@ -970,8 +970,10 @@
                                         custom.public_price = this.convertCurrency(response.data.custom_price.price)
                                         custom.total = this.convertCurrency(this.convertMoneyFormat(custom
                                             .public_price) * custom.unit)
-                                        this.clearOrderedProducts()
+                                       
                                     }
+
+                                     this.clearOrderedProducts()
 
 
                                 })
