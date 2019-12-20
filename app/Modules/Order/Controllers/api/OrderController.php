@@ -67,7 +67,10 @@ class OrderController extends Controller
         if ($order) {
             $ordered_products = $order->products()->withPivot('package', 'unit')->get();
 
-            $order_history = OrderHistory::with('user')->where('order_id', $order->id)->get();
+            $order_history = OrderHistory::with('user')
+            ->where('order_id', $order->id)
+            ->orderBy('created_at','DESC')
+            ->get();
             $prepared_products_as_object = $order->productwarehouses()->with('product', 'warehouse')->get()->groupBy('product.id');
             $store = Store::with('country', 'city', 'zipcode')->where('id', $order->store_id)->first();
 

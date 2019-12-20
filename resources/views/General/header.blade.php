@@ -146,7 +146,7 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
-                        <ul class="treeview-menu">
+                        <ul class="treeview-menu" style="display: {{ (Route::is('showWarehouses') or  Route::is('showWarehouseProducts')) ? 'block' : 'none' }};" >
                             <li class="{{ Route::is('showWarehouses') ? 'active' : '' }}"><a
                                     href="{{route('showWarehouses')}}"><i class="fa fa-building "></i> <span>Nos
                                         Entrepôts</span></a></li>

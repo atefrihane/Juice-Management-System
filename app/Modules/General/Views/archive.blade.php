@@ -40,15 +40,15 @@
                             </thead>
                             <tbody>
                                 @forelse($orders as $order)
-                                <tr>
-                                    <td>{{$order->code}}</td>
-                                    <td>{{ $order->created_at->format('d-m-Y')}} à
+                                <tr class="table-t">
+                                    <td data-url="{{route('showOrder',$order->id)}}">{{$order->code}}</td>
+                                    <td data-url="{{route('showOrder',$order->id)}}">{{ $order->created_at->format('d-m-Y')}} à
                                         {{ $order->created_at->timezone('Europe/Paris')->format('H:i:s')}}</td>
-                                    <td>{{$order->store->designation}}</td>
-                                    <td>{{$order->store->zipcode->code}}</td>
-                                    <td>  @convert($order->total)</td>
-                                    <td>Comptabilisée</td>
-                                    <th>{{$order->comment}}</th>
+                                    <td data-url="{{route('showOrder',$order->id)}}">{{$order->store->designation}}</td>
+                                    <td data-url="{{route('showOrder',$order->id)}}">{{$order->store->zipcode->code}}</td>
+                                    <td data-url="{{route('showOrder',$order->id)}}">  @convert($order->total)</td>
+                                    <td data-url="{{route('showOrder',$order->id)}}">Comptabilisée</td>
+                                    <th data-url="{{route('showOrder',$order->id)}}">{{$order->comment}}</th>
                                     <td class="not-this text-center">
 
                                         <div class="btn-group">
