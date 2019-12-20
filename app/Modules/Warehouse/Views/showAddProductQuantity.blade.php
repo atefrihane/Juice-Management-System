@@ -77,7 +77,7 @@
                                         class="form-control" placeholder="Code produit" id="defaultDisplay" disabled>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="exampleInputEmail1">Nombre d'unités par colis par défaut</label>
+                                    <label for="exampleInputEmail1">Nombre de display par colis par défaut</label>
                                     <input type="text" name="defaultPacking" value="{{old('defaultPacking')}}"
                                         class="form-control" placeholder="Code à barre" id="defaultPacking" disabled>
                                 </div>
@@ -104,9 +104,9 @@
                             <div class="row">
 
                                 <div class="col-md-12">
-                                    <label for="exampleInputEmail1">Nombre d'unités par colis</label>
+                                    <label for="exampleInputEmail1">Nombre de display par colis</label>
                                     <input type="number" name="packing_display" value="{{old('packingDisplay')}}"
-                                        class="form-control" placeholder="Nombre d'unités par colis" required>
+                                        class="form-control" placeholder="Nombre de display par colis" required>
                                 </div>
                          </div>
                         </div>

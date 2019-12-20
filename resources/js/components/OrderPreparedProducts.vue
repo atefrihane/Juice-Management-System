@@ -196,6 +196,8 @@
                                                     <tr>
                                                         <th>Nom Produit</th>
                                                         <th>Quantité</th>
+                                                        <th>Unités par display</th>
+                                                        <th>Displays par colis</th>
                                                         <th>Colisage</th>
                                                         <th>Entrepôt</th>
                                                         <th>Date de fabrication</th>
@@ -218,10 +220,13 @@
                                                     <tr v-for="(prepared,index) in final.prepared_products">
                                                         <td>{{final.product_name}} </td>
                                                         <td>{{prepared.quantity}} </td>
+                                                        <td>{{prepared.pivot.stock_display}}</td>
+                                                        <td>{{prepared.pivot.packing_display}}</td>
                                                         <td>{{prepared.packing}} </td>
                                                         <td>{{prepared.warehouse.designation}} </td>
                                                         <td>{{prepared.creation_date}} </td>
                                                         <td>{{prepared.expiration_date}} </td>
+                                                      
                                                         <td><input type="number" min="1" class="form-control"
                                                                 placeholder="Quantité préparée"
                                                                 @change="updateTotalQuantity(prepared,index,i)"
@@ -493,6 +498,7 @@
 
                                 axios.get(`api/product/warehouses/${final.product_id}`)
                                     .then((response) => {
+                                        console.log(response.data.warehouse_products)
                                         this.warehouse_products = response.data.warehouse_products;
                                         if (this.warehouse_products.length > 0) {
 
@@ -501,7 +507,7 @@
                                                     .findIndex(preparedItem => preparedItem
                                                         .id == warehouse_product.pivot.id);
                                                 if (prepareIndex == -1) {
-                                                    console.log(warehouse_product)
+                                                    // console.log(warehouse_product)
                                                     final.prepared_products.push({
                                                         id: warehouse_product.pivot.id,
                                                         comment: warehouse_product.pivot
@@ -519,7 +525,9 @@
                                                                 .designation
                                                         },
                                                         pivot: {
-                                                            quantity: ''
+                                                            quantity: '',
+                                                            stock_display:warehouse_product.pivot.stock_display,
+                                                            packing_display:warehouse_product.pivot.packing_display
                                                         }
 
 
@@ -586,7 +594,9 @@
                                                                 .designation
                                                         },
                                                         pivot: {
-                                                            quantity: ''
+                                                            quantity: '',
+                                                              stock_display:warehouse_product.pivot.stock_display,
+                                                            packing_display:warehouse_product.pivot.packing_display
                                                         }
 
 
@@ -717,7 +727,9 @@
                                     creation_date: warehouse.pivot.creation_date,
                                     expiration_date: warehouse.pivot.expiration_date,
                                     pivot: {
-                                        quantity: ''
+                                        quantity: '',
+                                          stock_display:warehouse.pivot.stock_display,
+                                                            packing_display:warehouse.pivot.packing_display
                                     }
 
 

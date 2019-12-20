@@ -884,80 +884,13 @@
 
                             `,
                                         showConfirmButton: true,
-                                        confirmButtonText: 'Passer la commande',
+                                        confirmButtonText: ' Passer une commande du reliquat',
                                         showCancelButton: true,
-                                        cancelButtonText: 'Créer commande reliquat'
+                                        cancelButtonText: 'Ignorer le reliquat'
 
                                     }).then((result) => {
-                                        // commande normal
+                                        // commande reliquat
                                         if (result.value) {
-                                            axios.post(
-                                                    `/api/order/${this.order_id}/prepare/submit`, {
-                                                        final_prepared: this.final_prepared,
-                                                        new_status: this.new_status,
-                                                        user_id: this.user_id
-                                                    })
-                                                .then((response) => {
-                                                    if (response.data.status == 200) {
-                                                        swal.fire({
-                                                            type: 'success',
-                                                            title: 'La commande a été préparée avec succés !',
-                                                            showConfirmButton: true,
-                                                            allowOutsideClick: false,
-                                                            confirmButtonText: 'Fermer'
-                                                        }).then((result) => {
-                                                            if (result.value) {
-                                                                window.location = axios
-                                                                    .defaults.baseURL +
-                                                                    '/orders';
-                                                            }
-                                                        })
-                                                    }
-
-                                                    if (response.data.status == 400) {
-                                                        this.disabled = false;
-                                                        let unavailable_stock = response.data
-                                                            .unavailableStock;
-                                                        swal.fire({
-                                                            type: 'error',
-                                                            title: 'Stock epuisé !',
-                                                            showConfirmButton: true,
-                                                            allowOutsideClick: false,
-                                                            confirmButtonText: 'Fermer'
-                                                        })
-
-                                                        this.final_prepared.forEach(final => {
-                                                            final.prepared_products.forEach(prepared => {
-
-                                                            unavailable_stock.forEach(stock => {
-                                                        if (prepared.id ==stock.id) {
-                                                                                    prepared
-                                                                                        .quantity =
-                                                                                        stock
-                                                                                        .quantity
-                                                                                    prepared
-                                                                                        .pivot
-                                                                                        .quantity =
-                                                                                        ''
-
-                                                                                }
-
-
-                                                                            });
-
-                                                                });
-
-                                                        });
-
-
-                                                    }
-                                                })
-                                                .catch((error) => {
-                                                    console.log(error);
-                                                });
-
-                                        } else if (result.dismiss == 'cancel') {
-                                            // commande reliquat
                                             axios.post(
                                                     `/api/order/${this.order_id}/prepare/submit`, {
                                                         final_prepared: this.final_prepared,
@@ -1034,6 +967,76 @@
                                                 .catch((error) => {
                                                     console.log(error);
                                                 });
+                                         
+
+                                        } else if (result.dismiss == 'cancel') {
+                                            // commande normal
+                                                axios.post(
+                                                    `/api/order/${this.order_id}/prepare/submit`, {
+                                                        final_prepared: this.final_prepared,
+                                                        new_status: this.new_status,
+                                                        user_id: this.user_id
+                                                    })
+                                                .then((response) => {
+                                                    if (response.data.status == 200) {
+                                                        swal.fire({
+                                                            type: 'success',
+                                                            title: 'La commande a été préparée avec succés !',
+                                                            showConfirmButton: true,
+                                                            allowOutsideClick: false,
+                                                            confirmButtonText: 'Fermer'
+                                                        }).then((result) => {
+                                                            if (result.value) {
+                                                                window.location = axios
+                                                                    .defaults.baseURL +
+                                                                    '/orders';
+                                                            }
+                                                        })
+                                                    }
+
+                                                    if (response.data.status == 400) {
+                                                        this.disabled = false;
+                                                        let unavailable_stock = response.data
+                                                            .unavailableStock;
+                                                        swal.fire({
+                                                            type: 'error',
+                                                            title: 'Stock epuisé !',
+                                                            showConfirmButton: true,
+                                                            allowOutsideClick: false,
+                                                            confirmButtonText: 'Fermer'
+                                                        })
+
+                                                        this.final_prepared.forEach(final => {
+                                                            final.prepared_products.forEach(prepared => {
+
+                                                            unavailable_stock.forEach(stock => {
+                                                        if (prepared.id ==stock.id) {
+                                                                                    prepared
+                                                                                        .quantity =
+                                                                                        stock
+                                                                                        .quantity
+                                                                                    prepared
+                                                                                        .pivot
+                                                                                        .quantity =
+                                                                                        ''
+
+                                                                                }
+
+
+                                                                            });
+
+                                                                });
+
+                                                        });
+
+
+                                                    }
+                                                })
+                                                .catch((error) => {
+                                                    console.log(error);
+                                                });       
+                                            //
+                                            
 
                                         } else {
 

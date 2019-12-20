@@ -284,7 +284,10 @@ class ProductController extends Controller
             $productInWarehouses = $product->warehouses()
                 ->where('quantity', '>', 0)
                 ->orderBy('pivot_expiration_date', 'ASC')
-                ->withPivot('id', 'packing', 'quantity', 'comment', 'creation_date', 'expiration_date')->get();
+                ->withPivot('id', 'packing', 'quantity', 'comment', 'creation_date', 'expiration_date')
+                ->get();
+           
+            
 
             return response()->json(['status' => 200, 'warehouse_products' => $productInWarehouses, 'productName' => $product->nom]);
 

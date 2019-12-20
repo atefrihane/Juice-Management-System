@@ -6157,6 +6157,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
  // Import stylesheet
 
 
@@ -6340,6 +6345,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
           _this2.final_prepared.forEach(function (_final2) {
             axios.get("api/product/warehouses/".concat(_final2.product_id)).then(function (response) {
+              console.log(response.data.warehouse_products);
               _this2.warehouse_products = response.data.warehouse_products;
 
               if (_this2.warehouse_products.length > 0) {
@@ -6349,8 +6355,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                   });
 
                   if (prepareIndex == -1) {
-                    console.log(warehouse_product);
-
+                    // console.log(warehouse_product)
                     _final2.prepared_products.push({
                       id: warehouse_product.pivot.id,
                       comment: warehouse_product.pivot.comment,
@@ -6362,7 +6367,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                         designation: warehouse_product.designation
                       },
                       pivot: {
-                        quantity: ''
+                        quantity: '',
+                        stock_display: warehouse_product.pivot.stock_display,
+                        packing_display: warehouse_product.pivot.packing_display
                       }
                     });
                   }
@@ -6412,7 +6419,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                         designation: warehouse_product.designation
                       },
                       pivot: {
-                        quantity: ''
+                        quantity: '',
+                        stock_display: warehouse_product.pivot.stock_display,
+                        packing_display: warehouse_product.pivot.packing_display
                       }
                     });
                   }
@@ -6518,7 +6527,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
               creation_date: warehouse.pivot.creation_date,
               expiration_date: warehouse.pivot.expiration_date,
               pivot: {
-                quantity: ''
+                quantity: '',
+                stock_display: warehouse.pivot.stock_display,
+                packing_display: warehouse.pivot.packing_display
               }
             }); // this.clearOrderedProducts()
 
@@ -11476,58 +11487,12 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                     return " <tr> <td class=\"text-left\">".concat(balance.name, " </td><td class=\"text-left\">").concat(balance.qty, " </td> </tr> ");
                   }), "\n\n                                    </tbody>\n                                    </table>\n\n                        "),
                   showConfirmButton: true,
-                  confirmButtonText: 'Passer la commande',
+                  confirmButtonText: ' Passer une commande du reliquat',
                   showCancelButton: true,
-                  cancelButtonText: 'Créer commande reliquat'
+                  cancelButtonText: 'Ignorer le reliquat'
                 }).then(function (result) {
-                  // commande normal
+                  // commande reliquat
                   if (result.value) {
-                    axios.post("/api/order/".concat(_this8.order_id, "/prepare/submit"), {
-                      final_prepared: _this8.final_prepared,
-                      new_status: _this8.new_status,
-                      user_id: _this8.user_id
-                    }).then(function (response) {
-                      if (response.data.status == 200) {
-                        swal.fire({
-                          type: 'success',
-                          title: 'La commande a été préparée avec succés !',
-                          showConfirmButton: true,
-                          allowOutsideClick: false,
-                          confirmButtonText: 'Fermer'
-                        }).then(function (result) {
-                          if (result.value) {
-                            window.location = axios.defaults.baseURL + '/orders';
-                          }
-                        });
-                      }
-
-                      if (response.data.status == 400) {
-                        _this8.disabled = false;
-                        var unavailable_stock = response.data.unavailableStock;
-                        swal.fire({
-                          type: 'error',
-                          title: 'Stock epuisé !',
-                          showConfirmButton: true,
-                          allowOutsideClick: false,
-                          confirmButtonText: 'Fermer'
-                        });
-
-                        _this8.final_prepared.forEach(function (_final6) {
-                          _final6.prepared_products.forEach(function (prepared) {
-                            unavailable_stock.forEach(function (stock) {
-                              if (prepared.id == stock.id) {
-                                prepared.quantity = stock.quantity;
-                                prepared.pivot.quantity = '';
-                              }
-                            });
-                          });
-                        });
-                      }
-                    })["catch"](function (error) {
-                      console.log(error);
-                    });
-                  } else if (result.dismiss == 'cancel') {
-                    // commande reliquat
                     axios.post("/api/order/".concat(_this8.order_id, "/prepare/submit"), {
                       final_prepared: _this8.final_prepared,
                       balance: _this8.balance,
@@ -11559,6 +11524,52 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                           confirmButtonText: 'Fermer'
                         });
 
+                        _this8.final_prepared.forEach(function (_final6) {
+                          _final6.prepared_products.forEach(function (prepared) {
+                            unavailable_stock.forEach(function (stock) {
+                              if (prepared.id == stock.id) {
+                                prepared.quantity = stock.quantity;
+                                prepared.pivot.quantity = '';
+                              }
+                            });
+                          });
+                        });
+                      }
+                    })["catch"](function (error) {
+                      console.log(error);
+                    });
+                  } else if (result.dismiss == 'cancel') {
+                    // commande normal
+                    axios.post("/api/order/".concat(_this8.order_id, "/prepare/submit"), {
+                      final_prepared: _this8.final_prepared,
+                      new_status: _this8.new_status,
+                      user_id: _this8.user_id
+                    }).then(function (response) {
+                      if (response.data.status == 200) {
+                        swal.fire({
+                          type: 'success',
+                          title: 'La commande a été préparée avec succés !',
+                          showConfirmButton: true,
+                          allowOutsideClick: false,
+                          confirmButtonText: 'Fermer'
+                        }).then(function (result) {
+                          if (result.value) {
+                            window.location = axios.defaults.baseURL + '/orders';
+                          }
+                        });
+                      }
+
+                      if (response.data.status == 400) {
+                        _this8.disabled = false;
+                        var unavailable_stock = response.data.unavailableStock;
+                        swal.fire({
+                          type: 'error',
+                          title: 'Stock epuisé !',
+                          showConfirmButton: true,
+                          allowOutsideClick: false,
+                          confirmButtonText: 'Fermer'
+                        });
+
                         _this8.final_prepared.forEach(function (_final7) {
                           _final7.prepared_products.forEach(function (prepared) {
                             unavailable_stock.forEach(function (stock) {
@@ -11572,7 +11583,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                       }
                     })["catch"](function (error) {
                       console.log(error);
-                    });
+                    }); //
                   } else {
                     _this8.disabled = false;
                   }
@@ -74205,6 +74216,20 @@ var render = function() {
                                         ]),
                                         _vm._v(" "),
                                         _c("td", [
+                                          _vm._v(
+                                            _vm._s(prepared.pivot.stock_display)
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _vm._v(
+                                            _vm._s(
+                                              prepared.pivot.packing_display
+                                            )
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", [
                                           _vm._v(_vm._s(prepared.packing) + " ")
                                         ]),
                                         _vm._v(" "),
@@ -74440,6 +74465,10 @@ var staticRenderFns = [
         _c("th", [_vm._v("Nom Produit")]),
         _vm._v(" "),
         _c("th", [_vm._v("Quantité")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Unités par display")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Displays par colis")]),
         _vm._v(" "),
         _c("th", [_vm._v("Colisage")]),
         _vm._v(" "),

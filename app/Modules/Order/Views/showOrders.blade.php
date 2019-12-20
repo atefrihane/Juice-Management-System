@@ -39,10 +39,13 @@
                                 <tr>
                                     <th>Code</th>
                                     <th class="date-create">Date et heure de création</th>
+                                    <th>Saisi par</th>
+                                    <th>Societé</th>
                                     <th>Magasin</th>
                                     <th>Code postal</th>
                                     <th>Montant (€)</th>
                                     <th>Commentaire</th>
+                                  
                                     <th>Etat</th>
                                     <th></th>
                                 </tr>
@@ -52,9 +55,12 @@
                                 <tr @if($order->status >=2) class="table-tr" @endif>
                                     <td data-url="{{route('showOrder',$order->id)}}">{{$order->code}}</td>
                                     <td data-url="{{route('showOrder',$order->id)}}">@formatDate($order->created_at)</td>
+                                    <td data-url="{{route('showOrder',$order->id)}}">{{ $order->histories->first()->user->formatName() }}</td>
+                                    <td data-url="{{route('showOrder',$order->id)}}">{{$order->store->company->name}}</td>
                                     <td data-url="{{route('showOrder',$order->id)}}">{{$order->store->designation}}</td>
                                     <td data-url="{{route('showOrder',$order->id)}}">{{$order->store->zipcode->code}}</td>
                                     <td data-url="{{route('showOrder',$order->id)}}">@convert($order->total)</td>
+                                   
                                     <td data-url="{{route('showOrder',$order->id)}}"> 
                                     @if($order->histories->first()) 
                                     @if($order->histories->first()->comment)

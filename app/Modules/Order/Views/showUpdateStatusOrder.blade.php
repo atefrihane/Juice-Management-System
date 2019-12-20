@@ -3,7 +3,7 @@
     .swal-btns > .swal2-actions > .swal2-styled.swal2-cancel,
     .swal-btns > .swal2-actions > .swal2-styled.swal2-confirm {
 
-        width: 300px !important;
+        width: 310px !important;
     }
     .v-spinner {
         position:absolute;
