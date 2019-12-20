@@ -211,7 +211,7 @@ class WarehouseController extends Controller
 
         ProductWarehouse::create($request->all());
         alert()->success('Succés!', 'Le produit a été ajouté avec succés')->persistent('Femer');
-        return redirect()->route('showWarehouses');
+        return redirect($request->url);
 
     }
 

@@ -39,7 +39,7 @@
                                 <tr>
                                     <th>Code</th>
                                     <th class="date-create">Date et heure de création</th>
-                                    <th>Saisi par</th>
+                                    <th>Saisie par</th>
                                     <th>Societé</th>
                                     <th>Magasin</th>
                                     <th>Code postal</th>

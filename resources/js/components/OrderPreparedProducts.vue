@@ -479,30 +479,33 @@
 
                         })
                         if (this.prepared_products.length > 0) {
-                            this.prepared_products.forEach(prepared => {
+
+                             this.prepared_products.forEach(prepared => {
                                 this.final_prepared.push({
                                     product_id: prepared[0].product.id,
                                     product_name: prepared[0].product.nom,
-                                    total: '',
-                                    total_rest:'',
+                                    total: 0,
+                                    total_rest: 0,
+                                    fullQuantity: 0,
                                     prepared_products: prepared,
                                     isLoading: false
                                 })
                             });
 
-
-
-
-
-                            this.final_prepared.forEach(final => {
+                              this.final_prepared.forEach(final => {
+                                 this.custom_ordered.forEach(ordered => {
+                                    if(ordered.product_id == final.product_id){
+                                        final.total_rest=ordered.unit
+                                        final.fullQuantity=ordered.unit
+                                    }
+                                })
 
                                 axios.get(`api/product/warehouses/${final.product_id}`)
                                     .then((response) => {
-                                        console.log(response.data.warehouse_products)
+
                                         this.warehouse_products = response.data.warehouse_products;
                                         if (this.warehouse_products.length > 0) {
-
-                                            this.warehouse_products.forEach(warehouse_product => {
+                                             this.warehouse_products.forEach(warehouse_product => {
                                                 let prepareIndex = final.prepared_products
                                                     .findIndex(preparedItem => preparedItem
                                                         .id == warehouse_product.pivot.id);
@@ -729,7 +732,7 @@
                                     pivot: {
                                         quantity: '',
                                           stock_display:warehouse.pivot.stock_display,
-                                                            packing_display:warehouse.pivot.packing_display
+                                        packing_display:warehouse.pivot.packing_display
                                     }
 
 

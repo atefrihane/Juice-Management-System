@@ -6336,16 +6336,23 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             _this2.final_prepared.push({
               product_id: prepared[0].product.id,
               product_name: prepared[0].product.nom,
-              total: '',
-              total_rest: '',
+              total: 0,
+              total_rest: 0,
+              fullQuantity: 0,
               prepared_products: prepared,
               isLoading: false
             });
           });
 
           _this2.final_prepared.forEach(function (_final2) {
+            _this2.custom_ordered.forEach(function (ordered) {
+              if (ordered.product_id == _final2.product_id) {
+                _final2.total_rest = ordered.unit;
+                _final2.fullQuantity = ordered.unit;
+              }
+            });
+
             axios.get("api/product/warehouses/".concat(_final2.product_id)).then(function (response) {
-              console.log(response.data.warehouse_products);
               _this2.warehouse_products = response.data.warehouse_products;
 
               if (_this2.warehouse_products.length > 0) {
