@@ -30,6 +30,8 @@
 
                                     <th>Nom Produit</th>
                                     <th>Quantité(nbr des unités)</th>
+                                    <th>Nombre d’unité par display</th>
+                                    <th>Nombre de display par colis</th>
                                     <th>Colisage</th>
                                     <th>Entrepôt</th>
                                     <th>Date de fabrication</th>
@@ -42,6 +44,8 @@
                                 <tr>
                                     <td>{{$warehouseProduct->product->nom}}</td>
                                     <td>{{$warehouseProduct->quantity}}</td>
+                                    <td>{{ $warehouseProduct->stock_display }}</td>
+                                    <td>{{ $warehouseProduct->packing_display }}</td>
                                     <td>{{$warehouseProduct->packing}}</td>
                                     <td>{{$warehouseProduct->warehouse->designation}}</td>
                                     <td> {{ Carbon\Carbon::parse($warehouseProduct->creation_date)->format('d-m-Y') }}</td>

@@ -8,7 +8,7 @@
 
     </section>
 
-    <div class="container" style="margin-top:50px;">
+    <div class="container-fluid" style="margin-top:50px;">
         <section class="content-header">
             <h1>
                 Informations de l'entrepôt
@@ -185,6 +185,8 @@
 
                             <th>Nom Produit</th>
                             <th>Quantité(nbr des unités)</th>
+                            <th>Nombre d’unité par display</th>
+                            <th>Nombre de display par colis</th>
                             <th>Colisage</th>
                             <th>Entrepôt</th>
                             <th>Date de fabrication</th>
@@ -197,6 +199,8 @@
                         <tr>
                             <td>{{$warehouseProduct->nom}}</td>
                             <td>{{$warehouseProduct->pivot->quantity}}</td>
+                            <td>{{ $warehouseProduct->pivot->stock_display }}</td>
+                            <td>{{ $warehouseProduct->pivot->packing_display }}</td>
                             <td>{{$warehouseProduct->packing}}</td>
                             <td>{{$warehouseProduct->designation}}</td>
                             <td> {{ Carbon\Carbon::parse($warehouseProduct->pivot->creation_date)->format('d-m-Y') }}</td>
