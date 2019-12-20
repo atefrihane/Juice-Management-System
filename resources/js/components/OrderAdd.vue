@@ -664,24 +664,23 @@
 
 
 
-
+           
                 this.ordered_products.forEach((ordered, index) => {
                     if (!ordered.product_id) {
-                        this.errors.push('Veuillez séléctionner un produit');
-                        window.scrollTo(0, 0);
+                        // this.errors.push('Veuillez séléctionner un produit');
+                        // window.scrollTo(0, 0);
                         x = false;
                         this.disabled = false;
                     }
                     if (!ordered.packing) {
-                        this.errors.push('Le champs nombre de colis est requis');
-                        window.scrollTo(0, 0);
+                        // this.errors.push('Le champs nombre de colis est requis');
+                        // window.scrollTo(0, 0);
                         x = false;
                         this.disabled = false;
                     }
 
                     if (!ordered.unit) {
-                        this.errors.push('Le champs nombre d\'unités est requis');
-                        window.scrollTo(0, 0);
+                       
                         x = false;
                         this.disabled = false;
                     }
@@ -690,7 +689,12 @@
 
                 });
 
+                if(!x)
+                {
+                     this.errors.push('Veuillez remplir tout les champs nécessaires pour les produits à commander');
+                        window.scrollTo(0, 0);
 
+                }
 
 
                 return x;

@@ -5720,29 +5720,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.ordered_products.forEach(function (ordered, index) {
         if (!ordered.product_id) {
-          _this6.errors.push('Veuillez séléctionner un produit');
-
-          window.scrollTo(0, 0);
+          // this.errors.push('Veuillez séléctionner un produit');
+          // window.scrollTo(0, 0);
           x = false;
           _this6.disabled = false;
         }
 
         if (!ordered.packing) {
-          _this6.errors.push('Le champs nombre de colis est requis');
-
-          window.scrollTo(0, 0);
+          // this.errors.push('Le champs nombre de colis est requis');
+          // window.scrollTo(0, 0);
           x = false;
           _this6.disabled = false;
         }
 
         if (!ordered.unit) {
-          _this6.errors.push('Le champs nombre d\'unités est requis');
-
-          window.scrollTo(0, 0);
           x = false;
           _this6.disabled = false;
         }
       });
+
+      if (!x) {
+        this.errors.push('Veuillez remplir tout les champs nécessaires pour les produits à commander');
+        window.scrollTo(0, 0);
+      }
+
       return x;
     },
     submitSaveOrder: function submitSaveOrder() {
@@ -8635,29 +8636,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.custom_ordered.forEach(function (ordered, index) {
         if (!ordered.product_id) {
-          _this9.errors.push('Veuillez séléctionner un produit');
-
-          window.scrollTo(0, 0);
+          // this.errors.push('Veuillez séléctionner un produit');
+          // window.scrollTo(0, 0);
           x = false;
           _this9.disabled = false;
         }
 
         if (!ordered["package"]) {
-          _this9.errors.push('Le champs nombre de colis est requis');
-
-          window.scrollTo(0, 0);
+          // this.errors.push('Le champs nombre de colis est requis');
+          // window.scrollTo(0, 0);
           x = false;
           _this9.disabled = false;
         }
 
         if (!ordered.unit) {
-          _this9.errors.push('Le champs nombre d\'unités est requis');
-
-          window.scrollTo(0, 0);
+          // this.errors.push('Le champs nombre d\'unités est requis');
+          // window.scrollTo(0, 0);
           x = false;
           _this9.disabled = false;
         }
       });
+
+      if (!x) {
+        this.errors.push('Veuillez remplir tout les champs nécessaires pour les produits à commander');
+        window.scrollTo(0, 0);
+      }
+
       return x;
     },
     saveOrder: function saveOrder() {
