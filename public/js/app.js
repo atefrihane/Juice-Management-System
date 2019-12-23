@@ -5488,20 +5488,54 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getCompanyData: function getCompanyData(event) {
       var _this2 = this;
 
-      var id = event.target.value;
-      this.stores = [];
-      axios.get('/api/companies/' + id).then(function (response) {
-        _this2.store_id = '';
-        _this2.stores = response.data.stores;
-      })["catch"](function (errdisor) {
-        console.log(error);
-      });
+      if (this.total_ht > 0) {
+        swal.fire(_defineProperty({
+          type: 'info',
+          title: 'Oups !',
+          html: "<b> Attention : </b> Le changement du magasin aura recours à la  reinitialisation des champs déja saisis ",
+          showConfirmButton: true,
+          confirmButtonText: 'Confirmer',
+          showCancelButton: true,
+          cancelButtonText: 'Fermer',
+          allowOutsideClick: false
+        }, "allowOutsideClick", false)).then(function (result) {
+          if (result.value) {
+            //if accepting to change the selected store(magasin) then reset oldIds array and add the newest one
+            _this2.total_ht = '';
+            _this2.total_tva = '';
+            _this2.total_order = '';
+            _this2.oldIds = [];
+
+            _this2.ordered_products.forEach(function (ordered) {
+              ordered.packing = '', ordered.unit = '', ordered.product_packing = '', ordered.total = '', ordered.public_price = '', ordered.product_total_tva = 0, ordered.tva = '', ordered.product_id = '';
+            });
+
+            var id = event.target.value;
+            _this2.stores = [];
+            axios.get('/api/companies/' + id).then(function (response) {
+              _this2.store_id = '';
+              _this2.stores = response.data.stores;
+            })["catch"](function (errdisor) {
+              console.log(error);
+            });
+          }
+        });
+      } else {
+        var id = event.target.value;
+        this.stores = [];
+        axios.get('/api/companies/' + id).then(function (response) {
+          _this2.store_id = '';
+          _this2.stores = response.data.stores;
+        })["catch"](function (errdisor) {
+          console.log(error);
+        });
+      }
     },
     getStoreData: function getStoreData(event) {
       var _this3 = this;
 
       //reset old items
-      //save old selected store  
+      //add every selected store  
       this.oldIds.push(event.target.value);
 
       if (this.total_ht > 0) {
@@ -5516,6 +5550,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           allowOutsideClick: false
         }, "allowOutsideClick", false)).then(function (result) {
           if (result.value) {
+            //if accepting to change the selected store(magasin) then reset oldIds array and add the newest one
             _this3.total_ht = '';
             _this3.total_tva = '';
             _this3.total_order = '';
@@ -5529,6 +5564,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
 
           if (result.dismiss == 'cancel') {
+            //get the first selected one since it's the oldest if canceling
             _this3.store_id = _this3.oldIds[0];
           }
         });

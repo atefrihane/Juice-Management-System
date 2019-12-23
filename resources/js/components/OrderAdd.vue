@@ -296,7 +296,7 @@
                 user_id: order.userId,
                 status: '',
                 disabled: false,
-                oldIds:[],
+                oldIds: [],
                 store: {
                     name: '',
                     address: '',
@@ -349,24 +349,6 @@
                     })
             },
             getCompanyData(event) {
-                let id = event.target.value;
-                this.stores = []
-                axios.get('/api/companies/' + id)
-                    .then((response) => {
-                        this.store_id = '';
-                        this.stores = response.data.stores;
-                    })
-                    .catch(function (errdisor) {
-
-                        console.log(error);
-                    })
-
-            },
-            getStoreData(event) {
-                //reset old items
-             //save old selected store  
-             this.oldIds.push(event.target.value)
-            
                 if (this.total_ht > 0) {
                     swal.fire({
                         type: 'info',
@@ -381,13 +363,84 @@
 
                     }).then((result) => {
                         if (result.value) {
-                            this.total_ht=''
-                            this.total_tva=''
-                            this.total_order=''
-                            this.oldIds=[]
+                            //if accepting to change the selected store(magasin) then reset oldIds array and add the newest one
+                            this.total_ht = ''
+                            this.total_tva = ''
+                            this.total_order = ''
+                            this.oldIds = []
+                            this.ordered_products.forEach(ordered => {
+                                ordered.packing = '',
+                                    ordered.unit = '',
+                                    ordered.product_packing = '',
+                                    ordered.total = '',
+                                    ordered.public_price = '',
+                                    ordered.product_total_tva = 0,
+                                    ordered.tva = '',
+                                    ordered.product_id = ''
+
+                            })
+
+                            let id = event.target.value;
+                            this.stores = []
+                            axios.get('/api/companies/' + id)
+                                .then((response) => {
+                                    this.store_id = '';
+                                    this.stores = response.data.stores;
+                                })
+                                .catch(function (errdisor) {
+
+                                    console.log(error);
+                                })
+                        }
+
+
+                    })
+
+                }
+                else{
+
+                      let id = event.target.value;
+                      this.stores = []
+                axios.get('/api/companies/' + id)
+                    .then((response) => {
+                        this.store_id = '';
+                        this.stores = response.data.stores;
+                    })
+                    .catch(function (errdisor) {
+
+                        console.log(error);
+                    })
+                }
+
+
+            },
+            getStoreData(event) {
+                //reset old items
+                //add every selected store  
+                this.oldIds.push(event.target.value)
+
+                if (this.total_ht > 0) {
+                    swal.fire({
+                        type: 'info',
+                        title: 'Oups !',
+                        html: "<b> Attention : </b> Le changement du magasin aura recours à la  reinitialisation des champs déja saisis ",
+                        showConfirmButton: true,
+                        confirmButtonText: 'Confirmer',
+                        showCancelButton: true,
+                        cancelButtonText: 'Fermer',
+                        allowOutsideClick: false,
+                        allowOutsideClick: false,
+
+                    }).then((result) => {
+                        if (result.value) {
+                            //if accepting to change the selected store(magasin) then reset oldIds array and add the newest one
+                            this.total_ht = ''
+                            this.total_tva = ''
+                            this.total_order = ''
+                            this.oldIds = []
                             this.oldIds.push(event.target.value)
                             this.ordered_products.forEach(ordered => {
-                                    ordered.packing = '',
+                                ordered.packing = '',
                                     ordered.unit = '',
                                     ordered.product_packing = '',
                                     ordered.total = '',
@@ -399,10 +452,10 @@
                             })
                         }
 
-                        if(result.dismiss =='cancel')
-                            {
-                            this.store_id=this.oldIds[0]
-                            }
+                        if (result.dismiss == 'cancel') {
+                            //get the first selected one since it's the oldest if canceling
+                            this.store_id = this.oldIds[0]
+                        }
                     })
 
                 } else {
@@ -502,15 +555,16 @@
                                 this.ordered_products[index].package = ''
                                 this.ordered_products[index].packing = ''
                                 this.ordered_products[index].total = ''
-                                this.clearOrderedProducts()  
+                                this.clearOrderedProducts()
 
                                 if (response.data.custom_price) {
-                                 
+
                                     this.ordered_products[index].product_packing = response.data.product.packing;
                                     this.ordered_products[index].public_price = response.data.custom_price.price;
                                     this.ordered_products[index].tva = response.data.product.tva;
-                                    this.ordered_products[index].public_price = this.convertCurrency(this.ordered_products[index].public_price)
-                                  
+                                    this.ordered_products[index].public_price = this.convertCurrency(this
+                                        .ordered_products[index].public_price)
+
                                 } else {
                                     this.ordered_products[index].product_packing = response.data.product.packing;
 
@@ -558,9 +612,9 @@
 
                 for (let i in this.ordered_products) {
                     if (this.ordered_products[i].total != "") {
-                      
+
                         this.total_ht += this.convertMoneyFormat(this.ordered_products[i].total);
-                       
+
                     }
 
                 }
@@ -570,7 +624,7 @@
 
                 for (let i in this.ordered_products) {
                     if (this.ordered_products[i].total != "") {
-                            
+
                         this.total_tva += (this.convertMoneyFormat(this.ordered_products[i].total) * this
                             .ordered_products[i].tva / 100);
 
@@ -580,9 +634,9 @@
 
 
                 // //  cout total de la commande  //
-             
+
                 this.total_order += this.total_ht + this.total_tva;
-            
+
 
             },
             removeOrdered(ordered) {
@@ -598,7 +652,7 @@
             },
             setOrderdPacking(ordered, index) {
 
-            
+
                 if (ordered.packing != '' && ordered.packing > 0) {
 
                     ordered.unit = ordered.packing * ordered.product_packing;
@@ -678,7 +732,7 @@
 
 
 
-           
+
                 this.ordered_products.forEach((ordered, index) => {
                     if (!ordered.product_id) {
                         // this.errors.push('Veuillez séléctionner un produit');
@@ -694,7 +748,7 @@
                     }
 
                     if (!ordered.unit) {
-                       
+
                         x = false;
                         this.disabled = false;
                     }
@@ -703,10 +757,9 @@
 
                 });
 
-                if(!x)
-                {
-                     this.errors.push('Veuillez remplir tout les champs nécessaires pour les produits à commander');
-                        window.scrollTo(0, 0);
+                if (!x) {
+                    this.errors.push('Veuillez remplir tout les champs nécessaires pour les produits à commander');
+                    window.scrollTo(0, 0);
 
                 }
 
