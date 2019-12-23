@@ -192,6 +192,7 @@ class WarehouseController extends Controller
 
     public function handleAddProductQuantity(Request $request)
     {
+       
    
 
         if ($request->product_id == 0) {

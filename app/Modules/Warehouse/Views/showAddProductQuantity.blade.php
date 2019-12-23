@@ -24,6 +24,7 @@
                     <form role="form" method="post" enctype="multipart/form-data"
                         action="{{route('handleAddProductQuantity')}}">
                         {{csrf_field()}}
+                <input type="hidden" name="url" value="{{url()->previous()}}">
 
                         <div class="box-body">
                             <div class="row">
