@@ -5501,6 +5501,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this3 = this;
 
       //reset old items
+      //save old selected store  
       this.oldIds.push(event.target.value);
 
       if (this.total_ht > 0) {
@@ -5515,13 +5516,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           allowOutsideClick: false
         }, "allowOutsideClick", false)).then(function (result) {
           if (result.value) {
+            _this3.total_ht = '';
+            _this3.total_tva = '';
+            _this3.total_order = '';
+            _this3.oldIds = [];
+
+            _this3.oldIds.push(event.target.value);
+
             _this3.ordered_products.forEach(function (ordered) {
               ordered.packing = '', ordered.unit = '', ordered.product_packing = '', ordered.total = '', ordered.public_price = '', ordered.product_total_tva = 0, ordered.tva = '', ordered.product_id = '';
             });
           }
 
           if (result.dismiss == 'cancel') {
-            _this3.store_id = _this3.oldIds[_this3.oldIds.length - 2];
+            _this3.store_id = _this3.oldIds[0];
           }
         });
       } else {

@@ -364,7 +364,9 @@
             },
             getStoreData(event) {
                 //reset old items
-                this.oldIds.push(event.target.value)
+             //save old selected store  
+             this.oldIds.push(event.target.value)
+            
                 if (this.total_ht > 0) {
                     swal.fire({
                         type: 'info',
@@ -379,8 +381,13 @@
 
                     }).then((result) => {
                         if (result.value) {
+                            this.total_ht=''
+                            this.total_tva=''
+                            this.total_order=''
+                            this.oldIds=[]
+                            this.oldIds.push(event.target.value)
                             this.ordered_products.forEach(ordered => {
-                                ordered.packing = '',
+                                    ordered.packing = '',
                                     ordered.unit = '',
                                     ordered.product_packing = '',
                                     ordered.total = '',
@@ -394,7 +401,7 @@
 
                         if(result.dismiss =='cancel')
                             {
-                            this.store_id=this.oldIds[this.oldIds.length-2]
+                            this.store_id=this.oldIds[0]
                             }
                     })
 
