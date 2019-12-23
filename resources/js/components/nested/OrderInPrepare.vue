@@ -361,8 +361,9 @@
                                         custom.total = this.convertCurrency(this.convertMoneyFormat(
                                             custom
                                             .public_price) * custom.unit)
-                                        this.clearOrderedProducts()
+
                                     }
+                                    this.clearOrderedProducts()
 
 
                                 })
@@ -391,9 +392,9 @@
 
                             this.final_prepared.forEach(final => {
                                 this.custom_ordered.forEach(ordered => {
-                                    if(ordered.product_id == final.product_id){
-                                        final.total_rest=ordered.unit
-                                           final.fullQuantity=ordered.unit
+                                    if (ordered.product_id == final.product_id) {
+                                        final.total_rest = ordered.unit
+                                        final.fullQuantity = ordered.unit
                                     }
                                 })
 
@@ -462,10 +463,10 @@
                             });
 
                             this.final_prepared.forEach(final => {
-                                 this.custom_ordered.forEach(ordered => {
-                                    if(ordered.product_id == final.product_id){
-                                        final.total_rest=ordered.unit
-                                           final.fullQuantity=ordered.unit
+                                this.custom_ordered.forEach(ordered => {
+                                    if (ordered.product_id == final.product_id) {
+                                        final.total_rest = ordered.unit
+                                        final.fullQuantity = ordered.unit
                                     }
                                 })
 
@@ -526,16 +527,16 @@
                     })
             },
             loadPrepared() {
-              
+
                 this.final_prepared.push({
                     products: this.products,
                     total: 0,
-                    total_rest:0,
-                    fullQuantity:0,
+                    total_rest: 0,
+                    fullQuantity: 0,
                     prepared_products: [],
                     product_id: '',
                     isLoading: false,
-                    })
+                })
             },
             removePrepared(final) {
 
@@ -601,14 +602,13 @@
 
                     this.final_prepared[i].isLoading = true
 
-                        this.custom_ordered.forEach(custom => {
-                         if(custom.product_id == this.final_prepared[i].product_id)
-                         {
-                             this.final_prepared[i].total_rest=custom.unit
-                               this.final_prepared[i].fullQuantity=custom.unit
-                         }   
+                    this.custom_ordered.forEach(custom => {
+                        if (custom.product_id == this.final_prepared[i].product_id) {
+                            this.final_prepared[i].total_rest = custom.unit
+                            this.final_prepared[i].fullQuantity = custom.unit
+                        }
 
-                        })
+                    })
 
 
                     axios.get('api/product/warehouses/' + id)
@@ -933,27 +933,12 @@
                                                             final.prepared_products.forEach(
                                                                 prepared => {
 
-                                                                    unavailable_stock
-                                                                        .forEach(
-                                                                            stock => {
-                                                                                if (prepared
-                                                                                    .id ==
-                                                                                    stock
-                                                                                    .id
-                                                                                ) {
-                                                                                    prepared
-                                                                                        .quantity =
-                                                                                        stock
-                                                                                        .quantity
-                                                                                    prepared
-                                                                                        .pivot
-                                                                                        .quantity =
-                                                                                        ''
-
-                                                                                }
-
-
-                                                                            });
+                                                        unavailable_stock.forEach(stock => {
+                                                        if (prepared.id ==stock.id) {
+                                                            prepared.quantity=stock.quantity
+                                                            prepared.pivot.quantity = ''
+                                                                                    
+                                                                    }});
 
                                                                 });
 
@@ -967,11 +952,11 @@
                                                 .catch((error) => {
                                                     console.log(error);
                                                 });
-                                         
+
 
                                         } else if (result.dismiss == 'cancel') {
                                             // commande normal
-                                                axios.post(
+                                            axios.post(
                                                     `/api/order/${this.order_id}/prepare/submit`, {
                                                         final_prepared: this.final_prepared,
                                                         new_status: this.new_status,
@@ -1007,10 +992,17 @@
                                                         })
 
                                                         this.final_prepared.forEach(final => {
-                                                            final.prepared_products.forEach(prepared => {
+                                                            final.prepared_products.forEach(
+                                                                prepared => {
 
-                                                            unavailable_stock.forEach(stock => {
-                                                        if (prepared.id ==stock.id) {
+                                                                    unavailable_stock
+                                                                        .forEach(
+                                                                            stock => {
+                                                                                if (prepared
+                                                                                    .id ==
+                                                                                    stock
+                                                                                    .id
+                                                                                    ) {
                                                                                     prepared
                                                                                         .quantity =
                                                                                         stock
@@ -1034,9 +1026,9 @@
                                                 })
                                                 .catch((error) => {
                                                     console.log(error);
-                                                });       
+                                                });
                                             //
-                                            
+
 
                                         } else {
 
@@ -1071,6 +1063,51 @@
                                             }
 
                                         })
+                                    }
+
+                                    if (response.data.status == 400) {
+                                        this.disabled = false;
+                                        let unavailable_stock = response.data
+                                            .unavailableStock;
+                                        swal.fire({
+                                            type: 'error',
+                                            title: 'Stock epuisé !',
+                                            showConfirmButton: true,
+                                            allowOutsideClick: false,
+                                            confirmButtonText: 'Fermer'
+                                        })
+
+                                        this.final_prepared.forEach(final => {
+                                            final.prepared_products.forEach(
+                                                prepared => {
+
+                                                    unavailable_stock
+                                                        .forEach(
+                                                            stock => {
+                                                                if (prepared
+                                                                    .id ==
+                                                                    stock
+                                                                    .id
+                                                                ) {
+                                                                    prepared
+                                                                        .quantity =
+                                                                        stock
+                                                                        .quantity
+                                                                    prepared
+                                                                        .pivot
+                                                                        .quantity =
+                                                                        ''
+
+                                                                }
+
+
+                                                            });
+
+                                                });
+
+                                        });
+
+
                                     }
                                 })
                                 .catch((error) => {

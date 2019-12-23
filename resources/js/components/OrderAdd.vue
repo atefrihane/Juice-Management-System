@@ -296,6 +296,7 @@
                 user_id: order.userId,
                 status: '',
                 disabled: false,
+                oldIds:[],
                 store: {
                     name: '',
                     address: '',
@@ -355,7 +356,7 @@
                         this.store_id = '';
                         this.stores = response.data.stores;
                     })
-                    .catch(function (error) {
+                    .catch(function (errdisor) {
 
                         console.log(error);
                     })
@@ -363,6 +364,7 @@
             },
             getStoreData(event) {
                 //reset old items
+                this.oldIds.push(event.target.value)
                 if (this.total_ht > 0) {
                     swal.fire({
                         type: 'info',
@@ -389,6 +391,11 @@
 
                             })
                         }
+
+                        if(result.dismiss =='cancel')
+                            {
+                            this.store_id=this.oldIds[this.oldIds.length-2]
+                            }
                     })
 
                 } else {

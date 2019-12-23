@@ -41,13 +41,13 @@
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
             /* display: none; <- Crashes Chrome on hover */
-            -webkit-appearance: none;
-            margin: 0;
+            -webkit-appearance: none !important;
+            margin: 0 !important;
             /* <-- Apparently some margin are still there even though it's hidden */
         }
 
         input[type=number] {
-            -moz-appearance: textfield;
+            -moz-appearance: textfield !important;
             /* Firefox */
         }
 

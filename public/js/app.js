@@ -5443,6 +5443,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       user_id: order.userId,
       status: '',
       disabled: false,
+      oldIds: [],
       store: {
         name: '',
         address: '',
@@ -5492,7 +5493,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios.get('/api/companies/' + id).then(function (response) {
         _this2.store_id = '';
         _this2.stores = response.data.stores;
-      })["catch"](function (error) {
+      })["catch"](function (errdisor) {
         console.log(error);
       });
     },
@@ -5500,6 +5501,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this3 = this;
 
       //reset old items
+      this.oldIds.push(event.target.value);
+
       if (this.total_ht > 0) {
         swal.fire(_defineProperty({
           type: 'info',
@@ -5515,6 +5518,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             _this3.ordered_products.forEach(function (ordered) {
               ordered.packing = '', ordered.unit = '', ordered.product_packing = '', ordered.total = '', ordered.public_price = '', ordered.product_total_tva = 0, ordered.tva = '', ordered.product_id = '';
             });
+          }
+
+          if (result.dismiss == 'cancel') {
+            _this3.store_id = _this3.oldIds[_this3.oldIds.length - 2];
           }
         });
       } else {
@@ -6333,6 +6340,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
         if (_this2.prepared_products.length > 0) {
           _this2.prepared_products.forEach(function (prepared) {
+            console.log('***');
+
             _this2.final_prepared.push({
               product_id: prepared[0].product.id,
               product_name: prepared[0].product.nom,
@@ -6373,10 +6382,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                       warehouse: {
                         designation: warehouse_product.designation
                       },
+                      stock_display: warehouse_product.pivot.stock_display,
+                      packing_display: warehouse_product.pivot.packing_display,
                       pivot: {
-                        quantity: '',
-                        stock_display: warehouse_product.pivot.stock_display,
-                        packing_display: warehouse_product.pivot.packing_display
+                        quantity: ''
                       }
                     });
                   }
@@ -6425,10 +6434,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                       warehouse: {
                         designation: warehouse_product.designation
                       },
+                      stock_display: warehouse_product.pivot.stock_display,
+                      packing_display: warehouse_product.pivot.packing_display,
                       pivot: {
-                        quantity: '',
-                        stock_display: warehouse_product.pivot.stock_display,
-                        packing_display: warehouse_product.pivot.packing_display
+                        quantity: ''
                       }
                     });
                   }
@@ -6533,10 +6542,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
               packing: warehouse.pivot.packing,
               creation_date: warehouse.pivot.creation_date,
               expiration_date: warehouse.pivot.expiration_date,
+              stock_display: warehouse.pivot.stock_display,
+              packing_display: warehouse.pivot.packing_display,
               pivot: {
-                quantity: '',
-                stock_display: warehouse.pivot.stock_display,
-                packing_display: warehouse.pivot.packing_display
+                quantity: ''
               }
             }); // this.clearOrderedProducts()
 
@@ -6584,6 +6593,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           if (!prepared.product_id) {
             _this5.errors.push('Veuillez séléctionner un produit ');
 
+            window.scrollTo(0, 0);
             x = false;
           }
         });
@@ -6594,6 +6604,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
         if (count <= 0) {
           this.errors.push('Veuillez renseigner au moins une quantité à préparer  ');
+          window.scrollTo(0, 0);
           x = false;
         }
       }
@@ -6601,6 +6612,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       return x;
     },
     submitOrderPreparedProducts: function submitOrderPreparedProducts() {
+      var _this6 = this;
+
       var validation = this.validateForm();
 
       if (validation) {
@@ -6621,13 +6634,30 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 window.location = axios.defaults.baseURL + '/orders';
               }
             });
-          } else {
+          }
+
+          if (response.data.status == 400) {
+            var unavailable_stock = response.data.unavailableStock;
             swal.fire({
               type: 'error',
-              title: 'Echec!',
+              title: 'Stock epuisé !',
               showConfirmButton: true,
+              allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
+
+            _this6.final_prepared.forEach(function (_final6) {
+              _final6.prepared_products.forEach(function (prepared) {
+                unavailable_stock.forEach(function (stock) {
+                  if (prepared.id == stock.id) {
+                    prepared.quantity = stock.quantity;
+                    prepared.pivot.quantity = '';
+                  }
+                });
+              });
+            });
+
+            _this6.disabled = false;
           }
         })["catch"](function (error) {
           console.log(error);
@@ -11090,9 +11120,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             if (response.data.custom_price) {
               custom.public_price = _this2.convertCurrency(response.data.custom_price.price);
               custom.total = _this2.convertCurrency(_this2.convertMoneyFormat(custom.public_price) * custom.unit);
-
-              _this2.clearOrderedProducts();
             }
+
+            _this2.clearOrderedProducts();
           })["catch"](function (error) {
             console.log(error);
           });
@@ -11618,6 +11648,29 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                   }
                 });
               }
+
+              if (response.data.status == 400) {
+                _this8.disabled = false;
+                var unavailable_stock = response.data.unavailableStock;
+                swal.fire({
+                  type: 'error',
+                  title: 'Stock epuisé !',
+                  showConfirmButton: true,
+                  allowOutsideClick: false,
+                  confirmButtonText: 'Fermer'
+                });
+
+                _this8.final_prepared.forEach(function (_final8) {
+                  _final8.prepared_products.forEach(function (prepared) {
+                    unavailable_stock.forEach(function (stock) {
+                      if (prepared.id == stock.id) {
+                        prepared.quantity = stock.quantity;
+                        prepared.pivot.quantity = '';
+                      }
+                    });
+                  });
+                });
+              }
             })["catch"](function (error) {
               console.log(error);
             });
@@ -11626,19 +11679,19 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       }
     },
     clearPreparedProducts: function clearPreparedProducts() {
-      this.final_prepared.forEach(function (_final8) {
-        _final8.total = 0;
+      this.final_prepared.forEach(function (_final9) {
+        _final9.total = 0;
 
-        _final8.prepared_products.forEach(function (prepared) {
+        _final9.prepared_products.forEach(function (prepared) {
           if (prepared.pivot.quantity != '') {
-            _final8.total += prepared.pivot.quantity;
+            _final9.total += prepared.pivot.quantity;
           }
         });
 
-        _final8.total_rest = _final8.fullQuantity - _final8.total;
+        _final9.total_rest = _final9.fullQuantity - _final9.total;
 
-        if (_final8.total_rest < 0) {
-          _final8.total_rest = 0;
+        if (_final9.total_rest < 0) {
+          _final9.total_rest = 0;
         }
       });
     },
@@ -74223,16 +74276,12 @@ var render = function() {
                                         ]),
                                         _vm._v(" "),
                                         _c("td", [
-                                          _vm._v(
-                                            _vm._s(prepared.pivot.stock_display)
-                                          )
+                                          _vm._v(_vm._s(prepared.stock_display))
                                         ]),
                                         _vm._v(" "),
                                         _c("td", [
                                           _vm._v(
-                                            _vm._s(
-                                              prepared.pivot.packing_display
-                                            )
+                                            _vm._s(prepared.packing_display)
                                           )
                                         ]),
                                         _vm._v(" "),

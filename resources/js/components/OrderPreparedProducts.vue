@@ -220,8 +220,8 @@
                                                     <tr v-for="(prepared,index) in final.prepared_products">
                                                         <td>{{final.product_name}} </td>
                                                         <td>{{prepared.quantity}} </td>
-                                                        <td>{{prepared.pivot.stock_display}}</td>
-                                                        <td>{{prepared.pivot.packing_display}}</td>
+                                                        <td>{{prepared.stock_display}}</td>
+                                                        <td>{{prepared.packing_display}}</td>
                                                         <td>{{prepared.packing}} </td>
                                                         <td>{{prepared.warehouse.designation}} </td>
                                                         <td>{{prepared.creation_date}} </td>
@@ -481,6 +481,7 @@
                         if (this.prepared_products.length > 0) {
 
                              this.prepared_products.forEach(prepared => {
+                                 console.log('***')
                                 this.final_prepared.push({
                                     product_id: prepared[0].product.id,
                                     product_name: prepared[0].product.nom,
@@ -527,10 +528,11 @@
                                                             designation: warehouse_product
                                                                 .designation
                                                         },
+                                                                stock_display:warehouse_product.pivot.stock_display,
+                                                            packing_display:warehouse_product.pivot.packing_display,
                                                         pivot: {
                                                             quantity: '',
-                                                            stock_display:warehouse_product.pivot.stock_display,
-                                                            packing_display:warehouse_product.pivot.packing_display
+                                                    
                                                         }
 
 
@@ -596,10 +598,11 @@
                                                             designation: warehouse_product
                                                                 .designation
                                                         },
+                                                            stock_display:warehouse_product.pivot.stock_display,
+                                                            packing_display:warehouse_product.pivot.packing_display,
                                                         pivot: {
                                                             quantity: '',
-                                                              stock_display:warehouse_product.pivot.stock_display,
-                                                            packing_display:warehouse_product.pivot.packing_display
+                                                          
                                                         }
 
 
@@ -729,10 +732,11 @@
                                     packing: warehouse.pivot.packing,
                                     creation_date: warehouse.pivot.creation_date,
                                     expiration_date: warehouse.pivot.expiration_date,
+                                       stock_display:warehouse.pivot.stock_display,
+                                        packing_display:warehouse.pivot.packing_display,
                                     pivot: {
                                         quantity: '',
-                                          stock_display:warehouse.pivot.stock_display,
-                                        packing_display:warehouse.pivot.packing_display
+                                       
                                     }
 
 
@@ -799,6 +803,7 @@
 
                         if (!prepared.product_id) {
                             this.errors.push('Veuillez séléctionner un produit ')
+                                window.scrollTo(0, 0);
 
                             x = false;
                         }
@@ -813,6 +818,7 @@
                     });
                     if (count <= 0) {
                         this.errors.push('Veuillez renseigner au moins une quantité à préparer  ')
+                            window.scrollTo(0, 0);
                         x = false;
                     }
 
@@ -831,30 +837,49 @@
                             user_id: this.user_id
 
                         })
-                        .then(function (response) {
-                            if (response.data.status == 200) {
-                                swal.fire({
-                                    type: 'success',
-                                    title: 'Les produits ont été ajoutés avec succés !',
-                                    showConfirmButton: true,
-                                    allowOutsideClick: false,
-                                    confirmButtonText: 'Fermer'
-                                }).then((result) => {
-                                    if (result.value) {
-                                        window.location = axios.defaults.baseURL + '/orders';
-                                    }
-                                })
-                            } else {
-                                swal.fire({
-                                    type: 'error',
-                                    title: 'Echec!',
-                                    showConfirmButton: true,
+                        .then( (response) =>  {
+                                                if (response.data.status == 200) {
+                                                    swal.fire({
+                                                        type: 'success',
+                                                        title: 'Les produits ont été ajoutés avec succés !',
+                                                        showConfirmButton: true,
+                                                        allowOutsideClick: false,
+                                                        confirmButtonText: 'Fermer'
+                                                    }).then((result) => {
+                                                        if (result.value) {
+                                                            window.location = axios.defaults.baseURL + '/orders';
+                                                        }
+                                                    })
+                                                } 
 
-                                    confirmButtonText: 'Fermer'
 
-                                });
+                                             if (response.data.status == 400) {
+                                                   
+                                                    let unavailable_stock = response.data.unavailableStock;
+                                                        swal.fire({
+                                                            type: 'error',
+                                                            title: 'Stock epuisé !',
+                                                            showConfirmButton: true,
+                                                            allowOutsideClick: false,
+                                                            confirmButtonText: 'Fermer'
+                                                        })
+                                                    this.final_prepared.forEach(final => {
+                                                    final.prepared_products.forEach( prepared => {
+                                                    unavailable_stock.forEach(stock => {
+                                                    if (prepared.id ==stock.id) {
+                                                        prepared.quantity=stock.quantity
+                                                        prepared.pivot.quantity = ''
+                                                                     }
+                                                                    });
 
-                            }
+                                                                });
+
+                                                        });
+
+                                                             this.disabled = false;
+
+
+                                                    }
                         })
                         .catch(function (error) {
                             console.log(error);

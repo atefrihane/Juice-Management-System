@@ -68,9 +68,9 @@ class OrderController extends Controller
             $ordered_products = $order->products()->withPivot('package', 'unit')->get();
 
             $order_history = OrderHistory::with('user')
-            ->where('order_id', $order->id)
-            ->orderBy('created_at','DESC')
-            ->get();
+                ->where('order_id', $order->id)
+                ->orderBy('created_at', 'DESC')
+                ->get();
             $prepared_products_as_object = $order->productwarehouses()->with('product', 'warehouse')->get()->groupBy('product.id');
             $store = Store::with('country', 'city', 'zipcode')->where('id', $order->store_id)->first();
 
@@ -226,7 +226,7 @@ class OrderController extends Controller
         return response()->json(['status' => 404]);
 
     }
-    public function handlePreparation($id, $request, $check)
+    public function handlePreparation($id, $request)
     {
         $order = Order::find($id);
 
@@ -258,54 +258,52 @@ class OrderController extends Controller
 
             $allStock = DB::table('product_warehouse')->get();
             //update stock items in the warehouses
-            if ($check == 1) {
 
-                $newStock = [];
-                $unavailableStock = []; // if there is no more available quantity in a specific warehouse
-                $newArray = [];
-                // compare quantity in stock with upcomping one
-                foreach ($allStock as $stock) {
+            $newStock = [];
+            $unavailableStock = []; // if there is no more available quantity in a specific warehouse
+            $newArray = [];
+            // compare quantity in stock with upcomping one
+            foreach ($allStock as $stock) {
 
-                    foreach ($newProducts as $newProduct) {
-                        if ($stock->id == $newProduct['product_warehouse_id']) {
-                            if ($stock->quantity >= $newProduct['quantity']) {
-                                $newArray = [
-                                    'quantity' => $stock->quantity - $newProduct['quantity'],
-                                    'id' => $newProduct['product_warehouse_id'],
+                foreach ($newProducts as $newProduct) {
+                    if ($stock->id == $newProduct['product_warehouse_id']) {
+                        if ($stock->quantity >= $newProduct['quantity']) {
+                            $newArray = [
+                                'quantity' => $stock->quantity - $newProduct['quantity'],
+                                'id' => $newProduct['product_warehouse_id'],
 
-                                ];
+                            ];
 
-                                array_push($newStock, $newArray);
+                            array_push($newStock, $newArray);
 
-                            } else {
-                                $newArray = [
-                                    'quantity' => $stock->quantity,
-                                    'id' => $newProduct['product_warehouse_id'],
+                        } else {
+                            $newArray = [
+                                'quantity' => $stock->quantity,
+                                'id' => $newProduct['product_warehouse_id'],
 
-                                ];
+                            ];
 
-                                array_push($unavailableStock, $newArray);
-
-                            }
+                            array_push($unavailableStock, $newArray);
 
                         }
+
                     }
                 }
+            }
 
-                //returns array of unsufficient data
-                if (count($unavailableStock) > 0) {
+            //returns array of unsufficient data
+            if (count($unavailableStock) > 0) {
 
-                    return $unavailableStock;
-
-                }
-
-                //bulk update
-                $stockInstance = new ProductWarehouse;
-                $index = 'id';
-
-                \Batch::update($stockInstance, $newStock, $index);
+                return $unavailableStock;
 
             }
+
+            //bulk update
+            $stockInstance = new ProductWarehouse;
+            $index = 'id';
+
+            \Batch::update($stockInstance, $newStock, $index);
+
             //add new prepared products
             DB::table('order_prepare')->insert($newProducts);
 
@@ -323,9 +321,14 @@ class OrderController extends Controller
     }
 
     public function handleOrderPreparedProducts($id, Request $request)
-    { // 0 =   add prepared products without updating warehouse stock //   1 =  vice versa
-        $checkPreparation = $this->handlePreparation($id, $request, 0);
+    { 
+        $checkPreparation = $this->handlePreparation($id, $request);
         if ($checkPreparation) {
+
+            if (is_array($checkPreparation)) {
+                return response()->json(['status' => 400, 'unavailableStock' => $checkPreparation]);
+
+            }
             return response()->json(['status' => 200]);
         }
         return response()->json(['status' => 404]);
@@ -433,11 +436,10 @@ class OrderController extends Controller
 
             } else {
 
-                $checkPreparation = $this->handlePreparation($id, $request, 1);
-              
+                $checkPreparation = $this->handlePreparation($id, $request);
 
                 if ($checkPreparation) {
-               
+
                     if (is_array($checkPreparation)) {
                         return response()->json(['status' => 400, 'unavailableStock' => $checkPreparation]);
 
