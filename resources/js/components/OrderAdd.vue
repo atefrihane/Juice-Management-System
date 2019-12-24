@@ -297,6 +297,7 @@
                 status: '',
                 disabled: false,
                 oldIds: [],
+                oldCompanyIds : [],
                 store: {
                     name: '',
                     address: '',
@@ -349,6 +350,7 @@
                     })
             },
             getCompanyData(event) {
+                this.oldCompanyIds.push(event.target.value)
                 if (this.total_ht > 0) {
                     swal.fire({
                         type: 'info',
@@ -368,6 +370,7 @@
                             this.total_tva = ''
                             this.total_order = ''
                             this.oldIds = []
+                            this.oldCompanyIds = []
                             this.ordered_products.forEach(ordered => {
                                 ordered.packing = '',
                                     ordered.unit = '',
@@ -391,6 +394,11 @@
 
                                     console.log(error);
                                 })
+                        }
+
+                          if (result.dismiss == 'cancel') {
+                            //get the first selected one since it's the oldest if canceling
+                            this.company_id = this.oldCompanyIds[0]
                         }
 
 

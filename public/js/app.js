@@ -5444,6 +5444,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       status: '',
       disabled: false,
       oldIds: [],
+      oldCompanyIds: [],
       store: {
         name: '',
         address: '',
@@ -5488,6 +5489,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getCompanyData: function getCompanyData(event) {
       var _this2 = this;
 
+      this.oldCompanyIds.push(event.target.value);
+
       if (this.total_ht > 0) {
         swal.fire(_defineProperty({
           type: 'info',
@@ -5505,6 +5508,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             _this2.total_tva = '';
             _this2.total_order = '';
             _this2.oldIds = [];
+            _this2.oldCompanyIds = [];
 
             _this2.ordered_products.forEach(function (ordered) {
               ordered.packing = '', ordered.unit = '', ordered.product_packing = '', ordered.total = '', ordered.public_price = '', ordered.product_total_tva = 0, ordered.tva = '', ordered.product_id = '';
@@ -5518,6 +5522,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             })["catch"](function (errdisor) {
               console.log(error);
             });
+          }
+
+          if (result.dismiss == 'cancel') {
+            //get the first selected one since it's the oldest if canceling
+            _this2.company_id = _this2.oldCompanyIds[0];
           }
         });
       } else {
