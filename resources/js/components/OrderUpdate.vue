@@ -368,11 +368,11 @@
                                 package: ordered.pivot.package,
                                 unit: ordered.pivot.unit,
                                 product_packing: ordered.packing,
-                                public_price: this.convertCurrency(ordered.public_price),
-                                tva: ordered.tva,
+                                public_price: this.convertCurrency(ordered.pivot.custom_price),
+                                tva: ordered.pivot.custom_tva,
                                 products: this.products,
                                 product_id: ordered.id,
-                                total: this.convertCurrency(parseFloat(ordered.public_price) *
+                                total: this.convertCurrency(parseFloat(ordered.pivot.custom_price) *
                                     ordered.pivot.unit),
                                 product_total_tva: ordered.tva
 
@@ -389,36 +389,38 @@
                         this.store.city=response.data.store.city.name
                         this.store.zipcode=response.data.store.zipcode.code
 
+                        this.clearOrderedProducts()
 
-                        this.custom_ordered.forEach(custom => {
-                            axios.post('api/product/prices/' + custom.product_id, {
-                                    store_id: this.store_id
-                                })
-                                .then((response) => {
+
+                        // this.custom_ordered.forEach(custom => {
+                        //     axios.post('api/product/prices/' + custom.product_id, {
+                        //             store_id: this.store_id
+                        //         })
+                        //         .then((response) => {
                                    
 
-                                    if (response.data.custom_price) {
+                        //             if (response.data.custom_price) {
                                       
-                                        custom.public_price = this.convertCurrency(response.data.custom_price.price)
-                                        custom.total = this.convertCurrency(this.convertMoneyFormat(custom
-                                            .public_price) * custom.unit)
-                                        // this.clearOrderedProducts()
-                                    }
-                                     this.clearOrderedProducts()
+                        //                 custom.public_price = this.convertCurrency(response.data.custom_price.price)
+                        //                 custom.total = this.convertCurrency(this.convertMoneyFormat(custom
+                        //                     .public_price) * custom.unit)
+                        //                 // this.clearOrderedProducts()
+                        //             }
+                        //              this.clearOrderedProducts()
 
-                                    // this.total_ht += (parseInt(custom.public_price) * parseInt(custom
-                                    //     .unit));
-                                    // this.total_tva += (parseInt(custom.total) * parseInt(custom.tva) /
-                                    //     100);
-                                    // this.total_order = this.total_ht + this.total_tva;
+                        //             // this.total_ht += (parseInt(custom.public_price) * parseInt(custom
+                        //             //     .unit));
+                        //             // this.total_tva += (parseInt(custom.total) * parseInt(custom.tva) /
+                        //             //     100);
+                        //             // this.total_order = this.total_ht + this.total_tva;
 
 
-                                })
-                                .catch(function (error) {
-                                    console.log(error);
-                                })
+                        //         })
+                        //         .catch(function (error) {
+                        //             console.log(error);
+                        //         })
 
-                        })
+                        // })
 
 
                     })

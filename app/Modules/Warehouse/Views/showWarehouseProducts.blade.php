@@ -30,8 +30,8 @@
 
                                     <th>Nom Produit</th>
                                     <th>Quantité(nbr des unités)</th>
-                                    <th>Nombre d’unité par display</th>
-                                    <th>Nombre de display par colis</th>
+                                    <th>Unités par diplay</th>
+                                    <th>Displays par colis</th>
                                     <th>Colisage</th>
                                     <th>Entrepôt</th>
                                     <th>Date de fabrication</th>

@@ -14,6 +14,7 @@ class OrderController extends Controller
 {
     public function handleSaveOrder(Request $request)
     {
+        
 
         $checkCount = Order::count();
         if ($checkCount > 0) {
@@ -39,6 +40,8 @@ class OrderController extends Controller
                 $customisedProduct = [
                     'package' => (int) $ordered['packing'],
                     'unit' => (int) $ordered['unit'],
+                    'custom_price' => $ordered['public_price'],
+                    'custom_tva' => $ordered['tva'],
                     'order_id' => $order->id,
                     'product_id' => $ordered['product_id'],
                 ];
@@ -65,7 +68,7 @@ class OrderController extends Controller
         $order = Order::find($id);
 
         if ($order) {
-            $ordered_products = $order->products()->withPivot('package', 'unit')->get();
+            $ordered_products = $order->products()->withPivot('package', 'unit','custom_price','custom_tva')->get();
 
             $order_history = OrderHistory::with('user')
                 ->where('order_id', $order->id)
@@ -146,11 +149,14 @@ class OrderController extends Controller
             $newProducts = [];
             $customisedProduct = [];
 
+
             foreach ($request->custom_ordered as $custom) {
 
                 $customisedProduct = [
                     'package' => (int) $custom['package'],
                     'unit' => (int) $custom['unit'],
+                    'custom_price'=> $custom['public_price'],
+                    'custom_tva' => $custom['tva'],
                     'order_id' => $order->id,
                     'product_id' => $custom['product_id'],
                 ];
@@ -321,7 +327,7 @@ class OrderController extends Controller
     }
 
     public function handleOrderPreparedProducts($id, Request $request)
-    { 
+    {
         $checkPreparation = $this->handlePreparation($id, $request);
         if ($checkPreparation) {
 
@@ -447,7 +453,7 @@ class OrderController extends Controller
                         if ($request->balance) {
                             $total = array_sum(array_column($request->balance, 'qty'));
                             $balanceOrder = Order::create([
-                                'code' => $order->code . '-req',
+                                'code' => $order->code . '-relq',
                                 'status' => 2,
                                 'total' => $total,
                                 'store_id' => $order->store_id,

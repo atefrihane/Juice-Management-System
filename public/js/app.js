@@ -7652,11 +7652,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             "package": ordered.pivot["package"],
             unit: ordered.pivot.unit,
             product_packing: ordered.packing,
-            public_price: _this3.convertCurrency(ordered.public_price),
-            tva: ordered.tva,
+            public_price: _this3.convertCurrency(ordered.pivot.custom_price),
+            tva: ordered.pivot.custom_tva,
             products: _this3.products,
             product_id: ordered.id,
-            total: _this3.convertCurrency(parseFloat(ordered.public_price) * ordered.pivot.unit),
+            total: _this3.convertCurrency(parseFloat(ordered.pivot.custom_price) * ordered.pivot.unit),
             product_total_tva: ordered.tva
           });
         });
@@ -8447,11 +8447,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             "package": ordered.pivot["package"],
             unit: ordered.pivot.unit,
             product_packing: ordered.packing,
-            public_price: _this.convertCurrency(ordered.public_price),
-            tva: ordered.tva,
+            public_price: _this.convertCurrency(ordered.pivot.custom_price),
+            tva: ordered.pivot.custom_tva,
             products: _this.products,
             product_id: ordered.id,
-            total: _this.convertCurrency(parseFloat(ordered.public_price) * ordered.pivot.unit),
+            total: _this.convertCurrency(parseFloat(ordered.pivot.custom_price) * ordered.pivot.unit),
             product_total_tva: ordered.tva
           });
         });
@@ -8463,25 +8463,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this.store.city = response.data.store.city.name;
         _this.store.zipcode = response.data.store.zipcode.code;
 
-        _this.custom_ordered.forEach(function (custom) {
-          axios.post('api/product/prices/' + custom.product_id, {
-            store_id: _this.store_id
-          }).then(function (response) {
-            if (response.data.custom_price) {
-              custom.public_price = _this.convertCurrency(response.data.custom_price.price);
-              custom.total = _this.convertCurrency(_this.convertMoneyFormat(custom.public_price) * custom.unit); // this.clearOrderedProducts()
-            }
+        _this.clearOrderedProducts(); // this.custom_ordered.forEach(custom => {
+        //     axios.post('api/product/prices/' + custom.product_id, {
+        //             store_id: this.store_id
+        //         })
+        //         .then((response) => {
+        //             if (response.data.custom_price) {
+        //                 custom.public_price = this.convertCurrency(response.data.custom_price.price)
+        //                 custom.total = this.convertCurrency(this.convertMoneyFormat(custom
+        //                     .public_price) * custom.unit)
+        //                 // this.clearOrderedProducts()
+        //             }
+        //              this.clearOrderedProducts()
+        //             // this.total_ht += (parseInt(custom.public_price) * parseInt(custom
+        //             //     .unit));
+        //             // this.total_tva += (parseInt(custom.total) * parseInt(custom.tva) /
+        //             //     100);
+        //             // this.total_order = this.total_ht + this.total_tva;
+        //         })
+        //         .catch(function (error) {
+        //             console.log(error);
+        //         })
+        // })
 
-            _this.clearOrderedProducts(); // this.total_ht += (parseInt(custom.public_price) * parseInt(custom
-            //     .unit));
-            // this.total_tva += (parseInt(custom.total) * parseInt(custom.tva) /
-            //     100);
-            // this.total_order = this.total_ht + this.total_tva;
-
-          })["catch"](function (error) {
-            console.log(error);
-          });
-        });
       })["catch"](function (error) {
         console.log(error);
       });

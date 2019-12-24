@@ -937,11 +937,11 @@
                                 package: ordered.pivot.package,
                                 unit: ordered.pivot.unit,
                                 product_packing: ordered.packing,
-                                public_price: this.convertCurrency(ordered.public_price),
-                                tva: ordered.tva,
+                                public_price: this.convertCurrency(ordered.pivot.custom_price),
+                                tva: ordered.pivot.custom_tva,
                                 products: this.products,
                                 product_id: ordered.id,
-                                total: this.convertCurrency(parseFloat(ordered.public_price) *
+                                total: this.convertCurrency(parseFloat(ordered.pivot.custom_price) *
                                     ordered.pivot.unit),
                                 product_total_tva: ordered.tva
 

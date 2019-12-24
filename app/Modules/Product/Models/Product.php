@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
 
-    protected $fillable = ['code', 'status', 'type', 'nom', 'designation', 'barcode', 'version', 'composition', 'color', 'weight', 'height', 'width', 'depth', 'public_price', 'period_of_validity', 'validity_after_opening', 'comment', 'photo_url', 'unit_by_display', 'unit_per_package', 'packing', 'tva'];
+    protected $guarded = ['id'];
 
     public function mixtures()
     {
@@ -27,7 +27,7 @@ class Product extends Model
     }
     public function orders()
     {
-        return $this->belongsToMany(Order::class)->withPivot('product_id', 'order_id');
+        return $this->belongsToMany(Order::class);
 
     }
 
