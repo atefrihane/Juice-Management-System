@@ -22,7 +22,7 @@ class Order extends Model
     }
     public function productwarehouses()
     {
-        return $this->belongsToMany(ProductWarehouse::class, 'order_prepare')->withPivot('product_warehouse_id', 'order_id', 'quantity');
+        return $this->belongsToMany(ProductWarehouse::class, 'order_prepare')->withPivot('id','product_warehouse_id', 'order_id', 'quantity');
 
     }
     public function store()

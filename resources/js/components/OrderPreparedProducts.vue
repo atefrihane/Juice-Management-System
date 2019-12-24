@@ -444,44 +444,21 @@
                                 package: ordered.pivot.package,
                                 unit: ordered.pivot.unit,
                                 product_packing: ordered.packing,
-                                public_price: this.convertCurrency(ordered.public_price),
+                                public_price: this.convertCurrency(ordered.pivot.custom_price),
                                 tva: ordered.tva,
                                 products: this.products,
                                 product_id: ordered.id,
-                                total: this.convertCurrency(parseFloat(ordered.public_price) *
+                                total: this.convertCurrency(parseFloat(ordered.pivot.custom_price) *
                                     ordered.pivot.unit),
                                 product_total_tva: ordered.tva
 
                             });
                         });
+                            this.clearOrderedProducts()
 
-                        this.custom_ordered.forEach(custom => {
-                            axios.post('api/product/prices/' + custom.product_id, {
-                                    store_id: this.store_id
-                                })
-                                .then((response) => {
-
-
-                                    if (response.data.custom_price) {
-                                        custom.public_price = this.convertCurrency(response.data
-                                            .custom_price.price)
-                                        custom.total = this.convertCurrency(this.convertMoneyFormat(
-                                            custom
-                                            .public_price) * custom.unit)
-                                        this.clearOrderedProducts()
-                                    }
-
-
-                                })
-                                .catch(function (error) {
-                                    console.log(error);
-                                })
-
-                        })
                         if (this.prepared_products.length > 0) {
 
                              this.prepared_products.forEach(prepared => {
-                                 console.log('***')
                                 this.final_prepared.push({
                                     product_id: prepared[0].product.id,
                                     product_name: prepared[0].product.nom,

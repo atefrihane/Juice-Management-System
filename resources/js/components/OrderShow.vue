@@ -959,29 +959,7 @@
                         this.store.zipcode=response.data.store.zipcode.code
 
 
-                        this.custom_ordered.forEach(custom => {
-                            axios.post('api/product/prices/' + custom.product_id, {
-                                    store_id: this.store_id
-                                })
-                                .then((response) => {
-                                   
-
-                                    if (response.data.custom_price) {
-                                        custom.public_price = this.convertCurrency(response.data.custom_price.price)
-                                        custom.total = this.convertCurrency(this.convertMoneyFormat(custom
-                                            .public_price) * custom.unit)
-                                       
-                                    }
-
-                                     this.clearOrderedProducts()
-
-
-                                })
-                                .catch(function (error) {
-                                    console.log(error);
-                                })
-
-                        })
+                      this.clearOrderedProducts()
 
                         this.billed_products.forEach(billed => {
                             axios.post('api/product/prices/' + billed.product_id, {

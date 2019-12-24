@@ -6367,34 +6367,19 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             "package": ordered.pivot["package"],
             unit: ordered.pivot.unit,
             product_packing: ordered.packing,
-            public_price: _this2.convertCurrency(ordered.public_price),
+            public_price: _this2.convertCurrency(ordered.pivot.custom_price),
             tva: ordered.tva,
             products: _this2.products,
             product_id: ordered.id,
-            total: _this2.convertCurrency(parseFloat(ordered.public_price) * ordered.pivot.unit),
+            total: _this2.convertCurrency(parseFloat(ordered.pivot.custom_price) * ordered.pivot.unit),
             product_total_tva: ordered.tva
           });
         });
 
-        _this2.custom_ordered.forEach(function (custom) {
-          axios.post('api/product/prices/' + custom.product_id, {
-            store_id: _this2.store_id
-          }).then(function (response) {
-            if (response.data.custom_price) {
-              custom.public_price = _this2.convertCurrency(response.data.custom_price.price);
-              custom.total = _this2.convertCurrency(_this2.convertMoneyFormat(custom.public_price) * custom.unit);
-
-              _this2.clearOrderedProducts();
-            }
-          })["catch"](function (error) {
-            console.log(error);
-          });
-        });
+        _this2.clearOrderedProducts();
 
         if (_this2.prepared_products.length > 0) {
           _this2.prepared_products.forEach(function (prepared) {
-            console.log('***');
-
             _this2.final_prepared.push({
               product_id: prepared[0].product.id,
               product_name: prepared[0].product.nom,
@@ -7677,20 +7662,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this3.store.city = response.data.store.city.name;
         _this3.store.zipcode = response.data.store.zipcode.code;
 
-        _this3.custom_ordered.forEach(function (custom) {
-          axios.post('api/product/prices/' + custom.product_id, {
-            store_id: _this3.store_id
-          }).then(function (response) {
-            if (response.data.custom_price) {
-              custom.public_price = _this3.convertCurrency(response.data.custom_price.price);
-              custom.total = _this3.convertCurrency(_this3.convertMoneyFormat(custom.public_price) * custom.unit);
-            }
-
-            _this3.clearOrderedProducts();
-          })["catch"](function (error) {
-            console.log(error);
-          });
-        });
+        _this3.clearOrderedProducts();
 
         _this3.billed_products.forEach(function (billed) {
           axios.post('api/product/prices/' + billed.product_id, {

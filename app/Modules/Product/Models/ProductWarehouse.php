@@ -16,7 +16,7 @@ class ProductWarehouse extends Model
 
     public function orders()
     {
-        return $this->belongsToMany(Order::class,'order_prepare')->withPivot('order_id', 'product_warehouse_id','quantity');
+        return $this->belongsToMany(Order::class,'order_prepare')->withPivot('id','order_id', 'product_warehouse_id','quantity');
     }
 
     public function product()

@@ -14,7 +14,6 @@ class OrderController extends Controller
 {
     public function handleSaveOrder(Request $request)
     {
-        
 
         $checkCount = Order::count();
         if ($checkCount > 0) {
@@ -68,7 +67,7 @@ class OrderController extends Controller
         $order = Order::find($id);
 
         if ($order) {
-            $ordered_products = $order->products()->withPivot('package', 'unit','custom_price','custom_tva')->get();
+            $ordered_products = $order->products()->withPivot('package', 'unit', 'custom_price', 'custom_tva')->get();
 
             $order_history = OrderHistory::with('user')
                 ->where('order_id', $order->id)
@@ -149,13 +148,12 @@ class OrderController extends Controller
             $newProducts = [];
             $customisedProduct = [];
 
-
             foreach ($request->custom_ordered as $custom) {
 
                 $customisedProduct = [
                     'package' => (int) $custom['package'],
                     'unit' => (int) $custom['unit'],
-                    'custom_price'=> $custom['public_price'],
+                    'custom_price' => $custom['public_price'],
                     'custom_tva' => $custom['tva'],
                     'order_id' => $order->id,
                     'product_id' => $custom['product_id'],
@@ -232,17 +230,15 @@ class OrderController extends Controller
         return response()->json(['status' => 404]);
 
     }
+
     public function handlePreparation($id, $request)
     {
         $order = Order::find($id);
 
         if ($order) {
-            if ($order->productwarehouses) {
-                DB::table('order_prepare')->where('order_id', $id)->delete();
 
-            }
-
-            $newProducts = [];
+            $oldProducts = DB::table('order_prepare')->where('order_id', $id)->get();
+            $newProducts = []; //array of filtered new products
             $array = [];
             // create a custom array for bulk insert
             foreach ($request->final_prepared as $final) {
@@ -263,38 +259,100 @@ class OrderController extends Controller
             }
 
             $allStock = DB::table('product_warehouse')->get();
+
             //update stock items in the warehouses
 
             $newStock = [];
             $unavailableStock = []; // if there is no more available quantity in a specific warehouse
             $newArray = [];
+
             // compare quantity in stock with upcomping one
-            foreach ($allStock as $stock) {
 
-                foreach ($newProducts as $newProduct) {
-                    if ($stock->id == $newProduct['product_warehouse_id']) {
-                        if ($stock->quantity >= $newProduct['quantity']) {
-                            $newArray = [
-                                'quantity' => $stock->quantity - $newProduct['quantity'],
-                                'id' => $newProduct['product_warehouse_id'],
+            if (count($oldProducts) > 0) {
+              
+                //Check for old prepared values and update stock if necessary
+                foreach ($allStock as $stock) {
+                    foreach ($newProducts as $newProduct) {
+                        foreach ($oldProducts as $oldProduct) {
 
-                            ];
+                            if ($stock->id == $newProduct['product_warehouse_id'] &&
+                                $oldProduct->product_warehouse_id == $newProduct['product_warehouse_id']) {
 
-                            array_push($newStock, $newArray);
+                                if ($stock->quantity >= $newProduct['quantity']) {
 
-                        } else {
-                            $newArray = [
-                                'quantity' => $stock->quantity,
-                                'id' => $newProduct['product_warehouse_id'],
+                                    if ($newProduct['quantity'] > $oldProduct->quantity) {
+                                        $newArray = [
+                                            'quantity' => $stock->quantity - $newProduct['quantity'],
+                                            'id' => $newProduct['product_warehouse_id'],
 
-                            ];
+                                        ];
+                                        array_push($newStock, $newArray);
 
-                            array_push($unavailableStock, $newArray);
+                                    } else if ($newProduct['quantity'] < $oldProduct->quantity) {
+                                        $newArray = [
+                                            'quantity' => $stock->quantity + $oldProduct->quantity - $newProduct['quantity'],
+                                            'id' => $newProduct['product_warehouse_id'],
 
+                                        ];
+                                        array_push($newStock, $newArray);
+
+                                    }
+
+                                } else {
+                                    $newArray = [
+                                        'quantity' => $stock->quantity,
+                                        'id' => $newProduct['product_warehouse_id'],
+
+                                    ];
+
+                                    array_push($unavailableStock, $newArray);
+
+                                }
+
+                            } else if ($stock->id == $newProduct['product_warehouse_id'] &&
+                                $oldProduct->product_warehouse_id != $newProduct['product_warehouse_id']) {
+                           
+                                $newArray = [
+                                    'quantity' => $stock->quantity - $newProduct['quantity'],
+                                    'id' => $newProduct['product_warehouse_id'],
+
+                                ];
+                                array_push($newStock, $newArray);
+
+                            }
                         }
-
                     }
                 }
+
+                //Update Stock without checking on old values ( first preparation)
+            } else {
+                foreach ($allStock as $stock) {
+                    foreach ($newProducts as $newProduct) {
+                        if ($stock->id == $newProduct['product_warehouse_id']) {
+                            if ($stock->quantity >= $newProduct['quantity']) {
+                                $newArray = [
+                                    'quantity' => $stock->quantity - $newProduct['quantity'],
+                                    'id' => $newProduct['product_warehouse_id'],
+
+                                ];
+
+                                array_push($newStock, $newArray);
+
+                            } else {
+                                $newArray = [
+                                    'quantity' => $stock->quantity,
+                                    'id' => $newProduct['product_warehouse_id'],
+
+                                ];
+
+                                array_push($unavailableStock, $newArray);
+
+                            }
+
+                        }
+                    }
+                }
+
             }
 
             //returns array of unsufficient data
@@ -311,6 +369,7 @@ class OrderController extends Controller
             \Batch::update($stockInstance, $newStock, $index);
 
             //add new prepared products
+            DB::table('order_prepare')->where('order_id', $id)->delete();
             DB::table('order_prepare')->insert($newProducts);
 
             OrderHistory::create([
