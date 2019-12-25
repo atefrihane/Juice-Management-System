@@ -10,7 +10,6 @@
                         <option value="4">Préparée</option>
                         <option value="12">Annulée</option>
                     </select>
-
                 </div>
             </div>
         </div>
@@ -20,10 +19,8 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="exampleInputEmail1" style="font-size:20px;">Produits commandés</label>
-
                     </div>
                 </div>
-
             </div>
 
             <div class="box-body">
@@ -71,15 +68,9 @@
                                     v-model="ordered.tva" disabled></td>
                             <td><input type="text" class="form-control" disabled placeholder="Total Produit.."
                                     v-model="ordered.total" disabled></td>
-
                             <td>
-
                             </td>
                         </tr>
-
-
-
-
                     </tbody>
                 </table>
             </div>
@@ -89,15 +80,11 @@
                 <div class="pull-left">
                     <h4 class="box-title"> Total HT</h4>
                     <h4 class="box-title"> TVA</h4>
-
                     <h4 class="box-title"> <b>TOTAL TTC</b></h4>
-
-
                 </div>
                 <div class="pull-right">
                     <h4 class="box-title"> {{convert_total_ht}}€</h4>
                     <h4 class="box-title"> {{convert_total_tva}}€</h4>
-
                     <h4 class="box-title"> <b>{{convert_total_order}}€</b></h4>
                 </div>
             </div>
@@ -106,10 +93,8 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="exampleInputEmail1" style="font-size:20px;">Produits préparés</label>
-
                     </div>
                 </div>
-
             </div>
             <div class="container-fluid">
                 <div class="box" style="border:1px solid rgb(228, 228, 228);padding:20px;"
@@ -140,7 +125,6 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Total des quantités restantes</label>
                                         <input type="text" class="form-control" v-model="final.total_rest" disabled>
-
                                     </div>
                                 </div>
 
@@ -148,13 +132,11 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Total des quantités préparés</label>
                                         <input type="text" class="form-control" v-model="final.total" disabled>
-
                                     </div>
                                 </div>
 
                             </div>
                             <div class="row">
-
 
                                 <table class="table">
                                     <thead>
@@ -171,8 +153,6 @@
 
                                     </thead>
                                     <tbody>
-
-
 
                                         <tr v-if="final.prepared_products.length == 0">
                                             <td colspan="6" class="text-center">
@@ -196,16 +176,8 @@
                                                     @change="updateTotalQuantity(prepared,index,i)"
                                                     v-model.number="prepared.pivot.quantity">
                                             </td>
-
-
                                             </td>
                                         </tr>
-
-
-
-
-
-
                                     </tbody>
                                 </table>
 
@@ -215,16 +187,11 @@
                 </div>
                 <button type="button" class="btn btn-default" @click="loadPrepared()"><i
                         class="fa fa-plus"></i></button>
-
-
-
             </div>
         </div>
 
         <div class="row">
             <div class="container text-center">
-
-
                 <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelOrder()">
                     Annuler</button>
 
@@ -232,17 +199,10 @@
                     @click="submitOrderInPrepare()">
                     Enregistrer</button>
 
-
             </div>
         </div>
 
-
-
-
-
     </div>
-
-
 
     </div>
 
@@ -276,21 +236,14 @@
                 total_tva: 0.00,
                 total_order: 0.00,
 
-
-
             }
-
 
         },
         components: {
             Loading
         },
         computed: {
-
             // a computed getter
-
-
-
             convert_total_ht() {
                 let val = (this.total_ht / 1).toFixed(2).replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
@@ -665,9 +618,9 @@
 
             },
             updateTotalQuantity(prepared, index, i) {
-
-                if (prepared.pivot.quantity == '' || prepared.pivot.quantity <= 0 || prepared.pivot.quantity >
-                    prepared.quantity) {
+            this.clearPreparedProducts()
+             if (prepared.pivot.quantity < 0 || prepared.pivot.quantity > prepared
+                                        .quantity){
                     swal.fire({
                         type: 'error',
                         title: 'La quantité préparée saisie  est invalide ! ',
@@ -686,12 +639,8 @@
             },
             validateForm() {
                 let x = true;
-                if (this.new_status != 12) {
-
-
+                if (this.new_status != 12) {        
                     if (this.final_prepared.length > 0) {
-
-
                         let count = 0;
                         this.final_prepared.forEach((prepared) => {
 
@@ -919,11 +868,10 @@
 
                                                     if (response.data.status == 400) {
                                                         this.disabled = false;
-                                                        let unavailable_stock = response.data
-                                                            .unavailableStock;
+                                                        let unavailable_stock = response.data.unavailableStock;
                                                         swal.fire({
                                                             type: 'error',
-                                                            title: 'Stock epuisé !',
+                                                            title: 'Stock Insuffisant !',
                                                             showConfirmButton: true,
                                                             allowOutsideClick: false,
                                                             confirmButtonText: 'Fermer'
@@ -985,7 +933,7 @@
                                                             .unavailableStock;
                                                         swal.fire({
                                                             type: 'error',
-                                                            title: 'Stock epuisé !',
+                                                            title: 'Stock Insuffisant !',
                                                             showConfirmButton: true,
                                                             allowOutsideClick: false,
                                                             confirmButtonText: 'Fermer'
@@ -1071,7 +1019,7 @@
                                             .unavailableStock;
                                         swal.fire({
                                             type: 'error',
-                                            title: 'Stock epuisé !',
+                                            title: 'Stock Insuffisant !',
                                             showConfirmButton: true,
                                             allowOutsideClick: false,
                                             confirmButtonText: 'Fermer'
@@ -1184,7 +1132,6 @@
 
 
             },
-
             cancelOrder() {
                 window.location = axios.defaults.baseURL + "/orders"
             }

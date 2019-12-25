@@ -6341,7 +6341,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           if (prepared.pivot.quantity != '') {
             _final.total += prepared.pivot.quantity;
           }
-        });
+        }); // console.log('***')
+        // console.log(final.total)
+
 
         _final.total_rest = _final.fullQuantity - _final.total;
 
@@ -6603,6 +6605,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       });
     },
     updateTotalQuantity: function updateTotalQuantity(prepared, index, i) {
+      this.errors = [];
+      this.clearPreparedProducts();
+
       if (prepared.pivot.quantity) {
         if (prepared.pivot.quantity < 0 || prepared.pivot.quantity > prepared.quantity) {
           swal.fire({
@@ -6678,7 +6683,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             var unavailable_stock = response.data.unavailableStock;
             swal.fire({
               type: 'error',
-              title: 'Stock epuisé !',
+              title: 'Stock Insuffisant !',
               showConfirmButton: true,
               allowOutsideClick: false,
               confirmButtonText: 'Fermer'
@@ -11021,46 +11026,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
  // Import stylesheet
 
 
@@ -11381,7 +11346,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       });
     },
     updateTotalQuantity: function updateTotalQuantity(prepared, index, i) {
-      if (prepared.pivot.quantity == '' || prepared.pivot.quantity <= 0 || prepared.pivot.quantity > prepared.quantity) {
+      this.clearPreparedProducts();
+
+      if (prepared.pivot.quantity < 0 || prepared.pivot.quantity > prepared.quantity) {
         swal.fire({
           type: 'error',
           title: 'La quantité préparée saisie  est invalide ! ',
@@ -11584,7 +11551,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                         var unavailable_stock = response.data.unavailableStock;
                         swal.fire({
                           type: 'error',
-                          title: 'Stock epuisé !',
+                          title: 'Stock Insuffisant !',
                           showConfirmButton: true,
                           allowOutsideClick: false,
                           confirmButtonText: 'Fermer'
@@ -11630,7 +11597,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                         var unavailable_stock = response.data.unavailableStock;
                         swal.fire({
                           type: 'error',
-                          title: 'Stock epuisé !',
+                          title: 'Stock Insuffisant !',
                           showConfirmButton: true,
                           allowOutsideClick: false,
                           confirmButtonText: 'Fermer'
@@ -11683,7 +11650,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 var unavailable_stock = response.data.unavailableStock;
                 swal.fire({
                   type: 'error',
-                  title: 'Stock epuisé !',
+                  title: 'Stock Insuffisant !',
                   showConfirmButton: true,
                   allowOutsideClick: false,
                   confirmButtonText: 'Fermer'

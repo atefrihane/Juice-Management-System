@@ -8,6 +8,8 @@ use App\Modules\Order\Models\OrderHistory;
 use App\Modules\Product\Models\ProductWarehouse;
 use App\Modules\Store\Models\Store;
 use DB;
+use function _\findIndex;
+use function _\remove;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -237,7 +239,7 @@ class OrderController extends Controller
 
         if ($order) {
 
-            $oldProducts = DB::table('order_prepare')->where('order_id', $id)->get();
+            $oldProducts = DB::table('order_prepare')->where('order_id', $id)->get()->toArray();
             $newProducts = []; //array of filtered new products
             $array = [];
             // create a custom array for bulk insert
@@ -247,6 +249,14 @@ class OrderController extends Controller
                     if ($prepared['pivot']['quantity']) {
                         $array = [
                             'quantity' => $prepared['pivot']['quantity'],
+                            'order_id' => $order->id,
+                            'product_warehouse_id' => $prepared['id'],
+                        ];
+                        array_push($newProducts, $array);
+
+                    } else {
+                        $array = [
+                            'quantity' => 0,
                             'order_id' => $order->id,
                             'product_warehouse_id' => $prepared['id'],
                         ];
@@ -269,59 +279,79 @@ class OrderController extends Controller
             // compare quantity in stock with upcomping one
 
             if (count($oldProducts) > 0) {
-              
+
                 //Check for old prepared values and update stock if necessary
                 foreach ($allStock as $stock) {
                     foreach ($newProducts as $newProduct) {
-                        foreach ($oldProducts as $oldProduct) {
+                        //Check if the upcoming product already exists in the prepared products
+                        $index = findIndex($oldProducts, ['product_warehouse_id' => $newProduct['product_warehouse_id']]);
 
-                            if ($stock->id == $newProduct['product_warehouse_id'] &&
-                                $oldProduct->product_warehouse_id == $newProduct['product_warehouse_id']) {
+                        if ($stock->id == $newProduct['product_warehouse_id'] && $index > -1) {
 
-                                if ($stock->quantity >= $newProduct['quantity']) {
+                            if ($stock->quantity >= $newProduct['quantity']) {
 
-                                    if ($newProduct['quantity'] > $oldProduct->quantity) {
+                                if ($newProduct['quantity'] > $oldProducts[$index]->quantity) {
+                                    $newArray = [
+                                        'quantity' => $stock->quantity + $oldProducts[$index]->quantity - $newProduct['quantity'],
+                                        'id' => $newProduct['product_warehouse_id'],
+
+                                    ];
+                                    array_push($newStock, $newArray);
+
+                                } else if ($newProduct['quantity'] < $oldProducts[$index]->quantity) {
+                                    $newArray = [
+                                        'quantity' => $stock->quantity + $oldProducts[$index]->quantity - $newProduct['quantity'],
+                                        'id' => $newProduct['product_warehouse_id'],
+
+                                    ];
+                                    array_push($newStock, $newArray);
+
+                                }
+
+                            } else {
+                                $newArray = [
+                                    'quantity' => $stock->quantity,
+                                    'id' => $newProduct['product_warehouse_id'],
+
+                                ];
+
+                                array_push($unavailableStock, $newArray);
+
+                            }
+                        } else if ($stock->id == $newProduct['product_warehouse_id'] && $index == -1) {
+
+                            foreach ($allStock as $stock) {
+
+                                if ($stock->id == $newProduct['product_warehouse_id']) {
+
+                                    if ($stock->quantity >= $newProduct['quantity']) {
                                         $newArray = [
                                             'quantity' => $stock->quantity - $newProduct['quantity'],
                                             'id' => $newProduct['product_warehouse_id'],
 
                                         ];
+
                                         array_push($newStock, $newArray);
 
-                                    } else if ($newProduct['quantity'] < $oldProduct->quantity) {
+                                    } else {
                                         $newArray = [
-                                            'quantity' => $stock->quantity + $oldProduct->quantity - $newProduct['quantity'],
+                                            'quantity' => $stock->quantity,
                                             'id' => $newProduct['product_warehouse_id'],
 
                                         ];
-                                        array_push($newStock, $newArray);
+
+                                        array_push($unavailableStock, $newArray);
 
                                     }
 
-                                } else {
-                                    $newArray = [
-                                        'quantity' => $stock->quantity,
-                                        'id' => $newProduct['product_warehouse_id'],
-
-                                    ];
-
-                                    array_push($unavailableStock, $newArray);
-
                                 }
 
-                            } else if ($stock->id == $newProduct['product_warehouse_id'] &&
-                                $oldProduct->product_warehouse_id != $newProduct['product_warehouse_id']) {
-                           
-                                $newArray = [
-                                    'quantity' => $stock->quantity - $newProduct['quantity'],
-                                    'id' => $newProduct['product_warehouse_id'],
-
-                                ];
-                                array_push($newStock, $newArray);
-
                             }
+
                         }
+
                     }
+
                 }
 
                 //Update Stock without checking on old values ( first preparation)
@@ -338,7 +368,7 @@ class OrderController extends Controller
 
                                 array_push($newStock, $newArray);
 
-                            } else {
+                            } else if ($stock->quantity < $newProduct['quantity']) {
                                 $newArray = [
                                     'quantity' => $stock->quantity,
                                     'id' => $newProduct['product_warehouse_id'],
@@ -354,6 +384,7 @@ class OrderController extends Controller
                 }
 
             }
+            // dd($unavailableStock);
 
             //returns array of unsufficient data
             if (count($unavailableStock) > 0) {
@@ -362,12 +393,12 @@ class OrderController extends Controller
 
             }
 
-            //bulk update
+            //bulk update (Stock )
             $stockInstance = new ProductWarehouse;
             $index = 'id';
 
             \Batch::update($stockInstance, $newStock, $index);
-
+            $newProducts = remove($newProducts, function ($newProduct) {return $newProduct['quantity'] > 0;});
             //add new prepared products
             DB::table('order_prepare')->where('order_id', $id)->delete();
             DB::table('order_prepare')->insert($newProducts);

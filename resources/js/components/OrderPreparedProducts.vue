@@ -419,6 +419,8 @@
                         }
 
                     })
+                    // console.log('***')
+                    // console.log(final.total)
                     final.total_rest=final.fullQuantity-final.total
                     if (final.total_rest < 0) {
                         final.total_rest=0;
@@ -748,7 +750,9 @@
 
             },
             updateTotalQuantity(prepared, index, i) {
-                if (prepared.pivot.quantity) {
+                        this.errors = []
+                         this.clearPreparedProducts()
+                            if (prepared.pivot.quantity) {
                   
                                     if (prepared.pivot.quantity < 0 || prepared.pivot.quantity > prepared
                                         .quantity) {
@@ -762,6 +766,7 @@
                                         prepared.pivot.quantity = "";
                                         this.clearPreparedProducts()
                                     } else {
+                                     
                                         this.errors = []
                                         this.clearPreparedProducts()
 
@@ -835,7 +840,7 @@
                                                     let unavailable_stock = response.data.unavailableStock;
                                                         swal.fire({
                                                             type: 'error',
-                                                            title: 'Stock epuisé !',
+                                                            title: 'Stock Insuffisant !',
                                                             showConfirmButton: true,
                                                             allowOutsideClick: false,
                                                             confirmButtonText: 'Fermer'
