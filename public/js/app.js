@@ -7675,11 +7675,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           axios.post('api/product/prices/' + billed.product_id, {
             store_id: _this3.store_id
           }).then(function (response) {
-            if (response.data.custom_price) {
-              billed.public_price = _this3.convertCurrency(response.data.custom_price.price);
-              billed.total = _this3.convertCurrency(parseFloat(billed.public_price) * parseInt(billed.sum));
-            }
-
+            billed.public_price = _this3.convertCurrency(billed.public_price);
+            billed.total = _this3.convertCurrency(parseFloat(billed.public_price) * parseInt(billed.sum));
             _this3.billed_total_ht += parseFloat(billed.total);
             _this3.billed_total_tva += parseFloat(billed.total) * billed.tva / 100;
             _this3.billed_total_order = _this3.billed_total_ht + _this3.billed_total_tva;

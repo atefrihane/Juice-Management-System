@@ -967,14 +967,12 @@
                                 })
                                 .then((response) => {
 
-                                    if (response.data.custom_price) {
-                                        billed.public_price = this.convertCurrency(response.data
-                                            .custom_price
-                                            .price)
+                                  
+                                        billed.public_price = this.convertCurrency(billed.public_price)
                                         billed.total = this.convertCurrency(parseFloat(billed
                                             .public_price) * parseInt(billed.sum))
 
-                                    }
+                                    
                                     this.billed_total_ht += parseFloat(billed.total)
                                     this.billed_total_tva += (parseFloat(billed.total) * billed.tva /
                                         100)
