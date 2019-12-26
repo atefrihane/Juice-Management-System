@@ -90,12 +90,27 @@ class OrderController extends Controller
                 ->join('product_warehouse', 'product_warehouse.id', '=', 'order_prepare.product_warehouse_id')
                 ->join('products', 'products.id', '=', 'product_warehouse.product_id')
                 ->select('products.nom as name', 'products.id as product_id',
-                    'products.tva', 'products.public_price',
+                    'products.tva', 'products.public_price', 'order_prepare.order_id',
                     DB::raw('sum(order_prepare.quantity) as sum'),
                     DB::raw(' 0  as total')
                 )
                 ->groupBy('product_warehouse.product_id')
-                ->get();
+                ->get()->toArray();
+
+            //update TVA  + Public Price
+            foreach ($invoice as $invoiceItem) {
+                foreach ($ordered_products as $ordered) {
+                    if (($invoiceItem->order_id == $ordered->pivot->order_id) && ($invoiceItem->product_id == $ordered->pivot->product_id)) {
+
+                        $invoiceItem->tva = $ordered->pivot->custom_tva;
+                        $invoiceItem->public_price = $ordered->pivot->custom_price;
+
+                    }
+                }
+
+            }
+
+     
 
             return response()->json([
                 'status' => 200,
@@ -287,8 +302,8 @@ class OrderController extends Controller
                         $index = findIndex($oldProducts, ['product_warehouse_id' => $newProduct['product_warehouse_id']]);
 
                         if ($stock->id == $newProduct['product_warehouse_id'] && $index > -1) {
-
-                            if ($stock->quantity >= $newProduct['quantity']) {
+                  
+                            if ($stock->quantity+$oldProducts[$index]->quantity   >= $newProduct['quantity']) {
 
                                 if ($newProduct['quantity'] > $oldProducts[$index]->quantity) {
                                     $newArray = [
@@ -384,7 +399,6 @@ class OrderController extends Controller
                 }
 
             }
-            // dd($unavailableStock);
 
             //returns array of unsufficient data
             if (count($unavailableStock) > 0) {

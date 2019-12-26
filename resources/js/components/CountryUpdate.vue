@@ -66,7 +66,7 @@
                         <td>
 
                             <button type="button" class="btn btn-default" style="margin-top:4px;"
-                                @click="removeCity(city)"><i class="fa fa-minus"></i></button>
+                                @click="removeCity(city)" v-if="i>0"><i class="fa fa-minus"></i></button>
                         </td>
                     </tr>
 

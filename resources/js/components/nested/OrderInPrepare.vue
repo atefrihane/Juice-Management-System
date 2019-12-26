@@ -302,7 +302,7 @@
 
 
                         this.custom_ordered.forEach(custom => {
-                            axios.post('api/product/prices/' + custom.product_id, {
+                            axios.post('/api/product/prices/' + custom.product_id, {
                                     store_id: this.store_id
                                 })
                                 .then((response) => {
@@ -351,7 +351,7 @@
                                     }
                                 })
 
-                                axios.get(`api/product/warehouses/${final.product_id}`)
+                                axios.get(`/api/product/warehouses/${final.product_id}`)
                                     .then((response) => {
                                         this.warehouse_products = response.data.warehouse_products;
                                         if (this.warehouse_products.length > 0) {
@@ -423,7 +423,7 @@
                                     }
                                 })
 
-                                axios.get(`api/product/warehouses/${final.product_id}`)
+                                axios.get(`/api/product/warehouses/${final.product_id}`)
                                     .then((response) => {
                                         this.warehouse_products = response.data.warehouse_products;
                                         if (this.warehouse_products.length > 0) {
@@ -564,7 +564,7 @@
                     })
 
 
-                    axios.get('api/product/warehouses/' + id)
+                    axios.get('/api/product/warehouses/' + id)
                         .then((response) => {
                             this.final_prepared[i].isLoading = false
                             // this.response_array = response.data

@@ -2928,6 +2928,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return x;
     },
     submitRental: function submitRental() {
+      var _this3 = this;
+
       if (this.validateForm()) {
         this.disabled = true;
         axios.post('/country/add', {
@@ -2938,6 +2940,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           console.log(response);
 
           if (response.data.status == 401) {
+            _this3.disabled = false;
             swal.fire({
               type: 'error',
               title: 'Nom déja existant! ',
@@ -2948,6 +2951,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
 
           if (response.data.status == 402) {
+            _this3.disabled = false;
             swal.fire({
               type: 'error',
               title: 'Code déja existant! ',
@@ -5645,7 +5649,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
 
         if (!found) {
-          axios.post('api/product/prices/' + id, {
+          axios.post('/api/product/prices/' + id, {
             store_id: this.store_id
           }).then(function (response) {
             _this5.ordered_products[index].unit = '';
@@ -5812,7 +5816,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.disabled = true;
 
       if (this.validateForm()) {
-        axios.post('api/order/save', {
+        axios.post('/api/order/save', {
           code: this.code,
           company_id: this.company_id,
           store_id: this.store_id,
@@ -5858,7 +5862,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.disabled = true;
 
       if (this.validateForm()) {
-        axios.post('api/order/save', {
+        axios.post('/api/order/save', {
           code: this.code,
           company_id: this.company_id,
           store_id: this.store_id,
@@ -6401,7 +6405,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
               }
             });
 
-            axios.get("api/product/warehouses/".concat(_final2.product_id)).then(function (response) {
+            axios.get("/api/product/warehouses/".concat(_final2.product_id)).then(function (response) {
               _this2.warehouse_products = response.data.warehouse_products;
 
               if (_this2.warehouse_products.length > 0) {
@@ -6452,7 +6456,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           });
 
           _this2.final_prepared.forEach(function (_final3) {
-            axios.get("api/product/warehouses/".concat(_final3.product_id)).then(function (response) {
+            axios.get("/api/product/warehouses/".concat(_final3.product_id)).then(function (response) {
               _this2.warehouse_products = response.data.warehouse_products;
 
               if (_this2.warehouse_products.length > 0) {
@@ -6564,7 +6568,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             _this4.final_prepared[i].fullQuantity = custom.unit;
           }
         });
-        axios.get('api/product/warehouses/' + id).then(function (response) {
+        axios.get('/api/product/warehouses/' + id).then(function (response) {
           _this4.final_prepared[i].isLoading = false; // this.response_array = response.data
 
           _this4.response_array = response.data.warehouse_products;
@@ -6609,7 +6613,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       this.clearPreparedProducts();
 
       if (prepared.pivot.quantity) {
-        if (prepared.pivot.quantity < 0 || prepared.pivot.quantity > prepared.quantity) {
+        if (prepared.pivot.quantity < 0) {
           swal.fire({
             type: 'error',
             title: 'La quantité préparée saisie  est invalide ! ',
@@ -6639,17 +6643,15 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             window.scrollTo(0, 0);
             x = false;
           }
-        });
-        var count = 0;
-        this.final_prepared.forEach(function (prepared) {
-          count += prepared.total;
-        });
-
-        if (count <= 0) {
-          this.errors.push('Veuillez renseigner au moins une quantité à préparer  ');
-          window.scrollTo(0, 0);
-          x = false;
-        }
+        }); // let count = 0;
+        // this.final_prepared.forEach((prepared) => {
+        //     count += prepared.total;
+        // });
+        // if (count <= 0) {
+        //     this.errors.push('Veuillez renseigner au moins une quantité à préparer  ')
+        //         window.scrollTo(0, 0);
+        //     x = false;
+        // }
       }
 
       return x;
@@ -11108,7 +11110,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         });
 
         _this2.custom_ordered.forEach(function (custom) {
-          axios.post('api/product/prices/' + custom.product_id, {
+          axios.post('/api/product/prices/' + custom.product_id, {
             store_id: _this2.store_id
           }).then(function (response) {
             if (response.data.custom_price) {
@@ -11143,7 +11145,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
               }
             });
 
-            axios.get("api/product/warehouses/".concat(_final.product_id)).then(function (response) {
+            axios.get("/api/product/warehouses/".concat(_final.product_id)).then(function (response) {
               _this2.warehouse_products = response.data.warehouse_products;
 
               if (_this2.warehouse_products.length > 0) {
@@ -11198,7 +11200,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
               }
             });
 
-            axios.get("api/product/warehouses/".concat(_final2.product_id)).then(function (response) {
+            axios.get("/api/product/warehouses/".concat(_final2.product_id)).then(function (response) {
               _this2.warehouse_products = response.data.warehouse_products;
 
               if (_this2.warehouse_products.length > 0) {
@@ -11307,7 +11309,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             _this4.final_prepared[i].fullQuantity = custom.unit;
           }
         });
-        axios.get('api/product/warehouses/' + id).then(function (response) {
+        axios.get('/api/product/warehouses/' + id).then(function (response) {
           _this4.final_prepared[i].isLoading = false; // this.response_array = response.data
 
           _this4.response_array = response.data.warehouse_products;
@@ -69681,20 +69683,22 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("td", [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-default",
-                        staticStyle: { "margin-top": "4px" },
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.removeCity(city)
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "fa fa-minus" })]
-                    )
+                    i > 0
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-default",
+                            staticStyle: { "margin-top": "4px" },
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.removeCity(city)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-minus" })]
+                        )
+                      : _vm._e()
                   ])
                 ])
               : _vm._e()
@@ -75242,7 +75246,7 @@ var render = function() {
             _c("div", { staticClass: "col-md-4" }, [
               _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("Code commande général")
+                  _vm._v("Code commande original")
                 ]),
                 _vm._v(" "),
                 _vm.parent
@@ -75372,46 +75376,56 @@ var render = function() {
                                     prepared,
                                     index
                                   ) {
-                                    return _c("tr", [
-                                      _c("td", [
-                                        _vm._v(_vm._s(final.product_name) + " ")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v(_vm._s(prepared.quantity) + " ")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v(_vm._s(prepared.packing) + " ")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v(
-                                          _vm._s(
-                                            prepared.warehouse.designation
-                                          ) + " "
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v(
-                                          _vm._s(prepared.creation_date) + " "
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v(
-                                          _vm._s(prepared.expiration_date) + " "
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v(
-                                          _vm._s(prepared.pivot.quantity) +
-                                            "\n                                            "
-                                        )
-                                      ])
-                                    ])
+                                    return prepared.pivot.quantity
+                                      ? _c("tr", [
+                                          _c("td", [
+                                            _vm._v(
+                                              _vm._s(final.product_name) + " "
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(
+                                              _vm._s(prepared.quantity) + " "
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(
+                                              _vm._s(prepared.packing) + " "
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(
+                                              _vm._s(
+                                                prepared.warehouse.designation
+                                              ) + " "
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(
+                                              _vm._s(prepared.creation_date) +
+                                                " "
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(
+                                              _vm._s(prepared.expiration_date) +
+                                                " "
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(
+                                              _vm._s(prepared.pivot.quantity) +
+                                                "\n                                            "
+                                            )
+                                          ])
+                                        ])
+                                      : _vm._e()
                                   })
                                 ],
                                 2
@@ -97333,7 +97347,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('delivery-update', __webpac
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('general-machine-rent', __webpack_require__(/*! ./components/GeneralMachineRent.vue */ "./resources/js/components/GeneralMachineRent.vue"));
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('contact-add', __webpack_require__(/*! ./components/ContactAdd.vue */ "./resources/js/components/ContactAdd.vue"));
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('contact-update', __webpack_require__(/*! ./components/ContactUpdate.vue */ "./resources/js/components/ContactUpdate.vue"));
-axios.defaults.baseURL = '/wizefresh/public/';
+axios.defaults.baseURL = '/wizefresh/public';
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   components: {

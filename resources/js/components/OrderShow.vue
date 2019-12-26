@@ -261,7 +261,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Code commande général</label>
+                                <label for="exampleInputEmail1">Code commande original</label>
                                 <input type="text" class="form-control" :value="parent.code" v-if="parent" disabled>
                                 <input type="text" class="form-control" value="Non specifié" v-else disabled>
                             </div>
@@ -320,7 +320,7 @@
                                                     <h4 v-else>Aucun produit trouvé !</h4>
                                                 </td>
                                             </tr>
-                                            <tr v-for="(prepared,index) in final.prepared_products">
+                                            <tr v-for="(prepared,index) in final.prepared_products" v-if="prepared.pivot.quantity">
                                                 <td>{{final.product_name}} </td>
                                                 <td>{{prepared.quantity}} </td>
                                                 <td>{{prepared.packing}} </td>

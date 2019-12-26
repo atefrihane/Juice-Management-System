@@ -48,21 +48,17 @@
                         <div class="box-body">
                             <div class="row">
 
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <label for="exampleInputEmail1">Code produit</label>
                                     <input type="text" name="photo" class="form-control" value="{{$productQuantity->product->code}}" placeholder="Code produit"
                                         id="productCode" disabled>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <label for="exampleInputEmail1">Code à barre</label>
                                     <input type="text" name="photo" class="form-control" value="{{$productQuantity->product->barcode}}" placeholder="Code à barre"
                                         id="barCode" disabled>
                                 </div>
-                                <div class="col-md-4">
-                                    <label for="exampleInputEmail1">Colisage produit</label>
-                                    <input type="text" name="photo" class="form-control" value="{{$productQuantity->product->packing}}" placeholder="Colisage"
-                                        id="packingProduct" disabled>
-                                </div>
+                             
 
 
                             </div>
@@ -70,15 +66,21 @@
                         <div class="box-body">
                             <div class="row">
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1">Nombre d'unités par display par défaut</label>
                                     <input type="text" name="defaultDisplay" value="{{$productQuantity->product->unit_by_display}}"
                                         class="form-control" placeholder="Code produit" id="defaultDisplay" disabled>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1">Nombre de display par colis par défaut</label>
                                     <input type="text" name="defaultPacking" value="{{$productQuantity->product->unit_per_package}}"
                                         class="form-control" placeholder="Code à barre" id="defaultPacking" disabled>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="exampleInputEmail1">Colisage par défaut</label>
+                                    <input type="text" name="photo" class="form-control" value="{{$productQuantity->product->packing}}" placeholder="Colisage"
+                                        id="packingProduct" disabled>
                                 </div>
 
 

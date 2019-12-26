@@ -47,39 +47,37 @@
                         <div class="box-body">
                             <div class="row">
 
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <label for="exampleInputEmail1">Code produit</label>
                                     <input type="text" name="productCode" value="{{old('productCode')}}"
                                         class="form-control" placeholder="Code produit" id="productCode" readonly>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <label for="exampleInputEmail1">Code à barre</label>
                                     <input type="text" name="productBarcode" value="{{old('productBarcode')}}"
                                         class="form-control" placeholder="Code à barre" id="barCode" readonly>
                                 </div>
-
-                                <div class="col-md-4">
-                                    <label for="exampleInputEmail1">Colisage par défaut</label>
-                                    <input type="number" name="productPacking" value="{{old('productPacking')}}"
-                                        class="form-control" placeholder="Colisage" id="packing" readonly>
-                                </div>
-
-
                             </div>
                         </div>
 
                         <div class="box-body">
                             <div class="row">
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1">Nombre d'unités par display par défaut</label>
                                     <input type="text" name="defaultDisplay" value="{{old('defaultDisplay')}}"
                                         class="form-control" placeholder="Code produit" id="defaultDisplay" disabled>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1">Nombre de display par colis par défaut</label>
                                     <input type="text" name="defaultPacking" value="{{old('defaultPacking')}}"
                                         class="form-control" placeholder="Code à barre" id="defaultPacking" disabled>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="exampleInputEmail1">Colisage par défaut</label>
+                                    <input type="number" name="productPacking" value="{{old('productPacking')}}"
+                                        class="form-control" placeholder="Colisage" id="packing" readonly>
                                 </div>
 
 

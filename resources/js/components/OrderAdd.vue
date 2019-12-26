@@ -554,7 +554,7 @@
                     }
 
                     if (!found) {
-                        axios.post('api/product/prices/' + id, {
+                        axios.post('/api/product/prices/' + id, {
                                 store_id: this.store_id
                             })
                             .then((response) => {
@@ -778,7 +778,7 @@
             submitSaveOrder() {
                 this.disabled = true;
                 if (this.validateForm()) {
-                    axios.post('api/order/save', {
+                    axios.post('/api/order/save', {
                             code: this.code,
                             company_id: this.company_id,
                             store_id: this.store_id,
@@ -834,7 +834,7 @@
             submitStoreOrder() {
                 this.disabled = true;
                 if (this.validateForm()) {
-                    axios.post('api/order/save', {
+                    axios.post('/api/order/save', {
                             code: this.code,
                             company_id: this.company_id,
                             store_id: this.store_id,

@@ -480,7 +480,7 @@
                                     }
                                 })
 
-                                axios.get(`api/product/warehouses/${final.product_id}`)
+                                axios.get(`/api/product/warehouses/${final.product_id}`)
                                     .then((response) => {
 
                                         this.warehouse_products = response.data.warehouse_products;
@@ -550,7 +550,7 @@
 
                             this.final_prepared.forEach(final => {
 
-                                axios.get(`api/product/warehouses/${final.product_id}`)
+                                axios.get(`/api/product/warehouses/${final.product_id}`)
                                     .then((response) => {
                                         this.warehouse_products = response.data.warehouse_products;
                                         if (this.warehouse_products.length > 0) {
@@ -694,7 +694,7 @@
 
                         })
 
-                    axios.get('api/product/warehouses/' + id)
+                    axios.get('/api/product/warehouses/' + id)
                         .then((response) => {
                             this.final_prepared[i].isLoading = false
                             // this.response_array = response.data
@@ -754,8 +754,7 @@
                          this.clearPreparedProducts()
                             if (prepared.pivot.quantity) {
                   
-                                    if (prepared.pivot.quantity < 0 || prepared.pivot.quantity > prepared
-                                        .quantity) {
+                                    if (prepared.pivot.quantity < 0) {
                                         swal.fire({
                                             type: 'error',
                                             title: 'La quantité préparée saisie  est invalide ! ',
@@ -793,16 +792,16 @@
 
                     });
 
-                    let count = 0;
-                    this.final_prepared.forEach((prepared) => {
+                    // let count = 0;
+                    // this.final_prepared.forEach((prepared) => {
 
-                        count += prepared.total;
-                    });
-                    if (count <= 0) {
-                        this.errors.push('Veuillez renseigner au moins une quantité à préparer  ')
-                            window.scrollTo(0, 0);
-                        x = false;
-                    }
+                    //     count += prepared.total;
+                    // });
+                    // if (count <= 0) {
+                    //     this.errors.push('Veuillez renseigner au moins une quantité à préparer  ')
+                    //         window.scrollTo(0, 0);
+                    //     x = false;
+                    // }
 
 
                 }

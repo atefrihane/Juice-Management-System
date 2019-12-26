@@ -320,6 +320,7 @@
                         .then((response) => {
                             console.log(response);
                             if (response.data.status == 401) {
+                                   this.disabled = false
                                 swal.fire({
                                     type: 'error',
                                     title: 'Nom déja existant! ',
@@ -332,6 +333,7 @@
                             }
 
                             if (response.data.status == 402) {
+                                       this.disabled = false
                                 swal.fire({
                                     type: 'error',
                                     title: 'Code déja existant! ',
