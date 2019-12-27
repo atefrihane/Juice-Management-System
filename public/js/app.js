@@ -11097,8 +11097,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             "package": ordered.pivot["package"],
             unit: ordered.pivot.unit,
             product_packing: ordered.packing,
-            public_price: _this2.convertCurrency(ordered.public_price),
-            tva: ordered.tva,
+            public_price: _this2.convertCurrency(ordered.pivot.custom_price),
+            tva: ordered.pivot.custom_tva,
             products: _this2.products,
             product_id: ordered.id,
             total: _this2.convertCurrency(parseFloat(ordered.public_price) * ordered.pivot.unit),
@@ -11106,20 +11106,25 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           });
         });
 
-        _this2.custom_ordered.forEach(function (custom) {
-          axios.post('/api/product/prices/' + custom.product_id, {
-            store_id: _this2.store_id
-          }).then(function (response) {
-            if (response.data.custom_price) {
-              custom.public_price = _this2.convertCurrency(response.data.custom_price.price);
-              custom.total = _this2.convertCurrency(_this2.convertMoneyFormat(custom.public_price) * custom.unit);
-            }
+        _this2.clearOrderedProducts(); // this.custom_ordered.forEach(custom => {
+        //     axios.post('/api/product/prices/' + custom.product_id, {
+        //             store_id: this.store_id
+        //         })
+        //         .then((response) => {
+        //             if (response.data.custom_price) {
+        //                 custom.public_price = this.convertCurrency(response.data
+        //                     .custom_price.price)
+        //                 custom.total = this.convertCurrency(this.convertMoneyFormat(
+        //                     custom
+        //                     .public_price) * custom.unit)
+        //             }
+        //             this.clearOrderedProducts()
+        //         })
+        //         .catch(function (error) {
+        //             console.log(error);
+        //         })
+        // })
 
-            _this2.clearOrderedProducts();
-          })["catch"](function (error) {
-            console.log(error);
-          });
-        });
 
         if (_this2.prepared_products.length > 0) {
           _this2.prepared_products.forEach(function (prepared) {

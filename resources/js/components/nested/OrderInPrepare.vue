@@ -289,8 +289,8 @@
                                 package: ordered.pivot.package,
                                 unit: ordered.pivot.unit,
                                 product_packing: ordered.packing,
-                                public_price: this.convertCurrency(ordered.public_price),
-                                tva: ordered.tva,
+                                public_price: this.convertCurrency(ordered.pivot.custom_price),
+                                tva: ordered.pivot.custom_tva,
                                 products: this.products,
                                 product_id: ordered.id,
                                 total: this.convertCurrency(parseFloat(ordered.public_price) *
@@ -300,31 +300,33 @@
                             });
                         });
 
-
-                        this.custom_ordered.forEach(custom => {
-                            axios.post('/api/product/prices/' + custom.product_id, {
-                                    store_id: this.store_id
-                                })
-                                .then((response) => {
+                        this.clearOrderedProducts()
 
 
-                                    if (response.data.custom_price) {
-                                        custom.public_price = this.convertCurrency(response.data
-                                            .custom_price.price)
-                                        custom.total = this.convertCurrency(this.convertMoneyFormat(
-                                            custom
-                                            .public_price) * custom.unit)
-
-                                    }
-                                    this.clearOrderedProducts()
+                        // this.custom_ordered.forEach(custom => {
+                        //     axios.post('/api/product/prices/' + custom.product_id, {
+                        //             store_id: this.store_id
+                        //         })
+                        //         .then((response) => {
 
 
-                                })
-                                .catch(function (error) {
-                                    console.log(error);
-                                })
+                        //             if (response.data.custom_price) {
+                        //                 custom.public_price = this.convertCurrency(response.data
+                        //                     .custom_price.price)
+                        //                 custom.total = this.convertCurrency(this.convertMoneyFormat(
+                        //                     custom
+                        //                     .public_price) * custom.unit)
 
-                        })
+                        //             }
+                        //             this.clearOrderedProducts()
+
+
+                        //         })
+                        //         .catch(function (error) {
+                        //             console.log(error);
+                        //         })
+
+                        // })
 
 
                         if (this.prepared_products.length > 0) {
