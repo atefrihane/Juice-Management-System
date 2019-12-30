@@ -16,8 +16,10 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Liste des produits en stock</h3>
+                        @if(Auth::user()->primaryAdmin())
                         <a href="{{route('showAddProductQuantity')}}" class="btn btn-primary pull-right">Ajouter une
                             entrée</a>
+                            @endif
 
 
                         <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
@@ -54,6 +56,7 @@
                                         <div class="btn-group">
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
+                                                @if(Auth::user()->primaryAdmin())
                                             <ul class="dropdown-menu edit" role="menu">
                                                 <li><a href="{{route('showEditProductQuantity',$warehouseProduct->id)}}">Modifier</a></li>
                                                 <li><a href="#" data-toggle="modal"
@@ -61,6 +64,7 @@
                                                 </li>
 
                                             </ul>
+                                            @endif
                                         </div>
                                     </td>
 

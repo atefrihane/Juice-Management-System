@@ -669,7 +669,7 @@
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#exampleModal" @click="showModal(history)">
+                                        data-target="#exampleModal" @click="showModal(history)" v-if="primary_admin">
                                         Modifier
                                     </button>
                                 </td>
@@ -749,7 +749,7 @@
 
 
         },
-        props: ['order_id', 'user_id'],
+        props: ['order_id', 'user_id','primary_admin'],
         data() {
             return {
 

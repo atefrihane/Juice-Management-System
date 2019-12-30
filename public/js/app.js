@@ -7512,7 +7512,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.loadProducts();
     this.loadOrder();
   },
-  props: ['order_id', 'user_id'],
+  props: ['order_id', 'user_id', 'primary_admin'],
   data: function data() {
     var _ref;
 
@@ -75938,27 +75938,29 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("td", [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-primary",
-                          attrs: {
-                            type: "button",
-                            "data-toggle": "modal",
-                            "data-target": "#exampleModal"
-                          },
-                          on: {
-                            click: function($event) {
-                              return _vm.showModal(history)
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                                    Modifier\n                                "
+                      _vm.primary_admin
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-primary",
+                              attrs: {
+                                type: "button",
+                                "data-toggle": "modal",
+                                "data-target": "#exampleModal"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.showModal(history)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                    Modifier\n                                "
+                              )
+                            ]
                           )
-                        ]
-                      )
+                        : _vm._e()
                     ])
                   ])
                 }),

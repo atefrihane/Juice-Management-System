@@ -66,11 +66,13 @@
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
                                                 <li><a href="{{route('showRental',$rental->id)}}">Voir détails</a></li>
+                                                @if(Auth::user()->primaryAdmin())
                                                 <li><a href="{{route('showEditRental',$rental->id)}}">Modifier
                                                         location</a></li>
                                                 @if($rental->active == 1)
                                                 <li><a href="{{route('showEndRental',$rental->id)}}">Arrêter
                                                         location</a></li>
+                                                @endif
                                                 @endif
                                             </ul>
                                         </div>

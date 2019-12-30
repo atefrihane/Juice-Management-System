@@ -19,7 +19,9 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Gestion des pays,villes et codes postaux </h3>
+                        @if(Auth::user()->primaryAdmin())
                         <a href="{{route('showAddCountry')}}" class="btn btn-primary pull-right">Ajouter un pays</a>
+                        @endif
 
 
                         <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
@@ -51,6 +53,7 @@
                                         <div class="btn-group">
                                             <a class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
+                                                @if(Auth::user()->primaryAdmin())
                                             <ul class="dropdown-menu edit" role="menu">
                                                 <!-- <li>
                                                     <a data-toggle="modal"
@@ -64,6 +67,7 @@
                                                 </li>
 
                                             </ul>
+                                            @endif
                                         </div>
                                     </td>
 

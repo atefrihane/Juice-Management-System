@@ -12,22 +12,25 @@
         <div class="row">
             <div class="container">
 
-                <div class="box box-primary" id="apep">
+                <div class="box box-primary">
 
                     <div class="box-header">
                         <h3 class="box-title">Détail location machine </h3>
+                        @if(Auth::user()->primaryAdmin())
                         <div class="btn-group breadcrumb1 pull-right">
                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false"></a>
+
                             <ul class="dropdown-menu" role="menu" x-placement="bottom-start"
                                 style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(5px, 31px, 0px);">
+
                                 <li><a href="{{route('showEditRental',$rental->id)}}">Modifier</a></li>
-                                @if($rental->active == 1)    
+                                @if($rental->active == 1)
                                 <li><a href="{{route('showEndRental',$rental->id)}}">Arrêter location</a></li>
                                 @endif
-
                             </ul>
                         </div>
+                        @endif
 
                     </div>
 
@@ -93,12 +96,13 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Prix location mensuel (€)</label>
-                                
-                    
-                                            <p class="form-control" style="background-color:#eee;">@convert($rental->price)</p>
+
+
+                                        <p class="form-control" style="background-color:#eee;">@convert($rental->price)
+                                        </p>
 
                                     </div>
-                                   
+
                                 </div>
                             </div>
                             <div class="row">
@@ -173,7 +177,7 @@
 
                             @endforeach
                             @endif
-                          
+
 
                         </div>
                     </form>

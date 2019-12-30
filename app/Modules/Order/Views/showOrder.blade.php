@@ -11,7 +11,12 @@
         <div class="row">
             <div class="container-fluid">
 
-             <order-show order_id="{{$order->id}}" company_id="{{$order->store->company->id}}" user_id="{{Auth::user()->id}}"></order-show>
+             <order-show 
+             order_id="{{$order->id}}" 
+             company_id="{{$order->store->company->id}}" 
+             user_id="{{Auth::user()->id}}"
+             primary_admin="{{Auth::user()->primaryAdmin()}}"
+             ></order-show>
                 
                 
             </div>
