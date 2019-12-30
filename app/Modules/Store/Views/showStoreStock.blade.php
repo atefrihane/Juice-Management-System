@@ -16,10 +16,11 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Stock magasin </h3>
-
+                        @if(Auth::user()->primaryAdmin())
                         <a href="{{route('showAddStoreStock',['company_id'=>$store->company->id,'store_id'=>$store->id])}}"
                             class="btn btn-primary pull-right">Ajouter un produit en
                             stock</a>
+                            @endif
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -42,16 +43,22 @@
                                     <td>{{$stock->quantity}}</td>
                                     <td>{{ Carbon\Carbon::parse($stock->creation_date)->format('d-m-Y') }}</td>
                                     <td>{{ Carbon\Carbon::parse($stock->expiration_date)->format('d-m-Y') }}</td>
+                                    
                                     <td class="not-this text-center">
+                                     
                                         <div class="btn-group">
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
+                                                @if(Auth::user()->primaryAdmin())
                                             <ul class="dropdown-menu edit" role="menu">
+                                                 
                                                 <li><a href="{{route('showUpdateStoreStock',['company_id'=>$store->company->id,'store_id'=>$store->id,'stock_id'=>$stock->id])}}">Modifier</a></li>
                                                 <li><a  data-toggle="modal" data-target="#modal-default{{$stock->id}}"> Supprimer</a></li>
-
+                                        
                                            </ul>
                                         </div>
+                                        @endif
+                                  
                     </div>
                     </td>
                     </tr>

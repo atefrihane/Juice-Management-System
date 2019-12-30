@@ -55,9 +55,12 @@
                                         <a href="#" class="btn btn-default btn-flat btn-width">Informations du
                                             compte</a>
                                     </div>
+                                    @if(Auth::user()->DBO() || Auth::user()->superAdmin())
                                     <div class="text-center">
-                                    <a href="{{route('addAdmin')}}" class="btn btn-default btn-flat btn-width">Gestion des comptes</a>
+                                        <a href="{{route('addAdmin')}}"
+                                            class="btn btn-default btn-flat btn-width">Gestion des comptes</a>
                                     </div>
+                                    @endif
                                     <div class="text-center">
                                         <a href="{{route('showStaticManagement')}}"
                                             class="btn btn-default btn-flat btn-width">Gestion des constantes</a>

@@ -22,8 +22,10 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Liste des produits</h3>
+                        @if(Auth::user()->primaryAdmin())
                         <a href="{{route('showAddProduct')}}" class="btn btn-primary pull-right" >Ajouter un
                             produit</a>
+                            @endif
 
 
                         <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
@@ -79,11 +81,13 @@
                                                         @endif -->
                                                         <li><a href="{{route('showProduct', $product->id)}}">Voir détails</a></li>
                                                 <li>
+                                                        @if(Auth::user()->primaryAdmin())
                                                 <li><a href="{{route('editProduct', $product->id)}}">Modifier</a></li>
                                                 <li>
                                                     <a data-toggle="modal"
                                                         data-target="#modal-default{{$product->id}}">Supprimer</a>
                                                 </li>
+                                                @endif
                                             </ul>
                                         </div>
                                     </td>

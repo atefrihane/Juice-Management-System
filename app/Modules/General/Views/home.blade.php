@@ -10,20 +10,15 @@
         {{ Breadcrumbs::render('home') }}
     </section>
 
-
     <section class="content">
-
-
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Liste des societés</h3>
+                        @if(Auth::user()->primaryAdmin())
                         <a href="{{route('showAddCompany')}}" class="btn btn-primary pull-right">Ajouter une societé</a>
-                      
-                    
-
-                        <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
+                        @endif
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -59,11 +54,13 @@
                                             <ul class="dropdown-menu edit" role="menu">
                                             <li><a href="{{route('showCompany', $company->id)}}">Voir détails</a></li>
                                                 <li>
+                                                        @if(Auth::user()->primaryAdmin())
                                                 <li><a href="{{route('editCompany', $company->id)}}">Modifier</a></li>
                                                 <li>
                                                     <a data-toggle="modal"
                                                         data-target="#modal-default{{$company->id}}">Supprimer</a>
                                                 </li>
+                                                @endif
                                             </ul>
                                         </div>
                                     </td>

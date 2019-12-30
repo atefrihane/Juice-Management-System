@@ -17,7 +17,9 @@
                     <div class="box-header">
                         <h3 class="box-title">Machines en location pour la societé &nbsp;&nbsp; <small>
                                 {{$company->name}}</small></h3>
+                                @if(Auth::user()->primaryAdmin())
                         <a href="{{route('showStartRentalMachines')}}" class="btn btn-primary pull-right">Commencer location</a>
+                        @endif
 
                         <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
                     </div>
@@ -60,19 +62,22 @@
                                                 <li><a
                                                         href="{{route('showRental', ['id' => $machine->id])}}">Voir
                                                         détails location</a></li>
+                                                        @if(Auth::user()->primaryAdmin())
                                                 <li><a href="{{route('showEndRental', ['id' =>$machine->id])}}">Arrêter
                                                         location</a></li>
+                                                        @endif
                                                 <li><a href="{{route('showListRental', $machine->machine->id).'?machine=true'}}">Voir
                                                         historique des locations</a></li>
                                                 <li><a href="{{route('showHistoryMachine', $machine->machine->id).'?machine=true'}}">Voir
                                                         détail machine</a></li>
+                                                        @if(Auth::user()->primaryAdmin())
                                                 <li><a href="{{route('machineStatusEdit', $machine->machine->id)}}">Mettre à jour
                                                         état</a></li>
                                                 <li><a href="{{route('editMachine', $machine->machine->id)}}">Modifier</a></li>
                                                <li><a data-toggle="modal"
                                                         data-target="#modal-default{{$machine->machine->id}}">Supprimer</a></li> 
                                             
-
+                                                        @endif
                                             </ul>
                                         </div>
 

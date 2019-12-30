@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema;
-use Laravel\Passport\Passport;
 use Blade;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -34,11 +34,11 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Blade::directive('formatDate', function ($date) {
-        
+
             return "<?php echo date_format($date,'d-m-Y').' '.' à'.' '.date_format($date,'H:i:s');  ?>";
         });
 
-       
+   
 
     }
 }

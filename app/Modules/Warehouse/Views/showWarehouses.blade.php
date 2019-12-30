@@ -17,8 +17,10 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Liste des entrepôts</h3>
+                        @if(Auth::user()->primaryAdmin())
                         <a href="{{route('showAddWarehouse')}}" class="btn btn-primary pull-right">Ajouter un
                             entrepôt</a>
+                       @endif
 
 
                         <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
@@ -57,9 +59,10 @@
                                             <ul class="dropdown-menu edit" role="menu">
                                                
                                                 <li><a href="{{ route('showWarehouse',$warehouse->id) }}">Voir les détails</a> </li>
+                                                @if(Auth::user()->primaryAdmin())
                                                 <li><a href="{{ route('showUpdateWarehouse',$warehouse->id) }}">Modifier</a></li>
                                                 <li><a data-toggle="modal" data-target="#modal-default{{$warehouse->id}}">Supprimer</a></li>
-
+                                                @endif
                                             </ul>
 
                                             <div class="modal fade" id="modal-default{{$warehouse->id}}">

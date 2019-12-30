@@ -16,8 +16,9 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Liste des machines en location </h3>
-
+                        @if(Auth::user()->primaryAdmin())
                         <a href="{{route('showStartRentalMachines')}}" class="btn btn-primary pull-right">Commencer location</a>
+                        @endif
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -63,21 +64,22 @@
                                                         historique des locations</a></li>
                                                 <li><a href="{{route('showHistoryMachine',$rental->machine->id)}}">Voir détails machine</a></li>
                                                 @else
-
+                                                @if(Auth::user()->primaryAdmin())  
                                                 <li><a
                                                         href="{{route('showEndRental', $rental->id)}}">Arrêter
                                                         location</a></li>
+                                                        @endif
                                                 <li><a href="{{route('showListRental', $rental->machine->id).'?machine=true'}}">Voir
                                                         historique des locations</a></li>
                                                 <li><a href="{{route('showHistoryMachine',$rental->machine->id)}}">Voir détails machine</a></li>
                                                 @endif
-
+                                                @if(Auth::user()->primaryAdmin())  
                                                 <li><a href="{{route('machineStatusEdit', $rental->machine->id)}}">Mettre à jour
                                                         état</a></li>
                                                 <li><a href="{{route('editMachine', $rental->machine->id)}}">Modifier</a></li>
                                                 <li><a href="" data-toggle="modal"
                                                         data-target="#modal-default{{$rental->machine->id}}">Supprimer</a></li>
-
+                                                        @endif
                                             </ul>
 
                                             <div class="modal fade" id="modal-default{{$rental->machine->id}}">

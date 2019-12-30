@@ -17,8 +17,10 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Liste des Contacts</h3>
+                        @if(Auth::user()->primaryAdmin())
                         <a href="{{route('showAddContact',$company->id)}}" class="btn btn-primary pull-right">Ajouter un
                             contact</a>
+                             @endif
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -56,12 +58,14 @@
                                             <li><a
                                                         href="{{route('showContact', [$company->id, $contact->user->id])}}">Voir détails</a>
                                                 </li>
+                                                @if(Auth::user()->primaryAdmin())
                                                 <li><a
                                                         href="{{route('editClient', [$company->id, $contact->user->id])}}">Modifier</a>
                                                 </li>
                                                 <li><a data-toggle="modal"
                                                         data-target="#modal-default{{$contact->user->id}}">Supprimer</a>
                                                 </li>
+                                                @endif
 
                                             </ul>
                                         </div>

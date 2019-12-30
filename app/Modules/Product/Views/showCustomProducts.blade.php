@@ -17,8 +17,10 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Tarif Societé - Liste des produits</h3>
+                        @if(Auth::user()->primaryAdmin())
                         <a href="{{route('showAddCustomProduct',$company->id)}}"
                             class="btn btn-primary pull-right">Ajouter un produit au tarif</a>
+                            @endif
 
 
                         <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
@@ -58,6 +60,7 @@
                                         <div class="btn-group">
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
+                                                @if(Auth::user()->primaryAdmin())
                                             <ul class="dropdown-menu edit" role="menu">
                                                 <li><a
                                                         href="{{route('showUpdateCustomProducts',['company'=>$company->id,'price'=>$price->id])}}">Modifier</a>
@@ -66,7 +69,9 @@
                                                         data-target="#modal-default{{$price->id}}">Supprimer</a>
                                                 </li>
                                             </ul>
+                                            @endif
                                         </div>
+
                     </div>
                     </td>
                     </tr>

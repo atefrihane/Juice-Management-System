@@ -16,7 +16,9 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Liste des machines</h3>
+                        @if(Auth::user()->primaryAdmin())
                         <a href="{{route('showAddMachine')}}" class="btn btn-primary pull-right">Ajouter une machine</a>
+                        @endif
 
 
                         <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
@@ -83,12 +85,12 @@
                                                         location</a></li>
                                                 @break;
                                                 @endif
-
+                                                                     
 
                                                 @empty
                                                 @endforelse
                                                 @foreach($machine->machineRentals as $rental)
-                                                @if($rental->active == 1)
+                                                @if($rental->active == 1 && Auth::user()->primaryAdmin())
                                                 <li><a href="{{route('showEndRental', ['id' =>$rental->id])}}">Arrêter
                                                         location</a></li>
                                                 @break;
@@ -101,12 +103,14 @@
                                                 <li><a href="{{route('showHistoryMachine',$machine->id)}}">Voir détails
                                                         machine</a></li>
                                                 @endif
-
+                                                @if(Auth::user()->primaryAdmin())       
                                                 <li><a href="{{route('machineStatusEdit', $machine->id)}}">Mettre à jour
                                                         état</a></li>
+                                                        
                                                 <li><a href="{{route('editMachine', $machine->id)}}">Modifier</a></li>
                                                 <li><a href="" data-toggle="modal"
                                                         data-target="#modal-default{{$machine->id}}">Supprimer</a></li>
+                                                        @endif
 
                                             </ul>
                                         </div>

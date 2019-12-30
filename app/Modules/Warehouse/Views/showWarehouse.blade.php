@@ -15,6 +15,7 @@
                 <small> {{$warehouse->designation}}</small>
                 <small> </small>
             </h1>
+            @if(Auth::user()->primaryAdmin())
             <div class="btn-group breadcrumb1">
                 <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                 <ul class="dropdown-menu edit" role="menu">
@@ -22,6 +23,7 @@
                     <li> <a data-toggle="modal" data-target="#modal-default{{$warehouse->id}}">Supprimer</a></li>
                 </ul>
             </div>
+            @endif
 
             <div class="modal fade" id="modal-default{{$warehouse->id}}">
                 <div class="modal-dialog">
@@ -174,9 +176,11 @@
             <div class="box-body">
                 <div class="box-header" style="margin-bottom:25px;">
                     <h3 class="box-title">Liste des produits en stock</h3>
+                    @if(Auth::user()->primaryAdmin())
                     <a href="{{route('showAddWarehouseStock',$warehouse->id)}}"
                         class="btn btn-primary pull-right">Ajouter une
                         entrée</a>
+                        @endif
                 </div>
 
                 <table class="table table-bordered table-hover example2">
@@ -209,6 +213,7 @@
                                 <div class="btn-group">
                                     <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false"></a>
+                                        @if(Auth::user()->primaryAdmin())
                                     <ul class="dropdown-menu edit" role="menu">
                                         <li><a
                                                 href="{{route('showEditProductQuantity',$warehouseProduct->pivot->id)}}">Modifier</a>
@@ -218,6 +223,7 @@
                                         </li>
 
                                     </ul>
+                                    @endif
                                 </div>
                             </td>
 

@@ -2,12 +2,11 @@
 
 namespace App\Modules\User\Models;
 
-
-use App\Modules\User\Models\Responsible;
-use App\Modules\User\Models\Director;
-use App\Modules\User\Models\ContactHistory;
-use App\Modules\Warehouse\Models\Warehouse;
 use App\Modules\Order\Models\Order;
+use App\Modules\User\Models\ContactHistory;
+use App\Modules\User\Models\Director;
+use App\Modules\User\Models\Responsible;
+use App\Modules\Warehouse\Models\Warehouse;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -39,8 +38,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-   
-
     public function child()
     {
         return $this->morphTo();
@@ -48,7 +45,6 @@ class User extends Authenticatable
     public function getType()
     {
 
-     
         switch ($this->child_type) {
             case Responsible::class:return 'Autre';
                 break;
@@ -57,9 +53,44 @@ class User extends Authenticatable
         }
         return 'admin';
     }
+
+    public function DBO()
+    {
+        return $this->child->role->role_name == 'DBO';
+    }
+    public function superAdmin()
+    {
+        return $this->child->role->role_name == 'SUPERADMIN';
+    }
+
+    public function admin()
+    {
+        return $this->child->role->role_name == 'ADMIN';
+    }
+
+    public function preparator()
+    {
+
+    }
+
+    public function mainDelivery()
+    {
+
+    }
+    public function secondDelivery()
+    {
+
+    }
+
+    public function primaryAdmin()
+    {
+        return $this->DBO() or $this->superAdmin() or $this->admin();
+
+    }
+
     public function formatName()
     {
-        return ucfirst($this->nom).' '.ucfirst($this->prenom);
+        return ucfirst($this->nom) . ' ' . ucfirst($this->prenom);
     }
 
     public function warehouses()
@@ -77,9 +108,8 @@ class User extends Authenticatable
     }
     public function histories()
     {
-        return $this->hasMany(ContactHistory::class,'contact_id','id');
+        return $this->hasMany(ContactHistory::class, 'contact_id', 'id');
 
     }
-
 
 }

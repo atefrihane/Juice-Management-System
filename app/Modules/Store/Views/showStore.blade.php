@@ -32,6 +32,7 @@
                 Informations du magasin
                 <small> {{$store->designation}}</small>
             </h1>
+            @if(Auth::user()->primaryAdmin())
             <div class="btn-group breadcrumb1">
                 <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                 <ul class="dropdown-menu edit" role="menu">
@@ -41,6 +42,7 @@
 
                 </ul>
             </div>
+            @endif
 
         </section>
 

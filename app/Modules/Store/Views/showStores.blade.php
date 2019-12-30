@@ -32,8 +32,10 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Liste des Magasins</h3>
+                        @if(Auth::user()->primaryAdmin())
                         <a href="{{route('showAddStore',$company->id)}}" class="btn btn-primary pull-right">Ajouter un
                             magasin</a>
+                            @endif
 
 
                         <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
@@ -72,11 +74,13 @@
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
                                             <li><a href="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}">Voir détails</a></li>
-                                                <li><a href="{{route('editStore', $store->id)}}">Modifier</a></li>
+                                            @if(Auth::user()->primaryAdmin())   
+                                            <li><a href="{{route('editStore', $store->id)}}">Modifier</a></li>
                                                 <li>
                                                     <a data-toggle="modal"
                                                         data-target="#modal-default{{$store->id}}">Supprimer</a>
                                                 </li>
+                                                @endif
                                             </ul>
                                         </div>
                                     </td>

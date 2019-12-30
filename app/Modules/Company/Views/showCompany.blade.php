@@ -29,6 +29,7 @@
                 Informations de la societé
                 <small> {{$company->name}}</small>
             </h1>
+            @if(Auth::user()->primaryAdmin())
             <div class="btn-group breadcrumb1">
                 <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                 <ul class="dropdown-menu edit" role="menu">
@@ -36,6 +37,7 @@
                     <li> <a data-toggle="modal" data-target="#modal-default{{$company->id}}">Supprimer</a></li>
                 </ul>
             </div>
+            @endif
 
             <div class="modal fade" id="modal-default{{$company->id}}">
                 <div class="modal-dialog">
