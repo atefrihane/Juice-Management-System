@@ -23,6 +23,7 @@
                         <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
                     </div>
                     <!-- /.box-header -->
+                    
                     <div class="box-body">
                         <table class="table table-bordered table-hover example2" style="width:100%;">
                             <thead>
@@ -32,17 +33,42 @@
                                     <th>Prénom</th>
                                     <th>Email</th>
                                     <th>Role</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($admins as $admin)
 
-                                <tr class="table-tr">
+                                <tr >
                                     <td>{{$admin->user->code}}</td>
                                     <td>{{$admin->user->nom}}</td>
                                     <td>{{$admin->user->prenom}}</td>
                                     <td>{{$admin->user->email}}</td>
-                                    <td>{{$admin->role->role_name}}</td>
+                                    <td>
+                                        @switch($admin->role->role_name)
+                                        @case('DBO')
+                                        DBO
+                                        @break;
+                                        @case('SUPERADMIN')
+                                        Super Admin
+                                        @break;
+                                        @case('ADMIN')
+                                        Admin
+                                        @break
+                                        @case('PREPARATOR')
+                                        Préparateur
+                                        @break
+                                        @case('MAIN_DELIVERY')
+                                        Livreur principale
+                                        @break
+                                        @case('SECOND_DELIVERY')
+                                        Livreur
+                                        @break
+
+                                        @endswitch      
+
+
+                                    </td>
                                     <td class="not-this text-center">
 
                                         <div class="btn-group">
@@ -50,7 +76,6 @@
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
                                                 <li><a href="{{route('editAdmin', $admin->id)}}">Modifier</a></li>
-                                                <li><a href="#">Annuler</a></li>
                                                 <li><a data-toggle="modal" data-target="#modal-default{{$admin->id}}">
                                                         Supprimer</a></li>
 
@@ -102,7 +127,7 @@
 
                     @empty
                     <tr>
-                        <p>Aucune societé !</p>
+                        <td colspan="6" class="text-center"><h4>Aucun Admin !</h4></td>
                     </tr>
                     @endforelse
 

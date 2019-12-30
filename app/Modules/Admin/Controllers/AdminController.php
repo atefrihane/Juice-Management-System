@@ -18,8 +18,9 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $admins = Admin::query()->with('user')->with('role')->get();
-        // dd($admins);
+        $admins = Admin::with('user', 'role')->whereHas('role', function ($q) {
+            $q->where('role_name', '<>', 'DBO');
+        })->get();
         return view("Admin::index", compact('admins'));
     }
 
@@ -51,9 +52,9 @@ class AdminController extends Controller
             'prenom' => 'required',
             'sexe' => 'required',
             'telephone' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|',
             'accessCode' => 'required',
-            'password' => 'required',
+            'passWord' => 'required',
         ], [
             'code.required' => 'le champs code est obligatoire',
             'nom.required' => 'le champs nom est obligatoire',
@@ -62,9 +63,8 @@ class AdminController extends Controller
             'telephone.required' => 'le champs telephone est obligatoire',
             'email.required' => 'le champs email est obligatoire',
             'email.email' => 'vous devez saisir un email valide ',
-            'email.unique' => 'email deja existant ',
             'accessCode.required' => 'le champs code d\'acces est obligatoire',
-            'password.required' => 'le champs mot de passe est obligatoire',
+            'passWord.required' => 'le champs mot de passe est obligatoire',
 
         ]);
 
@@ -79,7 +79,7 @@ class AdminController extends Controller
             'civilite' => $request->sexe,
             'telephone' => $request->telephone,
             'accessCode' => $request->accessCode,
-            'password' => bcrypt($request->password),
+            'password' => $request->passWord,
             'child_type' => Admin::class,
             'child_id' => $admin->id,
         ]);
@@ -110,8 +110,7 @@ class AdminController extends Controller
 
         $admin = Admin::query()->where('id', '=', $id)->with('user')->get()->first();
         $roles = Role::all();
-        if(!$admin)
-        {
+        if (!$admin) {
             return view('General::notFound');
         }
         return view("Admin::updateAdmin", compact('admin', 'roles'));
@@ -135,7 +134,7 @@ class AdminController extends Controller
             'telephone' => 'required',
             'email' => 'required|email',
             'accessCode' => 'required',
-            'password' => 'required',
+            'passWord' => 'required',
         ], [
             'code.required' => 'le champs code est obligatoire',
             'nom.required' => 'le champs nom est obligatoire',
@@ -144,27 +143,25 @@ class AdminController extends Controller
             'telephone.required' => 'le champs telephone est obligatoire',
             'email.required' => 'le champs email est obligatoire',
             'email.email' => 'vous devez saisir un email valide ',
-            'email.unique' => 'email deja existant ',
             'accessCode.required' => 'le champs code d\'acces est obligatoire',
-            'password.required' => 'le mot de passe est requis',
+            'passWord.required' => 'le mot de passe est requis',
 
         ]);
         $admin = Admin::find($id);
-        if(!$admin)
-        {
+        if (!$admin) {
             return view('General::notFound');
         }
-        $checkEmail = User::where('email', $request->email)->first();
-        if ($checkEmail) {
-            alert()->error('Oups!', 'Email existe déja')->persistent('Fermer');
-            return redirect()->back();
+        // $checkEmail = User::where('email', $request->email)->first();
+        // if ($checkEmail) {
+        //     alert()->error('Oups!', 'Email existe déja')->persistent('Fermer');
+        //     return redirect()->back();
 
-        }
+        // }
         $admin->role_id = $request->role;
         $admin->save();
         $user = User::find($admin->user->id);
-        if ($request->password != null) {
-            $password = bcrypt($request->passsword);
+        if ($request->passWord != null) {
+            $password = $request->passWord;
         } else {
             $password = $user->password;
         }

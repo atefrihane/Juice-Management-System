@@ -78,6 +78,7 @@ class Kernel extends HttpKernel
         'order.update.status' => \App\Http\Middleware\OrderStatusUpdate::class,
         'order.archive' => \App\Http\Middleware\ArchiveOrder::class,
         'order.delivery' => \App\Http\Middleware\OrderDelivery::class,
+        'primary.admin' => \App\Http\Middleware\PrimaryAdmin::class,
     ];
 
     /**

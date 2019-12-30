@@ -48,13 +48,32 @@
                                             <label for="exampleInputEmail1">Role</label>
                                             <select class="form-control" name="role" >
                                                 @foreach($roles as $role)
-                                                    <option value="{{$role->id}}"
-                                                    @if($role->id == $admin->role->id)
-                                                        selected
-                                                    @endif
-                                                        >
-                                                        {{$role->role_name}}
-                                                    </option>
+                                                @if($role->id != 1)
+                                                <option value="{{$role->id}}" @if($role->id == $admin->role_id) selected @endif>
+                                                    @switch($role->role_name)
+                                                    @case('DBO')
+                                                    DBO
+                                                    @break;
+                                                    @case('SUPERADMIN')
+                                                    Super Admin
+                                                    @break;
+                                                    @case('ADMIN')
+                                                    Admin
+                                                    @break
+                                                    @case('PREPARATOR')
+                                                    Préparateur
+                                                    @break
+                                                    @case('MAIN_DELIVERY')
+                                                    Livreur principale
+                                                    @break
+                                                    @case('SECOND_DELIVERY')
+                                                    Livreur
+                                                    @break
+
+                                                    @endswitch
+                                              
+                                                </option>
+                                                @endif
                                                 @endforeach
                                             </select>
                                         </div>
@@ -87,7 +106,7 @@
 
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Civilité</label>
                                             <select class="form-control" name="sexe">
@@ -121,7 +140,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Code d'accés</label>
                                             <input type="text" class="form-control" name="accessCode" value="{{$admin->user->accessCode}}" id="exampleInputPassword1" placeholder="Code d'accés">
@@ -130,10 +149,10 @@
 
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Mot de passe</label>
-                                            <input type="password" class="form-control" name="password"  id="exampleInputPassword1" placeholder="Mot de passe">
+                                            <input type="text" class="form-control" name="passWord" value="{{$admin->user->password}}"  id="exampleInputPassword1" placeholder="Mot de passe">
                                         </div>
                                     </div>
 

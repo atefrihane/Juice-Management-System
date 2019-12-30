@@ -5,6 +5,12 @@ Route::group(['module' => 'User', 'middleware' => ['web','isGuest'], 'namespace'
  Route::post('/login','UserController@handleLogin')->name('handleLogin');
  Route::get('/login','UserController@showLogin')->name('showLogin');
 });
+
+Route::group(['module' => 'Company', 'middleware' => ['web', 'isAuth','primary.admin'], 'namespace' => 'App\Modules\User\Controllers'], function () {
+
+    Route::get('contact/show//add/{id}', 'UserController@showAddContact')->name('showAddContact');
+});
+
 Route::group(['module' => 'User', 'middleware' => ['web','isAuth'], 'namespace' => 'App\Modules\User\Controllers'], function() {
 
     Route::get('/logout','UserController@handleSignOut')->name('handleSignOut');
@@ -14,7 +20,7 @@ Route::group(['module' => 'User', 'middleware' => ['web','isAuth'], 'namespace' 
     route::post('contact/delete/{cid}/{id}', 'UserController@deleteClient')->name('deleteContact');
     route::get('contact/{cid}/{id}', 'UserController@showContact')->name('showContact');
     Route::get('contacts/{id}', 'UserController@showContacts')->name('showContacts');
-    Route::get('contact/show//add/{id}', 'UserController@showAddContact')->name('showAddContact');
+   
 
 
    });

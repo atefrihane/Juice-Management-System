@@ -37,27 +37,42 @@
                             <div class="box-body">
                                 <div class="row">
 
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">ID</label>
-                                            <input class="form-control" id="disabledInput" type="text" value="{{$lastAdminId}}" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Role</label>
                                             <select class="form-control" name="role" required>
                                                 @foreach($roles as $role)
                                                     @if($role->id != 1)
                                                     <option value="{{$role->id}}">
-                                                        {{$role->role_name}}
+                                                        @switch($role->role_name)
+                                                        @case('DBO')
+                                                        DBO
+                                                        @break;
+                                                        @case('SUPERADMIN')
+                                                        Super Admin
+                                                        @break;
+                                                        @case('ADMIN')
+                                                        Admin
+                                                        @break
+                                                        @case('PREPARATOR')
+                                                        Préparateur
+                                                        @break
+                                                        @case('MAIN_DELIVERY')
+                                                        Livreur principale
+                                                        @break
+                                                        @case('SECOND_DELIVERY')
+                                                        Livreur
+                                                        @break
+
+                                                        @endswitch
+                                                  
                                                     </option>
                                                     @endif
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-group">
 
                                             <label for="exampleInputEmail1">Code</label>
@@ -86,7 +101,7 @@
 
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Civilité</label>
                                             <select class="form-control" name="sexe" value="{{old('sexe')}}" required>
@@ -113,7 +128,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Code d'accés</label>
                                             <input type="text" class="form-control" name="accessCode" id="exampleInputPassword1" placeholder="Code d'accés" value="{{old('accessCode')}}" required>
@@ -122,10 +137,10 @@
 
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Mot de passe</label>
-                                            <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Mot de passe" value="{{old('password')}}" required>
+                                            <input type="text" class="form-control" name="passWord" id="exampleInputPassword1" placeholder="Mot de passe" value="{{old('password')}}" required>
                                         </div>
                                     </div>
 

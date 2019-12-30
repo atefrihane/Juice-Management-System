@@ -15,6 +15,7 @@ class CompanyController extends Controller
 {
     public function showAddCompany()
     {
+        dd('hi');
         $lastCompanyId = Company::count() + 1;
         $countries = Country::all();
 

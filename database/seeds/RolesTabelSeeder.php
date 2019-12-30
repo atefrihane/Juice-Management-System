@@ -23,6 +23,17 @@ class RolesTabelSeeder extends Seeder
         Role::create([
             "role_name"=> 'ADMIN'
         ]);
+        Role::create([
+            "role_name"=> 'PREPARATOR'
+        ]);
+
+        Role::create([
+            "role_name"=> 'MAIN_DELIVERY'
+        ]);
+
+        Role::create([
+            "role_name"=> 'SECOND_DELIVERY'
+        ]);
 
     }
 }
