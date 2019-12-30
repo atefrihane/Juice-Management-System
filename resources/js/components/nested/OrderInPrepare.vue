@@ -686,7 +686,6 @@
             validateBalance() {
                 //Only Allah knows how I did it :p ( هذا من فضل ربي )
                 this.balance = []
-                this.balance = []
                 let balances = [];
                 let rmvBalances = [];
 
@@ -700,7 +699,9 @@
                                     product_id: custom.product_id,
                                     name: custom.name,
                                     qty,
-                                    packing: custom.product_packing
+                                    packing: custom.product_packing,
+                                      public_price:custom.public_price,
+                                    tva:custom.tva
                                 })
                             }
                         } else { //Item not found in custom
@@ -712,7 +713,9 @@
                                     product_id: custom.product_id,
                                     name: custom.name,
                                     qty: custom.unit,
-                                    packing: custom.product_packing
+                                    packing: custom.product_packing,
+                                    public_price:custom.public_price,
+                                    tva:custom.tva
                                 })
                             }
                         }

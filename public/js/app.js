@@ -11408,7 +11408,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
       //Only Allah knows how I did it :p ( هذا من فضل ربي )
       this.balance = [];
-      this.balance = [];
       var balances = [];
       var rmvBalances = [];
       this.custom_ordered.map(function (custom) {
@@ -11420,7 +11419,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 product_id: custom.product_id,
                 name: custom.name,
                 qty: qty,
-                packing: custom.product_packing
+                packing: custom.product_packing,
+                public_price: custom.public_price,
+                tva: custom.tva
               });
             }
           } else {
@@ -11434,7 +11435,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 product_id: custom.product_id,
                 name: custom.name,
                 qty: custom.unit,
-                packing: custom.product_packing
+                packing: custom.product_packing,
+                public_price: custom.public_price,
+                tva: custom.tva
               });
             }
           }

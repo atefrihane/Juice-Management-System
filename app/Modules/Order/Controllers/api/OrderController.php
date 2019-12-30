@@ -572,6 +572,8 @@ class OrderController extends Controller
                                     'product_id' => $balance['product_id'],
                                     'package' => ceil($balance['packing'] / $balance['qty']),
                                     'unit' => $balance['qty'],
+                                    'custom_price' =>$balance['public_price'],
+                                    'custom_tva' =>$balance['tva']
                                 ];
                                 array_push($newProducts, $array);
 
