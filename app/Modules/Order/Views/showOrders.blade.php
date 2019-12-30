@@ -24,7 +24,7 @@
                         <h3 class="box-title">Liste des Commandes</h3>
                         <div class="box-body">
                             <a href="{{route('showArchives')}}" class="btn btn-default pull-left">Archives</a>
-                            @if(Auth::user()->primaryAdmin())
+                            @if(Auth::user()->preparatorAdmin())
                             <a href="{{route('showAddOrder')}}" class="btn btn-primary pull-right">Ajouter une
                                 commande</a>
                                 @endif
@@ -91,13 +91,15 @@
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
+                                                    @if(Auth::user()->preparatorAdmin())
                                                 <li><a href="{{route('showUpdateOrder',$order->id)}}">Modifier</a></li>
                                                 <li><a data-toggle="modal"
                                                         data-target="#modal-default{{$order->id}}">Supprimer</a></li>
+                                                        @endif
                                             </ul>
                                         </div>
-                    </div>
-                    </td>
+                                         </div>
+                                         </td>
                     <div class="modal fade" id="modal-default{{$order->id}}">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -146,8 +148,10 @@
                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false"></a>
                             <ul class="dropdown-menu edit" role="menu">
+                                    @if(Auth::user()->preparatorAdmin())
                                 <li><a href="{{route('showUpdateOrder',$order->id)}}">Modifier</a></li>
                                 <li><a data-toggle="modal" data-target="#modal-default{{$order->id}}">Supprimer</a></li>
+                                @endif
                             </ul>
                         </div>
                 </div>
@@ -198,7 +202,7 @@
                         <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                         <ul class="dropdown-menu edit" role="menu">
                             <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
-                            @if(Auth::user()->primaryAdmin())
+                            @if(Auth::user()->preparatorAdmin())
                             <li><a href="{{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
                             @endif
                         </ul>
@@ -219,7 +223,7 @@
                     <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                     <ul class="dropdown-menu edit" role="menu">
                         <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
-                        @if(Auth::user()->primaryAdmin())
+                        @if(Auth::user()->preparatorAdmin())
                         <li><a href="{{route('showOrderPreparedProducts',$order->id)}}"">Modifier la préparation</a></li>
                                                         <li><a href="
                                 {{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
@@ -242,7 +246,7 @@
                 <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                 <ul class="dropdown-menu edit" role="menu">
                     <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
-                    @if(Auth::user()->primaryAdmin())
+                    @if(Auth::user()->preparatorAdmin())
                     <li><a href="{{route('showOrderPreparedProducts',$order->id)}}"">Modifier la préparation</a></li>
                 <li><a href=" {{route('showUpdateDeliveryOrder',$order->id)}}"">Modifier la livraison</a></li>
                     <li><a href=" {{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
@@ -264,7 +268,7 @@
         <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
         <ul class="dropdown-menu edit" role="menu">
             <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
-            @if(Auth::user()->primaryAdmin())
+            @if(Auth::user()->preparatorAdmin())
             <li><a href="{{route('showOrderPreparedProducts',$order->id)}}"">Modifier la préparation</a></li>
                 <li><a href=" {{route('showUpdateDeliveryOrder',$order->id)}}"">Modifier la livraison</a></li>
             <li><a href=" {{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
@@ -287,7 +291,7 @@
         <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
         <ul class="dropdown-menu edit" role="menu">
             <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
-            @if(Auth::user()->primaryAdmin())
+            @if(Auth::user()->preparatorAdmin())
             <li><a href="{{route('showOrderPreparedProducts',$order->id)}}"">Modifier la préparation</a></li>
                 <li><a href=" {{route('showUpdateDeliveryOrder',$order->id)}}"">Modifier la livraison</a></li>
             <li><a href=" {{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
@@ -308,7 +312,7 @@
         <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
         <ul class="dropdown-menu edit" role="menu">
             <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
-            @if(Auth::user()->primaryAdmin())
+            @if(Auth::user()->preparatorAdmin())
             <li><a href="{{route('showOrderPreparedProducts',$order->id)}}"">Modifier la préparation</a></li>
                 <li><a href=" {{route('showUpdateDeliveryOrder',$order->id)}}"">Modifier la livraison</a></li>
             <li><a href=" {{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
@@ -332,7 +336,7 @@
         <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
         <ul class="dropdown-menu edit" role="menu">
             <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
-            @if(Auth::user()->primaryAdmin())
+            @if(Auth::user()->preparatorAdmin())
             <li><a href="{{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
             @endif
         </ul>
@@ -353,7 +357,7 @@
         <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
         <ul class="dropdown-menu edit" role="menu">
             <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
-            @if(Auth::user()->primaryAdmin())
+            @if(Auth::user()->preparatorAdmin())
             <li><a href="{{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
             @endif
         </ul>
@@ -373,7 +377,7 @@
         <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
         <ul class="dropdown-menu edit" role="menu">
             <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
-            @if(Auth::user()->primaryAdmin())
+            @if(Auth::user()->preparatorAdmin())
             <li><a href="{{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
             @endif
         </ul>
@@ -393,7 +397,7 @@
         <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
         <ul class="dropdown-menu edit" role="menu">
             <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
-            @if(Auth::user()->primaryAdmin())
+            @if(Auth::user()->preparatorAdmin())
             <li> <a data-toggle="modal" data-target="#modal-default{{$order->id}}">Archiver</a></li>
             @endif
         </ul>
@@ -450,7 +454,7 @@
         <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
         <ul class="dropdown-menu edit" role="menu">
             <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
-            @if(Auth::user()->primaryAdmin())
+            @if(Auth::user()->preparatorAdmin())
             <li><a data-toggle="modal" data-target="#modal-default{{$order->id}}">Supprimer</a></li>
             @endif
         </ul>

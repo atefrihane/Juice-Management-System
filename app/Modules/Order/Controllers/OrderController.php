@@ -4,13 +4,35 @@ namespace App\Modules\Order\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Order\Models\Order;
+use Auth;
 
 class OrderController extends Controller
 {
 
     public function showOrders()
     {
-     
+        switch (Auth::user()->child->role->role_name) {
+
+            case 'MAIN_DELIVERY':
+                return view('Order::showOrders', [
+                    'orders' =>
+                    Order::with('store')
+                        ->where('status', '>=', 5)
+                        ->where('status', '<=', 7)
+                        ->get(),
+                ]);
+                break;
+            case 'SECOND_DELIVERY':
+                return view('Order::showOrders', [
+                    'orders' =>
+                    Order::with('store')
+                        ->where('delivery_man_id', Auth::id())
+                        ->get(),
+                ]);
+                break;
+
+        }
+
         return view('Order::showOrders', ['orders' => Order::with('store')->where('status', '<', 13)->get()]);
 
     }
@@ -24,7 +46,7 @@ class OrderController extends Controller
     {
         $order = Order::find($id);
         if ($order) {
-            return view('Order::updateOrder', ['order' => $order ,'history' => $order->histories->first()]);
+            return view('Order::updateOrder', ['order' => $order, 'history' => $order->histories->first()]);
 
         }
         return view('General::notFound');
@@ -58,9 +80,8 @@ class OrderController extends Controller
     {
         $order = Order::find($id);
         if ($order) {
-        
 
-            return view('Order::showUpdateStatusOrder', ['order' => $order,'history' => $order->histories->last()]);
+            return view('Order::showUpdateStatusOrder', ['order' => $order, 'history' => $order->histories->last()]);
 
         }
         return view('General::notFound');

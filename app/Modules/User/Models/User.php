@@ -70,21 +70,29 @@ class User extends Authenticatable
 
     public function preparator()
     {
-
+        return $this->child->role->role_name == 'PREPARATOR';
     }
 
     public function mainDelivery()
     {
+        return $this->child->role->role_name == 'MAIN_DELIVERY';
 
     }
     public function secondDelivery()
     {
+        return $this->child->role->role_name == 'SECOND_DELIVERY';
 
     }
 
     public function primaryAdmin()
     {
         return $this->DBO() or $this->superAdmin() or $this->admin();
+
+    }
+
+    public function preparatorAdmin()
+    {
+        return $this->DBO() or $this->superAdmin() or $this->admin() or $this->preparator();
 
     }
 

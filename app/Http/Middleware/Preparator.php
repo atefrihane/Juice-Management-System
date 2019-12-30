@@ -2,10 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use Auth;
+use Closure;
 
-class PrimaryAdmin
+class Preparator
 {
     /**
      * Handle an incoming request.
@@ -16,14 +16,11 @@ class PrimaryAdmin
      */
     public function handle($request, Closure $next)
     {
-     
-      
-        if (Auth::user()->primaryAdmin()) {
+        if (Auth::user()->primaryAdmin() or Auth::user()->preparator()) {
             return $next($request);
 
         }
-       return redirect()->route('showHome');
-      
+        return redirect()->route('showOrders');
 
     }
 }

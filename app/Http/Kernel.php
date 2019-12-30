@@ -79,6 +79,8 @@ class Kernel extends HttpKernel
         'order.archive' => \App\Http\Middleware\ArchiveOrder::class,
         'order.delivery' => \App\Http\Middleware\OrderDelivery::class,
         'primary.admin' => \App\Http\Middleware\PrimaryAdmin::class,
+        'order.access' => \App\Http\Middleware\CheckOrderAccess::class,
+        'preparator' => \App\Http\Middleware\Preparator::class,
     ];
 
     /**

@@ -42,8 +42,28 @@
 
 
                                     <p>
-                                        {{ucfirst(Auth::user()->nom)}} {{ucfirst(Auth::user()->prenom)}} -
-                                        {{ucfirst(Auth::user()->child->role->role_name)}}
+                                        {{Auth::user()->formatName()}} -
+                                        @switch(Auth::user()->child->role->role_name)
+                                        @case('DBO')
+                                        DBO
+                                        @break;
+                                        @case('SUPERADMIN')
+                                        Super Admin
+                                        @break;
+                                        @case('ADMIN')
+                                        Admin
+                                        @break
+                                        @case('PREPARATOR')
+                                        Préparateur
+                                        @break
+                                        @case('MAIN_DELIVERY')
+                                        Livreur principale
+                                        @break
+                                        @case('SECOND_DELIVERY')
+                                        Livreur
+                                        @break
+
+                                        @endswitch
                                         <small>{{Auth::user()->email}}</small>
                                     </p>
                                 </li>
