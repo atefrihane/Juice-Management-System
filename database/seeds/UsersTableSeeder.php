@@ -16,26 +16,26 @@ class UsersTableSeeder extends Seeder
 
         User::create([
             'email' => 'test@test.fr',
-            'code' => 't1158',
+            'code' => str_random(10),
             'nom' => 'Keven ',
             'prenom' => 'Guerrette',
             'civilite' => 'homme',
             'telephone' => '55612719',
             'accessCode' => 'ji5848',
-            'password' => bcrypt('123456'),
+            'password' => '123456',
             'child_type' => \App\Modules\Admin\Models\Admin::class,
             'child_id' => '1',
         ]);
 
         User::create([
             'email' => 'test@test.fr',
-            'code' => 't1158',
+            'code' => str_random(10),
             'nom' => 'Jérôme ',
             'prenom' => 'Auclair',
             'civilite' => 'homme',
             'telephone' => '55612719',
             'accessCode' => 'ji5848',
-            'password' => bcrypt('123456'),
+            'password' => '123456',
             'child_type' => \App\Modules\User\Models\Director::class,
             'child_id' => '1',
         ]);
@@ -44,13 +44,13 @@ class UsersTableSeeder extends Seeder
 
         User::create([
             'email' => 'test@test.fr',
-            'code' => 't1158',
+            'code' => str_random(10),
             'nom' => 'Philibert ',
             'prenom' => 'Blaise',
             'civilite' => 'homme',
             'telephone' => '55612719',
             'accessCode' => 'ji5848',
-            'password' => bcrypt('123456'),
+            'password' => '123456',
             'child_type' => \App\Modules\User\Models\Responsible::class,
             'child_id' => '1',
         ]);

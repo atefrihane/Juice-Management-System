@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['module' => 'Company', 'middleware' => ['web', 'isAuth', 'primary.admin'], 'namespace' => 'App\Modules\Warehouse\Controllers'], function () {
+Route::group(['module' => 'Company', 'middleware' => ['web', 'isAuth', 'preparator'], 'namespace' => 'App\Modules\Warehouse\Controllers'], function () {
 
    Route::get('/product/quantity/add','WarehouseController@showAddProductQuantity')->name('showAddProductQuantity');
    Route::get('/product/quantity/edit/{id}','WarehouseController@showEditProductQuantity')->name('showEditProductQuantity');

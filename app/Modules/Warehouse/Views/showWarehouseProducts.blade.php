@@ -16,7 +16,7 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Liste des produits en stock</h3>
-                        @if(Auth::user()->primaryAdmin())
+                        @if(Auth::user()->preparatorAdmin())
                         <a href="{{route('showAddProductQuantity')}}" class="btn btn-primary pull-right">Ajouter une
                             entrée</a>
                             @endif

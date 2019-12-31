@@ -46,7 +46,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Role</label>
-                                            <select class="form-control" name="role" >
+                                            <select class="form-control" name="role" disabled>
                                                 @foreach($roles as $role)
                                                 @if($role->id != 1)
                                                 <option value="{{$role->id}}" @if($role->id == $admin->role_id) selected @endif>

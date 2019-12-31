@@ -9,7 +9,6 @@ use App\Modules\Store\Models\Store;
 use App\Modules\User\Models\Director;
 use App\Modules\User\Models\Responsible;
 use App\Modules\User\Models\User;
-use App\Modules\User\Models\ContactHistory;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -24,14 +23,26 @@ class UserController extends Controller
 
     public function handleLogin(Request $request)
     {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            Auth::user();
-            return redirect()->route('showHome');
 
-        } else {
-            alert()->error('Oups!', 'Email ou Mot de passe incorrect !');
-            return redirect()->back();
+        $user = User::where([
+            'email' => $request->email,
+            'password' => $request->password,
+        ])->first();
+
+        if ($user) {
+            Auth::login($user);
+            return redirect()->route('showHome');
         }
+
+        alert()->error('Email ou Mot de passe incorrect !', 'Oups!')->persistent('Fermer');
+        return redirect()->back();
+        // if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        //     Auth::user();
+        //     return redirect()->route('showHome');
+
+        // } else {
+
+        // }
 
     }
 
@@ -55,9 +66,8 @@ class UserController extends Controller
                 })->get();
 
                 $contacts = $directors->toBase()->merge($responsibles);
-          
+
             }
-          
 
             return view('User::showClients', compact('company', 'contacts'));
 
@@ -130,9 +140,9 @@ class UserController extends Controller
 
     public function showContact($cid, $id)
     {
-      
+
         $user = User::find($id);
- 
+
         $company = Company::find($cid);
 
         if ($user && $company) {

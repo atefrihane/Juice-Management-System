@@ -176,7 +176,7 @@
             <div class="box-body">
                 <div class="box-header" style="margin-bottom:25px;">
                     <h3 class="box-title">Liste des produits en stock</h3>
-                    @if(Auth::user()->primaryAdmin())
+                    @if(Auth::user()->preparatorAdmin())
                     <a href="{{route('showAddWarehouseStock',$warehouse->id)}}"
                         class="btn btn-primary pull-right">Ajouter une
                         entrée</a>
