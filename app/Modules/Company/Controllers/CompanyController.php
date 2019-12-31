@@ -18,7 +18,6 @@ class CompanyController extends Controller
 
         $lastCompanyId = Company::count() + 1;
         $countries = Country::all();
-
         return view('Company::addCompany', compact('lastCompanyId', 'countries'));
     }
 
@@ -127,7 +126,6 @@ class CompanyController extends Controller
         $company = Company::find($id);
 
         if ($company) {
-           
 
             $checkCode = Company::where('code', preg_replace('/\s/', '', $request->code))
                 ->where('id', '!=', $company->id)
@@ -161,15 +159,13 @@ class CompanyController extends Controller
                 'comment' => $request->comment,
                 'logo' => isset($path) ? $path : $company->logo,
             ]);
-         
-                CompanyHistory::create([
-                    'action' => 'Modification',
-                    'company_id' => $company->id,
-                    'user_id' => Auth::id(),
 
-                ]);
+            CompanyHistory::create([
+                'action' => 'Modification',
+                'company_id' => $company->id,
+                'user_id' => Auth::id(),
 
-            
+            ]);
 
             alert()->success('Succès!', 'La societé a été modifié avec succès ')->persistent("Fermer");
             return redirect()->route('showHome');
