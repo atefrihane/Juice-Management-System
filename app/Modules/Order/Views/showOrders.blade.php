@@ -23,8 +23,9 @@
                     <div class="box-header">
                         <h3 class="box-title">Liste des Commandes</h3>
                         <div class="box-body">
+                                @if(Auth::user()->preparatorAdmin())
                             <a href="{{route('showArchives')}}" class="btn btn-default pull-left">Archives</a>
-                            @if(Auth::user()->preparatorAdmin())
+                          
                             <a href="{{route('showAddOrder')}}" class="btn btn-primary pull-right">Ajouter une
                                 commande</a>
                                 @endif
