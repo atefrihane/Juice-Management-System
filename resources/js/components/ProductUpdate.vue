@@ -162,10 +162,10 @@
             <div class="form-group">
               
                 <label for="exampleInputFile">Photo du produit (optionnel)</label>
-                  <div class="row" v-if="photo != ''">
+                  <div class="row" >
                     <div class="container">
               
-                        <img :src="url" alt="" class="img-thumbnail" style="width:100px;">
+                        <img :src="url" alt="" class="img-thumbnail" style="width:100px;" v-if="url">
                     </div>
                 </div>
                 
@@ -337,7 +337,10 @@
         computed:{
             url()
             {
-                return axios.defaults.baseURL+'/img/'+this.photo
+                if(this.photo != null){
+              return axios.defaults.baseURL+'/img/'+this.photo
+                }
+  
             }
         },
 
@@ -368,7 +371,7 @@
                 }).then((result) => {
                     if (result.value) {
                         if (mixture.id) {
-                            axios.post('api/mixture/delete/' + mixture.id, {
+                            axios.post('/api/mixture/delete/' + mixture.id, {
 
                                 })
                                 .then((response) => {
@@ -439,7 +442,7 @@
 
             },
             fetchProduct() {
-                axios.get('api/product/' + this.productId)
+                axios.get('/api/product/' + this.productId)
                     .then((response) => {
                         // handle success
                         if (response.data.product.length > 0) {
@@ -481,7 +484,7 @@
 
 
                     this.$Progress.start()
-                    axios.post('api/product/update/' + this.productId, {
+                    axios.post('/api/product/update/' + this.productId, {
 
                             code: this.code,
                             state: this.state,

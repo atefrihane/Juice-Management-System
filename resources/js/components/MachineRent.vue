@@ -267,7 +267,7 @@
             getProductData(event, index) {
                 let id = event.target.value;
 
-                axios.get('api/product/' + id)
+                axios.get('/api/product/' + id)
                     .then((response) => {
                         Vue.set(this.bacs[0][index], 'mixtures', '')
                         //Display mixtures of a product ( if has a one)
@@ -284,7 +284,7 @@
 
             },
             loadBacs() {
-                axios.get('api/machine/bacs/' + this.machineId)
+                axios.get('/api/machine/bacs/' + this.machineId)
                     .then((response) => {
                         console.log(response.data);
                         let bacs=response.data.bacs
@@ -389,7 +389,7 @@
 
                 if (x == true) {
                     this.disabled=true
-                    axios.post('api/rentals', {
+                    axios.post('/api/rentals', {
                             id: this.machineId,
                             startDate: this.startDate,
                             endDate: this.endDate,

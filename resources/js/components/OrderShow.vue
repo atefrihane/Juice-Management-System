@@ -962,7 +962,7 @@
                       this.clearOrderedProducts()
 
                         this.billed_products.forEach(billed => {
-                            axios.post('api/product/prices/' + billed.product_id, {
+                            axios.post('/api/product/prices/' + billed.product_id, {
                                     store_id: this.store_id
                                 })
                                 .then((response) => {
@@ -1000,7 +1000,7 @@
 
                             this.final_prepared.forEach(final => {
 
-                                axios.get(`api/product/warehouses/${final.product_id}`)
+                                axios.get(`/api/product/warehouses/${final.product_id}`)
                                     .then((response) => {
                                         this.warehouse_products = response.data.warehouse_products;
                                         if (this.warehouse_products.length > 0) {

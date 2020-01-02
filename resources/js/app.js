@@ -51,7 +51,7 @@ Vue.component('delivery-update', require('./components/DeliveryUpdate.vue'));
 Vue.component('general-machine-rent', require('./components/GeneralMachineRent.vue'));
 Vue.component('contact-add', require('./components/ContactAdd.vue'));
 Vue.component('contact-update', require('./components/ContactUpdate.vue'));
-axios.defaults.baseURL = '/wizefresh/public'
+axios.defaults.baseURL = ''
 const app = new Vue({
     el: '#app',
     components: {

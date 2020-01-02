@@ -123,7 +123,7 @@
                                             <tr class="table-tr">
                                                 <td style="width:20%;"
                                                     data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$user->child->store->id])}}">
-                                                    <img src="{{asset('/')}}/{{$user->child->store->photo}}" height="80"
+                                                    <img src="{{asset('/')}}{{$user->child->store->photo}}" height="80"
                                                         class="user-image" alt="User Image"></td>
                                                 <td
                                                     data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$user->child->store->id])}}">
@@ -147,7 +147,7 @@
                                             <tr class="table-tr">
                                                 <td style="width:20%;"
                                                     data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}">
-                                                    <img src="{{asset('/')}}/{{$store->photo}}" height="80"
+                                                    <img src="{{asset('/')}}{{$store->photo}}" height="80"
                                                         class="user-image" alt="User Image"></td>
                                                 <td
                                                     data-url="{{route('showStore',['company_id'=>$company->id,'store_id'=>$store->id])}}">

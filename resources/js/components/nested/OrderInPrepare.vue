@@ -621,8 +621,7 @@
             },
             updateTotalQuantity(prepared, index, i) {
             this.clearPreparedProducts()
-             if (prepared.pivot.quantity < 0 || prepared.pivot.quantity > prepared
-                                        .quantity){
+             if (prepared.pivot.quantity < 0){
                     swal.fire({
                         type: 'error',
                         title: 'La quantité préparée saisie  est invalide ! ',

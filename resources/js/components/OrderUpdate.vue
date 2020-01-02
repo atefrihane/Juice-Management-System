@@ -536,7 +536,7 @@
                     });
 
                     if (!found) {
-                        axios.post('api/product/prices/' + id, {
+                        axios.post('/api/product/prices/' + id, {
                                 store_id: this.store_id
                             })
                             .then((response) => {

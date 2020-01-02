@@ -4544,7 +4544,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this4 = this;
 
       var id = event.target.value;
-      axios.get('api/product/' + id).then(function (response) {
+      axios.get('/api/product/' + id).then(function (response) {
         Vue.set(_this4.bacs[0][index], 'mixtures', ''); //Display mixtures of a product ( if has a one)
 
         console.log(response);
@@ -4560,7 +4560,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     loadBacs: function loadBacs() {
       var _this5 = this;
 
-      axios.get('api/machine/bacs/' + this.machineId).then(function (response) {
+      axios.get('/api/machine/bacs/' + this.machineId).then(function (response) {
         console.log(response.data);
         var bacs = response.data.bacs;
         bacs.forEach(function (bac) {
@@ -4645,7 +4645,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (x == true) {
         this.disabled = true;
-        axios.post('api/rentals', {
+        axios.post('/api/rentals', {
           id: this.machineId,
           startDate: this.startDate,
           endDate: this.endDate,
@@ -5010,7 +5010,7 @@ __webpack_require__.r(__webpack_exports__);
     getBacs: function getBacs() {
       var _this2 = this;
 
-      axios.get('api/rental/' + this.rentalId).then(function (response) {
+      axios.get('/api/rental/' + this.rentalId).then(function (response) {
         console.log(response.data.bacs);
         _this2.bacs = response.data.bacs;
 
@@ -5054,7 +5054,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       var id = event.target.value;
-      axios.get('api/product/' + id).then(function (response) {
+      axios.get('/api/product/' + id).then(function (response) {
         console.log(response);
         _this3.customBacs[index].mixtures = [];
 
@@ -5088,7 +5088,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.validateForm()) {
         this.disabled = true;
-        axios.post('api/rental/' + this.rentalId, {
+        axios.post('/api/rental/' + this.rentalId, {
           startDate: this.startDate,
           endDate: this.endDate,
           price: this.price,
@@ -7672,7 +7672,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this3.clearOrderedProducts();
 
         _this3.billed_products.forEach(function (billed) {
-          axios.post('api/product/prices/' + billed.product_id, {
+          axios.post('/api/product/prices/' + billed.product_id, {
             store_id: _this3.store_id
           }).then(function (response) {
             billed.public_price = _this3.convertCurrency(billed.public_price);
@@ -7696,7 +7696,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           });
 
           _this3.final_prepared.forEach(function (_final2) {
-            axios.get("api/product/warehouses/".concat(_final2.product_id)).then(function (response) {
+            axios.get("/api/product/warehouses/".concat(_final2.product_id)).then(function (response) {
               _this3.warehouse_products = response.data.warehouse_products;
 
               if (_this3.warehouse_products.length > 0) {
@@ -8571,7 +8571,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
 
         if (!found) {
-          axios.post('api/product/prices/' + id, {
+          axios.post('/api/product/prices/' + id, {
             store_id: this.store_id
           }).then(function (response) {
             _this7.custom_ordered[index].unit = '';
@@ -9827,7 +9827,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   props: ['user_id'],
   computed: {
     url: function url() {
-      return axios.defaults.baseURL + '/img/' + this.photo;
+      if (this.photo != null) {
+        return axios.defaults.baseURL + '/img/' + this.photo;
+      }
     }
   },
   methods: {
@@ -9856,7 +9858,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }).then(function (result) {
         if (result.value) {
           if (mixture.id) {
-            axios.post('api/mixture/delete/' + mixture.id, {}).then(function (response) {
+            axios.post('/api/mixture/delete/' + mixture.id, {}).then(function (response) {
               if (response.data.status == 200) {
                 _this.mixtures.splice(_this.mixtures.indexOf(mixture), 1);
               } else {
@@ -9915,7 +9917,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     fetchProduct: function fetchProduct() {
       var _this3 = this;
 
-      axios.get('api/product/' + this.productId).then(function (response) {
+      axios.get('/api/product/' + this.productId).then(function (response) {
         // handle success
         if (response.data.product.length > 0) {
           _this3.mixtures = response.data.product;
@@ -9948,7 +9950,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         this.disabled = true;
         this.$Progress.start();
-        axios.post('api/product/update/' + this.productId, (_axios$post = {
+        axios.post('/api/product/update/' + this.productId, (_axios$post = {
           code: this.code,
           state: this.state,
           name: this.name,
@@ -11352,7 +11354,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     updateTotalQuantity: function updateTotalQuantity(prepared, index, i) {
       this.clearPreparedProducts();
 
-      if (prepared.pivot.quantity < 0 || prepared.pivot.quantity > prepared.quantity) {
+      if (prepared.pivot.quantity < 0) {
         swal.fire({
           type: 'error',
           title: 'La quantité préparée saisie  est invalide ! ',
@@ -74225,7 +74227,7 @@ var render = function() {
                                             "td",
                                             {
                                               staticClass: "text-center",
-                                              attrs: { colspan: "6" }
+                                              attrs: { colspan: "9" }
                                             },
                                             [
                                               final.product_id == ""
@@ -79538,17 +79540,17 @@ var render = function() {
             _vm._v("Photo du produit (optionnel)")
           ]),
           _vm._v(" "),
-          _vm.photo != ""
-            ? _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "container" }, [
-                  _c("img", {
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "container" }, [
+              _vm.url
+                ? _c("img", {
                     staticClass: "img-thumbnail",
                     staticStyle: { width: "100px" },
                     attrs: { src: _vm.url, alt: "" }
                   })
-                ])
-              ])
-            : _vm._e(),
+                : _vm._e()
+            ])
+          ]),
           _vm._v(" "),
           _c("input", {
             staticStyle: { "margin-top": "20px" },
@@ -97354,7 +97356,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('delivery-update', __webpac
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('general-machine-rent', __webpack_require__(/*! ./components/GeneralMachineRent.vue */ "./resources/js/components/GeneralMachineRent.vue"));
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('contact-add', __webpack_require__(/*! ./components/ContactAdd.vue */ "./resources/js/components/ContactAdd.vue"));
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('contact-update', __webpack_require__(/*! ./components/ContactUpdate.vue */ "./resources/js/components/ContactUpdate.vue"));
-axios.defaults.baseURL = '/wizefresh/public';
+axios.defaults.baseURL = '';
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   components: {

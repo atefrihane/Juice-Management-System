@@ -209,7 +209,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr v-if="final.prepared_products.length == 0">
-                                                        <td colspan="6" class="text-center">
+                                                        <td colspan="9" class="text-center">
                                                             <h4 v-if="final.product_id == ''">Veuillez sélectionner un
                                                                 produit !</h4>
                                                             <h4 v-else>Aucun produit trouvé !</h4>

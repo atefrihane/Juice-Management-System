@@ -257,7 +257,7 @@ class MachineController extends Controller
 
         if (count($machines) == 0) {
 
-            alert()->error('Oups!', 'Aucune machine disponible')->persistent('Fermer');
+            alert()->error('Aucune machine disponible', 'Oups!')->persistent('Fermer');
             return redirect()->back();
         }
 

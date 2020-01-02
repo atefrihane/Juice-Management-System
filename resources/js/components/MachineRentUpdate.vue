@@ -285,7 +285,7 @@
             },
 
             getBacs() {
-                axios.get('api/rental/' + this.rentalId)
+                axios.get('/api/rental/' + this.rentalId)
                     .then((response) => {
 
                         console.log(response.data.bacs);
@@ -342,7 +342,7 @@
             getProductData(event, index) {
                 let id = event.target.value;
 
-                axios.get('api/product/' + id)
+                axios.get('/api/product/' + id)
                     .then((response) => {
 
                         console.log(response);
@@ -379,7 +379,7 @@
             submitRental() {
                 if (this.validateForm()) {
                     this.disabled = true
-                    axios.post('api/rental/' + this.rentalId, {
+                    axios.post('/api/rental/' + this.rentalId, {
                             startDate: this.startDate,
                             endDate: this.endDate,
                             price: this.price,

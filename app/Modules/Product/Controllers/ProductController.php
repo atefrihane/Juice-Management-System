@@ -280,7 +280,7 @@ class ProductController extends Controller
     {
 
         if (!$request->input('store_id')) {
-            alert()->error('Oups!', 'Veuillez séléctionner au moins un magasin !')->persistent('Femer');
+            alert()->error('Veuillez séléctionner au moins un magasin', 'Oups!')->persistent('Femer');
             return redirect()->back()->withInput();
         }
         $company = Company::find($id);
