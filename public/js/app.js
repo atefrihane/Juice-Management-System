@@ -3693,10 +3693,10 @@ __webpack_require__.r(__webpack_exports__);
     loadUsers: function loadUsers() {
       var _this = this;
 
-      axios.get('/users/show').then(function (response) {
+      axios.get('/api/deliveries/show').then(function (response) {
         // handle success
         console.log(response);
-        _this.users = response.data.users;
+        _this.users = response.data.deliveries;
       })["catch"](function (error) {
         // handle error
         console.log(error);
@@ -12446,10 +12446,10 @@ __webpack_require__.r(__webpack_exports__);
     loadUsers: function loadUsers() {
       var _this = this;
 
-      axios.get('/users/show').then(function (response) {
+      axios.get('/api/preparators/show').then(function (response) {
         // handle success
         console.log(response);
-        _this.users = response.data.users;
+        _this.users = response.data.preparators;
       })["catch"](function (error) {
         // handle error
         console.log(error);
@@ -69929,11 +69929,11 @@ var render = function() {
                     _vm._v(" "),
                     _vm._l(_vm.users, function(user) {
                       return _vm.users.length > 0
-                        ? _c("option", { domProps: { value: user.id } }, [
+                        ? _c("option", { domProps: { value: user.user.id } }, [
                             _vm._v(
-                              _vm._s(user.nom) +
+                              _vm._s(user.user.nom) +
                                 "\n                                " +
-                                _vm._s(user.prenom) +
+                                _vm._s(user.user.prenom) +
                                 "\n                            "
                             )
                           ])
@@ -82550,8 +82550,13 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _vm._l(_vm.users, function(user) {
-                    return _c("option", { domProps: { value: user.id } }, [
-                      _vm._v(" " + _vm._s(user.nom) + " " + _vm._s(user.prenom))
+                    return _c("option", { domProps: { value: user.user.id } }, [
+                      _vm._v(
+                        " " +
+                          _vm._s(user.user.nom) +
+                          " " +
+                          _vm._s(user.user.prenom)
+                      )
                     ])
                   })
                 ],

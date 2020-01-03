@@ -31,8 +31,8 @@
                             <label for="exampleInputEmail1">Livreur</label>
                             <select class="form-control" v-model="delivery_man_id">
                                 <option :value="null" v-if="users.length > 0" disabled> Séléctionner un livreur</option>
-                                <option v-for="user in users" v-if="users.length > 0" :value="user.id">{{user.nom}}
-                                    {{user.prenom}}
+                                <option v-for="user in users" v-if="users.length > 0" :value="user.user.id">{{user.user.nom}}
+                                    {{user.user.prenom}}
                                 </option>
                                 <option v-else> Aucun utilisateur trouvé !</option>
 
@@ -195,11 +195,11 @@
         },
         methods: {
             loadUsers() {
-                axios.get('/users/show')
+                axios.get('/api/deliveries/show')
                     .then((response) => {
                         // handle success
                         console.log(response);
-                        this.users = response.data.users;
+                        this.users = response.data.deliveries;
                     })
                     .catch((error) => {
                         // handle error

@@ -158,4 +158,6 @@ class UserController extends Controller
         return view('General::notFound');
 
     }
+
+   
 }

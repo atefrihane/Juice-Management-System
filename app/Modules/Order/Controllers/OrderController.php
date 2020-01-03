@@ -27,6 +27,7 @@ class OrderController extends Controller
                     'orders' =>
                     Order::with('store')
                         ->where('delivery_man_id', Auth::id())
+                        ->where('status', '>=', 5)
                         ->get(),
                 ]);
                 break;

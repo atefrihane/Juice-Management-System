@@ -77,7 +77,7 @@
                                     </div>
                                     @if(Auth::user()->DBO() || Auth::user()->superAdmin())
                                     <div class="text-center">
-                                        <a href="{{route('addAdmin')}}"
+                                        <a href="{{route('admin')}}"
                                             class="btn btn-default btn-flat btn-width">Gestion des comptes</a>
                                     </div>
                                     @endif

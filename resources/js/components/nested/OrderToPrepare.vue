@@ -24,7 +24,7 @@
                     <label for="exampleInputEmail1">Préparateur</label>
                     <select class="form-control" v-model="preparator_id">
                         <option value="" disabled> Séléctionner un préparateur</option>
-                        <option :value="user.id" v-for="user in users"> {{user.nom}} {{user.prenom}}</option>
+                        <option :value="user.user.id" v-for="user in users"> {{user.user.nom}} {{user.user.prenom}}</option>
                     </select>
                 </div>
             </div>
@@ -78,11 +78,11 @@
         },
         methods: {
             loadUsers() {
-                axios.get('/users/show')
+                axios.get('/api/preparators/show')
                     .then((response) => {
                         // handle success
                         console.log(response);
-                        this.users = response.data.users;
+                        this.users = response.data.preparators;
                     })
                     .catch((error) => {
                         // handle error

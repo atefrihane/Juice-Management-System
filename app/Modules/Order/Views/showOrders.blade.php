@@ -23,12 +23,12 @@
                     <div class="box-header">
                         <h3 class="box-title">Liste des Commandes</h3>
                         <div class="box-body">
-                                @if(Auth::user()->preparatorAdmin())
+                            @if(Auth::user()->preparatorAdmin())
                             <a href="{{route('showArchives')}}" class="btn btn-default pull-left">Archives</a>
-                          
+
                             <a href="{{route('showAddOrder')}}" class="btn btn-primary pull-right">Ajouter une
                                 commande</a>
-                                @endif
+                            @endif
                         </div>
 
 
@@ -48,7 +48,7 @@
                                     <th>Code postal</th>
                                     <th>Montant (€)</th>
                                     <th>Commentaire</th>
-                                  
+
                                     <th>Etat</th>
                                     <th></th>
                                 </tr>
@@ -57,23 +57,27 @@
                                 @forelse($orders as $order)
                                 <tr @if($order->status >=2) class="table-tr" @endif>
                                     <td data-url="{{route('showOrder',$order->id)}}">{{$order->code}}</td>
-                                    <td data-url="{{route('showOrder',$order->id)}}">@formatDate($order->created_at)</td>
-                                    <td data-url="{{route('showOrder',$order->id)}}">{{ $order->histories->first()->user->formatName() }}</td>
-                                    <td data-url="{{route('showOrder',$order->id)}}">{{$order->store->company->name}}</td>
+                                    <td data-url="{{route('showOrder',$order->id)}}">@formatDate($order->created_at)
+                                    </td>
+                                    <td data-url="{{route('showOrder',$order->id)}}">
+                                        {{ $order->histories->first()->user->formatName() }}</td>
+                                    <td data-url="{{route('showOrder',$order->id)}}">{{$order->store->company->name}}
+                                    </td>
                                     <td data-url="{{route('showOrder',$order->id)}}">{{$order->store->designation}}</td>
-                                    <td data-url="{{route('showOrder',$order->id)}}">{{$order->store->zipcode->code}}</td>
+                                    <td data-url="{{route('showOrder',$order->id)}}">{{$order->store->zipcode->code}}
+                                    </td>
                                     <td data-url="{{route('showOrder',$order->id)}}">@convert($order->total)</td>
-                                   
-                                    <td data-url="{{route('showOrder',$order->id)}}"> 
-                                    @if($order->histories->first()) 
-                                    @if($order->histories->first()->comment)
-                                    {{$order->histories->first()->comment }}
-                                    @else
-                                    Aucun
-                                    @endif 
-                                    @else Aucun 
-                                    @endif
-                                    
+
+                                    <td data-url="{{route('showOrder',$order->id)}}">
+                                        @if($order->histories->first())
+                                        @if($order->histories->first()->comment)
+                                        {{$order->histories->first()->comment }}
+                                        @else
+                                        Aucun
+                                        @endif
+                                        @else Aucun
+                                        @endif
+
                                     </td>
 
                                     @switch($order->status)
@@ -92,15 +96,15 @@
                                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
                                             <ul class="dropdown-menu edit" role="menu">
-                                                    @if(Auth::user()->preparatorAdmin())
+                                                @if(Auth::user()->preparatorAdmin())
                                                 <li><a href="{{route('showUpdateOrder',$order->id)}}">Modifier</a></li>
                                                 <li><a data-toggle="modal"
                                                         data-target="#modal-default{{$order->id}}">Supprimer</a></li>
-                                                        @endif
+                                                @endif
                                             </ul>
                                         </div>
-                                         </div>
-                                         </td>
+                    </div>
+                    </td>
                     <div class="modal fade" id="modal-default{{$order->id}}">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -149,7 +153,7 @@
                             <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false"></a>
                             <ul class="dropdown-menu edit" role="menu">
-                                    @if(Auth::user()->preparatorAdmin())
+                                @if(Auth::user()->preparatorAdmin())
                                 <li><a href="{{route('showUpdateOrder',$order->id)}}">Modifier</a></li>
                                 <li><a data-toggle="modal" data-target="#modal-default{{$order->id}}">Supprimer</a></li>
                                 @endif
@@ -228,7 +232,7 @@
                         <li><a href="{{route('showOrderPreparedProducts',$order->id)}}"">Modifier la préparation</a></li>
                                                         <li><a href="
                                 {{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
-                                @endif
+                        @endif
                     </ul>
 
                 </div>
@@ -271,7 +275,10 @@
             <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
             @if(Auth::user()->preparatorAdmin())
             <li><a href="{{route('showOrderPreparedProducts',$order->id)}}"">Modifier la préparation</a></li>
-                <li><a href=" {{route('showUpdateDeliveryOrder',$order->id)}}"">Modifier la livraison</a></li>
+            <li><a href=" {{route('showUpdateDeliveryOrder',$order->id)}}"">Modifier la livraison</a></li>
+            @endif
+            @if(Auth::user()->preparatorAdmin() || $order->delivery_man_id == Auth::id() ||
+            Auth::user()->mainDelivery())
             <li><a href=" {{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
             @endif
         </ul>
@@ -294,7 +301,10 @@
             <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
             @if(Auth::user()->preparatorAdmin())
             <li><a href="{{route('showOrderPreparedProducts',$order->id)}}"">Modifier la préparation</a></li>
-                <li><a href=" {{route('showUpdateDeliveryOrder',$order->id)}}"">Modifier la livraison</a></li>
+            <li><a href=" {{route('showUpdateDeliveryOrder',$order->id)}}"">Modifier la livraison</a></li>
+            @endif
+            @if(Auth::user()->preparatorAdmin() || $order->delivery_man_id == Auth::id() ||
+            Auth::user()->mainDelivery())
             <li><a href=" {{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
             @endif
         </ul>
@@ -315,9 +325,10 @@
             <li><a href="{{route('showOrder',$order->id)}}">Voir détails</a></li>
             @if(Auth::user()->preparatorAdmin())
             <li><a href="{{route('showOrderPreparedProducts',$order->id)}}"">Modifier la préparation</a></li>
-                <li><a href=" {{route('showUpdateDeliveryOrder',$order->id)}}"">Modifier la livraison</a></li>
+            <li><a href=" {{route('showUpdateDeliveryOrder',$order->id)}}"">Modifier la livraison</a></li>
             <li><a href=" {{route('showUpdateStatusOrder',$order->id)}}">Mettre à jour état</a></li>
             @endif
+
         </ul>
     </div>
     </div>

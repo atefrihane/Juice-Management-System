@@ -74,8 +74,8 @@ class AdminController extends Controller
         $user = User::create([
             'email' => $request->email,
             'code' => $request->code,
-            'nom' => $request->nom,
-            'prenom' => $request->prenom,
+            'nom' => ucfirst($request->nom),
+            'prenom' => ucfirst($request->prenom),
             'civilite' => $request->sexe,
             'telephone' => $request->telephone,
             'accessCode' => $request->accessCode,
