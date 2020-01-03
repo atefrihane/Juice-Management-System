@@ -4,9 +4,14 @@ Route::group(['module' => 'Company', 'middleware' => ['web', 'isAuth', 'preparat
 
    Route::get('/product/quantity/add','WarehouseController@showAddProductQuantity')->name('showAddProductQuantity');
    Route::get('/product/quantity/edit/{id}','WarehouseController@showEditProductQuantity')->name('showEditProductQuantity');
-   Route::get('/warehouse/update/{id}','WarehouseController@showUpdateWarehouse')->name('showUpdateWarehouse');
    Route::get('/warehouse/{id}/stock','WarehouseController@showAddWarehouseStock')->name('showAddWarehouseStock');
+
+});
+
+Route::group(['module' => 'Company', 'middleware' => ['web', 'isAuth', 'primary.admin'], 'namespace' => 'App\Modules\Warehouse\Controllers'], function () {
+
    Route::get('/warehouse/add','WarehouseController@showAddWarehouse')->name('showAddWarehouse');
+   Route::get('/warehouse/update/{id}','WarehouseController@showUpdateWarehouse')->name('showUpdateWarehouse');
 });
 
 

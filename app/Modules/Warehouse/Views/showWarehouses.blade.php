@@ -17,7 +17,7 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Liste des entrepôts</h3>
-                        @if(Auth::user()->preparatorAdmin())
+                        @if(Auth::user()->primaryAdmin())
                         <a href="{{route('showAddWarehouse')}}" class="btn btn-primary pull-right">Ajouter un
                             entrepôt</a>
                        @endif
