@@ -60,7 +60,13 @@
                                     <td data-url="{{route('showOrder',$order->id)}}">@formatDate($order->created_at)
                                     </td>
                                     <td data-url="{{route('showOrder',$order->id)}}">
-                                        {{ $order->histories->first()->user->formatName() }}</td>
+                                        @if($order->histories->first())
+                                        {{ $order->histories->first()->user->formatName() }}
+                                        @else
+                                        Aucun
+                                        @endif
+                                    </td>
+                                      
                                     <td data-url="{{route('showOrder',$order->id)}}">{{$order->store->company->name}}
                                     </td>
                                     <td data-url="{{route('showOrder',$order->id)}}">{{$order->store->designation}}</td>

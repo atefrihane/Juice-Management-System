@@ -4,6 +4,8 @@ namespace App\Modules\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Admin\Models\Admin;
+use App\Modules\Order\Models\Order;
+use App\Modules\Order\Models\OrderHistory;
 use App\Modules\Role\Models\Role;
 use App\Modules\User\Models\User;
 use Illuminate\Http\Request;
@@ -193,14 +195,30 @@ class AdminController extends Controller
     {
         //
         $admin = Admin::find($id);
-        $user = $admin->user;
-        if ($admin->role->id != 1) {$admin->delete();
-            $user->delete();
+        if ($admin) {
+            $user = $admin->user;
 
-        } else {
-            alert()->error('Oups!', 'DBO ne peut pas etre supprimer')->persistent("Fermer");
+            $checkOrders = Order::where('delivery_man_id', $user->id)
+                ->orwhere('preparator_id', $user->id)
+                ->first();
+            $checkHistory = OrderHistory::where('user_id', $user->id)
+                ->where('action', 'Création')
+                ->first();
+
+            if ($checkHistory or $checkOrders) {
+                alert()->error('Cette entité ne peut pas être supprimée, autres entités y sont liées', 'Oups! ')->persistent("Fermer");
+                return redirect()->back();
+            }
+
+            if ($admin->role->id != 1) {$admin->delete();
+                $user->delete();
+
+            }
+            alert()->success('Succès!', 'Admin supprimé avec succès')->persistent('Fermer');
+            return redirect('/admin');
+
         }
-        alert()->success('Succès!', 'Admin supprimé avec succès')->persistent('Fermer');
-        return redirect('/admin');
+        return view('General::notFound');
+
     }
 }
