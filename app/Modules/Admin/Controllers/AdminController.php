@@ -193,7 +193,6 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        //
         $admin = Admin::find($id);
         if ($admin) {
             $user = $admin->user;

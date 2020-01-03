@@ -27,7 +27,7 @@
 
                                 <div class="col-md-2">
                                     @if($machine->photo_url)
-                                    <img class="img-responsive" src="{{asset('/')}}/{{$machine->photo_url}}"
+                                    <img class="img-responsive" src="{{asset('/')}}{{$machine->photo_url}}"
                                         alt="Photo">
                                     @else
                                     <img class="img-responsive" src="{{asset('/img')}}/no-logo.png" alt="Photo">
