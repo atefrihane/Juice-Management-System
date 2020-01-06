@@ -1911,6 +1911,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getStores();
@@ -1940,7 +1943,7 @@ __webpack_require__.r(__webpack_exports__);
     getStores: function getStores() {
       var _this = this;
 
-      axios.get(axios.defaults.baseURL + '/api/stores/').then(function (response) {
+      axios.get('/api/companies/' + this.company.id).then(function (response) {
         _this.stores = response.data.stores;
       })["catch"](function (error) {
         console.log(error);
@@ -7963,6 +7966,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -7989,7 +7993,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.formatStatus();
   },
-  props: ['order_id', 'user_id', 'status', 'code', 'order_full', 'history'],
+  props: ['order_id', 'user_id', 'status', 'code', 'order_full', 'history', 'is_preparator'],
   data: function data() {
     return {
       formated_status: '',
@@ -12430,7 +12434,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.loadUsers();
   },
-  props: ['order_id', 'user_id'],
+  props: ['order_id', 'user_id', 'is_preparator'],
   data: function data() {
     return {
       errors: [],
@@ -68003,7 +68007,17 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _vm.type == 1
+                  _vm.stores.length == 0
+                    ? _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                          _vm._v("Magasin(s) de responsabilité(s)")
+                        ]),
+                        _vm._v(" "),
+                        _c("h5", [_vm._v("Aucun magasin!")])
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.type == 1 && _vm.stores.length > 0
                     ? _c("div", { staticClass: "form-group" }, [
                         _c("label", { attrs: { for: "exampleInputEmail1" } }, [
                           _vm._v("Magasin(s) de responsabilité(s)")
@@ -68053,7 +68067,7 @@ var render = function() {
                       ])
                     : _vm._e(),
                   _vm._v(" "),
-                  _vm.type == 2
+                  _vm.type == 2 && _vm.stores.length > 0
                     ? _c("div", { staticClass: "form-group" }, [
                         _c("label", { attrs: { for: "exampleInputEmail1" } }, [
                           _vm._v("Magasin(s) de responsabilité(s)")
@@ -76621,7 +76635,11 @@ var render = function() {
             _vm._v(" "),
             _vm.status == 2
               ? _c("order-to-prepare", {
-                  attrs: { order_id: this.order_id, user_id: this.user_id },
+                  attrs: {
+                    order_id: this.order_id,
+                    user_id: this.user_id,
+                    is_preparator: this.is_preparator
+                  },
                   on: {
                     requiredValue: function($event) {
                       return _vm.updateError($event)
@@ -82528,6 +82546,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
+                  attrs: { disabled: this.is_preparator },
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter

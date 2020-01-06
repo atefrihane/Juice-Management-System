@@ -109,8 +109,11 @@
                                     </select>
 
                                 </div>
-
-                                <div class="form-group" v-if="type == 1">
+                                <div class="form-group" v-if="stores.length == 0">
+                                      <label for="exampleInputEmail1">Magasin(s) de responsabilité(s)</label>
+                                <h5>Aucun magasin!</h5>
+                                </div>
+                                <div class="form-group" v-if="type == 1 && stores.length>0">
                                     <label for="exampleInputEmail1">Magasin(s) de responsabilité(s)</label>
 
                                     <div class="form-group">
@@ -130,7 +133,7 @@
                                     </div>
 
                                 </div>
-                                <div class="form-group" v-if="type == 2">
+                                <div class="form-group" v-if="type == 2 && stores.length>0">
 
                                     <label for="exampleInputEmail1">Magasin(s) de responsabilité(s)</label>
                                     <div class="form-check" style="margin: 10px 0px 20px;">
@@ -231,7 +234,7 @@
         methods: {
 
             getStores() {
-                axios.get(axios.defaults.baseURL + '/api/stores/')
+                axios.get( '/api/companies/'+this.company.id)
                     .then((response) => {
                         this.stores = response.data.stores
 

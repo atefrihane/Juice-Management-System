@@ -22,7 +22,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Préparateur</label>
-                    <select class="form-control" v-model="preparator_id">
+                    <select class="form-control" v-model="preparator_id" :disabled="this.is_preparator">
                         <option value="" disabled> Séléctionner un préparateur</option>
                         <option :value="user.user.id" v-for="user in users"> {{user.user.nom}} {{user.user.prenom}}</option>
                     </select>
@@ -63,7 +63,7 @@
         mounted() {
             this.loadUsers()
         },
-        props: ['order_id', 'user_id'],
+        props: ['order_id', 'user_id','is_preparator'],
         data() {
             return {
                 errors: [],

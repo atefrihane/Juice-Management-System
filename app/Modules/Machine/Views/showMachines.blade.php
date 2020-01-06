@@ -70,8 +70,10 @@
                                             <ul class="dropdown-menu edit" role="menu"
                                                 style="margin-left:-175px !important;">
                                                 @if($machine->rented==false)
+                                                @if(Auth::user()->primaryAdmin())
                                                 <li><a href="{{route('startRental', $machine->id).'?machine=true'}}">Commencer
                                                         location</a></li>
+                                                        @endif
 
                                                 <li><a href="{{route('showListRental', $machine->id).'?machine=true'}}">Voir
                                                         historique des locations</a></li>

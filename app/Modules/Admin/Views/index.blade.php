@@ -16,8 +16,8 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Liste des Admins</h3>
-                        <a href="{{route('addAdmin')}}" class="btn btn-primary pull-right">Ajouter un admin</a>
+                        <h3 class="box-title">Liste des comptes</h3>
+                        <a href="{{route('addAdmin')}}" class="btn btn-primary pull-right">Ajouter un compte</a>
 
 
                         <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->

@@ -5,5 +5,5 @@ Route::group(['module' => 'Company', 'middleware' => ['api'], 'namespace' => 'Ap
     //Route::prefix('api')->resource('Company', 'CompanyController');
     Route::get('api/companies/{id}', 'CompanyController@show');
     Route::get('api/companies', 'CompanyController@index');
-
+    Route::get('api/company/{id}/contacts', 'CompanyController@showContacts');
 });

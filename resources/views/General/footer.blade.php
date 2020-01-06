@@ -60,7 +60,7 @@
 @yield('scripts-custom')
 @include('General.datatable')
 @include('General.productDetails')
-
+@include('General.conversations')
 <script>
     $('document').ready(function () {
         $('.not-this > .btn-group > .dots').click(function () {

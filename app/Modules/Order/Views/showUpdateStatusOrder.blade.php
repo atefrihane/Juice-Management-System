@@ -29,7 +29,9 @@
                 code="{{$order->code}}"
                :status="{{$order->status}}"
                :user_id="{{Auth::user()->id}}" 
-               :history="{{$history}}"> 
+               :history="{{$history}}"
+                :is_preparator="{{Auth::user()->preparator() ? Auth::user()->preparator()  : 0}}"
+               > 
                 </order-status-update>
 
 
