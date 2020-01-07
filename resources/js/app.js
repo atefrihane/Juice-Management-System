@@ -24,6 +24,7 @@ import OrderPreparedProducts from './components/OrderPreparedProducts.vue'
 import DeliveryUpdate from './components/DeliveryUpdate.vue'
 import ContactAdd from './components/ContactAdd.vue'
 import ContactUpdate from './components/ContactUpdate.vue'
+import Conversation from './components/Conversation.vue'
 import swal from 'sweetalert2'
 // import swal from 'sweetalert';
 window.swal = swal;
@@ -33,6 +34,15 @@ Vue.use(VueProgressBar, {
     failedColor: 'red',
     height: '2px'
 })
+const moment = require('moment')
+require('moment/locale/fr')
+
+Vue.use(require('vue-moment'), {
+    moment
+})
+
+import VueChatScroll from 'vue-chat-scroll'
+Vue.use(VueChatScroll)
 
 
 
@@ -51,6 +61,7 @@ Vue.component('delivery-update', require('./components/DeliveryUpdate.vue'));
 Vue.component('general-machine-rent', require('./components/GeneralMachineRent.vue'));
 Vue.component('contact-add', require('./components/ContactAdd.vue'));
 Vue.component('contact-update', require('./components/ContactUpdate.vue'));
+Vue.component('conversation', require('./components/Conversation.vue'));
 axios.defaults.baseURL = ''
 const app = new Vue({
     el: '#app',
@@ -70,7 +81,8 @@ const app = new Vue({
         'delivery-update': DeliveryUpdate,
         'general-machine-rent': GeneralMachineRent,
         'contact-add': ContactAdd,
-        'contact-update': ContactUpdate
+        'contact-update': ContactUpdate,
+        'show-conversation': Conversation
 
 
 

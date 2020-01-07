@@ -147,6 +147,24 @@ a.effect-shine:hover {
     justify-content: center;
 }
 
+.box-bg {
+    background:#E8E8E8;
+}
+.dot {
+  height: 13px;
+  width:  13px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot:hover{
+    background:#808080;
+}
+.direct-chat-text {
+    margin: 2px !important;
+
+}
+
     </style>
 
 </head>
