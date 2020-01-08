@@ -178,6 +178,7 @@
 
                         </ul>
                     </li>
+                    @if(Auth::user()->primaryAdmin())
                     <li class="{{ Route::is('showConversations') ? 'active' : '' }}">
                             <a href={{route('showConversations')}}>
                               <i class="fa fa-envelope"></i> <span>Messages</span>
@@ -186,6 +187,7 @@
                               </span>
                             </a>
                           </li>
+                          @endif
                    
                 </ul>
             </section>
