@@ -7,25 +7,26 @@
 
     <section class="content-header">
 
-        {{ Breadcrumbs::render('home') }}
+        {{ Breadcrumbs::render('addConversation') }}
     </section>
 
 
     <section class="content">
         <div class="row">
-            <div class="container">
+            <div class="container-fluid">
 
                 <div class="box box-primary">
 
-                    <div class="box-header">
-                        <h3 class="box-title"> Ajouter une conversation</h3>
+                    <div class="box-header ui-sortable-handle" style="cursor: move;">
+                        <i class="fa fa-envelope"></i>
 
+                        <h3 class="box-title">Démarrer une conversation</h3>
                     </div>
 
 
                     <form role="form" action="{{route('handleAddConversation')}}" method="post">
                         {{csrf_field()}}
-                
+
                         <div class="box-body">
 
 
@@ -33,7 +34,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Societé</label>
-                                        <select class="form-control company" name="company_id" value="{{old('company_id')}}" required>
+                                        <select class="form-control company" name="company_id"
+                                            value="{{old('company_id')}}" required>
                                             <option value="">Séléctionner une societé</option>
                                             @forelse ($companies as $company)
                                             <option value="{{$company->id}}">{{$company->name}}</option>
@@ -44,15 +46,16 @@
                                     </div>
                                 </div>
                             </div>
-                    
+
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Contacts</label>
-                                        <select class="form-control contact" name="user_id" value="{{old('user_id')}}" required>
-                                                <option value="">Séléctionner un contact</option>
-    
-                                            </select>
+                                        <select class="form-control contact" name="user_id" value="{{old('user_id')}}"
+                                            required>
+                                            <option value="">Séléctionner un contact</option>
+
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -61,15 +64,16 @@
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Sujet</label>
                                         <input required type="text" class="form-control" name="subject"
-                                            id="exampleInputPassword1" placeholder="Sujet" value="{{old('subject')}}" required>
+                                            id="exampleInputPassword1" placeholder="Sujet" value="{{old('subject')}}"
+                                            required>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label>Message </label>
-                                <textarea class="form-control" rows="6" name="message"
-                                    placeholder="Message..." required>{{old('message')}}</textarea>
+                                <textarea class="form-control" rows="6" name="message" placeholder="Message..."
+                                    required>{{old('message')}}</textarea>
                             </div>
 
                             <div class="row">

@@ -178,9 +178,15 @@
 
                         </ul>
                     </li>
-
-                    <li class="{{ Route::is('showConversations') ? 'active' : '' }}"><a href="{{route('showConversations')}}"><i
-                        class="fa fa-commenting"></i> <span>Messages</span></a></li>
+                    <li class="{{ Route::is('showConversations') ? 'active' : '' }}">
+                            <a href={{route('showConversations')}}>
+                              <i class="fa fa-envelope"></i> <span>Messages</span>
+                              <span class="pull-right-container">
+                              <small class="label pull-right bg-green">{{$countConversations}}</small>
+                              </span>
+                            </a>
+                          </li>
+                   
                 </ul>
             </section>
             <!-- /.sidebar -->

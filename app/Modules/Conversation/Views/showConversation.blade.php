@@ -7,18 +7,13 @@
 
     <section class="content-header">
 
-        {{ Breadcrumbs::render('home') }}
+        {{ Breadcrumbs::render('showConversation',$conversation) }}
     </section>
 
     <section class="content">
-        <div class="container-fluid">
+        <div class="container">
         <show-conversation :conversation="{{$conversation}}" auth_id="{{Auth::id()}}"> </show-conversation>
-
         </div>
-
-
-
-
     </section>
 
 

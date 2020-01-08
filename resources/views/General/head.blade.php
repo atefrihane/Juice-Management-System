@@ -123,7 +123,7 @@
             max-height: 200px;
             overflow-y: scroll;
             width: 250px;
-            ;
+            
         }
 
         /* effect-shine */
@@ -161,9 +161,43 @@ a.effect-shine:hover {
     background:#808080;
 }
 .direct-chat-text {
-    margin: 2px !important;
+    margin: 3px !important;
 
 }
+
+.admin-style{
+    background: #3c8dbc !important;
+    color: white !important;
+    border: 1px solid #3c8dbc !important;
+}
+
+.contact-style{
+    background: #d2d6de !important;
+    color: #444 !important;
+    border: 1px solid #d2d6de !important;
+
+}
+
+..direct-chat-text:after, .direct-chat-text:before{
+    border-right-color: transparent !important;
+}
+
+.right .direct-chat-text:after, .right .direct-chat-text:before {
+    right: auto;
+    left: 100%;
+    border-right-color: transparent;
+    border-left-color: transparent !important;
+}
+
+ .direct-chat-text:after,.direct-chat-text:before {
+    right: auto;
+    left: 100%;
+    border-right-color: transparent;
+    border-left-color: transparent !important;
+}
+
+
+
 
     </style>
 

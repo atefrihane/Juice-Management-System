@@ -3,9 +3,12 @@
 namespace App\Modules\Conversation\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Modules\Admin\Models\Admin;
 use App\Modules\Company\Models\Company;
 use App\Modules\Conversation\Models\Conversation;
+use App\Modules\User\Models\Director;
 use App\Modules\User\Models\Responsible;
+use App\Modules\User\Models\User;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -14,7 +17,7 @@ class ConversationController extends Controller
 
     public function showConversations()
     {
-        return view('Conversation::showConversations', ['conversations' => Conversation::orderBy('created_at', 'DESC')->paginate(5), 'count' => Conversation::count()]);
+        return view('Conversation::showConversations', ['conversations' => Conversation::has('messages')->orderBy('created_at', 'DESC')->paginate(5), 'count' => Conversation::count()]);
     }
 
     public function showAddConversation()
@@ -40,10 +43,15 @@ class ConversationController extends Controller
 
     public function showConversation($id)
     {
-        $conversation = Conversation::where('id', $id)->with('messages', 'messages.user.child')->first();
+        $conversation = Conversation::has('messages')->where('id', $id)->with('messages', 'messages.user.child')->first();
 
         if ($conversation) {
-            $conversation->messages->last()->update(['seen' => 1]);
+            $lastMessage = $conversation->messages->last();
+            $checkUser = User::find($lastMessage->user_id);
+            if ($lastMessage && $checkUser && $checkUser->child_type != Admin::class && $lastMessage->seen == 0) {
+                $lastMessage->update(['seen' => 1]);
+
+            }
 
             if (count($conversation->messages) > 0) {
                 foreach ($conversation->messages as $message) {
@@ -56,6 +64,7 @@ class ConversationController extends Controller
                     }
 
                     if ($message->user->child instanceof Director) {
+
                         if ($message->user->child->store) {
                             $message->user->setAttribute('company_name', $message->user->child->store->company->name);
                         }
@@ -64,7 +73,6 @@ class ConversationController extends Controller
 
                 }
             }
-           
 
             return view('Conversation::showConversation', compact('conversation'));
 

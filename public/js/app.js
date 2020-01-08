@@ -2711,6 +2711,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     var _this = this;
@@ -87017,100 +87022,94 @@ var render = function() {
               {
                 directives: [{ name: "chat-scroll", rawName: "v-chat-scroll" }],
                 staticClass: "direct-chat-messages",
-                staticStyle: { height: "500px" }
+                staticStyle: { height: "500px", "overflow-x": "hidden" }
               },
               _vm._l(_vm.messages, function(message) {
-                return _c("div", [
+                return _c("div", { staticClass: "row" }, [
                   message.type == "Admin"
-                    ? _c("div", { staticClass: "direct-chat-msg" }, [
-                        _c(
-                          "div",
-                          { staticClass: "direct-chat-info clearfix" },
-                          [
-                            _c(
-                              "span",
-                              {
-                                staticClass: "direct-chat-name pull-left",
-                                staticStyle: { "padding-bottom": "2px" }
-                              },
-                              [_vm._v("Admin ")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "span",
-                              {
-                                staticClass: "direct-chat-timestamp pull-right"
-                              },
-                              [
-                                _vm._v(
-                                  _vm._s(
-                                    _vm._f("moment")(
-                                      message.created_at,
-                                      "calendar"
-                                    )
-                                  )
-                                )
-                              ]
+                    ? _c("div", { staticClass: "col-md-8" }, [
+                        _c("div", { staticClass: "direct-chat-msg" }, [
+                          _vm._m(0, true),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "direct-chat-text admin-style",
+                              staticStyle: { "word-break": "break-all" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                               " +
+                                  _vm._s(message.content) +
+                                  "\n                                      \n                            "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "direct-chat-timestamp" }, [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("moment")(message.created_at, "calendar")
+                              )
                             )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "direct-chat-text" }, [
-                          _vm._v(
-                            "\n                                " +
-                              _vm._s(message.content) +
-                              "\n                            "
-                          )
+                          ])
                         ])
                       ])
                     : _vm._e(),
                   _vm._v(" "),
                   message.type != "Admin"
-                    ? _c("div", { staticClass: "direct-chat-msg right" }, [
-                        _c(
-                          "div",
-                          { staticClass: "direct-chat-info clearfix" },
-                          [
-                            _c(
-                              "span",
-                              {
-                                staticClass: "direct-chat-name pull-right",
-                                staticStyle: { "padding-bottom": "2px" }
-                              },
-                              [
-                                _vm._v(
-                                  _vm._s(message.username) +
-                                    " (" +
-                                    _vm._s(message.company) +
-                                    ")"
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "span",
-                              {
-                                staticClass: "direct-chat-timestamp pull-left"
-                              },
-                              [
-                                _vm._v(
-                                  _vm._s(
-                                    _vm._f("moment")(
-                                      message.created_at,
-                                      "calendar"
-                                    )
+                    ? _c("div", { staticClass: "col-md-8 col-md-push-4" }, [
+                        _c("div", { staticClass: "direct-chat-msg right " }, [
+                          _c(
+                            "div",
+                            { staticClass: "direct-chat-info clearfix" },
+                            [
+                              _c(
+                                "span",
+                                {
+                                  staticClass: "direct-chat-name pull-right",
+                                  staticStyle: { "padding-bottom": "2px" }
+                                },
+                                [
+                                  _vm._v(
+                                    _vm._s(message.username) +
+                                      " (" +
+                                      _vm._s(message.company) +
+                                      ")"
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "direct-chat-text contact-style",
+                              staticStyle: { "word-break": "break-all" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                 " +
+                                  _vm._s(message.content) +
+                                  "\n                     \n                            "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            { staticClass: "direct-chat-timestamp pull-right" },
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  _vm._f("moment")(
+                                    message.created_at,
+                                    "calendar"
                                   )
                                 )
-                              ]
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "direct-chat-text" }, [
-                          _vm._v(
-                            "\n                                " +
-                              _vm._s(message.content) +
-                              "\n                            "
+                              )
+                            ]
                           )
                         ])
                       ])
@@ -87174,7 +87173,23 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "direct-chat-info clearfix" }, [
+      _c(
+        "span",
+        {
+          staticClass: "direct-chat-name pull-left",
+          staticStyle: { "padding-bottom": "2px" }
+        },
+        [_vm._v("Admin ")]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 

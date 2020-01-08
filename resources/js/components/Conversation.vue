@@ -9,38 +9,43 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <!-- Conversations are loaded here -->
-                    <div class="direct-chat-messages" style="height:500px" v-chat-scroll>
+                    <div class="direct-chat-messages" style="height:500px;overflow-x:hidden;" v-chat-scroll>
                         <!-- Message. Default to the left -->
-                        <div v-for="message in messages">
-                            <div class="direct-chat-msg" v-if=" message.type == 'Admin'">
+                        <div v-for="message in messages" class="row">
+                        <div class="col-md-8" v-if=" message.type == 'Admin'">
+                            <div class="direct-chat-msg">
+                          
                                 <div class="direct-chat-info clearfix">
                                     <span class="direct-chat-name pull-left" style="padding-bottom:2px;">Admin </span>
-                                    <span
-                                        class="direct-chat-timestamp pull-right">{{ message.created_at | moment("calendar") }}</span>
+                        
+                                 </div>
+                                <div class="direct-chat-text admin-style" style="word-break:break-all;">
+                                   {{message.content}}
+                                          
                                 </div>
-                                <div class="direct-chat-text">
-                                    {{message.content}}
-                                </div>
+                                      <span
+                                        class="direct-chat-timestamp">{{ message.created_at | moment("calendar") }}</span>
 
                             </div>
-                            <div class="direct-chat-msg right" v-if="message.type != 'Admin'">
+                        </div>
+
+                        <div class="col-md-8 col-md-push-4" v-if="message.type != 'Admin'">
+                        <div class="direct-chat-msg right " >
                                 <div class="direct-chat-info clearfix">
                                     <span class="direct-chat-name pull-right"
                                         style="padding-bottom:2px;">{{message.username}} ({{message.company}})</span>
-                                    <span
-                                        class="direct-chat-timestamp pull-left">{{ message.created_at | moment("calendar") }}</span>
+                             
                                 </div>
-                                <div class="direct-chat-text">
-                                    {{message.content}}
+                                <div class="direct-chat-text contact-style" style="word-break:break-all;">
+                                     {{message.content}}
+                         
                                 </div>
-
+                                       <span
+                                        class="direct-chat-timestamp pull-right">{{ message.created_at | moment("calendar") }}</span>
+                         
                             </div>
-
-                        </div>
-
-
-
-
+                             </div>
+                             </div>
                     </div>
 
                 </div>

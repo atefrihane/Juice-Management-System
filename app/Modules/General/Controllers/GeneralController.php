@@ -7,6 +7,7 @@ use App\Modules\Company\Models\Company;
 use App\Modules\General\Models\City;
 use App\Modules\General\Models\Country;
 use App\Modules\Order\Models\Order;
+use App\Modules\Conversation\Models\Conversation;
 
 class GeneralController extends Controller
 {
@@ -15,7 +16,12 @@ class GeneralController extends Controller
     {
 
         $companies = Company::all();
-
+        // dd(Conversation::whereHas('messages', function ($queryMessage) {
+        //     $queryMessage->latest()->where('seen', 0);
+        //     $queryMessage->whereHas('user', function ($q1) {
+        //         $q1->where('child_type', '!=', Admin::class);
+        //     });
+        // })->get());
         return view('General::home', compact('companies'))->withCookie(cookie('idtodelete', '', 120));
     }
     public function showArchives()
