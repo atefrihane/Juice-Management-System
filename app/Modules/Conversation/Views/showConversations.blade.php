@@ -42,8 +42,9 @@
                                     <p> <a href="{{route('showConversation',$conversation->id)}}"
                                             class="effect-shine">Sujet : {{$conversation->subject}}
                                         </a>
-
+                                        @if(!$conversation->is_admin)    
                                         &nbsp;&nbsp; <span class="dot"></span>
+                                        @endif
 
 
                                     </p>

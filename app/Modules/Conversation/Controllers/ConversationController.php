@@ -17,7 +17,24 @@ class ConversationController extends Controller
 
     public function showConversations()
     {
-        return view('Conversation::showConversations', ['conversations' => Conversation::has('messages')->orderBy('created_at', 'DESC')->paginate(5), 'count' => Conversation::count()]);
+        $conversations = Conversation::has('messages')->orderBy('created_at', 'DESC')->with('messages.user')->paginate(5);
+
+        if (count($conversations) > 0) {
+
+            foreach ($conversations as $conversation) {
+
+                if ($conversation->messages->last()->user->child_type == Admin::class) {
+                    $conversation->setAttribute('is_admin', true);
+
+                } else {
+                    $conversation->setAttribute('is_admin', false);
+
+                }
+
+            }
+        }
+
+        return view('Conversation::showConversations', ['conversations' => $conversations, 'count' => Conversation::count()]);
     }
 
     public function showAddConversation()
