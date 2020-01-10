@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['module' => 'Order', 'middleware' => ['api'], 'namespace' => 'App\Modules\Order\Controllers\api'], function () {
+Route::group(['module' => 'Order', 'middleware' => ['auth:api'], 'namespace' => 'App\Modules\Order\Controllers\api'], function () {
     Route::get('/api/order/{id}', 'OrderController@showOrder');
     Route::get('/api/order/prepared/{id}', 'OrderController@showOrderPrepared');
     Route::post('/api/order/product/delete/{id}', 'OrderController@handleDeleteProduct');

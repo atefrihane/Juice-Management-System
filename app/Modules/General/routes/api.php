@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['module' => 'General', 'middleware' => ['api'], 'namespace' => 'App\Modules\General\Controllers\api'], function() {
+Route::group(['module' => 'General', 'middleware' => ['auth:api'], 'namespace' => 'App\Modules\General\Controllers\api'], function() {
 Route::post('/country/add','GeneralController@handleAddCountryData');
 Route::post('/country/update/{id}','GeneralController@handleUpdateCountryData');
 Route::get('/country/cities/{id}','GeneralController@handleGetCountryCities'); 

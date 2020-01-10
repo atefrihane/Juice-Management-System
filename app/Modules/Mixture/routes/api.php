@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['module' => 'Mixture', 'middleware' => ['api'], 'namespace' => 'App\Modules\Mixture\Controllers\api'], function() {
+Route::group(['module' => 'Mixture', 'middleware' => ['auth:api'], 'namespace' => 'App\Modules\Mixture\Controllers\api'], function() {
 
 //    Route::resource('Mixture', 'MixtureController');
     route::post('api/mixtures', 'MixtureController@store');

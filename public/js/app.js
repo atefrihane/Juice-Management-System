@@ -100586,7 +100586,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { disabled: this.is_preparator },
+                  attrs: { disabled: _vm.is_preparator == 1 },
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter
