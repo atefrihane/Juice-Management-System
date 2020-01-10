@@ -99,6 +99,9 @@
         $.ajax({
             type: 'GET', //THIS NEEDS TO BE GET
             url: url + '/country/cities/' + this.value,
+            headers: {
+                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
             dataType: 'json',
             success: function (data) {
                 var response = JSON.parse(JSON.stringify(data));
@@ -116,6 +119,9 @@
                     $.ajax({
                         type: 'GET', //THIS NEEDS TO BE GET
                         url: url + '/city/' + val,
+                        headers: {
+                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                         dataType: 'json',
                         success: function (data) {
                             var response = JSON.parse(JSON.stringify(data));
@@ -165,6 +171,9 @@
         $.ajax({
             type: 'GET', //THIS NEEDS TO BE GET
             url: url + '/city/' + this.value,
+            headers: {
+                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
             dataType: 'json',
             success: function (data) {
                 var response = JSON.parse(JSON.stringify(data));
