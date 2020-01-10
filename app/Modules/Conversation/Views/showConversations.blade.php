@@ -35,14 +35,18 @@
                                         <a class="dots" data-toggle="dropdown" aria-haspopup="true"
                                             aria-expanded="false"></a>
                                         <ul class="dropdown-menu edit" role="menu">
-                                            <li><a href=""">Voir détails</a></li>
-                                                    <li><a href=""">Supprimer</a></li>
+                                            <li><a href="{{route('showConversation',$conversation->id)}}">Voir
+                                                    détails</a></li>
+                                            <li>
+                                                <a data-toggle="modal"
+                                                    data-target="#modal-default{{$conversation->id}}">Supprimer</a>
+                                            </li>
                                         </ul>
                                     </div>
                                     <p> <a href="{{route('showConversation',$conversation->id)}}"
                                             class="effect-shine">Sujet : {{$conversation->subject}}
                                         </a>
-                                        @if(!$conversation->is_admin)    
+                                        @if(!$conversation->is_admin)
                                         &nbsp;&nbsp; <span class="dot"></span>
                                         @endif
 
@@ -88,19 +92,57 @@
                             </div>
                         </div>
 
+                        <div class="modal fade" id="modal-default{{$conversation->id}}">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span></button>
+                                        <h4 class="modal-title"> Voulez vous vraiment supprimer cette conversation ?
+
+                                    </div>
+                                    <div class="modal-body">
+                                        <h5 class="modal-title"> <b>Attention </b> : La suppression de cette entité est
+                                            irreversible, procéder à la suppression?
+
+                                        </h5>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="text-center">
+                                            <form action="{{ route('handleDeleteConversation',$conversation->id) }}"
+                                                method="post">
+                                                {{csrf_field()}}
+                                                <a href="#" class="btn btn-danger" data-dismiss="modal">Annuler</a>
+
+                                                <button type="submit" class="btn btn-success">Confirmer</button>
+
+
+                                            </form>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+
+                            <!-- /.modal-dialog -->
+                        </div>
+
 
                         @empty
                         <div class="box box-solid">
-                             
-                                <!-- /.box-header -->
-                                <div class="box-body">
-                                  <blockquote>
+
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <blockquote>
                                     <p class="text-center" style="margin-top:10px;">Aucune conversation trouvée !</p>
-                              
-                                  </blockquote>
-                                </div>
-                                <!-- /.box-body -->
-                              </div>
+
+                                </blockquote>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
 
                         @endforelse
                         {{ $conversations->links() }}

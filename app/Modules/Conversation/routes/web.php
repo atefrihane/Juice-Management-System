@@ -5,4 +5,5 @@ Route::group(['module' => 'Conversation', 'middleware' => ['web', 'isAuth','prim
     Route::get('/conversation/add', 'ConversationController@showAddConversation')->name('showAddConversation');
     Route::post('/conversation/add', 'ConversationController@handleAddConversation')->name('handleAddConversation');
     Route::get('/conversation/{id}', 'ConversationController@showConversation')->name('showConversation');
+    Route::post('/conversation/{id}/delete', 'ConversationController@handleDeleteConversation')->name('handleDeleteConversation');
 });

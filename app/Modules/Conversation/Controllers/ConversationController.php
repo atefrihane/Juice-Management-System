@@ -22,7 +22,6 @@ class ConversationController extends Controller
         if (count($conversations) > 0) {
 
             foreach ($conversations as $conversation) {
-
                 if ($conversation->messages->last()->user->child_type == Admin::class) {
                     $conversation->setAttribute('is_admin', true);
 
@@ -92,6 +91,22 @@ class ConversationController extends Controller
             }
 
             return view('Conversation::showConversation', compact('conversation'));
+
+        }
+        return view('General::notFound');
+    }
+
+    public function handleDeleteConversation($id)
+    {
+        $conversation = Conversation::find($id);
+        if ($conversation) {
+            if (!$conversation->messages()->exists()) {
+                $conversation->delete();
+                alert()->success('La conversation a été supprimée avec succés!', 'Succés!');
+                return redirect()->back();
+            }
+            alert()->error('Cette entité ne peut pas être supprimée, autres entités y sont liées', 'Oups! ')->persistent("Fermer");
+            return redirect()->back();
 
         }
         return view('General::notFound');
