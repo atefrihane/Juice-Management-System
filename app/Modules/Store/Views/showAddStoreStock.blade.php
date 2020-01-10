@@ -166,9 +166,7 @@
         $('.selected_product').on('change', function () {
 
             var id = this.value;
-            var url = {
-                !!json_encode(url('/')) !!
-            }
+            var url = {!!json_encode(url('/'))!!}
 
 
             if (id == 0) {

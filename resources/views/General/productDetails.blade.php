@@ -20,6 +20,9 @@
             } else {
                 $.ajax({
                     type: 'GET', //THIS NEEDS TO BE GET
+                    headers: {
+                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     url: url + '/api/product/details/' + id,
                     dataType: 'json',
                     success: function (data) {
@@ -56,7 +59,9 @@
                 $.ajax({
 
                 type:'POST',
-
+                headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                 url:url + `/api/product/${id}/validity`,
 
                 data:{date:value},
