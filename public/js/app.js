@@ -4182,7 +4182,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.bacs = [];
       var id = event.target.value;
       this.isLoading = true;
-      axios.get("api/machines/".concat(id)).then(function (response) {
+      axios.get("/api/machines/".concat(id)).then(function (response) {
         _this3.isLoading = false;
 
         if (response.data.machine) {
@@ -4214,7 +4214,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this5 = this;
 
       var id = event.target.value;
-      axios.get('api/product/' + id).then(function (response) {
+      axios.get('/api/product/' + id).then(function (response) {
         Vue.set(_this5.bacs[0][index], 'mixtures', ''); //Display mixtures of a product ( if has a one)
 
         console.log(response);
@@ -4306,7 +4306,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (x == true) {
         this.disabled = true;
-        axios.post('api/rentals', {
+        axios.post('/api/rentals', {
           id: this.machineId,
           startDate: this.startDate,
           endDate: this.endDate,
@@ -4327,7 +4327,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               confirmButtonText: 'Fermer'
             }).then(function (result) {
               if (result.value) {
-                window.location = _this7.last;
+                window.location = '/machines';
               }
             });
           }

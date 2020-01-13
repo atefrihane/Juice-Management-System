@@ -286,7 +286,7 @@
                 this.bacs=[]
                 let id = event.target.value;
                 this.isLoading=true
-                axios.get(`api/machines/${id}`)
+                axios.get(`/api/machines/${id}`)
                     .then((response) => {
                              this.isLoading=false
                         if (response.data.machine) {
@@ -323,7 +323,7 @@
             getProductData(event, index) {
                 let id = event.target.value;
 
-                axios.get('api/product/' + id)
+                axios.get('/api/product/' + id)
                     .then((response) => {
                         Vue.set(this.bacs[0][index], 'mixtures', '')
                         //Display mixtures of a product ( if has a one)
@@ -436,7 +436,7 @@
 
                 if (x == true) {
                     this.disabled = true
-                    axios.post('api/rentals', {
+                    axios.post('/api/rentals', {
                             id: this.machineId,
                             startDate: this.startDate,
                             endDate: this.endDate,
@@ -461,7 +461,7 @@
 
                                 }).then((result) => {
                                     if (result.value) {
-                                        window.location = this.last;
+                                        window.location = '/machines';
                                     }
                                 })
 
