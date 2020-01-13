@@ -53,7 +53,7 @@
                                         <label for="exampleInputEmail1">Contacts</label>
                                         <select class="form-control contact" name="user_id" value="{{old('user_id')}}"
                                             required>
-                                            <option value="">Séléctionner un contact</option>
+                                            <option value="">Aucun contact</option>
 
                                         </select>
                                     </div>

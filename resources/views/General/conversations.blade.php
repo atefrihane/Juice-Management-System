@@ -15,6 +15,7 @@
                 if (response.status == 200) {
 
                     if (response.contacts.length > 0) {
+                        html+='<option value="">Séléctionner un contact </option>';
                         for (var i = 0; i < response.contacts.length; i++) {
 
                             html += '<option value="' + response.contacts[i].user.id +
