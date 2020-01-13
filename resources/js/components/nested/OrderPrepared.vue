@@ -125,7 +125,7 @@
         },
         methods: {
             loadUsers() {
-                axios.get('/users/show')
+                axios.get('/api/users/show')
                     .then((response) => {
                         this.users = response.data.users
 

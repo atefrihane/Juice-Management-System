@@ -9,7 +9,6 @@ use App\Modules\User\Models\ContactHistory;
 use App\Modules\User\Models\Director;
 use App\Modules\User\Models\Responsible;
 use App\Modules\User\Models\User;
-use Auth;
 use DB;
 use Illuminate\Http\Request;
 
@@ -18,13 +17,17 @@ class UserController extends Controller
 
     public static function login(Request $request)
     {
-        $credentials = [
+        if (!$request->email || !$request->password) {
+            return response()->json(['status' => 404]);
+
+        }
+        $user = User::where([
             'email' => $request->email,
             'password' => $request->password,
-        ];
+        ])->first();
 
-        if (auth()->attempt($credentials)) {
-            $token = auth()->user()->createToken('wize')->accessToken;
+        if ($user) {
+            $token = $user->createToken('wize')->accessToken;
             return response()->json(['token' => $token], 200);
         } else {
             return response()->json(['error' => 'UnAuthorised'], 401);
@@ -274,7 +277,7 @@ class UserController extends Controller
             $q->where('role_name', 'MAIN_DELIVERY');
             $q->orwhere('role_name', 'SECOND_DELIVERY');
         })->get();
-    
+
         return response()->json(['status' => 200, 'deliveries' => $deliveries]);
     }
 }

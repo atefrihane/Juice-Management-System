@@ -12016,7 +12016,7 @@ __webpack_require__.r(__webpack_exports__);
     loadUsers: function loadUsers() {
       var _this = this;
 
-      axios.get('/users/show').then(function (response) {
+      axios.get('/api/users/show').then(function (response) {
         _this.users = response.data.users;
       })["catch"](function (error) {
         console.log(error);
