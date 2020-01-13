@@ -4,6 +4,9 @@
         $.ajax({
             type: 'GET', //THIS NEEDS TO BE GET
             url: url + '/api/company/' + this.value + '/contacts',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
             dataType: 'json',
             success: function (data) {
                 var response = JSON.parse(JSON.stringify(data));
@@ -35,9 +38,6 @@
                     $('.contact').html(html);
                 }
 
-
-
-
             },
             error: function (data) {
                 console.log(data);
@@ -68,6 +68,9 @@
                 type: 'POST',
 
                 url: url + `/conversation/${id}/seen`,
+                headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
 
                 data: {
                     value
