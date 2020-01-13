@@ -12,9 +12,9 @@ Route::group(['module' => 'User', 'middleware' => ['auth:api'], 'namespace' => '
     Route::post('/api/contact/update/{cid}/{id}', 'UserController@updateClient')->name('updateClient');
 });
 
-Route::group(['module' => 'User', 'middleware' => ['web'], 'namespace' => 'App\Modules\User\Controllers\api'], function() {
+Route::group(['module' => 'User', 'middleware' => ['api'], 'namespace' => 'App\Modules\User\Controllers\api'], function() {
 
 
-    route::get('api/login', 'UserController@login');
+    route::post('api/login', 'UserController@login');
 });
 
