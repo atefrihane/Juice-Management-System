@@ -124,7 +124,6 @@
                                                 <input type="text" class="form-control" v-else value="Aucun" disabled>
                                             </div>
 
-
                                             <div class="form-group">
                                                 <label>Code postal</label>
                                                 <input type="text" class="form-control" v-if="store.zipcode"
@@ -135,17 +134,11 @@
                                         <div class="modal-footer">
                                             <div class="text-center">
                                                 <a href="#" data-dismiss="modal" class="btn btn-danger">Fermer</a>
-
                                             </div>
-
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
-
                         </div>
                     </div>
 
@@ -174,7 +167,6 @@
                                 <th>Total Produit</th>
                                 <th></th>
                             </tr>
-
                         </thead>
                         <tbody>
                             <tr v-for="(ordered,index) in custom_ordered">
@@ -182,7 +174,7 @@
                                     <select class="form-control" v-model="ordered.product_id"
                                         @change="getProductData($event,index)" disabled>
                                         <option value=""
-                                            v-if="ordered.products.length > 0 && ordered.products.length > 0" disabled>
+                                            v-if="ordered.products.length > 0" disabled>
                                             Selectionner un
                                             produit
                                         </option>
@@ -205,33 +197,21 @@
                                         v-model="ordered.tva" disabled></td>
                                 <td><input type="text" class="form-control" disabled placeholder="Total Produit.."
                                         v-model="ordered.total" disabled></td>
-
                                 <td>
-
                                 </td>
                             </tr>
-
-
-
-
                         </tbody>
                     </table>
                 </div>
-
-
                 <div class="box-body">
                     <div class="pull-left">
                         <h4 class="box-title"> Total HT</h4>
                         <h4 class="box-title"> TVA</h4>
-
                         <h4 class="box-title"> <b>TOTAL TTC</b></h4>
-
-
                     </div>
                     <div class="pull-right">
                         <h4 class="box-title"> {{convert_total_ht}}€</h4>
                         <h4 class="box-title"> {{convert_total_tva}}€</h4>
-
                         <h4 class="box-title"> <b>{{convert_total_order}}€</b></h4>
                     </div>
                 </div>
@@ -241,18 +221,15 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="exampleInputEmail1" style="font-size:20px;">Produits préparés</label>
-
                         </div>
                     </div>
-
                 </div>
                 <div class="container-fluid">
                     <div class="row">
-
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Préparateur</label>
-                                <input type="text" class="form-control" :value="preparator.nom+preparator.prenom"
+                                <input type="text" class="form-control" :value="preparator.nom+' '+preparator.prenom"
                                     v-if="preparator" disabled>
                                 <input type="text" class="form-control" value="Non specifié" v-else disabled>
 
@@ -266,9 +243,6 @@
                                 <input type="text" class="form-control" value="Non specifié" v-else disabled>
                             </div>
                         </div>
-
-
-
                     </div>
                 </div>
 
@@ -485,7 +459,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Livreur</label>
-                                <input type="text" class="form-control" :value="delivery_man.nom+delivery_man.prenom"
+                                <input type="text" class="form-control" :value="delivery_man.nom+' '+delivery_man.prenom"
                                     v-if="delivery_man" disabled>
                                 <input type="text" class="form-control" value="Non specifié" v-else disabled>
                             </div>

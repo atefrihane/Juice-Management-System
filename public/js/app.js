@@ -7622,32 +7622,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getCompanies();
@@ -93033,7 +93007,6 @@ var render = function() {
                         }
                       },
                       [
-                        ordered.products.length > 0 &&
                         ordered.products.length > 0
                           ? _c(
                               "option",
@@ -93290,7 +93263,7 @@ var render = function() {
                       staticClass: "form-control",
                       attrs: { type: "text", disabled: "" },
                       domProps: {
-                        value: _vm.preparator.nom + _vm.preparator.prenom
+                        value: _vm.preparator.nom + " " + _vm.preparator.prenom
                       }
                     })
                   : _c("input", {
@@ -93617,7 +93590,8 @@ var render = function() {
                       staticClass: "form-control",
                       attrs: { type: "text", disabled: "" },
                       domProps: {
-                        value: _vm.delivery_man.nom + _vm.delivery_man.prenom
+                        value:
+                          _vm.delivery_man.nom + " " + _vm.delivery_man.prenom
                       }
                     })
                   : _c("input", {

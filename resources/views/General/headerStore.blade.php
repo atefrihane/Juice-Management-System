@@ -72,8 +72,8 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="text-center">
-                                        <a href="#" class="btn btn-default btn-flat btn-width">Informations du
-                                            compte</a>
+                                        {{-- <a href="#" class="btn btn-default btn-flat btn-width">Informations du
+                                            compte</a> --}}
                                     </div>
                                     @if(Auth::user()->DBO() || Auth::user()->superAdmin())
                                     <div class="text-center">
