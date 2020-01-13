@@ -27,7 +27,7 @@ class UserController extends Controller
             'password' => $request->password,
         ])->first();
 
-        if ($user) {
+        if ($user && $user->child_type != Admin::class) {
             $token = $user->createToken('wize')->accessToken;
             return response()->json(['token' => $token], 200);
         } else {
