@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateStoresTable extends Migration
 {
@@ -28,6 +28,7 @@ class CreateStoresTable extends Migration
             $table->string('bill_type');
             $table->string('bill_to');
             $table->text('deliveryRec')->nullable();
+            $table->integer('order_type');
             $table->integer('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->integer('country_id')->unsigned();

@@ -114,6 +114,18 @@
 
                             </div>
 
+                            <div class="form-group">
+                                    <label for="exampleInputEmail1">Type de commande</label>
+                                    <select class="form-control" name="order_type" required>
+                                        <option value="" disabled>Séléctionner un type</option>
+                                        <option value="1" {{$store->order_type == 1 ? 'selected'  : ''}}>Seulement en colis</option>
+                                        <option value="2" {{$store->order_type == 2 ? 'selected'  : ''}}>Colis et nombre d'unités</option>
+    
+                                    </select>
+    
+    
+                                </div>
+
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Adresse du magasin</label>
@@ -153,7 +165,7 @@
                                         <label>Ville</label>
                                         <select class="form-control cities" name="city_id">
                                             @forelse($cities as $city)
-                                            
+
                                             <option value="{{$city->id}}"
                                                 {{$city->id == $store->city_id ? 'selected' :  ''}}>
                                                 {{$city->name}}
@@ -223,13 +235,13 @@
                             <div class="form-group">
                                 <label for="exampleInputFile"> Photo du magasin (optionnel)</label>
                                 @if($store->photo)
-                                    <div class="row">
-                                        <div class="container">
-                                            <img src="{{asset('/')}}{{$store->photo}}" alt="..." class="img-thumbnail"
-                                                style="width:100px;">
-                                        </div>
+                                <div class="row">
+                                    <div class="container">
+                                        <img src="{{asset('/')}}{{$store->photo}}" alt="..." class="img-thumbnail"
+                                            style="width:100px;">
                                     </div>
-                                    @endif
+                                </div>
+                                @endif
                                 <input type="file" name="photo" id="exampleInputFile" style="margin-top:20px;">
                             </div>
                             <label> Facturation</label>
@@ -265,7 +277,8 @@
                                                 selected
                                                 @endif
                                                 >Societé</option>
-                                            <option value="Magasin et Societé" @if($store->bill_to == 'Magasin et Societé')
+                                            <option value="Magasin et Societé" @if($store->bill_to == 'Magasin et
+                                                Societé')
                                                 selected
                                                 @endif
                                                 >Magasin et Societé</option>
@@ -415,26 +428,28 @@
 </script>
 <script>
     $('document').ready(function () {
-        $('.form-check > input').each(function() {
-            $(this).click(function(){
-                if ($(this).is(":checked"))
-                {
+        $('.form-check > input').each(function () {
+            $(this).click(function () {
+                if ($(this).is(":checked")) {
                     $(this).closest('tr').find("td:eq(1)").find("input").prop('readonly', true);
                     $(this).closest('tr').find("td:eq(2)").find("input").prop('readonly', true);
                     $(this).closest('tr').find("td:eq(3)").find("input").prop('readonly', true);
                     $(this).closest('tr').find("td:eq(4)").find("input").prop('readonly', true);
+                } else {
+
+                    $(this).closest('tr').find("td:eq(1)").find("input").prop('readonly',
+                    false);
+                    $(this).closest('tr').find("td:eq(2)").find("input").prop('readonly',
+                    false);
+                    $(this).closest('tr').find("td:eq(3)").find("input").prop('readonly',
+                    false);
+                    $(this).closest('tr').find("td:eq(4)").find("input").prop('readonly',
+                    false);
                 }
-                else{
-            
-                    $(this).closest('tr').find("td:eq(1)").find("input").prop('readonly', false);
-                    $(this).closest('tr').find("td:eq(2)").find("input").prop('readonly', false);
-                    $(this).closest('tr').find("td:eq(3)").find("input").prop('readonly', false);
-                    $(this).closest('tr').find("td:eq(4)").find("input").prop('readonly', false);
-                }
-      
+
             })
         })
-      
+
 
     })
 

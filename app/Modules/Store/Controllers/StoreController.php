@@ -133,6 +133,7 @@ class StoreController extends Controller
             'email' => 'required|email',
             'tel' => 'required',
             'cc' => 'required',
+            'order_type' => 'required'
 
         ], [
             'code.required' => 'le champs code est obligatoire',
@@ -144,6 +145,7 @@ class StoreController extends Controller
             'email.email' => 'email non valide',
             'cc.required' => 'le premier champs telephone est obligatoire',
             'tel.required' => 'le deuxieme champs telephone est obligatoire',
+            'order_type.required' => 'le type de la commande est obligatoire',
 
         ]);
 
@@ -269,6 +271,7 @@ class StoreController extends Controller
             'email' => 'required|email',
             'tel' => 'required',
             'cc' => 'required',
+            'order_type' => 'required',
 
         ], [
             'code.required' => 'le champs code est obligatoire',
@@ -280,6 +283,7 @@ class StoreController extends Controller
             'email.email' => 'email non valide',
             'cc.required' => 'le premier champs telephone est obligatoire',
             'tel.required' => 'le deuxieme champs telephone est obligatoire',
+            'order_type.required' => 'le champ type de la commande est obligatoire',
 
         ]);
         $updateable = $request->all();

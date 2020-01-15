@@ -98,70 +98,7 @@
                     </div>
                 </div>
             </div>
-            <label style="font-weight: bold; font-size: 16px; margin-top: 20px"> Configuration des bacs
-            </label>
-
-            <div class="container-fluid " style="background-color: #e4e4e4; margin: 16px; padding: 24px"
-                v-for="(bac,index) in bacs[0]">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group d-flex">
-                            <label class="col-10">Numero du bac: </label>
-                            <input type="text" class="form-control" :value="index+1" disabled>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group " style="display: flex; flex-direction: column">
-                            <label>Etat : </label>
-
-                            <select class="form-control" v-model="bac.status" @change="onChangeStatus($event,bac)">
-                                <option :value="null" disabled> Séléctionner un etat</option>
-                                <option value="fonctionnelle">Fonctionnelle</option>
-                                <option value="en panne">En panne</option>
-                                <option value="en sommeil">En Sommeil</option>
-
-                            </select>
-
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group " style="display: flex; flex-direction: column">
-                            <label>Produit en bac </label>
-                            <select class="form-control" @change="getProductData($event,index)" v-model="bac.product_id"
-                                :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
-
-                                <option :value="null">Selectionner un
-                                    produit</option>
-
-                                <option v-if="bac.status != 'en panne' && bac.status != 'en sommeil'"
-                                    v-for="product in products[0]" :value="product.id ">{{product.nom}}</option>
-
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group " style="display: flex; flex-direction: column">
-                            <label class="col-12">Melange par defaut </label>
-                            <select class="form-control" v-model="bac.mixture_id"
-                                :disabled="bac.status == 'en panne' || bac.status == 'en sommeil'">
-                                <option :value="null">Selectionner un mélange
-                                </option>
-
-                                <option v-if="bac.status != 'en panne' && bac.status != 'en sommeil'"
-                                    v-for="mixture in bac.mixtures" :value="mixture.id ">{{mixture.name}}</option>
-
-                            </select>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
+     
 
         </div>
 
@@ -198,7 +135,7 @@
         mounted() {
             this.getCompanies()
             this.getProducts()
-            this.loadBacs()
+
         },
         data() {
             return {
@@ -208,18 +145,15 @@
                 userId: data.user.id,
                 companies: [],
                 products: [],
-                mixtures: [],
                 stores: [],
                 startDate: '',
                 endDate: '',
                 price: data.machine.price_month,
                 localisation: '',
                 comment: '',
-                countBacs: data.machine.number_bacs,
                 storeId: '',
                 companySelected: '',
                 localisation: '',
-                bacs: [],
                 errors: [],
                 disabled:false
             }
@@ -283,40 +217,12 @@
                     })
 
             },
-            loadBacs() {
-                axios.get('/api/machine/bacs/' + this.machineId)
-                    .then((response) => {
-                        console.log(response.data);
-                        let bacs=response.data.bacs
-                        bacs.forEach(bac => {
-                            bac.status="fonctionnelle"
-                        })
-                        this.bacs.push(bacs);
-
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
-            },
+         
             cancelRental() {
                 window.location = axios.defaults.baseURL+'/machines';
 
             },
-            onChangeStatus(event, selectedBac) {
-
-                let value = event.target.value;
-                this.bacs[0].map((bac, i) => {
-                    if (bac.id == selectedBac.id) {
-                        if (value == 'en panne' || value == 'en sommeil') {
-                            bac.product_id = null;
-                            bac.mixture_id = null;
-                        }
-                    }
-
-                })
-
-
-            },
+     
 
             validateForm() {
 
@@ -361,23 +267,9 @@
                     window.scrollTo(0, 0);
                     return false;
                 }
+                return true;
 
 
-
-                var x = true;
-                this.bacs[0].forEach((bac, index) => {
-
-                    if (!bac.status) {
-                        this.errors.push('Veuillez sélectionner un etat pour le bac ' + (index + 1));
-                        window.scrollTo(0, 0);
-                        x = false;
-                    }
-
-
-
-                });
-
-                return x;
 
 
 
@@ -386,6 +278,7 @@
 
             submitRental() {
                 var x = this.validateForm()
+                console.log(x)
 
                 if (x == true) {
                     this.disabled=true

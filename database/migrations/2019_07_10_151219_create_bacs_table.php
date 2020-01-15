@@ -16,14 +16,16 @@ class CreateBacsTable extends Migration
         Schema::create('bacs', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('order');
+            $table->double('final_amount');
+            $table->double('needed_weight');
+            $table->double('water_amount');
+            $table->double('sugar_amount');
+            $table->double('glass_size');
+            $table->double('number_of_glasses');
             $table->string('status')->nullable();
             $table->dateTime('last_refill_time')->nullable();
             $table->integer('machine_id')->unsigned();
             $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
-            $table->integer('product_id')->unsigned()->nullable();
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('SET NULL');
-            $table->integer('mixture_id')->unsigned()->nullable();
-            $table->foreign('mixture_id')->references('id')->on('mixtures')->onDelete('SET NULL');
             $table->timestamps();
         });
     }

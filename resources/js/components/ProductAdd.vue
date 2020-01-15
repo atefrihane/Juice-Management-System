@@ -19,7 +19,7 @@
 
             <div class="row">
 
-              
+
 
                 <div class="col-md-6">
                     <div class="form-group">
@@ -49,7 +49,7 @@
 
             <div class="form-group">
                 <label for="exampleInputEmail1">Type de Produit</label>
-                <select class="form-control" v-model="type" @change="getProductData($event)">
+                <select class="form-control" v-model="type">
                     <option selected>Alimentaire</option>
                     <option>Jettable</option>
                     <option>Autre</option>
@@ -156,6 +156,12 @@
 
             <div class="form-group">
                 <label for="exampleInputFile">Photo du produit (optionnel)</label>
+                <div class="row">
+                    <div class="container">
+
+                        <img :src="url" alt="" class="img-thumbnail" style="width:100px;" v-if="url">
+                    </div>
+                </div>
                 <input type="file" id="exampleInputFile" @change="uploadImage($event)">
             </div>
             <div class="form-group">
@@ -172,106 +178,27 @@
                 <label for="exampleInputEmail1">Colisage</label>
                 <input class="form-control" id="disabledInput" type="number" placeholder="Colisage" v-model="packing">
             </div>
-                <div class="form-group">
+            <div class="form-group">
                 <label for="exampleInputEmail1">TVA (%)</label>
                 <input class="form-control" id="disabledInput" type="number" placeholder="TVA" v-model="tva">
             </div>
 
-            <div class="form-group" v-if="type != 'Jettable'">
-                <label for="exampleInputFile">Possibilités de melange :</label>
-            </div>
-            <div class="box" style="border:1px solid rgb(228, 228, 228);background:rgb(228, 228, 228);"
-                v-for="(mixture,index) in mixtures" v-if="type != 'Jettable'">
-                <div class="box-body">
-                    <div class="box-body">
-                        <a href="" class="pull-right btn btn-default" v-if="index>0"
-                            @click.prevent="deleteMixture(mixture)"><i class="fa fa-minus"></i></a>
-                    </div>
 
 
 
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Nom du mélange</label>
-                                <input class="form-control" id="disabledInput" type="text" placeholder="Nom du mélange"
-                                    v-model="mixture.mixtureName">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Type du mélange</label>
-                                <select class="form-control" v-model="mixture.type">
-                                    <option :value="null" disabled>Séléctionner un type de mélange</option>
-                                    <option value="jus">Jus</option>
-                                    <option value="granite">Granité</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Quantité de produit fini(en litre)</label>
-                                <input class="form-control" id="disabledInput" type="number" step="0.01"
-                                    placeholder="Quantité de produit fini.." v-model="mixture.endQuantityProduct">
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Poids necessaire du produit (en kg)</label>
-                                <input class="form-control" id="disabledInput" type="number" placeholder="Poids.."
-                                    step="0.01" v-model="mixture.necessaryWeight">
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Quantité d'eau (en litre)</label>
-                                <input class="form-control" id="disabledInput" type="number" step="0.01"
-                                    placeholder="Quantité eau..." v-model="mixture.waterQuantity">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Quantité de sucre (en kg)</label>
-                                <input class="form-control" id="disabledInput" type="number" step="0.01"
-                                    placeholder="Quantité sucre..." v-model="mixture.sugarQuantity">
-                            </div>
-                        </div>
-
-
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Volume de verre (en cl)</label>
-                                <input class="form-control" id="disabledInput" type="number" step="0.01"
-                                    placeholder="Volume de verre..." v-model="mixture.glassVolume">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- box-footer -->
-            </div>
-
-            <button type="button" class="btn btn-default" @click="btnClick()" v-if="type != 'Jettable'"><i
-                    class="fa fa-plus"></i></button>
 
             <div class="box-body">
                 <div class="row">
                     <div class="container text-center">
 
                         <button href="" class="btn btn-danger pl-1" @click="cancelProduct()">Annuler</button>
-                        <button class="btn btn-success pl-1" type="button" :disabled="disabled" @click="submitProduct()">Confirmer</button>
+                        <button class="btn btn-success pl-1" type="button" :disabled="disabled"
+                            @click="submitProduct()">Confirmer</button>
 
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
 
         </form>
     </div>
@@ -306,25 +233,31 @@
                 unityPerPack: '',
                 packing: '',
                 comment: '',
-                tva:'',
+                tva: '',
                 productId: product.productId,
                 error: 0,
-                userId:this.user_id,
-
-                mixtures: [{
-                    endQuantityProduct: '',
-                    necessaryWeight: '',
-                    waterQuantity: '',
-                    sugarQuantity: '',
-                    glassVolume: '',
-                    glassNumber: '',
-                    type: null
-                }],
+                userId: this.user_id,
                 errors: [],
-                disabled:false
+                disabled: false,
+                acceptedImage:true
             }
         },
-        props:['user_id'],
+        props: ['user_id'],
+        computed: {
+            url() {
+                var isBase64 = require('is-base64');
+
+
+                if (this.photo && (!isBase64(this.photo, {
+                        allowMime: true
+                    }))) {
+                    return axios.defaults.baseURL + '/img/' + this.photo
+                } else {
+                    return this.photo
+                }
+
+            }
+        },
         mounted() {
             this.$Progress.finish()
 
@@ -338,241 +271,192 @@
 
             },
 
-            btnClick() {
-                this.mixtures.push({
-                    mixtureName: '',
-                    endQuantityProduct: '',
-                    necessaryWeight: '',
-                    waterQuantity: '',
-                    sugarQuantity: '',
-                    glassVolume: '',
-                    glassNumber: '',
-                    type: null
-                });
 
-
-            },
-            deleteMixture: function (mixture) {
-                this.mixtures.splice(this.mixtures.indexOf(mixture), 1);
-            },
             uploadImage(event) {
 
                 let file = event.target.files[0];
-                let reader = new FileReader();
-                let limit = 1024 * 1024 * 2;
-                if (file['size'] > limit) {
-                    this.errors.push('Fichier volumineux !');
+                if (file.type == 'image/jpeg' || file.type == 'image/jpg' || file.type == 'image/png') {
+                    let reader = new FileReader();
+                    let limit = 1024 * 1024;
+                    if (file['size'] > limit) {
+                      
+                        this.acceptedImage=false
+                             this.errors=[]    
+                this.errors.push('La photo importée est volumineuse');
                     window.scrollTo(0, 0);
-                    return false;
-                }
-                reader.onloadend = (file) => {
-                    this.photo = reader.result;
-                }
-                reader.readAsDataURL(file);
 
-            },
-            getProductData(event) {
-                let value = event.target.value;
-                if (value == 'Jettable') {
-                    this.mixtures = [];
-                } else {
-                    if (this.mixtures.length == 0) {
-                        this.mixtures.push({
-                            mixtureName: '',
-                            endQuantityProduct: '',
-                            necessaryWeight: '',
-                            waterQuantity: '',
-                            sugarQuantity: '',
-                            glassVolume: '',
-                            glassNumber: ''
-                        });
+                    } else {
+                        this.acceptedImage=true
+                        this.errors = []
+                        reader.onloadend = (file) => {
+                            this.photo = reader.result;
+                        }
+                        reader.readAsDataURL(file);
+
                     }
-                    return;
 
-
+                } else {
+                    this.errors = []
+                    this.errors.push('Les formats supportés pour l\'importation du logo sont : PNG,JPEG,JPG');
+                    window.scrollTo(0, 0);
                 }
+
+
+
             },
-               validateForm() {
+
+
+            validateForm() {
 
                 this.errors = [];
-                let  x=true;
-                console.log('hi')
+
                 if (!this.code) {
                     this.errors.push('Le champs code est requis.');
                     window.scrollTo(0, 0);
-                    x=false;
+                    return false;
+
                 }
 
 
                 if (!this.state) {
                     this.errors.push(' le champs etat est requis.');
                     window.scrollTo(0, 0);
-                            x=false;
+                    return false;
+
                 }
 
                 if (!this.name) {
                     this.errors.push('le champs nom produit est requis.');
                     window.scrollTo(0, 0);
-                      x=false;
+                    return false;
+
                 }
 
 
                 if (!this.type) {
                     this.errors.push('le champs type est requis.');
                     window.scrollTo(0, 0);
-                            x=false;
+                    return false;
+
                 }
 
                 if (!this.version) {
                     this.errors.push('le champs version est  requis.');
                     window.scrollTo(0, 0);
-                         x=false;
+                    return false;
+
                 }
 
 
                 if (!this.barcode) {
                     this.errors.push('les champs code à barres est  requis.');
                     window.scrollTo(0, 0);
-                             x=false;
+                    return false;
+
                 }
 
 
                 if (!this.designation) {
                     this.errors.push('Le champs designation est  requis.');
                     window.scrollTo(0, 0);
-                        x=false;
+                    return false;
+
                 }
                 if (!this.composition) {
                     this.errors.push('Le champs composition est  requis.');
                     window.scrollTo(0, 0);
-                          x=false;
+                    return false;
+
                 }
 
                 if (!this.color) {
                     this.errors.push('Le champs couleur est  requis.');
                     window.scrollTo(0, 0);
-                          x=false;
+                    return false;
+
                 }
 
                 if (!this.weight) {
                     this.errors.push('Le champs poids est  requis.');
                     window.scrollTo(0, 0);
-                        x=false;
+                    x = false;
                 }
 
                 if (!this.height) {
                     this.errors.push('Le champs hauteur est  requis.');
                     window.scrollTo(0, 0);
-                        x=false;
+                    return false;
+
                 }
 
                 if (!this.width) {
                     this.errors.push('Le champs largeur est  requis.');
                     window.scrollTo(0, 0);
-                            x=false;
+                    return false;
+
                 }
 
                 if (!this.depth) {
                     this.errors.push('Le champs hauteur est  requis.');
                     window.scrollTo(0, 0);
-                            x=false;
+                    return false;
+
                 }
 
                 if (!this.publicPrice) {
                     this.errors.push('Le champs prix unitaire de vente  est  requis.');
                     window.scrollTo(0, 0);
-                     x=false;
+                    return false;
+
                 }
 
                 if (!this.validityClosed) {
                     this.errors.push('Le champs durée de validité de produit fermé  est  requis.');
                     window.scrollTo(0, 0);
-                   x=false;
+                    return false;
+
                 }
 
                 if (!this.validityOpened) {
                     this.errors.push('Le champs durée de validité aprés ouverture est  requis.');
                     window.scrollTo(0, 0);
-                            x=false;
+                    return false;
+
                 }
 
                 if (!this.unityPerDisplay) {
                     this.errors.push('Le Nombre d"unitée par display est  requis.');
                     window.scrollTo(0, 0);
-                             x=false;
+                    return false;
+
                 }
 
 
                 if (!this.unityPerPack) {
                     this.errors.push('Le champs nombre de display par colis est  requis.');
                     window.scrollTo(0, 0);
-                   x=false;true
+                    return false;
+
                 }
 
 
                 if (!this.packing) {
                     this.errors.push('Le champs colisage est  requis.');
                     window.scrollTo(0, 0);
-                           x=false;
+                    return false;
+
                 }
-                 if (!this.tva) {
-                    this.errors.push('Le champs tva  est  requis.');
+                if (!this.tva) {
+                    this.errors.push('Le champs TVA  est  requis.');
                     window.scrollTo(0, 0);
-                            x=false;
-                }
-                if (this.mixtures.length > 0) {
-                  
-                    this.mixtures.forEach((mixture) => {
-
-                        if (!mixture.mixtureName) {
-                            this.errors.push('Le champs nom du mélange est  requis.');
-                            window.scrollTo(0, 0);
-                            x=false;
-                        }
-                        if (!mixture.endQuantityProduct) {
-                            this.errors.push('Le champs quantité de produit fini(en litre)  est  requis.');
-                            window.scrollTo(0, 0);
-                              x=false;
-                        }
-
-                        if (!mixture.necessaryWeight) {
-                            this.errors.push('Le champs poids necessaire du produit (en kg) est  requis.');
-                            window.scrollTo(0, 0);
-                              x=false;
-                        }
-
-                        if (!mixture.waterQuantity) {
-                            this.errors.push('Le champs quantité eau (en litre) est  requis.');
-                            window.scrollTo(0, 0);
-                              x=false;
-                        }
-
-
-                        if (!mixture.sugarQuantity) {
-                            this.errors.push('Le champs quantité de sucre (en kg) est  requis.');
-                            window.scrollTo(0, 0);
-                                x=false;
-                        }
-
-                        if (!mixture.glassVolume) {
-                            this.errors.push('Le champs volume de verre (en cl) est  requis.');
-                            window.scrollTo(0, 0);
-                                 x=false;
-                        }
-
-                            if (!mixture.type) {
-                            this.errors.push('Le champs type de mélange est requis.');
-                            window.scrollTo(0, 0);
-                                 x=false;
-                        }
-
-                   });
-                    
-                       
+                    return false;
 
                 }
 
-                     return x;
+               
+                return true;
+
+
 
 
 
@@ -581,10 +465,10 @@
             },
 
             submitProduct() {
-                  console.log(this.validateForm());
-          
-                if (this.validateForm()) {
-                    this.disabled=true
+            
+            let validation=this.validateForm()
+                if (validation && this.acceptedImage) {
+                    this.disabled = true
                     this.$Progress.start()
                     axios.post('/api/products', {
 
@@ -608,25 +492,26 @@
                             unityPerDisplay: this.unityPerDisplay,
                             unityPerPack: this.unityPerPack,
                             packing: this.packing,
-                            tva:this.tva,
+                            tva: this.tva,
                             comment: this.comment,
                             productId: this.productId,
-                            mixtures: this.mixtures,
-                            userId:this.userId
+                            userId: this.userId
 
 
                         })
-                        .then(function (response) {
+                        .then((response) => {
                             if (response.data.status == 400) {
                                 swal.fire({
                                     type: 'error',
                                     title: 'Code déja utilisé  !',
                                     showConfirmButton: true,
-                                      allowOutsideClick: false,
+                                    allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
 
                                 });
+
+                                this.disabled = false
 
 
 
@@ -637,11 +522,11 @@
                                     type: 'success',
                                     title: 'Le produit a été ajouté avec succés !',
                                     showConfirmButton: true,
-                                      allowOutsideClick: false,
+                                    allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
                                 }).then((result) => {
                                     if (result.value) {
-                                        window.location = axios.defaults.baseURL+'/products';
+                                        window.location = axios.defaults.baseURL + '/products';
                                     }
                                 })
 
@@ -654,26 +539,20 @@
                         });
                     this.$Progress.finish()
 
-
-
-
-
-
-
-
-
-
-
-
+                }
+                else{
+                this.errors=[]    
+                this.errors.push('La photo importée est volumineuse');
+                    window.scrollTo(0, 0);
                 }
 
 
 
             },
 
-         
+
             cancelProduct() {
-                window.location = axios.defaults.baseURL+'/products';
+                window.location = axios.defaults.baseURL + '/products';
 
             }
 

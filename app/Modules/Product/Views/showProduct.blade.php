@@ -211,84 +211,8 @@
                                 value="{{$product->tva}}" disabled>
                         </div>
 
-                        <div class="form-group">
-                            <label for="exampleInputFile">Possibilités de melange :</label>
-                        </div>
-                        @forelse($product->mixtures as $mixture)
-                        <div class="box" style="border:1px solid rgb(228, 228, 228);background:rgb(228, 228, 228);">
-                            <div class="box-body">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Nom du mélange</label>
-                                            <input class="form-control" id="disabledInput" type="text"
-                                                placeholder="Nom du mélange" value="{{$mixture->name}}" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Type du mélange</label>
-                                            <input class="form-control" id="disabledInput" type="text"
-                                                placeholder="Nom du mélange" value="{{ucfirst($mixture->type)}}"
-                                                disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Quantité de produit fini(en litre)</label>
-                                            <input class="form-control" id="disabledInput" type="number" step="0.01"
-                                                placeholder="Quantité de produit fini.."
-                                                value="{{$mixture->final_amount}}" disabled>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Poids necessaire du produit (en kg)</label>
-                                            <input class="form-control" id="disabledInput" type="number"
-                                                placeholder="Poids.." step="0.01" value="{{$mixture->needed_weight}}"
-                                                disabled>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Quantité d'eau (en litre)</label>
-                                            <input class="form-control" id="disabledInput" type="number" step="0.01"
-                                                placeholder="Quantité eau..." value="{{$mixture->water_amount}}"
-                                                disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Quantité de sucre (en kg)</label>
-                                            <input class="form-control" id="disabledInput" type="number" step="0.01"
-                                                placeholder="Quantité sucre..." value="{{$mixture->sugar_amount}}"
-                                                disabled>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Volume de verre (en cl)</label>
-                                            <input class="form-control" id="disabledInput" type="number" step="0.01"
-                                                placeholder="Volume de verre..." value="{{$mixture->glass_size}}"
-                                                disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @empty
-
-                        <h4 class="text-center"> Aucun Mélange trouvé</h4>
-                        @endforelse
+                  
+                    
                     </div>
 
                     </form>

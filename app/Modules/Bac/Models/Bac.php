@@ -4,18 +4,17 @@ namespace App\Modules\Bac\Models;
 
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Machine\Models\Machine;
-use App\Modules\Mixture\Models\Mixture;
 use App\Modules\Product\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 
 class Bac extends Model
 {
 
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $guarded = ['id'];
     
-    public function product()
+    public function products()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsToMany(Product::class,'bac_products');
     }
 
     public function mixture()

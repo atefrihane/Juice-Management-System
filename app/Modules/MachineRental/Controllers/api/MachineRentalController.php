@@ -78,25 +78,7 @@ class MachineRentalController extends Controller
 
             ]);
 
-            if (isset($request->bacs[0])) {
-                foreach ($request->bacs[0] as $bac) {
-                    $checkBac = Bac::find($bac['id']);
-                    $checkBac->update([
-                        'order' => $bac['order'],
-                        'status' => $bac['status'],
-                        'last_refill_time' => $bac['last_refill_time'],
-                        'product_id' => $bac['product_id'],
-                        'mixture_id' => $bac['mixture_id'],
-
-                    ]);
-                    BacHistory::create([
-                        'action' => $bac['status'],
-                        'bac_id' => $checkBac->id,
-                        'user_id' => $request->userId,
-                        'machine_rental_id' => $rental->id,
-                    ]);
-                }
-            }
+         
 
             $checkMachine->update(['rented' => 1]);
             MachineRentalHistory::create([
@@ -144,26 +126,7 @@ class MachineRentalController extends Controller
                 'price' => $request->price,
                 'end_reason' => $request->end_reason,
             ]);
-            if ($rental->active == 1) {
-                foreach ($request->customBacs as $bac) {
-
-                    $checkBac = Bac::find($bac['id']);
-                    $checkBac->update([
-                        'status' => $bac['status'],
-                        'product_id' => $bac['product_id'],
-                        'mixture_id' => $bac['mixture_id'],
-                    ]);
-
-                    BacHistory::create([
-                        'action' => $bac['status'],
-                        'bac_id' => $checkBac->id,
-                        'user_id' => $request->userId,
-                        'machine_rental_id' => $rental->id,
-                    ]);
-
-                }
-
-            }
+     
 
             MachineRentalHistory::create([
                 'action' => 'Modification',

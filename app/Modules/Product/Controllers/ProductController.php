@@ -4,7 +4,6 @@ namespace App\Modules\Product\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Company\Models\Company;
-use App\Modules\Mixture\Models\Mixture;
 use App\Modules\Product\Models\Product;
 use App\Modules\Store\Models\Price;
 use App\Modules\Store\Models\Store;

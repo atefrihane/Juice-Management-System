@@ -8,6 +8,8 @@ require('./bootstrap');
 window.Vue = require('vue');
 // Load the full build.
 var _ = require('lodash');
+
+
 import Vue from 'vue'
 import ProductAdd from './components/ProductAdd.vue'
 import ProductUpdate from './components/ProductUpdate.vue'

@@ -184,6 +184,7 @@ class CompaniesTableSeeder extends Seeder
             'email' => 'email@email.com',
             'tel' => '33 55612719',
 
+
         ]);
 
         $storeOne = Store::create([
@@ -204,6 +205,7 @@ class CompaniesTableSeeder extends Seeder
             'bill_to' => 'Magasin',
             'deliveryRec' => 'Des recommmendations pour livreur',
             'company_id' => $carrefour->id,
+            'order_type' => 1
 
         ]);
         for ($i = 0; $i < 7; $i++) {
@@ -238,6 +240,7 @@ class CompaniesTableSeeder extends Seeder
             'bill_to' => 'Magasin',
             'deliveryRec' => 'Des recommmendations pour livreur',
             'company_id' => $carrefour->id,
+            'order_type' => 2
 
         ]);
         for ($i = 0; $i < 7; $i++) {

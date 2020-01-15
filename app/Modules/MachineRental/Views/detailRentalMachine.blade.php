@@ -143,7 +143,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group " style="display: flex; flex-direction: column">
                                             <label>Etat : </label>
-                                            <input type="text" class="form-control" value="{{ucfirst($bac->status)}}"
+                                            <input type="text" class="form-control" value="{{ $bac->status ? ucfirst($bac->status) : 'Aucun'}}"
                                                 disabled>
 
                                         </div>

@@ -3,7 +3,6 @@
 namespace App\Modules\Product\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Modules\Mixture\Models\Mixture;
 use App\Modules\Product\Models\Product;
 use App\Modules\Product\Models\ProductHistory;
 use App\Modules\Store\Models\Store;
@@ -73,24 +72,7 @@ class ProductController extends Controller
             'photo_url' => isset($name) ? $name : null,
         ]);
 
-        if ($request->input('mixtures')) {
-            foreach ($request->mixtures as $mixture) {
-
-                Mixture::create([
-                    'name' => $mixture['mixtureName'],
-                    'type' => $mixture['type'],
-                    'final_amount' => $mixture['endQuantityProduct'],
-                    'needed_weight' => $mixture['necessaryWeight'],
-                    'water_amount' => $mixture['waterQuantity'],
-                    'sugar_amount' => $mixture['sugarQuantity'],
-                    'glass_size' => $mixture['glassVolume'],
-                    'number_of_glasses' => ($mixture['endQuantityProduct'] / ($mixture['glassVolume'] / 100)),
-                    'product_id' => $product->id,
-                ]);
-
-            }
-
-        }
+   
         ProductHistory::create([
             'action' => 'Création',
             'product_id' => $product->id,
@@ -164,6 +146,7 @@ class ProductController extends Controller
         }
         $currentPhoto = $product->photo_url;
         if ($product) {
+          
 
             if ($request->photo != $currentPhoto) {
                 $name = time() . '.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
@@ -200,46 +183,7 @@ class ProductController extends Controller
                 'photo_url' => isset($name) ? $name : $currentPhoto,
             ]);
 
-            if ($request->input('mixtures') && $request->type != 'jettable') {
-                foreach ($request->mixtures as $mixture) {
-                    if (array_key_exists('id', $mixture)) {
-
-                        $checkMixture = Mixture::find($mixture['id']);
-
-                        $checkMixture->update([
-                            'name' => $mixture['name'],
-                            'type' => $mixture['type'],
-                            'final_amount' => $mixture['final_amount'],
-                            'needed_weight' => $mixture['needed_weight'],
-                            'water_amount' => $mixture['water_amount'],
-                            'sugar_amount' => $mixture['sugar_amount'],
-                            'glass_size' => $mixture['glass_size'],
-                            'number_of_glasses' => $mixture['final_amount'] / ($mixture['glass_size'] / 100),
-                            'product_id' => $product->id,
-                        ]);
-
-                    } else {
-                        Mixture::create([
-                            'name' => $mixture['name'],
-                            'final_amount' => $mixture['final_amount'],
-                            'type' => $mixture['type'],
-                            'needed_weight' => $mixture['needed_weight'],
-                            'water_amount' => $mixture['water_amount'],
-                            'sugar_amount' => $mixture['sugar_amount'],
-                            'glass_size' => $mixture['glass_size'],
-                            'number_of_glasses' => $mixture['final_amount'] / ($mixture['glass_size'] / 100),
-                            'product_id' => $product->id,
-                        ]);
-
-                    }
-
-                }
-
-            } else {
-                $product->mixtures()->delete();
-
-            }
-            // dd($request->userId);
+          
             ProductHistory::create([
                 'action' => 'Modification',
                 'user_id' => $request->userId,

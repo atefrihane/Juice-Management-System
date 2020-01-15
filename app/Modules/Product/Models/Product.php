@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Modules\Product\Models;
-
-use App\Modules\Mixture\Models\Mixture;
 use App\Modules\Order\Models\Order;
 use App\Modules\Store\Models\Price;
 use App\Modules\Store\Models\Store;
 use App\Modules\Warehouse\Models\Warehouse;
 use App\Modules\Product\Models\ProductHistory;
+use App\Modules\Bac\Models\Bac;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
@@ -15,10 +14,7 @@ class Product extends Model
 
     protected $guarded = ['id'];
 
-    public function mixtures()
-    {
-        return $this->hasMany(Mixture::class);
-    }
+
 
     public function prices()
     {
@@ -44,7 +40,7 @@ class Product extends Model
 
     public function bacs()
     {
-        return $this->hasMany('\App\Modules\Bac\Models\Bac');
+        return $this->belongsToMany(Bac::class,'bac_products');
 
     }
 

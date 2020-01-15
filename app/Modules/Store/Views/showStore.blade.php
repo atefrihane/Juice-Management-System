@@ -121,7 +121,17 @@
                                     <input type="text" class="form-control" value="{{ucfirst($store->company->name)}}"
                                         readonly placeholder="Nom du groupe">
                                 </div>
-
+                                <div class="form-group">
+                                        <label for="exampleInputPassword1">Type de la commande </label>
+                                        @if($store->order_type  == 1)
+                                        <input type="text" class="form-control" value="Seulement en colis" readonly
+                                        placeholder="Adresse de siége">
+                                        @else
+                                        <input type="text" class="form-control" value="Colis et nombre d'unités" readonly
+                                        placeholder="Adresse de siége">
+                                        @endif 
+                                    
+                                    </div>
 
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Adresse de siége</label>
@@ -129,6 +139,8 @@
                                         placeholder="Adresse de siége">
                                 </div>
 
+                              
+    
 
 
                                 <div class="form-group">

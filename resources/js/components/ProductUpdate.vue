@@ -160,15 +160,15 @@
             </div>
 
             <div class="form-group">
-              
+
                 <label for="exampleInputFile">Photo du produit (optionnel)</label>
-                  <div class="row" >
+                <div class="row">
                     <div class="container">
-              
+
                         <img :src="url" alt="" class="img-thumbnail" style="width:100px;" v-if="url">
                     </div>
                 </div>
-                
+
                 <input type="file" id="exampleInputFile" @change="uploadImage($event)" style="margin-top:20px;">
             </div>
             <div class="form-group">
@@ -190,88 +190,7 @@
                 <input class="form-control" id="disabledInput" type="number" placeholder="Colisage" v-model="tva">
             </div>
 
-            <div class="form-group" v-if="type != 'jettable' && mixtures.length > 0">
-                <label for="exampleInputFile">Possibilités de melange :</label>
-            </div>
-            <div class="box" style="border:1px solid rgb(228, 228, 228);background:rgb(228, 228, 228);"
-                v-for="(mixture,index) in mixtures" v-if="type != 'jettable' && mixtures.length > 0">
-                <div class="box-body">
-                    <div class="box-body">
-                        <a href="" class="pull-right btn btn-default" v-if="index>0"
-                            @click.prevent="deleteMixture(mixture)"><i class="fa fa-minus"></i></a>
-                    </div>
 
-
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Nom du mélange</label>
-                                <input class="form-control" id="disabledInput" type="text" placeholder="Nom du mélange"
-                                    v-model="mixture.name">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Type du mélange</label>
-                                <select class="form-control" v-model="mixture.type">
-                                    <option :value="null" disabled>Séléctionner un type du mélange</option>
-                                    <option value="granite">Granité</option>
-                                    <option value="jus">Jus</option>
-
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Quantité de produit fini(en litre)</label>
-                                <input class="form-control" id="disabledInput" type="number" step="0.01"
-                                    placeholder="Quantité de produit fini.." v-model="mixture.final_amount">
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Poids necessaire du produit (en kg)</label>
-                                <input class="form-control" id="disabledInput" type="number" placeholder="Poids.."
-                                    step="0.01" v-model="mixture.needed_weight">
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Quantité d'eau (en litre)</label>
-                                <input class="form-control" id="disabledInput" type="number" step="0.01"
-                                    placeholder="Quantité eau..." v-model="mixture.water_amount">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Quantité de sucre (en kg)</label>
-                                <input class="form-control" id="disabledInput" type="number" step="0.01"
-                                    placeholder="Quantité sucre..." v-model="mixture.sugar_amount">
-                            </div>
-                        </div>
-
-
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Volume de verre (en cl)</label>
-                                <input class="form-control" id="disabledInput" type="number" step="0.01"
-                                    placeholder="Volume de verre..." v-model="mixture.glass_size">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <button type="button" class="btn btn-default" @click="btnClick()"
-                v-if="type != 'jettable' && mixtures.length > 0"><i class="fa fa-plus"></i></button>
 
             <div class="box-body">
                 <div class="row">
@@ -297,7 +216,7 @@
     export default {
 
         mounted() {
-            this.fetchProduct();
+
         },
 
         data() {
@@ -327,162 +246,76 @@
                 comment: data.product.comment,
                 productId: data.product.id,
                 error: 0,
-                mixtures: [],
                 errors: [],
-                userId:this.user_id,
+                userId: this.user_id,
                 disabled: false
             }
         },
-        props:['user_id'],
-        computed:{
-            url()
-            {
-                if(this.photo != null){
-              return axios.defaults.baseURL+'/img/'+this.photo
+        props: ['user_id'],
+        computed: {
+            url() {
+                var isBase64 = require('is-base64');
+              
+
+                if (this.photo && (!isBase64(this.photo, {allowMime: true})) ) {
+                    return axios.defaults.baseURL + '/img/' + this.photo
                 }
-  
+                else{
+                    return this.photo
+                }
+
             }
         },
 
         methods: {
 
-            btnClick() {
-                this.mixtures.push({
-                    name: '',
-                    final_amount: '',
-                    needed_weight: '',
-                    water_amount: '',
-                    sugar_amount: '',
-                    glass_size: '',
-                    number_of_glasses: '',
-                    type: null
-                });
 
-
-            },
-            deleteMixture: function (mixture) {
-                swal.fire({
-                    type: 'info',
-                    title: 'Voulez vous retirer ce mélange ?',
-                    showCancelButton: true,
-                    confirmButtonText: 'Confirmer',
-                    cancelButtonText: 'Annuler',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.value) {
-                        if (mixture.id) {
-                            axios.post('/api/mixture/delete/' + mixture.id, {
-
-                                })
-                                .then((response) => {
-                                    if (response.data.status == 200) {
-                                        this.mixtures.splice(this.mixtures.indexOf(mixture), 1);
-                                    } else {
-                                        swal.fire({
-                                            type: 'error',
-                                            title: 'Mélange introuvable ! !',
-                                            allowOutsideClick: false,
-                                            showConfirmButton: true,
-                                            confirmButtonText: 'Fermer'
-
-
-                                        });
-
-                                    }
-                                })
-                                .catch((error) => {
-                                    console.log(error);
-                                });
-
-
-
-                        } else {
-
-                            this.mixtures.splice(this.mixtures.indexOf(mixture), 1);
-                        }
-                    }
-                });
-
-
-            },
-            uploadImage(event) {
+           uploadImage(event) {
 
                 let file = event.target.files[0];
-                let reader = new FileReader();
-                let limit = 1024 * 1024 * 2;
-                if (file['size'] > limit) {
-                    this.errors.push('Fichier volumineux !');
+                if (file.type == 'image/jpeg' || file.type == 'image/jpg' || file.type == 'image/png') {
+                    let reader = new FileReader();
+                    let limit = 1024 * 1024;
+                    if (file['size'] > limit) {
+                      
+                        this.acceptedImage=false
+                             this.errors=[]    
+                this.errors.push('La photo importée est volumineuse');
                     window.scrollTo(0, 0);
-                    return false;
-                }
-                reader.onloadend = (file) => {
-                    this.photo = reader.result;
-                }
-                reader.readAsDataURL(file);
 
-            },
+                    } else {
+                        this.acceptedImage=true
+                        this.errors = []
+                        reader.onloadend = (file) => {
+                            this.photo = reader.result;
+                        }
+                        reader.readAsDataURL(file);
 
-            getProductData(event) {
-
-                let value = event.target.value;
-
-                if (value == 'jettable' || value == "Jettable" || value == "Autre") {
-                    this.mixtures = [];
-                } else {
-                    if (this.mixtures.length == 0) {
-                        this.fetchProduct();
                     }
-                    return;
 
-
+                } else {
+                    this.errors = []
+                    this.errors.push('Les formats supportés pour l\'importation du logo sont : PNG,JPEG,JPG');
+                    window.scrollTo(0, 0);
                 }
+
+
+
             },
+
+
             cancelRental() {
                 window.location = axios.defaults.baseURL + '/products';
 
             },
-            fetchProduct() {
-                axios.get('/api/product/' + this.productId)
-                    .then((response) => {
-                        // handle success
-                        if (response.data.product.length > 0) {
-                            this.mixtures = response.data.product;
-                  
-                        } else {
-                            if (this.type != 'Jettable') {
-                                this.mixtures.push({
-                                    name: '',
-                                    final_amount: '',
-                                    needed_weight: '',
-                                    water_amount: '',
-                                    sugar_amount: '',
-                                    glass_size: '',
-                                    type: null,
-                                    product_id: '',
 
-
-                                });
-
-                            }
-                        }
-                    })
-                    .catch((error) => {
-                        // handle error
-                        console.log(error);
-                    })
-
-            },
 
             submitProduct() {
-                var form = this.validateForm(); // input front end validation returns false if error
+                var validation = this.validateForm(); // input front end validation returns false if error
 
 
-                if (form != false) {
+                if (validation  && this.acceptedImage) {
                     this.disabled = true
-
-
-
-
                     this.$Progress.start()
                     axios.post('/api/product/update/' + this.productId, {
 
@@ -509,9 +342,9 @@
                             tva: this.tva,
                             comment: this.comment,
                             productId: this.productId,
-                            mixtures: this.mixtures,
                             photo: this.photo,
-                            userId:this.userId
+                            userId: this.userId,
+                            acceptedImage:true
 
                         })
                         .then((response) => {
@@ -542,6 +375,7 @@
                                     showConfirmButton: true,
                                     confirmButtonText: 'Fermer'
                                 });
+                                       this.disabled = false
                             }
                         })
                         .catch((error) => {
@@ -554,6 +388,12 @@
 
 
 
+                }
+                else{
+
+                       this.errors=[]    
+                this.errors.push('La photo importée est volumineuse');
+                    window.scrollTo(0, 0);
                 }
 
 
@@ -688,56 +528,12 @@
                     window.scrollTo(0, 0);
                     return false;
                 }
-                if (this.type != 'jettable') {
-                    var x = true;
-                    this.mixtures.forEach((mixture) => {
-
-                        if (!mixture.name) {
-                            this.errors.push('Le champs nom du mélange est  requis.');
-                            window.scrollTo(0, 0);
-                            x = false;
-                        }
-                        if (!mixture.final_amount) {
-                            this.errors.push(
-                                'Le champs quantité de produit fini(en litre)  est  requis.');
-                            window.scrollTo(0, 0);
-                            x = false;
-                        }
-
-                        if (!mixture.needed_weight) {
-                            this.errors.push(
-                                'Le champs poids necessaire du produit (en kg) est  requis.');
-                            window.scrollTo(0, 0);
-                            x = false;
-                        }
-
-                        if (!mixture.water_amount) {
-                            this.errors.push('Le champs quantité eau (en litre) est  requis.');
-                            window.scrollTo(0, 0);
-                            x = false;
-                        }
-
-
-                        if (!mixture.sugar_amount) {
-                            this.errors.push('Le champs quantité de sucre (en kg) est  requis.');
-                            window.scrollTo(0, 0);
-                            x = false;
-                        }
-
-                        if (!mixture.glass_size) {
-                            this.errors.push('Le champs volume de verre (en cl) est  requis.');
-                            window.scrollTo(0, 0);
-                            x = false;
-                        }
-
-
-
-
-                    });
-                    return x;
+                if (this.errors.length > 0) {
+                    return false;
 
                 }
 
+                return true;
 
 
 
