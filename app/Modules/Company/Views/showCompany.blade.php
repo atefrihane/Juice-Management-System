@@ -79,7 +79,7 @@
         <section class="content">
             <div class="row">
                 <div class="col-md-4">
-                    <img src="{{ asset( $company->logo) }}" style="width:100%;padding:40px;">
+                    <img   src="{{ asset('img/'.$company->logo) }}" style="width:100%;padding:40px;">
                 </div>
                 <div class="col-md-8">
                     <div class="box box-primary">

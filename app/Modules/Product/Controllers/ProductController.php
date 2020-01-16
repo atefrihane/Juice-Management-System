@@ -116,21 +116,7 @@ class ProductController extends Controller
 
         ]);
 
-        foreach ($request->mixtures as $mixture) {
-
-            $mixture = Mixture::find($mixture[0])
-                ->update([
-                    'name' => $mixture[1],
-                    'final_amount' => $mixture[2],
-                    'needed_weight' => $mixture[3],
-                    'water_amount' => $mixture[4],
-                    'sugar_amount' => $mixture[5],
-                    'glass_size' => $mixture[6],
-                    'number_of_glasses' => $mixture[7],
-                ]);
-
-        }
-
+       
         alert()->success('Succès!', 'Produit modifié')->persistent("Fermer");
         return redirect('/products');
 

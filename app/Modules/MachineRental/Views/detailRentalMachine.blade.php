@@ -157,7 +157,7 @@
                                         <div class="form-group " style="display: flex; flex-direction: column">
                                             <label>Produit en bac </label>
                                             <input type="text" class="form-control"
-                                                value="{{$bac->product ? ucfirst($bac->product->nom) : 'Aucun'}}"
+                                            value="Aucun"
                                                 disabled>
                                         </div>
                                     </div>
@@ -165,7 +165,7 @@
                                         <div class="form-group " style="display: flex; flex-direction: column">
                                             <label class="col-12">Melange par defaut </label>
                                             <input type="text" class="form-control"
-                                                value="{{$bac->mixture ? ucfirst($bac->mixture->name) : 'Aucun'}}"
+                                                value="Aucun"
                                                 disabled>
                                         </div>
 

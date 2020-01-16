@@ -17,10 +17,6 @@ class Bac extends Model
         return $this->belongsToMany(Product::class,'bac_products');
     }
 
-    public function mixture()
-    {
-        return $this->belongsTo(Mixture::class);
-    }
 
     public function machine()
     {

@@ -8,7 +8,6 @@ use App\Modules\General\Models\Zipcode;
 use App\Modules\Machine\Models\Machine;
 use App\Modules\Store\Models\Store;
 use App\Modules\Store\Models\StoreSchedule;
-use App\Modules\User\Models\User;
 use Illuminate\Database\Seeder;
 
 class CompaniesTableSeeder extends Seeder
@@ -39,7 +38,6 @@ class CompaniesTableSeeder extends Seeder
             'city_id' => $cityOne->id,
         ]);
 
-
         $zipCodeTwo = Zipcode::create([
             'code' => 75001,
             'city_id' => $cityOne->id,
@@ -49,7 +47,6 @@ class CompaniesTableSeeder extends Seeder
             'code' => 75002,
             'city_id' => $cityOne->id,
         ]);
-
 
         $zipCodeFour = Zipcode::create([
             'code' => 13000,
@@ -61,15 +58,10 @@ class CompaniesTableSeeder extends Seeder
             'city_id' => $cityTwo->id,
         ]);
 
-    
         $zipCodeSix = Zipcode::create([
             'code' => 13006,
             'city_id' => $cityTwo->id,
         ]);
-
-     
-
-      
 
         $carrefour = Company::create([
             'code' => str_random(6),
@@ -82,7 +74,7 @@ class CompaniesTableSeeder extends Seeder
             'address' => 'Paris Sud',
             'complement' => 'lorem',
             'comment' => 'lorem',
-            'logo' => 'img/Carefour.png',
+            'logo' => 'Carefour.png',
             'email' => 'email@email.com',
             'tel' => '33 55612719',
 
@@ -98,7 +90,7 @@ class CompaniesTableSeeder extends Seeder
             'address' => 'Paris Sud',
             'complement' => 'lorem',
             'comment' => 'lorem',
-            'logo' => 'img/Auchan.png',
+            'logo' => 'Auchan.png',
             'designation' => 'des',
             'email' => 'email@email.com',
             'tel' => '33 55612719',
@@ -113,7 +105,7 @@ class CompaniesTableSeeder extends Seeder
             'address' => 'Paris Sud',
             'complement' => 'lorem',
             'comment' => 'lorem',
-            'logo' => 'img/Cora.png',
+            'logo' => 'Cora.png',
             'designation' => 'des',
             'country_id' => $country->id,
             'city_id' => $cityTwo->id,
@@ -129,7 +121,7 @@ class CompaniesTableSeeder extends Seeder
             'address' => 'Paris Sud',
             'complement' => 'lorem',
             'comment' => 'lorem',
-            'logo' => 'img/Geant.png',
+            'logo' => 'Geant.png',
             'designation' => 'des',
             'country_id' => $country->id,
             'city_id' => $cityTwo->id,
@@ -145,7 +137,7 @@ class CompaniesTableSeeder extends Seeder
             'address' => 'Paris Sud',
             'complement' => 'lorem',
             'comment' => 'lorem',
-            'logo' => 'img/Hyper.png',
+            'logo' => 'Hyper.png',
             'designation' => 'des',
             'country_id' => $country->id,
             'city_id' => $cityOne->id,
@@ -161,7 +153,7 @@ class CompaniesTableSeeder extends Seeder
             'address' => 'Paris Sud',
             'complement' => 'lorem',
             'comment' => 'lorem',
-            'logo' => 'img/Intermarche.png',
+            'logo' => 'Intermarche.png',
             'designation' => 'des',
             'country_id' => $country->id,
             'city_id' => $cityOne->id,
@@ -179,11 +171,10 @@ class CompaniesTableSeeder extends Seeder
             'address' => 'Paris Sud',
             'complement' => 'lorem',
             'comment' => 'lorem',
-            'logo' => 'img/Leclerc.png',
+            'logo' => 'Leclerc.png',
             'designation' => 'des',
             'email' => 'email@email.com',
             'tel' => '33 55612719',
-
 
         ]);
 
@@ -200,12 +191,12 @@ class CompaniesTableSeeder extends Seeder
             'email' => 'contact@carefour.fr',
             'tel' => '+33 826',
             'comment' => 'Des commentaires à propos du magasin',
-            'photo' => 'files/img/hKjTvBulGzfXtEK7ReQ2dahTts8UXdnkosZRjkM9.jpeg',
+            'photo' => 'hKjTvBulGzfXtEK7ReQ2dahTts8UXdnkosZRjkM9.jpeg',
             'bill_type' => 'Email',
             'bill_to' => 'Magasin',
             'deliveryRec' => 'Des recommmendations pour livreur',
             'company_id' => $carrefour->id,
-            'order_type' => 1
+            'order_type' => 1,
 
         ]);
         for ($i = 0; $i < 7; $i++) {
@@ -216,7 +207,7 @@ class CompaniesTableSeeder extends Seeder
                 'start_night_time' => '14:00:00',
                 'end_night_time' => '17:00:00',
                 'closed' => 0,
-                'store_id'=>$storeOne->id
+                'store_id' => $storeOne->id,
 
             ]);
 
@@ -235,12 +226,12 @@ class CompaniesTableSeeder extends Seeder
             'email' => 'contact@carefour.fr',
             'tel' => '+33 1 53 59 12 00',
             'comment' => 'Des commentaires à propos du magasin',
-            'photo' => 'files/img/W83oNlw37jOsuiu1sm7pkvcK9f3J9yLgvWtHNDUj.jpeg',
+            'photo' => 'W83oNlw37jOsuiu1sm7pkvcK9f3J9yLgvWtHNDUj.jpeg',
             'bill_type' => 'Email',
             'bill_to' => 'Magasin',
             'deliveryRec' => 'Des recommmendations pour livreur',
             'company_id' => $carrefour->id,
-            'order_type' => 2
+            'order_type' => 2,
 
         ]);
         for ($i = 0; $i < 7; $i++) {
@@ -251,12 +242,11 @@ class CompaniesTableSeeder extends Seeder
                 'start_night_time' => '14:00:00',
                 'end_night_time' => '16:00:00',
                 'closed' => 0,
-                'store_id'=>$storeTwo->id
+                'store_id' => $storeTwo->id,
 
             ]);
 
         }
-
 
         $machineOne = Machine::create([
             'code' => 'MCH01457',
@@ -268,7 +258,7 @@ class CompaniesTableSeeder extends Seeder
             'display_tablet' => 0,
             'price_month' => 1600,
             'comment' => 'aucun',
-            'photo_url' => 'files/img/rRFdstxzLMpGWPTL4aUumSdXs44aB6kReXYVhHqL.jpeg',
+            'photo_url' => 'rRFdstxzLMpGWPTL4aUumSdXs44aB6kReXYVhHqL.jpeg',
             'rented' => 0,
 
         ]);
@@ -289,7 +279,7 @@ class CompaniesTableSeeder extends Seeder
             'display_tablet' => 1,
             'price_month' => 1198,
             'comment' => 'aucun',
-            'photo_url' => 'files/img/H1oA0MsCDqumhkYvzddm1WAMAfShQyUGeYgsGWqG.png',
+            'photo_url' => 'H1oA0MsCDqumhkYvzddm1WAMAfShQyUGeYgsGWqG.png',
             'rented' => 0,
 
         ]);
@@ -300,8 +290,6 @@ class CompaniesTableSeeder extends Seeder
                 'machine_id' => $machineTwo->id,
             ]);
         }
-
-       
 
     }
 }

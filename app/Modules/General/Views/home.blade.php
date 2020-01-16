@@ -40,7 +40,7 @@
                                 @forelse($companies as $company)
                                 <tr class="table-tr">
                                     <td data-url="{{route('showCompany',$company->id)}}" style="width: 150px"><img
-                                            src="{{asset('/')}}{{$company->logo}}" height="50" alt=""></td>
+                                        src="{{ asset('img/'.$company->logo) }}" height="50" alt=""></td>
                                     <td data-url="{{route('showStores',$company->id)}}">{{$company->name}}</td>
                                     <td data-url="{{route('showStores',$company->id)}}">{{$company->code}}</td>
                                     <td data-url="{{route('showStores',$company->id)}}">{{$company->zipcode->code}}</td>

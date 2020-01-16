@@ -139,7 +139,7 @@
                                 @if($machine->photo_url)
                                     <div class="row">
                                         <div class="container">
-                                            <img src="{{asset('/')}}{{$machine->photo_url}}" alt="..." class="img-thumbnail"
+                                            <img src="{{asset('/img/'.$machine->photo_url)}}" alt="..." class="img-thumbnail"
                                                 style="width:100px;">
                                         </div>
                                     </div>

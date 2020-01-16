@@ -10,6 +10,7 @@ use App\Modules\Product\Models\Product;
 use App\Modules\Product\Models\ProductWarehouse;
 use App\Modules\User\Models\User;
 use App\Modules\Warehouse\Models\Warehouse;
+use App\Repositories\Image;
 use File;
 use Illuminate\Http\Request;
 
@@ -45,7 +46,7 @@ class WarehouseController extends Controller
         return view('Warehouse::showAddWarehouse', compact('count', 'countries', 'users'));
 
     }
-    public function handleAddWarehouse(Request $request)
+    public function handleAddWarehouse(Request $request, Image $image)
     {
 
         $checkWarehouse = Warehouse::where('code', $request->code)->first();
@@ -59,9 +60,7 @@ class WarehouseController extends Controller
         $file = $request->photo;
 
         if ($file) {
-            $path = $file->getClientOriginalName();
-
-            $file->move('img', $file->getClientOriginalName());
+            $path = $image->uploadBinaryImage($file);
 
         }
 
@@ -192,8 +191,6 @@ class WarehouseController extends Controller
 
     public function handleAddProductQuantity(Request $request)
     {
-       
-   
 
         if ($request->product_id == 0) {
             alert()->error('Oups!', 'Veuillez selectionner un produit ! !')->persistent('Femer');
@@ -218,7 +215,7 @@ class WarehouseController extends Controller
 
     public function showEditProductQuantity($id)
     {
-       
+
         $productQuantity = ProductWarehouse::find($id);
         if ($productQuantity) {
             $products = Product::all();
@@ -262,7 +259,6 @@ class WarehouseController extends Controller
     public function handleDeleteProductQuantity($id)
     {
         $productWarehouse = ProductWarehouse::where('product_id', $id)->first();
-     
 
         if ($productWarehouse) {
 
@@ -277,7 +273,6 @@ class WarehouseController extends Controller
     public function handleDeleteWarehouseQuantity($id)
     {
         $productWarehouse = ProductWarehouse::find($id);
-    
 
         if ($productWarehouse) {
 

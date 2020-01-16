@@ -42,7 +42,7 @@
                                 @forelse($machines as $machine)
                                 <tr class="table-t">
                                 @if($machine->machine->photo_url)
-                                    <td data-url="{{route('showRental', ['id' => $machine->id])}}""> <img src="{{asset('/')}}{{$machine->machine->photo_url}}" height="80"
+                                    <td data-url="{{route('showRental', ['id' => $machine->id])}}""> <img src="{{asset('/img/'.$machine->machine->photo_url)}}" height="80"
                                             class="user-image" alt="User Image"> </td>
                                             @else
                                             <td data-url="{{route('showRental', ['id' => $machine->id])}}""> <img src="{{asset('/img')}}/no-logo.png" height="80"

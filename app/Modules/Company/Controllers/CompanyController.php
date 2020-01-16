@@ -8,6 +8,7 @@ use App\Modules\Company\Models\CompanyHistory;
 use App\Modules\General\Models\City;
 use App\Modules\General\Models\Country;
 use App\Modules\General\Models\Zipcode;
+use App\Repositories\Image;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -32,7 +33,7 @@ class CompanyController extends Controller
 
     }
 
-    public function handleAddCompany(Request $request)
+    public function handleAddCompany(Request $request,Image $image)
     {
         $val = $request->validate([
             'code' => 'required',
@@ -57,18 +58,20 @@ class CompanyController extends Controller
             'logo.max' => 'Logo importé est volumineux ! ',
 
         ]);
+        if ($request->logo) {
+            $path = $image->uploadBinaryImage($request->logo);
 
-        if ($request->file('logo') != null) {
-            $path = $request->file('logo')->store('img', 'public');
-
-        } else {
+        }
+        else {
             $path = 'img/company-placeholder.png';
         }
+
+      
         $telephone = $request->cc . " " . $request->tel;
         $insertable = $request->all();
         $insertable['tel'] = $telephone;
         $insertable['cc'] = null;
-        $insertable['logo'] = 'files/' . $path;
+        $insertable['logo'] = $path;
         $checkCode = Company::where('code', preg_replace('/\s/', '', $request->code))->first();
         if ($checkCode) {
             alert()->error('Oups', 'Code déja utilisé !')->persistent('Femer');
@@ -103,7 +106,7 @@ class CompanyController extends Controller
 
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, Image $image)
     {
         $val = $request->validate([
             'code' => 'required',
@@ -134,12 +137,10 @@ class CompanyController extends Controller
                 alert()->error('Oups', 'Code déja utilisé !')->persistent('Femer');
                 return redirect()->back();
             }
+
             $path = null;
             if ($request->logo) {
-                $file = $request->logo;
-                $path = '/img/' . $file->getClientOriginalName();
-
-                $file->move('img', $file->getClientOriginalName());
+                $path = $image->uploadBinaryImage($request->logo);
 
             }
             $fullTel = $request->cc . ' ' . $request->tel;

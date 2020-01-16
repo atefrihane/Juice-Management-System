@@ -8,6 +8,7 @@ use App\Modules\Company\Models\Company;
 use App\Modules\Machine\Models\Machine;
 use App\Modules\Machine\Models\MachineHistory;
 use App\Modules\Product\Models\Product;
+use App\Repositories\Image;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -50,7 +51,7 @@ class MachineController extends Controller
 
     }
 
-    public function store(Request $request)
+    public function store(Request $request, Image $image)
     {
 
         $val = $request->validate([
@@ -69,23 +70,26 @@ class MachineController extends Controller
             'price_month.numeric' => 'le champ prix de location mensuel n\'est pas valide',
         ]);
 
-        $instertable = $request->all();
-        if ($request->file('photo') != null) {
-            $path = 'files/' . $request->file('photo')->store('img', 'public');
+        $instertable = $request->except(['photo', '_token']);
+
+        if ($request->photo) {
+            $path = $image->uploadBinaryImage($request->photo);
             $instertable['photo_url'] = $path;
         }
-        unset($instertable['photo']);
-        unset($instertable['_token']);
+
         $instertable['display_tablet'] = $instertable['display_tablet'] == 'true';
         $machine = Machine::create($instertable);
-
+        $bacs = array();
+        //Bulk Insert Bacs
         for ($i = 0; $i < $request->number_bacs; $i++) {
-            Bac::create([
+            $newBac = [
                 'order' => $i + 1,
                 'machine_id' => $machine->id,
-            ]);
+            ];
+            array_push($bacs, $newBac);
 
         }
+        Bac::insert($bacs);
 
         MachineHistory::create([
             'event' => 'Création',
@@ -106,7 +110,7 @@ class MachineController extends Controller
         return view('Machine::edit', compact('machine'));
     }
 
-    public function update($id, Request $request)
+    public function update($id, Request $request, Image $image)
     {
         $val = $request->validate([
             'code' => 'required',
@@ -121,8 +125,9 @@ class MachineController extends Controller
             'price_month.numeric' => 'le champ prix de location mensuel n\'est pas valide',
         ]);
         $updatable = $request->all();
-        if ($request->file('photo') != null) {
-            $path = 'files/' . $request->file('photo')->store('img', 'public');
+        if ($request->photo) {
+            $path = $image->uploadBinaryImage($request->photo);
+
             $updatable['photo_url'] = $path;
         }
 
@@ -132,8 +137,7 @@ class MachineController extends Controller
         $machine = Machine::find($id);
         if ($machine) {
             $machine->update($updatable);
-         
-         
+
             if ($request->has('number_bacs')) {
                 $oldBacs = $machine->number_bacs;
                 $newBacs = $request->number_bacs;
@@ -159,8 +163,7 @@ class MachineController extends Controller
                 }
 
             }
- 
-          
+
             MachineHistory::create([
                 'event' => 'Modification',
                 'comment' => $request->comment,
@@ -223,7 +226,7 @@ class MachineController extends Controller
             $rental = $checkMachine->machineRentals->where('active', 1)->first();
 
             MachineHistory::create([
-                'event' => 'Etat vers : '.$request->status,
+                'event' => 'Etat vers : ' . $request->status,
                 'comment' => $request->comment,
                 'machine_id' => $checkMachine->id,
                 'user_id' => Auth::id(),

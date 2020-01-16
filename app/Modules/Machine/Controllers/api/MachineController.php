@@ -14,7 +14,13 @@ class MachineController extends Controller
 
     public function show($id)
     {
-        return response()->json(['status' => 200, 'machine' => Machine::where('id', $id)->with('bacs.product')->first()]);
+        $machine = Machine::find($id);
+        if ($machine) {
+            return response()->json(['status' => 200, 'machine' => $machine]);
+
+        }
+        return response()->json(['status' => 404]);
+
     }
 
     public function showMachineStates($id)

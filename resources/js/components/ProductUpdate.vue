@@ -275,7 +275,7 @@
                 let file = event.target.files[0];
                 if (file.type == 'image/jpeg' || file.type == 'image/jpg' || file.type == 'image/png') {
                     let reader = new FileReader();
-                    let limit = 1024 * 1024;
+                    let limit = 1024 * 1024 * 2;
                     if (file['size'] > limit) {
                       
                         this.acceptedImage=false

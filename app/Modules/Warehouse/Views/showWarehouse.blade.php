@@ -66,110 +66,114 @@
 
         <section class="content">
             <div class="row">
-                <div class="col-md-4">
-                    @if($warehouse->photo)
-                    <img class="img-responsive" src="{{asset('/img')}}/{{$warehouse->photo}}"
-                        style="width:100%;padding:40px; alt=" Photo">
-                    @else
-                    <img class="img-responsive" src="{{asset('/img')}}/no-logo.png"
-                        style="width:100%;padding:40px; alt=" Photo">
-                    @endif
-                    <!-- <img src="{{ asset( $warehouse->logo) }}" style="width:100%;padding:40px;"> -->
-                </div>
-                <div class="col-md-8">
-                    <div class="box box-primary">
-                        <div class="box-body">
-                            <form>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Code</label>
-                                            <input type="text" class="form-control" value="{{$warehouse->code}}"
-                                                readonly aria-describedby="emailHelp" placeholder="Code..">
-
+                    <div class="container">
+                            <div class="col-md-4">
+                                    @if($warehouse->photo)
+                                    <img class="img-responsive container" src="{{asset('/img')}}/{{$warehouse->photo}}"
+                                        style="width:100%;padding:40px; alt=" Photo">
+                                    @else
+                                    <img class="img-responsive" src="{{asset('/img')}}/no-logo.png"
+                                        style="width:100%;padding:40px; alt=" Photo">
+                                    @endif
+                                    <!-- <img src="{{ asset( $warehouse->logo) }}" style="width:100%;padding:40px;"> -->
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="box box-primary">
+                                        <div class="box-body">
+                                            <form>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Code</label>
+                                                            <input type="text" class="form-control" value="{{$warehouse->code}}"
+                                                                readonly aria-describedby="emailHelp" placeholder="Code..">
+                
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputPassword1">Désignation</label>
+                                                            <input type="text" class="form-control" value="{{$warehouse->designation}}"
+                                                                readonly placeholder="Nom du groupe">
+                
+                                                        </div>
+                                                    </div>
+                                                </div>
+                
+                
+                
+                                                <div class="form-group">
+                                                    <label for="exampleInputPassword1">Adresse de siége</label>
+                                                    <input type="text" class="form-control" value="{{$warehouse->address}}" readonly
+                                                        placeholder="Adresse de siége">
+                                                </div>
+                
+                
+                
+                                                <div class="form-group">
+                                                    <label for="exampleInputPassword1">Complément addresse (optionnel )</label>
+                                                    <input type="text" class="form-control" value="{{$warehouse->complement_address}}"
+                                                        readonly placeholder="Complément addresse">
+                                                </div>
+                
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Pays</label>
+                                                            <input type="text" class="form-control"
+                                                                value="{{$warehouse->country->name}}" readonly
+                                                                aria-describedby="emailHelp" placeholder="Pays">
+                
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Ville</label>
+                                                            <input type="text" class="form-control" value="{{$warehouse->city->name}}"
+                                                                readonly aria-describedby="emailHelp" placeholder="Ville">
+                
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputPassword1">Code Postal</label>
+                                                            <input type="text" class="form-control"
+                                                                value="{{$warehouse->zipcode->code}}" readonly
+                                                                placeholder="Code Postal">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                
+                                                <div class="form-group">
+                                                    <label for="exampleInputPassword1">Résponsable</label>
+                                                    <input type="text" class="form-control" value="{{$warehouse->user->formatName()}}" readonly
+                                                        placeholder="surface">
+                                                </div>
+                
+                
+                                                <div class="form-group">
+                                                    <label for="exampleInputPassword1">Surface (m²)</label>
+                                                    <input type="text" class="form-control" value="{{$warehouse->surface}}" readonly
+                                                        placeholder="surface">
+                                                </div>
+                
+                                                <div class="form-group">
+                                                    <label>Commentaires (optionnel)</label>
+                                                    <textarea class="form-control" rows="3" readonly
+                                                        placeholder="Commentaires">{{$warehouse->comment}}</textarea>
+                                                </div>
+                
+                
+                
+                
+                
+                                            </form>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputPassword1">Désignation</label>
-                                            <input type="text" class="form-control" value="{{$warehouse->designation}}"
-                                                readonly placeholder="Nom du groupe">
-
-                                        </div>
-                                    </div>
                                 </div>
-
-
-
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Adresse de siége</label>
-                                    <input type="text" class="form-control" value="{{$warehouse->address}}" readonly
-                                        placeholder="Adresse de siége">
-                                </div>
-
-
-
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Complément addresse (optionnel )</label>
-                                    <input type="text" class="form-control" value="{{$warehouse->complement_address}}"
-                                        readonly placeholder="Complément addresse">
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Pays</label>
-                                            <input type="text" class="form-control"
-                                                value="{{$warehouse->country->name}}" readonly
-                                                aria-describedby="emailHelp" placeholder="Pays">
-
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Ville</label>
-                                            <input type="text" class="form-control" value="{{$warehouse->city->name}}"
-                                                readonly aria-describedby="emailHelp" placeholder="Ville">
-
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputPassword1">Code Postal</label>
-                                            <input type="text" class="form-control"
-                                                value="{{$warehouse->zipcode->code}}" readonly
-                                                placeholder="Code Postal">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Résponsable</label>
-                                    <input type="text" class="form-control" value="{{$warehouse->user->formatName()}}" readonly
-                                        placeholder="surface">
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Surface (m²)</label>
-                                    <input type="text" class="form-control" value="{{$warehouse->surface}}" readonly
-                                        placeholder="surface">
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Commentaires (optionnel)</label>
-                                    <textarea class="form-control" rows="3" readonly
-                                        placeholder="Commentaires">{{$warehouse->comment}}</textarea>
-                                </div>
-
-
-
-
-
-                            </form>
                         </div>
-                    </div>
-                </div>
+               
+             
             </div>
         </section>
         <div class="box box-primary">

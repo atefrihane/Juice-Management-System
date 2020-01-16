@@ -35,7 +35,7 @@
                                     <th>Désignation</th>
                                     <th>Nbr de bacs</th>
                                     <th>Prix loc mens (€)</th>
-                                    <th style="width:20%;">Statut</th>
+                                    <th>Statut</th>
                                     <th>Etat</th>
                                     <th></th>
                                 </tr>
@@ -44,10 +44,10 @@
                                 @forelse($machines as $machine)
                                 <tr class="table-t">
                                     @if($machine->photo_url)
-                                    <td data-url="{{route('showHistoryMachine',$machine->id)}}"> <img src="{{$machine->photo_url}}" height="70" class="user-image"
+                                    <td data-url="{{route('showHistoryMachine',$machine->id)}}"> <img   src="{{ asset('img/'.$machine->photo_url) }}" width="100" class="user-image"
                                             alt="User Image"> </td>
                                     @else
-                                    <td data-url="{{route('showHistoryMachine',$machine->id)}}"> <img src="{{asset('/img')}}/no-logo.png" height="80" class="user-image"
+                                    <td data-url="{{route('showHistoryMachine',$machine->id)}}"> <img src="{{asset('/img')}}/no-logo.png" width="100" class="user-image"
                                             alt="User Image"> </td>
                                     @endif
                                     <td data-url="{{route('showHistoryMachine',$machine->id)}}">{{$machine->code}}</td>

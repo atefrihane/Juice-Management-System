@@ -6,34 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Modules\Product\Models\Product;
 use App\Modules\Product\Models\ProductHistory;
 use App\Modules\Store\Models\Store;
+use App\Repositories\Image;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
-use Validator;
 
 class ProductController extends Controller
 {
 
-    public function handleUploadImage(Request $request)
-    {
-
-        $file = $request->photo;
-        $validator = Validator::make($request->all(), [
-            'photo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['status' => 400, 'message' => 'La photo doit être de  type: jpeg, png, jpg, svg']);
-        }
-
-        $path = $file->getClientOriginalName();
-
-        $file->move('img', $file->getClientOriginalName());
-
-        return response()->json(['status' => 200, 'path' => $path]);
-
-    }
-
-    public function store(Request $request)
+    public function store(Request $request, Image $image)
     {
 
         $checkCode = Product::where('code', $request->code)->first();
@@ -41,9 +22,7 @@ class ProductController extends Controller
             return response()->json(['status' => 400]);
         }
         if ($request->photo) {
-            $name = time() . '.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
-            \Image::make($request->photo)->save(public_path('img/') . $name);
-            $request->merge(['photo' => $name]);
+            $name = $image->handleUploadImage($request->photo);
 
         }
 
@@ -72,7 +51,6 @@ class ProductController extends Controller
             'photo_url' => isset($name) ? $name : null,
         ]);
 
-   
         ProductHistory::create([
             'action' => 'Création',
             'product_id' => $product->id,
@@ -134,7 +112,7 @@ class ProductController extends Controller
 
     }
 
-    public function handleUpdateProduct(Request $request, $id)
+    public function handleUpdateProduct(Request $request, $id, Image $image)
     {
 
         $product = Product::find($id);
@@ -146,16 +124,16 @@ class ProductController extends Controller
         }
         $currentPhoto = $product->photo_url;
         if ($product) {
-          
 
             if ($request->photo != $currentPhoto) {
-                $name = time() . '.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
-                \Image::make($request->photo)->save(public_path('img/') . $name);
-                $request->merge(['photo' => $name]);
+                $name = $image->handleUploadImage($request->photo);
+
+                // $image->upload($request);
                 $userPhoto = public_path('img/') . $currentPhoto;
                 if (file_exists($userPhoto)) {
                     @unlink($userPhoto);
                 }
+
             }
 
             $product->update([
@@ -183,7 +161,6 @@ class ProductController extends Controller
                 'photo_url' => isset($name) ? $name : $currentPhoto,
             ]);
 
-          
             ProductHistory::create([
                 'action' => 'Modification',
                 'user_id' => $request->userId,
@@ -230,8 +207,6 @@ class ProductController extends Controller
                 ->orderBy('pivot_expiration_date', 'ASC')
                 ->withPivot('id', 'packing', 'quantity', 'comment', 'creation_date', 'expiration_date')
                 ->get();
-           
-            
 
             return response()->json(['status' => 200, 'warehouse_products' => $productInWarehouses, 'productName' => $product->nom]);
 
@@ -260,10 +235,10 @@ class ProductController extends Controller
         $checkProductInWarehouse = DB::table('product_warehouse')->find($id);
         if ($checkProductInWarehouse) {
             if ($checkProductInWarehouse->quantity >= $request->preparedQuantity) {
-                return response()->json(['status' => 200,'warehouseQuantity' => $checkProductInWarehouse->quantity]);
+                return response()->json(['status' => 200, 'warehouseQuantity' => $checkProductInWarehouse->quantity]);
 
             }
-            return response()->json(['status' => 400,'warehouseQuantity' => $checkProductInWarehouse->quantity]);
+            return response()->json(['status' => 400, 'warehouseQuantity' => $checkProductInWarehouse->quantity]);
         }
         return response()->json(['status' => 404]);
 

@@ -49,10 +49,10 @@
                                 @forelse($products as $product)
                                 <tr class="table-t">
                                     @if($product->photo_url)
-                                    <td data-url="{{route('showProduct',$product->id)}}"> <img src="{{asset('/img')}}/{{$product->photo_url}}" height="80"
+                                    <td data-url="{{route('showProduct',$product->id)}}"> <img src="{{asset('/img')}}/{{$product->photo_url}}" width="100"
                                             class="user-image" alt="User Image"> </td>
                                     @else
-                                    <td data-url="{{route('showProduct',$product->id)}}"> <img src="{{asset('/img')}}/no-logo.png" height="80" class="user-image"
+                                    <td data-url="{{route('showProduct',$product->id)}}"> <img src="{{asset('/img')}}/no-logo.png" width="100" class="user-image"
                                             alt="User Image"> </td>
                                     @endif
                                     <td data-url="{{route('showProduct',$product->id)}}">{{$product->code}}</td>

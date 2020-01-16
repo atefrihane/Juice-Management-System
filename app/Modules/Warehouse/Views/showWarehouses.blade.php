@@ -42,7 +42,7 @@
                                 @forelse($warehouses as $warehouse)
                                 <tr class="table-t">
                                     @if($warehouse->photo)
-                                    <td data-url="{{route('showWarehouse',$warehouse->id)}}" style="width: 150px"> <img src="{{asset('/img')}}/{{$warehouse->photo}}" height="80"
+                                    <td data-url="{{route('showWarehouse',$warehouse->id)}}" style="width: 150px"> <img src="{{asset('/img/'.$warehouse->photo)}}" height="80"
                                             class="user-image" alt="User Image"> </td>
                                     @else
                                     <td data-url="{{route('showWarehouse',$warehouse->id)}}" style="width: 150px"> <img src="{{asset('/img')}}/no-logo.png" height="80" class="user-image"

@@ -22,7 +22,7 @@ class CreateBacsTable extends Migration
             $table->double('sugar_amount');
             $table->double('glass_size');
             $table->double('number_of_glasses');
-            $table->string('status')->nullable();
+            $table->integer('status')->nullable();
             $table->dateTime('last_refill_time')->nullable();
             $table->integer('machine_id')->unsigned();
             $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
