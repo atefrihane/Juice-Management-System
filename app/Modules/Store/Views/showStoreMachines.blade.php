@@ -38,10 +38,10 @@
                                 @forelse($rentals as $rental)
                                 <tr>
                                 @if($rental->machine->photo_url)
-                                    <td> <img src="{{asset('/')}}{{$rental->machine->photo_url}}" height="80" class="user-image"
+                                    <td> <img src="{{asset('/img/'.$rental->machine->photo_url)}}" width="100" class="user-image"
                                             alt="User Image"> </td>
                                     @else
-                                    <td> <img src="{{asset('/img')}}/no-logo.png" height="80" class="user-image"
+                                    <td> <img src="{{asset('/img')}}/no-logo.png" width="100" class="user-image"
                                             alt="User Image"> </td>
                                             @endif
                                     <td>{{$rental->machine->code}}</td>

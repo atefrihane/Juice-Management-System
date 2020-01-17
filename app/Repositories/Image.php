@@ -16,6 +16,7 @@ class Image
     {
 
         $path = $file->getClientOriginalName();
+ 
        
         \Image::make($file)->resize(300, 300)->save(public_path('img/') . $path);
         // $request->merge(['photo' => $name]);

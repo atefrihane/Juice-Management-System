@@ -13,11 +13,18 @@ use App\Modules\Store\Models\Store;
 use App\Modules\Store\Models\StoreHistory;
 use App\Modules\Store\Models\StoreProduct;
 use App\Modules\Store\Models\StoreSchedule;
+use App\Repositories\Image;
 use Auth;
 use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {
+    protected $image;
+
+    public function __construct(Image $image)
+    {
+        $this->image = $image;
+    }
     public function showStores($id)
     {$company = Company::find($id);
         $stores = Store::query()->whereCompanyId($id)->get();
@@ -133,7 +140,7 @@ class StoreController extends Controller
             'email' => 'required|email',
             'tel' => 'required',
             'cc' => 'required',
-            'order_type' => 'required'
+            'order_type' => 'required',
 
         ], [
             'code.required' => 'le champs code est obligatoire',
@@ -149,8 +156,8 @@ class StoreController extends Controller
 
         ]);
 
-        if ($request->file('photo') != null) {
-            $path = $request->file('photo')->store('img', 'public');
+        if ($request->photo) {
+            $path= $this->image->uploadBinaryImage($request->photo);
         } else {
             $path = 'img/company-placeholder.png';
         }
@@ -198,7 +205,7 @@ class StoreController extends Controller
             $insertable['sundayClosed']
 
         );
-        $insertable['photo'] = 'files/' . $path;
+        $insertable['photo'] = $path;
         $insertable['company_id'] = $company_id;
         $checkCode = Store::where('code', preg_replace('/\s/', '', $request->code))->first();
         if ($checkCode) {
@@ -296,14 +303,14 @@ class StoreController extends Controller
                 $updateable['cc'],
                 $updateable['schedules']
             );
-            if ($request->file('photo') != null) {
-                $path = $request->file('photo')->store('img', 'public');
-                $updateable['photo'] = 'files/' . $path;
-            } else {
-                unset($updateable['logo']);
-            }
+            if ($request->photo) {
 
-         
+
+                $updateable['photo'] = $this->image->uploadBinaryImage($request->photo);
+
+            } else {
+                unset($updateable['photo']);
+            }
 
             $checkCode = Store::where('code', preg_replace('/\s/', '', $request->code))
                 ->where('id', '!=', $store->id)
@@ -315,15 +322,12 @@ class StoreController extends Controller
 
             $store->update($updateable);
 
-         
-                StoreHistory::create([
-                    'action' => 'Modification',
-                    'store_id' => $store->id,
-                    'user_id' => Auth::id(),
+            StoreHistory::create([
+                'action' => 'Modification',
+                'store_id' => $store->id,
+                'user_id' => Auth::id(),
 
-                ]);
-
-            
+            ]);
 
             if ($request->input('schedules')) {
 

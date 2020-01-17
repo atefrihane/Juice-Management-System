@@ -13,8 +13,14 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    protected $image;
 
-    public function store(Request $request, Image $image)
+    public function __construct(Image $image)
+    {
+        $this->image = $image;
+    }
+
+    public function store(Request $request)
     {
 
         $checkCode = Product::where('code', $request->code)->first();
@@ -22,7 +28,7 @@ class ProductController extends Controller
             return response()->json(['status' => 400]);
         }
         if ($request->photo) {
-            $name = $image->handleUploadImage($request->photo);
+            $name = $this->image->handleUploadImage($request->photo);
 
         }
 
@@ -112,7 +118,7 @@ class ProductController extends Controller
 
     }
 
-    public function handleUpdateProduct(Request $request, $id, Image $image)
+    public function handleUpdateProduct(Request $request, $id)
     {
 
         $product = Product::find($id);
@@ -126,7 +132,7 @@ class ProductController extends Controller
         if ($product) {
 
             if ($request->photo != $currentPhoto) {
-                $name = $image->handleUploadImage($request->photo);
+                $name = $this->image->handleUploadImage($request->photo);
 
                 // $image->upload($request);
                 $userPhoto = public_path('img/') . $currentPhoto;

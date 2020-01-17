@@ -14,6 +14,12 @@ use Illuminate\Http\Request;
 
 class MachineController extends Controller
 {
+    protected $image;
+
+    public function __construct(Image $image)
+    {
+        $this->image = $image;
+    }
     public function showMachines()
     {
 
@@ -51,7 +57,7 @@ class MachineController extends Controller
 
     }
 
-    public function store(Request $request, Image $image)
+    public function store(Request $request)
     {
 
         $val = $request->validate([
@@ -73,7 +79,7 @@ class MachineController extends Controller
         $instertable = $request->except(['photo', '_token']);
 
         if ($request->photo) {
-            $path = $image->uploadBinaryImage($request->photo);
+            $path = $this->image->uploadBinaryImage($request->photo);
             $instertable['photo_url'] = $path;
         }
 
@@ -110,8 +116,9 @@ class MachineController extends Controller
         return view('Machine::edit', compact('machine'));
     }
 
-    public function update($id, Request $request, Image $image)
+    public function update($id, Request $request)
     {
+
         $val = $request->validate([
             'code' => 'required',
             'barcode' => 'required',
@@ -126,39 +133,47 @@ class MachineController extends Controller
         ]);
         $updatable = $request->all();
         if ($request->photo) {
-            $path = $image->uploadBinaryImage($request->photo);
+            $path = $this->image->uploadBinaryImage($request->photo);
 
             $updatable['photo_url'] = $path;
         }
 
         unset($updatable['photo']);
         unset($updatable['_token']);
+        unset($updatable['number_bacs']);
         $updatable['display_tablet'] = $updatable['display_tablet'] == 'true';
         $machine = Machine::find($id);
         if ($machine) {
             $machine->update($updatable);
 
             if ($request->has('number_bacs')) {
-                $oldBacs = $machine->number_bacs;
+                $storedBacs = array();
+                $oldBacs = count($machine->bacs);
                 $newBacs = $request->number_bacs;
                 if ($newBacs > $oldBacs) {
+
                     $difference = $newBacs - $oldBacs;
                     for ($i = 0; $i < $difference; $i++) {
-                        Bac::create([
-                            'order' => Bac::all()->last()->order + 1,
+                        $oldBacs++;
+                        $bac = [
+                            'order' => $oldBacs,
                             'machine_id' => $machine->id,
-                        ]);
+                        ];
+                        array_push($storedBacs, $bac);
+
                     }
-                    $machine->number_bacs = $oldBacs + $difference;
+                    Bac::insert($storedBacs);
+
                 } else {
                     $machine->bacs()->delete();
                     for ($i = 0; $i < $newBacs; $i++) {
-                        Bac::create([
+                        $bac = [
                             'order' => $i + 1,
                             'machine_id' => $machine->id,
-                        ]);
+                        ];
+                        array_push($storedBacs, $bac);
                     }
-                    $machine->number_bacs = $newBacs;
+                    Bac::insert($storedBacs);
 
                 }
 

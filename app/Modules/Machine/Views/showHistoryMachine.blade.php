@@ -90,7 +90,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Type</label>
                                         <input class="form-control" name="type" id="disabledInput" type="text"
-                                            placeholder="type" value="{{$machine->type}}" disabled>
+                                            placeholder="type" value="{{ucfirst($machine->type)}}" disabled>
 
 
                                     </div>
@@ -100,7 +100,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nombre de bacs</label>
                                         <input class="form-control" name="bacs" id="disabledInput" type="text"
-                                            placeholder="type" value="{{$machine->number_bacs}}" disabled>
+                                            placeholder="type" value="{{count($machine->bacs)}}" disabled>
 
 
                                     </div>
@@ -119,9 +119,8 @@
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Prix de location mensuelle ( en euros )</label>
-                                <input class="form-control" id="disabledInput" name="price_month" type="text"
-                                    placeholder="Prix de location mensuelle ( en euros )"
-                                    value="{{$machine->price_month}}" disabled>
+                                <p class="form-control" style="background:#eee;">@convert($machine->price_month) </p>
+                     
 
                             </div>
 

@@ -237,7 +237,7 @@
                                 @if($store->photo)
                                 <div class="row">
                                     <div class="container">
-                                        <img src="{{asset('/')}}{{$store->photo}}" alt="..." class="img-thumbnail"
+                                        <img src="{{asset('/img/'.$store->photo)}}" alt="..." class="img-thumbnail"
                                             style="width:100px;">
                                     </div>
                                 </div>

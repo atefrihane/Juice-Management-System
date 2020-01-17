@@ -254,7 +254,6 @@ class CompaniesTableSeeder extends Seeder
             'barcode' => '59972846385498',
             'designation' => 'Machine de jus frais BIRTOUTA M457',
             'type' => 'Jus-granité',
-            'number_bacs' => '3',
             'display_tablet' => 0,
             'price_month' => 1600,
             'comment' => 'aucun',
@@ -262,7 +261,7 @@ class CompaniesTableSeeder extends Seeder
             'rented' => 0,
 
         ]);
-        for ($i = 0; $i < $machineOne->number_bacs; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             Bac::create([
                 'order' => $i + 1,
                 'machine_id' => $machineOne->id,
@@ -275,7 +274,6 @@ class CompaniesTableSeeder extends Seeder
             'barcode' => '87964215387996',
             'designation' => 'Machine de jus de boisson commerciale 220 V',
             'type' => 'Jus-granité',
-            'number_bacs' => 2,
             'display_tablet' => 1,
             'price_month' => 1198,
             'comment' => 'aucun',
@@ -284,7 +282,7 @@ class CompaniesTableSeeder extends Seeder
 
         ]);
 
-        for ($j = 0; $j < $machineTwo->number_bacs; $j++) {
+        for ($j = 0; $j < 2; $j++) {
             Bac::create([
                 'order' => $j + 1,
                 'machine_id' => $machineTwo->id,

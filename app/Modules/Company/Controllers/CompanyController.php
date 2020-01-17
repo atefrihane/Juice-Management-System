@@ -14,6 +14,12 @@ use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
+    protected $image;
+
+    public function __construct(Image $image)
+    {
+        $this->image = $image;
+    }
     public function showAddCompany()
     {
 
@@ -33,7 +39,7 @@ class CompanyController extends Controller
 
     }
 
-    public function handleAddCompany(Request $request,Image $image)
+    public function handleAddCompany(Request $request)
     {
         $val = $request->validate([
             'code' => 'required',
@@ -59,14 +65,12 @@ class CompanyController extends Controller
 
         ]);
         if ($request->logo) {
-            $path = $image->uploadBinaryImage($request->logo);
+            $path = $this->image->uploadBinaryImage($request->logo);
 
-        }
-        else {
+        } else {
             $path = 'img/company-placeholder.png';
         }
 
-      
         $telephone = $request->cc . " " . $request->tel;
         $insertable = $request->all();
         $insertable['tel'] = $telephone;
@@ -106,7 +110,7 @@ class CompanyController extends Controller
 
     }
 
-    public function update(Request $request, $id, Image $image)
+    public function update(Request $request, $id)
     {
         $val = $request->validate([
             'code' => 'required',
@@ -140,7 +144,7 @@ class CompanyController extends Controller
 
             $path = null;
             if ($request->logo) {
-                $path = $image->uploadBinaryImage($request->logo);
+                $path = $this->image->uploadBinaryImage($request->logo);
 
             }
             $fullTel = $request->cc . ' ' . $request->tel;

@@ -20,7 +20,6 @@ class CreateMachinesTable extends Migration
             $table->string('barcode');
             $table->string('designation');
             $table->string('type');
-            $table->integer('number_bacs');
             $table->boolean('display_tablet');
             $table->double('price_month');
             $table->string('comment')->nullable();

@@ -190,7 +190,7 @@
                                     @if($company->logo)
                                     <div class="row">
                                         <div class="container">
-                                            <img src="{{asset('/')}}{{$company->logo}}" alt="..." class="img-thumbnail"
+                                            <img src="{{asset('/img/'.$company->logo)}}" alt="..." class="img-thumbnail"
                                                 style="width:100px;">
                                         </div>
                                     </div>

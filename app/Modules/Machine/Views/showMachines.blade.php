@@ -53,7 +53,7 @@
                                     <td data-url="{{route('showHistoryMachine',$machine->id)}}">{{$machine->code}}</td>
                                     <td data-url="{{route('showHistoryMachine',$machine->id)}}">{{$machine->barcode}}</td>
                                     <td data-url="{{route('showHistoryMachine',$machine->id)}}">{{$machine->designation}}</td>
-                                    <td data-url="{{route('showHistoryMachine',$machine->id)}}">{{$machine->number_bacs}}</td>
+                                    <td data-url="{{route('showHistoryMachine',$machine->id)}}">{{count($machine->bacs)}}</td>
                                     <td data-url="{{route('showHistoryMachine',$machine->id)}}">@convert($machine->price_month)</td>
                                     @if($machine->rented)
                                     <td data-url="{{route('showHistoryMachine',$machine->id)}}">En location <br> <br>
