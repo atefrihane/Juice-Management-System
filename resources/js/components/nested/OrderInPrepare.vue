@@ -13,6 +13,8 @@
                 </div>
             </div>
         </div>
+
+
         <div v-if="new_status !=12">
             <div class="row" style="margin-top:40px;">
 
@@ -210,16 +212,22 @@
 
 <script>
     import Loading from 'vue-loading-overlay';
+
     // Import stylesheet
     import 'vue-loading-overlay/dist/vue-loading.css';
+ 
+
+
     export default {
 
         mounted() {
 
             this.loadProducts()
             this.loadOrder()
-
+      
         },
+       
+   
         props: ['order_id', 'user_id'],
         data() {
             return {
@@ -235,6 +243,8 @@
                 total_ht: 0.00,
                 total_tva: 0.00,
                 total_order: 0.00,
+
+
 
             }
 
@@ -260,7 +270,9 @@
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
                 // return this.total_order.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // 12,345.67
             }
+
         },
+
         methods: {
             loadProducts() {
                 axios.get(axios.defaults.baseURL + '/api/products/')
@@ -289,11 +301,13 @@
                                 package: ordered.pivot.package,
                                 unit: ordered.pivot.unit,
                                 product_packing: ordered.packing,
-                                public_price: this.convertCurrency(ordered.pivot.custom_price),
+                                public_price: this.convertCurrency(ordered.pivot
+                                    .custom_price),
                                 tva: ordered.pivot.custom_tva,
                                 products: this.products,
                                 product_id: ordered.id,
-                                total: this.convertCurrency(parseFloat(ordered.public_price) *
+                                total: this.convertCurrency(parseFloat(ordered
+                                        .public_price) *
                                     ordered.pivot.unit),
                                 product_total_tva: ordered.tva
 
@@ -355,40 +369,50 @@
 
                                 axios.get(`/api/product/warehouses/${final.product_id}`)
                                     .then((response) => {
-                                        this.warehouse_products = response.data.warehouse_products;
+                                        this.warehouse_products = response.data
+                                            .warehouse_products;
                                         if (this.warehouse_products.length > 0) {
 
-                                            this.warehouse_products.forEach(warehouse_product => {
-                                                let prepareIndex = final.prepared_products
-                                                    .findIndex(preparedItem => preparedItem
-                                                        .id == warehouse_product.pivot.id);
-                                                if (prepareIndex == -1) {
+                                            this.warehouse_products.forEach(
+                                                warehouse_product => {
+                                                    let prepareIndex = final
+                                                        .prepared_products
+                                                        .findIndex(preparedItem =>
+                                                            preparedItem
+                                                            .id == warehouse_product.pivot
+                                                            .id);
+                                                    if (prepareIndex == -1) {
 
-                                                    final.prepared_products.push({
-                                                        id: warehouse_product.pivot.id,
-                                                        comment: warehouse_product.pivot
-                                                            .comment,
-                                                        creation_date: warehouse_product
-                                                            .pivot.creation_date,
-                                                        expiration_date: warehouse_product
-                                                            .pivot.expiration_date,
-                                                        packing: warehouse_product.pivot
-                                                            .packing,
-                                                        quantity: warehouse_product
-                                                            .pivot.quantity,
-                                                        warehouse: {
-                                                            designation: warehouse_product
-                                                                .designation
-                                                        },
-                                                        pivot: {
-                                                            quantity: ''
-                                                        }
+                                                        final.prepared_products.push({
+                                                            id: warehouse_product
+                                                                .pivot.id,
+                                                            comment: warehouse_product
+                                                                .pivot
+                                                                .comment,
+                                                            creation_date: warehouse_product
+                                                                .pivot
+                                                                .creation_date,
+                                                            expiration_date: warehouse_product
+                                                                .pivot
+                                                                .expiration_date,
+                                                            packing: warehouse_product
+                                                                .pivot
+                                                                .packing,
+                                                            quantity: warehouse_product
+                                                                .pivot.quantity,
+                                                            warehouse: {
+                                                                designation: warehouse_product
+                                                                    .designation
+                                                            },
+                                                            pivot: {
+                                                                quantity: ''
+                                                            }
 
 
-                                                    })
+                                                        })
 
-                                                }
-                                            })
+                                                    }
+                                                })
 
 
                                         }
@@ -427,40 +451,50 @@
 
                                 axios.get(`/api/product/warehouses/${final.product_id}`)
                                     .then((response) => {
-                                        this.warehouse_products = response.data.warehouse_products;
+                                        this.warehouse_products = response.data
+                                            .warehouse_products;
                                         if (this.warehouse_products.length > 0) {
 
-                                            this.warehouse_products.forEach(warehouse_product => {
-                                                let prepareIndex = final.prepared_products
-                                                    .findIndex(preparedItem => preparedItem
-                                                        .id == warehouse_product.pivot.id);
-                                                if (prepareIndex == -1) {
-                                                    console.log(warehouse_product)
-                                                    final.prepared_products.push({
-                                                        id: warehouse_product.pivot.id,
-                                                        comment: warehouse_product.pivot
-                                                            .comment,
-                                                        creation_date: warehouse_product
-                                                            .pivot.creation_date,
-                                                        expiration_date: warehouse_product
-                                                            .pivot.expiration_date,
-                                                        packing: warehouse_product.pivot
-                                                            .packing,
-                                                        quantity: warehouse_product
-                                                            .pivot.quantity,
-                                                        warehouse: {
-                                                            designation: warehouse_product
-                                                                .designation
-                                                        },
-                                                        pivot: {
-                                                            quantity: ''
-                                                        }
+                                            this.warehouse_products.forEach(
+                                                warehouse_product => {
+                                                    let prepareIndex = final
+                                                        .prepared_products
+                                                        .findIndex(preparedItem =>
+                                                            preparedItem
+                                                            .id == warehouse_product.pivot
+                                                            .id);
+                                                    if (prepareIndex == -1) {
+                                                        console.log(warehouse_product)
+                                                        final.prepared_products.push({
+                                                            id: warehouse_product
+                                                                .pivot.id,
+                                                            comment: warehouse_product
+                                                                .pivot
+                                                                .comment,
+                                                            creation_date: warehouse_product
+                                                                .pivot
+                                                                .creation_date,
+                                                            expiration_date: warehouse_product
+                                                                .pivot
+                                                                .expiration_date,
+                                                            packing: warehouse_product
+                                                                .pivot
+                                                                .packing,
+                                                            quantity: warehouse_product
+                                                                .pivot.quantity,
+                                                            warehouse: {
+                                                                designation: warehouse_product
+                                                                    .designation
+                                                            },
+                                                            pivot: {
+                                                                quantity: ''
+                                                            }
 
 
-                                                    })
+                                                        })
 
-                                                }
-                                            })
+                                                    }
+                                                })
 
 
                                         }
@@ -511,7 +545,8 @@
                             })
                             .then((response) => {
                                 if (response.data.status == 200) {
-                                    this.final_prepared.splice(this.final_prepared.indexOf(final), 1);
+                                    this.final_prepared.splice(this.final_prepared.indexOf(final),
+                                        1);
 
                                 }
                             })
@@ -620,8 +655,8 @@
 
             },
             updateTotalQuantity(prepared, index, i) {
-            this.clearPreparedProducts()
-             if (prepared.pivot.quantity < 0){
+                this.clearPreparedProducts()
+                if (prepared.pivot.quantity < 0) {
                     swal.fire({
                         type: 'error',
                         title: 'La quantité préparée saisie  est invalide ! ',
@@ -640,7 +675,7 @@
             },
             validateForm() {
                 let x = true;
-                if (this.new_status != 12) {        
+                if (this.new_status != 12) {
                     if (this.final_prepared.length > 0) {
                         let count = 0;
                         this.final_prepared.forEach((prepared) => {
@@ -648,7 +683,8 @@
                             count += prepared.total;
                         });
                         if (count <= 0) {
-                            this.$emit('requiredValue', 'Veuillez renseigner au moins une quantité à préparer  ')
+                            this.$emit('requiredValue',
+                                'Veuillez renseigner au moins une quantité à préparer  ')
                             x = false;
                             this.disabled = false;
                         }
@@ -699,12 +735,14 @@
                                     name: custom.name,
                                     qty,
                                     packing: custom.product_packing,
-                                      public_price:custom.public_price,
-                                    tva:custom.tva
+                                    public_price: custom.public_price,
+                                    tva: custom.tva,
+                                    active: true
                                 })
                             }
                         } else { //Item not found in custom
-                            let balanceIndex = balances.findIndex(balance => balance.product_id ===
+                            let balanceIndex = balances.findIndex(balance => balance
+                                .product_id ===
                                 custom.product_id);
 
                             if (balanceIndex === -1) {
@@ -713,8 +751,8 @@
                                     name: custom.name,
                                     qty: custom.unit,
                                     packing: custom.product_packing,
-                                    public_price:custom.public_price,
-                                    tva:custom.tva
+                                    public_price: custom.public_price,
+                                    tva: custom.tva
                                 })
                             }
                         }
@@ -732,8 +770,10 @@
                 this.custom_ordered.map(custom => {
                     this.final_prepared.map(final => {
                         newBalances.map(balance => {
-                            if ((custom.product_id === balance.product_id && custom.unit <=
-                                    balance.qty && final.product_id === custom.product_id &&
+                            if ((custom.product_id === balance.product_id && custom
+                                    .unit <=
+                                    balance.qty && final.product_id === custom
+                                    .product_id &&
                                     final.total > 0)) {
                                 rmvBalances.push(balance)
                             }
@@ -781,7 +821,8 @@
                                                 confirmButtonText: 'Fermer'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    window.location = axios.defaults.baseURL +
+                                                    window.location = axios.defaults
+                                                        .baseURL +
                                                         '/orders';
                                                 }
 
@@ -802,6 +843,8 @@
                     } else {
 
                         if (this.balance.length > 0) {
+
+                
                             swal.fire({
                                 type: 'info',
                                 title: 'Oups !',
@@ -815,27 +858,12 @@
 
                             }).then((result) => {
                                 if (result.value) {
+                                    console.log(this.balance)
                                     swal.fire({
                                         type: 'info',
                                         title: 'Attention... ',
                                         customClass: 'swal-btns',
-                                        html: ` 
-                           
-                                    <p> <b> NB : </b> Le tableau ci dessous présente les quantités restantes à préparer pour chaque produit </p>
-                                     <table class="table">
-                                        <thead>
-                                        <tr>
-                                          <th>Nom Produit</th>
-                                         <th>Quantité réstante</th>
-                                        </tr>
-                                         </thead>
-                                         <tbody>
-                                         ${this.balance.map(balance => ` <tr> <td class="text-left">${balance.name} </td><td class="text-left">${balance.qty} </td> </tr> `)}
-
-                                        </tbody>
-                                        </table>
-
-                            `,
+                                        html: `<content-display :balance=${JSON.stringify(this.balance)}> </content-display>`,
                                         showConfirmButton: true,
                                         confirmButtonText: ' Passer une commande du reliquat',
                                         showCancelButton: true,
@@ -861,9 +889,12 @@
                                                             confirmButtonText: 'Fermer'
                                                         }).then((result) => {
                                                             if (result.value) {
-                                                                window.location = window
-                                                                    .location = axios
-                                                                    .defaults.baseURL +
+                                                                window.location =
+                                                                    window
+                                                                    .location =
+                                                                    axios
+                                                                    .defaults
+                                                                    .baseURL +
                                                                     '/orders';
 
                                                             }
@@ -872,7 +903,9 @@
 
                                                     if (response.data.status == 400) {
                                                         this.disabled = false;
-                                                        let unavailable_stock = response.data.unavailableStock;
+                                                        let unavailable_stock = response
+                                                            .data
+                                                            .unavailableStock;
                                                         swal.fire({
                                                             type: 'error',
                                                             title: 'Stock Insuffisant !',
@@ -881,20 +914,35 @@
                                                             confirmButtonText: 'Fermer'
                                                         })
 
-                                                        this.final_prepared.forEach(final => {
-                                                            final.prepared_products.forEach(
-                                                                prepared => {
+                                                        this.final_prepared.forEach(
+                                                            final => {
+                                                                final.prepared_products
+                                                                    .forEach(
+                                                                        prepared => {
 
-                                                        unavailable_stock.forEach(stock => {
-                                                        if (prepared.id ==stock.id) {
-                                                            prepared.quantity=stock.quantity
-                                                            prepared.pivot.quantity = ''
-                                                                                    
-                                                                    }});
+                                                                            unavailable_stock
+                                                                                .forEach(
+                                                                                    stock => {
+                                                                                        if (prepared
+                                                                                            .id ==
+                                                                                            stock
+                                                                                            .id
+                                                                                        ) {
+                                                                                            prepared
+                                                                                                .quantity =
+                                                                                                stock
+                                                                                                .quantity
+                                                                                            prepared
+                                                                                                .pivot
+                                                                                                .quantity =
+                                                                                                ''
 
-                                                                });
+                                                                                        }
+                                                                                    });
 
-                                                        });
+                                                                        });
+
+                                                            });
 
 
                                                     }
@@ -924,8 +972,10 @@
                                                             confirmButtonText: 'Fermer'
                                                         }).then((result) => {
                                                             if (result.value) {
-                                                                window.location = axios
-                                                                    .defaults.baseURL +
+                                                                window.location =
+                                                                    axios
+                                                                    .defaults
+                                                                    .baseURL +
                                                                     '/orders';
                                                             }
                                                         })
@@ -933,7 +983,8 @@
 
                                                     if (response.data.status == 400) {
                                                         this.disabled = false;
-                                                        let unavailable_stock = response.data
+                                                        let unavailable_stock = response
+                                                            .data
                                                             .unavailableStock;
                                                         swal.fire({
                                                             type: 'error',
@@ -943,35 +994,37 @@
                                                             confirmButtonText: 'Fermer'
                                                         })
 
-                                                        this.final_prepared.forEach(final => {
-                                                            final.prepared_products.forEach(
-                                                                prepared => {
+                                                        this.final_prepared.forEach(
+                                                            final => {
+                                                                final.prepared_products
+                                                                    .forEach(
+                                                                        prepared => {
 
-                                                                    unavailable_stock
-                                                                        .forEach(
-                                                                            stock => {
-                                                                                if (prepared
-                                                                                    .id ==
-                                                                                    stock
-                                                                                    .id
-                                                                                    ) {
-                                                                                    prepared
-                                                                                        .quantity =
-                                                                                        stock
-                                                                                        .quantity
-                                                                                    prepared
-                                                                                        .pivot
-                                                                                        .quantity =
-                                                                                        ''
+                                                                            unavailable_stock
+                                                                                .forEach(
+                                                                                    stock => {
+                                                                                        if (prepared
+                                                                                            .id ==
+                                                                                            stock
+                                                                                            .id
+                                                                                        ) {
+                                                                                            prepared
+                                                                                                .quantity =
+                                                                                                stock
+                                                                                                .quantity
+                                                                                            prepared
+                                                                                                .pivot
+                                                                                                .quantity =
+                                                                                                ''
 
-                                                                                }
+                                                                                        }
 
 
-                                                                            });
+                                                                                    });
 
-                                                                });
+                                                                        });
 
-                                                        });
+                                                            });
 
 
                                                     }
@@ -989,6 +1042,9 @@
 
 
                                     });
+                                    new Vue({
+                                        el: swal.getContent()
+                                    })  
                                 } else if (result.dismiss == 'cancel') {
                                     this.disabled = false
                                 }
@@ -1011,7 +1067,8 @@
                                             confirmButtonText: 'Fermer'
                                         }).then((result) => {
                                             if (result.value) {
-                                                window.location = axios.defaults.baseURL + '/orders';
+                                                window.location = axios.defaults.baseURL +
+                                                    '/orders';
                                             }
 
                                         })
@@ -1069,6 +1126,8 @@
                         }
 
                     }
+
+                    
 
                 }
             },
@@ -1138,8 +1197,13 @@
             },
             cancelOrder() {
                 window.location = axios.defaults.baseURL + "/orders"
-            }
+            },
+
         }
+
+
     }
+
+
 
 </script>

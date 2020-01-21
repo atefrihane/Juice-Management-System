@@ -117,8 +117,8 @@
                                     </div>
                                     @if(Auth::user()->DBO() || Auth::user()->superAdmin())
                                     <div class="text-center">
-                                        <a href="{{route('admin')}}"
-                                            class="btn btn-default btn-flat btn-width">Gestion des comptes</a>
+                                        <a href="{{route('admin')}}" class="btn btn-default btn-flat btn-width">Gestion
+                                            des comptes</a>
                                     </div>
                                     @endif
                                     <div class="text-center">
@@ -168,7 +168,8 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
-                        <ul class="treeview-menu" style="display: {{ (Route::is('showWarehouses') or  Route::is('showWarehouseProducts')) ? 'block' : 'none' }};" >
+                        <ul class="treeview-menu"
+                            style="display: {{ (Route::is('showWarehouses') or  Route::is('showWarehouseProducts')) ? 'block' : 'none' }};">
                             <li class="{{ Route::is('showWarehouses') ? 'active' : '' }}"><a
                                     href="{{route('showWarehouses')}}"><i class="fa fa-building "></i> <span>Nos
                                         Entrepôts</span></a></li>
@@ -180,15 +181,15 @@
                     </li>
                     @if(Auth::user()->primaryAdmin())
                     <li class="{{ Route::is('showConversations') ? 'active' : '' }}">
-                            <a href={{route('showConversations')}}>
-                              <i class="fa fa-envelope"></i> <span>Messages</span>
-                              <span class="pull-right-container">
-                              <small class="label pull-right bg-green">{{$countConversations}}</small>
-                              </span>
-                            </a>
-                          </li>
-                          @endif
-                   
+                        <a href={{route('showConversations')}}>
+                            <i class="fa fa-envelope"></i> <span>Messages</span>
+                            <span class="pull-right-container">
+                                <small class="label pull-right bg-green">{{$countConversations}}</small>
+                            </span>
+                        </a>
+                    </li>
+                    @endif
+
                 </ul>
             </section>
             <!-- /.sidebar -->
@@ -197,7 +198,4 @@
         <!-- Content Wrapper. Contains page content -->
 
 
-        <script>
-
-
-        </script>
+   

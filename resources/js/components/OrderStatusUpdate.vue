@@ -4,7 +4,7 @@
             <h3 class="box-title">Mise à jour etat </h3>
 
         </div>
-
+    
         <form role="form">
             <div class="box-body">
                 <div class="box-body">
@@ -53,7 +53,7 @@
                          v-on:requiredValue="updateError($event)">
                      </order-to-prepare>
 
-                    <order-in-prepare 
+                    <order-in-prepare ref="foo"  
                         v-if="status == 3" 
                         :order_id="this.order_id" 
                         :user_id="this.user_id"

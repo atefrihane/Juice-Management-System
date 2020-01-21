@@ -45,3 +45,11 @@
 
 
 @endsection
+<script>
+function myFunction(id)
+{
+    let clientsArr =  JSON.parse(localStorage.getItem('balance')) || [];
+   clientsArr.push(id);
+   localStorage.setItem('balance', JSON.stringify(clientsArr));;
+}
+</script>
