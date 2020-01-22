@@ -23,7 +23,7 @@
                     <!-- /.box-header -->
                     <div class="box-body">
 
-
+                        <div class="scrollable-table">
                         <table class="table table-bordered table-hover example2">
                             <thead>
                                 <tr>
@@ -117,6 +117,7 @@
 
                         </table>
                     </div>
+                </div>
                     <!-- /.box-body -->
                 </div>
 

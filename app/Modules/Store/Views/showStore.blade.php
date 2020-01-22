@@ -86,7 +86,7 @@
         <section class="content">
             <div class="row">
                 <div class="col-md-4">
-                    <img src="{{asset('/')}}{{$store->photo}}" style="width:100%;padding:40px;">
+                    <img src="{{asset('/img/'.$store->photo)}}" style="width:100%;padding:40px;">
                 </div>
                 <div class="col-md-8">
                     <div class="box box-primary">
@@ -238,64 +238,68 @@
                         Horaire du magasin
 
                     </h4>
-                    <table class="tables">
-                        <thead>
-                            <tr>
-                                <th class="no-sort">Jour</th>
-                                <th>Ouverture Matin</th>
-                                <th> Clôture Matin</th>
-                                <th>Ouverture Aprés midi</th>
-                                <th> Clôture Aprés midi</th>
-                                <th>Fermé</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($store->schedules as $schedule)
-                            <tr>
-                                <td>
-                                    @switch($schedule->day)
-                                    @case(1)
-                                    Lundi
-                                    @break
-                                    @case(2)
-                                    Mardi
-                                    @break
-                                    @case(3)
-                                    Mercredi
-                                    @break
-                                    @case(4)
-                                    Jeudi
-                                    @break
-                                    @case(5)
-                                    Vendredi
-                                    @break
-                                    @case(6)
-                                    Samedi
-                                    @break
-                                    @case(7)
-                                    Dimanche
-                                    @break
-                                    @endswitch
+                    <div class="scrollable-table">
+                            <table class="tables">
+                                    <thead>
+                                        <tr>
+                                            <th class="no-sort">Jour</th>
+                                            <th>Ouverture Matin</th>
+                                            <th> Clôture Matin</th>
+                                            <th>Ouverture Aprés midi</th>
+                                            <th> Clôture Aprés midi</th>
+                                            <th>Fermé</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($store->schedules as $schedule)
+                                        <tr>
+                                            <td>
+                                                @switch($schedule->day)
+                                                @case(1)
+                                                Lundi
+                                                @break
+                                                @case(2)
+                                                Mardi
+                                                @break
+                                                @case(3)
+                                                Mercredi
+                                                @break
+                                                @case(4)
+                                                Jeudi
+                                                @break
+                                                @case(5)
+                                                Vendredi
+                                                @break
+                                                @case(6)
+                                                Samedi
+                                                @break
+                                                @case(7)
+                                                Dimanche
+                                                @break
+                                                @endswitch
+            
+            
+                                            </td>
+                                            <td>{{$schedule->start_day_time}}</td>
+                                            <td>{{$schedule->end_day_time}}</td>
+                                            <td>{{$schedule->start_night_time}}</td>
+                                            <td>{{$schedule->end_night_time}}</td>
+                                            <td>{{$schedule->closed == 1 ? 'Oui' : 'Non' }}</td>
+            
+                                        </tr>
+                                        @empty
+            
+                                        @endforelse
+            
+            
+            
+            
+                                    </tbody>
+            
+                                </table>
 
-
-                                </td>
-                                <td>{{$schedule->start_day_time}}</td>
-                                <td>{{$schedule->end_day_time}}</td>
-                                <td>{{$schedule->start_night_time}}</td>
-                                <td>{{$schedule->end_night_time}}</td>
-                                <td>{{$schedule->closed == 1 ? 'Oui' : 'Non' }}</td>
-
-                            </tr>
-                            @empty
-
-                            @endforelse
-
-
-
-
-                        </tbody>
-
-                    </table>
+                    </div>
+                 
                 </div>
 
             </div>
@@ -307,31 +311,34 @@
                         Historique du magasin
 
                     </h4>
-                    <table class="tables">
-                        <thead>
-                            <tr>
-                                <th> Date et heure</th>
-                                <th>Utilisateur</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($store->histories as $history)
-                            <tr>
-                                <td>@formatDate($history->created_at)</td>
-                                <td>{{ucfirst($history->user->nom)}} {{ucfirst($history->user->prenom)}}</td>
-                                <td>{{$history->action}}</td>
-                            </tr>
-                            @empty
-
-                            @endforelse
-
-
-
-
-                        </tbody>
-
-                    </table>
+                    <div class="scrollable-table">
+                            <table class="tables">
+                                    <thead>
+                                        <tr>
+                                            <th> Date et heure</th>
+                                            <th>Utilisateur</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($store->histories as $history)
+                                        <tr>
+                                            <td>@formatDate($history->created_at)</td>
+                                            <td>{{ucfirst($history->user->nom)}} {{ucfirst($history->user->prenom)}}</td>
+                                            <td>{{$history->action}}</td>
+                                        </tr>
+                                        @empty
+            
+                                        @endforelse
+            
+            
+            
+            
+                                    </tbody>
+            
+                                </table>
+                    </div>
+               
                 </div>
 
             </div>

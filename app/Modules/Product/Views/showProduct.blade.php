@@ -232,35 +232,38 @@
                         Historique du produit
                         <small> {{$product->name}}</small>
                     </h4>
-                    <table class="table table-bordered table-hover example2">
-                        <thead>
-                            <tr>
-                                <th> Date et heure</th>
-                                <th>Utilisateur</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($product->histories as $history)
-                            <tr>
-                                <td>@formatDate($history->created_at)</td>
-                                <td>{{$history->user->nom}} {{$history->user->prenom}}</td>
-                                <td>{{$history->action}}</td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="3" class="text-center">
-                                    <h4>Aucun historique trouvé!</h4>
-                                </td>
-                            </tr>
-                            @endforelse
+                    <div class="scrollable-table">
+                            <table class="table table-bordered table-hover example2">
+                                    <thead>
+                                        <tr>
+                                            <th> Date et heure</th>
+                                            <th>Utilisateur</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($product->histories as $history)
+                                        <tr>
+                                            <td>@formatDate($history->created_at)</td>
+                                            <td>{{$history->user->nom}} {{$history->user->prenom}}</td>
+                                            <td>{{$history->action}}</td>
+                                        </tr>
+                                        @empty
+                                        <tr>
+                                            <td colspan="3" class="text-center">
+                                                <h4>Aucun historique trouvé!</h4>
+                                            </td>
+                                        </tr>
+                                        @endforelse
+            
+            
+            
+            
+                                    </tbody>
+            
+                                </table>
 
-
-
-
-                        </tbody>
-
-                    </table>
+                    </div>
                 </div>
 
 

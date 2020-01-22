@@ -52,6 +52,15 @@
             /* Firefox */
         }
 
+        @media only screen and (max-width: 800px) {
+            .scrollable-table {
+            overflow-x:auto !important;
+        }
+}
+  
+       
+       
+
     </style>
     <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">

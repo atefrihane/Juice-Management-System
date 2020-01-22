@@ -25,8 +25,8 @@
                         <!-- <h3 class="box-title pull-right"><a href=""> /a></h3> -->
                     </div>
                     <!-- /.box-header -->
-                    <div class="box-body">
-                        <table class="table table-bordered table-hover example2">
+                    <div class="box-body scrollable-table">
+                        <table class="table table-bordered table-hover example2 ">
                             <thead>
                                 <tr>
 

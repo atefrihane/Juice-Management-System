@@ -177,7 +177,7 @@
             </div>
         </section>
         <div class="box box-primary">
-            <div class="box-body">
+            <div class="box-body scrollable-table">
                 <div class="box-header" style="margin-bottom:25px;">
                     <h3 class="box-title">Liste des produits en stock</h3>
                     @if(Auth::user()->preparatorAdmin())
@@ -187,7 +187,7 @@
                         @endif
                 </div>
 
-                <table class="table table-bordered table-hover example2">
+                <table class="table table-bordered table-hover example2 scrollable-table">
                     <thead>
                         <tr>
 

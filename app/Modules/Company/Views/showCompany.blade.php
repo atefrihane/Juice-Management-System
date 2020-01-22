@@ -198,35 +198,38 @@
                         Historique de la societé
                         <small> {{$company->name}}</small>
                     </h4>
-                    <table class="table table-bordered table-hover example2">
-                        <thead>
-                            <tr>
-
-
-                                <th> Date et heure</th>
-                                <th>Utilisateur</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($company->histories as $history)
-                            <tr>
-                                <td>@formatDate($history->created_at)</td>
-                                <td>{{ucfirst($history->user->nom)}} {{ucfirst($history->user->prenom)}}</td>
-                                <td>{{$history->action}}</td>
-
-
-                            </tr>
-                            @empty
-
-                            @endforelse
-
-
-
-
-                        </tbody>
-
-                    </table>
+                    <div class="scrollable-table">
+                            <table class="table table-bordered table-hover example2">
+                                    <thead>
+                                        <tr>
+            
+            
+                                            <th> Date et heure</th>
+                                            <th>Utilisateur</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($company->histories as $history)
+                                        <tr>
+                                            <td>@formatDate($history->created_at)</td>
+                                            <td>{{ucfirst($history->user->nom)}} {{ucfirst($history->user->prenom)}}</td>
+                                            <td>{{$history->action}}</td>
+            
+            
+                                        </tr>
+                                        @empty
+            
+                                        @endforelse
+            
+            
+            
+            
+                                    </tbody>
+            
+                                </table>
+                    </div>
+             
                 </div>
 
             </div>

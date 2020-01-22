@@ -30,7 +30,7 @@
                     <div class="box-body">
 
 
-                        <table class="table table-bordered table-hover example2">
+                        <table class="table table-bordered table-hover example2 scrollable-table">
                             <thead>
                                 <tr>
                                     <th>Pays</th>

@@ -24,8 +24,8 @@
                         <h3 class="box-title">Archive des Commandes</h3>
                     </div>
 
-                    <div class="box-body">
-                        <table class="table table-bordered table-hover example2">
+                    <div class="box-body scrollable-table">
+                        <table class="table table-bordered table-hover example2 ">
                             <thead>
                                 <tr>
                                     <th>Code</th>
