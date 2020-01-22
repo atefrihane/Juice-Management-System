@@ -2669,25 +2669,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
-    if (this.balance) {
-      console.log('Component mounted.');
-      console.log(JSON.parse(this.balance));
-    } else {
-      console.log("still waiting");
-    }
+    console.log('Component mounted.');
+    console.log(this.balance);
   },
   data: function data() {
-    return {
-      balance2: [{
-        name: "aze",
-        qty: 45
-      }, {
-        name: "qsd",
-        qty: 20
-      }]
-    };
+    return {};
   },
-  props: ['balance']
+  props: ['balance'],
+  methods: {
+    disableProduct: function disableProduct(index) {
+      this.balance[index].active = !this.balance[index].active;
+      this.$emit('update-balance', this.balance);
+    }
+  }
 });
 
 /***/ }),
@@ -10524,7 +10518,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       disabled: false,
       total_ht: 0.00,
       total_tva: 0.00,
-      total_order: 0.00
+      total_order: 0.00,
+      balanceChanged: false
     };
   },
   components: {
@@ -10842,6 +10837,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       } else {
         this.clearPreparedProducts();
       }
+
+      this.balanceChanged = true;
     },
     validateForm: function validateForm() {
       var _this6 = this;
@@ -10915,7 +10912,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 qty: custom.unit,
                 packing: custom.product_packing,
                 public_price: custom.public_price,
-                tva: custom.tva
+                tva: custom.tva,
+                active: true
               });
             }
           }
@@ -10935,6 +10933,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         });
       });
       this.balance = _.differenceBy(newBalances, rmvBalances, "product_id");
+      this.balanceChanged = false;
     },
     submitOrderInPrepare: function submitOrderInPrepare() {
       var _this8 = this;
@@ -10944,7 +10943,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
       if (validation) {
         this.$emit('requiredValue', '');
-        this.validateBalance();
+
+        if (this.balance.length == 0 || this.balanceChanged) {
+          this.validateBalance();
+        }
 
         if (this.new_status == 12) {
           swal.fire({
@@ -10997,12 +10999,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
               reverseButtons: true
             }).then(function (result) {
               if (result.value) {
-                console.log(_this8.balance);
                 swal.fire({
                   type: 'info',
                   title: 'Attention... ',
                   customClass: 'swal-btns',
-                  html: "<content-display :balance=".concat(JSON.stringify(_this8.balance), "> </content-display>"),
+                  html: "<content-display :balance='".concat(JSON.stringify(_this8.balance), "' v-on:update-balance=\"changeBalance($event)\"> </content-display>"),
                   showConfirmButton: true,
                   confirmButtonText: ' Passer une commande du reliquat',
                   showCancelButton: true,
@@ -11010,6 +11011,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 }).then(function (result) {
                   // commande reliquat
                   if (result.value) {
+                    _this8.balance = _.filter(_this8.balance, function (o) {
+                      return o.active;
+                    });
                     axios.post("/api/order/".concat(_this8.order_id, "/prepare/submit"), {
                       final_prepared: _this8.final_prepared,
                       balance: _this8.balance,
@@ -11105,8 +11109,14 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                     _this8.disabled = false;
                   }
                 });
+                var that = _this8;
                 new Vue({
-                  el: swal.getContent()
+                  el: swal.getContent(),
+                  methods: {
+                    changeBalance: function changeBalance(newBalance) {
+                      that.balance = newBalance;
+                    }
+                  }
                 });
               } else if (result.dismiss == 'cancel') {
                 _this8.disabled = false;
@@ -86396,20 +86406,25 @@ var render = function() {
       _vm._v(" "),
       _c(
         "tbody",
-        _vm._l(_vm.balance, function(bal) {
-          return _vm.balance2.length > 0
+        _vm._l(_vm.balance, function(bal, index) {
+          return _vm.balance.length > 0 && _vm.balance
             ? _c("tr", [
                 _c("td", { staticClass: "text-left" }, [
-                  _vm._v(_vm._s(bal.name) + " ")
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-left" }, [
-                  _vm._v(_vm._s(bal.qty) + "       "),
                   _c("input", {
                     staticClass: "form-check-input",
                     attrs: { type: "checkbox", id: "exampleCheck1" },
-                    domProps: { checked: bal.active }
-                  })
+                    domProps: { checked: bal.active },
+                    on: {
+                      click: function($event) {
+                        return _vm.disableProduct(index)
+                      }
+                    }
+                  }),
+                  _vm._v("      " + _vm._s(bal.name) + " ")
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-left" }, [
+                  _vm._v(_vm._s(bal.qty) + " ")
                 ])
               ])
             : _vm._e()

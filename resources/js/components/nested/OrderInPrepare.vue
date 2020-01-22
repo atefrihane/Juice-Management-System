@@ -215,7 +215,7 @@
 
     // Import stylesheet
     import 'vue-loading-overlay/dist/vue-loading.css';
- 
+
 
 
     export default {
@@ -224,10 +224,10 @@
 
             this.loadProducts()
             this.loadOrder()
-      
+
         },
-       
-   
+
+
         props: ['order_id', 'user_id'],
         data() {
             return {
@@ -243,6 +243,7 @@
                 total_ht: 0.00,
                 total_tva: 0.00,
                 total_order: 0.00,
+                balanceChanged: false
 
 
 
@@ -671,6 +672,7 @@
                     this.clearPreparedProducts()
 
                 }
+                this.balanceChanged = true
 
             },
             validateForm() {
@@ -752,7 +754,8 @@
                                     qty: custom.unit,
                                     packing: custom.product_packing,
                                     public_price: custom.public_price,
-                                    tva: custom.tva
+                                    tva: custom.tva,
+                                    active: true
                                 })
                             }
                         }
@@ -785,6 +788,8 @@
 
                 this.balance = _.differenceBy(newBalances, rmvBalances, "product_id")
 
+                this.balanceChanged = false
+
 
             },
             submitOrderInPrepare() {
@@ -792,7 +797,10 @@
                 let validation = this.validateForm();
                 if (validation) {
                     this.$emit('requiredValue', '')
-                    this.validateBalance()
+                    if (this.balance.length == 0 || this.balanceChanged) {
+                        this.validateBalance()
+                    }
+
 
                     if (this.new_status == 12) {
                         swal.fire({
@@ -844,7 +852,7 @@
 
                         if (this.balance.length > 0) {
 
-                
+
                             swal.fire({
                                 type: 'info',
                                 title: 'Oups !',
@@ -858,12 +866,11 @@
 
                             }).then((result) => {
                                 if (result.value) {
-                                    console.log(this.balance)
                                     swal.fire({
                                         type: 'info',
                                         title: 'Attention... ',
                                         customClass: 'swal-btns',
-                                        html: `<content-display :balance=${JSON.stringify(this.balance)}> </content-display>`,
+                                        html: `<content-display :balance='${JSON.stringify(this.balance)}' v-on:update-balance="changeBalance($event)"> </content-display>`,
                                         showConfirmButton: true,
                                         confirmButtonText: ' Passer une commande du reliquat',
                                         showCancelButton: true,
@@ -872,6 +879,9 @@
                                     }).then((result) => {
                                         // commande reliquat
                                         if (result.value) {
+                                            this.balance = _.filter(this.balance, function (o) {
+                                                return o.active;
+                                            });
                                             axios.post(
                                                     `/api/order/${this.order_id}/prepare/submit`, {
                                                         final_prepared: this.final_prepared,
@@ -1042,9 +1052,17 @@
 
 
                                     });
+                                    let that = this;
                                     new Vue({
-                                        el: swal.getContent()
-                                    })  
+                                        el: swal.getContent(),
+                                        methods: {
+                                            changeBalance(newBalance) {
+                                                that.balance = newBalance
+
+                                            }
+
+                                        }
+                                    })
                                 } else if (result.dismiss == 'cancel') {
                                     this.disabled = false
                                 }
@@ -1127,7 +1145,7 @@
 
                     }
 
-                    
+
 
                 }
             },
@@ -1199,11 +1217,10 @@
                 window.location = axios.defaults.baseURL + "/orders"
             },
 
+
         }
 
 
     }
-
-
 
 </script>

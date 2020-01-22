@@ -9,11 +9,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="bal in balance" v-if="balance2.length > 0">
+                <tr v-for="(bal,index) in balance" v-if="balance.length > 0 && balance">
 
-                    <td class="text-left">{{bal.name}} </td>
-                    <td class="text-left">{{bal.qty }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox"
-                            class="form-check-input" id="exampleCheck1" :checked="bal.active"> </td>
+                    <td class="text-left"> <input type="checkbox" class="form-check-input" id="exampleCheck1"
+                            :checked="bal.active" @click="disableProduct(index)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{bal.name}} </td>
+                    <td class="text-left">{{bal.qty }} </td>  </td>
                 </tr>
 
             </tbody>
@@ -24,25 +24,25 @@
 <script>
     export default {
         mounted() {
-            
-            if (this.balance){
             console.log('Component mounted.')
-            console.log(JSON.parse(this.balance))
-            }else{
-                console.log("still waiting")
-            }
+            console.log(this.balance)
+
         },
         data() {
             return {
-                balance2: [
-                    {name: "aze", qty: 45},
-                    {name: "qsd", qty: 20},
-                ]
+
             }
 
 
         },
-        props: ['balance']
+        props: ['balance'],
+        methods: {
+            disableProduct(index) {
+                this.balance[index].active = !this.balance[index].active
+                this.$emit('update-balance', this.balance)
+
+            }
+        }
 
 
     }
