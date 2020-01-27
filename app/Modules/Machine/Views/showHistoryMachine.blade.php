@@ -148,7 +148,7 @@
                                 <h3 class="box-title">Historique</h3>
                             </div>
                             <!-- /.box-header -->
-                            <div class="box-body">
+                            <div class="box-body scrollable-table">
                                 <table class="table table-bordered table-hover example2">
                                     <thead>
                                         <tr>

@@ -299,94 +299,96 @@
 
                             </div>
 
-
-                            <table class="tables">
-                                <thead>
-
-                                    <th class="no-sort">Jour</th>
-                                    <th>Ouverture Matin</th>
-                                    <th> Clôture Matin</th>
-                                    <th>Ouverture Aprés midi</th>
-                                    <th> Clôture Aprés midi</th>
-                                    <th>Fermé</th>
-
-                                </thead>
-                                <tbody>
-                                    @forelse($store->schedules as $key=>$schedule)
-                                    <tr>
-                                        <td>
-                                            @switch($schedule->day)
-                                            @case(1)
-                                            Lundi
-                                            <input type="hidden" name="schedules[{{$key}}][0]"
-                                                value="{{$schedule->id}}">
-                                            @break
-                                            @case(2)
-                                            Mardi
-                                            <input type="hidden" name="schedules[{{$key}}][0]"
-                                                value="{{$schedule->id}}">
-                                            @break
-                                            @case(3)
-                                            Mercredi
-                                            <input type="hidden" name="schedules[{{$key}}][0]"
-                                                value="{{$schedule->id}}">
-                                            @break
-                                            @case(4)
-                                            Jeudi
-                                            <input type="hidden" name="schedules[{{$key}}][0]"
-                                                value="{{$schedule->id}}">
-                                            @break
-                                            @case(5)
-                                            Vendredi
-                                            <input type="hidden" name="schedules[{{$key}}][0]"
-                                                value="{{$schedule->id}}">
-                                            @break
-                                            @case(6)
-                                            Samedi
-                                            <input type="hidden" name="schedules[{{$key}}][0]"
-                                                value="{{$schedule->id}}">
-                                            @break
-                                            @case(7)
-                                            dimanche
-                                            <input type="hidden" name="schedules[{{$key}}][0]"
-                                                value="{{$schedule->id}}">
-                                            @endswitch
-
-                                        </td>
-                                        <td> <input type="time" class="form-control times" min='00:00' max='23:59'
-                                                name="schedules[{{$key}}][1]" value="{{$schedule->start_day_time}}"
-                                                {{$schedule->closed == 1 ? 'readonly' :  ''}}></td>
-                                        <td> <input type="time" class="form-control times" min='00:00' max='23:59'
-                                                name="schedules[{{$key}}][2]" value="{{$schedule->end_day_time}}"
-                                                {{$schedule->closed == 1 ? 'readonly' :  ''}}></td>
-                                        <td> <input type="time" class="form-control times" min='00:00' max='23:59'
-                                                name="schedules[{{$key}}][3]" value="{{$schedule->start_night_time}}"
-                                                {{$schedule->closed == 1 ? 'readonly' :  ''}}></td>
-                                        <td> <input type="time" class="form-control times" min='00:00' max='23:59'
-                                                name="schedules[{{$key}}][4]" value="{{$schedule->end_night_time}}"
-                                                {{$schedule->closed == 1 ? 'readonly' :  ''}}></td>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox"
-                                                    name="schedules[{{$key}}][5]"
-                                                    {{ $schedule->closed == 1 ? 'checked' : '' }}>
-
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                    @empty
-                                    <tr></tr>
-                                    @endforelse
-
-
-
-
-
-                                </tbody>
-                                <tfoot>
-                                </tfoot>
-                            </table>
+                            <div class="scrollable-table">
+                                <table class="tables">
+                                    <thead>
+    
+                                        <th class="no-sort">Jour</th>
+                                        <th>Ouverture Matin</th>
+                                        <th> Clôture Matin</th>
+                                        <th>Ouverture Aprés midi</th>
+                                        <th> Clôture Aprés midi</th>
+                                        <th>Fermé</th>
+    
+                                    </thead>
+                                    <tbody>
+                                        @forelse($store->schedules as $key=>$schedule)
+                                        <tr>
+                                            <td>
+                                                @switch($schedule->day)
+                                                @case(1)
+                                                Lundi
+                                                <input type="hidden" name="schedules[{{$key}}][0]"
+                                                    value="{{$schedule->id}}">
+                                                @break
+                                                @case(2)
+                                                Mardi
+                                                <input type="hidden" name="schedules[{{$key}}][0]"
+                                                    value="{{$schedule->id}}">
+                                                @break
+                                                @case(3)
+                                                Mercredi
+                                                <input type="hidden" name="schedules[{{$key}}][0]"
+                                                    value="{{$schedule->id}}">
+                                                @break
+                                                @case(4)
+                                                Jeudi
+                                                <input type="hidden" name="schedules[{{$key}}][0]"
+                                                    value="{{$schedule->id}}">
+                                                @break
+                                                @case(5)
+                                                Vendredi
+                                                <input type="hidden" name="schedules[{{$key}}][0]"
+                                                    value="{{$schedule->id}}">
+                                                @break
+                                                @case(6)
+                                                Samedi
+                                                <input type="hidden" name="schedules[{{$key}}][0]"
+                                                    value="{{$schedule->id}}">
+                                                @break
+                                                @case(7)
+                                                dimanche
+                                                <input type="hidden" name="schedules[{{$key}}][0]"
+                                                    value="{{$schedule->id}}">
+                                                @endswitch
+    
+                                            </td>
+                                            <td> <input type="time" class="form-control times" min='00:00' max='23:59'
+                                                    name="schedules[{{$key}}][1]" value="{{$schedule->start_day_time}}"
+                                                    {{$schedule->closed == 1 ? 'readonly' :  ''}}></td>
+                                            <td> <input type="time" class="form-control times" min='00:00' max='23:59'
+                                                    name="schedules[{{$key}}][2]" value="{{$schedule->end_day_time}}"
+                                                    {{$schedule->closed == 1 ? 'readonly' :  ''}}></td>
+                                            <td> <input type="time" class="form-control times" min='00:00' max='23:59'
+                                                    name="schedules[{{$key}}][3]" value="{{$schedule->start_night_time}}"
+                                                    {{$schedule->closed == 1 ? 'readonly' :  ''}}></td>
+                                            <td> <input type="time" class="form-control times" min='00:00' max='23:59'
+                                                    name="schedules[{{$key}}][4]" value="{{$schedule->end_night_time}}"
+                                                    {{$schedule->closed == 1 ? 'readonly' :  ''}}></td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        name="schedules[{{$key}}][5]"
+                                                        {{ $schedule->closed == 1 ? 'checked' : '' }}>
+    
+                                                </div>
+                                            </td>
+    
+                                        </tr>
+                                        @empty
+                                        <tr></tr>
+                                        @endforelse
+    
+    
+    
+    
+    
+                                    </tbody>
+                                    <tfoot>
+                                    </tfoot>
+                                </table>
+                            </div>
+                    
 
                         </div>
                         <div class="row">

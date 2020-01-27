@@ -11014,51 +11014,63 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                     _this8.balance = _.filter(_this8.balance, function (o) {
                       return o.active;
                     });
-                    axios.post("/api/order/".concat(_this8.order_id, "/prepare/submit"), {
-                      final_prepared: _this8.final_prepared,
-                      balance: _this8.balance,
-                      new_status: _this8.new_status,
-                      user_id: _this8.user_id
-                    }).then(function (response) {
-                      if (response.data.status == 200) {
-                        swal.fire({
-                          type: 'success',
-                          title: 'La commande a été préparée avec succés !',
-                          showConfirmButton: true,
-                          allowOutsideClick: false,
-                          confirmButtonText: 'Fermer'
-                        }).then(function (result) {
-                          if (result.value) {
-                            window.location = window.location = axios.defaults.baseURL + '/orders';
-                          }
-                        });
-                      }
 
-                      if (response.data.status == 400) {
-                        _this8.disabled = false;
-                        var unavailable_stock = response.data.unavailableStock;
-                        swal.fire({
-                          type: 'error',
-                          title: 'Stock Insuffisant !',
-                          showConfirmButton: true,
-                          allowOutsideClick: false,
-                          confirmButtonText: 'Fermer'
-                        });
+                    if (_this8.balance.length == 0) {
+                      swal.fire({
+                        type: 'error',
+                        title: 'Veuillez séléctionner au moins un produit  ',
+                        showConfirmButton: true,
+                        confirmButtonText: 'Fermer',
+                        allowOutsideClick: false
+                      });
+                      _this8.disabled = false;
+                    } else {
+                      axios.post("/api/order/".concat(_this8.order_id, "/prepare/submit"), {
+                        final_prepared: _this8.final_prepared,
+                        balance: _this8.balance,
+                        new_status: _this8.new_status,
+                        user_id: _this8.user_id
+                      }).then(function (response) {
+                        if (response.data.status == 200) {
+                          swal.fire({
+                            type: 'success',
+                            title: 'La commande a été préparée avec succés !',
+                            showConfirmButton: true,
+                            allowOutsideClick: false,
+                            confirmButtonText: 'Fermer'
+                          }).then(function (result) {
+                            if (result.value) {
+                              window.location = axios.defaults.baseURL + '/orders';
+                            }
+                          });
+                        }
 
-                        _this8.final_prepared.forEach(function (_final6) {
-                          _final6.prepared_products.forEach(function (prepared) {
-                            unavailable_stock.forEach(function (stock) {
-                              if (prepared.id == stock.id) {
-                                prepared.quantity = stock.quantity;
-                                prepared.pivot.quantity = '';
-                              }
+                        if (response.data.status == 400) {
+                          _this8.disabled = false;
+                          var unavailable_stock = response.data.unavailableStock;
+                          swal.fire({
+                            type: 'error',
+                            title: 'Stock Insuffisant !',
+                            showConfirmButton: true,
+                            allowOutsideClick: false,
+                            confirmButtonText: 'Fermer'
+                          });
+
+                          _this8.final_prepared.forEach(function (_final6) {
+                            _final6.prepared_products.forEach(function (prepared) {
+                              unavailable_stock.forEach(function (stock) {
+                                if (prepared.id == stock.id) {
+                                  prepared.quantity = stock.quantity;
+                                  prepared.pivot.quantity = '';
+                                }
+                              });
                             });
                           });
-                        });
-                      }
-                    })["catch"](function (error) {
-                      console.log(error);
-                    });
+                        }
+                      })["catch"](function (error) {
+                        console.log(error);
+                      });
+                    }
                   } else if (result.dismiss == 'cancel') {
                     // commande normal
                     axios.post("/api/order/".concat(_this8.order_id, "/prepare/submit"), {

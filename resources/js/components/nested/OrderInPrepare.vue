@@ -882,7 +882,21 @@
                                             this.balance = _.filter(this.balance, function (o) {
                                                 return o.active;
                                             });
-                                            axios.post(
+                                            if(this.balance.length == 0 )
+                                            {
+                                                   swal.fire({
+                                                            type: 'error',
+                                                            title: 'Veuillez séléctionner au moins un produit  ',
+                                                            showConfirmButton: true,
+                                                            confirmButtonText: 'Fermer',
+                                                            allowOutsideClick: false,
+
+                                                        });
+                                                        this.disabled=false
+
+                                            }
+                                            else{
+                                                  axios.post(
                                                     `/api/order/${this.order_id}/prepare/submit`, {
                                                         final_prepared: this.final_prepared,
                                                         balance: this.balance,
@@ -899,7 +913,7 @@
                                                             confirmButtonText: 'Fermer'
                                                         }).then((result) => {
                                                             if (result.value) {
-                                                                window.location =
+                                                   
                                                                     window
                                                                     .location =
                                                                     axios
@@ -962,6 +976,9 @@
                                                 .catch((error) => {
                                                     console.log(error);
                                                 });
+
+                                            }
+                                          
 
 
                                         } else if (result.dismiss == 'cancel') {

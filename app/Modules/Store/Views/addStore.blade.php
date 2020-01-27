@@ -225,160 +225,162 @@
                                 <label style="font-size: 24px; margin-top: 24px; font-weight: bold;"> Horaires</label>
 
                             </div>
-
-                            <table class="tables">
-                                <thead>
-
-                                    <th class="no-sort">Jour</th>
-                                    <th>Ouverture Matin</th>
-                                    <th> Clôture Matin</th>
-                                    <th>Ouverture Aprés midi</th>
-                                    <th> Clôture Aprés midi</th>
-                                    <th>Fermé</th>
-
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Lundi</td>
-                                        <td> <input type="time" class="form-control" name="mondayDayStart"
-                                                value="{{old('mondayDayStart') }}"></td>
-                                        <td> <input type="time" class="form-control" name="mondayDayEnd"
-                                                value="{{old('mondayDayEnd')}}"></td>
-                                        <td> <input type="time" class="form-control" name="mondayNightStart"
-                                                value="{{old('mondayNightStart')}}"></td>
-                                        <td> <input type="time" class="form-control" name="mondayNightEnd"
-                                                value="{{old('mondayNightEnd')}}"></td>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" name="mondayClosed" type="checkbox"
-                                                    id="gridCheck" @if(old('mondayClosed')) checked @endif>
-
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>Mardi</td>
-                                        <td> <input type="time" class="form-control" name="tuesdayDayStart"
-                                                value="{{old('tuesdayDayStart')}}"></td>
-                                        <td> <input type="time" class="form-control" name="tuesdayDayEnd"
-                                                value="{{old('tuesdayDayEnd')}}"></td>
-                                        <td> <input type="time" class="form-control" name="tuesdayNightStart"
-                                                value="{{old('tuesdayNightStart')}}"></td>
-                                        <td> <input type="time" class="form-control" name="tuesdayNightEnd"
-                                                value="{{old('tuesdayNightEnd')}}"></td>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" name="tuesdayClosed" type="checkbox"
-                                                    id="gridCheck" @if(old('tuesdayClosed')) checked @endif>
-
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <td>Mercredi</td>
-                                        <td> <input type="time" class="form-control" name="wednesdayDayStart"
-                                                value="{{old('wednesdayDayStart')}}"></td>
-                                        <td> <input type="time" class="form-control" name="wednesdayDayEnd"
-                                                value="{{old('wednesdayDayEnd')}}"></td>
-                                        <td> <input type="time" class="form-control" name="wednesdayNightStart"
-                                                value="{{old('wednesdayNightStart')}}"></td>
-                                        <td> <input type="time" class="form-control" name="wednesdayNightEnd"
-                                                value="{{old('wednesdayNightEnd')}}"></td>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" name="wednesdayClosed" type="checkbox"
-                                                    id="gridCheck" @if(old('wednesdayClosed')) checked @endif>
-
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <td>Jeudi</td>
-                                        <td> <input type="time" class="form-control" name="thursdayDayStart"
-                                                value="{{old('thursdayDayStart')}}"></td>
-                                        <td> <input type="time" class="form-control" name="thursdayDayEnd"
-                                                value="{{old('thursdayDayEnd')}}"></td>
-                                        <td> <input type="time" class="form-control" name="thursdayNightStart"
-                                                value="{{old('thursdayNightStart')}}"></td>
-                                        <td> <input type="time" class="form-control" name="thursdayNightEnd"
-                                                value="{{old('thursdayNightEnd')}}"></td>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" name="thursdayClosed" type="checkbox"
-                                                    id="gridCheck" @if(old('thursdayClosed')) checked @endif>
-
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <td>Vendredi</td>
-                                        <td> <input type="time" class="form-control" name="fridayDayStart"
-                                                value="{{old('fridayDayStart')}}"></td>
-                                        <td> <input type="time" class="form-control" name="fridayDayEnd"
-                                                value="{{old('fridayDayEnd')}}"></td>
-                                        <td> <input type="time" class="form-control" name="fridayNightStart"
-                                                value="{{old('fridayNightStart')}}"></td>
-                                        <td> <input type="time" class="form-control" name="fridayNightEnd"
-                                                value="{{old('fridayNightEnd')}}"></td>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" name="fridayClosed" type="checkbox"
-                                                    id="gridCheck" @if(old('fridayClosed')) checked @endif>
-
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <td>Samedi</td>
-                                        <td> <input type="time" class="form-control" name="saturdayDayStart"
-                                                value="{{old('saturdayDayStart')}}"></td>
-                                        <td> <input type="time" class="form-control" name="saturdayDayEnd"
-                                                value="{{old('saturdayDayEnd')}}"></td>
-                                        <td> <input type="time" class="form-control" name="saturdayNightStart"
-                                                value="{{old('saturdayNightStart')}}"></td>
-                                        <td> <input type="time" class="form-control" name="saturdayNightEnd"
-                                                value="{{old('saturdayNightEnd')}}"></td>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" name="saturdayClosed" type="checkbox"
-                                                    id="gridCheck" @if(old('saturdayClosed')) checked @endif>
-
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <td>Dimanche</td>
-                                        <td> <input type="time" class="form-control" name="sundayDayStart"
-                                                value="{{old('sundayDayStart')}}"></td>
-                                        <td> <input type="time" class="form-control" name="sundayDayEnd"
-                                                value="{{old('sundayDayEnd')}}"></td>
-                                        <td> <input type="time" class="form-control" name="sundayNightStart"
-                                                value="{{old('sundayNightStart')}}"> </td>
-                                        <td> <input type="time" class="form-control" name="sundayNightEnd"
-                                                value="{{old('sundayNightEnd')}}"></td>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" name="sundayClosed" type="checkbox"
-                                                    id="gridCheck" @if(old('sundayClosed')) checked @endif>
-
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-
-
-                                </tbody>
-                                <tfoot>
-                                </tfoot>
-                            </table>
+                            <div class="scrollable-table">
+                                <table class="tables">
+                                    <thead>
+    
+                                        <th class="no-sort">Jour</th>
+                                        <th>Ouverture Matin</th>
+                                        <th> Clôture Matin</th>
+                                        <th>Ouverture Aprés midi</th>
+                                        <th> Clôture Aprés midi</th>
+                                        <th>Fermé</th>
+    
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Lundi</td>
+                                            <td> <input type="time" class="form-control" name="mondayDayStart"
+                                                    value="{{old('mondayDayStart') }}"></td>
+                                            <td> <input type="time" class="form-control" name="mondayDayEnd"
+                                                    value="{{old('mondayDayEnd')}}"></td>
+                                            <td> <input type="time" class="form-control" name="mondayNightStart"
+                                                    value="{{old('mondayNightStart')}}"></td>
+                                            <td> <input type="time" class="form-control" name="mondayNightEnd"
+                                                    value="{{old('mondayNightEnd')}}"></td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" name="mondayClosed" type="checkbox"
+                                                        id="gridCheck" @if(old('mondayClosed')) checked @endif>
+    
+                                                </div>
+                                            </td>
+    
+                                        </tr>
+    
+                                        <tr>
+                                            <td>Mardi</td>
+                                            <td> <input type="time" class="form-control" name="tuesdayDayStart"
+                                                    value="{{old('tuesdayDayStart')}}"></td>
+                                            <td> <input type="time" class="form-control" name="tuesdayDayEnd"
+                                                    value="{{old('tuesdayDayEnd')}}"></td>
+                                            <td> <input type="time" class="form-control" name="tuesdayNightStart"
+                                                    value="{{old('tuesdayNightStart')}}"></td>
+                                            <td> <input type="time" class="form-control" name="tuesdayNightEnd"
+                                                    value="{{old('tuesdayNightEnd')}}"></td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" name="tuesdayClosed" type="checkbox"
+                                                        id="gridCheck" @if(old('tuesdayClosed')) checked @endif>
+    
+                                                </div>
+                                            </td>
+    
+                                        </tr>
+                                        <tr>
+                                            <td>Mercredi</td>
+                                            <td> <input type="time" class="form-control" name="wednesdayDayStart"
+                                                    value="{{old('wednesdayDayStart')}}"></td>
+                                            <td> <input type="time" class="form-control" name="wednesdayDayEnd"
+                                                    value="{{old('wednesdayDayEnd')}}"></td>
+                                            <td> <input type="time" class="form-control" name="wednesdayNightStart"
+                                                    value="{{old('wednesdayNightStart')}}"></td>
+                                            <td> <input type="time" class="form-control" name="wednesdayNightEnd"
+                                                    value="{{old('wednesdayNightEnd')}}"></td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" name="wednesdayClosed" type="checkbox"
+                                                        id="gridCheck" @if(old('wednesdayClosed')) checked @endif>
+    
+                                                </div>
+                                            </td>
+    
+                                        </tr>
+                                        <tr>
+                                            <td>Jeudi</td>
+                                            <td> <input type="time" class="form-control" name="thursdayDayStart"
+                                                    value="{{old('thursdayDayStart')}}"></td>
+                                            <td> <input type="time" class="form-control" name="thursdayDayEnd"
+                                                    value="{{old('thursdayDayEnd')}}"></td>
+                                            <td> <input type="time" class="form-control" name="thursdayNightStart"
+                                                    value="{{old('thursdayNightStart')}}"></td>
+                                            <td> <input type="time" class="form-control" name="thursdayNightEnd"
+                                                    value="{{old('thursdayNightEnd')}}"></td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" name="thursdayClosed" type="checkbox"
+                                                        id="gridCheck" @if(old('thursdayClosed')) checked @endif>
+    
+                                                </div>
+                                            </td>
+    
+                                        </tr>
+                                        <tr>
+                                            <td>Vendredi</td>
+                                            <td> <input type="time" class="form-control" name="fridayDayStart"
+                                                    value="{{old('fridayDayStart')}}"></td>
+                                            <td> <input type="time" class="form-control" name="fridayDayEnd"
+                                                    value="{{old('fridayDayEnd')}}"></td>
+                                            <td> <input type="time" class="form-control" name="fridayNightStart"
+                                                    value="{{old('fridayNightStart')}}"></td>
+                                            <td> <input type="time" class="form-control" name="fridayNightEnd"
+                                                    value="{{old('fridayNightEnd')}}"></td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" name="fridayClosed" type="checkbox"
+                                                        id="gridCheck" @if(old('fridayClosed')) checked @endif>
+    
+                                                </div>
+                                            </td>
+    
+                                        </tr>
+                                        <tr>
+                                            <td>Samedi</td>
+                                            <td> <input type="time" class="form-control" name="saturdayDayStart"
+                                                    value="{{old('saturdayDayStart')}}"></td>
+                                            <td> <input type="time" class="form-control" name="saturdayDayEnd"
+                                                    value="{{old('saturdayDayEnd')}}"></td>
+                                            <td> <input type="time" class="form-control" name="saturdayNightStart"
+                                                    value="{{old('saturdayNightStart')}}"></td>
+                                            <td> <input type="time" class="form-control" name="saturdayNightEnd"
+                                                    value="{{old('saturdayNightEnd')}}"></td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" name="saturdayClosed" type="checkbox"
+                                                        id="gridCheck" @if(old('saturdayClosed')) checked @endif>
+    
+                                                </div>
+                                            </td>
+    
+                                        </tr>
+                                        <tr>
+                                            <td>Dimanche</td>
+                                            <td> <input type="time" class="form-control" name="sundayDayStart"
+                                                    value="{{old('sundayDayStart')}}"></td>
+                                            <td> <input type="time" class="form-control" name="sundayDayEnd"
+                                                    value="{{old('sundayDayEnd')}}"></td>
+                                            <td> <input type="time" class="form-control" name="sundayNightStart"
+                                                    value="{{old('sundayNightStart')}}"> </td>
+                                            <td> <input type="time" class="form-control" name="sundayNightEnd"
+                                                    value="{{old('sundayNightEnd')}}"></td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" name="sundayClosed" type="checkbox"
+                                                        id="gridCheck" @if(old('sundayClosed')) checked @endif>
+    
+                                                </div>
+                                            </td>
+    
+                                        </tr>
+    
+    
+    
+                                    </tbody>
+                                    <tfoot>
+                                    </tfoot>
+                                </table>
+                            </div>
+                       
 
                             <div class="row">
                                 <div class="container text-center">
