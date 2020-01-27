@@ -265,6 +265,13 @@ class CompaniesTableSeeder extends Seeder
             Bac::create([
                 'order' => $i + 1,
                 'machine_id' => $machineOne->id,
+                'final_amount' =>10, 
+                'needed_weight' =>5, 
+                'water_amount' =>3, 
+                'sugar_amount' =>4, 
+                'glass_size' =>10, 
+                'number_of_glasses' =>11
+                
             ]);
         }
 
@@ -284,8 +291,15 @@ class CompaniesTableSeeder extends Seeder
 
         for ($j = 0; $j < 2; $j++) {
             Bac::create([
-                'order' => $j + 1,
-                'machine_id' => $machineTwo->id,
+                'order' => $i + 1,
+                'machine_id' => $machineOne->id,
+                'final_amount' =>10, 
+                'needed_weight' =>5, 
+                'water_amount' =>3, 
+                'sugar_amount' =>4, 
+                'glass_size' =>10, 
+                'number_of_glasses' =>11
+                
             ]);
         }
 
