@@ -64,14 +64,11 @@ class MachineController extends Controller
             'code' => 'required',
             'barcode' => 'required',
             'designation' => 'required',
-            'number_bacs' => 'required|numeric',
             'price_month' => 'required|numeric',
         ], [
             'code.required' => 'le champ code est obligatoire',
             'barcode.required' => ' le champ code a barres est obligatoire',
             'designation.required' => 'le champ designation est obligatoire',
-            'number_bacs.required' => 'le champ nombre de bacs est obligatoire',
-            'number_bacs.numeric' => 'le champ nombre de bacs doit etre un nombre',
             'price_month.required' => 'le champ prix de location mensuel est obligatoire',
             'price_month.numeric' => 'le champ prix de location mensuel n\'est pas valide',
         ]);
@@ -82,6 +79,10 @@ class MachineController extends Controller
             $path = $this->image->uploadBinaryImage($request->photo);
             $instertable['photo_url'] = $path;
         }
+
+        unset($instertable['photo']);
+        unset($instertable['_token']);
+        unset($instertable['number_bacs']);
 
         $instertable['display_tablet'] = $instertable['display_tablet'] == 'true';
         $machine = Machine::create($instertable);
