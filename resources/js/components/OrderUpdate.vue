@@ -159,7 +159,7 @@
                     </div>
 
                 </div>
-                <div class="box-body">
+                <div class="box-body scrollable-table">
                     <table class="table">
                         <thead>
                             <tr>
@@ -198,11 +198,11 @@
                                 <td><input type="text" class="form-control" disabled placeholder="Colisage.."
                                         v-model="ordered.product_packing"></td>
                                 <td><input type="text" class="form-control" disabled placeholder="Prix unitaire.."
-                                        v-model="ordered.public_price"></td>
+                                        :value="convertCurrency(ordered.public_price)"></td>
                                 <td><input type="text" class="form-control" disabled placeholder="TVA.."
                                         v-model="ordered.tva"></td>
                                 <td><input type="text" class="form-control" disabled placeholder="Total Produit.."
-                                        v-model="ordered.total"></td>
+                                        :value="convertCurrency(ordered.total)"></td>
 
                                 <td>
 
@@ -368,12 +368,11 @@
                                 package: ordered.pivot.package,
                                 unit: ordered.pivot.unit,
                                 product_packing: ordered.packing,
-                                public_price: this.convertCurrency(ordered.pivot.custom_price),
+                                public_price: ordered.pivot.custom_price,
                                 tva: ordered.pivot.custom_tva,
                                 products: this.products,
                                 product_id: ordered.id,
-                                total: this.convertCurrency(parseFloat(ordered.pivot.custom_price) *
-                                    ordered.pivot.unit),
+                                total: ordered.pivot.custom_price* ordered.pivot.unit,
                                 product_total_tva: ordered.tva
 
                             });
@@ -564,15 +563,15 @@
                                     // });
                                   
                                     this.custom_ordered[index].product_packing = response.data.product.packing;
-                                    this.custom_ordered[index].public_price = this.convertCurrency(response.data.custom_price.price)
+                                    this.custom_ordered[index].public_price = response.data.custom_price.price
                                     this.custom_ordered[index].tva = response.data.product.tva;
 
                                 } else {
                                     this.custom_ordered[index].product_packing = response.data.product.packing;
 
-                                    this.custom_ordered[index].public_price = this.convertCurrency(response.data
+                                    this.custom_ordered[index].public_price = response.data
                                         .product
-                                        .public_price);
+                                        .public_price;
 
 
 
@@ -625,8 +624,8 @@
 
                 for (let i in this.custom_ordered) {
                     if (this.custom_ordered[i].total != "") {
-                        this.total_tva += (this.convertMoneyFormat(this.custom_ordered[i].total) * this
-                            .custom_ordered[i].tva / 100);
+                        this.total_tva += this.custom_ordered[i].total * this
+                            .custom_ordered[i].tva / 100;
 
                     }
 
@@ -676,9 +675,8 @@
 
 
                     ordered.unit = ordered.package * ordered.product_packing;
-                    ordered.total = this.convertCurrency(this.convertMoneyFormat(ordered.public_price) * ordered.unit);
-                    ordered.product_total_tva = this.convertMoneyFormat(ordered.total) + this.convertMoneyFormat(ordered.total) * ordered.tva /
-                        100;
+                    ordered.total = ordered.public_price * ordered.unit;
+                    ordered.product_total_tva = ordered.total + ordered.total * ordered.tva / 100;
                     this.clearOrderedProducts();
                 }
             },
@@ -688,9 +686,8 @@
                     ordered.product_total_tva = 0;
                     ordered.total = 0;
                     ordered.package = Math.ceil(ordered.unit / ordered.product_packing)
-                    ordered.total = this.convertCurrency(this.convertMoneyFormat(ordered.public_price) * ordered.unit);
-                    ordered.product_total_tva = this.convertMoneyFormat(ordered.total) + this.convertMoneyFormat(ordered.total) * ordered.tva /
-                        100;
+                    ordered.total = ordered.public_price * ordered.unit;
+                    ordered.product_total_tva = ordered.total + ordered.total * ordered.tva /100;
                     this.clearOrderedProducts();
                 }
 
@@ -766,6 +763,8 @@
             saveOrder() {
                 this.disabled = true;
                 if (this.validateForm()) {
+                    console.log('******')
+                    console.log(this.custom_ordered);
                     axios.post('/api/order/product/update/' + this.order_id, {
 
                             company_id: this.company_id,
@@ -805,8 +804,10 @@
             },
 
             updateOrder() {
+  
                 this.disabled = true;
                 if (this.validateForm()) {
+                   
                     axios.post('/api/order/product/update/' + this.order_id, {
 
                             company_id: this.company_id,

@@ -16,7 +16,7 @@ class OrderController extends Controller
 {
     public function handleSaveOrder(Request $request)
     {
-
+      
         $checkCount = Order::count();
         if ($checkCount > 0) {
             $code = Order::all()->last()->id + 1;
@@ -37,7 +37,6 @@ class OrderController extends Controller
         $customisedProduct = [];
         if ($request->input('ordered_products')) {
             foreach ($request->input('ordered_products') as $ordered) {
-
                 $customisedProduct = [
                     'package' => (int) $ordered['packing'],
                     'unit' => (int) $ordered['unit'],

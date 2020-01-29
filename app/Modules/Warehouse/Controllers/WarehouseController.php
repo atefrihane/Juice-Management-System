@@ -101,6 +101,7 @@ class WarehouseController extends Controller
         $products = Product::all();
         $warehouses = Warehouse::all();
         if ($warehouse) {
+   
             return view('Warehouse::showAddWarehouseStock', compact('warehouse', 'products', 'warehouses'));
 
         }

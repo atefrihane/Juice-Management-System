@@ -144,7 +144,7 @@
                     </div>
 
                 </div>
-                <div class="box-body">
+                <div class="box-body scrollable-table">
                     <table class="table">
                         <thead>
                             <tr>
@@ -160,7 +160,7 @@
 
                         </thead>
                         <tbody>
-                            <tr v-for="(ordered,index) in ordered_products" :items="formatOrdered">
+                            <tr v-for="(ordered,index) in ordered_products" :items="formatOrdered" v-if="ordered_products">
                                 <td style="width:15%;">
                                     <select class="form-control" v-model="ordered.product_id"
                                         @change="getProductData($event,index)">
@@ -183,11 +183,11 @@
                                 <td><input type="text" class="form-control" disabled placeholder="Colisage.."
                                         v-model="ordered.product_packing"></td>
                                 <td><input type="text" class="form-control" disabled placeholder="Prix unitaire.."
-                                        v-model="ordered.public_price"></td>
+                                        :value="convertCurrency(ordered.public_price)"></td>
                                 <td><input type="text" class="form-control" disabled placeholder="TVA.."
                                         v-model="ordered.tva"></td>
                                 <td><input type="text" class="form-control" disabled placeholder="Total Produit.."
-                                        v-model="ordered.total"></td>
+                                        :value="convertCurrency(ordered.total)"></td>
 
                                 <td>
 
@@ -297,7 +297,7 @@
                 status: '',
                 disabled: false,
                 oldIds: [],
-                oldCompanyIds : [],
+                oldCompanyIds: [],
                 store: {
                     name: '',
                     address: '',
@@ -351,7 +351,8 @@
             },
             getCompanyData(event) {
                 this.oldCompanyIds.push(event.target.value)
-                if (this.total_ht > 0) {
+                let checkExistingProducts = this.checkExistingProduct();
+                if (checkExistingProducts > -1) {
                     swal.fire({
                         type: 'info',
                         title: 'Oups !',
@@ -396,7 +397,7 @@
                                 })
                         }
 
-                          if (result.dismiss == 'cancel') {
+                        if (result.dismiss == 'cancel') {
                             //get the first selected one since it's the oldest if canceling
                             this.company_id = this.oldCompanyIds[0]
                         }
@@ -404,30 +405,37 @@
 
                     })
 
+                } else {
+
+                    let id = event.target.value;
+                    this.stores = []
+                    axios.get('/api/companies/' + id)
+                        .then((response) => {
+                            this.store_id = '';
+                            this.stores = response.data.stores;
+                        })
+                        .catch(function (errdisor) {
+
+                            console.log(error);
+                        })
                 }
-                else{
-
-                      let id = event.target.value;
-                      this.stores = []
-                axios.get('/api/companies/' + id)
-                    .then((response) => {
-                        this.store_id = '';
-                        this.stores = response.data.stores;
-                    })
-                    .catch(function (errdisor) {
-
-                        console.log(error);
-                    })
-                }
 
 
+            },
+            checkExistingProduct() {
+                let productChosen = _.findIndex(this.ordered_products, function (o) {
+                    return o.product_id != '';
+                });
+
+                return productChosen
             },
             getStoreData(event) {
                 //reset old items
                 //add every selected store  
                 this.oldIds.push(event.target.value)
+                let checkExistingProducts = this.checkExistingProduct();
 
-                if (this.total_ht > 0) {
+                if (checkExistingProducts > -1) {
                     swal.fire({
                         type: 'info',
                         title: 'Oups !',
@@ -570,15 +578,14 @@
                                     this.ordered_products[index].product_packing = response.data.product.packing;
                                     this.ordered_products[index].public_price = response.data.custom_price.price;
                                     this.ordered_products[index].tva = response.data.product.tva;
-                                    this.ordered_products[index].public_price = this.convertCurrency(this
-                                        .ordered_products[index].public_price)
+                                    this.ordered_products[index].public_price = this.ordered_products[index].public_price
 
                                 } else {
                                     this.ordered_products[index].product_packing = response.data.product.packing;
 
-                                    this.ordered_products[index].public_price = this.convertCurrency(response.data
+                                    this.ordered_products[index].public_price = response.data
                                         .product
-                                        .public_price);
+                                        .public_price;
 
 
 
@@ -621,7 +628,7 @@
                 for (let i in this.ordered_products) {
                     if (this.ordered_products[i].total != "") {
 
-                        this.total_ht += this.convertMoneyFormat(this.ordered_products[i].total);
+                        this.total_ht += this.ordered_products[i].total;
 
                     }
 
@@ -633,7 +640,7 @@
                 for (let i in this.ordered_products) {
                     if (this.ordered_products[i].total != "") {
 
-                        this.total_tva += (this.convertMoneyFormat(this.ordered_products[i].total) * this
+                        this.total_tva += (this.ordered_products[i].total * this
                             .ordered_products[i].tva / 100);
 
                     }
@@ -664,9 +671,9 @@
                 if (ordered.packing != '' && ordered.packing > 0) {
 
                     ordered.unit = ordered.packing * ordered.product_packing;
-                    ordered.total = this.convertCurrency(this.convertMoneyFormat(ordered.public_price) * ordered.unit);
-                    ordered.product_total_tva = this.convertMoneyFormat(ordered.total) + this.convertMoneyFormat(ordered
-                            .total) * ordered.tva /
+                    ordered.total = ordered.public_price * ordered.unit;
+                    ordered.product_total_tva = ordered.total + ordered
+                            .total * ordered.tva /
                         100;
                     this.clearOrderedProducts();
                 } else {
@@ -694,8 +701,8 @@
                 if (ordered.unit != '' && ordered.unit > 0) {
 
                     ordered.packing = Math.ceil(ordered.unit / ordered.product_packing)
-                    ordered.total = this.convertCurrency(this.convertMoneyFormat(ordered.public_price) * ordered.unit);
-                    ordered.product_total_tva = (this.convertMoneyFormat(ordered.total) * ordered.tva / 100);
+                    ordered.total = ordered.public_price * ordered.unit;
+                    ordered.product_total_tva = ordered.total * ordered.tva / 100;
                     this.clearOrderedProducts();
                 } else {
 
@@ -776,8 +783,12 @@
 
             },
             submitSaveOrder() {
+                let that=this;
                 this.disabled = true;
                 if (this.validateForm()) {
+               
+                    // let filterOrdered=_.filter(this.ordered_products, function(o) { return that.convertMoneyFormat(public_price); });
+              
                     axios.post('/api/order/save', {
                             code: this.code,
                             company_id: this.company_id,
@@ -890,7 +901,7 @@
             },
             convertCurrency(value) {
                 let val = (value / 1).toFixed(2).replace('.', ',')
-                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "")
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
 
             }
 

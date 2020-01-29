@@ -177,7 +177,9 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Entrepôt</label>
-                                    @if(count($warehouses) > 0)
+                                    <input type="hidden"  name="warehouse_id" class="form-control" value="{{$warehouse->id}}">
+                                    <input type="text" class="form-control" value="{{$warehouse->designation}}" disabled>
+                                    {{-- @if(count($warehouses) > 0)
                                     <select class="form-control" name="warehouse_id" readonly>
                              
                                      @foreach($warehouses as $warehouse)
@@ -188,7 +190,7 @@
                                    <select name="warehouse_id" class="form-control" required>
                                    <option value=""> Aucun entrepôt</option>
                                    </select>
-                                   @endif
+                                   @endif --}}
                                 </div>
                             </div>
                         </div>

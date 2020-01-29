@@ -5323,8 +5323,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this2 = this;
 
       this.oldCompanyIds.push(event.target.value);
+      var checkExistingProducts = this.checkExistingProduct();
 
-      if (this.total_ht > 0) {
+      if (checkExistingProducts > -1) {
         swal.fire(_defineProperty({
           type: 'info',
           title: 'Oups !',
@@ -5373,14 +5374,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
       }
     },
+    checkExistingProduct: function checkExistingProduct() {
+      var productChosen = _.findIndex(this.ordered_products, function (o) {
+        return o.product_id != '';
+      });
+
+      return productChosen;
+    },
     getStoreData: function getStoreData(event) {
       var _this3 = this;
 
       //reset old items
       //add every selected store  
       this.oldIds.push(event.target.value);
+      var checkExistingProducts = this.checkExistingProduct();
 
-      if (this.total_ht > 0) {
+      if (checkExistingProducts > -1) {
         swal.fire(_defineProperty({
           type: 'info',
           title: 'Oups !',
@@ -5492,10 +5501,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               _this5.ordered_products[index].product_packing = response.data.product.packing;
               _this5.ordered_products[index].public_price = response.data.custom_price.price;
               _this5.ordered_products[index].tva = response.data.product.tva;
-              _this5.ordered_products[index].public_price = _this5.convertCurrency(_this5.ordered_products[index].public_price);
+              _this5.ordered_products[index].public_price = _this5.ordered_products[index].public_price;
             } else {
               _this5.ordered_products[index].product_packing = response.data.product.packing;
-              _this5.ordered_products[index].public_price = _this5.convertCurrency(response.data.product.public_price);
+              _this5.ordered_products[index].public_price = response.data.product.public_price;
               _this5.ordered_products[index].tva = response.data.product.tva;
             }
           })["catch"](function (error) {
@@ -5524,14 +5533,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       for (var i in this.ordered_products) {
         if (this.ordered_products[i].total != "") {
-          this.total_ht += this.convertMoneyFormat(this.ordered_products[i].total);
+          this.total_ht += this.ordered_products[i].total;
         }
       } // //  total des tax //
 
 
       for (var _i in this.ordered_products) {
         if (this.ordered_products[_i].total != "") {
-          this.total_tva += this.convertMoneyFormat(this.ordered_products[_i].total) * this.ordered_products[_i].tva / 100;
+          this.total_tva += this.ordered_products[_i].total * this.ordered_products[_i].tva / 100;
         }
       } // //  cout total de la commande  //
 
@@ -5548,8 +5557,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     setOrderdPacking: function setOrderdPacking(ordered, index) {
       if (ordered.packing != '' && ordered.packing > 0) {
         ordered.unit = ordered.packing * ordered.product_packing;
-        ordered.total = this.convertCurrency(this.convertMoneyFormat(ordered.public_price) * ordered.unit);
-        ordered.product_total_tva = this.convertMoneyFormat(ordered.total) + this.convertMoneyFormat(ordered.total) * ordered.tva / 100;
+        ordered.total = ordered.public_price * ordered.unit;
+        ordered.product_total_tva = ordered.total + ordered.total * ordered.tva / 100;
         this.clearOrderedProducts();
       } else {
         swal.fire({
@@ -5572,8 +5581,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (ordered.unit != '' && ordered.unit > 0) {
         ordered.packing = Math.ceil(ordered.unit / ordered.product_packing);
-        ordered.total = this.convertCurrency(this.convertMoneyFormat(ordered.public_price) * ordered.unit);
-        ordered.product_total_tva = this.convertMoneyFormat(ordered.total) * ordered.tva / 100;
+        ordered.total = ordered.public_price * ordered.unit;
+        ordered.product_total_tva = ordered.total * ordered.tva / 100;
         this.clearOrderedProducts();
       } else {
         swal.fire({
@@ -5642,9 +5651,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     submitSaveOrder: function submitSaveOrder() {
       var _this7 = this;
 
+      var that = this;
       this.disabled = true;
 
       if (this.validateForm()) {
+        // let filterOrdered=_.filter(this.ordered_products, function(o) { return that.convertMoneyFormat(public_price); });
         axios.post('/api/order/save', {
           code: this.code,
           company_id: this.company_id,
@@ -5735,7 +5746,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     convertCurrency: function convertCurrency(value) {
       var val = (value / 1).toFixed(2).replace('.', ',');
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     }
   }
 });
@@ -6202,11 +6213,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             "package": ordered.pivot["package"],
             unit: ordered.pivot.unit,
             product_packing: ordered.packing,
-            public_price: _this2.convertCurrency(ordered.pivot.custom_price),
+            public_price: ordered.pivot.custom_price,
             tva: ordered.tva,
             products: _this2.products,
             product_id: ordered.id,
-            total: _this2.convertCurrency(parseFloat(ordered.pivot.custom_price) * ordered.pivot.unit),
+            total: ordered.pivot.custom_price * ordered.pivot.unit,
             product_total_tva: ordered.tva
           });
         });
@@ -6540,7 +6551,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     },
     convertCurrency: function convertCurrency(value) {
       var val = (value / 1).toFixed(2).replace('.', ',');
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     },
     convertMoneyFormat: function convertMoneyFormat(value) {
       return parseFloat(value.replace(',', '.'));
@@ -6560,7 +6571,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
       for (var _i in this.custom_ordered) {
         if (this.custom_ordered[_i].total != "") {
-          this.total_tva += this.convertMoneyFormat(this.custom_ordered[_i].total) * this.custom_ordered[_i].tva / 100;
+          this.total_tva += this.custom_ordered[_i].total * this.custom_ordered[_i].tva / 100;
         }
       } // //  cout total de la commande  //
 
@@ -7456,11 +7467,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             "package": ordered.pivot["package"],
             unit: ordered.pivot.unit,
             product_packing: ordered.packing,
-            public_price: _this3.convertCurrency(ordered.pivot.custom_price),
+            public_price: ordered.pivot.custom_price,
             tva: ordered.pivot.custom_tva,
             products: _this3.products,
             product_id: ordered.id,
-            total: _this3.convertCurrency(parseFloat(ordered.pivot.custom_price) * ordered.pivot.unit),
+            total: ordered.pivot.custom_price * ordered.pivot.unit,
             product_total_tva: ordered.tva
           });
         });
@@ -7478,10 +7489,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           axios.post('/api/product/prices/' + billed.product_id, {
             store_id: _this3.store_id
           }).then(function (response) {
-            billed.public_price = _this3.convertCurrency(billed.public_price);
-            billed.total = _this3.convertCurrency(parseFloat(billed.public_price) * parseInt(billed.sum));
-            _this3.billed_total_ht += parseFloat(billed.total);
-            _this3.billed_total_tva += parseFloat(billed.total) * billed.tva / 100;
+            billed.public_price = billed.public_price;
+            billed.total = billed.public_price * billed.sum;
+            _this3.billed_total_ht += billed.total;
+            _this3.billed_total_tva += billed.total * billed.tva / 100;
             _this3.billed_total_order = _this3.billed_total_ht + _this3.billed_total_tva;
           })["catch"](function (error) {
             console.log(error);
@@ -7584,7 +7595,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       for (var _i in this.custom_ordered) {
         if (this.custom_ordered[_i].total != "") {
-          this.total_tva += this.convertMoneyFormat(this.custom_ordered[_i].total) * this.custom_ordered[_i].tva / 100;
+          this.total_tva += this.custom_ordered[_i].total * this.custom_ordered[_i].tva / 100;
         }
       } // //  cout total de la commande  //
 
@@ -7596,7 +7607,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     convertCurrency: function convertCurrency(value) {
       var val = (value / 1).toFixed(2).replace('.', ',');
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     },
     convertMoneyFormat: function convertMoneyFormat(value) {
       return parseFloat(value.replace(',', '.'));
@@ -8236,11 +8247,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             "package": ordered.pivot["package"],
             unit: ordered.pivot.unit,
             product_packing: ordered.packing,
-            public_price: _this.convertCurrency(ordered.pivot.custom_price),
+            public_price: ordered.pivot.custom_price,
             tva: ordered.pivot.custom_tva,
             products: _this.products,
             product_id: ordered.id,
-            total: _this.convertCurrency(parseFloat(ordered.pivot.custom_price) * ordered.pivot.unit),
+            total: ordered.pivot.custom_price * ordered.pivot.unit,
             product_total_tva: ordered.tva
           });
         });
@@ -8400,11 +8411,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               //     confirmButtonText: 'Fermer'
               // });
               _this7.custom_ordered[index].product_packing = response.data.product.packing;
-              _this7.custom_ordered[index].public_price = _this7.convertCurrency(response.data.custom_price.price);
+              _this7.custom_ordered[index].public_price = response.data.custom_price.price;
               _this7.custom_ordered[index].tva = response.data.product.tva;
             } else {
               _this7.custom_ordered[index].product_packing = response.data.product.packing;
-              _this7.custom_ordered[index].public_price = _this7.convertCurrency(response.data.product.public_price);
+              _this7.custom_ordered[index].public_price = response.data.product.public_price;
               _this7.custom_ordered[index].tva = response.data.product.tva;
             }
           })["catch"](function (error) {
@@ -8439,7 +8450,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       for (var _i in this.custom_ordered) {
         if (this.custom_ordered[_i].total != "") {
-          this.total_tva += this.convertMoneyFormat(this.custom_ordered[_i].total) * this.custom_ordered[_i].tva / 100;
+          this.total_tva += this.custom_ordered[_i].total * this.custom_ordered[_i].tva / 100;
         }
       } // //  cout total de la commande  //
 
@@ -8474,8 +8485,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     setOrderdPacking: function setOrderdPacking(ordered, index) {
       if (ordered["package"] != '') {
         ordered.unit = ordered["package"] * ordered.product_packing;
-        ordered.total = this.convertCurrency(this.convertMoneyFormat(ordered.public_price) * ordered.unit);
-        ordered.product_total_tva = this.convertMoneyFormat(ordered.total) + this.convertMoneyFormat(ordered.total) * ordered.tva / 100;
+        ordered.total = ordered.public_price * ordered.unit;
+        ordered.product_total_tva = ordered.total + ordered.total * ordered.tva / 100;
         this.clearOrderedProducts();
       }
     },
@@ -8484,8 +8495,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         ordered.product_total_tva = 0;
         ordered.total = 0;
         ordered["package"] = Math.ceil(ordered.unit / ordered.product_packing);
-        ordered.total = this.convertCurrency(this.convertMoneyFormat(ordered.public_price) * ordered.unit);
-        ordered.product_total_tva = this.convertMoneyFormat(ordered.total) + this.convertMoneyFormat(ordered.total) * ordered.tva / 100;
+        ordered.total = ordered.public_price * ordered.unit;
+        ordered.product_total_tva = ordered.total + ordered.total * ordered.tva / 100;
         this.clearOrderedProducts();
       }
     },
@@ -8553,6 +8564,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.disabled = true;
 
       if (this.validateForm()) {
+        console.log('******');
+        console.log(this.custom_ordered);
         axios.post('/api/order/product/update/' + this.order_id, {
           company_id: this.company_id,
           store_id: this.store_id,
@@ -89604,282 +89617,257 @@ var render = function() {
         _vm._v(" "),
         _vm._m(5),
         _vm._v(" "),
-        _c("div", { staticClass: "box-body" }, [
+        _c("div", { staticClass: "box-body scrollable-table" }, [
           _c("table", { staticClass: "table" }, [
             _vm._m(6),
             _vm._v(" "),
             _c(
               "tbody",
               _vm._l(_vm.ordered_products, function(ordered, index) {
-                return _c("tr", { attrs: { items: _vm.formatOrdered } }, [
-                  _c("td", { staticStyle: { width: "15%" } }, [
-                    _c(
-                      "select",
-                      {
-                        directives: [
+                return _vm.ordered_products
+                  ? _c("tr", { attrs: { items: _vm.formatOrdered } }, [
+                      _c("td", { staticStyle: { width: "15%" } }, [
+                        _c(
+                          "select",
                           {
-                            name: "model",
-                            rawName: "v-model",
-                            value: ordered.product_id,
-                            expression: "ordered.product_id"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        on: {
-                          change: [
-                            function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                ordered,
-                                "product_id",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            },
-                            function($event) {
-                              return _vm.getProductData($event, index)
-                            }
-                          ]
-                        }
-                      },
-                      [
-                        ordered.products.length > 0 &&
-                        ordered.products.length > 0
-                          ? _c(
-                              "option",
-                              { attrs: { value: "", disabled: "" } },
-                              [
-                                _vm._v(
-                                  "\n                                        Selectionner un\n                                        produit\n                                    "
-                                )
-                              ]
-                            )
-                          : _c("option", { attrs: { value: "" } }, [
-                              _vm._v(" Aucun produit ")
-                            ]),
-                        _vm._v(" "),
-                        _vm._l(ordered.products, function(product) {
-                          return _c(
-                            "option",
-                            { domProps: { value: product.id } },
-                            [
-                              _vm._v(
-                                _vm._s(product.nom) +
-                                  "\n                                    "
-                              )
-                            ]
-                          )
-                        })
-                      ],
-                      2
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: ordered.packing,
-                          expression: "ordered.packing"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "number",
-                        placeholder: "Nombre de colis",
-                        disabled: ordered.product_id == "",
-                        min: "1"
-                      },
-                      domProps: { value: ordered.packing },
-                      on: {
-                        change: function($event) {
-                          return _vm.setOrderdPacking(ordered, index)
-                        },
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(ordered, "packing", $event.target.value)
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: ordered.unit,
-                          expression: "ordered.unit"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "number",
-                        placeholder: "Nombre d'unités",
-                        disabled: ordered.product_id == ""
-                      },
-                      domProps: { value: ordered.unit },
-                      on: {
-                        change: function($event) {
-                          return _vm.setOrderdUnit(ordered, index)
-                        },
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(ordered, "unit", $event.target.value)
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: ordered.product_packing,
-                          expression: "ordered.product_packing"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "text",
-                        disabled: "",
-                        placeholder: "Colisage.."
-                      },
-                      domProps: { value: ordered.product_packing },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            ordered,
-                            "product_packing",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: ordered.public_price,
-                          expression: "ordered.public_price"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "text",
-                        disabled: "",
-                        placeholder: "Prix unitaire.."
-                      },
-                      domProps: { value: ordered.public_price },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(ordered, "public_price", $event.target.value)
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: ordered.tva,
-                          expression: "ordered.tva"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "text",
-                        disabled: "",
-                        placeholder: "TVA.."
-                      },
-                      domProps: { value: ordered.tva },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(ordered, "tva", $event.target.value)
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: ordered.total,
-                          expression: "ordered.total"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "text",
-                        disabled: "",
-                        placeholder: "Total Produit.."
-                      },
-                      domProps: { value: ordered.total },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(ordered, "total", $event.target.value)
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    index > 0
-                      ? _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-default",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.removeOrdered(ordered)
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: ordered.product_id,
+                                expression: "ordered.product_id"
                               }
+                            ],
+                            staticClass: "form-control",
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    ordered,
+                                    "product_id",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                },
+                                function($event) {
+                                  return _vm.getProductData($event, index)
+                                }
+                              ]
                             }
                           },
-                          [_c("i", { staticClass: "fa fa-minus" })]
+                          [
+                            ordered.products.length > 0 &&
+                            ordered.products.length > 0
+                              ? _c(
+                                  "option",
+                                  { attrs: { value: "", disabled: "" } },
+                                  [
+                                    _vm._v(
+                                      "\n                                        Selectionner un\n                                        produit\n                                    "
+                                    )
+                                  ]
+                                )
+                              : _c("option", { attrs: { value: "" } }, [
+                                  _vm._v(" Aucun produit ")
+                                ]),
+                            _vm._v(" "),
+                            _vm._l(ordered.products, function(product) {
+                              return _c(
+                                "option",
+                                { domProps: { value: product.id } },
+                                [
+                                  _vm._v(
+                                    _vm._s(product.nom) +
+                                      "\n                                    "
+                                  )
+                                ]
+                              )
+                            })
+                          ],
+                          2
                         )
-                      : _vm._e()
-                  ])
-                ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: ordered.packing,
+                              expression: "ordered.packing"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            placeholder: "Nombre de colis",
+                            disabled: ordered.product_id == "",
+                            min: "1"
+                          },
+                          domProps: { value: ordered.packing },
+                          on: {
+                            change: function($event) {
+                              return _vm.setOrderdPacking(ordered, index)
+                            },
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(ordered, "packing", $event.target.value)
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: ordered.unit,
+                              expression: "ordered.unit"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            placeholder: "Nombre d'unités",
+                            disabled: ordered.product_id == ""
+                          },
+                          domProps: { value: ordered.unit },
+                          on: {
+                            change: function($event) {
+                              return _vm.setOrderdUnit(ordered, index)
+                            },
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(ordered, "unit", $event.target.value)
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: ordered.product_packing,
+                              expression: "ordered.product_packing"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            disabled: "",
+                            placeholder: "Colisage.."
+                          },
+                          domProps: { value: ordered.product_packing },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                ordered,
+                                "product_packing",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("input", {
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            disabled: "",
+                            placeholder: "Prix unitaire.."
+                          },
+                          domProps: {
+                            value: _vm.convertCurrency(ordered.public_price)
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: ordered.tva,
+                              expression: "ordered.tva"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            disabled: "",
+                            placeholder: "TVA.."
+                          },
+                          domProps: { value: ordered.tva },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(ordered, "tva", $event.target.value)
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("input", {
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            disabled: "",
+                            placeholder: "Total Produit.."
+                          },
+                          domProps: {
+                            value: _vm.convertCurrency(ordered.total)
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        index > 0
+                          ? _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-default",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.removeOrdered(ordered)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-minus" })]
+                            )
+                          : _vm._e()
+                      ])
+                    ])
+                  : _vm._e()
               }),
               0
             )
@@ -90488,14 +90476,6 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [
                       _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: ordered.public_price,
-                            expression: "ordered.public_price"
-                          }
-                        ],
                         staticClass: "form-control",
                         attrs: {
                           type: "text",
@@ -90503,18 +90483,8 @@ var render = function() {
                           placeholder: "Prix unitaire..",
                           disabled: ""
                         },
-                        domProps: { value: ordered.public_price },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              ordered,
-                              "public_price",
-                              $event.target.value
-                            )
-                          }
+                        domProps: {
+                          value: _vm.convertCurrency(ordered.public_price)
                         }
                       })
                     ]),
@@ -90550,14 +90520,6 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [
                       _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: ordered.total,
-                            expression: "ordered.total"
-                          }
-                        ],
                         staticClass: "form-control",
                         attrs: {
                           type: "text",
@@ -90565,15 +90527,7 @@ var render = function() {
                           placeholder: "Total Produit..",
                           disabled: ""
                         },
-                        domProps: { value: ordered.total },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(ordered, "total", $event.target.value)
-                          }
-                        }
+                        domProps: { value: _vm.convertCurrency(ordered.total) }
                       })
                     ]),
                     _vm._v(" "),
@@ -91719,14 +91673,6 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [
                     _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: ordered.public_price,
-                          expression: "ordered.public_price"
-                        }
-                      ],
                       staticClass: "form-control",
                       attrs: {
                         type: "text",
@@ -91734,14 +91680,8 @@ var render = function() {
                         placeholder: "Prix unitaire..",
                         disabled: ""
                       },
-                      domProps: { value: ordered.public_price },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(ordered, "public_price", $event.target.value)
-                        }
+                      domProps: {
+                        value: _vm.convertCurrency(ordered.public_price)
                       }
                     })
                   ]),
@@ -91777,14 +91717,6 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [
                     _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: ordered.total,
-                          expression: "ordered.total"
-                        }
-                      ],
                       staticClass: "form-control",
                       attrs: {
                         type: "text",
@@ -91792,15 +91724,7 @@ var render = function() {
                         placeholder: "Total Produit..",
                         disabled: ""
                       },
-                      domProps: { value: ordered.total },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(ordered, "total", $event.target.value)
-                        }
-                      }
+                      domProps: { value: _vm.convertCurrency(ordered.total) }
                     })
                   ]),
                   _vm._v(" "),
@@ -92088,11 +92012,17 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(billed.sum))]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(billed.public_price))]),
+                        _c("td", [
+                          _vm._v(
+                            _vm._s(_vm.convertCurrency(billed.public_price))
+                          )
+                        ]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(billed.tva))]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(billed.total))])
+                        _c("td", [
+                          _vm._v(_vm._s(_vm.convertCurrency(billed.total)))
+                        ])
                       ])
                     : _vm._e()
                 }),
@@ -93764,7 +93694,7 @@ var render = function() {
         _vm._v(" "),
         _vm._m(5),
         _vm._v(" "),
-        _c("div", { staticClass: "box-body" }, [
+        _c("div", { staticClass: "box-body scrollable-table" }, [
           _c("table", { staticClass: "table" }, [
             _vm._m(6),
             _vm._v(" "),
@@ -93939,28 +93869,14 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [
                     _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: ordered.public_price,
-                          expression: "ordered.public_price"
-                        }
-                      ],
                       staticClass: "form-control",
                       attrs: {
                         type: "text",
                         disabled: "",
                         placeholder: "Prix unitaire.."
                       },
-                      domProps: { value: ordered.public_price },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(ordered, "public_price", $event.target.value)
-                        }
+                      domProps: {
+                        value: _vm.convertCurrency(ordered.public_price)
                       }
                     })
                   ]),
@@ -93995,29 +93911,13 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [
                     _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: ordered.total,
-                          expression: "ordered.total"
-                        }
-                      ],
                       staticClass: "form-control",
                       attrs: {
                         type: "text",
                         disabled: "",
                         placeholder: "Total Produit.."
                       },
-                      domProps: { value: ordered.total },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(ordered, "total", $event.target.value)
-                        }
-                      }
+                      domProps: { value: _vm.convertCurrency(ordered.total) }
                     })
                   ]),
                   _vm._v(" "),
