@@ -94001,7 +94001,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("td", [
-                    _vm.ordered_products.length >= 2
+                    _vm.custom_ordered.length >= 2
                       ? _c(
                           "button",
                           {

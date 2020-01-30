@@ -206,7 +206,7 @@
 
                                 <td>
 
-                                    <button type="button" class="btn btn-default" v-if="ordered_products.length >=2"
+                                    <button type="button" class="btn btn-default" v-if="custom_ordered.length >=2"
                                         @click="removeOrdered(ordered)"><i class="fa fa-minus"></i></button>
                                 </td>
                             </tr>
