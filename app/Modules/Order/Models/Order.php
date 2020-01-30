@@ -51,4 +51,8 @@ class Order extends Model
 {
     return money_format('$%i', $value);
 }
+    public function lastComment()
+    {
+        return $this->histories()->where('comment','<>',null)->get()->last();
+    }
 }

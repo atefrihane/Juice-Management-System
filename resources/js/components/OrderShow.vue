@@ -940,15 +940,17 @@
                                     store_id: this.store_id
                                 })
                                 .then((response) => {
-
+                                        console.log('****')
+                                        console.log(response)
                                   
-                                        billed.public_price = billed.public_price
-                                        billed.total = billed.public_price * billed.sum
-
+                                        // billed.public_price = billed.public_price
+                          
+                                        billed.total = billed.public_price *parseInt(billed.sum)
                                     
                                     this.billed_total_ht += billed.total
-                                    this.billed_total_tva += billed.total * billed.tva /
-                                        100
+                                    this.billed_total_tva += billed.total * (billed.tva /
+                                        100)
+                             
                                     this.billed_total_order = this.billed_total_ht + this
                                         .billed_total_tva
 

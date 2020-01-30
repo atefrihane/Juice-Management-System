@@ -65,11 +65,11 @@
                             <td><input type="text" class="form-control" disabled placeholder="Colisage.."
                                     v-model="ordered.product_packing" disabled></td>
                             <td><input type="text" class="form-control" disabled placeholder="Prix unitaire.."
-                                    v-model="ordered.public_price" disabled></td>
+                                    :value="convertCurrency(ordered.public_price)" disabled></td>
                             <td><input type="text" class="form-control" disabled placeholder="TVA.."
                                     v-model="ordered.tva" disabled></td>
                             <td><input type="text" class="form-control" disabled placeholder="Total Produit.."
-                                    v-model="ordered.total" disabled></td>
+                                    :value="convertCurrency(ordered.total)" disabled></td>
                             <td>
                             </td>
                         </tr>
@@ -297,22 +297,22 @@
                         this.order_history = response.data.order_history
                         this.prepared_products = response.data.prepared_products
                         this.ordered_products.forEach((ordered, index) => {
-                            this.custom_ordered.push({
+
+                                this.custom_ordered.push({
                                 name: ordered.nom,
                                 package: ordered.pivot.package,
                                 unit: ordered.pivot.unit,
                                 product_packing: ordered.packing,
-                                public_price: this.convertCurrency(ordered.pivot
-                                    .custom_price),
+                                public_price: ordered.pivot.custom_price,
                                 tva: ordered.pivot.custom_tva,
                                 products: this.products,
                                 product_id: ordered.id,
-                                total: this.convertCurrency(parseFloat(ordered
-                                        .public_price) *
-                                    ordered.pivot.unit),
+                                total: ordered.pivot.custom_price *
+                                    ordered.pivot.unit,
                                 product_total_tva: ordered.tva
 
                             });
+                         
                         });
 
                         this.clearOrderedProducts()
@@ -1188,7 +1188,7 @@
             },
             convertCurrency(value) {
                 let val = (value / 1).toFixed(2).replace('.', ',')
-                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "")
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
 
             },
             convertMoneyFormat(value) {
@@ -1215,8 +1215,8 @@
 
                 for (let i in this.custom_ordered) {
                     if (this.custom_ordered[i].total != "") {
-                        this.total_tva += (this.convertMoneyFormat(this.custom_ordered[i].total) * this
-                            .custom_ordered[i].tva / 100);
+                        this.total_tva += this.custom_ordered[i].total * this
+                            .custom_ordered[i].tva / 100;
 
                     }
 

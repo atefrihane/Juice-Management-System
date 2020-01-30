@@ -45,12 +45,12 @@
         mounted() {
             console.log('Component mounted.')
         },
-        props: ['order_id', 'user_id'],
+        props: ['order_id', 'user_id','history'],
         data() {
             return {
                 new_status: 9,
               
-                comment: '',
+                comment: this.history.comment,
                 disabled:false
 
 

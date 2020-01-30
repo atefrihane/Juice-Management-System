@@ -16,8 +16,7 @@ class OrderController extends Controller
 {
     public function handleSaveOrder(Request $request)
     {
-   
-      
+
         $checkCount = Order::count();
         if ($checkCount > 0) {
             $code = Order::all()->last()->id + 1;
@@ -110,8 +109,6 @@ class OrderController extends Controller
 
             }
 
-     
-
             return response()->json([
                 'status' => 200,
                 'order' => $order,
@@ -145,7 +142,6 @@ class OrderController extends Controller
     }
     public function handleUpdateProduct(Request $request, $id)
     {
-
 
         $order = Order::find($id);
         if ($order) {
@@ -303,8 +299,8 @@ class OrderController extends Controller
                         $index = findIndex($oldProducts, ['product_warehouse_id' => $newProduct['product_warehouse_id']]);
 
                         if ($stock->id == $newProduct['product_warehouse_id'] && $index > -1) {
-                  
-                            if ($stock->quantity+$oldProducts[$index]->quantity   >= $newProduct['quantity']) {
+
+                            if ($stock->quantity + $oldProducts[$index]->quantity >= $newProduct['quantity']) {
 
                                 if ($newProduct['quantity'] > $oldProducts[$index]->quantity) {
                                     $newArray = [
@@ -556,7 +552,19 @@ class OrderController extends Controller
 
                     } else {
                         if ($request->balance) {
-                            $total = array_sum(array_column($request->balance, 'qty'));
+                            //calculate total order
+                            $sumTotalQuantities = 0;
+                            $sumTotalTva = 0;
+                            $total = 0;
+                            // dd($request->balance);
+                            foreach ($request->balance as $key => $balance) {
+                                $sumTotalQuantities += $balance['qty'] * $balance['public_price'];
+                                $sumTotalTva += ($balance['qty'] * $balance['public_price']) * $balance['tva'] / 100;
+
+                            }
+                            $total = $sumTotalTva + $sumTotalQuantities;
+
+
                             $balanceOrder = Order::create([
                                 'code' => $order->code . '-relq',
                                 'status' => 2,
@@ -573,8 +581,8 @@ class OrderController extends Controller
                                     'product_id' => $balance['product_id'],
                                     'package' => ceil($balance['packing'] / $balance['qty']),
                                     'unit' => $balance['qty'],
-                                    'custom_price' =>$balance['public_price'],
-                                    'custom_tva' =>$balance['tva']
+                                    'custom_price' => $balance['public_price'],
+                                    'custom_tva' => $balance['tva'],
                                 ];
                                 array_push($newProducts, $array);
 

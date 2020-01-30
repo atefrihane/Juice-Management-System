@@ -63,7 +63,7 @@
         mounted() {
             this.loadUsers()
         },
-        props: ['order_id', 'user_id','is_preparator'],
+        props: ['order_id', 'user_id','is_preparator','history'],
         data() {
             return {
                 errors: [],
@@ -71,7 +71,7 @@
                 new_status: 3,
                 new_status_text: 'En cours de préparation',
                 preparator_id: this.user_id,
-                comment: null,
+                comment: this.history ? this.history.comment : null,
                 disabled:false
 
             }

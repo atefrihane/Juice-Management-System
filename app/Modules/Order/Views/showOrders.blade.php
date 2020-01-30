@@ -76,12 +76,10 @@
                                                 <td data-url="{{route('showOrder',$order->id)}}">@convert($order->total)</td>
             
                                                 <td data-url="{{route('showOrder',$order->id)}}">
-                                                    @if($order->histories->first())
-                                                    @if($order->histories->first()->comment)
-                                                    {{$order->histories->first()->comment }}
-                                                    @else
-                                                    Aucun
-                                                    @endif
+                                                    @if($order->lastComment())
+                                                 
+                                                    {{$order->lastComment()->comment }}
+                                                  
                                                     @else Aucun
                                                     @endif
             

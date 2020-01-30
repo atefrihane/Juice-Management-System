@@ -34,7 +34,7 @@
                                 <option v-for="user in users" v-if="users.length > 0" :value="user.user.id">{{user.user.nom}}
                                     {{user.user.prenom}}
                                 </option>
-                                <option v-else> Aucun utilisateur trouvé !</option>
+                                <option :value="null" v-if="users.length == 0"> Aucun livreur trouvé</option>
 
                             </select>
                         </div>

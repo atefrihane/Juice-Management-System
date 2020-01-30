@@ -24,17 +24,17 @@
                         <option value="2">Externe</option>
                     </select>
                 </div>
-                <div class="col-md-4">
-                    <label for="exampleInputEmail1">Livreur</label>
-                    <select class="form-control" v-model="delivery_man_id">
-                        <option :value="null" v-if="users.length > 0" disabled> Séléctionner un livreur</option>
-                        <option v-for="user in users" v-if="users.length > 0" :value="user.id">{{user.nom}}
-                            {{user.prenom}}
-                        </option>
-                        <option v-else> Aucun utilisateur trouvé !</option>
+            <div class="col-md-4">
+                            <label for="exampleInputEmail1">Livreur</label>
+                            <select class="form-control" v-model="delivery_man_id">
+                                <option :value="null" v-if="users.length > 0" disabled> Séléctionner un livreur</option>
+                                <option v-for="user in users" v-if="users.length > 0" :value="user.user.id">{{user.user.nom}}
+                                    {{user.user.prenom}}
+                                </option>
+                                <option :value="null" v-if="users.length == 0"> Aucun livreur trouvé</option>
 
-                    </select>
-                </div>
+                            </select>
+                        </div>
                 <div class="col-md-4">
                     <label for="exampleInputEmail1">Mode de livraison</label>
                     <select class="form-control" v-model="delivery_mode">
@@ -124,13 +124,15 @@
             }
         },
         methods: {
-            loadUsers() {
-                axios.get('/api/users/show')
+               loadUsers() {
+                axios.get('/api/deliveries/show')
                     .then((response) => {
-                        this.users = response.data.users
-
+                        // handle success
+                        console.log(response);
+                        this.users = response.data.deliveries;
                     })
                     .catch((error) => {
+                        // handle error
                         console.log(error);
                     })
 

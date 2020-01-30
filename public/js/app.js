@@ -7494,10 +7494,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           axios.post('/api/product/prices/' + billed.product_id, {
             store_id: _this3.store_id
           }).then(function (response) {
-            billed.public_price = billed.public_price;
-            billed.total = billed.public_price * billed.sum;
+            console.log('****');
+            console.log(response); // billed.public_price = billed.public_price
+
+            billed.total = billed.public_price * parseInt(billed.sum);
             _this3.billed_total_ht += billed.total;
-            _this3.billed_total_tva += billed.total * billed.tva / 100;
+            _this3.billed_total_tva += billed.total * (billed.tva / 100);
             _this3.billed_total_order = _this3.billed_total_ht + _this3.billed_total_tva;
           })["catch"](function (error) {
             console.log(error);
@@ -7641,6 +7643,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_nested_OrderBilled_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/nested/OrderBilled.vue */ "./resources/js/components/nested/OrderBilled.vue");
 /* harmony import */ var _components_nested_OrderSentAccount_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/nested/OrderSentAccount.vue */ "./resources/js/components/nested/OrderSentAccount.vue");
 /* harmony import */ var _components_nested_OrderAccounting_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../components/nested/OrderAccounting.vue */ "./resources/js/components/nested/OrderAccounting.vue");
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -9794,11 +9802,11 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     console.log('Component mounted.');
   },
-  props: ['order_id', 'user_id'],
+  props: ['order_id', 'user_id', 'history'],
   data: function data() {
     return {
       new_status: 10,
-      comment: '',
+      comment: this.history.comment,
       disabled: false
     };
   },
@@ -10040,11 +10048,11 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     console.log('Component mounted.');
   },
-  props: ['order_id', 'user_id'],
+  props: ['order_id', 'user_id', 'history'],
   data: function data() {
     return {
       new_status: 9,
-      comment: '',
+      comment: this.history.comment,
       disabled: false
     };
   },
@@ -10622,11 +10630,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             "package": ordered.pivot["package"],
             unit: ordered.pivot.unit,
             product_packing: ordered.packing,
-            public_price: _this2.convertCurrency(ordered.pivot.custom_price),
+            public_price: ordered.pivot.custom_price,
             tva: ordered.pivot.custom_tva,
             products: _this2.products,
             product_id: ordered.id,
-            total: _this2.convertCurrency(parseFloat(ordered.public_price) * ordered.pivot.unit),
+            total: ordered.pivot.custom_price * ordered.pivot.unit,
             product_total_tva: ordered.tva
           });
         });
@@ -11255,7 +11263,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     },
     convertCurrency: function convertCurrency(value) {
       var val = (value / 1).toFixed(2).replace('.', ',');
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     },
     convertMoneyFormat: function convertMoneyFormat(value) {
       return parseFloat(value.replace(',', '.'));
@@ -11275,7 +11283,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
       for (var _i in this.custom_ordered) {
         if (this.custom_ordered[_i].total != "") {
-          this.total_tva += this.convertMoneyFormat(this.custom_ordered[_i].total) * this.custom_ordered[_i].tva / 100;
+          this.total_tva += this.custom_ordered[_i].total * this.custom_ordered[_i].tva / 100;
         }
       } // //  cout total de la commande  //
 
@@ -11425,9 +11433,12 @@ __webpack_require__.r(__webpack_exports__);
     loadUsers: function loadUsers() {
       var _this = this;
 
-      axios.get('/api/users/show').then(function (response) {
-        _this.users = response.data.users;
+      axios.get('/api/deliveries/show').then(function (response) {
+        // handle success
+        console.log(response);
+        _this.users = response.data.deliveries;
       })["catch"](function (error) {
+        // handle error
         console.log(error);
       });
     },
@@ -11635,11 +11646,11 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     console.log('Component mounted.');
   },
-  props: ['order_id', 'user_id'],
+  props: ['order_id', 'user_id', 'history'],
   data: function data() {
     return {
       new_status: 11,
-      comment: '',
+      comment: this.history.comment,
       disabled: false
     };
   },
@@ -11983,7 +11994,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.loadUsers();
   },
-  props: ['order_id', 'user_id', 'is_preparator'],
+  props: ['order_id', 'user_id', 'is_preparator', 'history'],
   data: function data() {
     return {
       errors: [],
@@ -11991,7 +12002,7 @@ __webpack_require__.r(__webpack_exports__);
       new_status: 3,
       new_status_text: 'En cours de préparation',
       preparator_id: this.user_id,
-      comment: null,
+      comment: this.history ? this.history.comment : null,
       disabled: false
     };
   },
@@ -87532,8 +87543,14 @@ var render = function() {
                                 "\n                            "
                             )
                           ])
-                        : _c("option", [_vm._v(" Aucun utilisateur trouvé !")])
-                    })
+                        : _vm._e()
+                    }),
+                    _vm._v(" "),
+                    _vm.users.length == 0
+                      ? _c("option", { domProps: { value: null } }, [
+                          _vm._v(" Aucun livreur trouvé")
+                        ])
+                      : _vm._e()
                   ],
                   2
                 )
@@ -93204,7 +93221,8 @@ var render = function() {
                   attrs: {
                     order_id: this.order_id,
                     user_id: this.user_id,
-                    is_preparator: this.is_preparator
+                    is_preparator: this.is_preparator,
+                    history: this.history
                   },
                   on: {
                     requiredValue: function($event) {
@@ -93217,7 +93235,11 @@ var render = function() {
             _vm.status == 3
               ? _c("order-in-prepare", {
                   ref: "foo",
-                  attrs: { order_id: this.order_id, user_id: this.user_id },
+                  attrs: {
+                    order_id: this.order_id,
+                    user_id: this.user_id,
+                    history: this.history
+                  },
                   on: {
                     requiredValue: function($event) {
                       return _vm.updateError($event)
@@ -93291,7 +93313,11 @@ var render = function() {
             _vm._v(" "),
             _vm.status == 8
               ? _c("order-for-bill", {
-                  attrs: { order_id: this.order_id, user_id: this.user_id },
+                  attrs: {
+                    order_id: this.order_id,
+                    user_id: this.user_id,
+                    history: this.history
+                  },
                   on: {
                     requiredValue: function($event) {
                       return _vm.updateError($event)
@@ -93302,7 +93328,11 @@ var render = function() {
             _vm._v(" "),
             _vm.status == 9
               ? _c("order-billed", {
-                  attrs: { order_id: this.order_id, user_id: this.user_id },
+                  attrs: {
+                    order_id: this.order_id,
+                    user_id: this.user_id,
+                    history: this.history
+                  },
                   on: {
                     requiredValue: function($event) {
                       return _vm.updateError($event)
@@ -93313,7 +93343,11 @@ var render = function() {
             _vm._v(" "),
             _vm.status == 10
               ? _c("order-sent-account", {
-                  attrs: { order_id: this.order_id, user_id: this.user_id },
+                  attrs: {
+                    order_id: this.order_id,
+                    user_id: this.user_id,
+                    history: this.history
+                  },
                   on: {
                     requiredValue: function($event) {
                       return _vm.updateError($event)
@@ -93324,7 +93358,11 @@ var render = function() {
             _vm._v(" "),
             _vm.status == 11
               ? _c("order-accounting", {
-                  attrs: { order_id: this.order_id, user_id: this.user_id },
+                  attrs: {
+                    order_id: this.order_id,
+                    user_id: this.user_id,
+                    history: this.history
+                  },
                   on: {
                     requiredValue: function($event) {
                       return _vm.updateError($event)
@@ -96832,14 +96870,6 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [
                       _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: ordered.public_price,
-                            expression: "ordered.public_price"
-                          }
-                        ],
                         staticClass: "form-control",
                         attrs: {
                           type: "text",
@@ -96847,18 +96877,8 @@ var render = function() {
                           placeholder: "Prix unitaire..",
                           disabled: ""
                         },
-                        domProps: { value: ordered.public_price },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              ordered,
-                              "public_price",
-                              $event.target.value
-                            )
-                          }
+                        domProps: {
+                          value: _vm.convertCurrency(ordered.public_price)
                         }
                       })
                     ]),
@@ -96894,14 +96914,6 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [
                       _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: ordered.total,
-                            expression: "ordered.total"
-                          }
-                        ],
                         staticClass: "form-control",
                         attrs: {
                           type: "text",
@@ -96909,15 +96921,7 @@ var render = function() {
                           placeholder: "Total Produit..",
                           disabled: ""
                         },
-                        domProps: { value: ordered.total },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(ordered, "total", $event.target.value)
-                          }
-                        }
+                        domProps: { value: _vm.convertCurrency(ordered.total) }
                       })
                     ]),
                     _vm._v(" "),
@@ -97628,16 +97632,22 @@ var render = function() {
                     _vm._v(" "),
                     _vm._l(_vm.users, function(user) {
                       return _vm.users.length > 0
-                        ? _c("option", { domProps: { value: user.id } }, [
+                        ? _c("option", { domProps: { value: user.user.id } }, [
                             _vm._v(
-                              _vm._s(user.nom) +
-                                "\n                        " +
-                                _vm._s(user.prenom) +
-                                "\n                    "
+                              _vm._s(user.user.nom) +
+                                "\n                                " +
+                                _vm._s(user.user.prenom) +
+                                "\n                            "
                             )
                           ])
-                        : _c("option", [_vm._v(" Aucun utilisateur trouvé !")])
-                    })
+                        : _vm._e()
+                    }),
+                    _vm._v(" "),
+                    _vm.users.length == 0
+                      ? _c("option", { domProps: { value: null } }, [
+                          _vm._v(" Aucun livreur trouvé")
+                        ])
+                      : _vm._e()
                   ],
                   2
                 )

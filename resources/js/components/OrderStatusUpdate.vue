@@ -50,6 +50,7 @@
                          :order_id="this.order_id" 
                          :user_id="this.user_id"
                          :is_preparator="this.is_preparator"
+                        :history="this.history"
                          v-on:requiredValue="updateError($event)">
                      </order-to-prepare>
 
@@ -57,6 +58,7 @@
                         v-if="status == 3" 
                         :order_id="this.order_id" 
                         :user_id="this.user_id"
+                        :history="this.history"
                         v-on:requiredValue="updateError($event)"> 
                     </order-in-prepare>
 
@@ -99,6 +101,7 @@
                         v-if="status == 8" 
                         :order_id="this.order_id" 
                         :user_id="this.user_id"
+                        :history="this.history"
                         v-on:requiredValue="updateError($event)">
                      </order-for-bill>
 
@@ -106,6 +109,7 @@
                         v-if="status == 9" 
                         :order_id="this.order_id" 
                         :user_id="this.user_id"
+                        :history="this.history"
                         v-on:requiredValue="updateError($event)"> 
                     </order-billed>
 
@@ -113,6 +117,7 @@
                         v-if="status == 10" 
                         :order_id="this.order_id" 
                         :user_id="this.user_id"
+                        :history="this.history"
                         v-on:requiredValue="updateError($event)">
                       </order-sent-account>
                         
@@ -120,6 +125,7 @@
                         v-if="status == 11" 
                         :order_id="this.order_id" 
                         :user_id="this.user_id"
+                        :history="this.history"
                         v-on:requiredValue="updateError($event)"> 
                     </order-accounting>
 
