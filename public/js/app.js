@@ -5254,6 +5254,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getCompanies();
@@ -5286,7 +5287,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         city: '',
         zipcode: ''
       },
-      arrival_date_wished: ''
+      arrival_date_wished: Vue.moment().add(2, 'day').format('YYYY-MM-DD')
     };
   },
   computed: {
@@ -5745,8 +5746,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       window.location = axios.defaults.baseURL + '/orders';
     },
     convertCurrency: function convertCurrency(value) {
-      var val = (value / 1).toFixed(2).replace('.', ',');
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+      if (value != '') {
+        var val = (value / 1).toFixed(2).replace('.', ',');
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+      }
+
+      return '';
     }
   }
 });
@@ -8240,6 +8245,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this.store_id = response.data.order.store_id;
         _this.arrival_date_wished = response.data.order.arrival_date_wished;
         _this.ordered_products = response.data.ordered_products;
+        _this.comment = _this.history.comment;
 
         _this.ordered_products.forEach(function (ordered, index) {
           _this.custom_ordered.push({
@@ -8483,21 +8489,51 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     setOrderdPacking: function setOrderdPacking(ordered, index) {
-      if (ordered["package"] != '') {
+      if (ordered["package"] != '' && ordered["package"] > 0) {
         ordered.unit = ordered["package"] * ordered.product_packing;
         ordered.total = ordered.public_price * ordered.unit;
         ordered.product_total_tva = ordered.total + ordered.total * ordered.tva / 100;
         this.clearOrderedProducts();
+      } else {
+        swal.fire({
+          type: 'error',
+          title: 'Le nombre de colis saisi est invalide ! ',
+          showConfirmButton: true,
+          allowOutsideClick: false,
+          confirmButtonText: 'Fermer'
+        });
+        ordered["package"] = '';
+        ordered.unit = '';
+        ordered.total = 0;
+        ordered.product_total_tva = 0;
+        this.total_ht = 0;
+        this.total_tva = 0;
+        this.total_order = 0;
       }
     },
     setOrderdUnit: function setOrderdUnit(ordered, index) {
-      if (ordered.unit != '') {
-        ordered.product_total_tva = 0;
-        ordered.total = 0;
+      console.log(parseFloat(ordered.public_price));
+
+      if (ordered.unit != '' && ordered.unit > 0) {
         ordered["package"] = Math.ceil(ordered.unit / ordered.product_packing);
         ordered.total = ordered.public_price * ordered.unit;
-        ordered.product_total_tva = ordered.total + ordered.total * ordered.tva / 100;
+        ordered.product_total_tva = ordered.total * ordered.tva / 100;
         this.clearOrderedProducts();
+      } else {
+        swal.fire({
+          type: 'error',
+          title: 'Le nombre d\'unité saisi est invalide ! ',
+          showConfirmButton: true,
+          allowOutsideClick: false,
+          confirmButtonText: 'Fermer'
+        });
+        ordered["package"] = '';
+        ordered.unit = '';
+        ordered.total = 0;
+        ordered.product_total_tva = 0;
+        this.total_ht = 0;
+        this.total_tva = 0;
+        this.total_order = 0;
       }
     },
     convertMoneyFormat: function convertMoneyFormat(value) {
@@ -8631,8 +8667,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       window.location = axios.defaults.baseURL + '/orders';
     },
     convertCurrency: function convertCurrency(value) {
-      var val = (value / 1).toFixed(2).replace('.', ',');
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "");
+      if (value != '') {
+        var val = (value / 1).toFixed(2).replace('.', ',');
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+      }
+
+      return '';
     }
   }
 });
@@ -90018,7 +90058,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v("\n                Enregistrer et valider")]
+          [_vm._v("\n                Enregistrer et envoyer")]
         )
       ])
     ])
@@ -94020,19 +94060,19 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.history.comment,
-                  expression: "history.comment"
+                  value: _vm.comment,
+                  expression: "comment"
                 }
               ],
               staticClass: "form-control",
               attrs: { rows: "3", placeholder: "Commentaires" },
-              domProps: { value: _vm.history.comment },
+              domProps: { value: _vm.comment },
               on: {
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.$set(_vm.history, "comment", $event.target.value)
+                  _vm.comment = $event.target.value
                 }
               }
             })
@@ -94085,7 +94125,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v("\n                Enregistrer et confirmer")]
+          [_vm._v("\n                Enregistrer et envoyer")]
         )
       ])
     ])

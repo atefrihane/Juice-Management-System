@@ -16,6 +16,7 @@ class OrderController extends Controller
 {
     public function handleSaveOrder(Request $request)
     {
+   
       
         $checkCount = Order::count();
         if ($checkCount > 0) {
@@ -144,6 +145,7 @@ class OrderController extends Controller
     }
     public function handleUpdateProduct(Request $request, $id)
     {
+
 
         $order = Order::find($id);
         if ($order) {

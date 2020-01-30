@@ -254,7 +254,7 @@
                     <div class="form-group">
                         <label>Commentaires (optionnel)</label>
                         <textarea class="form-control" rows="3" placeholder="Commentaires"
-                            v-model="history.comment"></textarea>
+                            v-model="comment"></textarea>
                     </div>
                 </div>
 
@@ -277,7 +277,7 @@
                     Enregistrer</button>
                 <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled"
                     @click="updateOrder()">
-                    Enregistrer et confirmer</button>
+                    Enregistrer et envoyer</button>
 
 
             </div>
@@ -362,6 +362,7 @@
                         this.store_id = response.data.order.store_id
                         this.arrival_date_wished=response.data.order.arrival_date_wished
                         this.ordered_products = response.data.ordered_products
+                        this.comment=this.history.comment
                         this.ordered_products.forEach((ordered, index) => {
                             this.custom_ordered.push({
                                 name: ordered.nom,
@@ -669,26 +670,66 @@
 
 
             },
-            setOrderdPacking(ordered, index) {
+       setOrderdPacking(ordered, index) {
 
-                if (ordered.package != '') {
 
+                if (ordered.package != '' && ordered.package > 0) {
 
                     ordered.unit = ordered.package * ordered.product_packing;
                     ordered.total = ordered.public_price * ordered.unit;
-                    ordered.product_total_tva = ordered.total + ordered.total * ordered.tva / 100;
+                    ordered.product_total_tva = ordered.total + ordered
+                        .total * ordered.tva /
+                        100;
                     this.clearOrderedProducts();
+                } else {
+
+                    swal.fire({
+                        type: 'error',
+                        title: 'Le nombre de colis saisi est invalide ! ',
+                        showConfirmButton: true,
+                        allowOutsideClick: false,
+                        confirmButtonText: 'Fermer'
+
+
+                    });
+              
+                    ordered.package = ''
+                    ordered.unit = ''
+                    ordered.total = 0;
+                    ordered.product_total_tva = 0;
+                    this.total_ht = 0;
+                    this.total_tva = 0;
+                    this.total_order = 0;
+
                 }
             },
             setOrderdUnit(ordered, index) {
+                console.log(parseFloat(ordered.public_price))
+                if (ordered.unit != '' && ordered.unit > 0) {
 
-                if (ordered.unit != '') {
-                    ordered.product_total_tva = 0;
-                    ordered.total = 0;
                     ordered.package = Math.ceil(ordered.unit / ordered.product_packing)
                     ordered.total = ordered.public_price * ordered.unit;
-                    ordered.product_total_tva = ordered.total + ordered.total * ordered.tva /100;
+                    ordered.product_total_tva = ordered.total * ordered.tva / 100;
                     this.clearOrderedProducts();
+                } else {
+
+                    swal.fire({
+                        type: 'error',
+                        title: 'Le nombre d\'unité saisi est invalide ! ',
+                        showConfirmButton: true,
+                        allowOutsideClick: false,
+                        confirmButtonText: 'Fermer'
+
+
+                    });
+                    ordered.package = ''
+                    ordered.unit = ''
+                    ordered.total = 0;
+                    ordered.product_total_tva = 0;
+                    this.total_ht = 0;
+                    this.total_tva = 0;
+                    this.total_order = 0;
+
                 }
 
 
@@ -850,11 +891,19 @@
             cancelOrder() {
                 window.location = axios.defaults.baseURL + '/orders';
             },
-            convertCurrency(value) {
-                let val = (value / 1).toFixed(2).replace('.', ',')
-                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "")
+              convertCurrency(value) {
 
-            },
+                if (value != '') {
+                    let val = (value / 1).toFixed(2).replace('.', ',')
+                    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+
+                }
+
+                return '';
+
+
+
+            }
 
 
 

@@ -160,7 +160,8 @@
 
                         </thead>
                         <tbody>
-                            <tr v-for="(ordered,index) in ordered_products" :items="formatOrdered" v-if="ordered_products">
+                            <tr v-for="(ordered,index) in ordered_products" :items="formatOrdered"
+                                v-if="ordered_products">
                                 <td style="width:15%;">
                                     <select class="form-control" v-model="ordered.product_id"
                                         @change="getProductData($event,index)">
@@ -263,7 +264,7 @@
 
                 <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled"
                     @click="submitStoreOrder()">
-                    Enregistrer et valider</button>
+                    Enregistrer et envoyer</button>
 
             </div>
         </div>
@@ -306,7 +307,8 @@
                     city: '',
                     zipcode: ''
                 },
-                arrival_date_wished: ''
+        
+                arrival_date_wished: Vue.moment().add(2, 'day').format('YYYY-MM-DD')
 
 
             }
@@ -578,7 +580,8 @@
                                     this.ordered_products[index].product_packing = response.data.product.packing;
                                     this.ordered_products[index].public_price = response.data.custom_price.price;
                                     this.ordered_products[index].tva = response.data.product.tva;
-                                    this.ordered_products[index].public_price = this.ordered_products[index].public_price
+                                    this.ordered_products[index].public_price = this.ordered_products[index]
+                                        .public_price
 
                                 } else {
                                     this.ordered_products[index].product_packing = response.data.product.packing;
@@ -673,7 +676,7 @@
                     ordered.unit = ordered.packing * ordered.product_packing;
                     ordered.total = ordered.public_price * ordered.unit;
                     ordered.product_total_tva = ordered.total + ordered
-                            .total * ordered.tva /
+                        .total * ordered.tva /
                         100;
                     this.clearOrderedProducts();
                 } else {
@@ -783,12 +786,12 @@
 
             },
             submitSaveOrder() {
-                let that=this;
+                let that = this;
                 this.disabled = true;
                 if (this.validateForm()) {
-               
+
                     // let filterOrdered=_.filter(this.ordered_products, function(o) { return that.convertMoneyFormat(public_price); });
-              
+
                     axios.post('/api/order/save', {
                             code: this.code,
                             company_id: this.company_id,
@@ -900,8 +903,16 @@
                 window.location = axios.defaults.baseURL + '/orders';
             },
             convertCurrency(value) {
-                let val = (value / 1).toFixed(2).replace('.', ',')
-                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+
+                if (value != '') {
+                    let val = (value / 1).toFixed(2).replace('.', ',')
+                    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+
+                }
+
+                return '';
+
+
 
             }
 
