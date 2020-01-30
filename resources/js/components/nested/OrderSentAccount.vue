@@ -50,7 +50,7 @@
             return {
                 new_status: 11,
               
-                comment: this.history.comment,
+                comment: this.history ? this.history.comment : null,
                 disabled:false
 
 

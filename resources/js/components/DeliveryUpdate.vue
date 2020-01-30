@@ -181,7 +181,7 @@
                 palet_number: this.order.pallets_number,
                 volume: this.order.volume,
                 weight: this.order.weight,
-                comment: this.history.comment,
+                comment: this.history ? this.history.comment : null,
                 users: [],
                 errors: [],
                 estimated_arrival_time: this.order.estimated_arrival_time,

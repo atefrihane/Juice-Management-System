@@ -192,7 +192,7 @@
 
                                 <td>
 
-                                    <button type="button" class="btn btn-default" v-if="index > 0"
+                                    <button type="button" class="btn btn-default" v-if="ordered_products.length >=2"
                                         @click="removeOrdered(ordered)"><i class="fa fa-minus"></i></button>
                                 </td>
                             </tr>
@@ -374,17 +374,8 @@
                             this.total_order = ''
                             this.oldIds = []
                             this.oldCompanyIds = []
-                            this.ordered_products.forEach(ordered => {
-                                ordered.packing = '',
-                                    ordered.unit = '',
-                                    ordered.product_packing = '',
-                                    ordered.total = '',
-                                    ordered.public_price = '',
-                                    ordered.product_total_tva = 0,
-                                    ordered.tva = '',
-                                    ordered.product_id = ''
-
-                            })
+                             this.ordered_products=[]
+                             this.loadProduct()
 
                             let id = event.target.value;
                             this.stores = []
@@ -457,17 +448,8 @@
                             this.total_order = ''
                             this.oldIds = []
                             this.oldIds.push(event.target.value)
-                            this.ordered_products.forEach(ordered => {
-                                ordered.packing = '',
-                                    ordered.unit = '',
-                                    ordered.product_packing = '',
-                                    ordered.total = '',
-                                    ordered.public_price = '',
-                                    ordered.product_total_tva = 0,
-                                    ordered.tva = '',
-                                    ordered.product_id = ''
-
-                            })
+                             this.ordered_products=[]
+                             this.loadProduct()
                         }
 
                         if (result.dismiss == 'cancel') {
@@ -691,6 +673,7 @@
 
                     });
                     ordered.packing = ''
+                     ordered.unit = ''
                     ordered.total = 0;
                     ordered.product_total_tva = 0;
                     this.total_ht = 0;
@@ -719,6 +702,7 @@
 
                     });
                     ordered.unit = ''
+                      ordered.packing = ''
                     ordered.total = 0;
                     ordered.product_total_tva = 0;
                     this.total_ht = 0;

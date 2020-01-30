@@ -116,7 +116,7 @@
                 palet_number: this.order_full.pallets_number,
                 weight: this.order_full.weight,
                 volume: this.order_full.volume,
-                comment: this.history.comment,
+                comment: this.history ? this.history.comment : null,
                 users: [],
                 disabled: false
 

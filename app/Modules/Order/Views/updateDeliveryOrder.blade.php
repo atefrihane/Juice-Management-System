@@ -11,7 +11,7 @@
         <div class="row">
             <div class="container-fluid">
 
-             <delivery-update :order="{{$order}}" :user_id="{{Auth::user()->id}}" :history="{{$history}}" > </delivery-update>
+             <delivery-update :order="{{$order}}" :user_id="{{Auth::user()->id}}" :history="{{$history ? $history : 'null'}}" > </delivery-update>
 
 
             </div>

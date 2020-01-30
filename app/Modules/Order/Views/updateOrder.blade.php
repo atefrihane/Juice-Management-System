@@ -15,7 +15,7 @@
              :order_id="{{$order->id}}" 
              :company_id="{{$order->store->company->id}}" 
              :user_id="{{Auth::user()->id}}"
-             :history="{{$history}}"
+             :history="{{$history ? $history : 'null'}}"
              >
              
              </order-update>

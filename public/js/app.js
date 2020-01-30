@@ -3872,7 +3872,7 @@ __webpack_require__.r(__webpack_exports__);
       palet_number: this.order.pallets_number,
       volume: this.order.volume,
       weight: this.order.weight,
-      comment: this.history.comment,
+      comment: this.history ? this.history.comment : null,
       users: [],
       errors: [],
       estimated_arrival_time: this.order.estimated_arrival_time,
@@ -5344,10 +5344,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             _this2.total_order = '';
             _this2.oldIds = [];
             _this2.oldCompanyIds = [];
+            _this2.ordered_products = [];
 
-            _this2.ordered_products.forEach(function (ordered) {
-              ordered.packing = '', ordered.unit = '', ordered.product_packing = '', ordered.total = '', ordered.public_price = '', ordered.product_total_tva = 0, ordered.tva = '', ordered.product_id = '';
-            });
+            _this2.loadProduct();
 
             var id = event.target.value;
             _this2.stores = [];
@@ -5410,9 +5409,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             _this3.oldIds.push(event.target.value);
 
-            _this3.ordered_products.forEach(function (ordered) {
-              ordered.packing = '', ordered.unit = '', ordered.product_packing = '', ordered.total = '', ordered.public_price = '', ordered.product_total_tva = 0, ordered.tva = '', ordered.product_id = '';
-            });
+            _this3.ordered_products = [];
+
+            _this3.loadProduct();
           }
 
           if (result.dismiss == 'cancel') {
@@ -5570,6 +5569,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           confirmButtonText: 'Fermer'
         });
         ordered.packing = '';
+        ordered.unit = '';
         ordered.total = 0;
         ordered.product_total_tva = 0;
         this.total_ht = 0;
@@ -5594,6 +5594,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           confirmButtonText: 'Fermer'
         });
         ordered.unit = '';
+        ordered.packing = '';
         ordered.total = 0;
         ordered.product_total_tva = 0;
         this.total_ht = 0;
@@ -8253,7 +8254,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this.store_id = response.data.order.store_id;
         _this.arrival_date_wished = response.data.order.arrival_date_wished;
         _this.ordered_products = response.data.ordered_products;
-        _this.comment = _this.history.comment;
+        _this.comment = _this.history ? _this.history.comment : null;
 
         _this.ordered_products.forEach(function (ordered, index) {
           _this.custom_ordered.push({
@@ -9806,7 +9807,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       new_status: 10,
-      comment: this.history.comment,
+      comment: this.history ? this.history.comment : null,
       disabled: false
     };
   },
@@ -9929,7 +9930,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       new_status: 8,
-      comment: this.history.comment,
+      comment: this.history ? this.history.comment : null,
       disabled: false
     };
   },
@@ -10052,7 +10053,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       new_status: 9,
-      comment: this.history.comment,
+      comment: this.history ? this.history.comment : null,
       disabled: false
     };
   },
@@ -10208,7 +10209,7 @@ __webpack_require__.r(__webpack_exports__);
       new_status: 7,
       date: this.order_full.arrival_date,
       time: this.order_full.arrival_time,
-      comment: this.history.comment,
+      comment: this.history ? this.history.comment : null,
       disabled: false
     };
   },
@@ -11424,7 +11425,7 @@ __webpack_require__.r(__webpack_exports__);
       palet_number: this.order_full.pallets_number,
       weight: this.order_full.weight,
       volume: this.order_full.volume,
-      comment: this.history.comment,
+      comment: this.history ? this.history.comment : null,
       users: [],
       disabled: false
     };
@@ -11650,7 +11651,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       new_status: 11,
-      comment: this.history.comment,
+      comment: this.history ? this.history.comment : null,
       disabled: false
     };
   },
@@ -11806,7 +11807,7 @@ __webpack_require__.r(__webpack_exports__);
       new_status: 6,
       date: this.order_full.estimated_arrival_date,
       time: this.order_full.estimated_arrival_time,
-      comment: this.history.comment,
+      comment: this.history ? this.history.comment : null,
       disabled: false
     };
   },
@@ -89907,7 +89908,7 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("td", [
-                        index > 0
+                        _vm.ordered_products.length >= 2
                           ? _c(
                               "button",
                               {
@@ -94000,7 +94001,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("td", [
-                    index > 0
+                    _vm.ordered_products.length >= 2
                       ? _c(
                           "button",
                           {

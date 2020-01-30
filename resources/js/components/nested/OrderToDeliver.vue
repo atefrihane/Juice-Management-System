@@ -82,7 +82,7 @@
                 new_status: 6,
                 date: this.order_full.estimated_arrival_date,
                 time: this.order_full.estimated_arrival_time,
-                comment: this.history.comment,
+                comment: this.history ? this.history.comment : null,
                 disabled:false
 
 

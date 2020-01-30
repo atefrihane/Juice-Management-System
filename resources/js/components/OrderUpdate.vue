@@ -206,7 +206,7 @@
 
                                 <td>
 
-                                    <button type="button" class="btn btn-default" v-if="index > 0"
+                                    <button type="button" class="btn btn-default" v-if="ordered_products.length >=2"
                                         @click="removeOrdered(ordered)"><i class="fa fa-minus"></i></button>
                                 </td>
                             </tr>
@@ -362,7 +362,7 @@
                         this.store_id = response.data.order.store_id
                         this.arrival_date_wished=response.data.order.arrival_date_wished
                         this.ordered_products = response.data.ordered_products
-                        this.comment=this.history.comment
+                        this.comment=this.history ? this.history.comment : null
                         this.ordered_products.forEach((ordered, index) => {
                             this.custom_ordered.push({
                                 name: ordered.nom,
