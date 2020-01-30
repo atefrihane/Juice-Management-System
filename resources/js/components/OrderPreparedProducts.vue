@@ -56,7 +56,7 @@
 
                     </div>
 
-                    <div class="box-body">
+                    <div class="box-body scrollable-table">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -190,7 +190,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="row">
+                                        <div class="row scrollable-table">
                                             <table class="table">
                                                 <thead>
                                                     <tr>

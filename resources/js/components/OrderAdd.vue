@@ -227,7 +227,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Date d'arrivée souhaitée (optionnel)</label>
+                                <label>Date de livraison souhaitée (optionnel)</label>
                                 <input type="date" class="form-control" v-model="arrival_date_wished">
                             </div>
                         </div>
@@ -653,7 +653,7 @@
             setOrderdPacking(ordered, index) {
 
 
-                if (ordered.packing != '' && ordered.packing > 0) {
+                if (ordered.packing != '' && ordered.packing > 0 && this.checkValidNumber(ordered.packing)) {
 
                     ordered.unit = ordered.packing * ordered.product_packing;
                     ordered.total = ordered.public_price * ordered.unit;
@@ -683,8 +683,8 @@
                 }
             },
             setOrderdUnit(ordered, index) {
-                console.log(parseFloat(ordered.public_price))
-                if (ordered.unit != '' && ordered.unit > 0) {
+         
+                if (ordered.unit != '' && ordered.unit > 0 && this.checkValidNumber(ordered.unit) ) {
 
                     ordered.packing = Math.ceil(ordered.unit / ordered.product_packing)
                     ordered.total = ordered.public_price * ordered.unit;
@@ -898,6 +898,12 @@
 
 
 
+            },
+            checkValidNumber(value)
+            {
+              let number = Number(value)
+              return Number.isInteger(number)
+           
             }
 
 

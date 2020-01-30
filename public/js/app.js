@@ -5555,7 +5555,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return parseFloat(value.replace(',', '.'));
     },
     setOrderdPacking: function setOrderdPacking(ordered, index) {
-      if (ordered.packing != '' && ordered.packing > 0) {
+      if (ordered.packing != '' && ordered.packing > 0 && this.checkValidNumber(ordered.packing)) {
         ordered.unit = ordered.packing * ordered.product_packing;
         ordered.total = ordered.public_price * ordered.unit;
         ordered.product_total_tva = ordered.total + ordered.total * ordered.tva / 100;
@@ -5578,9 +5578,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     setOrderdUnit: function setOrderdUnit(ordered, index) {
-      console.log(parseFloat(ordered.public_price));
-
-      if (ordered.unit != '' && ordered.unit > 0) {
+      if (ordered.unit != '' && ordered.unit > 0 && this.checkValidNumber(ordered.unit)) {
         ordered.packing = Math.ceil(ordered.unit / ordered.product_packing);
         ordered.total = ordered.public_price * ordered.unit;
         ordered.product_total_tva = ordered.total * ordered.tva / 100;
@@ -5753,6 +5751,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return '';
+    },
+    checkValidNumber: function checkValidNumber(value) {
+      var number = Number(value);
+      return Number.isInteger(number);
     }
   }
 });
@@ -89970,7 +89972,9 @@ var render = function() {
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-6" }, [
               _c("div", { staticClass: "form-group" }, [
-                _c("label", [_vm._v("Date d'arrivée souhaitée (optionnel)")]),
+                _c("label", [
+                  _vm._v("Date de livraison souhaitée (optionnel)")
+                ]),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -90354,7 +90358,7 @@ var render = function() {
           _vm._v(" "),
           _vm._m(1),
           _vm._v(" "),
-          _c("div", { staticClass: "box-body" }, [
+          _c("div", { staticClass: "box-body scrollable-table" }, [
             _c("table", { staticClass: "table" }, [
               _vm._m(2),
               _vm._v(" "),
@@ -90836,7 +90840,7 @@ var render = function() {
                               ]
                             ),
                             _vm._v(" "),
-                            _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "row scrollable-table" }, [
                               _c("table", { staticClass: "table" }, [
                                 _vm._m(5, true),
                                 _vm._v(" "),
@@ -96691,7 +96695,7 @@ var render = function() {
       ? _c("div", [
           _vm._m(0),
           _vm._v(" "),
-          _c("div", { staticClass: "box-body" }, [
+          _c("div", { staticClass: "box-body scrollable-table" }, [
             _c("table", { staticClass: "table" }, [
               _vm._m(1),
               _vm._v(" "),
@@ -97157,7 +97161,7 @@ var render = function() {
                           ]
                         ),
                         _vm._v(" "),
-                        _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "row scrollable-table" }, [
                           _c("table", { staticClass: "table" }, [
                             _vm._m(4, true),
                             _vm._v(" "),
