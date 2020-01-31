@@ -8,14 +8,9 @@
         <div class="box-body">
             <div class="alert alert-danger" v-if="errors.length>0">
                 <ul>
-
                     <li v-for="error in errors">{{error}}</li>
-
                 </ul>
             </div>
-
-
-
             <form>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Nom pays</label>
@@ -31,7 +26,6 @@
 
 
             </form>
-
             <table class="table">
                 <thead>
                     <tr>
@@ -69,8 +63,6 @@
                                 @click="removeCity(city)" v-if="i>0"><i class="fa fa-minus"></i></button>
                         </td>
                     </tr>
-
-
                 </tbody>
             </table>
 

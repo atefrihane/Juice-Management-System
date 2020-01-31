@@ -3285,14 +3285,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.$Progress.start();
@@ -6554,6 +6546,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
             _this6.final_prepared.forEach(function (_final6) {
               _final6.prepared_products.forEach(function (prepared) {
+                prepared.pivot.error = false;
                 unavailable_stock.forEach(function (stock) {
                   if (prepared.id == stock.id) {
                     prepared.quantity = stock.quantity;

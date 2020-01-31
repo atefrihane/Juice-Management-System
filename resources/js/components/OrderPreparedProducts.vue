@@ -859,12 +859,16 @@
                                                         })
                                                     this.final_prepared.forEach(final => {
                                                     final.prepared_products.forEach( prepared => {
+                                                    prepared.pivot.error=false
                                                     unavailable_stock.forEach(stock => {
                                                     if (prepared.id ==stock.id) {
                                                         prepared.quantity=stock.quantity
                                                         prepared.pivot.quantity = stock.old_quantity
                                                         prepared.pivot.error = true
-                                                                     }
+                                                        }
+
+                                                      
+                                                                  
                                                                     });
 
                                                                 });
