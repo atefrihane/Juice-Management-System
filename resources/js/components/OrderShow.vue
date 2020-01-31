@@ -637,8 +637,9 @@
                                 <td>{{history.user.nom}} {{history.user.prenom}}</td>
                                 <td>{{history.action}}</td>
                                 <td style="width:40%;">
-                                    <p v-if="history.comment != null"> {{history.comment}}</p>
-                                    <p v-else>Aucun commentaire</p>
+                             <div style="word-break:break-all;" v-if="history.comment "> {{history.comment}} </div>
+                                  <div v-else> Aucun commentaire</div>
+                                
 
                                 </td>
                                 <td>
@@ -805,6 +806,8 @@
             convert_total_ht() {
                 let val = (this.total_ht / 1).toFixed(2).replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+
+
                 // return this.total_ht.toFixed(2).replace(/\d(?=(\d{3})+\,)/g, '$&,'); // 12.345,67
             },
             convert_total_tva() {

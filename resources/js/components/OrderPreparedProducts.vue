@@ -142,7 +142,7 @@
                             </div>
                         </div>
                         <div class="container-fluid" style="margin-top:50px;">
-                            <div class="box" style="border:1px solid rgb(228, 228, 228);padding:20px;"
+                            <div class="box" style="border:1px solid rgb(228, 228, 228);"
                                 v-for="(final,i) in final_prepared">
                                 <div class="box-body">
                                     <div class="" v-if="i > 0">
@@ -227,10 +227,20 @@
                                                         <td>{{prepared.creation_date}} </td>
                                                         <td>{{prepared.expiration_date}} </td>
                                                       
-                                                        <td><input type="number" min="1" class="form-control"
+                                                        <td>
+                                                        <div style="display:flex;">
+                                                        <div>
+                                                          <input type="number" min="1" class="form-control"   
+                                                          v-bind:class="{ has_error: prepared.pivot.error}"
                                                                 placeholder="Quantité préparée"
                                                                 @change="updateTotalQuantity(prepared,index,i)"
-                                                                v-model.number="prepared.pivot.quantity">
+                                                                v-model.number="prepared.pivot.quantity"> </div>
+                                                        <div style="padding:8px;" v-if="prepared.pivot.error">
+                                                        <a href="#"><i class="fa fa-warning" style="color:red;"></i></a>
+                                                   
+                                                        </div>
+                                                        </div>
+                                                    
                                                         </td>
 
 
@@ -511,6 +521,7 @@
                                                             packing_display:warehouse_product.pivot.packing_display,
                                                         pivot: {
                                                             quantity: '',
+                                                            error:false
                                                     
                                                         }
 
@@ -753,8 +764,8 @@
                         this.errors = []
                          this.clearPreparedProducts()
                             if (prepared.pivot.quantity) {
-                  
-                                    if (prepared.pivot.quantity < 0) {
+                      
+                                    if (prepared.pivot.quantity < 0 || !this.checkValidNumber(prepared.pivot.quantity)) {
                                         swal.fire({
                                             type: 'error',
                                             title: 'La quantité préparée saisie  est invalide ! ',
@@ -763,11 +774,13 @@
                                             confirmButtonText: 'Fermer'
                                         });
                                         prepared.pivot.quantity = "";
+                                         prepared.pivot.error = true;
                                         this.clearPreparedProducts()
                                     } else {
                                      
                                         this.errors = []
                                         this.clearPreparedProducts()
+                                           prepared.pivot.error = false;
 
                                     }
 
@@ -849,13 +862,15 @@
                                                     unavailable_stock.forEach(stock => {
                                                     if (prepared.id ==stock.id) {
                                                         prepared.quantity=stock.quantity
-                                                        prepared.pivot.quantity = ''
+                                                        prepared.pivot.quantity = stock.old_quantity
+                                                        prepared.pivot.error = true
                                                                      }
                                                                     });
 
                                                                 });
 
                                                         });
+                                                             this.clearPreparedProducts()
 
                                                              this.disabled = false;
 
@@ -913,6 +928,14 @@
 
 
             },
+                checkValidNumber(value)
+                    {
+                    
+                    let number = Number(value)
+                    return Number.isInteger(number) && number <= 999999
+                
+                    },
+
             cancelOrder() {
                 window.location = axios.defaults.baseURL + "/orders"
             }

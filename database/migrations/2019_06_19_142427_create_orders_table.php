@@ -28,7 +28,6 @@ class CreateOrdersTable extends Migration
             $table->date('arrival_date')->nullable();
             $table->string('arrival_time')->nullable();
             $table->date('arrival_date_wished')->nullable();
-            $table->float('total');
             $table->string('comment')->nullable();
             $table->integer('store_id')->unsigned();
             $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');

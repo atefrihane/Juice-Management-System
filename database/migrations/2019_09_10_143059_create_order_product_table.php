@@ -17,7 +17,7 @@ class CreateOrderProductTable extends Migration
             $table->increments('id');
             $table->integer('package');
             $table->integer('unit');
-            $table->float('custom_price');
+            $table->decimal('custom_price');
             $table->float('custom_tva');
             $table->integer('order_id')->unsigned();
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');

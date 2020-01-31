@@ -28,7 +28,6 @@ class OrderController extends Controller
         $order = Order::create([
             'code' => $orderCode,
             'status' => $request->status,
-            'total' => $request->total_order,
             'store_id' => $request->store_id,
             'arrival_date_wished' => $request->arrival_date_wished,
 
@@ -148,7 +147,6 @@ class OrderController extends Controller
 
             $order->update([
                 'store_id' => $request->store_id,
-                'total' => $request->total_order,
                 'status' => $request->status,
                 'arrival_date_wished' => $request->arrival_date_wished,
             ]);
@@ -323,6 +321,7 @@ class OrderController extends Controller
                             } else {
                                 $newArray = [
                                     'quantity' => $stock->quantity,
+                                    'old_quantity' =>$oldProducts[$index]->quantity,
                                     'id' => $newProduct['product_warehouse_id'],
 
                                 ];
@@ -348,6 +347,7 @@ class OrderController extends Controller
                                     } else {
                                         $newArray = [
                                             'quantity' => $stock->quantity,
+                                            'old_quantity' => $newProduct['quantity'],
                                             'id' => $newProduct['product_warehouse_id'],
 
                                         ];
@@ -383,6 +383,7 @@ class OrderController extends Controller
                             } else if ($stock->quantity < $newProduct['quantity']) {
                                 $newArray = [
                                     'quantity' => $stock->quantity,
+                                    'old_quantity' => $newProduct['quantity'],
                                     'id' => $newProduct['product_warehouse_id'],
 
                                 ];
@@ -552,23 +553,10 @@ class OrderController extends Controller
 
                     } else {
                         if ($request->balance) {
-                            //calculate total order
-                            $sumTotalQuantities = 0;
-                            $sumTotalTva = 0;
-                            $total = 0;
-                            // dd($request->balance);
-                            foreach ($request->balance as $key => $balance) {
-                                $sumTotalQuantities += $balance['qty'] * $balance['public_price'];
-                                $sumTotalTva += ($balance['qty'] * $balance['public_price']) * $balance['tva'] / 100;
-
-                            }
-                            $total = $sumTotalTva + $sumTotalQuantities;
-
-
+                          
                             $balanceOrder = Order::create([
                                 'code' => $order->code . '-relq',
                                 'status' => 2,
-                                'total' => $total,
                                 'store_id' => $order->store_id,
                                 'parent_id' => $order->id,
                             ]);

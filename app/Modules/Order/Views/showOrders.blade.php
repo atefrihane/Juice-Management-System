@@ -73,12 +73,15 @@
                                                 <td data-url="{{route('showOrder',$order->id)}}">{{$order->store->designation}}</td>
                                                 <td data-url="{{route('showOrder',$order->id)}}">{{$order->store->zipcode->code}}
                                                 </td>
-                                                <td data-url="{{route('showOrder',$order->id)}}">@convert($order->total)</td>
+                                                <td data-url="{{route('showOrder',$order->id)}}">@convert($order->totalOrdered()->sum)</td>
             
                                                 <td data-url="{{route('showOrder',$order->id)}}">
                                                     @if($order->lastComment())
+                                                    <div style="word-break:break-all;">
+                                                        {{$order->lastComment()->comment }}
+                                                    </div>
                                                  
-                                                    {{$order->lastComment()->comment }}
+                                               
                                                   
                                                     @else Aucun
                                                     @endif

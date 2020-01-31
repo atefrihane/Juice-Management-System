@@ -56,8 +56,11 @@
             .scrollable-table {
             overflow-x:auto !important;
         }
-}
-  
+        }
+        .has_error {
+            border-color:red !important;
+        }
+
        
        
 

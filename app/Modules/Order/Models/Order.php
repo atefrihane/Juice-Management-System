@@ -8,6 +8,7 @@ use App\Modules\Product\Models\Product;
 use App\Modules\Product\Models\ProductWarehouse;
 use App\Modules\Store\Models\Store;
 use App\Modules\User\Models\User;
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -22,7 +23,7 @@ class Order extends Model
     }
     public function productwarehouses()
     {
-        return $this->belongsToMany(ProductWarehouse::class, 'order_prepare')->withPivot('id','product_warehouse_id', 'order_id', 'quantity');
+        return $this->belongsToMany(ProductWarehouse::class, 'order_prepare')->withPivot('id', 'product_warehouse_id', 'order_id', 'quantity');
 
     }
     public function store()
@@ -48,11 +49,21 @@ class Order extends Model
     }
 
     public function getAmountAttribute($value)
-{
-    return money_format('$%i', $value);
-}
+    {
+        return money_format('$%i', $value);
+    }
     public function lastComment()
     {
-        return $this->histories()->where('comment','<>',null)->get()->last();
+        return $this->histories()->where('comment', '<>', null)->get()->last();
+    }
+    public function totalOrdered()
+    {
+        $sum = DB::table('order_product')
+            ->where('order_id', $this->id)
+            ->select(DB::raw('sum(order_product.custom_price * order_product.unit + 
+            (order_product.custom_price * order_product.unit)*order_product.custom_tva/100 ) as sum'))
+            ->first();
+      
+         return $sum;
     }
 }

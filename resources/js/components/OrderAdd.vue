@@ -902,7 +902,7 @@
             checkValidNumber(value)
             {
               let number = Number(value)
-              return Number.isInteger(number)
+              return Number.isInteger(number) && value.length <=6
            
             }
 

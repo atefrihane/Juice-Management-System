@@ -5754,7 +5754,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     checkValidNumber: function checkValidNumber(value) {
       var number = Number(value);
-      return Number.isInteger(number);
+      return Number.isInteger(number) && value.length <= 6;
     }
   }
 });
@@ -5782,6 +5782,16 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -6277,7 +6287,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                       stock_display: warehouse_product.pivot.stock_display,
                       packing_display: warehouse_product.pivot.packing_display,
                       pivot: {
-                        quantity: ''
+                        quantity: '',
+                        error: false
                       }
                     });
                   }
@@ -6461,7 +6472,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       this.clearPreparedProducts();
 
       if (prepared.pivot.quantity) {
-        if (prepared.pivot.quantity < 0) {
+        if (prepared.pivot.quantity < 0 || !this.checkValidNumber(prepared.pivot.quantity)) {
           swal.fire({
             type: 'error',
             title: 'La quantité préparée saisie  est invalide ! ',
@@ -6470,10 +6481,12 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             confirmButtonText: 'Fermer'
           });
           prepared.pivot.quantity = "";
+          prepared.pivot.error = true;
           this.clearPreparedProducts();
         } else {
           this.errors = [];
           this.clearPreparedProducts();
+          prepared.pivot.error = false;
         }
       }
     },
@@ -6544,11 +6557,14 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 unavailable_stock.forEach(function (stock) {
                   if (prepared.id == stock.id) {
                     prepared.quantity = stock.quantity;
-                    prepared.pivot.quantity = '';
+                    prepared.pivot.quantity = stock.old_quantity;
+                    prepared.pivot.error = true;
                   }
                 });
               });
             });
+
+            _this6.clearPreparedProducts();
 
             _this6.disabled = false;
           }
@@ -6586,6 +6602,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
       this.total_order += parseFloat(this.total_ht) + this.total_tva; // this.convertOrderedProducts(this.ordered_products)
     },
+    checkValidNumber: function checkValidNumber(value) {
+      var number = Number(value);
+      return Number.isInteger(number) && number <= 999999;
+    },
     cancelOrder: function cancelOrder() {
       window.location = axios.defaults.baseURL + "/orders";
     }
@@ -6613,6 +6633,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -8500,7 +8521,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     setOrderdPacking: function setOrderdPacking(ordered, index) {
-      if (ordered["package"] != '' && ordered["package"] > 0) {
+      if (ordered["package"] != '' && ordered["package"] > 0 && this.checkValidNumber(ordered["package"])) {
         ordered.unit = ordered["package"] * ordered.product_packing;
         ordered.total = ordered.public_price * ordered.unit;
         ordered.product_total_tva = ordered.total + ordered.total * ordered.tva / 100;
@@ -8523,9 +8544,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     setOrderdUnit: function setOrderdUnit(ordered, index) {
-      console.log(parseFloat(ordered.public_price));
-
-      if (ordered.unit != '' && ordered.unit > 0) {
+      if (ordered.unit != '' && ordered.unit > 0 && this.checkValidNumber(ordered.unit)) {
         ordered["package"] = Math.ceil(ordered.unit / ordered.product_packing);
         ordered.total = ordered.public_price * ordered.unit;
         ordered.product_total_tva = ordered.total * ordered.tva / 100;
@@ -8684,6 +8703,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return '';
+    },
+    checkValidNumber: function checkValidNumber(value) {
+      var number = Number(value);
+      return Number.isInteger(number) && value.length <= 6;
     }
   }
 });
@@ -90637,10 +90660,7 @@ var render = function() {
                       "div",
                       {
                         staticClass: "box",
-                        staticStyle: {
-                          border: "1px solid rgb(228, 228, 228)",
-                          padding: "20px"
-                        }
+                        staticStyle: { border: "1px solid rgb(228, 228, 228)" }
                       },
                       [
                         _c("div", { staticClass: "box-body" }, [
@@ -90944,49 +90964,84 @@ var render = function() {
                                         ]),
                                         _vm._v(" "),
                                         _c("td", [
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model.number",
-                                                value: prepared.pivot.quantity,
-                                                expression:
-                                                  "prepared.pivot.quantity",
-                                                modifiers: { number: true }
-                                              }
-                                            ],
-                                            staticClass: "form-control",
-                                            attrs: {
-                                              type: "number",
-                                              min: "1",
-                                              placeholder: "Quantité préparée"
+                                          _c(
+                                            "div",
+                                            {
+                                              staticStyle: { display: "flex" }
                                             },
-                                            domProps: {
-                                              value: prepared.pivot.quantity
-                                            },
-                                            on: {
-                                              change: function($event) {
-                                                return _vm.updateTotalQuantity(
-                                                  prepared,
-                                                  index,
-                                                  i
-                                                )
-                                              },
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.$set(
-                                                  prepared.pivot,
-                                                  "quantity",
-                                                  _vm._n($event.target.value)
-                                                )
-                                              },
-                                              blur: function($event) {
-                                                return _vm.$forceUpdate()
-                                              }
-                                            }
-                                          })
+                                            [
+                                              _c("div", [
+                                                _c("input", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model.number",
+                                                      value:
+                                                        prepared.pivot.quantity,
+                                                      expression:
+                                                        "prepared.pivot.quantity",
+                                                      modifiers: {
+                                                        number: true
+                                                      }
+                                                    }
+                                                  ],
+                                                  staticClass: "form-control",
+                                                  class: {
+                                                    has_error:
+                                                      prepared.pivot.error
+                                                  },
+                                                  attrs: {
+                                                    type: "number",
+                                                    min: "1",
+                                                    placeholder:
+                                                      "Quantité préparée"
+                                                  },
+                                                  domProps: {
+                                                    value:
+                                                      prepared.pivot.quantity
+                                                  },
+                                                  on: {
+                                                    change: function($event) {
+                                                      return _vm.updateTotalQuantity(
+                                                        prepared,
+                                                        index,
+                                                        i
+                                                      )
+                                                    },
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.$set(
+                                                        prepared.pivot,
+                                                        "quantity",
+                                                        _vm._n(
+                                                          $event.target.value
+                                                        )
+                                                      )
+                                                    },
+                                                    blur: function($event) {
+                                                      return _vm.$forceUpdate()
+                                                    }
+                                                  }
+                                                })
+                                              ]),
+                                              _vm._v(" "),
+                                              prepared.pivot.error
+                                                ? _c(
+                                                    "div",
+                                                    {
+                                                      staticStyle: {
+                                                        padding: "8px"
+                                                      }
+                                                    },
+                                                    [_vm._m(6, true)]
+                                                  )
+                                                : _vm._e()
+                                            ]
+                                          )
                                         ])
                                       ])
                                     })
@@ -91169,6 +91224,14 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Quantité preparée")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { attrs: { href: "#" } }, [
+      _c("i", { staticClass: "fa fa-warning", staticStyle: { color: "red" } })
     ])
   }
 ]
@@ -92536,9 +92599,13 @@ var render = function() {
                     _c("td", [_vm._v(_vm._s(history.action))]),
                     _vm._v(" "),
                     _c("td", { staticStyle: { width: "40%" } }, [
-                      history.comment != null
-                        ? _c("p", [_vm._v(" " + _vm._s(history.comment))])
-                        : _c("p", [_vm._v("Aucun commentaire")])
+                      history.comment
+                        ? _c(
+                            "div",
+                            { staticStyle: { "word-break": "break-all" } },
+                            [_vm._v(" " + _vm._s(history.comment) + " ")]
+                          )
+                        : _c("div", [_vm._v(" Aucun commentaire")])
                     ]),
                     _vm._v(" "),
                     _c("td", [

@@ -673,7 +673,7 @@
        setOrderdPacking(ordered, index) {
 
 
-                if (ordered.package != '' && ordered.package > 0) {
+                if (ordered.package != '' && ordered.package > 0 && this.checkValidNumber(ordered.package)) {
 
                     ordered.unit = ordered.package * ordered.product_packing;
                     ordered.total = ordered.public_price * ordered.unit;
@@ -704,8 +704,8 @@
                 }
             },
             setOrderdUnit(ordered, index) {
-                console.log(parseFloat(ordered.public_price))
-                if (ordered.unit != '' && ordered.unit > 0) {
+
+                if (ordered.unit != '' && ordered.unit > 0 && this.checkValidNumber(ordered.unit) ) {
 
                     ordered.package = Math.ceil(ordered.unit / ordered.product_packing)
                     ordered.total = ordered.public_price * ordered.unit;
@@ -903,6 +903,12 @@
 
 
 
+            },
+                 checkValidNumber(value)
+            {
+              let number = Number(value)
+              return Number.isInteger(number) && value.length <=6
+           
             }
 
 
