@@ -195,7 +195,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Nom Produit</th>
-                                                        <th>Quantité</th>
+                                                        <th>Quantité restante</th>
                                                         <th>Unités par display</th>
                                                         <th>Displays par colis</th>
                                                         <th>Colisage</th>
