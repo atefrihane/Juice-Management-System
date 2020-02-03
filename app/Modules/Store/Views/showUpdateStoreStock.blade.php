@@ -139,7 +139,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Date de préemption</label>
+                                        <label>Date de péremption</label>
 
                                         <div class="input-group date">
                                             <div class="input-group-addon">

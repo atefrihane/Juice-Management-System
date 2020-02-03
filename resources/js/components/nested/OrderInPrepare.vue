@@ -148,7 +148,7 @@
                                             <th>Colisage</th>
                                             <th>Entrepôt</th>
                                             <th>Date de fabrication</th>
-                                            <th>Date de préemption</th>
+                                            <th>Date de péremption</th>
                                             <th>Quantité preparée</th>
 
                                         </tr>

@@ -34,7 +34,7 @@
                                                 <th>Displays par colis</th>
                                                 <th>Colisage</th>
                                                 <th>Date de fabrication</th>
-                                                <th>Date de préemption</th>
+                                                <th>Date de péremption</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
