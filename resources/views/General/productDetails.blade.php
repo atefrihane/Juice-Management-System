@@ -1,5 +1,6 @@
 <script>
     $('document').ready(function () {
+        
         localStorage.removeItem("id");
         $('.selected_product').on('change', function () {
 
@@ -47,11 +48,45 @@
         });
 
 
+        if($('.creation_date').val()) {
+            let value = $('.creation_date').val();
+            let id = $('.selected_product :selected').val();
+            var url = {!!json_encode(url('/'))!!}
+
+            if(value.length > 0)
+            {
+                $.ajax({
+
+                type:'POST',
+                headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                url:url + `/api/product/${id}/validity`,
+
+                data:{date:value},
+
+                success:function(data){
+
+                    var response = JSON.parse(JSON.stringify(data));
+                    $('.expiration_date').val(response.finalDate)
+                
+                }
+
+                });
+
+            }
+            else{
+                $('.expiration_date').val('');
+
+
+            }
+        }
+
 
         $('.creation_date').on('change', function () {
           
             let value = this.value;
-            let id= localStorage.getItem("id");
+            let id = $('.selected_product :selected').val();
             var url = {!!json_encode(url('/'))!!}
 
             if(value.length > 0)

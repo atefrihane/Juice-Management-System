@@ -37,7 +37,7 @@
                                     <th>Colisage</th>
                                     <th>Entrepôt</th>
                                     <th>Date de fabrication</th>
-                                    <th>Date de prémption</th>
+                                    <th>Date de péremption</th>
                                     <th></th>
                                 </tr>
                             </thead>

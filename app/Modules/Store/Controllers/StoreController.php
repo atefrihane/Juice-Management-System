@@ -518,12 +518,7 @@ class StoreController extends Controller
 
         if ($store) {
 
-            $store->products()->attach($request->product_id, [
-                'quantity' => $request->quantity,
-                'packing' => $request->packing,
-                'creation_date' => $request->creation_date,
-                'expiration_date' => $request->expiration_date,
-            ]);
+            $store->products()->attach($request->product_id, $request->except('_token','url','productCode','productBarcode','productPacking'));
             alert()->success('Succès', 'Stock ajouté !')->persistent('Femer');
             return redirect()->route('showStoreStock', ['store_id' => $store->company->id, 'store' => $store->id]);
 
@@ -568,15 +563,7 @@ class StoreController extends Controller
         }
 
         if ($stock) {
-
-            $stock->update([
-                'product_id' => $request->product_id,
-                'store_id' => $idStore,
-                'quantity' => $request->quantity,
-                'packing' => $request->packing,
-                'creation_date' => $request->creation_date,
-                'expiration_date' => $request->expiration_date,
-            ]);
+            $stock->update($request->except('_token'));
             alert()->success('Succès', 'Stock modifié !')->persistent('Femer');
             return redirect()->route('showStoreStock', ['store_id' => $store->company->id, 'store' => $store->id]);
         }

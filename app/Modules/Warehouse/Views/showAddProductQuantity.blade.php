@@ -24,7 +24,7 @@
                     <form role="form" method="post" enctype="multipart/form-data"
                         action="{{route('handleAddProductQuantity')}}">
                         {{csrf_field()}}
-                <input type="hidden" name="url" value="{{url()->previous()}}">
+                        <input type="hidden" name="url" value="{{url()->previous()}}">
 
                         <div class="box-body">
                             <div class="row">
@@ -59,7 +59,7 @@
                                         class="form-control" placeholder="Code à barre" id="barCode" readonly>
                                 </div>
 
-                              
+
 
 
                             </div>
@@ -94,34 +94,26 @@
                         <div class="box-body">
                             <div class="row">
 
-                                <div class="col-md-12">
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1">Nombre d'unités par display</label>
                                     <input type="number" name="stock_display" value="{{old('stockDisplay')}}"
                                         class="form-control" placeholder="Nombre d'unités par display" required>
                                 </div>
-                         </div>
-                        </div>
 
-
-                        <div class="box-body">
-                            <div class="row">
-
-                                <div class="col-md-12">
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1">Nombre de display par colis</label>
                                     <input type="number" name="packing_display" value="{{old('packingDisplay')}}"
                                         class="form-control" placeholder="Nombre de display par colis" required>
                                 </div>
-                         </div>
-                        </div>
-                        <div class="box-body">
-                            <div class="row">
-                                <div class="col-md-12">
+
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1">Colisage</label>
                                     <input type="number" name="packing" value="{{old('packing')}}" class="form-control"
                                         placeholder="Colisage" id="packing1" required>
                                 </div>
                             </div>
                         </div>
+               
                         <div class="box-body">
                             <div class="row">
 
@@ -133,7 +125,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="date" name="creation_date" value="{{old('creation_date')}}"
+                                            <input type="date" name="creation_date" data-url="" value="{{old('creation_date')}}" 
                                                 class="form-control pull-right creation_date" id="datepicker" required>
                                         </div>
                                         <!-- /.input group -->
@@ -143,11 +135,14 @@
 
                             </div>
                         </div>
+
+
+
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Date préemption</label>
+                                        <label>Date de péremption</label>
 
                                         <div class="input-group date">
                                             <div class="input-group-addon">
@@ -176,9 +171,6 @@
                             </div>
                         </div>
 
-
-
-
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -200,6 +192,10 @@
                                 </div>
                             </div>
                         </div>
+
+
+
+
 
 
 
@@ -244,6 +240,6 @@
 
 </section>
 </div>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+{{-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> --}}
 
 @endsection

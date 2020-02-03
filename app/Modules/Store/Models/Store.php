@@ -83,7 +83,7 @@ class Store extends Model
         return $this->belongsToMany(Product::class, 'store_products');
     }
 
-    
+
 
     public function prices()
     {

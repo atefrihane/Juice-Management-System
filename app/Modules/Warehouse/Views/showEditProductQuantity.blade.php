@@ -27,8 +27,11 @@
 
                         <div class="box-body">
                             <div class="row">
-
-                                <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <label for="exampleInputEmail1">ID</label>
+                                <input type="text" class="form-control" value="{{$productQuantity->id}}" disabled>
+                                </div>
+                                <div class="col-md-6">
                                     <label for="exampleInputEmail1">Nom de produit</label>
                                     <select class="form-control selected_product" name="product_id" required>
                                         <option value="0">Selectionner un produit </option>
@@ -92,53 +95,23 @@
                         <div class="box-body">
                             <div class="row">
 
-                                <div class="col-md-12">
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1">Nombre d'unités par display</label>
                                     <input type="number" name="stock_display" value="{{$productQuantity->stock_display}}"
                                         class="form-control" placeholder="Nombre d'unités par display" required>
                                 </div>
-                         </div>
-                        </div>
 
-
-                        <div class="box-body">
-                            <div class="row">
-
-                                <div class="col-md-12">
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1">Nombre de display par colis</label>
                                     <input type="number" name="packing_display" value="{{$productQuantity->packing_display}}"
                                         class="form-control" placeholder="Nombre de display par colis" required>
                                 </div>
-                         </div>
-                        </div>
-                        <div class="box-body">
-                            <div class="row">
-                                <div class="col-md-12">
+
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1">Colisage</label>
                                     <input type="number" name="packing" class="form-control" value="{{$productQuantity->packing}}"  placeholder="Colisage" required>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            <div class="row">
-
-
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Date prémption du produit fermé</label>
-
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                            </div>
-                                            <input type="date" class="form-control pull-right" id="datepicker"
-                                                name="expiration_date" value="{{$productQuantity->expiration_date}}"  required>
-                                        </div>
-                                        <!-- /.input group -->
-                                    </div>
-                                </div>
-
-                            </div>
+                         </div>
                         </div>
 
 
@@ -153,13 +126,33 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="date" name="creation_date" value="{{$productQuantity->creation_date}}" class="form-control pull-right"
-                                                id="datepicker" required>
+                                            <input type="date" name="creation_date" value="{{$productQuantity->creation_date}}"
+                                                class="form-control pull-right creation_date" id="datepicker" required>
                                         </div>
                                         <!-- /.input group -->
                                     </div>
                                 </div>
 
+
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Date de péremption</label>
+
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="date" class="form-control pull-right expiration_date"
+                                                id="datepicker" name="expiration_date"
+                                                value="{{old('expiration_date')}}" required>
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
@@ -245,38 +238,5 @@
 
 
 
-<script>
-    $('document').ready(function () {
 
-        $('.selected_product').on('change', function () {
-
-            var id = this.value;
-            var url = {!!json_encode(url('/')) !!}
-               
-          
-            if (id == 0) {
-                $('#productCode').val('');
-                $('#barCode').val('');
-   
-
-            }
-            $.ajax({
-                type: 'GET', //THIS NEEDS TO BE GET
-                url: url + '/api/product/details/' + id,
-                dataType: 'json',
-                success: function (data) {
-                    var response = JSON.parse(JSON.stringify(data));
-           
-                    $('#productCode').val(response.product.code);
-                    $('#barCode').val(response.product.barcode);
-                    $('#packingProduct').val(response.product.packing);
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            });
-        });
-    });
-
-</script>
 @endsection

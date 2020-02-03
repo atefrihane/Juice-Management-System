@@ -15,10 +15,13 @@ class StoreProducts extends Migration
     {
         Schema::create('store_products', function (Blueprint $table) {
             $table->increments('id');
-            $table->float('quantity');
             $table->integer('packing');
+            $table->float('quantity');
             $table->date('creation_date');
             $table->date('expiration_date');
+            $table->integer('stock_display');
+            $table->integer('packing_display');
+            $table->text('comment')->nullable();
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->integer('store_id')->unsigned();

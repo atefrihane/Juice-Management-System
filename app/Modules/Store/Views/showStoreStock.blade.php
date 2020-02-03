@@ -29,8 +29,10 @@
                                         <thead>
                                             <tr>
                                                 <th>Nom du produit</th>
-                                                <th>Désignation</th>
-                                                <th>Nombre d'unité</th>
+                                                <th>Quantité(nbr des unités)</th>
+                                                <th>Unités par diplay</th>
+                                                <th>Displays par colis</th>
+                                                <th>Colisage</th>
                                                 <th>Date de fabrication</th>
                                                 <th>Date de préemption</th>
                                                 <th></th>
@@ -40,8 +42,10 @@
                                             <tr>
                                                 @forelse($stocks as $stock)
                                                 <td>{{$stock->product->nom}}</td>
-                                                <td>{{$stock->product->designation}}</td>
                                                 <td>{{$stock->quantity}}</td>
+                                                <td>{{$stock->stock_display}}</td>
+                                                <td>{{$stock->packing_display}}</td>
+                                                <td>{{$stock->packing}}</td>
                                                 <td>{{ Carbon\Carbon::parse($stock->creation_date)->format('d-m-Y') }}</td>
                                                 <td>{{ Carbon\Carbon::parse($stock->expiration_date)->format('d-m-Y') }}</td>
             
