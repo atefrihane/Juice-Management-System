@@ -230,7 +230,7 @@
                                                         <td>
                                                         <div style="display:flex;">
                                                         <div>
-                                                          <input type="text" pattern="[1-9]"  class="form-control"   
+                                                          <input type="text"  class="form-control"   
                                                           v-bind:class="{ has_error: prepared.pivot.error}"
                                                                 placeholder="Quantité préparée"
                                                                 @change="updateTotalQuantity(prepared,index,i)"
@@ -764,7 +764,7 @@
         
                         this.errors = []
                          this.clearPreparedProducts()
-                            if (prepared.pivot.quantity) {
+                      
                       
                                     if (prepared.pivot.quantity < 0 || !this.checkValidNumber(prepared.pivot.quantity)) {
                                         swal.fire({
@@ -785,7 +785,7 @@
 
                                     }
 
-                }
+                
                
 
 

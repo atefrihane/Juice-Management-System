@@ -189,10 +189,10 @@
                                         </option>
                                     </select>
                                 </td>
-                                <td><input type="number" class="form-control" placeholder="Nombre de colis"
+                                <td><input type="text" class="form-control" placeholder="Nombre de colis"
                                         v-model="ordered.package" @change="setOrderdPacking(ordered,index)"
                                         :disabled="ordered.product_id == ''"></td>
-                                <td> <input type="number" class="form-control" placeholder="Nombre d'unités"
+                                <td> <input type="text" class="form-control" placeholder="Nombre d'unités"
                                         v-model="ordered.unit" @change="setOrderdUnit(ordered,index)"
                                         :disabled="ordered.product_id == ''"></td>
                                 <td><input type="text" class="form-control" disabled placeholder="Colisage.."

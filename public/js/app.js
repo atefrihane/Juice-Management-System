@@ -6463,23 +6463,21 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       this.errors = [];
       this.clearPreparedProducts();
 
-      if (prepared.pivot.quantity) {
-        if (prepared.pivot.quantity < 0 || !this.checkValidNumber(prepared.pivot.quantity)) {
-          swal.fire({
-            type: 'error',
-            title: 'La quantité préparée saisie  est invalide ! ',
-            showConfirmButton: true,
-            allowOutsideClick: false,
-            confirmButtonText: 'Fermer'
-          });
-          prepared.pivot.quantity = "";
-          prepared.pivot.error = true;
-          this.clearPreparedProducts();
-        } else {
-          this.errors = [];
-          this.clearPreparedProducts();
-          prepared.pivot.error = false;
-        }
+      if (prepared.pivot.quantity < 0 || !this.checkValidNumber(prepared.pivot.quantity)) {
+        swal.fire({
+          type: 'error',
+          title: 'La quantité préparée saisie  est invalide ! ',
+          showConfirmButton: true,
+          allowOutsideClick: false,
+          confirmButtonText: 'Fermer'
+        });
+        prepared.pivot.quantity = "";
+        prepared.pivot.error = true;
+        this.clearPreparedProducts();
+      } else {
+        this.errors = [];
+        this.clearPreparedProducts();
+        prepared.pivot.error = false;
       }
     },
     validateForm: function validateForm() {
@@ -89790,7 +89788,7 @@ var render = function() {
                           ],
                           staticClass: "form-control",
                           attrs: {
-                            type: "number",
+                            type: "text",
                             placeholder: "Nombre de colis",
                             disabled: ordered.product_id == "",
                             min: "1"
@@ -89822,7 +89820,7 @@ var render = function() {
                           ],
                           staticClass: "form-control",
                           attrs: {
-                            type: "number",
+                            type: "ordered",
                             placeholder: "Nombre d'unités",
                             disabled: ordered.product_id == ""
                           },
@@ -90989,7 +90987,6 @@ var render = function() {
                                                   },
                                                   attrs: {
                                                     type: "text",
-                                                    pattern: "[1-9]",
                                                     placeholder:
                                                       "Quantité préparée"
                                                   },
@@ -93932,7 +93929,7 @@ var render = function() {
                       ],
                       staticClass: "form-control",
                       attrs: {
-                        type: "number",
+                        type: "text",
                         placeholder: "Nombre de colis",
                         disabled: ordered.product_id == ""
                       },
@@ -93963,7 +93960,7 @@ var render = function() {
                       ],
                       staticClass: "form-control",
                       attrs: {
-                        type: "number",
+                        type: "text",
                         placeholder: "Nombre d'unités",
                         disabled: ordered.product_id == ""
                       },
