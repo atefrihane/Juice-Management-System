@@ -654,13 +654,30 @@
 
 
                 if (ordered.packing != '' && ordered.packing > 0 && this.checkValidNumber(ordered.packing)) {
+                    let total= ordered.packing * ordered.product_packing;
+                if (total >= 999999) {
 
-                    ordered.unit = ordered.packing * ordered.product_packing;
+                      swal.fire({
+                        type: 'error',
+                        title: 'Le nombre de colis saisi est invalide ! ',
+                        showConfirmButton: true,
+                        allowOutsideClick: false,
+                        confirmButtonText: 'Fermer'
+
+
+                    });
+
+                }
+                else{
+                    ordered.unit = total;
                     ordered.total = ordered.public_price * ordered.unit;
                     ordered.product_total_tva = ordered.total + ordered
                         .total * ordered.tva /
                         100;
                     this.clearOrderedProducts();
+
+                }
+                
                 } else {
 
                     swal.fire({
@@ -676,20 +693,35 @@
                      ordered.unit = ''
                     ordered.total = 0;
                     ordered.product_total_tva = 0;
-                    this.total_ht = 0;
-                    this.total_tva = 0;
-                    this.total_order = 0;
+                        this.clearOrderedProducts();
 
                 }
             },
             setOrderdUnit(ordered, index) {
          
                 if (ordered.unit != '' && ordered.unit > 0 && this.checkValidNumber(ordered.unit) ) {
+                 let total= Math.ceil(ordered.unit / ordered.product_packing)
+                     if (total >= 999999) {
 
-                    ordered.packing = Math.ceil(ordered.unit / ordered.product_packing)
+                      swal.fire({
+                        type: 'error',
+                        title: 'Le nombre de colis saisi est invalide ! ',
+                        showConfirmButton: true,
+                        allowOutsideClick: false,
+                        confirmButtonText: 'Fermer'
+
+
+                    });
+
+                }
+                   else{
+                    ordered.packing = total
                     ordered.total = ordered.public_price * ordered.unit;
                     ordered.product_total_tva = ordered.total * ordered.tva / 100;
                     this.clearOrderedProducts();
+
+                   }
+           
                 } else {
 
                     swal.fire({
@@ -705,9 +737,7 @@
                       ordered.packing = ''
                     ordered.total = 0;
                     ordered.product_total_tva = 0;
-                    this.total_ht = 0;
-                    this.total_tva = 0;
-                    this.total_order = 0;
+                    this.clearOrderedProducts();
 
                 }
 

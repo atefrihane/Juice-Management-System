@@ -5548,10 +5548,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     setOrderdPacking: function setOrderdPacking(ordered, index) {
       if (ordered.packing != '' && ordered.packing > 0 && this.checkValidNumber(ordered.packing)) {
-        ordered.unit = ordered.packing * ordered.product_packing;
-        ordered.total = ordered.public_price * ordered.unit;
-        ordered.product_total_tva = ordered.total + ordered.total * ordered.tva / 100;
-        this.clearOrderedProducts();
+        var total = ordered.packing * ordered.product_packing;
+
+        if (total >= 999999) {
+          swal.fire({
+            type: 'error',
+            title: 'Le nombre de colis saisi est invalide ! ',
+            showConfirmButton: true,
+            allowOutsideClick: false,
+            confirmButtonText: 'Fermer'
+          });
+        } else {
+          ordered.unit = total;
+          ordered.total = ordered.public_price * ordered.unit;
+          ordered.product_total_tva = ordered.total + ordered.total * ordered.tva / 100;
+          this.clearOrderedProducts();
+        }
       } else {
         swal.fire({
           type: 'error',
@@ -5564,17 +5576,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         ordered.unit = '';
         ordered.total = 0;
         ordered.product_total_tva = 0;
-        this.total_ht = 0;
-        this.total_tva = 0;
-        this.total_order = 0;
+        this.clearOrderedProducts();
       }
     },
     setOrderdUnit: function setOrderdUnit(ordered, index) {
       if (ordered.unit != '' && ordered.unit > 0 && this.checkValidNumber(ordered.unit)) {
-        ordered.packing = Math.ceil(ordered.unit / ordered.product_packing);
-        ordered.total = ordered.public_price * ordered.unit;
-        ordered.product_total_tva = ordered.total * ordered.tva / 100;
-        this.clearOrderedProducts();
+        var total = Math.ceil(ordered.unit / ordered.product_packing);
+
+        if (total >= 999999) {
+          swal.fire({
+            type: 'error',
+            title: 'Le nombre de colis saisi est invalide ! ',
+            showConfirmButton: true,
+            allowOutsideClick: false,
+            confirmButtonText: 'Fermer'
+          });
+        } else {
+          ordered.packing = total;
+          ordered.total = ordered.public_price * ordered.unit;
+          ordered.product_total_tva = ordered.total * ordered.tva / 100;
+          this.clearOrderedProducts();
+        }
       } else {
         swal.fire({
           type: 'error',
@@ -5587,9 +5609,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         ordered.packing = '';
         ordered.total = 0;
         ordered.product_total_tva = 0;
-        this.total_ht = 0;
-        this.total_tva = 0;
-        this.total_order = 0;
+        this.clearOrderedProducts();
       }
     },
     validateForm: function validateForm() {
@@ -8513,10 +8533,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     setOrderdPacking: function setOrderdPacking(ordered, index) {
       if (ordered["package"] != '' && ordered["package"] > 0 && this.checkValidNumber(ordered["package"])) {
-        ordered.unit = ordered["package"] * ordered.product_packing;
-        ordered.total = ordered.public_price * ordered.unit;
-        ordered.product_total_tva = ordered.total + ordered.total * ordered.tva / 100;
-        this.clearOrderedProducts();
+        var total = ordered["package"] * ordered.product_packing;
+
+        if (total >= 999999) {
+          swal.fire({
+            type: 'error',
+            title: 'Le nombre de colis saisi est invalide ! ',
+            showConfirmButton: true,
+            allowOutsideClick: false,
+            confirmButtonText: 'Fermer'
+          });
+          ordered["package"] = '';
+          ordered.unit = '';
+          ordered.total = 0;
+          ordered.product_total_tva = 0;
+          this.clearOrderedProducts();
+        } else {
+          ordered.unit = ordered["package"] * ordered.product_packing;
+          ordered.total = ordered.public_price * ordered.unit;
+          ordered.product_total_tva = ordered.total + ordered.total * ordered.tva / 100;
+          this.clearOrderedProducts();
+        }
       } else {
         swal.fire({
           type: 'error',
@@ -8529,9 +8566,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         ordered.unit = '';
         ordered.total = 0;
         ordered.product_total_tva = 0;
-        this.total_ht = 0;
-        this.total_tva = 0;
-        this.total_order = 0;
+        this.clearOrderedProducts();
       }
     },
     setOrderdUnit: function setOrderdUnit(ordered, index) {
@@ -8552,9 +8587,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         ordered.unit = '';
         ordered.total = 0;
         ordered.product_total_tva = 0;
-        this.total_ht = 0;
-        this.total_tva = 0;
-        this.total_order = 0;
+        this.clearOrderedProducts();
       }
     },
     convertMoneyFormat: function convertMoneyFormat(value) {

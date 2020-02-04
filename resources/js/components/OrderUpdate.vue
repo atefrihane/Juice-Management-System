@@ -674,13 +674,36 @@
 
 
                 if (ordered.package != '' && ordered.package > 0 && this.checkValidNumber(ordered.package)) {
+                let total= ordered.package * ordered.product_packing;
+                if (total >= 999999) {
 
-                    ordered.unit = ordered.package * ordered.product_packing;
+                      swal.fire({
+                        type: 'error',
+                        title: 'Le nombre de colis saisi est invalide ! ',
+                        showConfirmButton: true,
+                        allowOutsideClick: false,
+                        confirmButtonText: 'Fermer'
+
+
+                    });
+
+                    ordered.package = ''
+                    ordered.unit = ''
+                    ordered.total = 0;
+                    ordered.product_total_tva = 0;
+                    this.clearOrderedProducts();
+
+                }
+                else{
+                     ordered.unit = ordered.package * ordered.product_packing;
                     ordered.total = ordered.public_price * ordered.unit;
                     ordered.product_total_tva = ordered.total + ordered
                         .total * ordered.tva /
                         100;
                     this.clearOrderedProducts();
+
+                }
+                   
                 } else {
 
                     swal.fire({
@@ -697,20 +720,22 @@
                     ordered.unit = ''
                     ordered.total = 0;
                     ordered.product_total_tva = 0;
-                    this.total_ht = 0;
-                    this.total_tva = 0;
-                    this.total_order = 0;
+                      this.clearOrderedProducts();
 
                 }
             },
             setOrderdUnit(ordered, index) {
+            
 
                 if (ordered.unit != '' && ordered.unit > 0 && this.checkValidNumber(ordered.unit) ) {
-
-                    ordered.package = Math.ceil(ordered.unit / ordered.product_packing)
+               
+                     ordered.package = Math.ceil(ordered.unit / ordered.product_packing)
                     ordered.total = ordered.public_price * ordered.unit;
                     ordered.product_total_tva = ordered.total * ordered.tva / 100;
                     this.clearOrderedProducts();
+
+                
+                   
                 } else {
 
                     swal.fire({
@@ -726,9 +751,7 @@
                     ordered.unit = ''
                     ordered.total = 0;
                     ordered.product_total_tva = 0;
-                    this.total_ht = 0;
-                    this.total_tva = 0;
-                    this.total_order = 0;
+                      this.clearOrderedProducts();
 
                 }
 
