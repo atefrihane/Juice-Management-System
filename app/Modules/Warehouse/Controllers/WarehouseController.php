@@ -11,11 +11,20 @@ use App\Modules\Product\Models\ProductWarehouse;
 use App\Modules\User\Models\User;
 use App\Modules\Warehouse\Models\Warehouse;
 use App\Repositories\Image;
+use App\Repositories\Validation;
 use File;
 use Illuminate\Http\Request;
 
 class WarehouseController extends Controller
 {
+
+    protected $validation;
+
+    public function __construct(Image $image, Validation $validation)
+    {
+
+        $this->validation = $validation;
+    }
 
     public function showWarehouseProducts()
     {
@@ -48,6 +57,30 @@ class WarehouseController extends Controller
     }
     public function handleAddWarehouse(Request $request, Image $image)
     {
+
+
+        $val = $request->validate([
+            'code' => 'required',
+             'designation' => 'required',
+            'zipcode_id' => 'required',
+            'country_id' => 'required',
+            'city_id' => 'required',
+            'surface' => 'required|digits_between:1,6||min:0|not_in:0',
+            'address' => 'required',
+            'photo' => 'image|mimes:jpeg,png,jpg|max:2048',
+
+        ], [
+            'code.required' => 'le champs code est requis',
+            'designation.required' => 'le champs designation  est requis',
+            'zipcode_id.required' => 'le champs code postale est requis',
+            'country_id.required' => 'le champs pays est requis',
+            'city_id.required' => 'le champs ville est requis',
+            'surface.required' => 'le champs surface est requis',
+            'surface.digits_between' => 'le champs surface n\'est pas valide',
+            'photo.image' => 'Le format du photo importé est non supporté ',
+            'photo.mimes' => 'Le format du photo importé est non supporté ',
+            'photo.max' => 'Photo importé est volumineux ! ',
+        ]);
 
         $checkWarehouse = Warehouse::where('code', $request->code)->first();
         $path = null;
@@ -101,7 +134,7 @@ class WarehouseController extends Controller
         $products = Product::all();
         $warehouses = Warehouse::all();
         if ($warehouse) {
-   
+
             return view('Warehouse::showAddWarehouseStock', compact('warehouse', 'products', 'warehouses'));
 
         }
@@ -148,6 +181,32 @@ class WarehouseController extends Controller
 
     public function handleUpdateWarehouse($id, Request $request)
     {
+
+        $val = $request->validate([
+            'code' => 'required',
+             'designation' => 'required',
+            'zipcode_id' => 'required',
+            'country_id' => 'required',
+            'city_id' => 'required',
+            'surface' => 'required|digits_between:1,6||min:0|not_in:0',
+            'address' => 'required',
+            'photo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
+
+        ], [
+            'code.required' => 'le champs code est requis',
+            'designation.required' => 'le champs designation  est requis',
+            'zipcode_id.required' => 'le champs code postale est requis',
+            'country_id.required' => 'le champs pays est requis',
+            'city_id.required' => 'le champs ville est requis',
+            'surface.required' => 'le champs surface est requis',
+            'surface.digits_between' => 'le champs surface n\'est pas valide',
+            'photo.image' => 'Le format du photo importé est non supporté ',
+            'photo.mimes' => 'Le format du photo importé est non supporté ',
+            'photo.max' => 'Photo importé est volumineux ! ',
+        ]);
+
+
+
         $checkWarehouse = Warehouse::find($id);
         $path = null;
         if ($checkWarehouse) {
@@ -193,6 +252,30 @@ class WarehouseController extends Controller
     public function handleAddProductQuantity(Request $request)
     {
 
+        $request->validate([
+            'stock_display' => 'required|digits_between:1,6',
+            'packing_display' => 'required|digits_between:1,6',
+            'packing' => 'required|digits_between:1,6',
+            'quantity' => 'required|digits_between:1,6||min:0|not_in:0',
+            'creation_date' => 'required|date',
+            'expiration_date' => 'required|date',
+
+        ], [
+            'stock_display.required' => 'le champs Nombre d\'unités par display est requis',
+            'stock_display.digits_between' => 'le champs Nombre d\'unités par display n\'est pas valide',
+            'packing_display.required' => 'le champs Nombre de display est requis',
+            'packing_display.digits_between' => 'le champs Nombre de display n\'est pas valide',
+            'packing.required' => 'le champs Colisage est requis',
+            'packing.digits_between' => 'le champs Colisage n\'est pas valide',
+            'creation_date.required' => 'le champs Date de fabrication est requis',
+            'expiration_date.required' => 'le  champs Date de péremption est requis',
+            'quantity.required' => 'le  champs quantité est requis',
+            'quantity.min' => 'le champs quantité n\est pas valide',
+            'quantity.not_in' => 'le champs quantité n\est pas valide',
+            'quantity.digits_between' => 'le champs quantité n\'est pas valide',
+
+        ]);
+
         if ($request->product_id == 0) {
             alert()->error('Oups!', 'Veuillez selectionner un produit ! !')->persistent('Femer');
             return redirect()->back()->withInput();
@@ -208,7 +291,17 @@ class WarehouseController extends Controller
 
         }
 
-        ProductWarehouse::create($request->all());
+        ProductWarehouse::create($request->except(
+            '_token',
+            'url',
+            'productCode',
+            'productBarcode',
+            'productPacking',
+            'defaultDisplay',
+            'defaultPacking',
+            'productPacking'
+
+        ));
         alert()->success('Succés!', 'Le produit a été ajouté avec succés')->persistent('Femer');
         return redirect($request->url);
 
@@ -230,6 +323,30 @@ class WarehouseController extends Controller
 
     public function handleEditProductQuantity($id, Request $request)
     {
+
+        $request->validate([
+            'stock_display' => 'required|digits_between:1,6',
+            'packing_display' => 'required|digits_between:1,6',
+            'packing' => 'required|digits_between:1,6',
+            'quantity' => 'required|digits_between:1,6||min:0|not_in:0',
+            'creation_date' => 'required|date',
+            'expiration_date' => 'required|date',
+
+        ], [
+            'stock_display.required' => 'le champs Nombre d\'unités par display est requis',
+            'stock_display.digits_between' => 'le champs Nombre d\'unités par display n\'est pas valide',
+            'packing_display.required' => 'le champs Nombre de display est requis',
+            'packing_display.digits_between' => 'le champs Nombre de display n\'est pas valide',
+            'packing.required' => 'le champs Colisage est requis',
+            'packing.digits_between' => 'le champs Colisage n\'est pas valide',
+            'creation_date.required' => 'le champs Date de fabrication est requis',
+            'expiration_date.required' => 'le  champs Date de péremption est requis',
+            'quantity.required' => 'le  champs quantité est requis',
+            'quantity.min' => 'le champs quantité n\est pas valide',
+            'quantity.not_in' => 'le champs quantité n\est pas valide',
+            'quantity.digits_between' => 'le champs quantité n\'est pas valide',
+
+        ]);
 
         if ($request->product_id == 0) {
             alert()->error('Oups!', 'Veuillez selectionner un produit ! ')->persistent('Femer');

@@ -92,6 +92,12 @@
 
     });
 
+//     $(function(){
+//    $("input[type='number']").prop('min',1);
+//    $("input[type='number']").prop('max',999999);
+// });
+
+
 </script>
 
 <script>

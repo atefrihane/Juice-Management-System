@@ -21,6 +21,16 @@
 
                     </div>
 
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                     <form role="form" method="post" enctype="multipart/form-data"
                         action="{{route('handleAddProductQuantity')}}">
                         {{csrf_field()}}
@@ -91,15 +101,15 @@
 
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Nombre d'unités par display</label>
-                                    <input type="number" name="stock_display" value="{{old('stockDisplay')}}"
+                                    <input type="number" name="stock_display" value="{{old('stock_display')}}"
                                         class="form-control" placeholder="Nombre d'unités par display" required>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label for="exampleInputEmail1">Colisage</label>
-                                    <input type="number" name="packing" value="{{old('packing')}}" class="form-control"
-                                        placeholder="Colisage" id="packing1" required>
-                                </div>
+                                        <label for="exampleInputEmail1">Nombre de display par colis</label>
+                                        <input type="number" name="packing_display" value="{{old('packing_display')}}"
+                                            class="form-control" placeholder="Nombre de display par colis" required>
+                                    </div>
 
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Colisage</label>
@@ -157,7 +167,7 @@
 
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Quantité (nombre des unités)</label>
-                                    <input type="number" name="quantity" value="{{old('quantity')}}"
+                                    <input type="number"  min="1" name="quantity" value="{{old('quantity')}}"
                                         class="form-control" placeholder="Quantité" required>
                                 </div>
 
@@ -177,7 +187,7 @@
                                     <select class="form-control" name="warehouse_id">
                              
                                      @foreach($warehouses as $allWarehouse)
-                                    <option value="{{$allWarehouse->id}}"  {{ old('warehouse_id') == $warehouse->id ? "selected" : "" }}>{{$warehouse->designation}}</option>
+                                    <option value="{{$allWarehouse->id}}"  {{ old('warehouse_id') == $allWarehouse->id ? "selected" : "" }}>{{$allWarehouse->designation}}</option>
                                     @endforeach
                                    </select>
                                    @else

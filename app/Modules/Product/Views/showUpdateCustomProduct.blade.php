@@ -35,85 +35,80 @@
                                         <input type="text" class="form-control" value="{{$company->name}}" disabled>
                                     </div>
                                 </div>
-
-                                <div class="col-md-8">
+                                @if($price->stores->count() > 0)
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Magasins concernés par la remise </label>
-
-                                        @if($price->stores->count() > 0)
-                                        @foreach($price->stores as $key => $store)
-                                        <div class="scrollable">
-                                        <div class="col-md-12">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input"
-                                                    name="store_id[]" id="exampleCheck1" value="{{$store->id}}" checked>
-                                                <span>{{$store->designation}}</span>
-                                            </div>
+                                        <div class="form-check" style="margin: 10px 15px 20px;">
+                                            <input type="checkbox" class="form-check-input selectAll">
+                                            Tout séléctionner
                                         </div>
-                                        </div>    
-                                    
+                                        <div class="scrollable">
+                                            @forelse($price->stores as $key => $store)
+                                            <div class="col-md-12" style="padding: 2px 0px;">
+                                                <div class="form-check" style="margin-bottom:5px;">
+                                                    <input type="checkbox" class="form-check-input willCheck"
+                                                        name="store_id[]" id="exampleCheck1" value="{{$store->id}}"
+                                                        checked>
+                                                    <span>{{$store->designation}}</span>
+                                                </div>
+                                            </div>
+                                            @empty
+                                            <p>Aucun magasin trouvé!</p>
+                                            @endforelse
+
+                                        </div>
 
 
 
-                                        @endforeach
-                                        @else
-                                        <div class="box-body">
-                                            <p>Aucun magasin trouvé !</p>
+                                    </div>
+                                </div>
+                                @else
+                                <div class="box-body">
+                                    <p>Aucun magasin trouvé !</p>
+                                </div>
+
+                                @endif
+
+
+                    
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Autres magasins </label>
+                                        @if(count($freeStores) >0)
+                                        <div class="form-check" style="margin: 10px 15px 20px;">
+
+                                            <input type="checkbox" class="form-check-input selectBalance">
+                                            Tout séléctionner
                                         </div>
                                         @endif
+                                        <div class="scrollable">
+                                            @forelse($freeStores as $key => $freeStore)
 
-
-
-
-
-
-
-
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="box-body">
-                                <div class="row">
-
-                                    <div class="col-md-4">
-
-                                    </div>
-
-                                    <div class="col-md-8">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Autres magasins </label>
-                                            @if(count($freeStores) >0)
-                                            <div class="form-check" style="margin: 10px 15px 20px;">
-                                         
-                                                <input type="checkbox" class="form-check-input selectAll">
-                                                Tout séléctionner
-                                            </div>
-                                            @endif
-                                            <div class="scrollable">
-                                                @forelse($freeStores as $key => $freeStore)
-
-                                                <div class="col-md-12">
-                                                    <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input willCheck"
-                                                            name="new_store_id[]" id="exampleCheck1"
-                                                            value="{{$freeStore->id}}">
-                                                        <span>{{$freeStore->designation}}</span>
-                                                    </div>
+                                            <div class="col-md-12" style="padding: 2px 0px;">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input willCheckBalance"
+                                                        name="new_store_id[]" id="exampleCheck1"
+                                                        value="{{$freeStore->id}}">
+                                                    <span>{{$freeStore->designation}}</span>
                                                 </div>
-                                                @empty
-                                                <div class="box-body">
-                                                    <p>Aucun magasin trouvé !</p>
-                                                </div>
-
-
-                                                @endforelse
-
                                             </div>
+                                            @empty
+                                            <div class="box-body">
+                                                <p>Aucun magasin trouvé !</p>
+                                            </div>
+
+
+                                            @endforelse
+
                                         </div>
                                     </div>
                                 </div>
+
+
                             </div>
+
 
 
                             <div class="form-group">

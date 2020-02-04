@@ -9,9 +9,18 @@ use App\Modules\Store\Models\Price;
 use App\Modules\Store\Models\Store;
 use App\Modules\Store\Models\StorePrice;
 use Illuminate\Http\Request;
+use App\Repositories\Validation;
 
 class ProductController extends Controller
 {
+
+    protected $validation;
+
+    public function __construct(Validation $validation)
+    {
+
+        $this->validation = $validation;
+    }
 
     public function showProducts()
     {
@@ -116,7 +125,6 @@ class ProductController extends Controller
 
         ]);
 
-       
         alert()->success('Succès!', 'Produit modifié')->persistent("Fermer");
         return redirect('/products');
 
@@ -186,22 +194,29 @@ class ProductController extends Controller
 
     public function handleUpdateCustomProduct(Request $request, $id, $companyId)
     {
-       
+        if (!$this->validation->validateQuantity($request->price)) {
+            alert()->error('Le prix saisi est invalide', 'Oups!')->persistent('Femer');
+            return redirect()->back()->withInput();
 
+        }
+        
         $company = Company::find($companyId);
         $price = Price::find($id);
         $stores = Store::all();
+        if (!$request->input('store_id') && !$request->input('new_store_id')) {
+            alert()->error('Veuillez séléctionner au moins un magasin', 'Oups!')->persistent('Fermer');
+            return redirect()->back();
 
+        }
         if ($price) {
             $storesIds = $stores->pluck('id')->toArray();
             if ($request->input('store_id')) {
                 $detachedIds = array_diff($storesIds, $request->input('store_id'));
                 $price->stores()->detach($detachedIds);
 
-            } else {
-                alert()->error('Veuillez séléctionner au moins un magasin','Oups!')->persistent('Fermer');
-                return redirect()->back();
-                // $price->stores()->detach();
+            } 
+            else{
+                $price->stores()->detach();
             }
             $exist = false;
             //check if user has selected a different product and then make sure that the upcoming product not already exist
@@ -239,8 +254,6 @@ class ProductController extends Controller
 
             return redirect()->route('showCustomProducts', $company->id)->with(['company' => $company, 'prices' => Price::all()]);
 
-           
-
         }
 
     }
@@ -250,10 +263,7 @@ class ProductController extends Controller
         $price = Price::find($id);
 
         if ($price) {
-            if ($price->stores()->exists()) {
-                alert()->error('Cette entité ne peut pas être supprimée, autres entités y sont liées', 'Oups! ')->persistent("Fermer");
-                return redirect()->back();
-            }
+          
             $price->delete();
             alert()->success('Succès!', 'Produit est supprimé du tarif avec sucées')->persistent("Fermer");
             return redirect()->back();
@@ -270,10 +280,10 @@ class ProductController extends Controller
         }
         $company = Company::find($id);
         if ($company) {
-
-            if ($request->price < 0) {
-                alert()->error('Oups!', 'Prix invalide!!')->persistent("Fermer");
-                return redirect()->back();
+        
+            if (!$this->validation->validateQuantity($request->price)) {
+                alert()->error('Le prix saisi est invalide', 'Oups!')->persistent('Femer');
+                return redirect()->back()->withInput();
 
             }
 
@@ -288,7 +298,7 @@ class ProductController extends Controller
                         ->first();
 
                     if ($checkStoreProduct) {
-                        alert()->error('Oups!', $checkStoreProduct->store->designation . ' a déja un tarif à ce produit')->persistent('Femer');
+                        alert()->error($checkStoreProduct->store->designation . ' a déja un tarif à ce produit', 'Oups!')->persistent('Femer');
                         return redirect()->back();
 
                     }

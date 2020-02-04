@@ -14,16 +14,18 @@ use App\Modules\Store\Models\StoreHistory;
 use App\Modules\Store\Models\StoreProduct;
 use App\Modules\Store\Models\StoreSchedule;
 use App\Repositories\Image;
+use App\Repositories\Validation;
 use Auth;
 use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {
-    protected $image;
+    protected $image, $validation;
 
-    public function __construct(Image $image)
+    public function __construct(Image $image, Validation $validation)
     {
         $this->image = $image;
+        $this->validation = $validation;
     }
     public function showStores($id)
     {$company = Company::find($id);
@@ -157,7 +159,7 @@ class StoreController extends Controller
         ]);
 
         if ($request->photo) {
-            $path= $this->image->uploadBinaryImage($request->photo);
+            $path = $this->image->uploadBinaryImage($request->photo);
         } else {
             $path = 'img/company-placeholder.png';
         }
@@ -304,7 +306,6 @@ class StoreController extends Controller
                 $updateable['schedules']
             );
             if ($request->photo) {
-
 
                 $updateable['photo'] = $this->image->uploadBinaryImage($request->photo);
 
@@ -496,6 +497,12 @@ class StoreController extends Controller
 
     public function handleAddStoreStock($id, $idStore, Request $request)
     {
+
+        if (!$this->validation->validateQuantity($request->quantity)) {
+            alert()->error('La quantité saisie est invalide', 'Oups!')->persistent('Femer');
+            return redirect()->back()->withInput();
+
+        }
         $store = Store::find($idStore);
         $stocks = StoreProduct::all();
 
@@ -518,7 +525,18 @@ class StoreController extends Controller
 
         if ($store) {
 
-            $store->products()->attach($request->product_id, $request->except('_token','url','productCode','productBarcode','productPacking'));
+            $store->products()->attach($request->product_id,
+                $request->except(
+                    '_token',
+                    'url',
+                    'productCode',
+                    'productBarcode',
+                    'productPacking',
+                    'defaultDisplay',
+                    'defaultPacking',
+                    'productPacking'
+
+                ));
             alert()->success('Succès', 'Stock ajouté !')->persistent('Femer');
             return redirect()->route('showStoreStock', ['store_id' => $store->company->id, 'store' => $store->id]);
 
@@ -539,6 +557,7 @@ class StoreController extends Controller
 
     public function showUpdateStoreStock($id, $idStore, $idStock, Request $request)
     {
+
         $stock = StoreProduct::find($idStock);
         $store = Store::find($idStore);
 
@@ -553,6 +572,13 @@ class StoreController extends Controller
 
     public function handleUpdateStoreStock($id, $idStore, $idStock, Request $request)
     {
+        if (!$this->validation->validateQuantity($request->quantity)) {
+            alert()->error('La quantité saisie est invalide', 'Oups!')->persistent('Femer');
+            return redirect()->back()->withInput();
+
+        }
+
+       
 
         $stock = StoreProduct::find($idStock);
         $stocks = StoreProduct::all();

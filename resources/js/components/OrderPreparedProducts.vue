@@ -230,7 +230,7 @@
                                                         <td>
                                                         <div style="display:flex;">
                                                         <div>
-                                                          <input type="number" min="1" class="form-control"   
+                                                          <input type="text" pattern="[1-9]"  class="form-control"   
                                                           v-bind:class="{ has_error: prepared.pivot.error}"
                                                                 placeholder="Quantité préparée"
                                                                 @change="updateTotalQuantity(prepared,index,i)"
@@ -761,6 +761,7 @@
 
             },
             updateTotalQuantity(prepared, index, i) {
+        
                         this.errors = []
                          this.clearPreparedProducts()
                             if (prepared.pivot.quantity) {
@@ -785,6 +786,7 @@
                                     }
 
                 }
+               
 
 
 
@@ -936,6 +938,7 @@
                     {
                     
                     let number = Number(value)
+       
                     return Number.isInteger(number) && number <= 999999
                 
                     },

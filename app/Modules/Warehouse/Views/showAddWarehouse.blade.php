@@ -21,6 +21,16 @@
 
                     </div>
 
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                     <form role="form" method="post" enctype="multipart/form-data"
                         action="{{route('handleAddWarehouse')}}">
                         {{csrf_field()}}
@@ -42,7 +52,7 @@
                                         required>
                                         <option value="">Séléctionner un résponsable</option>
                                         @forelse($users as $user)
-                                        <option value="{{$user->id}}">{{ucfirst($user->nom)}} {{ucfirst($user->prenom)}}
+                                        <option value="{{$user->id}}" {{(old('user_id')==$user->id)? 'selected':''}} >{{ucfirst($user->nom)}} {{ucfirst($user->prenom)}}
                                         </option>
                                         @empty
                                         @endforelse

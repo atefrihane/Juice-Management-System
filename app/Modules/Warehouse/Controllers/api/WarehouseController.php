@@ -22,6 +22,7 @@ class WarehouseController extends Controller
 
     public function handleAddWarehouseProduct(Request $request)
     {
+   
         if (
          !$request->input('productId') ||
          !$request->input('warehouseId')  ||

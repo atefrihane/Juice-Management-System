@@ -10904,7 +10904,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     updateTotalQuantity: function updateTotalQuantity(prepared, index, i) {
       this.clearPreparedProducts();
 
-      if (prepared.pivot.quantity < 0) {
+      if (prepared.pivot.quantity < 0 || !this.checkValidNumber(prepared.pivot.quantity)) {
         swal.fire({
           type: 'error',
           title: 'La quantité préparée saisie  est invalide ! ',
@@ -11308,6 +11308,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 
       this.total_order += parseFloat(this.total_ht) + this.total_tva; // this.convertOrderedProducts(this.ordered_products)
+    },
+    checkValidNumber: function checkValidNumber(value) {
+      var number = Number(value);
+      return Number.isInteger(number) && number <= 999999 && !isNaN(number);
     },
     cancelOrder: function cancelOrder() {
       window.location = axios.defaults.baseURL + "/orders";
@@ -90984,8 +90988,8 @@ var render = function() {
                                                       prepared.pivot.error
                                                   },
                                                   attrs: {
-                                                    type: "number",
-                                                    min: "1",
+                                                    type: "text",
+                                                    pattern: "[1-9]",
                                                     placeholder:
                                                       "Quantité préparée"
                                                   },
@@ -91201,7 +91205,7 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("Nom Produit")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Quantité")]),
+        _c("th", [_vm._v("Quantité restante")]),
         _vm._v(" "),
         _c("th", [_vm._v("Unités par display")]),
         _vm._v(" "),
@@ -91213,7 +91217,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Date de fabrication")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Date de préemption")]),
+        _c("th", [_vm._v("Date de péremption")]),
         _vm._v(" "),
         _c("th", [_vm._v("Quantité preparée")])
       ])
@@ -92922,7 +92926,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Date de fabrication")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Date de préemption")]),
+        _c("th", [_vm._v("Date de péremption")]),
         _vm._v(" "),
         _c("th", [_vm._v("Quantité preparée")])
       ])
@@ -92948,7 +92952,7 @@ var staticRenderFns = [
                 _vm._v(" "),
                 _c("th", [_vm._v("Date de fabrication")]),
                 _vm._v(" "),
-                _c("th", [_vm._v("Date de préemption")]),
+                _c("th", [_vm._v("Date de péremption")]),
                 _vm._v(" "),
                 _c("th", [_vm._v("Quantité preparée")])
               ])
@@ -97320,8 +97324,7 @@ var render = function() {
                                         ],
                                         staticClass: "form-control",
                                         attrs: {
-                                          type: "number",
-                                          min: "1",
+                                          type: "text",
                                           placeholder: "Quantité préparée"
                                         },
                                         domProps: {
@@ -97517,7 +97520,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Date de fabrication")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Date de préemption")]),
+        _c("th", [_vm._v("Date de péremption")]),
         _vm._v(" "),
         _c("th", [_vm._v("Quantité preparée")])
       ])

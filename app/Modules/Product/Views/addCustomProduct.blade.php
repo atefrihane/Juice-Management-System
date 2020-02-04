@@ -43,7 +43,7 @@
                                         </div>
                                         <div class="scrollable">
                                             @forelse($company->stores as $store)
-                                            <div class="col-md-12">
+                                            <div class="col-md-12" style="padding: 2px 0px;">
                                                 <div class="form-check" style="margin-bottom:5px;">
                                                     <input type="checkbox" class="form-check-input willCheck"
                                                         name="store_id[]" id="exampleCheck1" value="{{$store->id}}">

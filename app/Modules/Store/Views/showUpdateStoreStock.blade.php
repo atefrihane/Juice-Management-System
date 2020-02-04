@@ -160,7 +160,7 @@
 
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Quantité (nombre des unités)</label>
-                                    <input type="number" name="quantity" value="{{$stock->quantity}}"
+                                    <input type="number" min="1" name="quantity" value="{{$stock->quantity}}"
                                         class="form-control" placeholder="Quantité" required>
                                 </div>
 

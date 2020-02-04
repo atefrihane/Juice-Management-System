@@ -20,6 +20,16 @@
 
                     </div>
 
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                     <form role="form" method="post" enctype="multipart/form-data"
                     action="{{route('handleAddStoreStock',['company_id'=>$store->company->id,'store_id'=>$store->id])}}">
                         {{csrf_field()}}
@@ -70,12 +80,12 @@
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Nombre d'unités par display par défaut</label>
                                     <input type="text" name="defaultDisplay" value="{{old('defaultDisplay')}}"
-                                        class="form-control" placeholder="Code produit" id="defaultDisplay" disabled>
+                                        class="form-control" placeholder="Code produit" id="defaultDisplay" readonly>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Nombre de display par colis par défaut</label>
                                     <input type="text" name="defaultPacking" value="{{old('defaultPacking')}}"
-                                        class="form-control" placeholder="Code à barre" id="defaultPacking" disabled>
+                                        class="form-control" placeholder="Code à barre" id="defaultPacking" readonly>
                                 </div>
 
                                 <div class="col-md-4">
@@ -95,13 +105,13 @@
 
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Nombre d'unités par display</label>
-                                    <input type="number" name="stock_display" value="{{old('stockDisplay')}}"
+                                    <input type="number" name="stock_display" value="{{old('stock_display')}}"
                                         class="form-control" placeholder="Nombre d'unités par display" required>
                                 </div>
 
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Nombre de display par colis</label>
-                                    <input type="number" name="packing_display" value="{{old('packingDisplay')}}"
+                                    <input type="number" name="packing_display" value="{{old('packing_display')}}"
                                         class="form-control" placeholder="Nombre de display par colis" required>
                                 </div>
 
@@ -161,19 +171,12 @@
 
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Quantité (nombre des unités)</label>
-                                    <input type="number" name="quantity" value="{{old('quantity')}}"
+                                    <input type="number" name="quantity" min="1" value="{{old('quantity')}}"
                                         class="form-control" placeholder="Quantité" required>
                                 </div>
 
                             </div>
                         </div>
-
-
-
-
-
-
-
                         <div class="box-body">
                             <div class="row">
 

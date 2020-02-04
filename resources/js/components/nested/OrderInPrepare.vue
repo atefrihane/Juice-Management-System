@@ -173,7 +173,7 @@
                                             <td>{{prepared.warehouse.designation}} </td>
                                             <td>{{prepared.creation_date}} </td>
                                             <td>{{prepared.expiration_date}} </td>
-                                            <td><input type="number" min="1" class="form-control"
+                                            <td><input type="text" class="form-control"
                                                     placeholder="Quantité préparée"
                                                     @change="updateTotalQuantity(prepared,index,i)"
                                                     v-model.number="prepared.pivot.quantity">
@@ -657,7 +657,7 @@
             },
             updateTotalQuantity(prepared, index, i) {
                 this.clearPreparedProducts()
-                if (prepared.pivot.quantity < 0) {
+                if (prepared.pivot.quantity < 0 || !this.checkValidNumber(prepared.pivot.quantity)) {
                     swal.fire({
                         type: 'error',
                         title: 'La quantité préparée saisie  est invalide ! ',
@@ -1230,6 +1230,13 @@
 
 
             },
+             checkValidNumber(value)
+                    {
+                    
+                    let number = Number(value)
+                    return Number.isInteger(number) && number <= 999999 && !isNaN(number)
+                
+                    },
             cancelOrder() {
                 window.location = axios.defaults.baseURL + "/orders"
             },

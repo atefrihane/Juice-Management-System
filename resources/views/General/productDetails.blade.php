@@ -35,7 +35,7 @@
                         $('#defaultDisplay').val(response.product.unit_by_display);
                         $('#defaultPacking').val(response.product.unit_per_package);
                         $('#packing').val(response.product.packing);
-                        $('#packing1').val(response.product.packing);
+                        // $('#packing1').val(response.product.packing);
 
                     },
                     error: function (data) {
@@ -136,5 +136,15 @@
             $(".willCheck").prop("checked", false);
         }
     })
+
+
+    $('.selectBalance').click(function () {
+
+if ($(this).prop("checked")) {
+    $(".willCheckBalance").prop("checked", true);
+} else {
+    $(".willCheckBalance").prop("checked", false);
+}
+})
 
 </script>
