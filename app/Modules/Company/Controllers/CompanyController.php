@@ -41,34 +41,37 @@ class CompanyController extends Controller
 
     public function handleAddCompany(Request $request)
     {
-        $val = $request->validate([
+        $request->validate([
             'code' => 'required',
             'name' => 'required',
             'designation' => 'required',
             'zipcode_id' => 'required',
             'address' => 'required',
-            'tel' => 'required',
+            'tel' => 'required|digits_between:1,12',
             'cc' => 'required',
             'logo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
 
         ], [
-            'code.required' => 'le champs code est obligatoire',
-            'name.required' => 'le champs nom du group est obligatoire',
-            'designation.required' => 'le champs designation est obligatoire',
-            'address.required' => 'le champs addresse est obligatoire',
-            'zipcode_id.required' => 'le champs code postale est obligatoire',
-            'cc.required' => 'le premier champs telephone est obligatoire',
-            'tel.required' => 'le deuxieme champs telephone est obligatoire',
+            'code.required' => ' Code est requis',
+            'name.required' => ' Nom du group est requis',
+            'designation.required' => ' Designation est requise',
+            'address.required' => ' L\'addresse est requise',
+            'zipcode_id.required' => ' Code postale est requis',
+            'cc.required' => 'Préfixe telephone est requis',
+            'tel.required' => 'Numéro télephone est requis',
+            'tel.digits_between' => 'Numéro télephone invalide',
             'logo.image' => 'Le format du logo importé est non supporté ',
             'logo.mimes' => 'Le format du logo importé est non supporté ',
             'logo.max' => 'Logo importé est volumineux ! ',
 
         ]);
+
+
         if ($request->logo) {
             $path = $this->image->uploadBinaryImage($request->logo);
 
         } else {
-            $path = 'img/company-placeholder.png';
+            $path = 'company-placeholder.png';
         }
 
         $telephone = $request->cc . " " . $request->tel;
@@ -112,21 +115,29 @@ class CompanyController extends Controller
 
     public function update(Request $request, $id)
     {
-        $val = $request->validate([
+     
+        $request->validate([
             'code' => 'required',
             'name' => 'required',
             'designation' => 'required',
             'zipcode_id' => 'required',
             'address' => 'required',
-            'tel' => 'required',
+            'tel' => 'required|digits_between:1,12',
+            'cc' => 'required',
+            'logo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
 
         ], [
-            'code.required' => 'le champs code est obligatoire',
-            'name.required' => 'le champs nom du group est obligatoire',
-            'designation.required' => 'le champs designation est obligatoire',
-            'address.required' => 'le champs addresse est obligatoire',
-            'zipcode_id.required' => 'le champs code postale est obligatoire',
-            'tel.required' => 'le champs telephone est obligatoire',
+            'code.required' => ' Code est requis',
+            'name.required' => ' Nom du group est requis',
+            'designation.required' => ' Designation est requise',
+            'address.required' => ' L\'addresse est requise',
+            'zipcode_id.required' => ' Code postale est requis',
+            'cc.required' => 'Préfixe telephone est requis',
+            'tel.required' => 'Numéro télephone est requis',
+            'tel.digits_between' => 'Numéro télephone invalide',
+            'logo.image' => 'Le format du logo importé est non supporté ',
+            'logo.mimes' => 'Le format du logo importé est non supporté ',
+            'logo.max' => 'Logo importé est volumineux ! ',
 
         ]);
 

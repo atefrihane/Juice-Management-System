@@ -22,10 +22,22 @@
                         <h3 class="box-title"> Modifier un produit</h3>
                     </div>
 
+                 
+
                     <form role="form" method="post"
                         action="{{route('handleUpdateCustomProduct',['price'=>$price->id,'company_id'=>$company->id])}}">
                         {{csrf_field()}}
                         <div class="box-body">
+
+                                @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
 
                             <div class="row">
 

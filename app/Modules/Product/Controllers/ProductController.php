@@ -194,11 +194,22 @@ class ProductController extends Controller
 
     public function handleUpdateCustomProduct(Request $request, $id, $companyId)
     {
-        if (!$this->validation->validateQuantity($request->price)) {
-            alert()->error('Le prix saisi est invalide', 'Oups!')->persistent('Femer');
-            return redirect()->back()->withInput();
+   
 
-        }
+
+        $request->validate([
+            'store_id' => 'required',
+            'product_id' => 'required',
+            'price' => 'required|numeric|between:0,999.999|min:1',
+           
+        ], [
+            'store_id.required' => ' Magasin est requis',
+            'product_id.required' => ' Produit est requis',
+            'price.required' => ' Prix unitaire remisé est requis',
+            'price.numeric' => ' Prix unitaire remisé doit être numérique',
+            'price.min' => ' Prix unitaire remisé n\'est pas valide',
+            'price.between' => ' Prix unitaire remisé n\'est pas valide'
+        ]);
         
         $company = Company::find($companyId);
         $price = Price::find($id);
@@ -281,11 +292,21 @@ class ProductController extends Controller
         $company = Company::find($id);
         if ($company) {
         
-            if (!$this->validation->validateQuantity($request->price)) {
-                alert()->error('Le prix saisi est invalide', 'Oups!')->persistent('Femer');
-                return redirect()->back()->withInput();
 
-            }
+            $request->validate([
+                'store_id' => 'required',
+                'product_id' => 'required',
+                'price' => 'required|numeric|between:0,999.999|min:1',
+               
+            ], [
+                'store_id.required' => ' Magasin est requis',
+                'product_id.required' => ' Produit est requis',
+                'price.required' => ' Prix unitaire remisé est requis',
+                'price.numeric' => ' Prix unitaire remisé doit être numérique',
+                'price.min' => ' Prix unitaire remisé n\'est pas valide',
+                'price.between' => ' Prix unitaire remisé n\'est pas valide'
+            ]);
+            
 
             $checkPrice = Price::where('product_id', $request->product_id)->first();
 

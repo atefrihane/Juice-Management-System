@@ -59,18 +59,24 @@ class MachineController extends Controller
 
     public function store(Request $request)
     {
-
+  
+ 
         $val = $request->validate([
             'code' => 'required',
             'barcode' => 'required',
             'designation' => 'required',
-            'price_month' => 'required|numeric',
+            'price_month' => 'required|numeric|between:0,999.999',
+            'photo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
         ], [
-            'code.required' => 'le champ code est obligatoire',
-            'barcode.required' => ' le champ code a barres est obligatoire',
-            'designation.required' => 'le champ designation est obligatoire',
-            'price_month.required' => 'le champ prix de location mensuel est obligatoire',
-            'price_month.numeric' => 'le champ prix de location mensuel n\'est pas valide',
+            'code.required' => ' Code est obligatoire',
+            'barcode.required' => '  Code a barres est obligatoire',
+            'designation.required' => ' Designation est obligatoire',
+            'price_month.required' => ' Prix de location mensuel est obligatoire',
+            'price_month.numeric' => ' Prix de location mensuel n\'est pas valide',
+            'price_month.between' => ' Prix de location mensuel n\'est pas valide',
+            'photo.image' => 'Le format du logo importé est non supporté ',
+            'photo.mimes' => 'Le format du logo importé est non supporté ',
+            'photo.max' => 'Logo importé est volumineux ! ',
         ]);
 
         $instertable = $request->except(['photo', '_token']);
@@ -120,18 +126,26 @@ class MachineController extends Controller
     public function update($id, Request $request)
     {
 
+     
         $val = $request->validate([
             'code' => 'required',
             'barcode' => 'required',
             'designation' => 'required',
-            'price_month' => 'required|numeric',
+            'price_month' => 'required|numeric|between:0,999.999',
+            'photo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
         ], [
-            'code.required' => 'le champ code est obligatoire',
-            'barcode.required' => ' le champ code a barres est obligatoire',
-            'designation.required' => 'le champ designation est obligatoitr',
-            'price_month.required' => 'le champ prix de location mensuel est obligatoire',
-            'price_month.numeric' => 'le champ prix de location mensuel n\'est pas valide',
+            'code.required' => ' Code est obligatoire',
+            'barcode.required' => '  Code a barres est obligatoire',
+            'designation.required' => ' Designation est obligatoire',
+            'price_month.required' => ' Prix de location mensuel est obligatoire',
+            'price_month.numeric' => ' Prix de location mensuel n\'est pas valide',
+            'price_month.between' => ' Prix de location mensuel n\'est pas valide',
+            'photo.image' => 'Le format du logo importé est non supporté ',
+            'photo.mimes' => 'Le format du logo importé est non supporté ',
+            'photo.max' => 'Logo importé est volumineux ! ',
         ]);
+
+        
         $updatable = $request->all();
         if ($request->photo) {
             $path = $this->image->uploadBinaryImage($request->photo);

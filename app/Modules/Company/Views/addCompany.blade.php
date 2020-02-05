@@ -118,7 +118,7 @@
                                             value="{{old('country_id')}}">
                                             <option value="" selected disabled>Séléctionner un pays</option>
                                             @forelse($countries as $country)
-                                            <option value="{{$country->id}}">{{$country->name}}</option>
+                                            <option value="{{$country->id}}" {{old('country_id') == $country->id ? 'selected' :  ''}}>{{$country->name}}</option>
                                             @empty
 
                                             @endforelse

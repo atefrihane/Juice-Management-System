@@ -38,7 +38,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Code</label>
-                                        <input type="text" name="code" class="form-control code" id="exampleInputEmail1" placeholder="Code" required>
+                                    <input type="text" name="code" class="form-control code" id="exampleInputEmail1" placeholder="Code" value="{{old('code')}}" required>
                                     </div>
                                 </div>
 
@@ -46,10 +46,10 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Etat</label>
                                         <select class="form-control" name="status" required>
-                                            <option value="Fonctionnelle">Fonctionnelle</option>
-                                            <option value="Non utilisé">Non utilisé</option>
+                                            <option value="Fonctionnelle" {{ old('status') == 'Fonctionnelle' ? 'selected' : ''}}>Fonctionnelle</option>
+                                            <option value="Non utilisé" {{ old('status') == 'Non utilisé' ? 'selected' : ''}}>Non utilisé</option>
 
-                                            <option value="En panne">En panne</option>
+                                            <option value="En panne" {{ old('status') == 'En panne' ? 'selected' : ''}} >En panne</option>
                                         </select>
                                     </div>
                                 </div>
@@ -58,7 +58,7 @@
 
                                 <div class="form-group">
                                         <label for="exampleInputEmail1">Code à barres</label>
-                                        <input class="form-control" name="barcode" id="disabledInput" type="text" placeholder="Code à barres" required>
+                                        <input class="form-control" name="barcode" id="disabledInput" type="text" placeholder="Code à barres" value="{{old('barcode')}}" required>
 
                                     </div>
 
@@ -66,7 +66,7 @@
 
                                         <div class="form-group">
                                         <label for="exampleInputEmail1">Désignation</label>
-                                        <input class="form-control designation" name="designation" id="disabledInput" type="text" placeholder="Désignation" pattern=".{6,}" title="6 caractères minimum" required>
+                                        <input class="form-control designation" name="designation" id="disabledInput" type="text" placeholder="Désignation" pattern=".{6,}" title="6 caractères minimum" value="{{old('designation')}}"  required>
 
                                     </div>
 
@@ -76,9 +76,9 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Type</label>
                                         <select class="form-control" name="type">
-                                            <option value="jus">Jus </option>
-                                            <option value="granite">Granité</option>
-                                            <option value="jus-granite">Jus et Granité</option>
+                                            <option value="jus" {{ old('type') == 'jus' ? 'selected' : ''}}>Jus </option>
+                                            <option value="granite" {{ old('type') == 'granite' ? 'selected' : ''}}>Granité</option>
+                                            <option value="jus-granite" {{ old('type') == 'jus-granite"' ? 'selected' : ''}}> Jus et Granité</option>
                                         </select>
 
 
@@ -89,11 +89,11 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nombre de bacs</label>
                                         <select name="number_bacs" class="form-control">
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
+                                            <option value="1" {{ old('number_bacs') == '1' ? 'selected' : ''}}>1</option>
+                                            <option value="2" {{ old('number_bacs') == '2' ? 'selected' : ''}}>2</option>
+                                            <option value="3" {{ old('number_bacs') == '3' ? 'selected' : ''}}>3</option>
+                                            <option value="4" {{ old('number_bacs') == '4' ? 'selected' : ''}}>4</option>
+                                            <option value="5" {{ old('number_bacs') == '5' ? 'selected' : ''}}>5</option>
                                         </select>
 
 
@@ -105,8 +105,8 @@
                                  <div class="form-group">
                                         <label for="exampleInputEmail1">Affichage tablette</label>
                                         <select class="form-control" name="display_tablet">
-                                                 <option value="true">Oui</option>
-                                                 <option value="false">Non</option>
+                                                 <option value="true"  {{ old('display_tablet') == 'true' ? 'selected' : ''}}>Oui</option>
+                                                 <option value="false" {{ old('display_tablet') == 'false' ? 'selected' : ''}}>Non</option>
                                          </select>
 
 
@@ -114,14 +114,14 @@
 
                                          <div class="form-group">
                                         <label for="exampleInputEmail1">Prix de location mensuelle ( en euros )</label>
-                                        <input class="form-control" id="disabledInput" name="price_month" type="number" step="0.01" placeholder="Prix de location mensuelle ( en euros )"  required>
+                                         <input class="form-control" id="disabledInput" name="price_month" type="number" step="0.01" placeholder="Prix de location mensuelle ( en euros )" value="{{old('price_month')}}"  required>
 
                                     </div>
 
 
                                         <div class="form-group">
                                         <label>Commentaires (optionnel)</label>
-                                        <textarea class="form-control" rows="3" name="comment" placeholder="Commentaires"></textarea>
+                                        <textarea class="form-control" rows="3" name="comment" placeholder="Commentaires">{{old('comment')}}</textarea>
                                         </div>
 
                                     <div class="form-group">

@@ -22,6 +22,16 @@
                         <h3 class="box-title"> Ajouter un produit au tarif</h3>
                     </div>
 
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                     <form role="form" method="post" action="{{route('handleStoreCustomPrice',$company->id)}}">
                         {{csrf_field()}}
                         <div class="box-body">

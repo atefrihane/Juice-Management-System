@@ -9,9 +9,12 @@ use App\Modules\General\Models\Zipcode;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Store\Models\Store;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Company extends Model
 {
+    use SoftDeletes;
+
 
     protected $fillable = ['code', 'status', 'name', 'country_id', 'email', 'tel', 'designation', 'city_id', 'zipcode_id', 'address', 'complement', 'comment', 'logo'];
 

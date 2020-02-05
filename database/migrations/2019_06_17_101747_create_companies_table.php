@@ -31,7 +31,7 @@ class CreateCompaniesTable extends Migration
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
             $table->integer('zipcode_id')->unsigned();
             $table->foreign('zipcode_id')->references('id')->on('zipcodes')->onDelete('cascade');
-
+            $table->softDeletes();
             $table->timestamps();
         });
     }

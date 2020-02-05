@@ -26,7 +26,7 @@
                 <div class="form-group">
                     <label for="exampleInputPassword1">Code téléphonique</label>
                     <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Code téléphonique"
-                        min="0" v-model="code">
+                        min="0" v-model="code" @change="checkCode()">
                 </div>
 
 
@@ -55,8 +55,8 @@
 
                                 <div class="btn-group" v-for="(zipcode,j) in city.zipcodes" style="padding:10px;">
                                     <button type="button" class="btn btn-info"
-                                        @click="updateCode($event,i,j,city)">{{zipcode}}</button>
-                                    <button type="button" class="btn btn-info" @click="removeZipcode(zipcode,i,j)">
+                                        @click="updateCode($event,index,j,city)">{{zipcode}}</button>
+                                    <button type="button" class="btn btn-info" @click="removeZipcode(zipcode,index,j)">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
@@ -320,7 +320,7 @@
                         .then((response) => {
                             console.log(response);
                             if (response.data.status == 401) {
-                                   this.disabled = false
+                                this.disabled = false
                                 swal.fire({
                                     type: 'error',
                                     title: 'Nom déja existant! ',
@@ -333,7 +333,7 @@
                             }
 
                             if (response.data.status == 402) {
-                                       this.disabled = false
+                                this.disabled = false
                                 swal.fire({
                                     type: 'error',
                                     title: 'Code déja existant! ',
@@ -368,6 +368,20 @@
 
                 }
 
+            },
+            checkCode() {
+                let number = Number(this.code)
+                let checkNumber = Number.isInteger(number) && number <= 999999;
+                if (isNaN(this.code) || !checkNumber) {
+                    swal.fire({
+                        type: 'error',
+                        title: 'Le code saisi  est invalide ! ',
+                        showConfirmButton: true,
+                        allowOutsideClick: false,
+                        confirmButtonText: 'Fermer'
+                    });
+                    this.code =''
+                }
             },
             cancelRental() {
                 window.location = axios.defaults.baseURL + '/static'

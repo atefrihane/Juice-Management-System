@@ -72,13 +72,13 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Enseigne</label>
                                 <select class="form-control" name="sign">
-                                    <option value="Franprix">Franprix</option>
-                                    <option value="G20">G20</option>
-                                    <option value="Shopi">Shopi</option>
-                                    <option value="LECLERC">LECLERC</option>
-                                    <option value="Restaurant">Restaurant</option>
-                                    <option value="Stand">Stand</option>
-                                    <option value="casino">Casino</option>
+                                    <option value="Franprix" {{old('sign')  == 'Franprix' ? 'selected' : ''}}>Franprix</option>
+                                    <option value="G20" {{old('sign')  == 'G20' ? 'selected' : ''}}>G20</option>
+                                    <option value="Shopi" {{old('sign')  == 'Shopi' ? 'selected' : ''}}>Shopi</option>
+                                    <option value="LECLERC" {{old('sign')  == 'LECLERC' ? 'selected' : ''}} >LECLERC</option>
+                                    <option value="Restaurant" {{old('sign')  == 'Restaurant' ? 'selected' : ''}}>Restaurant</option>
+                                    <option value="Stand" {{old('sign')  == 'Stand' ? 'selected' : ''}}>Stand</option>
+                                    <option value="casino" {{old('sign')  == 'casino' ? 'selected' : ''}}>Casino</option>
                                 </select>
 
 
@@ -87,8 +87,8 @@
                                 <label for="exampleInputEmail1">Type de commande</label>
                                 <select class="form-control" name="order_type" required>
                                     <option value="" disabled selected>Séléctionner un type</option>
-                                    <option value="1">Seulement en colis</option>
-                                    <option value="2">Colis et nombre d'unités</option>
+                                    <option value="1" {{old('order_type')  == 1 ? 'selected' : ''}}>Seulement en colis</option>
+                                    <option value="2" {{old('order_type')  == 2 ? 'selected' : ''}}>Colis et nombre d'unités</option>
 
                                 </select>
 
@@ -118,7 +118,7 @@
                                             value="{{old('country_id')}}" required>
                                             <option value="">Séléctionner un pays</option>
                                             @forelse($countries as $country)
-                                            <option value="{{$country->id}}">{{$country->name}}</option>
+                                            <option value="{{$country->id}}" {{old('country_id')  == $country->id ? 'selected' : ''}}>{{$country->name}}</option>
                                             @empty
                                             @endforelse
                                         </select>
@@ -219,7 +219,7 @@
                             <div class="form-group">
                                 <label>Recommandation pour livreur (optionnel)</label>
                                 <textarea class="form-control" rows="3" name="deliveryRec"
-                                    placeholder="Recommendarion pour liveruer ..."></textarea>
+                            placeholder="Recommendarion pour liveruer ..."> {{old('deliveryRec')}}</textarea>
                             </div>
                             <div class="form-group" style="margin-bottom:-15px;">
                                 <label style="font-size: 24px; margin-top: 24px; font-weight: bold;"> Horaires</label>

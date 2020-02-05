@@ -187,7 +187,7 @@
                                     <select class="form-control" name="warehouse_id">
                              
                                      @foreach($warehouses as $allWarehouse)
-                                    <option value="{{$allWarehouse->id}}"  {{ old('warehouse_id') == $allWarehouse->id ? "selected" : "" }}>{{$allWarehouse->designation}}</option>
+                                    <option value="{{$allWarehouse->id}}"  {{ old('warehouse_id') == $allWarehouse->id ? "selected" : "" }}>{{$allWarehouse->code}}</option>
                                     @endforeach
                                    </select>
                                    @else

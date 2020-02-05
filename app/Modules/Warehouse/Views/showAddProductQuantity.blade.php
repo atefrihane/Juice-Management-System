@@ -191,7 +191,7 @@
                                         @foreach($warehouses as $warehouse)
                                         <option value="{{$warehouse->id}}"
                                             {{ old('warehouse_id') == $warehouse->id ? "selected" : "" }}>
-                                            {{$warehouse->designation}}</option>
+                                            {{$warehouse->code}}</option>
                                         @endforeach
                                     </select>
                                     @else

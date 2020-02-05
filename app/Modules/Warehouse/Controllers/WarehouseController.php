@@ -18,12 +18,15 @@ use Illuminate\Http\Request;
 class WarehouseController extends Controller
 {
 
-    protected $validation;
+
+
+    protected $validation,$image;
 
     public function __construct(Image $image, Validation $validation)
     {
 
         $this->validation = $validation;
+        $this->image = $image;
     }
 
     public function showWarehouseProducts()
@@ -55,7 +58,7 @@ class WarehouseController extends Controller
         return view('Warehouse::showAddWarehouse', compact('count', 'countries', 'users'));
 
     }
-    public function handleAddWarehouse(Request $request, Image $image)
+    public function handleAddWarehouse(Request $request)
     {
 
 
@@ -70,16 +73,16 @@ class WarehouseController extends Controller
             'photo' => 'image|mimes:jpeg,png,jpg|max:2048',
 
         ], [
-            'code.required' => 'le champs code est requis',
-            'designation.required' => 'le champs designation  est requis',
-            'zipcode_id.required' => 'le champs code postale est requis',
-            'country_id.required' => 'le champs pays est requis',
-            'city_id.required' => 'le champs ville est requis',
-            'surface.required' => 'le champs surface est requis',
-            'surface.digits_between' => 'le champs surface n\'est pas valide',
+            'code.required' => ' code est requis',
+            'designation.required' => ' designation  est requis',
+            'zipcode_id.required' => ' code postale est requis',
+            'country_id.required' => ' pays est requis',
+            'city_id.required' => ' ville est requis',
+            'surface.required' => ' surface est requis',
+            'surface.digits_between' => ' surface n\'est pas valide',
             'photo.image' => 'Le format du photo importé est non supporté ',
             'photo.mimes' => 'Le format du photo importé est non supporté ',
-            'photo.max' => 'Photo importé est volumineux ! ',
+            'photo.max' => 'Photo importé est volumineuse ! ',
         ]);
 
         $checkWarehouse = Warehouse::where('code', $request->code)->first();
@@ -93,7 +96,7 @@ class WarehouseController extends Controller
         $file = $request->photo;
 
         if ($file) {
-            $path = $image->uploadBinaryImage($file);
+            $path = $this->image->uploadBinaryImage($file);
 
         }
 
@@ -182,7 +185,7 @@ class WarehouseController extends Controller
     public function handleUpdateWarehouse($id, Request $request)
     {
 
-        $val = $request->validate([
+        $request->validate([
             'code' => 'required',
              'designation' => 'required',
             'zipcode_id' => 'required',
@@ -193,16 +196,16 @@ class WarehouseController extends Controller
             'photo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
 
         ], [
-            'code.required' => 'le champs code est requis',
-            'designation.required' => 'le champs designation  est requis',
-            'zipcode_id.required' => 'le champs code postale est requis',
-            'country_id.required' => 'le champs pays est requis',
-            'city_id.required' => 'le champs ville est requis',
-            'surface.required' => 'le champs surface est requis',
-            'surface.digits_between' => 'le champs surface n\'est pas valide',
+            'code.required' => ' code est requis',
+            'designation.required' => ' designation  est requis',
+            'zipcode_id.required' => ' code postale est requis',
+            'country_id.required' => ' pays est requis',
+            'city_id.required' => ' ville est requis',
+            'surface.required' => ' surface est requis',
+            'surface.digits_between' => ' surface n\'est pas valide',
             'photo.image' => 'Le format du photo importé est non supporté ',
             'photo.mimes' => 'Le format du photo importé est non supporté ',
-            'photo.max' => 'Photo importé est volumineux ! ',
+            'photo.max' => 'Photo importé est volumineuse ! ',
         ]);
 
 
@@ -221,13 +224,10 @@ class WarehouseController extends Controller
             }
             $file = $request->photo;
 
-            if ($file) {
-                File::delete(public_path('img/' . $checkWarehouse->photo));
-                $path = $file->getClientOriginalName();
+        if ($file) {
+            $path = $this->image->uploadBinaryImage($file);
 
-                $file->move('img', $file->getClientOriginalName());
-
-            }
+        }
 
             $checkWarehouse->update([
                 'code' => $request->code,
@@ -261,18 +261,18 @@ class WarehouseController extends Controller
             'expiration_date' => 'required|date',
 
         ], [
-            'stock_display.required' => 'le champs Nombre d\'unités par display est requis',
-            'stock_display.digits_between' => 'le champs Nombre d\'unités par display n\'est pas valide',
-            'packing_display.required' => 'le champs Nombre de display est requis',
-            'packing_display.digits_between' => 'le champs Nombre de display n\'est pas valide',
-            'packing.required' => 'le champs Colisage est requis',
-            'packing.digits_between' => 'le champs Colisage n\'est pas valide',
-            'creation_date.required' => 'le champs Date de fabrication est requis',
+            'stock_display.required' => ' Nombre d\'unités par display est requis',
+            'stock_display.digits_between' => ' Nombre d\'unités par display n\'est pas valide',
+            'packing_display.required' => ' Nombre de display par colis est requis',
+            'packing_display.digits_between' => ' Nombre de display par colis n\'est pas valide',
+            'packing.required' => ' Colisage est requis',
+            'packing.digits_between' => ' Colisage n\'est pas valide',
+            'creation_date.required' => ' Date de fabrication est requis',
             'expiration_date.required' => 'le  champs Date de péremption est requis',
             'quantity.required' => 'le  champs quantité est requis',
-            'quantity.min' => 'le champs quantité n\est pas valide',
-            'quantity.not_in' => 'le champs quantité n\est pas valide',
-            'quantity.digits_between' => 'le champs quantité n\'est pas valide',
+            'quantity.min' => ' Quantité n\est pas valide',
+            'quantity.not_in' => ' Quantité n\est pas valide',
+            'quantity.digits_between' => ' Quantité n\'est pas valide',
 
         ]);
 
@@ -333,18 +333,18 @@ class WarehouseController extends Controller
             'expiration_date' => 'required|date',
 
         ], [
-            'stock_display.required' => 'le champs Nombre d\'unités par display est requis',
-            'stock_display.digits_between' => 'le champs Nombre d\'unités par display n\'est pas valide',
-            'packing_display.required' => 'le champs Nombre de display est requis',
-            'packing_display.digits_between' => 'le champs Nombre de display n\'est pas valide',
-            'packing.required' => 'le champs Colisage est requis',
-            'packing.digits_between' => 'le champs Colisage n\'est pas valide',
-            'creation_date.required' => 'le champs Date de fabrication est requis',
+            'stock_display.required' => ' Nombre d\'unités par display est requis',
+            'stock_display.digits_between' => ' Nombre d\'unités par display n\'est pas valide',
+            'packing_display.required' => ' Nombre de display par colis est requis',
+            'packing_display.digits_between' => ' Nombre de display par colis n\'est pas valide',
+            'packing.required' => ' Colisage est requis',
+            'packing.digits_between' => ' Colisage n\'est pas valide',
+            'creation_date.required' => ' Date de fabrication est requis',
             'expiration_date.required' => 'le  champs Date de péremption est requis',
             'quantity.required' => 'le  champs quantité est requis',
-            'quantity.min' => 'le champs quantité n\est pas valide',
-            'quantity.not_in' => 'le champs quantité n\est pas valide',
-            'quantity.digits_between' => 'le champs quantité n\'est pas valide',
+            'quantity.min' => ' Quantité n\est pas valide',
+            'quantity.not_in' => ' Quantité n\est pas valide',
+            'quantity.digits_between' => ' Quantité n\'est pas valide',
 
         ]);
 

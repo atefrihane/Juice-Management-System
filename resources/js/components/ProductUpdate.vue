@@ -248,7 +248,8 @@
                 error: 0,
                 errors: [],
                 userId: this.user_id,
-                disabled: false
+                disabled: false,
+                acceptedImage:true
             }
         },
         props: ['user_id'],
@@ -279,9 +280,7 @@
                     if (file['size'] > limit) {
                       
                         this.acceptedImage=false
-                             this.errors=[]    
-                this.errors.push('La photo importée est volumineuse');
-                    window.scrollTo(0, 0);
+         
 
                     } else {
                         this.acceptedImage=true
@@ -294,11 +293,9 @@
                     }
 
                 } else {
-                    this.errors = []
-                    this.errors.push('Les formats supportés pour l\'importation du logo sont : PNG,JPEG,JPG');
-                    window.scrollTo(0, 0);
-                }
+                      this.acceptedImage=false
 
+                }
 
 
             },
@@ -380,20 +377,23 @@
                         })
                         .catch((error) => {
                             this.$Progress.fail()
-                            console.log(error);
+                             if (error.response.status == 422){
+                                   this.errors=[]
+                                    let errors = Object.values(error.response.data.errors);
+                                    errors = errors.flat();
+                                    this.errors=errors;
+                                 
+                                   this.disabled = false
+                                    window.scrollTo(0, 0);
+                             }
                         });
-
-
-
-
-
 
                 }
                 else{
 
-                       this.errors=[]    
-                this.errors.push('La photo importée est volumineuse');
-                    window.scrollTo(0, 0);
+                this.errors=[]    
+                this.errors.push('Les formats supportés pour l\'importation de la photo sont : PNG,JPEG,JPG avec taille maximale 2M');
+                window.scrollTo(0, 0);
                 }
 
 

@@ -3172,6 +3172,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         });
       }
     },
+    checkCode: function checkCode() {
+      var number = Number(this.code);
+      var checkNumber = Number.isInteger(number) && number <= 999999;
+
+      if (isNaN(this.code) || !checkNumber) {
+        swal.fire({
+          type: 'error',
+          title: 'Le code saisi  est invalide ! ',
+          showConfirmButton: true,
+          allowOutsideClick: false,
+          confirmButtonText: 'Fermer'
+        });
+        this.code = '';
+      }
+    },
     cancelRental: function cancelRental() {
       window.location = axios.defaults.baseURL + '/static';
     }
@@ -9022,9 +9037,6 @@ __webpack_require__.r(__webpack_exports__);
 
         if (file['size'] > limit) {
           this.acceptedImage = false;
-          this.errors = [];
-          this.errors.push('La photo importée est volumineuse');
-          window.scrollTo(0, 0);
         } else {
           this.acceptedImage = true;
           this.errors = [];
@@ -9036,9 +9048,7 @@ __webpack_require__.r(__webpack_exports__);
           reader.readAsDataURL(file);
         }
       } else {
-        this.errors = [];
-        this.errors.push('Les formats supportés pour l\'importation du logo sont : PNG,JPEG,JPG');
-        window.scrollTo(0, 0);
+        this.acceptedImage = false;
       }
     },
     validateForm: function validateForm() {
@@ -9225,12 +9235,19 @@ __webpack_require__.r(__webpack_exports__);
             });
           }
         })["catch"](function (error) {
-          console.log(error);
+          if (error.response.status == 422) {
+            _this2.errors = [];
+            var errors = Object.values(error.response.data.errors);
+            errors = errors.flat();
+            _this2.errors = errors;
+            _this2.disabled = false;
+            window.scrollTo(0, 0);
+          }
         });
         this.$Progress.finish();
       } else {
         this.errors = [];
-        this.errors.push('La photo importée est volumineuse');
+        this.errors.push('Les formats supportés pour l\'importation de la photo sont : PNG,JPEG,JPG avec taille maximale 2M');
         window.scrollTo(0, 0);
       }
     },
@@ -9507,7 +9524,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       error: 0,
       errors: [],
       userId: this.user_id,
-      disabled: false
+      disabled: false,
+      acceptedImage: true
     };
   }),
   props: ['user_id'],
@@ -9536,9 +9554,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         if (file['size'] > limit) {
           this.acceptedImage = false;
-          this.errors = [];
-          this.errors.push('La photo importée est volumineuse');
-          window.scrollTo(0, 0);
         } else {
           this.acceptedImage = true;
           this.errors = [];
@@ -9550,9 +9565,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           reader.readAsDataURL(file);
         }
       } else {
-        this.errors = [];
-        this.errors.push('Les formats supportés pour l\'importation du logo sont : PNG,JPEG,JPG');
-        window.scrollTo(0, 0);
+        this.acceptedImage = false;
       }
     },
     cancelRental: function cancelRental() {
@@ -9622,11 +9635,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         })["catch"](function (error) {
           _this2.$Progress.fail();
 
-          console.log(error);
+          if (error.response.status == 422) {
+            _this2.errors = [];
+            var errors = Object.values(error.response.data.errors);
+            errors = errors.flat();
+            _this2.errors = errors;
+            _this2.disabled = false;
+            window.scrollTo(0, 0);
+          }
         });
       } else {
         this.errors = [];
-        this.errors.push('La photo importée est volumineuse');
+        this.errors.push('Les formats supportés pour l\'importation de la photo sont : PNG,JPEG,JPG avec taille maximale 2M');
         window.scrollTo(0, 0);
       }
     },
@@ -86890,6 +86910,9 @@ var render = function() {
             },
             domProps: { value: _vm.code },
             on: {
+              change: function($event) {
+                return _vm.checkCode()
+              },
               input: function($event) {
                 if ($event.target.composing) {
                   return
@@ -86988,7 +87011,7 @@ var render = function() {
                             attrs: { type: "button" },
                             on: {
                               click: function($event) {
-                                return _vm.updateCode($event, _vm.i, j, city)
+                                return _vm.updateCode($event, index, j, city)
                               }
                             }
                           },
@@ -87002,7 +87025,7 @@ var render = function() {
                             attrs: { type: "button" },
                             on: {
                               click: function($event) {
-                                return _vm.removeZipcode(zipcode, _vm.i, j)
+                                return _vm.removeZipcode(zipcode, index, j)
                               }
                             }
                           },
@@ -118463,14 +118486,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!************************************************!*\
   !*** ./resources/js/components/CountryAdd.vue ***!
   \************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CountryAdd_vue_vue_type_template_id_84c4cf54___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CountryAdd.vue?vue&type=template&id=84c4cf54& */ "./resources/js/components/CountryAdd.vue?vue&type=template&id=84c4cf54&");
 /* harmony import */ var _CountryAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CountryAdd.vue?vue&type=script&lang=js& */ "./resources/js/components/CountryAdd.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _CountryAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _CountryAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -118500,7 +118524,7 @@ component.options.__file = "resources/js/components/CountryAdd.vue"
 /*!*************************************************************************!*\
   !*** ./resources/js/components/CountryAdd.vue?vue&type=script&lang=js& ***!
   \*************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
+use Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -50,6 +51,13 @@ class AppServiceProvider extends ServiceProvider
             })->count()
             );
 
+        });
+
+        Validator::extend('base64_valid',function($attribute, $value, $params, $validator) {
+            $image = base64_decode($value);
+            $f = finfo_open();
+            $result = finfo_buffer($f, $image, FILEINFO_MIME_TYPE);
+            return $result == 'image/png' || $result == 'image/jpeg' || $result == 'image/jpg'   ;
         });
 
     }

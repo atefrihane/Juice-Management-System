@@ -132,36 +132,47 @@ class StoreController extends Controller
 
     public function store($company_id, Request $request)
     {
+  
 
-        $val = $request->validate([
+        $request->validate([
             'code' => 'required',
             'sign' => 'required',
             'designation' => 'required',
             'zipcode_id' => 'required',
+            'country_id' => 'required',
+            'city_id' => 'required',
             'address' => 'required',
             'email' => 'required|email',
-            'tel' => 'required',
-            'cc' => 'required',
+            'tel' => 'required|digits_between:1,12',
+            'cc' => 'required|digits_between:1,2',
             'order_type' => 'required',
+            'photo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
 
         ], [
-            'code.required' => 'le champs code est obligatoire',
-            'sign.required' => 'le champs enseigne  est obligatoire',
-            'designation.required' => 'le champs designation est obligatoire',
-            'address.required' => 'le champs addresse est obligatoire',
-            'zipcode_id.required' => 'le champs code postale est obligatoire',
-            'email.required' => 'le champs email est obligatoire',
-            'email.email' => 'email non valide',
-            'cc.required' => 'le premier champs telephone est obligatoire',
-            'tel.required' => 'le deuxieme champs telephone est obligatoire',
-            'order_type.required' => 'le type de la commande est obligatoire',
+            'code.required' => ' Code est obligatoire',
+            'sign.required' => ' Enseigne  est obligatoire',
+            'designation.required' => ' Designation est obligatoire',
+            'address.required' => ' Addresse est obligatoire',
+            'zipcode_id.required' => ' Code postale est obligatoire',
+            'country_id.required' => ' Code postale est obligatoire',
+            'city_id.required' => ' Code postale est obligatoire',
+            'email.required' => ' Email est obligatoire',
+            'email.email' => 'Email non valide',
+            'cc.required' => 'Préfixe telephone est obligatoire',
+            'cc.digits_between' => ' Préfixe telephone est invalide',
+            'tel.required' => ' Numéro telephone est obligatoire',
+            'tel.digits_between' => ' Numéro telephone est invalide',
+            'order_type.required' => 'Type de la commande est obligatoire',
+            'photo.image' => 'Le format du logo importé est non supporté ',
+            'photo.mimes' => 'Le format du logo importé est non supporté ',
+            'photo.max' => 'Logo importé est volumineux ! ',
 
         ]);
 
         if ($request->photo) {
             $path = $this->image->uploadBinaryImage($request->photo);
         } else {
-            $path = 'img/company-placeholder.png';
+            $path = 'company-placeholder.png';
         }
 
         $telephone = $request->cc . " " . $request->tel;
@@ -271,28 +282,38 @@ class StoreController extends Controller
     public function update($id, Request $request)
     {
 
-        $val = $request->validate([
+        $request->validate([
             'code' => 'required',
             'sign' => 'required',
             'designation' => 'required',
             'zipcode_id' => 'required',
+            'country_id' => 'required',
+            'city_id' => 'required',
             'address' => 'required',
             'email' => 'required|email',
-            'tel' => 'required',
-            'cc' => 'required',
+            'tel' => 'required|digits_between:1,12',
+            'cc' => 'required|digits_between:1,2',
             'order_type' => 'required',
+            'photo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
 
         ], [
-            'code.required' => 'le champs code est obligatoire',
-            'sign.required' => 'le champs enseigne  est obligatoire',
-            'designation.required' => 'le champs designation est obligatoire',
-            'address.required' => 'le champs addresse est obligatoire',
-            'zipcode_id.required' => 'le champs code postale est obligatoire',
-            'email.required' => 'le champs email est obligatoire',
-            'email.email' => 'email non valide',
-            'cc.required' => 'le premier champs telephone est obligatoire',
-            'tel.required' => 'le deuxieme champs telephone est obligatoire',
-            'order_type.required' => 'le champ type de la commande est obligatoire',
+            'code.required' => ' Code est obligatoire',
+            'sign.required' => ' Enseigne  est obligatoire',
+            'designation.required' => ' Designation est obligatoire',
+            'address.required' => ' Addresse est obligatoire',
+            'zipcode_id.required' => ' Code postale est obligatoire',
+            'country_id.required' => ' Code postale est obligatoire',
+            'city_id.required' => ' Code postale est obligatoire',
+            'email.required' => ' Email est obligatoire',
+            'email.email' => 'Email non valide',
+            'cc.required' => 'Préfixe telephone est obligatoire',
+            'cc.digits_between' => ' Préfixe telephone est invalide',
+            'tel.required' => ' Numéro telephone est obligatoire',
+            'tel.digits_between' => ' Numéro telephone est invalide',
+            'order_type.required' => 'Type de la commande est obligatoire',
+            'photo.image' => 'Le format du logo importé est non supporté ',
+            'photo.mimes' => 'Le format du logo importé est non supporté ',
+            'photo.max' => 'Logo importé est volumineux ! ',
 
         ]);
         $updateable = $request->all();
@@ -497,12 +518,30 @@ class StoreController extends Controller
 
     public function handleAddStoreStock($id, $idStore, Request $request)
     {
+       
+        $request->validate([
+            'stock_display' => 'required|digits_between:1,6',
+            'packing_display' => 'required|digits_between:1,6',
+            'packing' => 'required|digits_between:1,6',
+            'quantity' => 'required|digits_between:1,6||min:0|not_in:0',
+            'creation_date' => 'required|date',
+            'expiration_date' => 'required|date',
 
-        if (!$this->validation->validateQuantity($request->quantity)) {
-            alert()->error('La quantité saisie est invalide', 'Oups!')->persistent('Femer');
-            return redirect()->back()->withInput();
+        ], [
+            'stock_display.required' => ' Nombre d\'unités par display est requis',
+            'stock_display.digits_between' => ' Nombre d\'unités par display n\'est pas valide',
+            'packing_display.required' => ' Nombre de display par colis est requis',
+            'packing_display.digits_between' => ' Nombre de display par colis n\'est pas valide',
+            'packing.required' => ' Colisage est requis',
+            'packing.digits_between' => ' Colisage n\'est pas valide',
+            'creation_date.required' => ' Date de fabrication est requis',
+            'expiration_date.required' => 'le  champs Date de péremption est requis',
+            'quantity.required' => 'le  champs quantité est requis',
+            'quantity.min' => ' Quantité n\est pas valide',
+            'quantity.not_in' => ' Quantité n\est pas valide',
+            'quantity.digits_between' => ' Quantité n\'est pas valide',
 
-        }
+        ]);
         $store = Store::find($idStore);
         $stocks = StoreProduct::all();
 
@@ -572,11 +611,29 @@ class StoreController extends Controller
 
     public function handleUpdateStoreStock($id, $idStore, $idStock, Request $request)
     {
-        if (!$this->validation->validateQuantity($request->quantity)) {
-            alert()->error('La quantité saisie est invalide', 'Oups!')->persistent('Femer');
-            return redirect()->back()->withInput();
+        $request->validate([
+            'stock_display' => 'required|digits_between:1,6',
+            'packing_display' => 'required|digits_between:1,6',
+            'packing' => 'required|digits_between:1,6',
+            'quantity' => 'required|digits_between:1,6||min:0|not_in:0',
+            'creation_date' => 'required|date',
+            'expiration_date' => 'required|date',
 
-        }
+        ], [
+            'stock_display.required' => ' Nombre d\'unités par display est requis',
+            'stock_display.digits_between' => ' Nombre d\'unités par display n\'est pas valide',
+            'packing_display.required' => ' Nombre de display par colis est requis',
+            'packing_display.digits_between' => ' Nombre de display par colis n\'est pas valide',
+            'packing.required' => ' Colisage est requis',
+            'packing.digits_between' => ' Colisage n\'est pas valide',
+            'creation_date.required' => ' Date de fabrication est requis',
+            'expiration_date.required' => 'le  champs Date de péremption est requis',
+            'quantity.required' => 'le  champs quantité est requis',
+            'quantity.min' => ' Quantité n\est pas valide',
+            'quantity.not_in' => ' Quantité n\est pas valide',
+            'quantity.digits_between' => ' Quantité n\'est pas valide',
+
+        ]);
 
        
 

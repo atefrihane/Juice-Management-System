@@ -20,6 +20,16 @@
 
                     </div>
 
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                     <form role="form" method="post" enctype="multipart/form-data"
                         action="{{route('handleUpdateStoreStock',['company_id'=>$store->company->id,'store_id'=>$store->id,'stock_id'=>$stock->id])}}">
                         {{csrf_field()}}
