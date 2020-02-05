@@ -7476,6 +7476,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         })["catch"](function (error) {
           console.log(error);
         });
+      } else {
+        this.order_history.forEach(function (order) {
+          if (order.id == _this2.history_id) {
+            order.comment = null;
+          }
+        });
       }
     },
     clearPreparedProducts: function clearPreparedProducts() {
@@ -91934,6 +91940,60 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "row", staticStyle: { "margin-top": "40px" } },
+          [
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                  _vm._v("Date de livraison souhaitée")
+                ]),
+                _vm._v(" "),
+                _vm.arrival_date_wished
+                  ? _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.arrival_date_wished,
+                          expression: "arrival_date_wished"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        id: "disabledInput",
+                        type: "text",
+                        disabled: ""
+                      },
+                      domProps: { value: _vm.arrival_date_wished },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.arrival_date_wished = $event.target.value
+                        }
+                      }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                !_vm.arrival_date_wished
+                  ? _c("input", {
+                      staticClass: "form-control",
+                      attrs: {
+                        id: "disabledInput",
+                        type: "text",
+                        value: "Non specifié",
+                        disabled: ""
+                      }
+                    })
+                  : _vm._e()
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
         _vm._m(8),
         _vm._v(" "),
         _c("div", { staticClass: "container-fluid" }, [
@@ -92461,56 +92521,6 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-4" }, [
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("Date de livraison souhaitée")
-                ]),
-                _vm._v(" "),
-                _vm.arrival_date_wished
-                  ? _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.arrival_date_wished,
-                          expression: "arrival_date_wished"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        id: "disabledInput",
-                        type: "text",
-                        disabled: ""
-                      },
-                      domProps: { value: _vm.arrival_date_wished },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.arrival_date_wished = $event.target.value
-                        }
-                      }
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                !_vm.arrival_date_wished
-                  ? _c("input", {
-                      staticClass: "form-control",
-                      attrs: {
-                        id: "disabledInput",
-                        type: "text",
-                        value: "Non specifié",
-                        disabled: ""
-                      }
-                    })
-                  : _vm._e()
-              ])
-            ])
-          ]),
-          _vm._v(" "),
           _c(
             "div",
             { staticClass: "row", staticStyle: { "margin-top": "40px" } },
@@ -92658,7 +92668,13 @@ var render = function() {
                         ? _c(
                             "div",
                             { staticStyle: { "word-break": "break-all" } },
-                            [_vm._v(" " + _vm._s(history.comment) + " ")]
+                            [
+                              _vm._v(
+                                " " +
+                                  _vm._s(history.comment) +
+                                  "\n                                "
+                              )
+                            ]
                           )
                         : _c("div", [_vm._v(" Aucun commentaire")])
                     ]),
@@ -94188,7 +94204,9 @@ var render = function() {
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-6" }, [
               _c("div", { staticClass: "form-group" }, [
-                _c("label", [_vm._v("Date d'arrivée souhaitée (optionnel)")]),
+                _c("label", [
+                  _vm._v("Date de livraison souhaitée (optionnel)")
+                ]),
                 _vm._v(" "),
                 _c("input", {
                   directives: [

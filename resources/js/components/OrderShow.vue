@@ -173,8 +173,7 @@
                                 <td style="width:15%;">
                                     <select class="form-control" v-model="ordered.product_id"
                                         @change="getProductData($event,index)" disabled>
-                                        <option value=""
-                                            v-if="ordered.products.length > 0" disabled>
+                                        <option value="" v-if="ordered.products.length > 0" disabled>
                                             Selectionner un
                                             produit
                                         </option>
@@ -213,6 +212,20 @@
                         <h4 class="box-title"> {{convert_total_ht}}€</h4>
                         <h4 class="box-title"> {{convert_total_tva}}€</h4>
                         <h4 class="box-title"> <b>{{convert_total_order}}€</b></h4>
+                    </div>
+                </div>
+
+                     <div class="row" style="margin-top:40px;">
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Date de livraison souhaitée</label>
+                            <input class="form-control" id="disabledInput" v-if="arrival_date_wished" type="text"
+                                v-model="arrival_date_wished" disabled>
+                            <input class="form-control" id="disabledInput" v-if="!arrival_date_wished" type="text"
+                                value="Non specifié" disabled>
+
+                        </div>
                     </div>
                 </div>
 
@@ -294,7 +307,8 @@
                                                     <h4 v-else>Aucun produit trouvé !</h4>
                                                 </td>
                                             </tr>
-                                            <tr v-for="(prepared,index) in final.prepared_products" v-if="prepared.pivot.quantity">
+                                            <tr v-for="(prepared,index) in final.prepared_products"
+                                                v-if="prepared.pivot.quantity">
                                                 <td>{{final.product_name}} </td>
                                                 <td>{{prepared.quantity}} </td>
                                                 <td>{{prepared.packing}} </td>
@@ -459,8 +473,8 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Livreur</label>
-                                <input type="text" class="form-control" :value="delivery_man.nom+' '+delivery_man.prenom"
-                                    v-if="delivery_man" disabled>
+                                <input type="text" class="form-control"
+                                    :value="delivery_man.nom+' '+delivery_man.prenom" v-if="delivery_man" disabled>
                                 <input type="text" class="form-control" value="Non specifié" v-else disabled>
                             </div>
                         </div>
@@ -533,24 +547,7 @@
 
                     </div>
 
-                    <div class="row">
 
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Date de livraison souhaitée</label>
-                                <input class="form-control" id="disabledInput" v-if="arrival_date_wished" type="text"
-                                    v-model="arrival_date_wished" disabled>
-                                <input class="form-control" id="disabledInput" v-if="!arrival_date_wished" type="text"
-                                    value="Non specifié" disabled>
-
-                            </div>
-                        </div>
-
-
-
-
-
-                    </div>
                     <div class="row" style="margin-top:40px;">
 
                         <div class="col-md-4">
@@ -610,6 +607,8 @@
 
                 </div>
 
+           
+
                 <div class="row" style="margin-top:40px;">
 
                     <div class="col-md-12">
@@ -637,9 +636,10 @@
                                 <td>{{history.user.nom}} {{history.user.prenom}}</td>
                                 <td>{{history.action}}</td>
                                 <td style="width:40%;">
-                             <div style="word-break:break-all;" v-if="history.comment "> {{history.comment}} </div>
-                                  <div v-else> Aucun commentaire</div>
-                                
+                                    <div style="word-break:break-all;" v-if="history.comment "> {{history.comment}}
+                                    </div>
+                                    <div v-else> Aucun commentaire</div>
+
 
                                 </td>
                                 <td>
@@ -724,7 +724,7 @@
 
 
         },
-        props: ['order_id', 'user_id','primary_admin'],
+        props: ['order_id', 'user_id', 'primary_admin'],
         data() {
             return {
 
@@ -854,6 +854,13 @@
                         });
 
                 }
+                else{
+                      this.order_history.forEach(order => {
+                                    if (order.id == this.history_id) {
+                                        order.comment = null
+                                    }
+                                });
+                }
 
 
             },
@@ -928,32 +935,32 @@
 
                         });
 
-                        this.store.name=response.data.store.designation
-                        this.store.address=response.data.store.address
-                        this.store.complement=response.data.store.complement
-                        this.store.country=response.data.store.country.name
-                        this.store.city=response.data.store.city.name
-                        this.store.zipcode=response.data.store.zipcode.code
+                        this.store.name = response.data.store.designation
+                        this.store.address = response.data.store.address
+                        this.store.complement = response.data.store.complement
+                        this.store.country = response.data.store.country.name
+                        this.store.city = response.data.store.city.name
+                        this.store.zipcode = response.data.store.zipcode.code
 
 
-                      this.clearOrderedProducts()
+                        this.clearOrderedProducts()
 
                         this.billed_products.forEach(billed => {
                             axios.post('/api/product/prices/' + billed.product_id, {
                                     store_id: this.store_id
                                 })
                                 .then((response) => {
-                                        console.log('****')
-                                        console.log(response)
-                                  
-                                        // billed.public_price = billed.public_price
-                          
-                                        billed.total = billed.public_price *parseInt(billed.sum)
-                                    
+                                    console.log('****')
+                                    console.log(response)
+
+                                    // billed.public_price = billed.public_price
+
+                                    billed.total = billed.public_price * parseInt(billed.sum)
+
                                     this.billed_total_ht += billed.total
                                     this.billed_total_tva += billed.total * (billed.tva /
                                         100)
-                             
+
                                     this.billed_total_order = this.billed_total_ht + this
                                         .billed_total_tva
 
@@ -1067,7 +1074,7 @@
                     })
 
             },
-             clearOrderedProducts() {
+            clearOrderedProducts() {
                 //  total cout produit hors tax //
                 this.total_ht = 0;
                 this.total_tva = 0;

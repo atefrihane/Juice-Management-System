@@ -243,7 +243,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Date d'arrivée souhaitée (optionnel)</label>
+                                <label>Date de livraison souhaitée (optionnel)</label>
                                 <input type="date" class="form-control" v-model="arrival_date_wished">
                             </div>
                         </div>

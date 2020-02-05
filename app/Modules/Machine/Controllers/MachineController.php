@@ -65,7 +65,7 @@ class MachineController extends Controller
             'code' => 'required',
             'barcode' => 'required',
             'designation' => 'required',
-            'price_month' => 'required|numeric|between:0,999.999',
+            'price_month' => 'required|numeric|min:0|max:999999',
             'photo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
         ], [
             'code.required' => ' Code est obligatoire',
@@ -73,7 +73,8 @@ class MachineController extends Controller
             'designation.required' => ' Designation est obligatoire',
             'price_month.required' => ' Prix de location mensuel est obligatoire',
             'price_month.numeric' => ' Prix de location mensuel n\'est pas valide',
-            'price_month.between' => ' Prix de location mensuel n\'est pas valide',
+            'price_month.min' => ' Prix de location mensuel n\'est pas valide',
+            'price_month.max' => ' Prix de location mensuel n\'est pas valide',
             'photo.image' => 'Le format du logo importé est non supporté ',
             'photo.mimes' => 'Le format du logo importé est non supporté ',
             'photo.max' => 'Logo importé est volumineux ! ',
@@ -126,12 +127,12 @@ class MachineController extends Controller
     public function update($id, Request $request)
     {
 
-     
+
         $val = $request->validate([
             'code' => 'required',
             'barcode' => 'required',
             'designation' => 'required',
-            'price_month' => 'required|numeric|between:0,999.999',
+            'price_month' => 'required|numeric|min:0|max:999999',
             'photo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
         ], [
             'code.required' => ' Code est obligatoire',
@@ -139,12 +140,12 @@ class MachineController extends Controller
             'designation.required' => ' Designation est obligatoire',
             'price_month.required' => ' Prix de location mensuel est obligatoire',
             'price_month.numeric' => ' Prix de location mensuel n\'est pas valide',
-            'price_month.between' => ' Prix de location mensuel n\'est pas valide',
+            'price_month.min' => ' Prix de location mensuel n\'est pas valide',
+            'price_month.max' => ' Prix de location mensuel n\'est pas valide',
             'photo.image' => 'Le format du logo importé est non supporté ',
             'photo.mimes' => 'Le format du logo importé est non supporté ',
             'photo.max' => 'Logo importé est volumineux ! ',
         ]);
-
         
         $updatable = $request->all();
         if ($request->photo) {
