@@ -5573,6 +5573,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             allowOutsideClick: false,
             confirmButtonText: 'Fermer'
           });
+          ordered.packing = '';
+          ordered.unit = '';
+          ordered.total = 0;
+          ordered.product_total_tva = 0;
+          this.clearOrderedProducts();
         } else {
           ordered.unit = total;
           ordered.total = ordered.public_price * ordered.unit;

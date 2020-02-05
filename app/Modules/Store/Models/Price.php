@@ -2,13 +2,15 @@
 
 namespace App\Modules\Store\Models;
 
-
-use Illuminate\Database\Eloquent\Model;
-use App\Modules\Store\Models\Store;
 use App\Modules\Product\Models\Product;
+use App\Modules\Store\Models\Store;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Price extends Model
 {
-    protected $fillable = ['price','product_id'];
+    use SoftDeletes;
+    protected $fillable = ['price', 'product_id'];
 
     public function stores()
     {

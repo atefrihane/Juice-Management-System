@@ -6,8 +6,10 @@ use App\Modules\General\Models\City;
 use App\Modules\General\Models\Country;
 use App\Modules\General\Models\Zipcode;
 use App\Modules\User\Models\User;
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Warehouse extends Model
 {
+    use SoftDeletes;
 
     protected $fillable = ['code', 'designation', 'city_id','country_id', 'zipcode_id','user_id', 'surface', 'address', 'complement_address', 'comment', 'photo'];
 

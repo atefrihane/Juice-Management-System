@@ -26,6 +26,7 @@ class CreateMachinesTable extends Migration
             $table->string('photo_url')->nullable();
             $table->boolean('rented')->default(0);
             $table->integer('machine_rental_id')->unsigned()->nullable();
+            $table->softDeletes();
 
 
             $table->timestamps();

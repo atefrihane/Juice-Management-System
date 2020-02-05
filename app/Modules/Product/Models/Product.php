@@ -8,9 +8,11 @@ use App\Modules\Warehouse\Models\Warehouse;
 use App\Modules\Product\Models\ProductHistory;
 use App\Modules\Bac\Models\Bac;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
+    use SoftDeletes;
 
     protected $guarded = ['id'];
 

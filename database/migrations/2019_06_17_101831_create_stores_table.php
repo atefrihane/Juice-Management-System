@@ -39,6 +39,7 @@ class CreateStoresTable extends Migration
             $table->foreign('zipcode_id')->references('id')->on('zipcodes')->onDelete('cascade');
             $table->integer('director_id')->unsigned()->nullable();
             $table->foreign('director_id')->references('id')->on('directors')->onDelete('SET NULL');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

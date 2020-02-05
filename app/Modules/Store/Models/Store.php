@@ -17,9 +17,12 @@ use App\Modules\Store\Models\StoreSchedule;
 use App\Modules\Store\Models\Price;
 use App\Modules\Order\Models\Order;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Store extends Model
 {
+
+    use SoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 

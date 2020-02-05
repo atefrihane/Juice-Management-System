@@ -10,9 +10,11 @@ use App\Modules\Store\Models\Store;
 use App\Modules\User\Models\User;
 use DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
+    use SoftDeletes;
 
     protected $guarded = ['id'];
 
@@ -60,10 +62,10 @@ class Order extends Model
     {
         $sum = DB::table('order_product')
             ->where('order_id', $this->id)
-            ->select(DB::raw('sum(order_product.custom_price * order_product.unit + 
+            ->select(DB::raw('sum(order_product.custom_price * order_product.unit +
             (order_product.custom_price * order_product.unit)*order_product.custom_tva/100 ) as sum'))
             ->first();
-      
-         return $sum;
+
+        return $sum;
     }
 }

@@ -666,6 +666,11 @@
 
 
                     });
+                      ordered.packing = ''
+                     ordered.unit = ''
+                    ordered.total = 0;
+                    ordered.product_total_tva = 0;
+                        this.clearOrderedProducts();
 
                 }
                 else{

@@ -6,9 +6,10 @@ use App\Modules\Bac\Models\Bac;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Machine\Models\MachineHistory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Machine extends Model
 {
+    use SoftDeletes;
 
     //
     protected $guarded = ['id', 'created_at', 'updated_at'];

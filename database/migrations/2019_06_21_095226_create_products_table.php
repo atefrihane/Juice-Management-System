@@ -37,6 +37,7 @@ class CreateProductsTable extends Migration
             $table->integer('unit_by_display');
             $table->integer('unit_per_package');
             $table->integer('packing');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
