@@ -108,8 +108,8 @@
             
                                 @empty
                                 <tr>
-                                    <td colspan="5" class="text-center">
-                                        <h5>Aucun stock existant!</h5>
+                                    <td colspan="7" class="text-center" >
+                                        <h4 >Aucun stock existant!</h4>
                                     </td>
                                 </tr>
                                 @endforelse
