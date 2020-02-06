@@ -3169,6 +3169,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         })["catch"](function (error) {
           console.log(error);
+
+          if (error.response.status == 422) {
+            _this3.errors = [];
+            var errors = Object.values(error.response.data.errors);
+            errors = errors.flat();
+            _this3.errors = errors;
+            _this3.disabled = false;
+            window.scrollTo(0, 0);
+          }
         });
       }
     },
@@ -3623,6 +3632,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return x;
     },
     submitRental: function submitRental() {
+      var _this6 = this;
+
       if (this.validateForm()) {
         this.disabled = true;
         axios.post('/country/update/' + this.id, {
@@ -3640,6 +3651,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
+            _this6.disabled = false;
           }
 
           if (response.data.status == 402) {
@@ -3650,6 +3662,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
+            _this6.disabled = false;
           }
 
           if (response.data.status == 403) {
@@ -3660,6 +3673,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
+            _this6.disabled = false;
           }
 
           if (response.data.status == 200) {
@@ -3677,6 +3691,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         })["catch"](function (error) {
           console.log(error);
+
+          if (error.response.status == 422) {
+            _this6.errors = [];
+            var errors = Object.values(error.response.data.errors);
+            errors = errors.flat();
+            _this6.errors = errors;
+            _this6.disabled = false;
+            window.scrollTo(0, 0);
+          }
         });
       }
     },
@@ -9031,11 +9054,14 @@ __webpack_require__.r(__webpack_exports__);
     this.$Progress.finish();
   },
   methods: {
-    getCode: function getCode(event) {
+    getDesignation: function getDesignation(event) {
       var value = event.target.value;
-      var str = value.replace(/\s+/g, '');
-      var res = str.substr(0, 6).toUpperCase();
-      this.code = res;
+
+      if (value.length > 0) {
+        var str = value.replace(/\s+/g, '');
+        var res = str.substr(0, 6).toUpperCase();
+        this.code = res;
+      }
     },
     uploadImage: function uploadImage(event) {
       var _this = this;
@@ -9554,6 +9580,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   methods: {
+    getDesignation: function getDesignation(event) {
+      var value = event.target.value;
+
+      if (value.length > 0) {
+        var str = value.replace(/\s+/g, '');
+        var res = str.substr(0, 6).toUpperCase();
+        this.code = res;
+      }
+    },
     uploadImage: function uploadImage(event) {
       var _this = this;
 
@@ -94720,7 +94755,7 @@ var render = function() {
           domProps: { value: _vm.designation },
           on: {
             change: function($event) {
-              return _vm.getCode($event)
+              return _vm.getDesignation($event)
             },
             input: function($event) {
               if ($event.target.composing) {
@@ -95558,6 +95593,9 @@ var render = function() {
           },
           domProps: { value: _vm.designation },
           on: {
+            change: function($event) {
+              return _vm.getDesignation($event)
+            },
             input: function($event) {
               if ($event.target.composing) {
                 return
@@ -118509,15 +118547,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!************************************************!*\
   !*** ./resources/js/components/CountryAdd.vue ***!
   \************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CountryAdd_vue_vue_type_template_id_84c4cf54___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CountryAdd.vue?vue&type=template&id=84c4cf54& */ "./resources/js/components/CountryAdd.vue?vue&type=template&id=84c4cf54&");
 /* harmony import */ var _CountryAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CountryAdd.vue?vue&type=script&lang=js& */ "./resources/js/components/CountryAdd.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _CountryAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _CountryAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -118547,7 +118584,7 @@ component.options.__file = "resources/js/components/CountryAdd.vue"
 /*!*************************************************************************!*\
   !*** ./resources/js/components/CountryAdd.vue?vue&type=script&lang=js& ***!
   \*************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

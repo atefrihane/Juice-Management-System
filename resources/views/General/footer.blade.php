@@ -293,18 +293,61 @@ if($('.country').val())
 
 <script>
     $(document).ready(function () {
-                 $(".designation").on('change', function () {
-          
-                    if($('.code').val().length == 0 )
+     $(".designation").on('keyup', function () {
+        
+        if($('.code').val().length == 0 )
+        {
+            var value = $(this).val();
+        str = value.replace(/\s+/g, '');
+        var res = str.substr(0, 6).toUpperCase();
+        $('.code').val(res)
+    
+               
+        }
+     });
+
+     $(".designation").on('change', function () {
+                    
+
+                    var value = $(this).val();
+                    if(value.length > 0)
                     {
-                        var value = $(this).val();
-                    str = value.replace(/\s+/g, '');
+                        str = value.replace(/\s+/g, '');
                     var res = str.substr(0, 6).toUpperCase();
                     $('.code').val(res);
-
+                        
                     }
-               
+              
+    
+                    });
+    
+                    $(".code").on('change', function () {
+                        
+                        var currentVal= $(this).val();
+                        var value = $('.designation').val();
+                        if(currentVal.length == 0)
+                        {
+                            str = value.replace(/\s+/g, '');
+                        var res = str.substr(0, 6).toUpperCase();
+                        $('.code').val(res);
+    
+                        }
+                     
+        
+                        });
+
+   
+      
+
+        $("input[type=text]").not('.code').attr('maxlength','150');
+        $(".code").attr('maxlength','20');
+        $("input[type=number]").attr({
+            "max" : 999999,
+      
         });
+        $("textarea").attr('maxlength','200');
+    
+
     });
 
 </script>

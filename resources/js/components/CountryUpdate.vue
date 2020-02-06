@@ -502,6 +502,8 @@
 
                                 });
 
+                                        this.disabled=false
+
                             }
 
                             if (response.data.status == 402) {
@@ -513,6 +515,7 @@
                                     confirmButtonText: 'Fermer'
 
                                 });
+                                        this.disabled=false
 
                             }
 
@@ -525,6 +528,7 @@
                                     confirmButtonText: 'Fermer'
 
                                 });
+                                       this.disabled=false
 
                             }
 
@@ -553,6 +557,16 @@
                         })
                         .catch((error) => {
                             console.log(error);
+                               if (error.response.status == 422){
+                          
+                                   this.errors=[]
+                                    let errors = Object.values(error.response.data.errors);
+                                    errors = errors.flat();
+                                    this.errors=errors;
+                                 
+                                   this.disabled = false
+                                    window.scrollTo(0, 0);
+                             }
                         });
 
                 }

@@ -68,7 +68,7 @@ class WarehouseController extends Controller
             'zipcode_id' => 'required',
             'country_id' => 'required',
             'city_id' => 'required',
-            'surface' => 'required|digits_between:1,6||min:0|not_in:0',
+            'surface' => 'required|min:1|max:999999',
             'address' => 'required',
             'photo' => 'image|mimes:jpeg,png,jpg|max:2048',
 
@@ -77,9 +77,10 @@ class WarehouseController extends Controller
             'designation.required' => ' designation  est requis',
             'zipcode_id.required' => ' code postale est requis',
             'country_id.required' => ' pays est requis',
-            'city_id.required' => ' ville est requis',
-            'surface.required' => ' surface est requis',
-            'surface.digits_between' => ' surface n\'est pas valide',
+            'city_id.required' => ' Ville est requis',
+            'surface.required' => ' Surface est requis',
+            'surface.min' => ' Surface n\'est pas valide',
+            'surface.max' => ' Surface n\'est pas valide',
             'photo.image' => 'Le format du photo importé est non supporté ',
             'photo.mimes' => 'Le format du photo importé est non supporté ',
             'photo.max' => 'Photo importé est volumineuse ! ',
@@ -185,24 +186,25 @@ class WarehouseController extends Controller
     public function handleUpdateWarehouse($id, Request $request)
     {
 
-        $request->validate([
+        $val = $request->validate([
             'code' => 'required',
              'designation' => 'required',
             'zipcode_id' => 'required',
             'country_id' => 'required',
             'city_id' => 'required',
-            'surface' => 'required|digits_between:1,6||min:0|not_in:0',
+            'surface' => 'required|min:1|max:999999',
             'address' => 'required',
-            'photo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
+            'photo' => 'image|mimes:jpeg,png,jpg|max:2048',
 
         ], [
             'code.required' => ' code est requis',
             'designation.required' => ' designation  est requis',
             'zipcode_id.required' => ' code postale est requis',
             'country_id.required' => ' pays est requis',
-            'city_id.required' => ' ville est requis',
-            'surface.required' => ' surface est requis',
-            'surface.digits_between' => ' surface n\'est pas valide',
+            'city_id.required' => ' Ville est requis',
+            'surface.required' => ' Surface est requis',
+            'surface.min' => ' Surface n\'est pas valide',
+            'surface.max' => ' Surface n\'est pas valide',
             'photo.image' => 'Le format du photo importé est non supporté ',
             'photo.mimes' => 'Le format du photo importé est non supporté ',
             'photo.max' => 'Photo importé est volumineuse ! ',

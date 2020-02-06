@@ -24,11 +24,11 @@ class ProductController extends Controller
     {
 
         $request->validate([
-            'code' => 'required|between:1,6',
+            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/',
             'state' => 'required',
             'name' => 'required',
             'type' => 'required',
-            'barcode' => 'required|between:1,12',
+            'barcode' => 'required|between:1,150',
             'designation' => 'required|min:1|max:200',
             'composition' => 'required|min:1|max:100',
             'version' => 'required|min:1|max:100',
@@ -47,6 +47,7 @@ class ProductController extends Controller
 
         ], [
             'code.required' => ' Code est requis',
+            'code.regex' => ' Code doit être alphanumérique',
             'code.digits_between' => ' Code n\'est pas valide',
             'state.required' => ' Etat est requis',
             'name.required' => ' Nom du produit est requis',
@@ -98,7 +99,6 @@ class ProductController extends Controller
             'tva.numeric' => ' TVA (%) n\'est pas valide',
      
         ]);
-
 
         $checkCode = Product::where('code', $request->code)->first();
         if ($checkCode) {
@@ -199,11 +199,11 @@ class ProductController extends Controller
     {
       
         $request->validate([
-            'code' => 'required|between:1,6',
+            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/',
             'state' => 'required',
             'name' => 'required',
             'type' => 'required',
-            'barcode' => 'required|between:1,12',
+            'barcode' => 'required|between:1,150',
             'designation' => 'required|min:1|max:200',
             'composition' => 'required|min:1|max:100',
             'version' => 'required|min:1|max:100',
@@ -222,6 +222,7 @@ class ProductController extends Controller
 
         ], [
             'code.required' => ' Code est requis',
+            'code.regex' => ' Code doit être alphanumérique',
             'code.digits_between' => ' Code n\'est pas valide',
             'state.required' => ' Etat est requis',
             'name.required' => ' Nom du produit est requis',

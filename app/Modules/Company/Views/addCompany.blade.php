@@ -68,7 +68,7 @@
                                         <label for="exampleInputPassword1">Nom du groupe</label>
                                         <input required type="text" class="form-control" name="name"
                                             id="exampleInputPassword1" placeholder="Nom du groupe"
-                                            value="{{old('name')}}">
+                                            value="{{old('name')}}" maxlength="150">
                                     </div>
                                 </div>
                             </div>

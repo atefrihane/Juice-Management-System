@@ -41,8 +41,9 @@ class CompanyController extends Controller
 
     public function handleAddCompany(Request $request)
     {
+
         $request->validate([
-            'code' => 'required',
+            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/',
             'name' => 'required',
             'designation' => 'required',
             'zipcode_id' => 'required',
@@ -53,6 +54,7 @@ class CompanyController extends Controller
 
         ], [
             'code.required' => ' Code est requis',
+            'code.regex' => ' Code doit être alphanumérique',
             'name.required' => ' Nom du group est requis',
             'designation.required' => ' Designation est requise',
             'address.required' => ' L\'addresse est requise',
@@ -65,6 +67,7 @@ class CompanyController extends Controller
             'logo.max' => 'Logo importé est volumineux ! ',
 
         ]);
+
 
 
         if ($request->logo) {
@@ -115,9 +118,10 @@ class CompanyController extends Controller
 
     public function update(Request $request, $id)
     {
+  
      
         $request->validate([
-            'code' => 'required',
+            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/',
             'name' => 'required',
             'designation' => 'required',
             'zipcode_id' => 'required',
@@ -128,6 +132,7 @@ class CompanyController extends Controller
 
         ], [
             'code.required' => ' Code est requis',
+            'code.regex' => ' Code doit être alphanumérique',
             'name.required' => ' Nom du group est requis',
             'designation.required' => ' Designation est requise',
             'address.required' => ' L\'addresse est requise',

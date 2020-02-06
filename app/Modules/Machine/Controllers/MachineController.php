@@ -62,7 +62,7 @@ class MachineController extends Controller
   
  
         $val = $request->validate([
-            'code' => 'required',
+            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/',
             'barcode' => 'required',
             'designation' => 'required',
             'price_month' => 'required|numeric|min:0|max:999999',
@@ -129,13 +129,14 @@ class MachineController extends Controller
 
 
         $val = $request->validate([
-            'code' => 'required',
+            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/',
             'barcode' => 'required',
             'designation' => 'required',
             'price_month' => 'required|numeric|min:0|max:999999',
             'photo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
         ], [
             'code.required' => ' Code est obligatoire',
+            'code.regex' => ' Code doit être alphanumérique',
             'barcode.required' => '  Code a barres est obligatoire',
             'designation.required' => ' Designation est obligatoire',
             'price_month.required' => ' Prix de location mensuel est obligatoire',

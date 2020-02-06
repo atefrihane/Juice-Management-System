@@ -82,7 +82,7 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Désignation</label>
                 <input class="form-control" id="disabledInput" type="text" placeholder="Désignation"
-                    v-model="designation">
+                    v-model="designation" @change="getDesignation($event)">
 
             </div>
 
@@ -270,7 +270,18 @@
 
         methods: {
 
+                 getDesignation(event) {
+                let value = event.target.value;
+                if(value.length > 0)
+                {
+                          let str = value.replace(/\s+/g, '');
+                          let res = str.substr(0, 6).toUpperCase();
+                          this.code = res;
 
+                }
+          
+
+            },
            uploadImage(event) {
 
                 let file = event.target.files[0];
@@ -378,6 +389,7 @@
                         .catch((error) => {
                             this.$Progress.fail()
                              if (error.response.status == 422){
+                          
                                    this.errors=[]
                                     let errors = Object.values(error.response.data.errors);
                                     errors = errors.flat();

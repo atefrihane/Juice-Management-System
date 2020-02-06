@@ -135,7 +135,7 @@ class StoreController extends Controller
   
 
         $request->validate([
-            'code' => 'required',
+            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/',
             'sign' => 'required',
             'designation' => 'required',
             'zipcode_id' => 'required',
@@ -150,6 +150,7 @@ class StoreController extends Controller
 
         ], [
             'code.required' => ' Code est obligatoire',
+            'code.regex' => ' Code doit être alphanumérique',
             'sign.required' => ' Enseigne  est obligatoire',
             'designation.required' => ' Designation est obligatoire',
             'address.required' => ' Addresse est obligatoire',
@@ -222,7 +223,7 @@ class StoreController extends Controller
         $insertable['company_id'] = $company_id;
         $checkCode = Store::where('code', preg_replace('/\s/', '', $request->code))->first();
         if ($checkCode) {
-            alert()->error('Oups', 'Code déja utilisé !')->persistent('Femer');
+            alert()->error('Code déja utilisé', 'Oups')->persistent('Femer');
             return redirect()->back()->withInput();
         }
 
@@ -283,7 +284,7 @@ class StoreController extends Controller
     {
 
         $request->validate([
-            'code' => 'required',
+            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/',
             'sign' => 'required',
             'designation' => 'required',
             'zipcode_id' => 'required',
@@ -298,6 +299,7 @@ class StoreController extends Controller
 
         ], [
             'code.required' => ' Code est obligatoire',
+            'code.regex' => ' Code doit être alphanumérique',
             'sign.required' => ' Enseigne  est obligatoire',
             'designation.required' => ' Designation est obligatoire',
             'address.required' => ' Addresse est obligatoire',
@@ -338,7 +340,7 @@ class StoreController extends Controller
                 ->where('id', '!=', $store->id)
                 ->first();
             if ($checkCode) {
-                alert()->error('Oups', 'Code déja utilisé !')->persistent('Femer');
+                alert()->error('Code déja utilisé', 'Oups')->persistent('Femer');
                 return redirect()->back();
             }
 

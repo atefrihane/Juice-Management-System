@@ -12,6 +12,15 @@ class GeneralController extends Controller
 {
     public function handleAddCountryData(Request $request)
     {
+       
+        $val = $request->validate([
+            'code' => 'required|regex:/^\+\d{1,5}$/',
+       
+        ], [
+            'code.required' => ' Code pays  est obligatoire',
+            'code.regex' => ' Code pays doit n\'est pas valide',
+      
+        ]);
 
         $checkName = Country::where('name',  $request->name)->first();
         $checkCode = Country::where('code',  $request->code)->first();
@@ -57,6 +66,15 @@ class GeneralController extends Controller
 
     public function handleUpdateCountryData($id, Request $request)
     {
+        $val = $request->validate([
+            'code' => 'required|regex:/^\+\d{1,5}$/',
+       
+        ], [
+            'code.required' => ' Code pays  est obligatoire',
+            'code.regex' => ' Code pays doit n\'est pas valide',
+      
+        ]);
+
 
         $country = Country::find($id);
         if ($country) {

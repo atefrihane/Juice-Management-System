@@ -77,7 +77,7 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Désignation</label>
                 <input class="form-control" id="disabledInput" type="text" placeholder="Désignation"
-                    v-model="designation" @change="getCode($event)">
+                    v-model="designation" @change="getDesignation($event)">
 
             </div>
 
@@ -263,11 +263,16 @@
 
         },
         methods: {
-            getCode(event) {
+            getDesignation(event) {
                 let value = event.target.value;
-                let str = value.replace(/\s+/g, '');
-                let res = str.substr(0, 6).toUpperCase();
-                this.code = res;
+                if(value.length > 0)
+                {
+                          let str = value.replace(/\s+/g, '');
+                          let res = str.substr(0, 6).toUpperCase();
+                          this.code = res;
+
+                }
+          
 
             },
 
@@ -537,13 +542,13 @@
                                    });
                             this.$Progress.finish()
 
-                }
-                else{
-                this.errors=[]    
-                this.errors.push('Les formats supportés pour l\'importation de la photo sont : PNG,JPEG,JPG avec taille maximale 2M');
-                window.scrollTo(0, 0);
-                  
-                }
+                                    }
+                                    else{
+                                    this.errors=[]    
+                                    this.errors.push('Les formats supportés pour l\'importation de la photo sont : PNG,JPEG,JPG avec taille maximale 2M');
+                                    window.scrollTo(0, 0);
+                                    
+                                    }
 
 
 
