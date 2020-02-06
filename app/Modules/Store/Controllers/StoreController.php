@@ -135,7 +135,7 @@ class StoreController extends Controller
   
 
         $request->validate([
-            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/',
+            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/|alpha_dash',
             'sign' => 'required',
             'designation' => 'required',
             'zipcode_id' => 'required',
@@ -151,6 +151,7 @@ class StoreController extends Controller
         ], [
             'code.required' => ' Code est obligatoire',
             'code.regex' => ' Code doit être alphanumérique',
+            'code.alpha_dash' => ' Code doit être alphanumérique',
             'sign.required' => ' Enseigne  est obligatoire',
             'designation.required' => ' Designation est obligatoire',
             'address.required' => ' Addresse est obligatoire',
@@ -284,7 +285,7 @@ class StoreController extends Controller
     {
 
         $request->validate([
-            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/',
+            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/|alpha_dash',
             'sign' => 'required',
             'designation' => 'required',
             'zipcode_id' => 'required',
@@ -300,6 +301,7 @@ class StoreController extends Controller
         ], [
             'code.required' => ' Code est obligatoire',
             'code.regex' => ' Code doit être alphanumérique',
+            'code.alpha_dash' => ' Code doit être alphanumérique',
             'sign.required' => ' Enseigne  est obligatoire',
             'designation.required' => ' Designation est obligatoire',
             'address.required' => ' Addresse est obligatoire',

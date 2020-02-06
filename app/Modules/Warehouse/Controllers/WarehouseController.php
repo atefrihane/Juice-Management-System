@@ -63,7 +63,7 @@ class WarehouseController extends Controller
 
 
         $val = $request->validate([
-            'code' => 'required',
+            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/|alpha_dash',
              'designation' => 'required',
             'zipcode_id' => 'required',
             'country_id' => 'required',
@@ -73,7 +73,9 @@ class WarehouseController extends Controller
             'photo' => 'image|mimes:jpeg,png,jpg|max:2048',
 
         ], [
-            'code.required' => ' code est requis',
+            'code.required' => ' Code est obligatoire',
+            'code.regex' => ' Code doit être alphanumérique',
+            'code.alpha_dash' => ' Code doit être alphanumérique',
             'designation.required' => ' designation  est requis',
             'zipcode_id.required' => ' code postale est requis',
             'country_id.required' => ' pays est requis',
@@ -85,6 +87,7 @@ class WarehouseController extends Controller
             'photo.mimes' => 'Le format du photo importé est non supporté ',
             'photo.max' => 'Photo importé est volumineuse ! ',
         ]);
+
 
         $checkWarehouse = Warehouse::where('code', $request->code)->first();
         $path = null;
@@ -155,7 +158,7 @@ class WarehouseController extends Controller
             if (!$checkWarehouse->products()->exists()) {
                 $checkWarehouse->delete();
                 alert()->success('Succés!', 'Entrepôt a été supprimé avec succés !')->persistent('Femer');
-                return redirect()->back();
+                return redirect()->route('showWarehouses');
 
             } else {
                 alert()->error('Cette entité ne peut pas être supprimée, autres entités y sont liées', 'Oups! ')->persistent("Fermer");
@@ -185,9 +188,8 @@ class WarehouseController extends Controller
 
     public function handleUpdateWarehouse($id, Request $request)
     {
-
         $val = $request->validate([
-            'code' => 'required',
+            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/|alpha_dash',
              'designation' => 'required',
             'zipcode_id' => 'required',
             'country_id' => 'required',
@@ -197,7 +199,9 @@ class WarehouseController extends Controller
             'photo' => 'image|mimes:jpeg,png,jpg|max:2048',
 
         ], [
-            'code.required' => ' code est requis',
+            'code.required' => ' Code est obligatoire',
+            'code.regex' => ' Code doit être alphanumérique',
+            'code.alpha_dash' => ' Code doit être alphanumérique',
             'designation.required' => ' designation  est requis',
             'zipcode_id.required' => ' code postale est requis',
             'country_id.required' => ' pays est requis',
@@ -209,7 +213,6 @@ class WarehouseController extends Controller
             'photo.mimes' => 'Le format du photo importé est non supporté ',
             'photo.max' => 'Photo importé est volumineuse ! ',
         ]);
-
 
 
         $checkWarehouse = Warehouse::find($id);
