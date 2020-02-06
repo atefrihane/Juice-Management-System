@@ -41,14 +41,14 @@
                                 <table class="table table-bordered table-hover example2">
                                         <thead>
                                             <tr>
-                                                <th>Code</th>
+                                                <th class="is-wrapped">Code</th>
                                                 <th class="date-create">Date et heure de création</th>
-                                                <th>Saisie par</th>
-                                                <th>Societé</th>
-                                                <th>Magasin</th>
-                                                <th>Code postal</th>
-                                                <th>Montant (€)</th>
-                                                <th>Commentaire</th>
+                                                <th class="is-wrapped">Saisie par</th>
+                                                <th class="is-wrapped">Societé</th>
+                                                <th class="is-wrapped">Magasin</th>
+                                                <th class="is-wrapped">Code postal</th>
+                                                <th class="is-wrapped">Montant (€)</th>
+                                                <th class="is-wrapped">Commentaire</th>
             
                                                 <th>Etat</th>
                                                 <th></th>
@@ -77,9 +77,9 @@
             
                                                 <td data-url="{{route('showOrder',$order->id)}}">
                                                     @if($order->lastComment())
-                                                    <div style="word-break:break-all;">
+                                                   
                                                         {{$order->lastComment()->comment }}
-                                                    </div>
+                                                 
                                                  
                                                
                                                   

@@ -31,10 +31,10 @@
                             <thead>
                                 <tr>
                                     <th>Photo</th>
-                                    <th>Code</th>
-                                    <th>Désignation</th>
-                                    <th>Ville</th>
-                                    <th>Code postal</th>
+                                    <th class="is-wrapped">Code</th>
+                                    <th class="is-wrapped">Désignation</th>
+                                    <th class="is-wrapped">Ville</th>
+                                    <th class="is-wrapped">Code postal</th>
                                     <th></th>
                                 </tr>
                             </thead>

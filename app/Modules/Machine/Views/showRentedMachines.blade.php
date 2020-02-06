@@ -30,12 +30,11 @@
                                         <thead>
                                             <tr>
                                                 <th></th>
-                                                <th>Code Machine</th>
-                                                <th>Désignation</th>
-                                                <th>Nbr de bacs</th>
-                                                <th>Magasin</th>
-            
-                                                <th>Etat</th>
+                                                <th class="is-wrapped">Code Machine</th>
+                                                <th class="is-wrapped">Désignation</th>
+                                                <th class="is-wrapped">Nbr de bacs</th>
+                                                <th class="is-wrapped">Magasin</th>
+                                                <th class="is-wrapped">Etat</th>
                                                 <th></th>
                                             </tr>
                                         </thead>

@@ -48,12 +48,11 @@
                                         <thead>
                                             <tr>
                                                 <th>Photo</th>
-                                                <th>Code</th>
-                                                <th>Désignation</th>
-            
-                                                <th>Ville</th>
-                                                <th>Code Postal</th>
-                                                <th>Etat</th>
+                                                <th class="is-wrapped" >Code</th>
+                                                <th class="is-wrapped" >Désignation</th>
+                                                <th class="is-wrapped" >Ville</th>
+                                                <th class="is-wrapped" >Code Postal</th>
+                                                <th class="is-wrapped" >Etat</th>
                                                 <th></th>
                                             </tr>
                                         </thead>

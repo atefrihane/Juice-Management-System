@@ -37,12 +37,12 @@
                                         <thead>
                                             <tr>
                                                 <th>Photo</th>
-                                                <th>Code</th>
-                                                <th>Nom Produit</th>
-                                                <th>Type</th>
-                                                <th>Désignation</th>
-                                                <th>Prix unitaire de base (€)</th>
-                                                <th>Etat</th>
+                                                <th class="is-wrapped">Code</th>
+                                                <th class="is-wrapped">Nom Produit</th>
+                                                <th class="is-wrapped">Type</th>
+                                                <th class="is-wrapped">Désignation</th>
+                                                <th class="is-wrapped">Prix unitaire de base (€)</th>
+                                                <th class="is-wrapped">Etat</th>
                                                 <th></th>
                                             </tr>
                                         </thead>

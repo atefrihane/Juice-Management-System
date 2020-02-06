@@ -28,11 +28,11 @@
                         <table class="table table-bordered table-hover example2" style="width:100%;">
                             <thead>
                                 <tr>
-                                    <th>Code</th>
-                                    <th>Nom</th>
-                                    <th>Prénom</th>
-                                    <th>Email</th>
-                                    <th>Role</th>
+                                    <th class="is-wrapped">Code</th>
+                                    <th class="is-wrapped">Nom</th>
+                                    <th class="is-wrapped">Prénom</th>
+                                    <th class="is-wrapped">Email</th>
+                                    <th class="is-wrapped">Role</th>
                                     <th></th>
                                 </tr>
                             </thead>

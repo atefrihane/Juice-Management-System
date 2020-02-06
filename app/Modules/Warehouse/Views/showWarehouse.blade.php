@@ -191,14 +191,14 @@
                     <thead>
                         <tr>
 
-                            <th>Nom Produit</th>
-                            <th>Quantité(nbr des unités)</th>
-                            <th>Unités par diplay</th>
-                            <th>Displays par colis</th>
-                            <th>Colisage</th>
-                            <th>Entrepôt</th>
-                            <th>Date de fabrication</th>
-                            <th>Date de péremption</th>
+                            <th class="is-wrapped">Nom Produit</th>
+                            <th class="is-wrapped">Quantité(nbr des unités)</th>
+                            <th class="is-wrapped">Unités par diplay</th>
+                            <th class="is-wrapped">Displays par colis</th>
+                            <th class="is-wrapped">Colisage</th>
+                            <th class="is-wrapped">Entrepôt</th>
+                            <th class="is-wrapped">Date de fabrication</th>
+                            <th class="is-wrapped">Date de péremption</th>
                             <th></th>
                         </tr>
                     </thead>

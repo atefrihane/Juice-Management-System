@@ -14,14 +14,18 @@ class GeneralController extends Controller
     {
        
         $val = $request->validate([
+            'name' => 'required|min:0|max:150',
             'code' => 'required|regex:/^\+\d{1,5}$/',
        
         ], [
+            'name.required' => 'Nom pays n\'est pas valide',
+            'name.min' => '  Nom pays n\'est pas valide',
+            'name.max' => '  Nom pays n\'est pas valide',
+            'code.regex' => ' Code pays  n\'est pas valide',
             'code.required' => ' Code pays  est obligatoire',
-            'code.regex' => ' Code pays doit n\'est pas valide',
+            'code.regex' => ' Code pays  n\'est pas valide',
       
         ]);
-
         $checkName = Country::where('name',  $request->name)->first();
         $checkCode = Country::where('code',  $request->code)->first();
         if ($checkName) {
@@ -67,11 +71,16 @@ class GeneralController extends Controller
     public function handleUpdateCountryData($id, Request $request)
     {
         $val = $request->validate([
+            'name' => 'required|min:0|max:150',
             'code' => 'required|regex:/^\+\d{1,5}$/',
        
         ], [
+            'name.required' => 'Nom pays n\'est pas valide',
+            'name.min' => '  Nom pays n\'est pas valide',
+            'name.max' => '  Nom pays n\'est pas valide',
+            'code.regex' => ' Code pays  n\'est pas valide',
             'code.required' => ' Code pays  est obligatoire',
-            'code.regex' => ' Code pays doit n\'est pas valide',
+            'code.regex' => ' Code pays  n\'est pas valide',
       
         ]);
 

@@ -28,11 +28,11 @@
                             <thead>
                                 <tr>
                                     <th>Logo</th>
-                                    <th>Nom societé</th>
-                                    <th>Code</th>
-                                    <th>Code Postal</th>
-                                    <th>Nbr de Magasins</th>
-                                    <th>Statut</th>
+                                    <th class="is-wrapped">Nom societé</th>
+                                    <th class="is-wrapped">Code</th>
+                                    <th class="is-wrapped">Code Postal</th>
+                                    <th class="is-wrapped">Nbr de Magasins</th>
+                                    <th class="is-wrapped">Statut</th>
                                     <th></th>
                                 </tr>
                             </thead>

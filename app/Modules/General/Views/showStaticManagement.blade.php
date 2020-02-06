@@ -33,10 +33,10 @@
                         <table class="table table-bordered table-hover example2 scrollable-table">
                             <thead>
                                 <tr>
-                                    <th>Pays</th>
-                                    <th>Code téléphonique</th>
-                                    <th>Nombre des villes</th>
-                                    <th>Nombre des codes postaux</th>
+                                    <th class="is-wrapped">Pays</th>
+                                    <th class="is-wrapped">Code téléphonique</th>
+                                    <th class="is-wrapped">Nombre des villes</th>
+                                    <th class="is-wrapped">Nombre des codes postaux</th>
                                     <th></th>
                                 </tr>
                             </thead>

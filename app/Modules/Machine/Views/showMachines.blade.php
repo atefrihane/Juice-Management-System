@@ -31,13 +31,13 @@
                                             <thead>
                                                 <tr>
                                                     <th>Photo</th>
-                                                    <th>Code</th>
-                                                    <th>Codes à barres </th>
-                                                    <th>Désignation</th>
-                                                    <th>Nbr de bacs</th>
-                                                    <th>Prix loc mens (€)</th>
-                                                    <th>Statut</th>
-                                                    <th>Etat</th>
+                                                    <th class="is-wrapped" >Code</th>
+                                                    <th class="is-wrapped" >Codes à barres </th>
+                                                    <th class="is-wrapped" >Désignation</th>
+                                                    <th class="is-wrapped" >Nbr de bacs</th>
+                                                    <th class="is-wrapped" >Prix loc mens (€)</th>
+                                                    <th class="is-wrapped" >Statut</th>
+                                                    <th class="is-wrapped" >Etat</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
