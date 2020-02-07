@@ -47,8 +47,9 @@
                                     <td data-url="{{route('showOrder',$order->id)}}">{{$order->store->designation}}</td>
                                     <td data-url="{{route('showOrder',$order->id)}}">{{$order->store->zipcode->code}}</td>
                                     <td data-url="{{route('showOrder',$order->id)}}">  @convert($order->total)</td>
+                                    <th data-url="{{route('showOrder',$order->id)}}">{{$order->comment ? $order->comment :  'Aucun Commentaire'}}</th>
                                     <td data-url="{{route('showOrder',$order->id)}}">Comptabilisée</td>
-                                    <th data-url="{{route('showOrder',$order->id)}}">{{$order->comment}}</th>
+                                  
                                     <td class="not-this text-center">
 
                                         <div class="btn-group">

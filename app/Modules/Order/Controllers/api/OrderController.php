@@ -321,7 +321,7 @@ class OrderController extends Controller
                             } else {
                                 $newArray = [
                                     'quantity' => $stock->quantity,
-                                    'old_quantity' =>$oldProducts[$index]->quantity,
+                                    'old_quantity' => $oldProducts[$index]->quantity,
                                     'id' => $newProduct['product_warehouse_id'],
 
                                 ];
@@ -553,7 +553,7 @@ class OrderController extends Controller
 
                     } else {
                         if ($request->balance) {
-                          
+
                             $balanceOrder = Order::create([
                                 'code' => $order->code . '-relq',
                                 'status' => 2,
@@ -657,6 +657,36 @@ class OrderController extends Controller
 
                 switch ($request->new_status) {
                     case (5):
+                        $request->validate([
+                            'carrier_mode' => 'required',
+                            'delivery_man_id' => 'required',
+                            'delivery_mode' => 'required',
+                            'carton_number' => 'required|numeric|digits_between:1,6',
+                            'palet_number' => 'required|numeric|digits_between:1,6',
+                            'volume' => 'required|min:1|max:999999|digits_between:1,6',
+                            'weight' => 'required|min:1|max:999999|digits_between:1,6',
+                            'comment' => 'nullable|max:200',
+
+                        ], [
+                            'carrier_mode.required' => ' Transporteur est obligatoire',
+                            'delivery_man_id.required' => ' Livreur  est obligatoire',
+                            'delivery_man_id.required' => ' Livreur  est obligatoire',
+                            'delivery_mode.required' => ' Mode de livraison est obligatoire',
+                            'carton_number.required' => ' Nombre de cartons est obligatoire',
+                            'carton_number.numeric' => ' Nombre de cartons n\'est pas valide',
+                            'carton_number.digits_between' => '  Nombre de cartons n\'est pas valide',
+                            'palet_number.required' => ' Nombre de palette est obligatoire',
+                            'palet_number.numeric' => ' Nombre de palette n\'est pas valide',
+                            'palet_number.digits_between' => '  Nombre de palette n\'est pas valide',
+                            'volume.required' => ' Volume(m²) est obligatoire',
+                            'volume.numeric' => ' Volume(m²) n\'est pas valide',
+                            'volume.digits_between' => '  Volume(m²) n\'est pas valide',
+                            'weight.required' => ' Poids(kg) est obligatoire',
+                            'weight.numeric' => ' Poids(kg) n\'est pas valide',
+                            'weight.digits_between' => '  Poids(kg) n\'est pas valide',
+                            'comment.max' => '  Commentaire n\'est pas valide',
+
+                        ]);
                         {
                             $order->update([
                                 'status' => $request->new_status,
@@ -681,6 +711,16 @@ class OrderController extends Controller
 
                     case (6):
                         {
+
+                            $request->validate([
+
+                                'comment' => 'nullable|max:200',
+
+                            ], [
+
+                                'comment.max' => '  Commentaire n\'est pas valide',
+
+                            ]);
                             $order->update([
                                 'status' => $request->new_status,
                                 'estimated_arrival_date' => $request->date,
@@ -698,6 +738,16 @@ class OrderController extends Controller
                         break;
                     case (7):
                         {
+                            $request->validate([
+
+                                'comment' => 'nullable|max:200',
+
+                            ], [
+
+                                'comment.max' => '  Commentaire n\'est pas valide',
+
+                            ]);
+
 
                             $order->update([
                                 'status' => $request->new_status,
@@ -717,6 +767,16 @@ class OrderController extends Controller
 
                     case (8):
                         {
+                            $request->validate([
+
+                                'comment' => 'nullable|max:200',
+
+                            ], [
+
+                                'comment.max' => '  Commentaire n\'est pas valide',
+
+                            ]);
+
                             $order->update([
                                 'status' => $request->new_status,
 
@@ -748,6 +808,17 @@ class OrderController extends Controller
                     case (9):
                         {
 
+                            $request->validate([
+
+                                'comment' => 'nullable|max:200',
+
+                            ], [
+
+                                'comment.max' => '  Commentaire n\'est pas valide',
+
+                            ]);
+
+
                             $order->update([
                                 'status' => $request->new_status,
 
@@ -765,6 +836,16 @@ class OrderController extends Controller
                     case (10):
                         {
 
+                            $request->validate([
+
+                                'comment' => 'nullable|max:200',
+
+                            ], [
+
+                                'comment.max' => '  Commentaire n\'est pas valide',
+
+                            ]);
+
                             $order->update([
                                 'status' => $request->new_status,
 
@@ -781,6 +862,16 @@ class OrderController extends Controller
 
                     case (11):
                         {
+
+                            $request->validate([
+
+                                'comment' => 'nullable|max:200',
+
+                            ], [
+
+                                'comment.max' => '  Commentaire n\'est pas valide',
+
+                            ]);
 
                             $order->update([
                                 'status' => $request->new_status,
@@ -821,6 +912,38 @@ class OrderController extends Controller
 
     public function handleUpdateDeliveryOrder($id, Request $request)
     {
+
+        $request->validate([
+            'carrier_mode' => 'required',
+            'delivery_man_id' => 'required',
+            'delivery_mode' => 'required',
+            'carton_number' => 'required|numeric|digits_between:1,6',
+            'palet_number' => 'required|numeric|digits_between:1,6',
+            'volume' => 'required|min:1|max:999999|digits_between:1,6',
+            'weight' => 'required|min:1|max:999999|digits_between:1,6',
+            'comment' => 'nullable|max:200',
+
+        ], [
+            'carrier_mode.required' => ' Transporteur est obligatoire',
+            'delivery_man_id.required' => ' Livreur  est obligatoire',
+            'delivery_man_id.required' => ' Livreur  est obligatoire',
+            'delivery_mode.required' => ' Mode de livraison est obligatoire',
+            'carton_number.required' => ' Nombre de cartons est obligatoire',
+            'carton_number.numeric' => ' Nombre de cartons n\'est pas valide',
+            'carton_number.digits_between' => '  Nombre de cartons n\'est pas valide',
+            'palet_number.required' => ' Nombre de palette est obligatoire',
+            'palet_number.numeric' => ' Nombre de palette n\'est pas valide',
+            'palet_number.digits_between' => '  Nombre de palette n\'est pas valide',
+            'volume.required' => ' Volume(m²) est obligatoire',
+            'volume.numeric' => ' Volume(m²) n\'est pas valide',
+            'volume.digits_between' => '  Volume(m²) n\'est pas valide',
+            'weight.required' => ' Poids(kg) est obligatoire',
+            'weight.numeric' => ' Poids(kg) n\'est pas valide',
+            'weight.digits_between' => '  Poids(kg) n\'est pas valide',
+            'comment.max' => '  Commentaire n\'est pas valide',
+
+        ]);
+
         $order = Order::find($id);
         if ($order) {
 

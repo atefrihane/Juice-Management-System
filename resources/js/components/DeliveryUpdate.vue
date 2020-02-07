@@ -7,15 +7,15 @@
 
         <form role="form">
             <div class="box-body">
-                <div class="box-body">
-                    <div class="alert alert-danger" v-if="errors.length>0">
-                        <ul>
 
-                            <li v-for="error in errors">{{error}}</li>
+            <div class="alert alert-danger" v-if="errors.length>0">
+                <ul>
 
-                        </ul>
-                    </div>
-                </div>
+                    <li v-for="error in errors">{{error}}</li>
+
+                </ul>
+            </div>
+            
                 <div class="container-fluid">
 
                     <div class="row" style="margin-top:40px;">
@@ -54,12 +54,12 @@
                     <div class="row" style="margin-top:20px;">
                         <div class="col-md-4">
                             <label for="">Nombre de cartons</label>
-                            <input type="number" class="form-control" placeholder="Nombre de cartons"
+                            <input type="number" class="form-control" min="1" placeholder="Nombre de cartons"
                                 v-model="carton_number">
                         </div>
                         <div class="col-md-4">
                             <label for="">Nombre de palette</label>
-                            <input type="number" class="form-control" placeholder="Nombre de palette"
+                            <input type="number" class="form-control" min="1" placeholder="Nombre de palette"
                                 v-model="palet_number">
                         </div>
 
@@ -67,11 +67,11 @@
                     <div class="row" style="margin-top:20px;">
                         <div class="col-md-4">
                             <label for="">Volume(m²)</label>
-                            <input type="number" class="form-control" placeholder="0.00" v-model="volume">
+                            <input type="number" class="form-control"  min="1" placeholder="0.00" v-model="volume">
                         </div>
                         <div class="col-md-4">
                             <label for="">Poids(kg)</label>
-                            <input type="number" class="form-control" placeholder="0.00" v-model="weight">
+                            <input type="number" class="form-control"  min="1" placeholder="0.00" v-model="weight">
                         </div>
 
                     </div>
@@ -202,8 +202,19 @@
                         this.users = response.data.deliveries;
                     })
                     .catch((error) => {
-                        // handle error
-                        console.log(error);
+                        if (error.response.status == 422) {
+                        
+                                this.errors = []
+                                let errors = Object.values(error.response.data.errors);
+                                 errors = _.flatMap(errors);
+                                 console.log(errors)
+                                this.errors = errors;
+                               
+                                
+
+                                this.disabled = false
+                                window.scrollTo(0, 0);
+                            }
                     })
 
             },
@@ -217,6 +228,7 @@
                     this.weight == null &&
                     this.comment == ''
                 ) {
+                    this.errors = []
                     this.errors.push('Veuillez renseigner au moins une valeur');
 
 
@@ -256,7 +268,16 @@
                             }
                         })
                         .catch((error) => {
-                            console.log(error);
+                            this.errors = []
+                                let errors = Object.values(error.response.data.errors);
+                                 errors = _.flatMap(errors);
+                                 console.log(errors)
+                                this.errors = errors;
+                               
+                                
+
+                                this.disabled = false
+                                window.scrollTo(0, 0);
                         });
                 }
 

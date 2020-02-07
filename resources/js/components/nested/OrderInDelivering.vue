@@ -158,6 +158,22 @@
                                     })
                                     .catch((error) => {
                                         console.log(error);
+
+                                             if (error.response.status == 422) {
+
+                                    this.errors = []
+                                    let errors = Object.values(error.response.data.errors);
+                                    errors = _.flatMap(errors);
+                                    console.log(errors)
+                                    // this.errors = errors;
+                                    errors.forEach(error => {
+                                        this.$emit('requiredValue', error)
+                                    })
+
+
+                                    this.disabled = false
+                                    window.scrollTo(0, 0);
+                                }
                                     })
 
                             }
@@ -195,6 +211,21 @@
                             })
                             .catch((error) => {
                                 console.log(error);
+                                     if (error.response.status == 422) {
+
+                                    this.errors = []
+                                    let errors = Object.values(error.response.data.errors);
+                                    errors = _.flatMap(errors);
+                                    console.log(errors)
+                                    // this.errors = errors;
+                                    errors.forEach(error => {
+                                        this.$emit('requiredValue', error)
+                                    })
+
+
+                                    this.disabled = false
+                                    window.scrollTo(0, 0);
+                                }
                             })
                     }
 

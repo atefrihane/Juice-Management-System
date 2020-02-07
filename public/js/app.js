@@ -3922,12 +3922,22 @@ __webpack_require__.r(__webpack_exports__);
         console.log(response);
         _this.users = response.data.deliveries;
       })["catch"](function (error) {
-        // handle error
-        console.log(error);
+        if (error.response.status == 422) {
+          _this.errors = [];
+          var errors = Object.values(error.response.data.errors);
+          errors = _.flatMap(errors);
+          console.log(errors);
+          _this.errors = errors;
+          _this.disabled = false;
+          window.scrollTo(0, 0);
+        }
       });
     },
     submitOrderDelivery: function submitOrderDelivery() {
+      var _this2 = this;
+
       if (this.carrier == null && this.delivery_man_id == null && this.delivery_mode == null && this.carton_number == null && this.palet_number == null && this.volume == null && this.weight == null && this.comment == '') {
+        this.errors = [];
         this.errors.push('Veuillez renseigner au moins une valeur');
       } else {
         this.disabled = true;
@@ -3960,7 +3970,13 @@ __webpack_require__.r(__webpack_exports__);
             });
           }
         })["catch"](function (error) {
-          console.log(error);
+          _this2.errors = [];
+          var errors = Object.values(error.response.data.errors);
+          errors = _.flatMap(errors);
+          console.log(errors);
+          _this2.errors = errors;
+          _this2.disabled = false;
+          window.scrollTo(0, 0);
         });
       }
     },
@@ -9285,7 +9301,6 @@ __webpack_require__.r(__webpack_exports__);
           }
         })["catch"](function (error) {
           if (error.response.status == 422) {
-            alert('lol');
             _this2.errors = [];
             var errors = Object.values(error.response.data.errors);
             errors = _.flatMap(errors);
@@ -9316,6 +9331,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -9949,6 +9965,8 @@ __webpack_require__.r(__webpack_exports__);
       return true;
     },
     submitOrderToDeliver: function submitOrderToDeliver() {
+      var _this = this;
+
       var validation = this.validateForm();
       console.log(validation);
 
@@ -9988,6 +10006,19 @@ __webpack_require__.r(__webpack_exports__);
           }
         })["catch"](function (error) {
           console.log(error);
+
+          if (error.response.status == 422) {
+            _this.errors = [];
+            var errors = Object.values(error.response.data.errors);
+            errors = _.flatMap(errors);
+            console.log(errors); // this.errors = errors;
+
+            errors.forEach(function (error) {
+              _this.$emit('requiredValue', error);
+            });
+            _this.disabled = false;
+            window.scrollTo(0, 0);
+          }
         });
       }
     },
@@ -10072,6 +10103,8 @@ __webpack_require__.r(__webpack_exports__);
       return true;
     },
     submitOrderToDeliver: function submitOrderToDeliver() {
+      var _this = this;
+
       var validation = this.validateForm();
       console.log(validation);
 
@@ -10111,6 +10144,19 @@ __webpack_require__.r(__webpack_exports__);
           }
         })["catch"](function (error) {
           console.log(error);
+
+          if (error.response.status == 422) {
+            _this.errors = [];
+            var errors = Object.values(error.response.data.errors);
+            errors = _.flatMap(errors);
+            console.log(errors); // this.errors = errors;
+
+            errors.forEach(function (error) {
+              _this.$emit('requiredValue', error);
+            });
+            _this.disabled = false;
+            window.scrollTo(0, 0);
+          }
         });
       }
     },
@@ -10195,6 +10241,8 @@ __webpack_require__.r(__webpack_exports__);
       return true;
     },
     submitOrderToDeliver: function submitOrderToDeliver() {
+      var _this = this;
+
       var validation = this.validateForm();
       console.log(validation);
 
@@ -10234,6 +10282,19 @@ __webpack_require__.r(__webpack_exports__);
           }
         })["catch"](function (error) {
           console.log(error);
+
+          if (error.response.status == 422) {
+            _this.errors = [];
+            var errors = Object.values(error.response.data.errors);
+            errors = _.flatMap(errors);
+            console.log(errors); // this.errors = errors;
+
+            errors.forEach(function (error) {
+              _this.$emit('requiredValue', error);
+            });
+            _this.disabled = false;
+            window.scrollTo(0, 0);
+          }
         });
       }
     },
@@ -10409,6 +10470,19 @@ __webpack_require__.r(__webpack_exports__);
                 }
               })["catch"](function (error) {
                 console.log(error);
+
+                if (error.response.status == 422) {
+                  _this.errors = [];
+                  var errors = Object.values(error.response.data.errors);
+                  errors = _.flatMap(errors);
+                  console.log(errors); // this.errors = errors;
+
+                  errors.forEach(function (error) {
+                    _this.$emit('requiredValue', error);
+                  });
+                  _this.disabled = false;
+                  window.scrollTo(0, 0);
+                }
               });
             }
 
@@ -10441,6 +10515,19 @@ __webpack_require__.r(__webpack_exports__);
             }
           })["catch"](function (error) {
             console.log(error);
+
+            if (error.response.status == 422) {
+              _this.errors = [];
+              var errors = Object.values(error.response.data.errors);
+              errors = _.flatMap(errors);
+              console.log(errors); // this.errors = errors;
+
+              errors.forEach(function (error) {
+                _this.$emit('requiredValue', error);
+              });
+              _this.disabled = false;
+              window.scrollTo(0, 0);
+            }
           });
         }
       }
@@ -11542,6 +11629,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.loadUsers();
@@ -11676,6 +11765,7 @@ __webpack_require__.r(__webpack_exports__);
                   });
                 }
               })["catch"](function (error) {
+                alert('lolz');
                 console.log(error);
               });
             } else if (result.dismiss = 'cancel') {
@@ -11712,6 +11802,19 @@ __webpack_require__.r(__webpack_exports__);
             }
           })["catch"](function (error) {
             console.log(error);
+
+            if (error.response.status == 422) {
+              _this2.errors = [];
+              var errors = Object.values(error.response.data.errors);
+              errors = _.flatMap(errors);
+              console.log(errors); // this.errors = errors;
+
+              errors.forEach(function (error) {
+                _this2.$emit('requiredValue', error);
+              });
+              _this2.disabled = false;
+              window.scrollTo(0, 0);
+            }
           });
         }
       }
@@ -11797,6 +11900,8 @@ __webpack_require__.r(__webpack_exports__);
       return true;
     },
     submitOrderToDeliver: function submitOrderToDeliver() {
+      var _this = this;
+
       var validation = this.validateForm();
       console.log(validation);
 
@@ -11836,6 +11941,19 @@ __webpack_require__.r(__webpack_exports__);
           }
         })["catch"](function (error) {
           console.log(error);
+
+          if (error.response.status == 422) {
+            _this.errors = [];
+            var errors = Object.values(error.response.data.errors);
+            errors = _.flatMap(errors);
+            console.log(errors); // this.errors = errors;
+
+            errors.forEach(function (error) {
+              _this.$emit('requiredValue', error);
+            });
+            _this.disabled = false;
+            window.scrollTo(0, 0);
+          }
         });
       }
     },
@@ -12012,6 +12130,19 @@ __webpack_require__.r(__webpack_exports__);
                 }
               })["catch"](function (error) {
                 console.log(error);
+
+                if (error.response.status == 422) {
+                  _this.errors = [];
+                  var errors = Object.values(error.response.data.errors);
+                  errors = _.flatMap(errors);
+                  console.log(errors); // this.errors = errors;
+
+                  errors.forEach(function (error) {
+                    _this.$emit('requiredValue', error);
+                  });
+                  _this.disabled = false;
+                  window.scrollTo(0, 0);
+                }
               });
             } else if (result.dismiss == 'cancel') {
               _this.disabled = false;
@@ -12042,6 +12173,19 @@ __webpack_require__.r(__webpack_exports__);
             }
           })["catch"](function (error) {
             console.log(error);
+
+            if (error.response.status == 422) {
+              _this.errors = [];
+              var errors = Object.values(error.response.data.errors);
+              errors = _.flatMap(errors);
+              console.log(errors); // this.errors = errors;
+
+              errors.forEach(function (error) {
+                _this.$emit('requiredValue', error);
+              });
+              _this.disabled = false;
+              window.scrollTo(0, 0);
+            }
           });
         }
       }
@@ -87556,19 +87700,17 @@ var render = function() {
     _vm._v(" "),
     _c("form", { attrs: { role: "form" } }, [
       _c("div", { staticClass: "box-body" }, [
-        _c("div", { staticClass: "box-body" }, [
-          _vm.errors.length > 0
-            ? _c("div", { staticClass: "alert alert-danger" }, [
-                _c(
-                  "ul",
-                  _vm._l(_vm.errors, function(error) {
-                    return _c("li", [_vm._v(_vm._s(error))])
-                  }),
-                  0
-                )
-              ])
-            : _vm._e()
-        ]),
+        _vm.errors.length > 0
+          ? _c("div", { staticClass: "alert alert-danger" }, [
+              _c(
+                "ul",
+                _vm._l(_vm.errors, function(error) {
+                  return _c("li", [_vm._v(_vm._s(error))])
+                }),
+                0
+              )
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "container-fluid" }, [
           _c(
@@ -87766,7 +87908,11 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "number", placeholder: "Nombre de cartons" },
+                  attrs: {
+                    type: "number",
+                    min: "1",
+                    placeholder: "Nombre de cartons"
+                  },
                   domProps: { value: _vm.carton_number },
                   on: {
                     input: function($event) {
@@ -87794,7 +87940,11 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "number", placeholder: "Nombre de palette" },
+                  attrs: {
+                    type: "number",
+                    min: "1",
+                    placeholder: "Nombre de palette"
+                  },
                   domProps: { value: _vm.palet_number },
                   on: {
                     input: function($event) {
@@ -87826,7 +87976,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "number", placeholder: "0.00" },
+                  attrs: { type: "number", min: "1", placeholder: "0.00" },
                   domProps: { value: _vm.volume },
                   on: {
                     input: function($event) {
@@ -87852,7 +88002,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "number", placeholder: "0.00" },
+                  attrs: { type: "number", min: "1", placeholder: "0.00" },
                   domProps: { value: _vm.weight },
                   on: {
                     input: function($event) {
@@ -98014,9 +98164,9 @@ var render = function() {
                         ? _c("option", { domProps: { value: user.user.id } }, [
                             _vm._v(
                               _vm._s(user.user.nom) +
-                                "\n                                " +
+                                "\n                        " +
                                 _vm._s(user.user.prenom) +
-                                "\n                            "
+                                "\n                    "
                             )
                           ])
                         : _vm._e()

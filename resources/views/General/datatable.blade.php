@@ -9,9 +9,9 @@
             "columnDefs": [{
                     "targets": -1,
                     "orderable": false,
-                     },
-                     {"targets": ".is-wrapped",    render: function ( data, type, row ) {
-                        if (data.length > 50)
+                        },
+                        {"targets": "is-wrapped",   render: function ( data, type, row ) {
+                            if (data.length > 50)
                             {
                                 return data.substr( 0, 50 )+'...';
 
@@ -19,8 +19,10 @@
                             else{
                                 return data.substr( 0, 50 );
                             }
+          
         }},
-                     ],
+
+                    ],
 
             order: [
                 [$('th.date-create').index(), 'desc']

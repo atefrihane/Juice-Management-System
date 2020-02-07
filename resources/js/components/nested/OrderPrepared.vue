@@ -2,6 +2,8 @@
     <div>
         <div class="row">
 
+
+
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Nouveau état</label>
@@ -24,17 +26,17 @@
                         <option value="2">Externe</option>
                     </select>
                 </div>
-            <div class="col-md-4">
-                            <label for="exampleInputEmail1">Livreur</label>
-                            <select class="form-control" v-model="delivery_man_id">
-                                <option :value="null" v-if="users.length > 0" disabled> Séléctionner un livreur</option>
-                                <option v-for="user in users" v-if="users.length > 0" :value="user.user.id">{{user.user.nom}}
-                                    {{user.user.prenom}}
-                                </option>
-                                <option :value="null" v-if="users.length == 0"> Aucun livreur trouvé</option>
+                <div class="col-md-4">
+                    <label for="exampleInputEmail1">Livreur</label>
+                    <select class="form-control" v-model="delivery_man_id">
+                        <option :value="null" v-if="users.length > 0" disabled> Séléctionner un livreur</option>
+                        <option v-for="user in users" v-if="users.length > 0" :value="user.user.id">{{user.user.nom}}
+                            {{user.user.prenom}}
+                        </option>
+                        <option :value="null" v-if="users.length == 0"> Aucun livreur trouvé</option>
 
-                            </select>
-                        </div>
+                    </select>
+                </div>
                 <div class="col-md-4">
                     <label for="exampleInputEmail1">Mode de livraison</label>
                     <select class="form-control" v-model="delivery_mode">
@@ -118,13 +120,14 @@
                 volume: this.order_full.volume,
                 comment: this.history ? this.history.comment : null,
                 users: [],
-                disabled: false
+                disabled: false,
+
 
 
             }
         },
         methods: {
-               loadUsers() {
+            loadUsers() {
                 axios.get('/api/deliveries/show')
                     .then((response) => {
                         // handle success
@@ -141,44 +144,44 @@
 
                 if (!this.new_status) {
                     this.$emit('requiredValue', 'Veuillez séléctionner un état  ')
-                    this.disabled=false
+                    this.disabled = false
                     return false;
-                    
+
                 }
                 if (this.new_status != 12) {
                     if (!this.carrier_mode) {
                         this.$emit('requiredValue', 'Veuillez séléctionner un transporteur  ')
-                        this.disabled=false
+                        this.disabled = false
                         return false;
                     }
                     if (!this.delivery_man_id) {
                         this.$emit('requiredValue', 'Veuillez séléctionner un livreur  ')
-                        this.disabled=false
+                        this.disabled = false
                         return false;
                     }
-                    if (this.delivery_mode==null || this.deliver_mode < 0) {
+                    if (this.delivery_mode == null || this.deliver_mode < 0) {
                         this.$emit('requiredValue', 'Veuillez séléctionner un mode de livraison  ')
-                        this.disabled=false
+                        this.disabled = false
                         return false;
                     }
                     if (!this.carton_number) {
                         this.$emit('requiredValue', 'Veuillez renseigner un nombre de cartons  ')
-                        this.disabled=false
+                        this.disabled = false
                         return false;
                     }
                     if (!this.palet_number) {
                         this.$emit('requiredValue', 'Veuillez renseigner un nombre de palette  ')
-                        this.disabled=false     
+                        this.disabled = false
                         return false;
                     }
                     if (!this.volume) {
                         this.$emit('requiredValue', 'Veuillez renseigner un volume  ')
-                        this.disabled=false
+                        this.disabled = false
                         return false;
                     }
                     if (!this.weight) {
                         this.$emit('requiredValue', 'Veuillez renseigner un  poids  ')
-                        this.disabled=false
+                        this.disabled = false
                         return false;
                     }
 
@@ -242,6 +245,7 @@
 
                                     })
                                     .catch((error) => {
+                                        alert('lolz')
                                         console.log(error);
                                     })
 
@@ -285,7 +289,23 @@
 
                             })
                             .catch((error) => {
+
                                 console.log(error);
+                                if (error.response.status == 422) {
+
+                                    this.errors = []
+                                    let errors = Object.values(error.response.data.errors);
+                                    errors = _.flatMap(errors);
+                                    console.log(errors)
+                                    // this.errors = errors;
+                                    errors.forEach(error => {
+                                        this.$emit('requiredValue', error)
+                                    })
+
+
+                                    this.disabled = false
+                                    window.scrollTo(0, 0);
+                                }
                             })
 
 

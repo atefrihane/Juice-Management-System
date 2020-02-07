@@ -22,7 +22,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-
+  
         $request->validate([
             'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
             'state' => 'required',
@@ -43,7 +43,7 @@ class ProductController extends Controller
             'unityPerDisplay' => 'required|digits_between:1,6|numeric',
             'unityPerPack' => 'required|digits_between:1,6|numeric',
             'packing' => 'required|digits_between:1,6|numeric',
-            'tva' => 'required|min:1|max:999999|numeric',
+            'tva' => 'required|min:0|max:999999|numeric',
 
         ], [
             'code.required' => ' Code est obligatoire',
@@ -101,6 +101,8 @@ class ProductController extends Controller
             'tva.required' => ' TVA (%) est requis',
             'tva.digits_between' => ' TVA (%) n\'est pas valide',
             'tva.numeric' => ' TVA (%) n\'est pas valide',
+            'tva.min' => ' TVA (%) n\'est pas valide',
+            'tva.max' => ' TVA (%) n\'est pas valide'
      
         ]);
 
@@ -222,7 +224,7 @@ class ProductController extends Controller
             'unityPerDisplay' => 'required|digits_between:1,6|numeric',
             'unityPerPack' => 'required|digits_between:1,6|numeric',
             'packing' => 'required|digits_between:1,6|numeric',
-            'tva' => 'required|min:1|max:999999|numeric',
+            'tva' => 'required|min:0|max:999999|numeric',
 
         ], [
             'code.required' => ' Code est obligatoire',
@@ -280,6 +282,8 @@ class ProductController extends Controller
             'tva.required' => ' TVA (%) est requis',
             'tva.digits_between' => ' TVA (%) n\'est pas valide',
             'tva.numeric' => ' TVA (%) n\'est pas valide',
+            'tva.min' => ' TVA (%) n\'est pas valide',
+            'tva.max' => ' TVA (%) n\'est pas valide'
      
         ]);
         $product = Product::find($id);

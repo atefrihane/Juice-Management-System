@@ -339,13 +339,13 @@ if($('.country').val())
    
       
 
-        $("input[type=text]").not('.code').attr('maxlength','150');
-        $(".code").attr('maxlength','20');
-        $("input[type=number]").attr({
-            "max" : 999999,
-      
-        });
-        $("textarea").attr('maxlength','200');
+                        $("input[type=text]").not('.code').attr('maxlength','150');
+                        $(".code").attr('maxlength','20');
+                        $("input[type=number]").attr({
+                            "max" : 999999,
+                    
+                        });
+                                $("textarea").attr('maxlength','200');
     
 
     });

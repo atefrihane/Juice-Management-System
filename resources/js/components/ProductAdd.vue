@@ -541,7 +541,6 @@
                         .catch((error) => {
                         
                             if (error.response.status == 422) {
-                                    alert('lol')
                                 this.errors = []
                                 let errors = Object.values(error.response.data.errors);
                               errors = _.flatMap(errors);
