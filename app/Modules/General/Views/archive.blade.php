@@ -28,13 +28,13 @@
                         <table class="table table-bordered table-hover example2 ">
                             <thead>
                                 <tr>
-                                    <th>Code</th>
+                                    <th class="is-wrapped">Code</th>
                                     <th class="date-create">Date et heure de création</th>
-                                    <th>Magasin</th>
-                                    <th>Code postal</th>
-                                    <th>Montant (€) </th>
-                                    <th>Commentaire</th>
-                                    <th>Etat</th>
+                                    <th class="is-wrapped" >Magasin</th>
+                                    <th class="is-wrapped" >Code postal</th>
+                                    <th class="is-wrapped" >Montant (€) </th>
+                                    <th class="is-wrapped" >Commentaire</th>
+                                    <th class="is-wrapped" >Etat</th>
                                     <th></th>
                                 </tr>
                             </thead>

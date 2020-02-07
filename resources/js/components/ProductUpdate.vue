@@ -187,7 +187,7 @@
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">TVA</label>
-                <input class="form-control" id="disabledInput" type="number" placeholder="Colisage" v-model="tva">
+                <input class="form-control" id="disabledInput" type="number" placeholder="TVA" step="0.01" v-model="tva">
             </div>
 
 
@@ -319,10 +319,20 @@
 
 
             submitProduct() {
+
+                if(!this.acceptedImage)
+                {
+                this.errors=[]    
+                this.errors.push('Les formats supportés pour l\'importation de la photo sont : PNG,JPEG,JPG avec taille maximale 2M');
+                window.scrollTo(0, 0);
+                return;
+                }
+               
+      
                 var validation = this.validateForm(); // input front end validation returns false if error
 
-
-                if (validation  && this.acceptedImage) {
+           
+                if (validation) {
                     this.disabled = true
                     this.$Progress.start()
                     axios.post('/api/product/update/' + this.productId, {
@@ -388,11 +398,10 @@
                         })
                         .catch((error) => {
                             this.$Progress.fail()
+                             this.errors=[]
                              if (error.response.status == 422){
-                          
-                                   this.errors=[]
                                     let errors = Object.values(error.response.data.errors);
-                                    errors = errors.flat();
+                                    errors = _.flatMap(errors);
                                     this.errors=errors;
                                  
                                    this.disabled = false
@@ -401,116 +410,113 @@
                         });
 
                 }
-                else{
-
-                this.errors=[]    
-                this.errors.push('Les formats supportés pour l\'importation de la photo sont : PNG,JPEG,JPG avec taille maximale 2M');
-                window.scrollTo(0, 0);
-                }
+               
 
 
 
             },
+
+            
 
             validateForm() {
 
                 this.errors = [];
 
                 if (!this.code) {
-                    this.errors.push('Le champs code est requis.');
+                    this.errors.push('Code est requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }
 
 
                 if (!this.state) {
-                    this.errors.push(' le champs etat est requis.');
+                    this.errors.push(' Etat est requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }
 
                 if (!this.name) {
-                    this.errors.push('le champs nom produit est requis.');
+                    this.errors.push('Nom produit est requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }
 
 
                 if (!this.type) {
-                    this.errors.push('le champs type est requis.');
+                    this.errors.push('Type est requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }
 
                 if (!this.version) {
-                    this.errors.push('le champs version est  requis.');
+                    this.errors.push('Version est  requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }
 
 
                 if (!this.barcode) {
-                    this.errors.push('les champs code à barres est  requis.');
+                    this.errors.push('Code à barres est  requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }
 
 
                 if (!this.designation) {
-                    this.errors.push('Le champs designation est  requis.');
+                    this.errors.push('Designation est  requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }
                 if (!this.composition) {
-                    this.errors.push('Le champs composition est  requis.');
+                    this.errors.push('Le Composition est  requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }
 
                 if (!this.color) {
-                    this.errors.push('Le champs couleur est  requis.');
+                    this.errors.push('Le Couleur est  requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }
 
                 if (!this.weight) {
-                    this.errors.push('Le champs poids est  requis.');
+                    this.errors.push('Le Poids est  requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }
 
                 if (!this.height) {
-                    this.errors.push('Le champs hauteur est  requis.');
+                    this.errors.push('Hauteur est  requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }
 
                 if (!this.width) {
-                    this.errors.push('Le champs largeur est  requis.');
+                    this.errors.push('Largeur est  requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }
 
                 if (!this.depth) {
-                    this.errors.push('Le champs hauteur est  requis.');
+                    this.errors.push('Hauteur est  requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }
 
                 if (!this.publicPrice) {
-                    this.errors.push('Le champs prix unitaire de vente  est  requis.');
+                    this.errors.push('Prix unitaire de vente  est  requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }
 
                 if (!this.validityClosed) {
-                    this.errors.push('Le champs durée de validité de produit fermé  est  requis.');
+                    this.errors.push('Durée de validité de produit fermé  est  requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }
 
                 if (!this.validityOpened) {
-                    this.errors.push('Le champs durée de validité aprés ouverture est  requis.');
+                    this.errors.push('Durée de validité aprés ouverture est  requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }
@@ -523,20 +529,20 @@
 
 
                 if (!this.unityPerPack) {
-                    this.errors.push('Le champs nombre de display par colis est  requis.');
+                    this.errors.push('Nombre de display par colis est  requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }
 
 
                 if (!this.packing) {
-                    this.errors.push('Le champs colisage est  requis.');
+                    this.errors.push('Colisage est  requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }
 
                 if (!this.tva) {
-                    this.errors.push('Le champs TVA est  requis.');
+                    this.errors.push(' TVA est  requis.');
                     window.scrollTo(0, 0);
                     return false;
                 }

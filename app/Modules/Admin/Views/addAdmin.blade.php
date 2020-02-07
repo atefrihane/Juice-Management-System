@@ -43,7 +43,7 @@
                                             <select class="form-control" name="role" required>
                                                 @foreach($roles as $role)
                                                     @if($role->id != 1)
-                                                    <option value="{{$role->id}}">
+                                                    <option value="{{$role->id}}" {{old('role') ==$role->id ? 'selected' : ''}}>
                                                         @switch($role->role_name)
                                                         @case('DBO')
                                                         DBO

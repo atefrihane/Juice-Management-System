@@ -6557,15 +6557,20 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             window.scrollTo(0, 0);
             x = false;
           }
-        }); // let count = 0;
-        // this.final_prepared.forEach((prepared) => {
-        //     count += prepared.total;
-        // });
-        // if (count <= 0) {
-        //     this.errors.push('Veuillez renseigner au moins une quantité à préparer  ')
-        //         window.scrollTo(0, 0);
-        //     x = false;
-        // }
+        });
+
+        if (this.order_id >= 3) {
+          var count = 0;
+          this.final_prepared.forEach(function (prepared) {
+            count += prepared.total;
+          });
+
+          if (count <= 0) {
+            this.errors.push('Veuillez renseigner au moins une quantité à préparer  ');
+            window.scrollTo(0, 0);
+            x = false;
+          }
+        }
       }
 
       return x;
@@ -9216,9 +9221,16 @@ __webpack_require__.r(__webpack_exports__);
     submitProduct: function submitProduct() {
       var _this2 = this;
 
+      if (!this.acceptedImage) {
+        this.errors = [];
+        this.errors.push('Les formats supportés pour l\'importation de la photo sont : PNG,JPEG,JPG avec taille maximale 2M');
+        window.scrollTo(0, 0);
+        return;
+      }
+
       var validation = this.validateForm();
 
-      if (validation && this.acceptedImage) {
+      if (validation) {
         this.disabled = true;
         this.$Progress.start();
         axios.post('/api/products', {
@@ -9273,19 +9285,16 @@ __webpack_require__.r(__webpack_exports__);
           }
         })["catch"](function (error) {
           if (error.response.status == 422) {
+            alert('lol');
             _this2.errors = [];
             var errors = Object.values(error.response.data.errors);
-            errors = errors.flat();
+            errors = _.flatMap(errors);
             _this2.errors = errors;
             _this2.disabled = false;
             window.scrollTo(0, 0);
           }
         });
         this.$Progress.finish();
-      } else {
-        this.errors = [];
-        this.errors.push('Les formats supportés pour l\'importation de la photo sont : PNG,JPEG,JPG avec taille maximale 2M');
-        window.scrollTo(0, 0);
       }
     },
     cancelProduct: function cancelProduct() {
@@ -9620,9 +9629,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     submitProduct: function submitProduct() {
       var _this2 = this;
 
+      if (!this.acceptedImage) {
+        this.errors = [];
+        this.errors.push('Les formats supportés pour l\'importation de la photo sont : PNG,JPEG,JPG avec taille maximale 2M');
+        window.scrollTo(0, 0);
+        return;
+      }
+
       var validation = this.validateForm(); // input front end validation returns false if error
 
-      if (validation && this.acceptedImage) {
+      if (validation) {
         var _axios$post;
 
         this.disabled = true;
@@ -9681,116 +9697,113 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         })["catch"](function (error) {
           _this2.$Progress.fail();
 
+          _this2.errors = [];
+
           if (error.response.status == 422) {
-            _this2.errors = [];
             var errors = Object.values(error.response.data.errors);
-            errors = errors.flat();
+            errors = _.flatMap(errors);
             _this2.errors = errors;
             _this2.disabled = false;
             window.scrollTo(0, 0);
           }
         });
-      } else {
-        this.errors = [];
-        this.errors.push('Les formats supportés pour l\'importation de la photo sont : PNG,JPEG,JPG avec taille maximale 2M');
-        window.scrollTo(0, 0);
       }
     },
     validateForm: function validateForm() {
       this.errors = [];
 
       if (!this.code) {
-        this.errors.push('Le champs code est requis.');
+        this.errors.push('Code est requis.');
         window.scrollTo(0, 0);
         return false;
       }
 
       if (!this.state) {
-        this.errors.push(' le champs etat est requis.');
+        this.errors.push(' Etat est requis.');
         window.scrollTo(0, 0);
         return false;
       }
 
       if (!this.name) {
-        this.errors.push('le champs nom produit est requis.');
+        this.errors.push('Nom produit est requis.');
         window.scrollTo(0, 0);
         return false;
       }
 
       if (!this.type) {
-        this.errors.push('le champs type est requis.');
+        this.errors.push('Type est requis.');
         window.scrollTo(0, 0);
         return false;
       }
 
       if (!this.version) {
-        this.errors.push('le champs version est  requis.');
+        this.errors.push('Version est  requis.');
         window.scrollTo(0, 0);
         return false;
       }
 
       if (!this.barcode) {
-        this.errors.push('les champs code à barres est  requis.');
+        this.errors.push('Code à barres est  requis.');
         window.scrollTo(0, 0);
         return false;
       }
 
       if (!this.designation) {
-        this.errors.push('Le champs designation est  requis.');
+        this.errors.push('Designation est  requis.');
         window.scrollTo(0, 0);
         return false;
       }
 
       if (!this.composition) {
-        this.errors.push('Le champs composition est  requis.');
+        this.errors.push('Le Composition est  requis.');
         window.scrollTo(0, 0);
         return false;
       }
 
       if (!this.color) {
-        this.errors.push('Le champs couleur est  requis.');
+        this.errors.push('Le Couleur est  requis.');
         window.scrollTo(0, 0);
         return false;
       }
 
       if (!this.weight) {
-        this.errors.push('Le champs poids est  requis.');
+        this.errors.push('Le Poids est  requis.');
         window.scrollTo(0, 0);
         return false;
       }
 
       if (!this.height) {
-        this.errors.push('Le champs hauteur est  requis.');
+        this.errors.push('Hauteur est  requis.');
         window.scrollTo(0, 0);
         return false;
       }
 
       if (!this.width) {
-        this.errors.push('Le champs largeur est  requis.');
+        this.errors.push('Largeur est  requis.');
         window.scrollTo(0, 0);
         return false;
       }
 
       if (!this.depth) {
-        this.errors.push('Le champs hauteur est  requis.');
+        this.errors.push('Hauteur est  requis.');
         window.scrollTo(0, 0);
         return false;
       }
 
       if (!this.publicPrice) {
-        this.errors.push('Le champs prix unitaire de vente  est  requis.');
+        this.errors.push('Prix unitaire de vente  est  requis.');
         window.scrollTo(0, 0);
         return false;
       }
 
       if (!this.validityClosed) {
-        this.errors.push('Le champs durée de validité de produit fermé  est  requis.');
+        this.errors.push('Durée de validité de produit fermé  est  requis.');
         window.scrollTo(0, 0);
         return false;
       }
 
       if (!this.validityOpened) {
-        this.errors.push('Le champs durée de validité aprés ouverture est  requis.');
+        this.errors.push('Durée de validité aprés ouverture est  requis.');
         window.scrollTo(0, 0);
         return false;
       }
@@ -9802,19 +9815,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       if (!this.unityPerPack) {
-        this.errors.push('Le champs nombre de display par colis est  requis.');
+        this.errors.push('Nombre de display par colis est  requis.');
         window.scrollTo(0, 0);
         return false;
       }
 
       if (!this.packing) {
-        this.errors.push('Le champs colisage est  requis.');
+        this.errors.push('Colisage est  requis.');
         window.scrollTo(0, 0);
         return false;
       }
 
       if (!this.tva) {
-        this.errors.push('Le champs TVA est  requis.');
+        this.errors.push(' TVA est  requis.');
         window.scrollTo(0, 0);
         return false;
       }
@@ -91014,49 +91027,149 @@ var render = function() {
                                     ) {
                                       return _c("tr", [
                                         _c("td", [
-                                          _vm._v(
-                                            _vm._s(final.product_name) + " "
+                                          _c(
+                                            "div",
+                                            {
+                                              staticStyle: {
+                                                "word-break": "break-all",
+                                                width: "8vw"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(final.product_name) +
+                                                  "            "
+                                              )
+                                            ]
                                           )
                                         ]),
                                         _vm._v(" "),
                                         _c("td", [
-                                          _vm._v(
-                                            _vm._s(prepared.quantity) + " "
+                                          _c(
+                                            "div",
+                                            {
+                                              staticStyle: {
+                                                "word-break": "break-all",
+                                                width: "8vw"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(prepared.quantity) +
+                                                  "             "
+                                              )
+                                            ]
                                           )
                                         ]),
                                         _vm._v(" "),
                                         _c("td", [
-                                          _vm._v(_vm._s(prepared.stock_display))
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("td", [
-                                          _vm._v(
-                                            _vm._s(prepared.packing_display)
+                                          _c(
+                                            "div",
+                                            {
+                                              staticStyle: {
+                                                "word-break": "break-all",
+                                                width: "8vw"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(prepared.stock_display) +
+                                                  "        "
+                                              )
+                                            ]
                                           )
                                         ]),
                                         _vm._v(" "),
                                         _c("td", [
-                                          _vm._v(_vm._s(prepared.packing) + " ")
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("td", [
-                                          _vm._v(
-                                            _vm._s(
-                                              prepared.warehouse.designation
-                                            ) + " "
+                                          _c(
+                                            "div",
+                                            {
+                                              staticStyle: {
+                                                "word-break": "break-all",
+                                                width: "8vw"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  prepared.packing_display
+                                                ) + "      "
+                                              )
+                                            ]
                                           )
                                         ]),
                                         _vm._v(" "),
                                         _c("td", [
-                                          _vm._v(
-                                            _vm._s(prepared.creation_date) + " "
+                                          _c(
+                                            "div",
+                                            {
+                                              staticStyle: {
+                                                "word-break": "break-all",
+                                                width: "8vw"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(prepared.packing) +
+                                                  "              "
+                                              )
+                                            ]
                                           )
                                         ]),
                                         _vm._v(" "),
                                         _c("td", [
-                                          _vm._v(
-                                            _vm._s(prepared.expiration_date) +
-                                              " "
+                                          _c(
+                                            "div",
+                                            {
+                                              staticStyle: {
+                                                "word-break": "break-all",
+                                                width: "8vw"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  prepared.warehouse.designation
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticStyle: {
+                                                "word-break": "break-all",
+                                                width: "8vw"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(prepared.creation_date) +
+                                                  "        "
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticStyle: {
+                                                "word-break": "break-all",
+                                                width: "8vw"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  prepared.expiration_date
+                                                ) + "      "
+                                              )
+                                            ]
                                           )
                                         ]),
                                         _vm._v(" "),
@@ -95232,7 +95345,12 @@ var render = function() {
             }
           ],
           staticClass: "form-control",
-          attrs: { id: "disabledInput", type: "number", placeholder: "TVA" },
+          attrs: {
+            id: "disabledInput",
+            type: "number",
+            placeholder: "TVA",
+            step: "0.01"
+          },
           domProps: { value: _vm.tva },
           on: {
             input: function($event) {
@@ -96073,7 +96191,8 @@ var render = function() {
           attrs: {
             id: "disabledInput",
             type: "number",
-            placeholder: "Colisage"
+            placeholder: "TVA",
+            step: "0.01"
           },
           domProps: { value: _vm.tva },
           on: {
@@ -97394,33 +97513,111 @@ var render = function() {
                                 ) {
                                   return _c("tr", [
                                     _c("td", [
-                                      _vm._v(_vm._s(final.product_name) + " ")
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(_vm._s(prepared.quantity) + " ")
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(_vm._s(prepared.packing) + " ")
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(
-                                        _vm._s(prepared.warehouse.designation) +
-                                          " "
+                                      _c(
+                                        "div",
+                                        {
+                                          staticStyle: {
+                                            "word-break": "break-all",
+                                            width: "8vw"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            _vm._s(final.product_name) +
+                                              "             "
+                                          )
+                                        ]
                                       )
                                     ]),
                                     _vm._v(" "),
                                     _c("td", [
-                                      _vm._v(
-                                        _vm._s(prepared.creation_date) + " "
+                                      _c(
+                                        "div",
+                                        {
+                                          staticStyle: {
+                                            "word-break": "break-all",
+                                            width: "8vw"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            _vm._s(prepared.quantity) +
+                                              "              "
+                                          )
+                                        ]
                                       )
                                     ]),
                                     _vm._v(" "),
                                     _c("td", [
-                                      _vm._v(
-                                        _vm._s(prepared.expiration_date) + " "
+                                      _c(
+                                        "div",
+                                        {
+                                          staticStyle: {
+                                            "word-break": "break-all",
+                                            width: "8vw"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            _vm._s(prepared.packing) +
+                                              "               "
+                                          )
+                                        ]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticStyle: {
+                                            "word-break": "break-all",
+                                            width: "8vw"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              prepared.warehouse.designation
+                                            ) + " "
+                                          )
+                                        ]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticStyle: {
+                                            "word-break": "break-all",
+                                            width: "8vw"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            _vm._s(prepared.creation_date) +
+                                              "         "
+                                          )
+                                        ]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticStyle: {
+                                            "word-break": "break-all",
+                                            width: "8vw"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            _vm._s(prepared.expiration_date) +
+                                              "       "
+                                          )
+                                        ]
                                       )
                                     ]),
                                     _vm._v(" "),

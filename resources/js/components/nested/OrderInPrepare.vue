@@ -167,12 +167,12 @@
                                             loader="dots" color="#3c8dbc"></loading>
 
                                         <tr v-for="(prepared,index) in final.prepared_products">
-                                            <td>{{final.product_name}} </td>
-                                            <td>{{prepared.quantity}} </td>
-                                            <td>{{prepared.packing}} </td>
-                                            <td>{{prepared.warehouse.designation}} </td>
-                                            <td>{{prepared.creation_date}} </td>
-                                            <td>{{prepared.expiration_date}} </td>
+                                            <td><div style="word-break:break-all;width:8vw;">{{final.product_name}}             </div></td>
+                                            <td><div style="word-break:break-all;width:8vw;">{{prepared.quantity}}              </div></td>
+                                            <td><div style="word-break:break-all;width:8vw;">{{prepared.packing}}               </div></td>
+                                            <td><div style="word-break:break-all;width:8vw;">{{prepared.warehouse.designation}} </div></td>
+                                            <td><div style="word-break:break-all;width:8vw;">{{prepared.creation_date}}         </div></td>
+                                            <td><div style="word-break:break-all;width:8vw;">{{prepared.expiration_date}}       </div></td>
                                             <td><input type="text" class="form-control"
                                                     placeholder="Quantité préparée"
                                                     @change="updateTotalQuantity(prepared,index,i)"

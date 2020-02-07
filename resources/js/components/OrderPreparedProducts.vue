@@ -218,14 +218,14 @@
                                                     <loading :active.sync="final.isLoading" :is-full-page="false"
                                                         :opacity="0.7" loader="dots" color="#3c8dbc"></loading>
                                                     <tr v-for="(prepared,index) in final.prepared_products">
-                                                        <td>{{final.product_name}} </td>
-                                                        <td>{{prepared.quantity}} </td>
-                                                        <td>{{prepared.stock_display}}</td>
-                                                        <td>{{prepared.packing_display}}</td>
-                                                        <td>{{prepared.packing}} </td>
-                                                        <td>{{prepared.warehouse.designation}} </td>
-                                                        <td>{{prepared.creation_date}} </td>
-                                                        <td>{{prepared.expiration_date}} </td>
+                                                        <td><div style="word-break:break-all;width:8vw;">{{final.product_name}}            </div></td>
+                                                        <td><div style="word-break:break-all;width:8vw;">{{prepared.quantity}}             </div></td>
+                                                        <td><div style="word-break:break-all;width:8vw;">{{prepared.stock_display}}        </div></td>
+                                                        <td><div style="word-break:break-all;width:8vw;">{{prepared.packing_display}}      </div></td>
+                                                        <td><div style="word-break:break-all;width:8vw;">{{prepared.packing}}              </div></td>
+                                                        <td><div style="word-break:break-all;width:8vw;">{{prepared.warehouse.designation}}</div></td>
+                                                        <td><div style="word-break:break-all;width:8vw;">{{prepared.creation_date}}        </div></td>
+                                                        <td><div style="word-break:break-all;width:8vw;">{{prepared.expiration_date}}      </div></td>
                                                       
                                                         <td>
                                                         <div style="display:flex;">
@@ -806,18 +806,22 @@
 
 
                     });
+                    if(this.order_id >=3)
+                    {
+                           let count = 0;
+                    this.final_prepared.forEach((prepared) => {
 
-                    // let count = 0;
-                    // this.final_prepared.forEach((prepared) => {
+                        count += prepared.total;
+                    });
+                    if (count <= 0) {
+                        this.errors.push('Veuillez renseigner au moins une quantité à préparer  ')
+                            window.scrollTo(0, 0);
+                        x = false;
+                    }
 
-                    //     count += prepared.total;
-                    // });
-                    // if (count <= 0) {
-                    //     this.errors.push('Veuillez renseigner au moins une quantité à préparer  ')
-                    //         window.scrollTo(0, 0);
-                    //     x = false;
-                    // }
 
+                    }
+                 
 
                 }
 

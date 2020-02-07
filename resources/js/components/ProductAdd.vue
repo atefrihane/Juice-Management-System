@@ -180,7 +180,7 @@
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">TVA (%)</label>
-                <input class="form-control" id="disabledInput" type="number" placeholder="TVA" v-model="tva">
+                <input class="form-control" id="disabledInput" type="number" placeholder="TVA" step="0.01" v-model="tva">
             </div>
 
 
@@ -239,7 +239,7 @@
                 userId: this.user_id,
                 errors: [],
                 disabled: false,
-                acceptedImage:true
+                acceptedImage: true
             }
         },
         props: ['user_id'],
@@ -265,14 +265,13 @@
         methods: {
             getDesignation(event) {
                 let value = event.target.value;
-                if(value.length > 0)
-                {
-                          let str = value.replace(/\s+/g, '');
-                          let res = str.substr(0, 6).toUpperCase();
-                          this.code = res;
+                if (value.length > 0) {
+                    let str = value.replace(/\s+/g, '');
+                    let res = str.substr(0, 6).toUpperCase();
+                    this.code = res;
 
                 }
-          
+
 
             },
 
@@ -284,12 +283,12 @@
                     let reader = new FileReader();
                     let limit = 1024 * 1024 * 2;
                     if (file['size'] > limit) {
-                      
-                        this.acceptedImage=false
-    
+
+                        this.acceptedImage = false
+
 
                     } else {
-                        this.acceptedImage=true
+                        this.acceptedImage = true
                         this.errors = []
                         reader.onloadend = (file) => {
                             this.photo = reader.result;
@@ -299,8 +298,8 @@
                     }
 
                 } else {
-              
-                            this.acceptedImage=false
+
+                    this.acceptedImage = false
                 }
 
 
@@ -460,9 +459,19 @@
             },
 
             submitProduct() {
-            
-            let validation=this.validateForm()
-                if (validation && this.acceptedImage) {
+
+                if (!this.acceptedImage) {
+                    this.errors = []
+                    this.errors.push(
+                        'Les formats supportés pour l\'importation de la photo sont : PNG,JPEG,JPG avec taille maximale 2M'
+                        );
+                    window.scrollTo(0, 0);
+                    return;
+                }
+
+
+                let validation = this.validateForm()
+                if (validation) {
                     this.disabled = true
                     this.$Progress.start()
                     axios.post('/api/products', {
@@ -529,26 +538,22 @@
 
                             }
                         })
-                        .catch( (error) => {
-                               if (error.response.status == 422){
-                                   this.errors=[]
-                                    let errors = Object.values(error.response.data.errors);
-                                    errors = errors.flat();
-                                    this.errors=errors;
-                                 
-                                   this.disabled = false
-                                    window.scrollTo(0, 0);
-                                        }
-                                   });
-                            this.$Progress.finish()
+                        .catch((error) => {
+                        
+                            if (error.response.status == 422) {
+                                    alert('lol')
+                                this.errors = []
+                                let errors = Object.values(error.response.data.errors);
+                              errors = _.flatMap(errors);
+                                this.errors = errors;
 
-                                    }
-                                    else{
-                                    this.errors=[]    
-                                    this.errors.push('Les formats supportés pour l\'importation de la photo sont : PNG,JPEG,JPG avec taille maximale 2M');
-                                    window.scrollTo(0, 0);
-                                    
-                                    }
+                                this.disabled = false
+                                window.scrollTo(0, 0);
+                            }
+                        });
+                    this.$Progress.finish()
+
+                } 
 
 
 
