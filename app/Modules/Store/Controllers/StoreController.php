@@ -135,7 +135,7 @@ class StoreController extends Controller
   
 
         $request->validate([
-            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/|alpha_dash',
+            'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
             'sign' => 'required',
             'designation' => 'required',
             'zipcode_id' => 'required',
@@ -150,7 +150,7 @@ class StoreController extends Controller
 
         ], [
             'code.required' => ' Code est obligatoire',
-            'code.regex' => ' Code doit être alphanumérique',
+            'code.regex' => ' Code n\'est pas valide',
             'code.alpha_dash' => ' Code doit être alphanumérique',
             'sign.required' => ' Enseigne  est obligatoire',
             'designation.required' => ' Designation est obligatoire',
@@ -284,8 +284,9 @@ class StoreController extends Controller
     public function update($id, Request $request)
     {
 
+    
         $request->validate([
-            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/|alpha_dash',
+            'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
             'sign' => 'required',
             'designation' => 'required',
             'zipcode_id' => 'required',
@@ -300,7 +301,7 @@ class StoreController extends Controller
 
         ], [
             'code.required' => ' Code est obligatoire',
-            'code.regex' => ' Code doit être alphanumérique',
+            'code.regex' => ' Code n\'est pas valide',
             'code.alpha_dash' => ' Code doit être alphanumérique',
             'sign.required' => ' Enseigne  est obligatoire',
             'designation.required' => ' Designation est obligatoire',

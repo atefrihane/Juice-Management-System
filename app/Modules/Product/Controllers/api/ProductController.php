@@ -24,7 +24,7 @@ class ProductController extends Controller
     {
 
         $request->validate([
-            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/|alpha_dash',
+            'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
             'state' => 'required',
             'name' => 'required',
             'type' => 'required',
@@ -46,8 +46,8 @@ class ProductController extends Controller
             'tva' => 'required|digits_between:1,6|numeric',
 
         ], [
-            'code.required' => ' Code est requis',
-            'code.regex' => ' Code doit être alphanumérique',
+            'code.required' => ' Code est obligatoire',
+            'code.regex' => ' Code n\'est pas valide',
             'code.alpha_dash' => ' Code doit être alphanumérique',
             'code.digits_between' => ' Code n\'est pas valide',
             'state.required' => ' Etat est requis',
@@ -200,7 +200,7 @@ class ProductController extends Controller
     {
       
         $request->validate([
-            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/|alpha_dash',
+            'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
             'state' => 'required',
             'name' => 'required',
             'type' => 'required',
@@ -222,8 +222,8 @@ class ProductController extends Controller
             'tva' => 'required|digits_between:1,6|numeric',
 
         ], [
-            'code.required' => ' Code est requis',
-            'code.regex' => ' Code doit être alphanumérique',
+            'code.required' => ' Code est obligatoire',
+            'code.regex' => ' Code n\'est pas valide',
             'code.alpha_dash' => ' Code doit être alphanumérique',
             'code.digits_between' => ' Code n\'est pas valide',
             'state.required' => ' Etat est requis',

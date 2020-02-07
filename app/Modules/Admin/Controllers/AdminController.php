@@ -47,9 +47,9 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $val = $request->validate([
-            'code' => 'required',
+         //
+         $val = $request->validate([
+            'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
             'nom' => 'required',
             'prenom' => 'required',
             'sexe' => 'required',
@@ -59,6 +59,7 @@ class AdminController extends Controller
             'passWord' => 'required',
         ], [
             'code.required' => ' Code est obligatoire',
+            'code.regex' => ' Code n\'est pas valide',
             'nom.required' => ' Nom est obligatoire',
             'prenom.required' => ' Prenom est obligatoire',
             'sexe.required' => ' Civilite est obligatoire',
@@ -130,7 +131,7 @@ class AdminController extends Controller
     {
         //
         $val = $request->validate([
-            'code' => 'required',
+            'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
             'nom' => 'required',
             'prenom' => 'required',
             'sexe' => 'required',
@@ -140,6 +141,7 @@ class AdminController extends Controller
             'passWord' => 'required',
         ], [
             'code.required' => ' Code est obligatoire',
+            'code.regex' => ' Code n\'est pas valide',
             'nom.required' => ' Nom est obligatoire',
             'prenom.required' => ' Prenom est obligatoire',
             'sexe.required' => ' Civilite est obligatoire',

@@ -62,14 +62,14 @@ class MachineController extends Controller
   
  
         $val = $request->validate([
-            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/|alpha_dash',
+            'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
             'barcode' => 'required',
             'designation' => 'required',
             'price_month' => 'required|numeric|min:0|max:999999',
             'photo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
         ], [
             'code.required' => ' Code est obligatoire',
-            'code.regex' => ' Code doit être alphanumérique',
+            'code.regex' => ' Code n\'est pas valide',
             'code.alpha_dash' => ' Code doit être alphanumérique',
             'barcode.required' => '  Code a barres est obligatoire',
             'designation.required' => ' Designation est obligatoire',
@@ -131,14 +131,14 @@ class MachineController extends Controller
 
 
         $val = $request->validate([
-            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/|alpha_dash',
+            'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
             'barcode' => 'required',
             'designation' => 'required',
             'price_month' => 'required|numeric|min:0|max:999999',
             'photo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
         ], [
             'code.required' => ' Code est obligatoire',
-            'code.regex' => ' Code doit être alphanumérique',
+            'code.regex' => ' Code n\'est pas valide',
             'code.alpha_dash' => ' Code doit être alphanumérique',
             'barcode.required' => '  Code a barres est obligatoire',
             'designation.required' => ' Designation est obligatoire',

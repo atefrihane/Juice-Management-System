@@ -61,9 +61,8 @@ class WarehouseController extends Controller
     public function handleAddWarehouse(Request $request)
     {
 
-
         $val = $request->validate([
-            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/|alpha_dash',
+            'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
              'designation' => 'required',
             'zipcode_id' => 'required',
             'country_id' => 'required',
@@ -74,8 +73,8 @@ class WarehouseController extends Controller
 
         ], [
             'code.required' => ' Code est obligatoire',
-            'code.regex' => ' Code doit être alphanumérique',
-            'code.alpha_dash' => ' Code doit être alphanumérique',
+            'code.regex' => ' Code n\'est pas valide',
+            'code.alpha_dash' => ' Code n\'est pas valide',
             'designation.required' => ' designation  est requis',
             'zipcode_id.required' => ' code postale est requis',
             'country_id.required' => ' pays est requis',
@@ -189,7 +188,7 @@ class WarehouseController extends Controller
     public function handleUpdateWarehouse($id, Request $request)
     {
         $val = $request->validate([
-            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/|alpha_dash',
+            'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
              'designation' => 'required',
             'zipcode_id' => 'required',
             'country_id' => 'required',
@@ -200,8 +199,8 @@ class WarehouseController extends Controller
 
         ], [
             'code.required' => ' Code est obligatoire',
-            'code.regex' => ' Code doit être alphanumérique',
-            'code.alpha_dash' => ' Code doit être alphanumérique',
+            'code.regex' => ' Code n\'est pas valide',
+            'code.alpha_dash' => ' Code n\'est pas valide',
             'designation.required' => ' designation  est requis',
             'zipcode_id.required' => ' code postale est requis',
             'country_id.required' => ' pays est requis',

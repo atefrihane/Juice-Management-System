@@ -43,7 +43,7 @@ class CompanyController extends Controller
     {
 
         $request->validate([
-            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/|alpha_dash',
+            'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
             'name' => 'required',
             'designation' => 'required',
             'zipcode_id' => 'required',
@@ -53,8 +53,8 @@ class CompanyController extends Controller
             'logo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
 
         ], [
-            'code.required' => ' Code est requis',
-            'code.regex' => ' Code doit être alphanumérique',
+            'code.required' => ' Code est obligatoire',
+            'code.regex' => ' Code n\'est pas valide',
             'code.alpha_dash' => ' Code doit être alphanumérique',
             'name.required' => ' Nom du group est requis',
             'designation.required' => ' Designation est requise',
@@ -122,7 +122,7 @@ class CompanyController extends Controller
   
      
         $request->validate([
-            'code' => 'required|regex:/^(?=.*[A-Z])(?=.*\d).+$/|alpha_dash',
+            'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
             'name' => 'required',
             'designation' => 'required',
             'zipcode_id' => 'required',
@@ -132,8 +132,8 @@ class CompanyController extends Controller
             'logo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
 
         ], [
-            'code.required' => ' Code est requis',
-            'code.regex' => ' Code doit être alphanumérique',
+            'code.required' => ' Code est obligatoire',
+            'code.regex' => ' Code n\'est pas valide',
             'code.alpha_dash' => ' Code doit être alphanumérique',
             'name.required' => ' Nom du group est requis',
             'designation.required' => ' Designation est requise',
