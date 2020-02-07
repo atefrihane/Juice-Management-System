@@ -326,6 +326,21 @@
                                 });
                             }
 
+                                 if (response.data.status == 403) {
+                                swal.fire({
+                                    type: 'error',
+                                    title: 'Machine déja louée!',
+                                    showConfirmButton: true,
+                                    allowOutsideClick: false,
+                                    confirmButtonText: 'Fermer'
+
+                                });
+                                this.disabled = false
+
+                            }
+
+
+
 
                             if (response.data.status == 404) {
                                 swal.fire({

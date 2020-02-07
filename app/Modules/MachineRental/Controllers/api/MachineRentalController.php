@@ -43,6 +43,7 @@ class MachineRentalController extends Controller
      */
     public function store(Request $request)
     {
+     
 
         $parsedStartDate = Carbon::parse($request->startDate)->toDateString();
         $parsedEndDate = Carbon::parse($request->endDate)->toDateString();
@@ -50,6 +51,10 @@ class MachineRentalController extends Controller
         $checkMachine = Machine::find($request->id);
 
         if ($checkMachine) {
+           if($checkMachine->rented)
+           {
+            return response()->json(['status' => 403]);
+           }
 
             $checkRenal = MachineRental::where('date_debut', '=', $parsedStartDate)
                 ->where('date_fin', '=', $parsedEndDate)

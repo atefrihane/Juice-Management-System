@@ -3,11 +3,13 @@
 namespace App\Modules\MachineRental\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Modules\Bac\Models\Bac;
 use App\Modules\MachineRental\Models\MachineRental;
+use App\Modules\MachineRental\Models\MachineRentalHistory;
 use App\Modules\Machine\Models\Machine;
 use App\Modules\Store\Models\Store;
-use App\Modules\MachineRental\Models\MachineRentalHistory;
 use Auth;
+use DB;
 use Illuminate\Http\Request;
 
 class MachineRentalController extends Controller
@@ -59,7 +61,6 @@ class MachineRentalController extends Controller
 
         if ($rental) {
 
-     
             $store = Store::find($rental->store_id);
             return view('MachineRental::detailRentalMachine', compact('rental', 'store'));
         }
@@ -119,7 +120,6 @@ class MachineRentalController extends Controller
 
     public function endRental(Request $request, $id)
     {
- 
 
         if (!$request->date_fin) {
             alert()->error('Oups!', 'Veuillez renseigner une date de fin')->persistent('Femer');
@@ -138,26 +138,30 @@ class MachineRentalController extends Controller
                 return redirect()->back();
 
             }
+            //update bacs and set them to default
+            Bac::whereIn('id', $machineRental->machine->bacs->pluck('id'))->update([
+                'final_amount' => null,
+                'needed_weight' => null,
+                'water_amount' => null,
+                'sugar_amount' => null,
+                'glass_size' => null,
+                'number_of_glasses' => null,
+                'type' => null,
+                'last_refill_time' => null,
+
+            ]);
+            DB::table('bac_products')->whereIn('id', $machineRental->machine->bacs->pluck('id'))->delete();
 
             $machineRental->update(['end_reason' => $request->end_reason, 'date_fin' => $request->date_fin, 'active' => false, 'Comment' => $request->comment]);
             $machine = Machine::where('id', $machineRental->machine_id)->update(['rented' => false]);
 
-            foreach ($machineRental->machine->bacs as $bac) {
-                $bac->update([
-                    'order' => $bac->order,
-                    'status' => null,
-                    'last_refill_time' => null,
-                    'product_id' => null,
-                    'mixture_id' => null,
-
-                ]);
-            }
+        
             MachineRentalHistory::create([
                 'action' => 'Arrêt',
                 'machine_rental_id' => $machineRental->id,
                 'user_id' => Auth::user()->id,
             ]);
-            alert()->success('Succès!',  $machineRental->machine->designation . ' est maintenant libre !')->persistent("Fermer");
+            alert()->success('Succès!', $machineRental->machine->designation . ' est maintenant libre !')->persistent("Fermer");
             return redirect()->route('showMachines');
 
         }

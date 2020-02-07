@@ -28,13 +28,13 @@
                                     <thead>
                                         <tr>
         
-                                            <th>Date debut</th>
-                                            <th>Date fin</th>
-                                            <th>Societé </th>
-                                            <th>Désignation magasin</th>
-                                            <th>Prix</th>
-                                            <th>Raison d'arrêt</th>
-                                            <th>Commentaire</th>
+                                            <th class="is-wrapped">Date debut</th>
+                                            <th class="is-wrapped">Date fin</th>
+                                            <th class="is-wrapped">Societé </th>
+                                            <th class="is-wrapped">Désignation magasin</th>
+                                            <th class="is-wrapped">Prix</th>
+                                            <th class="is-wrapped">Raison d'arrêt</th>
+                                            <th class="is-wrapped">Commentaire</th>
                                             <th></th>
         
                                         </tr>
@@ -55,7 +55,7 @@
                                             <td>Non renseigné</td>
                                             @endif
         
-                                            @if($rental->comment)
+                                            @if($rental->Comment)
                                             <td style="width:30%;">{{$rental->Comment}}</td>
                                             @else
                                             <td style="width:30%;">Non renseigné</td>
