@@ -308,9 +308,10 @@ if($('.country').val())
 
      $(".designation").on('change', function () {
                     
-
+                    let codeValue = $('.code').val();
+                 
                     var value = $(this).val();
-                    if(value.length > 0)
+                    if(value.length > 0 && codeValue.length ==  0 )
                     {
                         str = value.replace(/\s+/g, '');
                     var res = str.substr(0, 6).toUpperCase();

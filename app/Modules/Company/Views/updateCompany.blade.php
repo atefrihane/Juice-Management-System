@@ -50,7 +50,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Code</label>
-                                        <input type="text" class="form-control code" value="{{$company->code}}"
+                                        <input type="text" class="form-control code" value="{{ old( 'code', $company->code) }}"
                                             name="code" id="exampleInputEmail1" placeholder="Code..">
                                     </div>
                                 </div>
@@ -60,10 +60,10 @@
                                         <label for="exampleInputEmail1">Statut</label>
                                         <select class="form-control" name="status">
 
-                                            <option {{$company->status == 2 ? 'selected': ''}} value="2">Active</option>
-                                            <option {{$company->status == 1 ? 'selected': ''}} value="1">En sommeil
+                                            <option {{old( 'code', 2)? 'selected': ''}} value="2">Active</option>
+                                            <option {{old( 'code', 1)? 'selected': ''}} value="1">En sommeil
                                             </option>
-                                            <option {{$company->status == 0 ? 'selected': ''}} value="0">Fermé</option>
+                                            <option {{old( 'code', 0)? 'selected': ''}} value="0">Fermé</option>
                                         </select>
                                     </div>
                                 </div>
@@ -73,13 +73,13 @@
 
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Nom du groupe</label>
-                                <input type="text" class="form-control" value="{{$company->name}}" name="name"
+                                <input type="text" class="form-control" value="{{ old( 'name', $company->name) }}" name="name"
                                     id="exampleInputPassword1" placeholder="Nom du groupe">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Désignation</label>
                                 <input type="text" class="form-control designation" name="designation"
-                                    value="{{$company->designation}}" id="exampleInputPassword1"
+                                 value="{{ old( 'designation', $company->designation) }}" id="exampleInputPassword1"
                                     placeholder="Désignation" pattern=".{6,}" title="6 caractères minimum">
                             </div>
 
@@ -93,7 +93,7 @@
                                             value="{{old('country_id')}}">
                                             @forelse($countries as $country)
                                             <option value="{{$country->id}}"
-                                                {{$country->id == $company->country_id ? ' selected' : ''}}>
+                                             {{old( 'country_id', $country->id)? 'selected': ''}}>
                                                 {{$country->name}}</option>
                                             @empty
                                             <option value=""> Aucun pays trouvé</option>
@@ -107,8 +107,7 @@
                                         <label>Ville</label>
                                         <select class="form-control cities" name="city_id">
                                             @forelse($cities as $city)
-                                            <option value="{{$city->id}}"
-                                                {{$city->id == $company->city_id ? 'selected' :  ''}}>{{$city->name}}
+                                            <option value="{{$city->id}}" {{old( 'city_id') == $city->id ? 'selected': ''}} >{{$city->name}}
                                             </option>
                                             @empty
                                             <option value=""> Aucune ville trouvé</option>
@@ -123,7 +122,7 @@
                                         <select class="form-control zipcodes" name="zipcode_id">
                                             @forelse($zipcodes as $zipcode)
                                             <option value="{{$zipcode->id}}"
-                                                {{$zipcode->id == $company->zipcode_id ? 'selected' :  ''}}>
+                                        {{old( 'zipcode_id') == $zipcode->id  ? 'selected': ''}}>
                                                 {{$zipcode->code}}
                                             </option>
                                             @empty
@@ -139,18 +138,18 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Addresse du siege</label>
-                                <input type="text" name="address" value="{{$company->address}}" class="form-control"
+                                <input type="text" name="address"   value="{{ old( 'address', $company->address) }}"  class="form-control"
                                     id="exampleInputPassword1" placeholder="Addresse du siege">
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Complement addresse (optionnel)</label>
-                                <input type="text" name="complement" value="{{$company->complement}}"
+                                <input type="text" name="complement"  value="{{ old( 'complement', $company->complement) }}" 
                                     class="form-control" id="exampleInputPassword1" placeholder="Complement addresse">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Email</label>
-                                <input type="email" name="email" value="{{$company->email}}" class="form-control"
+                                <input type="email" name="email"  value="{{ old( 'email', $company->email) }}"  class="form-control"
                                     id="exampleInputPassword1" placeholder="Email">
                             </div>
 
@@ -160,8 +159,8 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Télephone</label>
-                                        <input class="form-control cc" name="cc" type="text" placeholder="Code pays"
-                                            value="{{explode(' ', $company->tel)[0]}}" maxlength="4" required>
+                                        <input class="form-control" name="cc" type="text" placeholder="Code pays"
+                                            value="{{ old( 'cc', explode(' ', $company->tel)[0]) }}" maxlength="4" required>
 
                                     </div>
                                 </div>
@@ -169,7 +168,7 @@
                                 <div class="col-md-10">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1" style="color: transparent">*</label>
-                                        <input type="text" name="tel" value="{{explode(' ', $company->tel)[1]}}"
+                                        <input type="text" name="tel"  value="{{ old( 'tel', explode(' ', $company->tel)[1]) }}"
                                             class="form-control" id="exampleInputEmail1" placeholder="Telephone">
                                     </div>
                                 </div>
@@ -180,7 +179,7 @@
                             <div class="form-group">
                                 <label>Commentaires (optionnel)</label>
                                 <textarea class="form-control" rows="3" name="comment"
-                                    placeholder="Commentaires">{{$company->comment}}</textarea>
+                                    placeholder="Commentaires">{{ old( 'comment', $company->comment) }} </textarea>
                             </div>
 
                             <div class="container center-block">

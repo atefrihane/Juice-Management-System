@@ -132,7 +132,6 @@ class StoreController extends Controller
 
     public function store($company_id, Request $request)
     {
-  
 
         $request->validate([
             'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
@@ -144,7 +143,7 @@ class StoreController extends Controller
             'address' => 'required',
             'email' => 'required|email',
             'tel' => 'required|digits_between:1,12',
-            'cc' => 'required|digits_between:1,2',
+            'cc' => 'required|min:3|max:10',
             'order_type' => 'required',
             'photo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
 
@@ -161,7 +160,8 @@ class StoreController extends Controller
             'email.required' => ' Email est obligatoire',
             'email.email' => 'Email non valide',
             'cc.required' => 'Préfixe telephone est obligatoire',
-            'cc.digits_between' => ' Préfixe telephone est invalide',
+            'cc.min' => ' Préfixe telephone est invalide',
+            'cc.max' => ' Préfixe telephone est invalide',
             'tel.required' => ' Numéro telephone est obligatoire',
             'tel.digits_between' => ' Numéro telephone est invalide',
             'order_type.required' => 'Type de la commande est obligatoire',
@@ -284,7 +284,6 @@ class StoreController extends Controller
     public function update($id, Request $request)
     {
 
-    
         $request->validate([
             'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
             'sign' => 'required',
@@ -295,7 +294,7 @@ class StoreController extends Controller
             'address' => 'required',
             'email' => 'required|email',
             'tel' => 'required|digits_between:1,12',
-            'cc' => 'required|digits_between:1,2',
+            'cc' => 'required|min:3|max:10',
             'order_type' => 'required',
             'photo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
 
@@ -312,7 +311,8 @@ class StoreController extends Controller
             'email.required' => ' Email est obligatoire',
             'email.email' => 'Email non valide',
             'cc.required' => 'Préfixe telephone est obligatoire',
-            'cc.digits_between' => ' Préfixe telephone est invalide',
+            'cc.min' => ' Préfixe telephone est invalide',
+            'cc.max' => ' Préfixe telephone est invalide',
             'tel.required' => ' Numéro telephone est obligatoire',
             'tel.digits_between' => ' Numéro telephone est invalide',
             'order_type.required' => 'Type de la commande est obligatoire',
@@ -523,7 +523,7 @@ class StoreController extends Controller
 
     public function handleAddStoreStock($id, $idStore, Request $request)
     {
-       
+
         $request->validate([
             'stock_display' => 'required|digits_between:1,6',
             'packing_display' => 'required|digits_between:1,6',
@@ -639,8 +639,6 @@ class StoreController extends Controller
             'quantity.digits_between' => ' Quantité n\'est pas valide',
 
         ]);
-
-       
 
         $stock = StoreProduct::find($idStock);
         $stocks = StoreProduct::all();

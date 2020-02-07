@@ -48,7 +48,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Code</label>
                                         <input type="text" class="form-control code " name="code"
-                                            value="{{$store->code}}" id="exampleInputEmail1" placeholder="Code..">
+                                          value="{{ old( 'code', $store->code) }}" id="exampleInputEmail1" placeholder="Code..">
                                     </div>
                                 </div>
 
@@ -56,13 +56,8 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Etat</label>
                                         <select name="status" class="form-control">
-                                            <option value="actif" @if($store->status == 'actif')
-                                                selected
-                                                @endif
-                                                >Actif</option>
-                                            <option value="non-actif" @if($store->status == 'non-actif')
-                                                selected
-                                                @endif>Non Actif</option>
+                                        <option value="actif" {{old('status') == 'actif' ? 'selected' : ''}}>Actif</option>
+                                            <option value="non-actif"  {{old('status') == 'non-actif' ? 'selected' : ''}}>Non Actif</option>
                                         </select>
                                     </div>
                                 </div>
@@ -77,35 +72,34 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Désignation</label>
-                                <input class="form-control designation" id="disabledInput" type="text"
-                                    value="{{$store->designation}}" name="designation" placeholder="Nom Magasin"
-                                    pattern=".{6,}" title="6 caractères minimum">
+                                <input class="form-control designation" id="disabledInput" type="text"  name="designation" placeholder="Nom Magasin"
+                                    pattern=".{6,}" title="6 caractères minimum"  value="{{ old( 'designation', $store->designation) }}">
 
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Enseigne</label>
                                 <select class="form-control" name="sign">
-                                    <option value="Franprix" @if($store->sign == 'Franprix')
+                                    <option value="Franprix" @if(old('sign') == 'Franprix')
                                         selected
                                         @endif
                                         >Franprix</option>
-                                    <option value="G20" @if($store->sign == 'G20')
+                                    <option value="G20" @if(old('sign')  == 'G20')
                                         selected
                                         @endif
                                         >G20</option>
-                                    <option value="Shopi" @if($store->sign == 'Shopi' )
+                                    <option value="Shopi" @if(old('sign') == 'Shopi' )
                                         selected
                                         @endif
                                         >Shopi</option>
-                                    <option value="LECLERC" @if($store->sign == 'LECLERC')
+                                    <option value="LECLERC" @if(old('sign')  == 'LECLERC')
                                         selected
                                         @endif
                                         >LECLERC</option>
-                                    <option value="Restaurant" @if($store->sign == 'Restaurant' )
+                                    <option value="Restaurant" @if(old('sign') == 'Restaurant' )
                                         selected
                                         @endif
                                         >Restaurant</option>
-                                    <option value="Stand" @if($store->sign =='Stand' )
+                                    <option value="Stand" @if(old('sign')  =='Stand' )
                                         selected
                                         @endif
                                         >Stand</option>
@@ -118,8 +112,8 @@
                                     <label for="exampleInputEmail1">Type de commande</label>
                                     <select class="form-control" name="order_type" required>
                                         <option value="" disabled>Séléctionner un type</option>
-                                        <option value="1" {{$store->order_type == 1 ? 'selected'  : ''}}>Seulement en colis</option>
-                                        <option value="2" {{$store->order_type == 2 ? 'selected'  : ''}}>Colis et nombre d'unités</option>
+                                        <option value="1" {{old('order_type') == 1 ? 'selected'  : ''}}>Seulement en colis</option>
+                                        <option value="2" {{old('order_type') == 2 ? 'selected'  : ''}}>Colis et nombre d'unités</option>
     
                                     </select>
     
@@ -129,14 +123,14 @@
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Adresse du magasin</label>
-                                <input class="form-control" id="disabledInput" type="text" value="{{$store->address}}"
+                                <input class="form-control" id="disabledInput" type="text"  value="{{ old( 'address', $store->address) }}"
                                     name="address" placeholder="Nom Magasin">
 
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Complément d'adresse (optionnel)</label>
                                 <input class="form-control" id="disabledInput" type="text"
-                                    value="{{$store->complement}}" name="complement" placeholder="Nom Magasin">
+                                value="{{ old( 'complement', $store->complement) }}" name="complement" placeholder="Nom Magasin">
 
                             </div>
 
@@ -151,7 +145,7 @@
                                             value="{{old('country_id')}}">
                                             @forelse($countries as $country)
                                             <option value="{{$country->id}}"
-                                                {{$country->id == $store->country_id ? ' selected' : ''}}>
+                                                {{$country->id == old('country_id') ? ' selected' : ''}}>
                                                 {{$country->name}}</option>
                                             @empty
                                             <option value=""> Aucun pays trouvé</option>
@@ -167,7 +161,7 @@
                                             @forelse($cities as $city)
 
                                             <option value="{{$city->id}}"
-                                                {{$city->id == $store->city_id ? 'selected' :  ''}}>
+                                                {{$city->id == old('city_id') ? 'selected' :  ''}}>
                                                 {{$city->name}}
                                             </option>
                                             @empty
@@ -183,7 +177,7 @@
                                         <select class="form-control zipcodes" name="zipcode_id">
                                             @forelse($zipcodes as $zipcode)
                                             <option value="{{$zipcode->id}}"
-                                                {{$zipcode->id == $store->zipcode_id ? 'selected' :  ''}}>
+                                                {{$zipcode->id == old('zipcode_id') ? 'selected' :  ''}}>
                                                 {{$zipcode->code}}
                                             </option>
                                             @empty
@@ -201,7 +195,7 @@
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Email</label>
-                                <input class="form-control" id="disabledInput" type="email" value="{{$store->email}}"
+                                <input class="form-control" id="disabledInput" type="email"  value="{{ old( 'email', $store->email) }}"
                                     name="email" placeholder="Nom Magasin">
 
                             </div>
@@ -210,8 +204,8 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Télephone</label>
-                                        <input class="form-control cc" name="cc" type="text" placeholder="Code pays"
-                                            value="{{explode(' ', $store->tel)[0]}}" maxlength="4">
+                                        <input class="form-control" name="cc" type="text" placeholder="Code pays"
+                                        value="{{ old( 'cc', explode(' ', $store->tel)[0]) }}" maxlength="4">
 
                                     </div>
                                 </div>
@@ -219,7 +213,7 @@
                                 <div class="col-md-10">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1" style="color: transparent">*</label>
-                                        <input type="text" name="tel" value="{{explode(' ', $store->tel)[1]}}"
+                                        <input type="text" name="tel"  value="{{ old( 'cc', explode(' ', $store->tel)[1]) }}"
                                             class="form-control" id="exampleInputEmail1" placeholder="Telephone">
                                     </div>
                                 </div>
@@ -227,7 +221,7 @@
                             <div class="form-group">
                                 <label>Commentaires (optionnel)</label>
                                 <textarea class="form-control" rows="3" name="comment"
-                                    placeholder="Commentaires">{{$store->comment}}</textarea>
+                                    placeholder="Commentaires">{{old('comment')}}</textarea>
                             </div>
 
 
@@ -251,11 +245,11 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Type d'envoi des factures</label>
                                         <select class="form-control" name="bill_type">
-                                            <option value="Email" @if($store->bill_type == 'Email')
+                                            <option value="Email" @if(old('bill_type') == 'Email')
                                                 selected
                                                 @endif
                                                 >Email</option>
-                                            <option value="Papier" @if($store->bill_type == 'Papier')
+                                            <option value="Papier" @if(old('bill_type') == 'Papier')
                                                 selected
                                                 @endif
                                                 >Papier</option>
@@ -269,15 +263,15 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Facture addressée vers</label>
                                         <select class="form-control" name="bill_to">
-                                            <option value="Magasin" @if($store->bill_to == 'Magasin')
+                                            <option value="Magasin" @if(old('bill_to') == 'Magasin')
                                                 selected
                                                 @endif
                                                 >Magasin</option>
-                                            <option value="Societé" @if($store->bill_to == 'Societé')
+                                            <option value="Societé" @if(old('bill_to')  == 'Societé')
                                                 selected
                                                 @endif
                                                 >Societé</option>
-                                            <option value="Magasin et Societé" @if($store->bill_to == 'Magasin et
+                                            <option value="Magasin et Societé" @if(old('bill_to')  == 'Magasin et
                                                 Societé')
                                                 selected
                                                 @endif
@@ -292,7 +286,7 @@
                             <div class="form-group">
                                 <label>Recommandation pour livreur (optionnel)</label>
                                 <textarea class="form-control" rows="3" name="deliveryRec"
-                                    placeholder="Recommendarion pour liveruer ..."> {{$store->deliveryRec}}</textarea>
+                                    placeholder="Recommendarion pour liveruer ..."> {{old('deliveryRec')}}</textarea>
                             </div>
                             <div class="form-group" style="margin-bottom:-15px;">
                                 <label style="font-size: 24px; margin-top: 24px; font-weight: bold;"> Horaires</label>
