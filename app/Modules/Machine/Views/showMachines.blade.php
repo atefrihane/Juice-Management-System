@@ -36,7 +36,7 @@
                                                     <th class="is-wrapped" >Désignation</th>
                                                     <th class="is-wrapped" >Nbr de bacs</th>
                                                     <th class="is-wrapped" >Prix loc mens (€)</th>
-                                                    <th class="is-wrapped" >Statut</th>
+                                                    <th>Statut</th>
                                                     <th class="is-wrapped" >Etat</th>
                                                     <th></th>
                                                 </tr>
