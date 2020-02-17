@@ -155,7 +155,6 @@ class MachineRentalController extends Controller
             $machineRental->update(['end_reason' => $request->end_reason, 'date_fin' => $request->date_fin, 'active' => false, 'Comment' => $request->comment]);
             $machine = Machine::where('id', $machineRental->machine_id)->update(['rented' => false]);
 
-        
             MachineRentalHistory::create([
                 'action' => 'Arrêt',
                 'machine_rental_id' => $machineRental->id,
@@ -172,7 +171,12 @@ class MachineRentalController extends Controller
         $rental = MachineRental::find($id);
         if ($rental) {
             $store = $rental->store;
-            return view('MachineRental::showEditRental', compact('rental', 'store'));
+            $occupiedDays = MachineRental::select('date_debut', 'date_fin')
+                ->where('machine_id', $rental->machine->id)
+                ->where('active', 1)
+                ->get();
+
+            return view('MachineRental::showEditRental', compact('rental', 'store','occupiedDays'));
         }
         return view('General::notFound');
 

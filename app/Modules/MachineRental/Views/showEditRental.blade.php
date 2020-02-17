@@ -12,7 +12,7 @@
         <div class="row">
             <div class="container" id="app">
 
-              <machine-rent-update last="{{url()->previous()}}"> </machine-rent-update>
+            <machine-rent-update last="{{url()->previous()}}" :occupied_days="{{$occupiedDays}}"> </machine-rent-update>
 
                 <!-- /.col -->
             </div>

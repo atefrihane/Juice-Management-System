@@ -13,7 +13,7 @@
         <div class="row">
             <div class="container">
 
-             <machine-rent> </machine-rent>
+            <machine-rent  :occupied_days="{{$occupiedDays}}"> </machine-rent>
             </div>
 
         </div>

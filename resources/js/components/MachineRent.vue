@@ -58,14 +58,14 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Date du début de location</label>
 
-                        <Datepicker v-model="startDate" placeholder=""></Datepicker>
+                        <Datepicker v-model="startDate" :disabledDates="disabledDates" :language="fr"  placeholder=""></Datepicker>
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Date de fin de location</label>
-                        <Datepicker v-model="endDate" placeholder=""></Datepicker>
+                        <Datepicker v-model="endDate" :disabledDates="disabledDates" :language="fr"  placeholder=""></Datepicker>
                     </div>
                 </div>
             </div>
@@ -98,7 +98,7 @@
                     </div>
                 </div>
             </div>
-     
+
 
         </div>
 
@@ -109,7 +109,8 @@
                 <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelRental()">
                     Annuler</button>
 
-                <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled" @click="submitRental()">
+                <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled"
+                    @click="submitRental()">
                     Confirmer</button>
 
             </div>
@@ -123,8 +124,9 @@
 </template>
 
 <script>
+    import {en,fr} from 'vuejs-datepicker/dist/locale'
     import Datepicker from 'vuejs-datepicker';
- 
+
 
     export default {
 
@@ -135,9 +137,13 @@
         mounted() {
             this.getCompanies()
             this.getProducts()
+            this.disableDates()
+
 
         },
+        props: ['occupied_days'],
         data() {
+
             return {
                 code: data.machine.code,
                 designation: data.machine.designation,
@@ -155,7 +161,17 @@
                 companySelected: '',
                 localisation: '',
                 errors: [],
-                disabled:false
+                disabledDates: {
+
+
+                    ranges: [],
+
+
+
+                },
+                 en: en,
+                 fr:fr,
+                disabled: false
             }
 
         },
@@ -185,17 +201,33 @@
 
             },
             getProducts() {
-              
-                axios.get(axios.defaults.baseURL+'/api/products/')
+
+                axios.get(axios.defaults.baseURL + '/api/products/')
                     .then((response) => {
                         this.products.push(response.data);
-                        
+
                     })
                     .catch(function (error) {
-                    
+
                         console.log(error);
                     })
 
+
+            },
+            disableDates() {
+                if (this.occupied_days.length > 0) {
+                    this.occupied_days.forEach(occupied => {
+
+                        this.disabledDates.ranges.push({
+                            from: new Date(occupied.date_debut),
+                            to: new Date(Vue.moment(occupied.date_fin).add('days', 1))
+
+                        })
+
+
+                    })
+
+                }
 
             },
             getProductData(event, index) {
@@ -217,12 +249,12 @@
                     })
 
             },
-         
+
             cancelRental() {
-                window.location = axios.defaults.baseURL+'/machines';
+                window.location = axios.defaults.baseURL + '/machines';
 
             },
-     
+
 
             validateForm() {
 
@@ -281,7 +313,7 @@
                 console.log(x)
 
                 if (x == true) {
-                    this.disabled=true
+                    this.disabled = true
                     axios.post('/api/rentals', {
                             id: this.machineId,
                             startDate: this.startDate,
@@ -301,17 +333,17 @@
                                     type: 'success',
                                     title: 'La location a été ajoutée avec succés !',
                                     showConfirmButton: true,
-                                      allowOutsideClick: false,
+                                    allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
 
                                 }).then((result) => {
                                     if (result.value) {
-                                        window.location = axios.defaults.baseURL+'/machines';
+                                        window.location = axios.defaults.baseURL + '/machines';
                                     }
                                 })
-                                
-                          
+
+
                             }
 
 
@@ -320,13 +352,14 @@
                                     type: 'error',
                                     title: 'La machine a été déja louée !',
                                     showConfirmButton: true,
-                                      allowOutsideClick: false,
+                                    allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
                                 });
+                                this.disabled = false
                             }
 
-                                 if (response.data.status == 403) {
+                            if (response.data.status == 403) {
                                 swal.fire({
                                     type: 'error',
                                     title: 'Machine déja louée!',
@@ -347,11 +380,11 @@
                                     type: 'error',
                                     title: 'Machine introuvable! !',
                                     showConfirmButton: true,
-                                      allowOutsideClick: false,
+                                    allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
                                 });
-                                  this.disabled=false
+                                this.disabled = false
 
                             }
 
@@ -360,12 +393,12 @@
                                     type: 'error',
                                     title: 'Erreur date!',
                                     showConfirmButton: true,
-                                      allowOutsideClick: false,
+                                    allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
 
                                 });
-                                this.disabled=false
+                                this.disabled = false
 
 
 

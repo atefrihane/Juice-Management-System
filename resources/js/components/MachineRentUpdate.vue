@@ -71,13 +71,13 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Date du début de location</label>
-                            <Datepicker v-model="startDate" placeholder=""></Datepicker>
+                            <Datepicker v-model="startDate" :disabledDates="disabledDates"  :language="fr" placeholder=""></Datepicker>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Date de fin de location</label>
-                            <Datepicker v-model="endDate" placeholder=""></Datepicker>
+                            <Datepicker v-model="endDate" :disabledDates="disabledDates"  :language="fr" placeholder=""></Datepicker>
                         </div>
                     </div>
                 </div>
@@ -113,18 +113,18 @@
                 <div class="row" v-if="status == 0">
                     <div class="col-md-8">
                         <div class="form-group">
-                              <label>Raison fin de location</label>
-                        <select class="form-control" v-model="end_reason">
-                            <option :value="null" disabled>Séléctionner une raison d'arrêt</option>
-                            <option value="Fin du contrat de location">Fin du contrat de location</option>
-                            <option value="Machine non rentable">Machine non rentable</option>
-                            <option value="Machine en panne">Machine en panne</option>
-                            <option value="Autre">Autre</option>
-                        </select>
+                            <label>Raison fin de location</label>
+                            <select class="form-control" v-model="end_reason">
+                                <option :value="null" disabled>Séléctionner une raison d'arrêt</option>
+                                <option value="Fin du contrat de location">Fin du contrat de location</option>
+                                <option value="Machine non rentable">Machine non rentable</option>
+                                <option value="Machine en panne">Machine en panne</option>
+                                <option value="Autre">Autre</option>
+                            </select>
                         </div>
                     </div>
                 </div>
-         
+
 
 
 
@@ -156,6 +156,10 @@
 </template>
 
 <script>
+    import {
+        en,
+        fr
+    } from 'vuejs-datepicker/dist/locale'
     import Datepicker from 'vuejs-datepicker';
     export default {
 
@@ -164,8 +168,10 @@
         },
 
         mounted() {
+            this.disableDates()
 
         },
+   
         data() {
             return {
                 code: data.machine.code,
@@ -179,19 +185,45 @@
                 comment: data.rental.Comment,
                 rentalId: data.rental.id,
                 userId: data.userId,
-                status:data.rental.active,
+                status: data.rental.active,
                 disabled: false,
-                end_reason:data.rental.end_reason,
+                end_reason: data.rental.end_reason,
+                disabledDates: {
+
+
+                    ranges: [],
+
+
+
+                },
+                en: en,
+                fr: fr,
                 errors: []
 
             }
 
         },
-        props: ['last'],
+        props: ['last','occupied_days'],
 
         methods: {
+            disableDates() {
+                if (this.occupied_days.length > 0) {
+                    this.occupied_days.forEach(occupied => {
 
-     
+                        this.disabledDates.ranges.push({
+                            from: new Date(occupied.date_debut),
+                            to: new Date(Vue.moment(occupied.date_fin).add('days', 1))
+
+                        })
+
+
+                    })
+
+                }
+
+            },
+
+
             validateForm() {
 
                 this.errors = [];
@@ -220,7 +252,7 @@
                             location: this.location,
                             comment: this.comment,
                             userId: this.userId,
-                            end_reason:this.end_reason
+                            end_reason: this.end_reason
                         })
                         .then((response) => {
                             console.log(response);
@@ -240,20 +272,20 @@
 
                             if (response.data.status == 200) {
 
-                                  swal.fire({
+                                swal.fire({
                                     type: 'success',
                                     title: 'La location a été modifiée avec succés !',
                                     showConfirmButton: true,
-                                      allowOutsideClick: false,
+                                    allowOutsideClick: false,
                                     confirmButtonText: 'Fermer'
 
 
                                 }).then((result) => {
                                     if (result.value) {
-                                        window.location = axios.defaults.baseURL+'/machines';
+                                        window.location = axios.defaults.baseURL + '/machines';
                                     }
                                 })
-                             
+
                             }
 
                         })

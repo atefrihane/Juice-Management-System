@@ -3,7 +3,6 @@
 namespace App\Modules\MachineRental\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Modules\BacHistory\Models\BacHistory;
 use App\Modules\Bac\Models\Bac;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\MachineRental\Models\MachineRentalHistory;
@@ -43,7 +42,6 @@ class MachineRentalController extends Controller
      */
     public function store(Request $request)
     {
-     
 
         $parsedStartDate = Carbon::parse($request->startDate)->toDateString();
         $parsedEndDate = Carbon::parse($request->endDate)->toDateString();
@@ -51,17 +49,52 @@ class MachineRentalController extends Controller
         $checkMachine = Machine::find($request->id);
 
         if ($checkMachine) {
-           if($checkMachine->rented)
-           {
-            return response()->json(['status' => 403]);
-           }
+            //    if($checkMachine->rented)
+            //    {
+            //     return response()->json(['status' => 403]);
+            //    }
 
-            $checkRenal = MachineRental::where('date_debut', '=', $parsedStartDate)
-                ->where('date_fin', '=', $parsedEndDate)
-                ->where('active', 1)
+            // $checkRental = MachineRental::whereBetween('date_debut', [$parsedStartDate, $parsedEndDate])
+            //     ->orWhereBetween('date_fin', [$parsedStartDate, $parsedEndDate])
+            //     ->orWhere(function($query) use ($parsedStartDate, $parsedEndDate) {
+            //             $query->whereDate('date_debut', '>=', $parsedStartDate)
+            //     ->whereDate('date_fin', '<=', $parsedEndDate);
+            //         })
+            //     ->where('active', 1)
+            //     ->where('machine_id',$checkMachine->id)
+            //     ->get();
+
+            $checkRental = MachineRental::where(function ($query) use ($parsedStartDate, $parsedEndDate, $checkMachine) {
+
+                $query->where(function ($q) use ($parsedStartDate, $parsedEndDate, $checkMachine) {
+                    $q->where('date_debut', '>=', $parsedStartDate)
+                        ->where('date_debut', '<', $parsedEndDate)
+                        ->where('active', 1)
+                        ->where('machine_id', $checkMachine->id);
+
+                })->orWhere(function ($q) use ($parsedStartDate, $parsedEndDate, $checkMachine) {
+                    $q->where('date_debut', '<=', $parsedStartDate)
+                        ->where('date_fin', '>', $parsedEndDate)
+                        ->where('active', 1)
+                        ->where('machine_id', $checkMachine->id);
+
+                })->orWhere(function ($q) use ($parsedStartDate, $parsedEndDate, $checkMachine) {
+                    $q->where('date_fin', '>', $parsedStartDate)
+                        ->where('date_fin', '<=', $parsedEndDate)
+                        ->where('active', 1)
+                        ->where('machine_id', $checkMachine->id);
+
+                })->orWhere(function ($q) use ($parsedStartDate, $parsedEndDate, $checkMachine) {
+                    $q->where('date_debut', '>=', $parsedStartDate)
+                        ->where('date_fin', '<=', $parsedEndDate)
+                        ->where('active', 1)
+                        ->where('machine_id', $checkMachine->id);
+                });
+
+            })
                 ->first();
 
-            if ($checkRenal) {
+            if ($checkRental) {
                 return response()->json(['status' => 400]);
 
             }
@@ -82,8 +115,6 @@ class MachineRentalController extends Controller
                 'machine_id' => $request->id,
 
             ]);
-
-         
 
             $checkMachine->update(['rented' => 1]);
             MachineRentalHistory::create([
@@ -131,7 +162,6 @@ class MachineRentalController extends Controller
                 'price' => $request->price,
                 'end_reason' => $request->end_reason,
             ]);
-     
 
             MachineRentalHistory::create([
                 'action' => 'Modification',

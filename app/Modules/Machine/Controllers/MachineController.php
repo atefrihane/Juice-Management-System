@@ -5,6 +5,7 @@ namespace App\Modules\Machine\Controllers;
 use App\Http\Controllers\Controller;
 use App\Modules\Bac\Models\Bac;
 use App\Modules\Company\Models\Company;
+use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Machine\Models\Machine;
 use App\Modules\Machine\Models\MachineHistory;
 use App\Modules\Product\Models\Product;
@@ -59,8 +60,7 @@ class MachineController extends Controller
 
     public function store(Request $request)
     {
-  
- 
+
         $val = $request->validate([
             'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
             'barcode' => 'required',
@@ -129,7 +129,6 @@ class MachineController extends Controller
     public function update($id, Request $request)
     {
 
-
         $val = $request->validate([
             'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
             'barcode' => 'required',
@@ -150,7 +149,7 @@ class MachineController extends Controller
             'photo.mimes' => 'Le format du logo importé est non supporté ',
             'photo.max' => 'Logo importé est volumineux ! ',
         ]);
-        
+
         $updatable = $request->all();
         if ($request->photo) {
             $path = $this->image->uploadBinaryImage($request->photo);
@@ -235,19 +234,23 @@ class MachineController extends Controller
     public function startRentalMachine($id)
     {
 
-        if ($_GET['machine']) {
-            $machine = Machine::find($id);
-            if ($machine->rented == 1) {
-                return view('General::notFound');
-            }
-        }
-
         $machines = Machine::where('rented', false)->get();
+        $machine = Machine::find($id);
+        if ($machine) {
+            $companies = Company::all();
+            $products = Product::all();
+            $occupiedDays = MachineRental::select('date_debut', 'date_fin')
+                ->where('machine_id', $machine->id)
+                ->where('active', 1)
+                ->get();
+           
+          
 
-        $companies = Company::all();
-        $products = Product::all();
+            return view('Machine::startRentalMachine', compact('machine', 'machines', 'companies', 'products', 'occupiedDays', 'occupiedEndDays'));
 
-        return view('Machine::startRentalMachine', compact('machine', 'machines', 'companies', 'products'));
+        }
+        return view('General::notFound');
+
     }
 
     public function handleUpdateState($id, Request $request)
