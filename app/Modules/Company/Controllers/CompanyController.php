@@ -49,18 +49,21 @@ class CompanyController extends Controller
             'zipcode_id' => 'required',
             'address' => 'required',
             'tel' => 'required|digits_between:1,12',
-            'cc' => 'required',
+            'cc' => 'required|min:3|max:10|regex:/^[+][0-9]{1,3}+$/',
             'logo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
 
         ], [
             'code.required' => ' Code est obligatoire',
             'code.regex' => ' Code n\'est pas valide',
-            'code.alpha_dash' => ' Code doit être alphanumérique',
+            'code.alpha_dash' => ' Code n\'est pas valide',
             'name.required' => ' Nom du group est requis',
             'designation.required' => ' Designation est requise',
             'address.required' => ' L\'addresse est requise',
             'zipcode_id.required' => ' Code postale est requis',
-            'cc.required' => 'Préfixe telephone est requis',
+            'cc.required' => 'Préfixe telephone est obligatoire',
+            'cc.min' => ' Préfixe telephone est invalide',
+            'cc.max' => ' Préfixe telephone est invalide',
+            'cc.regex' => ' Préfixe telephone est invalide',
             'tel.required' => 'Numéro télephone est requis',
             'tel.digits_between' => 'Numéro télephone invalide',
             'logo.image' => 'Le format du logo importé est non supporté ',
@@ -120,7 +123,6 @@ class CompanyController extends Controller
     public function update(Request $request, $id)
     {
   
-     
         $request->validate([
             'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
             'name' => 'required',
@@ -128,18 +130,21 @@ class CompanyController extends Controller
             'zipcode_id' => 'required',
             'address' => 'required',
             'tel' => 'required|digits_between:1,12',
-            'cc' => 'required',
+            'cc' => 'required|min:3|max:10|regex:/^[+][0-9]{1,3}+$/',
             'logo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
 
         ], [
             'code.required' => ' Code est obligatoire',
             'code.regex' => ' Code n\'est pas valide',
-            'code.alpha_dash' => ' Code doit être alphanumérique',
+            'code.alpha_dash' => ' Code n\'est pas valide',
             'name.required' => ' Nom du group est requis',
             'designation.required' => ' Designation est requise',
             'address.required' => ' L\'addresse est requise',
             'zipcode_id.required' => ' Code postale est requis',
-            'cc.required' => 'Préfixe telephone est requis',
+            'cc.required' => 'Préfixe telephone est obligatoire',
+            'cc.min' => ' Préfixe telephone est invalide',
+            'cc.max' => ' Préfixe telephone est invalide',
+            'cc.regex' => ' Préfixe telephone est invalide',
             'tel.required' => 'Numéro télephone est requis',
             'tel.digits_between' => 'Numéro télephone invalide',
             'logo.image' => 'Le format du logo importé est non supporté ',

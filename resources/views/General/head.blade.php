@@ -51,11 +51,21 @@
             -moz-appearance: textfield !important;
             /* Firefox */
         }
+       
 
         @media only screen and (max-width: 800px) {
             .scrollable-table {
             overflow-x:auto !important;
         }
+
+        .scrollable-table > .table > tbody > tr > td > input,
+        .scrollable-table > .table > tbody > tr > td > select
+         {
+            width: 25vw !important;
+        
+        } 
+
+
         }
         .has_error {
             border-color:red !important;

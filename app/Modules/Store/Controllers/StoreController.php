@@ -143,7 +143,7 @@ class StoreController extends Controller
             'address' => 'required',
             'email' => 'required|email',
             'tel' => 'required|digits_between:1,12',
-            'cc' => 'required|min:3|max:10',
+            'cc' => 'required|min:3|max:10|regex:/^[+][0-9]{1,3}+$/',
             'order_type' => 'required',
             'photo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
 
@@ -162,6 +162,7 @@ class StoreController extends Controller
             'cc.required' => 'Préfixe telephone est obligatoire',
             'cc.min' => ' Préfixe telephone est invalide',
             'cc.max' => ' Préfixe telephone est invalide',
+            'cc.regex' => ' Préfixe telephone est invalide',
             'tel.required' => ' Numéro telephone est obligatoire',
             'tel.digits_between' => ' Numéro telephone est invalide',
             'order_type.required' => 'Type de la commande est obligatoire',
@@ -294,7 +295,7 @@ class StoreController extends Controller
             'address' => 'required',
             'email' => 'required|email',
             'tel' => 'required|digits_between:1,12',
-            'cc' => 'required|min:3|max:10',
+            'cc' => 'required|min:3|max:10|regex:/^[+][0-9]{1,3}+$/',
             'order_type' => 'required',
             'photo' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
 
@@ -313,6 +314,7 @@ class StoreController extends Controller
             'cc.required' => 'Préfixe telephone est obligatoire',
             'cc.min' => ' Préfixe telephone est invalide',
             'cc.max' => ' Préfixe telephone est invalide',
+            'cc.regex' => ' Préfixe telephone est invalide',
             'tel.required' => ' Numéro telephone est obligatoire',
             'tel.digits_between' => ' Numéro telephone est invalide',
             'order_type.required' => 'Type de la commande est obligatoire',
