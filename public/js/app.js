@@ -2970,24 +2970,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     send: function send(city) {
       if (city.zipcode && city.zipcode.replace(/\s/g, '').length) {
         city.zipcode = city.zipcode.replace(/\s/g, '');
-        var found = false;
-        city.zipcodes.forEach(function (zipcode, index) {
-          if (city.zipcode == zipcode) {
-            swal.fire({
-              type: 'error',
-              title: 'Code postal déja renseigné !  ',
-              allowOutsideClick: false,
-              showConfirmButton: true,
-              confirmButtonText: 'Fermer'
-            });
-            city.zipcode = '';
-            found = true;
-          }
-        });
 
-        if (!found) {
-          city.zipcodes.push(city.zipcode);
+        if (city.zipcode.length > 10) {
+          swal.fire({
+            type: 'error',
+            title: 'Code postal invalide !  ',
+            allowOutsideClick: false,
+            showConfirmButton: true,
+            confirmButtonText: 'Fermer'
+          });
           city.zipcode = '';
+        } else {
+          var found = false;
+          city.zipcodes.forEach(function (zipcode, index) {
+            if (city.zipcode == zipcode) {
+              swal.fire({
+                type: 'error',
+                title: 'Code postal déja renseigné !  ',
+                allowOutsideClick: false,
+                showConfirmButton: true,
+                confirmButtonText: 'Fermer'
+              });
+              city.zipcode = '';
+              found = true;
+            }
+          });
+
+          if (!found) {
+            city.zipcodes.push(city.zipcode);
+            city.zipcode = '';
+          }
         }
       } else {
         swal.fire({
@@ -3221,6 +3233,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
 //
 //
 //
@@ -3547,27 +3560,39 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     send: function send(city) {
       if (city.zipcode && city.zipcode.replace(/\s/g, '').length) {
         city.zipcode = city.zipcode.replace(/\s/g, '');
-        var found = false;
-        city.zipCodes.forEach(function (zipcode, index) {
-          if (city.zipcode == zipcode.code) {
-            swal.fire({
-              type: 'error',
-              title: 'Code postal déja renseigné !  ',
-              showConfirmButton: true,
-              allowOutsideClick: false,
-              confirmButtonText: 'Fermer'
-            });
-            city.zipcode = '';
-            found = true;
-          }
-        });
 
-        if (!found) {
-          city.zipCodes.push({
-            'id': '',
-            'code': city.zipcode
+        if (city.zipcode.length > 10) {
+          swal.fire({
+            type: 'error',
+            title: 'Code postal invalide !  ',
+            allowOutsideClick: false,
+            showConfirmButton: true,
+            confirmButtonText: 'Fermer'
           });
           city.zipcode = '';
+        } else {
+          var found = false;
+          city.zipCodes.forEach(function (zipcode, index) {
+            if (city.zipcode == zipcode.code) {
+              swal.fire({
+                type: 'error',
+                title: 'Code postal déja renseigné !  ',
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                confirmButtonText: 'Fermer'
+              });
+              city.zipcode = '';
+              found = true;
+            }
+          });
+
+          if (!found) {
+            city.zipCodes.push({
+              'id': '',
+              'code': city.zipcode
+            });
+            city.zipcode = '';
+          }
         }
       } else {
         swal.fire({

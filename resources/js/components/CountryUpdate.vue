@@ -77,7 +77,8 @@
                 <button type="button" class="btn btn-danger pl-1" style="margin: 1em" @click="cancelRental()">
                     Annuler</button>
 
-                <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled" @click="submitRental()">
+                <button type="button" class="btn btn-success pl-1" style="margin: 1em" :disabled="disabled"
+                    @click="submitRental()">
                     Confirmer</button>
 
             </div>
@@ -105,7 +106,7 @@
                 errors: [],
                 citiesZipCodes: [],
                 deleted: [],
-                disabled:false
+                disabled: false
 
             }
 
@@ -159,8 +160,8 @@
 
 
                             if (response.data.countCompanies == 0 &&
-                             response.data.countStores == 0 &&
-                             response.data.countWarehouses == 0) {
+                                response.data.countStores == 0 &&
+                                response.data.countWarehouses == 0) {
                                 axios.post('/city/delete/' + city.cityID, {
 
                                     })
@@ -205,7 +206,7 @@
                             // handle error
                             console.log(error);
                         })
-                    } else {
+                } else {
                     this.citiesZipCodes.splice(this.citiesZipCodes.indexOf(city), 1);
 
                 }
@@ -224,8 +225,8 @@
 
                             if (response.data.status == 200) {
                                 if (response.data.countCompanies == 0 &&
-                                 response.data.countStores == 0 &&
-                                  response.data.countWarehouses == 0) {
+                                    response.data.countStores == 0 &&
+                                    response.data.countWarehouses == 0) {
                                     axios.post('/zipcode/delete/' + zipcode.id, {
 
                                         })
@@ -372,34 +373,49 @@
             send(city) {
 
                 if (city.zipcode && (city.zipcode.replace(/\s/g, '').length)) {
-                           city.zipcode = city.zipcode.replace(/\s/g, '');
-                    let found = false;
-                    city.zipCodes.forEach((zipcode, index) => {
+                    city.zipcode = city.zipcode.replace(/\s/g, '');
+                    if (city.zipcode.length > 10) {
+                        swal.fire({
+                            type: 'error',
+                            title: 'Code postal invalide !  ',
+                            allowOutsideClick: false,
+                            showConfirmButton: true,
+                            confirmButtonText: 'Fermer'
 
-                        if (city.zipcode == zipcode.code) {
-                            swal.fire({
-                                type: 'error',
-                                title: 'Code postal déja renseigné !  ',
-                                showConfirmButton: true,
-                                allowOutsideClick: false,
-                                confirmButtonText: 'Fermer'
-
-                            });
-                            city.zipcode = ''
-                            found = true;
-                        }
-
-                    });
-                    if (!found) {
-                        city.zipCodes.push({
-                                'id': '',
-                                'code': city.zipcode
-                            }
-
-                        )
+                        });
                         city.zipcode = ''
 
+                    } else {
+                        let found = false;
+                        city.zipCodes.forEach((zipcode, index) => {
+
+                            if (city.zipcode == zipcode.code) {
+                                swal.fire({
+                                    type: 'error',
+                                    title: 'Code postal déja renseigné !  ',
+                                    showConfirmButton: true,
+                                    allowOutsideClick: false,
+                                    confirmButtonText: 'Fermer'
+
+                                });
+                                city.zipcode = ''
+                                found = true;
+                            }
+
+                        });
+                        if (!found) {
+                            city.zipCodes.push({
+                                    'id': '',
+                                    'code': city.zipcode
+                                }
+
+                            )
+                            city.zipcode = ''
+
+                        }
+
                     }
+
 
 
                 } else {
@@ -482,7 +498,7 @@
             },
             submitRental() {
                 if (this.validateForm()) {
-                    this.disabled=true
+                    this.disabled = true
 
                     axios.post('/country/update/' + this.id, {
                             name: this.name,
@@ -502,7 +518,7 @@
 
                                 });
 
-                                        this.disabled=false
+                                this.disabled = false
 
                             }
 
@@ -515,7 +531,7 @@
                                     confirmButtonText: 'Fermer'
 
                                 });
-                                        this.disabled=false
+                                this.disabled = false
 
                             }
 
@@ -528,15 +544,15 @@
                                     confirmButtonText: 'Fermer'
 
                                 });
-                                       this.disabled=false
+                                this.disabled = false
 
                             }
 
-                         
+
 
                             if (response.data.status == 200) {
 
-                                 swal.fire({
+                                swal.fire({
                                     type: 'success',
                                     title: 'Le pays a été modifié avec succés !',
                                     showConfirmButton: true,
@@ -551,29 +567,29 @@
                                 })
 
 
-                            
+
 
                             }
                         })
                         .catch((error) => {
                             console.log(error);
-                               if (error.response.status == 422){
-                          
-                                   this.errors=[]
-                                    let errors = Object.values(error.response.data.errors);
-                                    errors = errors.flat();
-                                    this.errors=errors;
-                                 
-                                   this.disabled = false
-                                    window.scrollTo(0, 0);
-                             }
+                            if (error.response.status == 422) {
+
+                                this.errors = []
+                                let errors = Object.values(error.response.data.errors);
+                                errors = errors.flat();
+                                this.errors = errors;
+
+                                this.disabled = false
+                                window.scrollTo(0, 0);
+                            }
                         });
 
                 }
 
             },
             cancelRental() {
-                window.location = axios.defaults.baseURL+'/static'
+                window.location = axios.defaults.baseURL + '/static'
             }
 
 

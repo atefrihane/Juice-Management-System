@@ -124,7 +124,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @if($rental->machine->bacs)
+                            {{-- @if($rental->machine->bacs)
                             <div class="row">
                                 <div class="col-md-12">
                                     <label>Configurations des bacs : </label>
@@ -176,7 +176,7 @@
                             </div>
 
                             @endforeach
-                            @endif
+                            @endif --}}
 
 
                         </div>

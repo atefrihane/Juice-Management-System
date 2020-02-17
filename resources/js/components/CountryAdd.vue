@@ -145,27 +145,42 @@
 
                 if (city.zipcode && (city.zipcode.replace(/\s/g, '').length)) {
                     city.zipcode = city.zipcode.replace(/\s/g, '');
-                    let found = false;
-                    city.zipcodes.forEach((zipcode, index) => {
-                        if (city.zipcode == zipcode) {
-                            swal.fire({
-                                type: 'error',
-                                title: 'Code postal déja renseigné !  ',
-                                allowOutsideClick: false,
-                                showConfirmButton: true,
-                                confirmButtonText: 'Fermer'
+                    if (city.zipcode.length > 10) {
+                        swal.fire({
+                            type: 'error',
+                            title: 'Code postal invalide !  ',
+                            allowOutsideClick: false,
+                            showConfirmButton: true,
+                            confirmButtonText: 'Fermer'
 
-                            });
-                            city.zipcode = ''
-                            found = true;
-                        }
-
-                    });
-                    if (!found) {
-                        city.zipcodes.push(city.zipcode)
+                        });
                         city.zipcode = ''
 
+                    } else {
+                        let found = false;
+                        city.zipcodes.forEach((zipcode, index) => {
+                            if (city.zipcode == zipcode) {
+                                swal.fire({
+                                    type: 'error',
+                                    title: 'Code postal déja renseigné !  ',
+                                    allowOutsideClick: false,
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Fermer'
+
+                                });
+                                city.zipcode = ''
+                                found = true;
+                            }
+
+                        });
+                        if (!found) {
+                            city.zipcodes.push(city.zipcode)
+                            city.zipcode = ''
+
+                        }
+
                     }
+
 
 
                 } else {
@@ -364,15 +379,15 @@
                         })
                         .catch((error) => {
                             console.log(error);
-                                     if (error.response.status == 422){
-                                   this.errors=[]
-                                    let errors = Object.values(error.response.data.errors);
-                                    errors = errors.flat();
-                                    this.errors=errors;
-                                 
-                                   this.disabled = false
-                                    window.scrollTo(0, 0);
-                                        }
+                            if (error.response.status == 422) {
+                                this.errors = []
+                                let errors = Object.values(error.response.data.errors);
+                                errors = errors.flat();
+                                this.errors = errors;
+
+                                this.disabled = false
+                                window.scrollTo(0, 0);
+                            }
                         });
 
                 }
@@ -389,7 +404,7 @@
                         allowOutsideClick: false,
                         confirmButtonText: 'Fermer'
                     });
-                    this.code =''
+                    this.code = ''
                 }
             },
             cancelRental() {
