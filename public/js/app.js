@@ -8397,6 +8397,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.getCompanies();
@@ -8676,28 +8677,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     removeOrdered: function removeOrdered(ordered) {
       var _this8 = this;
 
-      swal.fire({
-        type: 'info',
-        title: 'Oups !',
-        html: "<b> Attention : </b> La suppréssion de ce produit peut engendrer le changement de son ancien prix s'il est modifié ailleurs",
-        showConfirmButton: true,
-        confirmButtonText: 'Confirmer',
-        showCancelButton: true,
-        allowOutsideClick: false,
-        cancelButtonText: 'Fermer'
-      }).then(function (result) {
-        if (result.value) {
-          axios.post('/api/order/product/delete/' + _this8.order_id, {
-            product_id: ordered.product_id
-          }).then(function (response) {
-            _this8.custom_ordered.splice(_this8.custom_ordered.indexOf(ordered), 1);
+      if (ordered.product_id) {
+        swal.fire({
+          type: 'info',
+          title: 'Oups !',
+          html: "<b> Attention : </b> La suppréssion de ce produit peut engendrer le changement de son ancien prix s'il est modifié ailleurs",
+          showConfirmButton: true,
+          confirmButtonText: 'Confirmer',
+          showCancelButton: true,
+          allowOutsideClick: false,
+          cancelButtonText: 'Fermer'
+        }).then(function (result) {
+          if (result.value) {
+            axios.post('/api/order/product/delete/' + _this8.order_id, {
+              product_id: ordered.product_id
+            }).then(function (response) {
+              _this8.custom_ordered.splice(_this8.custom_ordered.indexOf(ordered), 1);
 
-            _this8.clearOrderedProducts();
-          })["catch"](function (error) {
-            console.log(error);
-          });
-        }
-      });
+              _this8.clearOrderedProducts();
+            })["catch"](function (error) {
+              console.log(error);
+            });
+          }
+        });
+      } else {
+        this.custom_ordered.splice(this.custom_ordered.indexOf(ordered), 1);
+        this.clearOrderedProducts();
+      }
     },
     setOrderdPacking: function setOrderdPacking(ordered, index) {
       if (ordered["package"] != '' && ordered["package"] > 0 && this.checkValidNumber(ordered["package"])) {
@@ -94759,7 +94765,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-      _vm._v("\n                        Magasin "),
+      _vm._v("\n                            Magasin "),
       _c(
         "a",
         {

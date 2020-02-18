@@ -69,7 +69,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="exampleInputEmail1">
-                            Magasin <a href="#" data-toggle="modal" data-target="#exampleModal"><i
+                                Magasin <a href="#" data-toggle="modal" data-target="#exampleModal"><i
                                         class="fa fa-info-circle"></i></a>
                             </label>
                             <select class="form-control" v-model="store_id" @change="getStoreData($event)" disabled>
@@ -82,7 +82,7 @@
 
                             </select>
 
-                              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -97,8 +97,9 @@
                                         <div class="modal-body">
                                             <div class="form-group">
                                                 <label>Addresse</label>
-                                                <input type="text" class="form-control" v-if="store.address" :value="store.address" disabled>
-                                                  <input type="text" class="form-control" v-else value="Aucun" disabled>
+                                                <input type="text" class="form-control" v-if="store.address"
+                                                    :value="store.address" disabled>
+                                                <input type="text" class="form-control" v-else value="Aucun" disabled>
                                             </div>
 
                                             <div class="form-group">
@@ -126,8 +127,9 @@
 
                                             <div class="form-group">
                                                 <label>Code postal</label>
-                                                <input type="text" class="form-control" v-if="store.zipcode" :value="store.zipcode" disabled>
-                                                  <input type="text" class="form-control" v-else value="Aucun" disabled>
+                                                <input type="text" class="form-control" v-if="store.zipcode"
+                                                    :value="store.zipcode" disabled>
+                                                <input type="text" class="form-control" v-else value="Aucun" disabled>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -239,7 +241,7 @@
                         <h4 class="box-title"> <b>{{convert_total_order}}€</b></h4>
                     </div>
                 </div>
-                  <div class="box-body">
+                <div class="box-body">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -253,8 +255,7 @@
                 <div class="box-body">
                     <div class="form-group">
                         <label>Commentaires (optionnel)</label>
-                        <textarea class="form-control" rows="3" placeholder="Commentaires"
-                            v-model="comment"></textarea>
+                        <textarea class="form-control" rows="3" placeholder="Commentaires" v-model="comment"></textarea>
                     </div>
                 </div>
 
@@ -316,15 +317,15 @@
                 company_id: order.company_id,
                 errors: [],
                 disabled: false,
-                  store:{
-                    name:'',
-                    address:'',
-                    complement:'',
-                    country:'',
-                    city:'',
-                    zipcode:''
+                store: {
+                    name: '',
+                    address: '',
+                    complement: '',
+                    country: '',
+                    city: '',
+                    zipcode: ''
                 },
-                arrival_date_wished:''
+                arrival_date_wished: ''
 
 
 
@@ -360,9 +361,9 @@
 
                         this.code = response.data.order.code
                         this.store_id = response.data.order.store_id
-                        this.arrival_date_wished=response.data.order.arrival_date_wished
+                        this.arrival_date_wished = response.data.order.arrival_date_wished
                         this.ordered_products = response.data.ordered_products
-                        this.comment=this.history ? this.history.comment : null
+                        this.comment = this.history ? this.history.comment : null
                         this.ordered_products.forEach((ordered, index) => {
                             this.custom_ordered.push({
                                 name: ordered.nom,
@@ -373,7 +374,7 @@
                                 tva: ordered.pivot.custom_tva,
                                 products: this.products,
                                 product_id: ordered.id,
-                                total: ordered.pivot.custom_price* ordered.pivot.unit,
+                                total: ordered.pivot.custom_price * ordered.pivot.unit,
                                 product_total_tva: ordered.tva
 
                             });
@@ -382,12 +383,12 @@
 
                         });
 
-                        this.store.name=response.data.store.designation
-                        this.store.address=response.data.store.address
-                        this.store.complement=response.data.store.complement
-                        this.store.country=response.data.store.country.name
-                        this.store.city=response.data.store.city.name
-                        this.store.zipcode=response.data.store.zipcode.code
+                        this.store.name = response.data.store.designation
+                        this.store.address = response.data.store.address
+                        this.store.complement = response.data.store.complement
+                        this.store.country = response.data.store.country.name
+                        this.store.city = response.data.store.city.name
+                        this.store.zipcode = response.data.store.zipcode.code
 
                         this.clearOrderedProducts()
 
@@ -397,10 +398,10 @@
                         //             store_id: this.store_id
                         //         })
                         //         .then((response) => {
-                                   
+
 
                         //             if (response.data.custom_price) {
-                                      
+
                         //                 custom.public_price = this.convertCurrency(response.data.custom_price.price)
                         //                 custom.total = this.convertCurrency(this.convertMoneyFormat(custom
                         //                     .public_price) * custom.unit)
@@ -482,12 +483,12 @@
                     .then((response) => {
                         this.code = response.data.store.code + '-' + this.order_id;
 
-                        this.store.name=response.data.store.designation
-                        this.store.address=response.data.store.address
-                        this.store.complement=response.data.store.complement
-                        this.store.country=response.data.store.country.name
-                        this.store.city=response.data.store.city.name
-                        this.store.zipcode=response.data.store.zipcode.code
+                        this.store.name = response.data.store.designation
+                        this.store.address = response.data.store.address
+                        this.store.complement = response.data.store.complement
+                        this.store.country = response.data.store.country.name
+                        this.store.city = response.data.store.city.name
+                        this.store.zipcode = response.data.store.zipcode.code
                     })
                     .catch(function (error) {
 
@@ -541,15 +542,15 @@
                             })
                             .then((response) => {
 
-                                
+
                                 this.custom_ordered[index].unit = ''
                                 this.custom_ordered[index].package = ''
                                 this.custom_ordered[index].packing = ''
                                 this.custom_ordered[index].total = ''
-                                this.clearOrderedProducts()    
+                                this.clearOrderedProducts()
 
                                 if (response.data.custom_price) {
-                                      //update old price to the newest one
+                                    //update old price to the newest one
                                     // swal.fire({
                                     //     type: 'info',
                                     //     title: 'Rappel',
@@ -562,7 +563,7 @@
                                     //     allowOutsideClick: false,
                                     //     confirmButtonText: 'Fermer'
                                     // });
-                                  
+
                                     this.custom_ordered[index].product_packing = response.data.product.packing;
                                     this.custom_ordered[index].public_price = response.data.custom_price.price
                                     this.custom_ordered[index].tva = response.data.product.tva;
@@ -642,69 +643,76 @@
             },
             removeOrdered(ordered) {
 
-                swal.fire({
-                    type: 'info',
-                    title: 'Oups !',
-                    html: "<b> Attention : </b> La suppréssion de ce produit peut engendrer le changement de son ancien prix s'il est modifié ailleurs",
-                    showConfirmButton: true,
-                    confirmButtonText: 'Confirmer',
-                    showCancelButton: true,
-                    allowOutsideClick: false,
-                    cancelButtonText: 'Fermer'
-                }).then((result) => {
-                    if (result.value) {
-                        axios.post('/api/order/product/delete/' + this.order_id, {
-                                product_id: ordered.product_id
+                if (ordered.product_id) {
+                    swal.fire({
+                        type: 'info',
+                        title: 'Oups !',
+                        html: "<b> Attention : </b> La suppréssion de ce produit peut engendrer le changement de son ancien prix s'il est modifié ailleurs",
+                        showConfirmButton: true,
+                        confirmButtonText: 'Confirmer',
+                        showCancelButton: true,
+                        allowOutsideClick: false,
+                        cancelButtonText: 'Fermer'
+                    }).then((result) => {
+                        if (result.value) {
+                            axios.post('/api/order/product/delete/' + this.order_id, {
+                                    product_id: ordered.product_id
 
-                            })
-                            .then((response) => {
-                                this.custom_ordered.splice(this.custom_ordered.indexOf(ordered), 1);
-                                this.clearOrderedProducts();
+                                })
+                                .then((response) => {
+                                    this.custom_ordered.splice(this.custom_ordered.indexOf(ordered), 1);
+                                    this.clearOrderedProducts();
 
-                            })
-                            .catch((error) => {
-                                console.log(error);
-                            });
-                    }
-                })
+                                })
+                                .catch((error) => {
+                                    console.log(error);
+                                });
+                        }
+                    })
+
+                } else {
+                    this.custom_ordered.splice(this.custom_ordered.indexOf(ordered), 1);
+                    this.clearOrderedProducts();
+
+                }
+
 
 
 
             },
-       setOrderdPacking(ordered, index) {
+            setOrderdPacking(ordered, index) {
 
 
                 if (ordered.package != '' && ordered.package > 0 && this.checkValidNumber(ordered.package)) {
-                let total= ordered.package * ordered.product_packing;
-                if (total >= 999999) {
+                    let total = ordered.package * ordered.product_packing;
+                    if (total >= 999999) {
 
-                      swal.fire({
-                        type: 'error',
-                        title: 'Le nombre de colis saisi est invalide ! ',
-                        showConfirmButton: true,
-                        allowOutsideClick: false,
-                        confirmButtonText: 'Fermer'
+                        swal.fire({
+                            type: 'error',
+                            title: 'Le nombre de colis saisi est invalide ! ',
+                            showConfirmButton: true,
+                            allowOutsideClick: false,
+                            confirmButtonText: 'Fermer'
 
 
-                    });
+                        });
 
-                    ordered.package = ''
-                    ordered.unit = ''
-                    ordered.total = 0;
-                    ordered.product_total_tva = 0;
-                    this.clearOrderedProducts();
+                        ordered.package = ''
+                        ordered.unit = ''
+                        ordered.total = 0;
+                        ordered.product_total_tva = 0;
+                        this.clearOrderedProducts();
 
-                }
-                else{
-                     ordered.unit = ordered.package * ordered.product_packing;
-                    ordered.total = ordered.public_price * ordered.unit;
-                    ordered.product_total_tva = ordered.total + ordered
-                        .total * ordered.tva /
-                        100;
-                    this.clearOrderedProducts();
+                    } else {
+                        ordered.unit = ordered.package * ordered.product_packing;
+                        ordered.total = ordered.public_price * ordered.unit;
+                        ordered.product_total_tva = ordered.total + ordered
+                            .total * ordered.tva /
+                            100;
+                        this.clearOrderedProducts();
 
-                }
-                   
+                    }
+
                 } else {
 
                     swal.fire({
@@ -716,27 +724,27 @@
 
 
                     });
-              
+
                     ordered.package = ''
                     ordered.unit = ''
                     ordered.total = 0;
                     ordered.product_total_tva = 0;
-                      this.clearOrderedProducts();
+                    this.clearOrderedProducts();
 
                 }
             },
             setOrderdUnit(ordered, index) {
-            
 
-                if (ordered.unit != '' && ordered.unit > 0 && this.checkValidNumber(ordered.unit) ) {
-               
-                     ordered.package = Math.ceil(ordered.unit / ordered.product_packing)
+
+                if (ordered.unit != '' && ordered.unit > 0 && this.checkValidNumber(ordered.unit)) {
+
+                    ordered.package = Math.ceil(ordered.unit / ordered.product_packing)
                     ordered.total = ordered.public_price * ordered.unit;
                     ordered.product_total_tva = ordered.total * ordered.tva / 100;
                     this.clearOrderedProducts();
 
-                
-                   
+
+
                 } else {
 
                     swal.fire({
@@ -752,13 +760,13 @@
                     ordered.unit = ''
                     ordered.total = 0;
                     ordered.product_total_tva = 0;
-                      this.clearOrderedProducts();
+                    this.clearOrderedProducts();
 
                 }
 
 
             },
-              convertMoneyFormat(value) {
+            convertMoneyFormat(value) {
 
                 return parseFloat(value.replace(',', '.'))
 
@@ -815,10 +823,9 @@
 
                 });
 
-                    if(!x)
-                {
-                     this.errors.push('Veuillez remplir tout les champs nécessaires pour les produits à commander');
-                        window.scrollTo(0, 0);
+                if (!x) {
+                    this.errors.push('Veuillez remplir tout les champs nécessaires pour les produits à commander');
+                    window.scrollTo(0, 0);
 
                 }
 
@@ -838,7 +845,7 @@
                             comment: this.comment,
                             total_order: this.total_order,
                             user_id: this.user_id,
-                            arrival_date_wished:this.arrival_date_wished,
+                            arrival_date_wished: this.arrival_date_wished,
                             status: 0
 
                         })
@@ -869,10 +876,10 @@
             },
 
             updateOrder() {
-  
+
                 this.disabled = true;
                 if (this.validateForm()) {
-                   
+
                     axios.post('/api/order/product/update/' + this.order_id, {
 
                             company_id: this.company_id,
@@ -882,7 +889,7 @@
                             total_order: this.total_order,
                             user_id: this.user_id,
                             status: 2,
-                            arrival_date_wished:this.arrival_date_wished
+                            arrival_date_wished: this.arrival_date_wished
 
                         })
                         .then((response) => {
@@ -915,7 +922,7 @@
             cancelOrder() {
                 window.location = axios.defaults.baseURL + '/orders';
             },
-              convertCurrency(value) {
+            convertCurrency(value) {
 
                 if (value != '') {
                     let val = (value / 1).toFixed(2).replace('.', ',')
@@ -928,11 +935,10 @@
 
 
             },
-                 checkValidNumber(value)
-            {
-              let number = Number(value)
-              return Number.isInteger(number) && value.length <=6
-           
+            checkValidNumber(value) {
+                let number = Number(value)
+                return Number.isInteger(number) && value.length <= 6
+
             }
 
 
