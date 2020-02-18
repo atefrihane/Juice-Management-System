@@ -25,9 +25,8 @@ class MachineController extends Controller
     {
 
         $machines = Machine::with(['machineRentals.store.city', 'machineRentals' => function ($q) {
-            $q->whereIn('active', [1,2]);
+            $q->whereIn('active', [1, 2]);
         }])->get();
-       
 
         return view('Machine::showMachines', compact('machines'));
 
@@ -242,10 +241,8 @@ class MachineController extends Controller
             $products = Product::all();
             $occupiedDays = MachineRental::select('date_debut', 'date_fin')
                 ->where('machine_id', $machine->id)
-                ->where('active', 1)
+                ->whereIn('active', [1, 2])
                 ->get();
-           
-          
 
             return view('Machine::startRentalMachine', compact('machine', 'machines', 'companies', 'products', 'occupiedDays', 'occupiedEndDays'));
 

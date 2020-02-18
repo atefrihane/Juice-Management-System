@@ -8582,7 +8582,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var id = event.target.value;
       var found = false;
 
-      if (this.custom_ordered.length > 1) {
+      if (this.custom_ordered.length > 0) {
         var count = 0;
         this.custom_ordered.forEach(function (ordered) {
           if (ordered.product_id == id) {

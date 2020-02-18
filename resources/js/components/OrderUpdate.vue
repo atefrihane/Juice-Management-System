@@ -515,9 +515,10 @@
 
             },
             getProductData(event, index) {
+         
                 let id = event.target.value;
                 let found = false;
-                if (this.custom_ordered.length > 1) {
+                if (this.custom_ordered.length > 0) {
                     let count = 0;
                     this.custom_ordered.forEach((ordered) => {
                         if (ordered.product_id == id) {

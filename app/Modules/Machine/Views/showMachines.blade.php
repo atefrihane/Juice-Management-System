@@ -63,14 +63,15 @@
                                                         {{count($machine->bacs)}}</td>
                                                     <td data-url="{{route('showHistoryMachine',$machine->id)}}">
                                                         @convert($machine->price_month)</td>
-                                                    @if($machine->rented)
+                                                    @if($machine->currentLocation())
                                                     <td data-url="{{route('showHistoryMachine',$machine->id)}}">En location <br>
                                                         <br>
-                                                        <b>{{ $machine->machineRentals->first()->store->designation }}
-                                                            ({{$machine->machineRentals->first()->store->city->name }}) </b>
+                         
+                                                        <b>{{ $machine->currentLocation()->store->designation }}
+                                                            ({{$machine->currentLocation()->store->city->name }}) </b>
                                                     </td>
                                                     @else
-                                                    <td data-url="{{route('showHistoryMachine',$machine->id)}}">Libre</td>
+                                                    <td data-url="{{route('showHistoryMachine',$machine->id)}}">Pas de location en cours</td>
                                                     @endif
                                                     <td data-url="{{route('showHistoryMachine',$machine->id)}}">{{$machine->status}}
                                                     </td>

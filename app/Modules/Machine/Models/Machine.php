@@ -4,9 +4,11 @@ namespace App\Modules\Machine\Models;
 
 use App\Modules\Bac\Models\Bac;
 use App\Modules\MachineRental\Models\MachineRental;
+use App\Modules\Machine\Models\Machine;
 use App\Modules\Machine\Models\MachineHistory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Machine extends Model
 {
     use SoftDeletes;
@@ -25,5 +27,12 @@ class Machine extends Model
     public function histories()
     {
         return $this->hasMany(MachineHistory::class);
+    }
+    public function currentLocation()
+    {
+        return MachineRental::where('machine_id', $this->id)
+            ->where('active', 1)
+            ->first();
+
     }
 }
