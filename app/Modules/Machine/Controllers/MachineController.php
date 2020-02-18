@@ -25,8 +25,9 @@ class MachineController extends Controller
     {
 
         $machines = Machine::with(['machineRentals.store.city', 'machineRentals' => function ($q) {
-            $q->where('active', 1);
+            $q->whereIn('active', [1,2]);
         }])->get();
+       
 
         return view('Machine::showMachines', compact('machines'));
 

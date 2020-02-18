@@ -140,8 +140,12 @@ class MachineRentalController extends Controller
                 'machine_id' => $request->id,
 
             ]);
+            // Not rent machine if range of dates is old
+            if ($active != 4 && $active != 3) {
+                $checkMachine->update(['rented' => 1]);
 
-            $checkMachine->update(['rented' => 1]);
+            }
+
             MachineRentalHistory::create([
                 'action' => 'Création',
                 'machine_rental_id' => $rental->id,
