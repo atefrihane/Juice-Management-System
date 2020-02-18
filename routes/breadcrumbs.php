@@ -39,12 +39,12 @@ Breadcrumbs::for('admin', function ($trail) {
 // Home > Societé
 Breadcrumbs::for('addAdmin', function ($trail) {
     $trail->parent('admin');
-    $trail->push('Ajouter un admin', route('addAdmin'));
+    $trail->push('Ajouter un compte', route('addAdmin'));
 });
 // Home > Societé
 Breadcrumbs::for('editAdmin', function ($trail) {
     $trail->parent('admin');
-    $trail->push('Modifier un admin', route('editAdmin', ''));
+    $trail->push('Modifier un compte', route('editAdmin', ''));
 });
 
 Breadcrumbs::for('detail', function ($trail, $company) {

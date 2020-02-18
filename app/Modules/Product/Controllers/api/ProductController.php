@@ -3,6 +3,7 @@
 namespace App\Modules\Product\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Modules\Order\Models\Order;
 use App\Modules\Product\Models\Product;
 use App\Modules\Product\Models\ProductHistory;
 use App\Modules\Store\Models\Store;
@@ -22,7 +23,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-  
+
         $request->validate([
             'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
             'state' => 'required',
@@ -102,8 +103,8 @@ class ProductController extends Controller
             'tva.digits_between' => ' TVA (%) n\'est pas valide',
             'tva.numeric' => ' TVA (%) n\'est pas valide',
             'tva.min' => ' TVA (%) n\'est pas valide',
-            'tva.max' => ' TVA (%) n\'est pas valide'
-     
+            'tva.max' => ' TVA (%) n\'est pas valide',
+
         ]);
 
         $checkCode = Product::where('code', $request->code)->first();
@@ -203,7 +204,7 @@ class ProductController extends Controller
 
     public function handleUpdateProduct(Request $request, $id)
     {
-      
+
         $request->validate([
             'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
             'state' => 'required',
@@ -283,8 +284,8 @@ class ProductController extends Controller
             'tva.digits_between' => ' TVA (%) n\'est pas valide',
             'tva.numeric' => ' TVA (%) n\'est pas valide',
             'tva.min' => ' TVA (%) n\'est pas valide',
-            'tva.max' => ' TVA (%) n\'est pas valide'
-     
+            'tva.max' => ' TVA (%) n\'est pas valide',
+
         ]);
         $product = Product::find($id);
         $checkCode = Product::where('code', $request->code)
@@ -413,6 +414,21 @@ class ProductController extends Controller
         }
         return response()->json(['status' => 404]);
 
+    }
+
+    public function handleCheckProductBeforeUpdate($id)
+    {
+        // Vérifier si un produit existe déja dans une commande en cours de saisie
+        $checkProductPrepared = Order::whereHas('products', function ($q) use ($id) {
+            $q->where('product_id', $id);
+
+        })->where('status', 0)
+            ->get();
+
+        if ($checkProductPrepared) {
+            return response()->json(['status' => 200, 'countOrders' => count($checkProductPrepared)]);
+        }
+        return response()->json(['status' => 404]);
     }
 
 }

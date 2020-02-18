@@ -289,10 +289,13 @@ class CompaniesTableSeeder extends Seeder
 
         ]);
 
+  
+
+
         for ($j = 0; $j < 2; $j++) {
             Bac::create([
                 'order' => $i + 1,
-                'machine_id' => $machineOne->id,
+                'machine_id' => $machineTwo->id,
                 'final_amount' =>10, 
                 'needed_weight' =>5, 
                 'water_amount' =>3, 

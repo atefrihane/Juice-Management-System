@@ -71,6 +71,10 @@
             border-color:red !important;
         }
 
+        .disable-input{
+            background-color: #eee;
+    opacity: 1;
+        }
        
        
 

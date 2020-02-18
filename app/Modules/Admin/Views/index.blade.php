@@ -127,7 +127,7 @@
 
                     @empty
                     <tr>
-                        <td colspan="6" class="text-center"><h4>Aucun Admin !</h4></td>
+                        <td colspan="6" class="text-center"><h4>Aucun compte</h4></td>
                     </tr>
                     @endforelse
 

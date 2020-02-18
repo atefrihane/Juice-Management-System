@@ -47,8 +47,8 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-         //
-         $val = $request->validate([
+        //
+        $val = $request->validate([
             'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
             'nom' => 'required',
             'prenom' => 'required',
@@ -163,8 +163,7 @@ class AdminController extends Controller
         //     return redirect()->back();
 
         // }
-        $admin->role_id = $request->role;
-        $admin->save();
+    
         $user = User::find($admin->user->id);
         if ($request->passWord != null) {
             $password = $request->passWord;
@@ -185,7 +184,7 @@ class AdminController extends Controller
             'child_id' => $id,
         ]);
         $user = Admin::find($id)->user;
-        alert()->success('Succès!', 'Admin modifié avec succès')->persistent('Fermer');
+        alert()->success('Compte modifié avec succès', 'Succès! ')->persistent('Fermer');
         return redirect('/admin');
     }
 

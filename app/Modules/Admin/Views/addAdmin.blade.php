@@ -1,5 +1,5 @@
 @extends('General.layout')
-@section('pageTitle', 'Ajouter un admin')
+@section('pageTitle', 'Ajouter un compte')
 
 @section('content')
 
@@ -18,7 +18,7 @@
                     <div class="box box-primary">
 
                         <div class="box-header">
-                            <h3 class="box-title"> Ajouter un admin</h3>
+                            <h3 class="box-title"> Ajouter un compte</h3>
 
                         </div>
 

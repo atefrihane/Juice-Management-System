@@ -644,7 +644,8 @@
 
                 swal.fire({
                     type: 'info',
-                    title: 'Voulez vous retirer ce produit de la commande ? ',
+                    title: 'Oups !',
+                    html: "<b> Attention : </b> La suppréssion de ce produit peut engendrer le changement de son ancien prix s'il est modifié ailleurs",
                     showConfirmButton: true,
                     confirmButtonText: 'Confirmer',
                     showCancelButton: true,

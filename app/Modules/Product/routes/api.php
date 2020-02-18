@@ -17,6 +17,7 @@ Route::group(['module' => 'Product', 'middleware' => ['auth:api'], 'namespace' =
     route::post('api/check/warehouses/{id}', 'ProductController@handleCheckQuantityInWarehouses'); //returns occurence of product in all warehouses
     route::get('api/product/details/{id}', 'ProductController@handleGetProductDetails'); //returns product details without specific price
     route::post('api/product/{id}/validity', 'ProductController@handleGetValidityAfterOpening'); //returns validity days
+    route::get('api/product/{id}/before', 'ProductController@handleCheckProductBeforeUpdate'); //returns if product exists in orders ' en cours de saisie'
 });
 
 

@@ -1,5 +1,5 @@
 @extends('General.layout')
-@section('pageTitle', 'Modifier un admin')
+@section('pageTitle', 'Modifier un compte')
 
 @section('content')
 
@@ -18,7 +18,7 @@
                     <div class="box box-primary">
 
                         <div class="box-header">
-                            <h3 class="box-title"> Modifier un admin</h3>
+                            <h3 class="box-title"> Modifier un compte</h3>
 
                         </div>
 
@@ -81,7 +81,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Code</label>
-                                            <input type="text" class="form-control" value="{{$admin->user->code}}" name="code" id="exampleInputEmail1" placeholder="Code..">
+                                            <input type="text" class="form-control"  value="{{ old( 'code', $admin->user->code) }}" name="code" id="exampleInputEmail1" placeholder="Code..">
                                         </div>
                                     </div>
 
@@ -92,13 +92,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Nom</label>
-                                            <input type="text" class="form-control" value="{{$admin->user->nom}}" name="nom" id="exampleInputPassword1" placeholder="Nom">
+                                            <input type="text" class="form-control"  value="{{ old( 'nom', $admin->user->nom) }}" name="nom" id="exampleInputPassword1" placeholder="Nom">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Prenom</label>
-                                            <input type="text" class="form-control" name="prenom" value="{{$admin->user->prenom}}" id="exampleInputPassword1" placeholder="Prenom">
+                                            <input type="text" class="form-control" name="prenom" value="{{ old( 'prenom', $admin->user->prenom) }}" id="exampleInputPassword1" placeholder="Prenom">
                                         </div>
                                     </div>
                                 </div>
@@ -129,13 +129,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Email</label>
-                                            <input type="email" class="form-control" name="email" value="{{$admin->user->email}}" id="exampleInputPassword1" placeholder="Email">
+                                            <input type="email" class="form-control" name="email"   value="{{ old( 'email', $admin->user->email) }}"  id="exampleInputPassword1" placeholder="Email">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Telephone</label>
-                                            <input type="text" class="form-control" name="telephone" value="{{$admin->user->telephone}}" id="exampleInputPassword1" placeholder="Telephone">
+                                            <input type="text" class="form-control" name="telephone"  value="{{ old( 'telephone', $admin->user->telephone) }}" id="exampleInputPassword1" placeholder="Telephone">
                                         </div>
                                     </div>
                                 </div>
@@ -143,7 +143,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Code d'accés</label>
-                                            <input type="text" class="form-control" name="accessCode" value="{{$admin->user->accessCode}}" id="exampleInputPassword1" placeholder="Code d'accés">
+                                            <input type="text" class="form-control" name="accessCode"  value="{{ old( 'accessCode', $admin->user->accessCode) }}" id="exampleInputPassword1" placeholder="Code d'accés">
                                         </div>
                                     </div>
 
@@ -152,7 +152,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Mot de passe</label>
-                                            <input type="text" class="form-control" name="passWord" value="{{$admin->user->password}}"  id="exampleInputPassword1" placeholder="Mot de passe">
+                                            <input type="text" class="form-control" name="passWord"  value="{{ old( 'passWord', $admin->user->password) }}"  id="exampleInputPassword1" placeholder="Mot de passe">
                                         </div>
                                     </div>
 

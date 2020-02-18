@@ -341,6 +341,7 @@ if($('.country').val())
       
 
                         $("input[type=text]").not('.code').attr('maxlength','150');
+                        $("input[type=email]").attr('maxlength','150');
                         $(".code").attr('maxlength','20');
                         $("input[type=number]").attr({
                             "max" : 999999,

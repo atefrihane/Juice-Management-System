@@ -42,6 +42,16 @@ class MachineRentalController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+
+            'price' => 'required|digits_between:1,6',
+
+        ], [
+
+            'price.required' => ' Le prix  est obligatoire',
+            'price.digits_between' => ' Le prix est invalide',
+
+        ]);
 
         $parsedStartDate = Carbon::parse($request->startDate)->toDateString();
         $parsedEndDate = Carbon::parse($request->endDate)->toDateString();
@@ -69,25 +79,25 @@ class MachineRentalController extends Controller
                 $query->where(function ($q) use ($parsedStartDate, $parsedEndDate, $checkMachine) {
                     $q->where('date_debut', '>=', $parsedStartDate)
                         ->where('date_debut', '<', $parsedEndDate)
-                        ->where('active', 1)
+                        ->whereIn('active', [1, 2])
                         ->where('machine_id', $checkMachine->id);
 
                 })->orWhere(function ($q) use ($parsedStartDate, $parsedEndDate, $checkMachine) {
                     $q->where('date_debut', '<=', $parsedStartDate)
                         ->where('date_fin', '>', $parsedEndDate)
-                        ->where('active', 1)
+                        ->whereIn('active', [1, 2])
                         ->where('machine_id', $checkMachine->id);
 
                 })->orWhere(function ($q) use ($parsedStartDate, $parsedEndDate, $checkMachine) {
                     $q->where('date_fin', '>', $parsedStartDate)
                         ->where('date_fin', '<=', $parsedEndDate)
-                        ->where('active', 1)
+                        ->whereIn('active', [1, 2])
                         ->where('machine_id', $checkMachine->id);
 
                 })->orWhere(function ($q) use ($parsedStartDate, $parsedEndDate, $checkMachine) {
                     $q->where('date_debut', '>=', $parsedStartDate)
                         ->where('date_fin', '<=', $parsedEndDate)
-                        ->where('active', 1)
+                        ->whereIn('active', [1, 2])
                         ->where('machine_id', $checkMachine->id);
                 });
 
@@ -97,6 +107,21 @@ class MachineRentalController extends Controller
             if ($checkRental) {
                 return response()->json(['status' => 400]);
 
+            }
+            // 4 : Terminée
+            // 3 : Annulée
+            // 2 : Réservée
+            // 1 : En cours
+
+            $today = Carbon::now()->toDateString();
+            if ($today < $parsedStartDate) {
+                $active = 2;
+
+            } else if ($today >= $parsedStartDate && $today <= $parsedEndDate) {
+                $active = 1;
+
+            } else {
+                $active = 4;
             }
 
             if ($parsedEndDate < $parsedStartDate) {
@@ -110,7 +135,7 @@ class MachineRentalController extends Controller
                 'location' => $request->localisation,
                 'Comment' => $request->comment,
                 'price' => $request->price,
-                'active' => $request->active,
+                'active' => $active,
                 'store_id' => $request->storeId,
                 'machine_id' => $request->id,
 
@@ -147,6 +172,17 @@ class MachineRentalController extends Controller
 
     public function handleUpdateRental($id, Request $request)
     {
+
+        $request->validate([
+
+            'price' => 'required|digits_between:1,6',
+
+        ], [
+
+            'price.required' => ' Le prix  est obligatoire',
+            'price.digits_between' => ' Le prix est invalide',
+
+        ]);
 
         $rental = MachineRental::find($id);
         if ($rental) {

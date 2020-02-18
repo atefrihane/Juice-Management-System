@@ -152,7 +152,12 @@ class MachineRentalController extends Controller
             ]);
             DB::table('bac_products')->whereIn('id', $machineRental->machine->bacs->pluck('id'))->delete();
 
-            $machineRental->update(['end_reason' => $request->end_reason, 'date_fin' => $request->date_fin, 'active' => false, 'Comment' => $request->comment]);
+            $machineRental->update([
+                'end_reason' => $request->end_reason,
+                'date_fin' => $request->date_fin,
+                'active' => 3,
+                'Comment' => $request->comment,
+            ]);
             $machine = Machine::where('id', $machineRental->machine_id)->update(['rented' => false]);
 
             MachineRentalHistory::create([
@@ -173,10 +178,10 @@ class MachineRentalController extends Controller
             $store = $rental->store;
             $occupiedDays = MachineRental::select('date_debut', 'date_fin')
                 ->where('machine_id', $rental->machine->id)
-                ->where('active', 1)
+                ->whereIn('active', [1, 2])
                 ->get();
 
-            return view('MachineRental::showEditRental', compact('rental', 'store','occupiedDays'));
+            return view('MachineRental::showEditRental', compact('rental', 'store', 'occupiedDays'));
         }
         return view('General::notFound');
 

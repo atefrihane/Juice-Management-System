@@ -71,13 +71,13 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Date du début de location</label>
-                            <Datepicker v-model="startDate" :disabledDates="disabledDates"  :language="fr" placeholder=""></Datepicker>
+                            <Datepicker v-model="startDate" :disabledDates="disabledDates"  :language="fr" placeholder="" class="disable-input" disabled></Datepicker>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Date de fin de location</label>
-                            <Datepicker v-model="endDate" :disabledDates="disabledDates"  :language="fr" placeholder=""></Datepicker>
+                            <Datepicker v-model="endDate" :disabledDates="disabledDates"  :language="fr" placeholder=""  class="disable-input" disabled></Datepicker>
                         </div>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1">Prix location mensuel</label>
                             <input class="form-control" value="" name="designation" type="number" step="0.01"
-                                placeholder="Prix" v-model="price">
+                                placeholder="Prix" v-model="price" maxlength="6">
 
                         </div>
                     </div>
@@ -289,8 +289,18 @@
                             }
 
                         })
-                        .catch(function (error) {
-                            console.log(error);
+                        .catch((error) => {
+                             console.log(error);
+                                   if (error.response.status == 422) {
+                                this.errors = []
+                                let errors = Object.values(error.response.data.errors);
+                              errors = _.flatMap(errors);
+                                this.errors = errors;
+
+                                this.disabled = false
+                                window.scrollTo(0, 0);
+                            }
+                           
                         });
 
                 }

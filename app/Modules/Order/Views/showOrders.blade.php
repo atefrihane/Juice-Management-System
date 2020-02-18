@@ -522,7 +522,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="7" class="text-center">Aucune commande existante ! </td>
+                <td colspan="9" class="text-center"> <h4> Aucune commande existante !</h4> </td>
             </tr>
             
             @endforelse

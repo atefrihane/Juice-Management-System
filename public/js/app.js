@@ -4786,6 +4786,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         })["catch"](function (error) {
           console.log(error);
+
+          if (error.response.status == 422) {
+            _this6.errors = [];
+            var errors = Object.values(error.response.data.errors);
+            errors = _.flatMap(errors);
+            _this6.errors = errors;
+            _this6.disabled = false;
+            window.scrollTo(0, 0);
+          }
         });
       }
     }
@@ -5081,6 +5090,15 @@ __webpack_require__.r(__webpack_exports__);
           }
         })["catch"](function (error) {
           console.log(error);
+
+          if (error.response.status == 422) {
+            _this2.errors = [];
+            var errors = Object.values(error.response.data.errors);
+            errors = _.flatMap(errors);
+            _this2.errors = errors;
+            _this2.disabled = false;
+            window.scrollTo(0, 0);
+          }
         });
       }
     },
@@ -8660,7 +8678,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       swal.fire({
         type: 'info',
-        title: 'Voulez vous retirer ce produit de la commande ? ',
+        title: 'Oups !',
+        html: "<b> Attention : </b> La suppréssion de ce produit peut engendrer le changement de son ancien prix s'il est modifié ailleurs",
         showConfirmButton: true,
         confirmButtonText: 'Confirmer',
         showCancelButton: true,
@@ -89455,10 +89474,12 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("Datepicker", {
+                    staticClass: "disable-input",
                     attrs: {
                       disabledDates: _vm.disabledDates,
                       language: _vm.fr,
-                      placeholder: ""
+                      placeholder: "",
+                      disabled: ""
                     },
                     model: {
                       value: _vm.startDate,
@@ -89483,10 +89504,12 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("Datepicker", {
+                    staticClass: "disable-input",
                     attrs: {
                       disabledDates: _vm.disabledDates,
                       language: _vm.fr,
-                      placeholder: ""
+                      placeholder: "",
+                      disabled: ""
                     },
                     model: {
                       value: _vm.endDate,
@@ -89524,7 +89547,8 @@ var render = function() {
                     name: "designation",
                     type: "number",
                     step: "0.01",
-                    placeholder: "Prix"
+                    placeholder: "Prix",
+                    maxlength: "6"
                   },
                   domProps: { value: _vm.price },
                   on: {
@@ -92074,7 +92098,7 @@ var render = function() {
         _vm._v(" "),
         _vm._m(5),
         _vm._v(" "),
-        _c("div", { staticClass: "box-body" }, [
+        _c("div", { staticClass: "box-body scrollable-table" }, [
           _c("table", { staticClass: "table" }, [
             _vm._m(6),
             _vm._v(" "),
@@ -92513,7 +92537,7 @@ var render = function() {
                             ])
                           ]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "row scrollable-table" }, [
                             _c("table", { staticClass: "table" }, [
                               _vm._m(9, true),
                               _vm._v(" "),
@@ -92631,7 +92655,7 @@ var render = function() {
         _vm._v(" "),
         _vm._m(11),
         _vm._v(" "),
-        _c("div", { staticClass: "box-body" }, [
+        _c("div", { staticClass: "box-body scrollable-table " }, [
           _c("table", { staticClass: "table" }, [
             _vm._m(12),
             _vm._v(" "),
@@ -93035,7 +93059,7 @@ var render = function() {
         _vm._v(" "),
         _vm._m(18),
         _vm._v(" "),
-        _c("div", { staticClass: "box-body" }, [
+        _c("div", { staticClass: "box-body scrollable-table" }, [
           _c("table", { staticClass: "table" }, [
             _vm._m(19),
             _vm._v(" "),
@@ -93405,7 +93429,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-body" }, [
       _c("div", { staticClass: "container-fluid" }, [
-        _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "row scrollable-table" }, [
           _c("table", { staticClass: "table" }, [
             _c("thead", [
               _c("tr", [
