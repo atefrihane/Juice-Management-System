@@ -190,6 +190,13 @@
                     </li>
                     @endif
 
+                    <li class="{{ Route::is('showConversations') ? 'active' : '' }}">
+                        <a href={{route('showConversations')}}>
+                            <i class="fa fa-camera"></i> <span>Publicité</span>
+                        
+                        </a>
+                    </li>
+
                 </ul>
             </section>
             <!-- /.sidebar -->
