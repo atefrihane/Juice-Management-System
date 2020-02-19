@@ -90,7 +90,7 @@
             
                                                                 <li><a
                                                                         href="{{route('showListRental', $machine->id).'?machine=true'}}">Voir
-                                                                        historique des locations</a></li>
+                                                                        liste des locations</a></li>
                                                                 <li><a href="{{route('showHistoryMachine',$machine->id)}}">Voir
                                                                         détails machine</a></li>
                                                                 @else
@@ -116,7 +116,7 @@
             
                                                                 <li><a
                                                                         href="{{route('showListRental', $machine->id).'?machine=true'}}">Voir
-                                                                        historique des locations</a></li>
+                                                                        liste des locations</a></li>
                                                                 <li><a href="{{route('showHistoryMachine',$machine->id)}}">Voir
                                                                         détails
                                                                         machine</a></li>

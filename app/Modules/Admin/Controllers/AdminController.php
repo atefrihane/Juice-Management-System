@@ -71,6 +71,16 @@ class AdminController extends Controller
             'passWord.required' => ' Mot de passe est obligatoire',
 
         ]);
+        $checkCode = User::where('code', $request->code)->first();
+        if ($checkCode) {
+            alert()->error('Code existe déja', 'Oups!')->persistent('Fermer');
+            return redirect()->back()->withInput();
+        }
+        $checkAccessCode = User::where('accessCode', $request->accessCode)->first();
+        if ($checkAccessCode) {
+            alert()->error('Ce code d\'accés existe déja', 'Oups!')->persistent('Fermer');
+            return redirect()->back()->withInput();
+        }
 
         $admin = Admin::create([
             'role_id' => $request->role,
@@ -157,13 +167,22 @@ class AdminController extends Controller
         if (!$admin) {
             return view('General::notFound');
         }
-        // $checkEmail = User::where('email', $request->email)->first();
-        // if ($checkEmail) {
-        //     alert()->error('Oups!', 'Email existe déja')->persistent('Fermer');
-        //     return redirect()->back();
 
-        // }
-    
+        $checkCode = User::where('code', $request->code)
+            ->where('id', '<>', $admin->user->id)
+            ->first();
+        if ($checkCode) {
+            alert()->error('Code existe déja', 'Oups!')->persistent('Fermer');
+            return redirect()->back()->withInput();
+        }
+        $checkAccessCode = User::where('accessCode', $request->accessCode)
+            ->where('id', '<>', $admin->user->id)
+            ->first();
+        if ($checkAccessCode) {
+            alert()->error('Ce code d\'accés existe déja', 'Oups!')->persistent('Fermer');
+            return redirect()->back()->withInput();
+        }
+
         $user = User::find($admin->user->id);
         if ($request->passWord != null) {
             $password = $request->passWord;

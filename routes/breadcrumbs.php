@@ -183,7 +183,7 @@ Breadcrumbs::for('endRental', function ($trail) {
 Breadcrumbs::for('historyMachine', function ($trail, $machine) {
     $trail->parent('machine');
     $trail->push($machine);
-    $trail->push('Historique des locations');
+    $trail->push('Liste des locations');
 
 });
 Breadcrumbs::for('editMachineState', function ($trail) {

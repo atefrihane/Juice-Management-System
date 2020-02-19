@@ -41,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
 
             return "<?php echo date_format($date,'d-m-Y').' '.' à'.' '.date_format($date,'H:i:s');  ?>";
         });
-
+    
         View::composer(['*'], function ($view) {
             $view->with('countConversations', Conversation::whereHas('messages', function ($queryMessage) {
                 $queryMessage->where('seen', 0);
@@ -53,11 +53,11 @@ class AppServiceProvider extends ServiceProvider
 
         });
 
-        Validator::extend('base64_valid',function($attribute, $value, $params, $validator) {
+        Validator::extend('base64_valid', function ($attribute, $value, $params, $validator) {
             $image = base64_decode($value);
             $f = finfo_open();
             $result = finfo_buffer($f, $image, FILEINFO_MIME_TYPE);
-            return $result == 'image/png' || $result == 'image/jpeg' || $result == 'image/jpg'   ;
+            return $result == 'image/png' || $result == 'image/jpeg' || $result == 'image/jpg';
         });
 
     }

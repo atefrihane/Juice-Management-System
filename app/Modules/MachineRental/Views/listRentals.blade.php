@@ -15,7 +15,7 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Historique des Locations : <b>{{$machine->designation}}</b></h3>
+                        <h3 class="box-title">Liste des Locations : <b>{{$machine->designation}}</b></h3>
                         <a href="{{route('startRental', $machine->id).'?machine=true'}}"
                             class="btn btn-primary pull-right">Commencer une location</a>
 
@@ -45,8 +45,10 @@
                                 <tbody>
                                     @forelse($rentals as $rental)
                                     <tr>
-                                        <td data-url="{{route('showRental', $rental->id)}}">{{$rental->date_debut}}</td>
-                                        <td data-url="{{route('showRental', $rental->id)}}">{{$rental->date_fin}}</td>
+                                        <td data-url="{{route('showRental', $rental->id)}}">
+                                            {{ Carbon\Carbon::parse($rental->date_debut)->format('d-m-Y') }}</td>
+                                        <td data-url="{{route('showRental', $rental->id)}}">
+                                            {{ Carbon\Carbon::parse($rental->date_fin)->format('d-m-Y') }}</td>
                                         <td data-url="{{route('showRental', $rental->id)}}">
                                             {{$rental->store->company->name}}</td>
                                         <td data-url="{{route('showRental', $rental->id)}}">
@@ -59,7 +61,7 @@
                                         @else
                                         <td>Non renseigné</td>
                                         @endif
-                                      
+
 
                                         @if($rental->Comment)
                                         <td style="">{{$rental->Comment}}</td>
@@ -98,13 +100,14 @@
                                                 <ul class="dropdown-menu edit" role="menu">
                                                     <li><a href="{{route('showRental',$rental->id)}}">Voir détails</a>
                                                     </li>
-                                                    @if(Auth::user()->primaryAdmin())
+                                                    @if(Auth::user()->primaryAdmin() && ($rental->active == 1 ||
+                                                    $rental->active == 2 ))
                                                     <li><a href="{{route('showEditRental',$rental->id)}}">Modifier
                                                             location</a></li>
-                                                    @if($rental->active == 1)
+
                                                     <li><a href="{{route('showEndRental',$rental->id)}}">Arrêter
                                                             location</a></li>
-                                                    @endif
+
                                                     @endif
                                                 </ul>
                                             </div>
