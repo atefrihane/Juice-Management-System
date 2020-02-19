@@ -50,7 +50,7 @@
                                                         @endif
                                                 <td data-url="{{route('showRental', ['id' => $machine->id])}}"">{{$machine->machine->code}}</td>
                                                 <td data-url="{{route('showRental', ['id' => $machine->id])}}"">{{$machine->machine->designation}}</td>
-                                                <td data-url="{{route('showRental', ['id' => $machine->id])}}"">{{$machine->machine->number_bacs}}</td>
+                                                <td data-url="{{route('showRental', ['id' => $machine->id])}}"">{{count($machine->machine->bacs)}}</td>
             
                                                 <td data-url="{{route('showRental', ['id' => $machine->id])}}"">{{$machine->store->designation}}</td>
                                                 <td data-url="{{route('showRental', ['id' => $machine->id])}}"">{{$machine->machine->status}}</td>

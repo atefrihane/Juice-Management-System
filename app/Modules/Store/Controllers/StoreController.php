@@ -442,8 +442,8 @@ class StoreController extends Controller
                 }
 
             }
+            alert()->success('Le magasin a été modifié avec succès', 'Succès!')->persistent("Fermer");
 
-            alert()->success('Succès', 'Le magasin a été modifié avec succès')->persistent('Femer');
             return redirect(route('showStores', $store->company_id));
         }
     }

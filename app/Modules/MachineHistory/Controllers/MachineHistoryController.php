@@ -3,8 +3,8 @@
 namespace App\Modules\MachineHistory\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Modules\Machine\Models\MachineHistory;
 use App\Modules\Machine\Models\Machine;
+use App\Modules\Machine\Models\MachineHistory;
 use Illuminate\Http\Request;
 
 class MachineHistoryController extends Controller
@@ -28,17 +28,15 @@ class MachineHistoryController extends Controller
 
     public function handleHistoryChange($id, Request $request)
     {
-     
+
         $machineHistory = MachineHistory::find($id);
         if ($machineHistory) {
 
             $machineHistory->update([
-                'event'=>$request->event,
-                'comment'=>$request->comment
+                'comment' => $request->comment,
             ]);
-      
 
-            alert()->success('Succès!', 'Historique modifié avec succès !')->persistent('Femer');
+            alert()->success('Historique modifié avec succès', ' Succès!')->persistent('Femer');
             return redirect()->back();
         }
         return view('General::notFound');

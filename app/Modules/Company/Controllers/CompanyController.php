@@ -195,7 +195,7 @@ class CompanyController extends Controller
 
             ]);
 
-            alert()->success('Succès!', 'La societé a été modifié avec succès ')->persistent("Fermer");
+            alert()->success('La societé a été modifiée avec succès', 'Succès!')->persistent("Fermer");
             return redirect()->route('showHome');
 
         }
