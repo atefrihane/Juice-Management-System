@@ -71,8 +71,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label>Message </label>
-                                <textarea class="form-control" rows="6" name="message" placeholder="Message..."
+                                <label>Méssage </label>
+                                <textarea class="form-control" rows="6" name="message" placeholder="Méssage..."
                                     required>{{old('message')}}</textarea>
                             </div>
 
