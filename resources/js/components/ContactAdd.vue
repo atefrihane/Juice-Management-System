@@ -110,26 +110,26 @@
 
                                 </div>
                                 <div class="form-group" v-if="stores.length == 0">
-                                      <label for="exampleInputEmail1">Magasin(s) de responsabilité(s)</label>
-                                <h5>Aucun magasin!</h5>
+                                    <label for="exampleInputEmail1">Magasin(s) de responsabilité(s)</label>
+                                    <h5>Aucun magasin!</h5>
                                 </div>
                                 <div class="form-group" v-if="type == 1 && stores.length>0">
                                     <label for="exampleInputEmail1">Magasin(s) de responsabilité(s)</label>
 
                                     <div class="form-group">
-                                    <div class="scrollable">
-                                    <div class="checkbox" v-for="(store,index) in stores">
+                                        <div class="scrollable">
+                                            <div class="checkbox" v-for="(store,index) in stores">
 
-                                            <label>
-                                                <input type="radio" name="store" :value="store.id"
-                                                    v-model="storeChecked">
-                                                {{store.designation}}
-                                            </label>
+                                                <label>
+                                                    <input type="radio" name="store" :value="store.id"
+                                                        v-model="storeChecked">
+                                                    {{store.designation}}
+                                                </label>
 
 
+                                            </div>
                                         </div>
-                                    </div>
-                                        
+
                                     </div>
 
                                 </div>
@@ -183,7 +183,8 @@
                                 <div class="row">
                                     <div class="container text-center">
 
-                                        <a href="" class="btn btn-danger pl-1" style="margin: 1em"     @click.prevent="cancelContact()">Annuler</a>
+                                        <a href="" class="btn btn-danger pl-1" style="margin: 1em"
+                                            @click.prevent="cancelContact()">Annuler</a>
                                         <button type="submit" class="btn btn-success pl-1" style="margin: 1em"
                                             @click.prevent="addContact()">Confirmer</button>
 
@@ -208,7 +209,7 @@
         mounted() {
             this.getStores()
         },
-        props: ['company','user'],
+        props: ['company', 'user'],
         data() {
             return {
                 company_name: this.company.name,
@@ -234,7 +235,7 @@
         methods: {
 
             getStores() {
-                axios.get( '/api/companies/'+this.company.id)
+                axios.get('/api/companies/' + this.company.id)
                     .then((response) => {
                         this.stores = response.data.stores
 
@@ -350,7 +351,7 @@
                             accessCode: this.accessCode,
                             passWord: this.passWord,
                             comment: this.comment,
-                            user_id:this.user.id
+                            user_id: this.user.id
                         })
                         .then((response) => {
                             console.log(response);
@@ -398,7 +399,8 @@
 
                                     }).then((result) => {
                                         if (result.value) {
-                                                window.location = axios.defaults.baseURL + '/contacts/'+this.company.id;
+                                            window.location = axios.defaults.baseURL + '/contacts/' + this
+                                                .company.id;
                                         }
                                     })
                                     break;
@@ -412,9 +414,8 @@
                 }
 
             },
-            cancelContact()
-            {
-                window.location = axios.defaults.baseURL + '/contacts/'+this.company.id;
+            cancelContact() {
+                window.location = axios.defaults.baseURL + '/contacts/' + this.company.id;
             }
 
 

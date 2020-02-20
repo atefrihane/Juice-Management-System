@@ -190,8 +190,8 @@
                     </li>
                     @endif
 
-                    <li class="{{ Route::is('showConversations') ? 'active' : '' }}">
-                        <a href={{route('showConversations')}}>
+                    <li class="{{ Route::is('showAddAdvertisement') ? 'active' : '' }}">
+                        <a href={{route('showAddAdvertisement')}}>
                             <i class="fa fa-camera"></i> <span>Publicité</span>
                         
                         </a>

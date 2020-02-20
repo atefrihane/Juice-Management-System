@@ -3,20 +3,23 @@
 namespace App\Modules\General\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Modules\General\Models\Advertisement;
 use App\Modules\General\Models\City;
 use App\Modules\General\Models\Country;
 use App\Modules\General\Models\Zipcode;
+use App\Repositories\Image;
+use File;
 use Illuminate\Http\Request;
 
 class GeneralController extends Controller
 {
     public function handleAddCountryData(Request $request)
     {
-       
+
         $val = $request->validate([
             'name' => 'required|min:0|max:150',
             'code' => 'required|regex:/^\+\d{1,5}$/',
-       
+
         ], [
             'name.required' => 'Nom pays n\'est pas valide',
             'name.min' => '  Nom pays n\'est pas valide',
@@ -24,10 +27,10 @@ class GeneralController extends Controller
             'code.regex' => ' Code pays  n\'est pas valide',
             'code.required' => ' Code pays  est obligatoire',
             'code.regex' => ' Code pays  n\'est pas valide',
-      
+
         ]);
-        $checkName = Country::where('name',  $request->name)->first();
-        $checkCode = Country::where('code',  $request->code)->first();
+        $checkName = Country::where('name', $request->name)->first();
+        $checkCode = Country::where('code', $request->code)->first();
         if ($checkName) {
             return response()->json(['status' => 401]);
         }
@@ -37,15 +40,15 @@ class GeneralController extends Controller
         }
 
         $country = Country::create([
-            'name' =>   $request->name,
-            'code' =>   $request->code
+            'name' => $request->name,
+            'code' => $request->code,
         ]);
 
         if ($request->cities) {
             foreach ($request->cities as $city) {
                 if ($city['name']) {
                     $newCity = City::create([
-                        'name' =>  $city['name'],
+                        'name' => $city['name'],
                         'country_id' => $country->id,
                     ]);
 
@@ -53,7 +56,7 @@ class GeneralController extends Controller
 
                         foreach ($city['zipcodes'] as $zipcode) {
                             Zipcode::create([
-                                'code' =>  $zipcode,
+                                'code' => $zipcode,
                                 'city_id' => $newCity->id,
                             ]);
 
@@ -73,7 +76,7 @@ class GeneralController extends Controller
         $val = $request->validate([
             'name' => 'required|min:0|max:150',
             'code' => 'required|regex:/^\+\d{1,5}$/',
-       
+
         ], [
             'name.required' => 'Nom pays n\'est pas valide',
             'name.min' => '  Nom pays n\'est pas valide',
@@ -81,9 +84,8 @@ class GeneralController extends Controller
             'code.regex' => ' Code pays  n\'est pas valide',
             'code.required' => ' Code pays  est obligatoire',
             'code.regex' => ' Code pays  n\'est pas valide',
-      
-        ]);
 
+        ]);
 
         $country = Country::find($id);
         if ($country) {
@@ -132,12 +134,11 @@ class GeneralController extends Controller
                 }
 
             }
-         
+
             $country->update([
                 'name' => $request->name,
                 'code' => $request->code,
             ]);
-   
 
             if ($request->cities) {
 
@@ -147,7 +148,7 @@ class GeneralController extends Controller
                         $checkCity = City::find($city['cityID']);
 
                         $checkCity->update([
-                            'name' =>  $city['cityName'],
+                            'name' => $city['cityName'],
                             'country_id' => $country->id,
                         ]);
 
@@ -166,34 +167,31 @@ class GeneralController extends Controller
                         }
 
                     } else if (isset($city['cityName']) && !isset($city['cityID'])) {
-                  
+
                         $checkCity = City::where('name', $city['cityName'])
-                        ->where('country_id',$country->id)
-                        ->first();
+                            ->where('country_id', $country->id)
+                            ->first();
                         if ($checkCity) {
                             return response()->json(['status' => 403]);
 
                         }
-                     
 
                         $newCity = City::create([
                             'name' => $city['cityName'],
                             'country_id' => $country->id,
                         ]);
-                     
 
                         if (array_key_exists('zipCodes', $city)) {
-                       
+
                             foreach ($city['zipCodes'] as $zipcode) {
-                      
 
                                 Zipcode::create([
-                                    'code' =>  $zipcode['code'],
+                                    'code' => $zipcode['code'],
                                     'city_id' => $newCity->id,
                                 ]);
 
                             }
-                 
+
                         }
 
                     }
@@ -239,7 +237,7 @@ class GeneralController extends Controller
 
         if ($city) {
 
-            return response()->json(['status' => 200, 'countCompanies' => $city->companies->count(),'countStores' => $city->stores->count(),'countWarehouses' =>$city->warehouses->count()]);
+            return response()->json(['status' => 200, 'countCompanies' => $city->companies->count(), 'countStores' => $city->stores->count(), 'countWarehouses' => $city->warehouses->count()]);
 
         }
         return response()->json(['status' => 404]);
@@ -265,10 +263,9 @@ class GeneralController extends Controller
                 'status' => 200,
                 'countCompanies' => $zipcode->companies->count(),
                 'countStores' => $zipcode->stores->count(),
-                'countWarehouses' => $zipcode->warehouses->count()
-                
-                ]);
-          
+                'countWarehouses' => $zipcode->warehouses->count(),
+
+            ]);
 
         }
         return response()->json(['status' => 404]);
@@ -299,6 +296,50 @@ class GeneralController extends Controller
         }
         return response()->json(['status' => 404]);
 
+    }
+
+    public function handleUploadAdvertisement(Request $request, Image $image)
+    {
+
+        $path = $image->uploadBinaryImage($request->file);
+
+        Advertisement::create([
+            'path' =>  $path,
+            'size' => $request->file('file')->getSize(),
+        ]);
+
+        return response()->json(['status' => 200]);
+
+    }
+    public function handleGetAllAds()
+    {
+        return response()->json(['status' => 200, 'ads' => Advertisement::all()]);
+
+    }
+    public function handleRemoveAdd($id)
+    {
+        $checkAd = Advertisement::find($id);
+        if ($checkAd) {
+            if (File::exists($checkAd->path)) {
+                File::delete($checkAd->path);
+            }
+            $checkAd->delete();
+            return response()->json(['status' => 200]);
+        }
+        return response()->json(['status' => 404]);
+    }
+
+    public function handleRemoveAdByName($name)
+    {
+        $checkAd = Advertisement::where('path',$name)->first();
+        if ($checkAd) {
+            if (File::exists($checkAd->path)) {
+                File::delete($checkAd->path);
+            }
+            $checkAd->delete();
+            return response()->json(['status' => 200]);
+        }
+        return response()->json(['status' => 404]);
     }
 
 }

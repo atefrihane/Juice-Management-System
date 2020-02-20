@@ -7,7 +7,6 @@ use App\Modules\Company\Models\Company;
 use App\Modules\General\Models\City;
 use App\Modules\General\Models\Country;
 use App\Modules\Order\Models\Order;
-use App\Modules\Conversation\Models\Conversation;
 
 class GeneralController extends Controller
 {
@@ -85,5 +84,11 @@ class GeneralController extends Controller
         return redirect()->back();
 
     }
+    public function showAddAdvertisement()
+    {
+        return view('General::showUploadAds');
+
+    }
+   
 
 }
