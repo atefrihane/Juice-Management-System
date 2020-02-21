@@ -47,7 +47,7 @@
         },
 
         mounted() {
-            axios.get('/api/ads/all')
+            axios.get('/api/photos/all')
                 .then((response) => {
                     // handle success
                     console.log(response);
@@ -78,7 +78,7 @@
         data() {
             return {
                 dropzoneOptions: {
-                    url: "/api/ads/upload",
+                    url: "/api/photos/upload",
                     thumbnailWidth: 150,
                     maxFilesize: 3,
                     addRemoveLinks: true,
@@ -109,7 +109,7 @@
                     removedfile: function (file) {
                         let name = file.name;
 
-                        axios.get(`/api/ad/name/${name}`)
+                        axios.get(`/api/photo/name/${name}`)
                             .then((response) => {
                                 if (response.data.status == 200) {
                                     var _ref;

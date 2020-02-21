@@ -1761,7 +1761,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    axios.get('/api/ads/all').then(function (response) {
+    axios.get('/api/photos/all').then(function (response) {
       // handle success
       console.log(response);
 
@@ -1787,7 +1787,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       dropzoneOptions: {
-        url: "/api/ads/upload",
+        url: "/api/photos/upload",
         thumbnailWidth: 150,
         maxFilesize: 3,
         addRemoveLinks: true,
@@ -1810,7 +1810,7 @@ __webpack_require__.r(__webpack_exports__);
           var _this2 = this;
 
           var name = file.name;
-          axios.get("/api/ad/name/".concat(name)).then(function (response) {
+          axios.get("/api/photo/name/".concat(name)).then(function (response) {
             if (response.data.status == 200) {
               var _ref;
 
