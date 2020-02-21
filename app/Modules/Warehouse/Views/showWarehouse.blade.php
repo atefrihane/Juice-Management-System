@@ -272,7 +272,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="6" class="text-center">
+                            <td colspan="8" class="text-center">
                                 <h4>Aucun produit en stock !</h4>
                             </td>
                         </tr>
