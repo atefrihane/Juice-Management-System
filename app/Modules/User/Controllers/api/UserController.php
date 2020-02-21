@@ -44,8 +44,12 @@ class UserController extends Controller
     {
 
         $checkCode = User::where('code', $request->code)->first();
+        $checkAccessCode = User::where('accessCode', $request->accessCode)->first();
         if ($checkCode) {
             return response()->json(['status' => 400]);
+        }
+        if ($checkAccessCode) {
+            return response()->json(['status' => 405]);
         }
         switch ($request->type) {
 
@@ -57,6 +61,33 @@ class UserController extends Controller
                         return response()->json(['status' => 401]);
 
                     }
+                    dd($request->all());
+                    $request->validate([
+                        'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
+                        'phone' => 'required|digits_between:1,12',
+                        'name' => 'required|max:150',
+                        'surname' => 'required|max:150',
+                        'accessCode' => 'required|max:150',
+                        'passWord' => 'required|max:150',
+                        'civility' => 'required',
+                        'email' => 'required|email',
+
+                    ], [
+                        'code.required' => ' Code est obligatoire',
+                        'code.regex' => ' Code n\'est pas valide',
+                        'code.alpha_dash' => ' Code doit être alphanumérique',
+                        'phone.required' => ' Numéro telephone est obligatoire',
+                        'phone.digits_between' => ' Numéro telephone est invalide',
+                        'name.required' => ' Nom est obligatoire',
+                        'name.max' => ' Nom est invalide',
+                        'surname.required' => ' Nom est obligatoire',
+                        'surname.max' => ' Nom est invalide',
+                        'accessCode.required' => ' Code d\'accés est obligatoire',
+                        'accessCode.max' => ' Code d\'accés est invalide',
+                        'passWord.required' => ' Mot de passe est obligatoire',
+                        'passWord.max' => ' Mot de passe ne doit pas dépasser 150 caractères',
+
+                    ]);
 
                     $director = Director::create(['comment' => $request->comment]);
 
@@ -82,6 +113,33 @@ class UserController extends Controller
                 break;
 
             case 2:
+
+                $request->validate([
+                    'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
+                    'phone' => 'required|digits_between:1,12',
+                    'name' => 'required|max:150',
+                    'surname' => 'required|max:150',
+                    'accessCode' => 'required|max:150',
+                    'passWord' => 'required|max:150',
+                    'civility' => 'required',
+                    'email' => 'required|email',
+
+                ], [
+                    'code.required' => ' Code est obligatoire',
+                    'code.regex' => ' Code n\'est pas valide',
+                    'code.alpha_dash' => ' Code doit être alphanumérique',
+                    'phone.required' => ' Numéro telephone est obligatoire',
+                    'phone.digits_between' => ' Numéro telephone est invalide',
+                    'name.required' => ' Nom est obligatoire',
+                    'name.max' => ' Nom est invalide',
+                    'surname.required' => ' Nom est obligatoire',
+                    'surname.max' => ' Nom est invalide',
+                    'accessCode.required' => ' Code d\'accés est obligatoire',
+                    'accessCode.max' => ' Code d\'accés est invalide',
+                    'passWord.required' => ' Mot de passe est obligatoire',
+                    'passWord.max' => ' Mot de passe ne doit pas dépasser 150 caractères',
+
+                ]);
 
                 $responsible = Responsible::create(['comment' => $request->comment]);
 
@@ -129,8 +187,15 @@ class UserController extends Controller
             $checkCode = User::where('code', $request->code)
                 ->where('id', '!=', $user->id)
                 ->first();
+            $checkAccessCode = User::where('accessCode', $request->accessCode)
+                ->where('id', '!=', $user->id)
+                ->first();
             if ($checkCode) {
                 return response()->json(['status' => 400]);
+            }
+
+            if ($checkAccessCode) {
+                return response()->json(['status' => 406]);
             }
             switch ($user->getType()) {
 
@@ -138,6 +203,32 @@ class UserController extends Controller
 
                     // Directeur -> Autre
                     if ($request->input('type') == 2) {
+                        $request->validate([
+                            'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
+                            'phone' => 'required|digits_between:1,12',
+                            'name' => 'required|max:150',
+                            'surname' => 'required|max:150',
+                            'accessCode' => 'required|max:150',
+                            'passWord' => 'required|max:150',
+                            'civility' => 'required',
+                            'email' => 'required|email',
+
+                        ], [
+                            'code.required' => ' Code est obligatoire',
+                            'code.regex' => ' Code n\'est pas valide',
+                            'code.alpha_dash' => ' Code doit être alphanumérique',
+                            'phone.required' => ' Numéro telephone est obligatoire',
+                            'phone.digits_between' => ' Numéro telephone est invalide',
+                            'name.required' => ' Nom est obligatoire',
+                            'name.max' => ' Nom est invalide',
+                            'surname.required' => ' Nom est obligatoire',
+                            'surname.max' => ' Nom est invalide',
+                            'accessCode.required' => ' Code d\'accés est obligatoire',
+                            'accessCode.max' => ' Code d\'accés est invalide',
+                            'passWord.required' => ' Mot de passe est obligatoire',
+                            'passWord.max' => ' Mot de passe ne doit pas dépasser 150 caractères',
+
+                        ]);
 
                         Director::find($user->child_id)->delete();
 
@@ -148,6 +239,32 @@ class UserController extends Controller
                     }
                     // Update Directeur
                     else {
+                        $request->validate([
+                            'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
+                            'phone' => 'required|digits_between:1,12',
+                            'name' => 'required|max:150',
+                            'surname' => 'required|max:150',
+                            'accessCode' => 'required|max:150',
+                            'passWord' => 'required|max:150',
+                            'civility' => 'required',
+                            'email' => 'required|email',
+
+                        ], [
+                            'code.required' => ' Code est obligatoire',
+                            'code.regex' => ' Code n\'est pas valide',
+                            'code.alpha_dash' => ' Code doit être alphanumérique',
+                            'phone.required' => ' Numéro telephone est obligatoire',
+                            'phone.digits_between' => ' Numéro telephone est invalide',
+                            'name.required' => ' Nom est obligatoire',
+                            'name.max' => ' Nom est invalide',
+                            'surname.required' => ' Nom est obligatoire',
+                            'surname.max' => ' Nom est invalide',
+                            'accessCode.required' => ' Code d\'accés est obligatoire',
+                            'accessCode.max' => ' Code d\'accés est invalide',
+                            'passWord.required' => ' Mot de passe est obligatoire',
+                            'passWord.max' => ' Mot de passe ne doit pas dépasser 150 caractères',
+
+                        ]);
 
                         $checkStore = Store::find($request->storeChecked);
 
@@ -181,6 +298,32 @@ class UserController extends Controller
                     break;
 
                 case 'Autre':
+                    $request->validate([
+                        'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
+                        'phone' => 'required|digits_between:1,12',
+                        'name' => 'required|max:150',
+                        'surname' => 'required|max:150',
+                        'accessCode' => 'required|max:150',
+                        'passWord' => 'required|max:150',
+                        'civility' => 'required',
+                        'email' => 'required|email',
+
+                    ], [
+                        'code.required' => ' Code est obligatoire',
+                        'code.regex' => ' Code n\'est pas valide',
+                        'code.alpha_dash' => ' Code doit être alphanumérique',
+                        'phone.required' => ' Numéro telephone est obligatoire',
+                        'phone.digits_between' => ' Numéro telephone est invalide',
+                        'name.required' => ' Nom est obligatoire',
+                        'name.max' => ' Nom est invalide',
+                        'surname.required' => ' Nom est obligatoire',
+                        'surname.max' => ' Nom est invalide',
+                        'accessCode.required' => ' Code d\'accés est obligatoire',
+                        'accessCode.max' => ' Code d\'accés est invalide',
+                        'passWord.required' => ' Mot de passe est obligatoire',
+                        'passWord.max' => ' Mot de passe ne doit pas dépasser 150 caractères',
+
+                    ]);
 
                     if ($user->child->stores()->exists()) {
                         // Autre -> Directeur

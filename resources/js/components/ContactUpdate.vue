@@ -114,20 +114,20 @@
 
                                     <label for="exampleInputEmail1">Magasin(s) de responsabilité(s)</label>
                                     <div class="scrollable">
-                                      <div class="form-group">
-                                        <div class="checkbox" v-for="(store,index) in stores">
+                                        <div class="form-group">
+                                            <div class="checkbox" v-for="(store,index) in stores">
 
-                                            <label>
-                                                <input type="radio" name="store" :value="store.id"
-                                                    v-model="storeChecked" checked>
-                                                {{store.designation}}
-                                            </label>
+                                                <label>
+                                                    <input type="radio" name="store" :value="store.id"
+                                                        v-model="storeChecked" checked>
+                                                    {{store.designation}}
+                                                </label>
 
 
+                                            </div>
                                         </div>
                                     </div>
-                                    </div>
-                                  
+
 
                                 </div>
 
@@ -158,13 +158,13 @@
                                     <label for="exampleInputEmail1">Magasin(s) de responsabilité(s)</label>
                                     <div class="scrollable">
                                         <div class="form-check" style="margin: 10px 0px 20px;"
-                                        v-for="store in storesChosen">
-                                        <input type="checkbox" class="form-check-input" :value="store.id"
-                                            v-model="oldStoresChosen">
-                                        {{store.designation}}
+                                            v-for="store in storesChosen">
+                                            <input type="checkbox" class="form-check-input" :value="store.id"
+                                                v-model="oldStoresChosen">
+                                            {{store.designation}}
+                                        </div>
                                     </div>
-                                    </div>
-                                
+
                                     <div v-if="freeStores.length > 0">
 
                                         <label for="exampleInputEmail1">Autres Magasins</label>
@@ -222,7 +222,7 @@
                                         <a href="" class="btn btn-danger pl-1" style="margin: 1em"
                                             @click.prevent="cancelContact()">Annuler</a>
                                         <button type="submit" class="btn btn-success pl-1" style="margin: 1em"
-                                            @click.prevent="addContact()">Confirmer</button>
+                                            @click.prevent="addContact()" :disabled="disabled">Confirmer</button>
 
                                     </div>
                                 </div>
@@ -246,7 +246,7 @@
             this.getStores()
             this.fillOldData()
         },
-        props: ['company', 'user', 'related_data', 'user_type', 'is_director', 'free_stores','user_id'],
+        props: ['company', 'user', 'related_data', 'user_type', 'is_director', 'free_stores', 'user_id'],
         data() {
             return {
                 company_name: this.company.name,
@@ -268,6 +268,7 @@
                 freeStores: this.free_stores,
                 freeStoresChosen: [],
                 oldStoresChosen: [],
+                disabled: false,
                 errors: []
 
 
@@ -379,13 +380,13 @@
                     window.scrollTo(0, 0);
                     return false;
                 }
-                  if (this.type == 1) {
+                if (this.type == 1) {
 
-                         if (!this.storeChecked) {
-                                this.errors.push('Veuillez séléctionner au moins un magasin');
-                                window.scrollTo(0, 0);
-                                return false;
-                            }
+                    if (!this.storeChecked) {
+                        this.errors.push('Veuillez séléctionner au moins un magasin');
+                        window.scrollTo(0, 0);
+                        return false;
+                    }
                     // switch (this.isDirector) {
                     //     case true:
                     //         if (!this.storeChecked) {
@@ -450,6 +451,7 @@
             },
 
             addContact() {
+                this.disabled = true
                 let validation = this.validateForm()
 
                 if (validation) {
@@ -466,11 +468,11 @@
                             storeChecked: this.storeChecked,
                             oldStoresChosen: this.oldStoresChosen,
                             freeStoresChosen: this.freeStoresChosen,
-                            storesChosen:this.storesChosen,
+                            storesChosen: this.storesChosen,
                             accessCode: this.accessCode,
                             passWord: this.passWord,
                             comment: this.comment,
-                            user_id:this.user_id
+                            user_id: this.user_id
                         })
                         .then((response) => {
                             console.log(response);
@@ -485,6 +487,7 @@
                                         allowOutsideClick: false,
 
                                     });
+                                    this.disabled = false
                                     break;
                                 case 401:
                                     swal.fire({
@@ -495,6 +498,7 @@
                                         allowOutsideClick: false,
 
                                     });
+                                    this.disabled = false
                                     break;
                                 case 404, 405:
                                     swal.fire({
@@ -505,6 +509,19 @@
                                         allowOutsideClick: false,
 
                                     });
+                                    this.disabled = false
+                                    break;
+
+                                case 406:
+                                    swal.fire({
+                                        type: 'error',
+                                        title: 'Code d\'accés déja existant !  ',
+                                        showConfirmButton: true,
+                                        confirmButtonText: 'Fermer',
+                                        allowOutsideClick: false,
+
+                                    });
+                                    this.disabled = false
                                     break;
 
 
@@ -529,6 +546,15 @@
                         })
                         .catch((error) => {
                             console.log(error);
+                             if (error.response.status == 422) {
+                                this.errors = []
+                                let errors = Object.values(error.response.data.errors);
+                                errors = errors.flat();
+                                this.errors = errors;
+
+                                this.disabled = false
+                                window.scrollTo(0, 0);
+                            }
                         });
 
                 }

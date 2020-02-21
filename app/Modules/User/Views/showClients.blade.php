@@ -28,10 +28,10 @@
                                 <table class="table table-bordered table-hover example2">
                                         <thead>
                                             <tr>
-                                                <th>Code</th>
-                                                <th>Nom Et Prénom</th>
-                                                <th>Type de compte</th>
-                                                <th>Nbr de Magasins</th>
+                                                <th class="is-wrapped">Code</th>
+                                                <th class="is-wrapped">Nom Et Prénom</th>
+                                                <th class="is-wrapped">Type de compte</th>
+                                                <th class="is-wrapped">Nbr de Magasins</th>
                                                 <th></th>
                                             </tr>
                                         </thead>

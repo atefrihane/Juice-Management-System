@@ -186,7 +186,7 @@
                                         <a href="" class="btn btn-danger pl-1" style="margin: 1em"
                                             @click.prevent="cancelContact()">Annuler</a>
                                         <button type="submit" class="btn btn-success pl-1" style="margin: 1em"
-                                            @click.prevent="addContact()">Confirmer</button>
+                                            @click.prevent="addContact()" :disabled="disabled">Confirmer</button>
 
                                     </div>
                                 </div>
@@ -227,6 +227,7 @@
                 passWord: '',
                 comment: '',
                 selected: '',
+                disabled: false,
                 errors: []
 
 
@@ -335,9 +336,11 @@
             },
 
             addContact() {
+                this.disabled = true
                 let validation = this.validateForm()
 
                 if (validation) {
+
                     axios.post(`/api/contact/save/${this.company.id}`, {
                             code: this.code,
                             name: this.name,
@@ -366,6 +369,7 @@
                                         allowOutsideClick: false,
 
                                     });
+                                    this.disabled = false
                                     break;
                                 case 401:
                                     swal.fire({
@@ -376,6 +380,7 @@
                                         allowOutsideClick: false,
 
                                     });
+                                    this.disabled = false
                                     break;
                                 case 404:
                                     swal.fire({
@@ -386,6 +391,18 @@
                                         allowOutsideClick: false,
 
                                     });
+                                    this.disabled = false
+                                    break;
+                                case 405:
+                                    swal.fire({
+                                        type: 'error',
+                                        title: 'Code d\'accés déja existant !  ',
+                                        showConfirmButton: true,
+                                        confirmButtonText: 'Fermer',
+                                        allowOutsideClick: false,
+
+                                    });
+                                    this.disabled = false
                                     break;
 
                                 case 200:
@@ -409,6 +426,15 @@
                         })
                         .catch((error) => {
                             console.log(error);
+                            if (error.response.status == 422) {
+                                this.errors = []
+                                let errors = Object.values(error.response.data.errors);
+                                errors = errors.flat();
+                                this.errors = errors;
+
+                                this.disabled = false
+                                window.scrollTo(0, 0);
+                            }
                         });
 
                 }

@@ -2081,6 +2081,7 @@ __webpack_require__.r(__webpack_exports__);
       passWord: '',
       comment: '',
       selected: '',
+      disabled: false,
       errors: []
     };
   },
@@ -2181,6 +2182,7 @@ __webpack_require__.r(__webpack_exports__);
     addContact: function addContact() {
       var _this3 = this;
 
+      this.disabled = true;
       var validation = this.validateForm();
 
       if (validation) {
@@ -2210,6 +2212,7 @@ __webpack_require__.r(__webpack_exports__);
                 confirmButtonText: 'Fermer',
                 allowOutsideClick: false
               });
+              _this3.disabled = false;
               break;
 
             case 401:
@@ -2220,6 +2223,7 @@ __webpack_require__.r(__webpack_exports__);
                 confirmButtonText: 'Fermer',
                 allowOutsideClick: false
               });
+              _this3.disabled = false;
               break;
 
             case 404:
@@ -2230,6 +2234,18 @@ __webpack_require__.r(__webpack_exports__);
                 confirmButtonText: 'Fermer',
                 allowOutsideClick: false
               });
+              _this3.disabled = false;
+              break;
+
+            case 405:
+              swal.fire({
+                type: 'error',
+                title: 'Code d\'accés déja existant !  ',
+                showConfirmButton: true,
+                confirmButtonText: 'Fermer',
+                allowOutsideClick: false
+              });
+              _this3.disabled = false;
               break;
 
             case 200:
@@ -2248,6 +2264,15 @@ __webpack_require__.r(__webpack_exports__);
           }
         })["catch"](function (error) {
           console.log(error);
+
+          if (error.response.status == 422) {
+            _this3.errors = [];
+            var errors = Object.values(error.response.data.errors);
+            errors = errors.flat();
+            _this3.errors = errors;
+            _this3.disabled = false;
+            window.scrollTo(0, 0);
+          }
         });
       }
     },
@@ -2537,6 +2562,7 @@ __webpack_require__.r(__webpack_exports__);
       freeStores: this.free_stores,
       freeStoresChosen: [],
       oldStoresChosen: [],
+      disabled: false,
       errors: []
     };
   },
@@ -2700,6 +2726,7 @@ __webpack_require__.r(__webpack_exports__);
     addContact: function addContact() {
       var _this5 = this;
 
+      this.disabled = true;
       var validation = this.validateForm();
 
       if (validation) {
@@ -2731,6 +2758,7 @@ __webpack_require__.r(__webpack_exports__);
                 confirmButtonText: 'Fermer',
                 allowOutsideClick: false
               });
+              _this5.disabled = false;
               break;
 
             case 401:
@@ -2741,6 +2769,7 @@ __webpack_require__.r(__webpack_exports__);
                 confirmButtonText: 'Fermer',
                 allowOutsideClick: false
               });
+              _this5.disabled = false;
               break;
 
             case (404, 405):
@@ -2751,6 +2780,18 @@ __webpack_require__.r(__webpack_exports__);
                 confirmButtonText: 'Fermer',
                 allowOutsideClick: false
               });
+              _this5.disabled = false;
+              break;
+
+            case 406:
+              swal.fire({
+                type: 'error',
+                title: 'Code d\'accés déja existant !  ',
+                showConfirmButton: true,
+                confirmButtonText: 'Fermer',
+                allowOutsideClick: false
+              });
+              _this5.disabled = false;
               break;
 
             case 200:
@@ -2769,6 +2810,15 @@ __webpack_require__.r(__webpack_exports__);
           }
         })["catch"](function (error) {
           console.log(error);
+
+          if (error.response.status == 422) {
+            _this5.errors = [];
+            var errors = Object.values(error.response.data.errors);
+            errors = errors.flat();
+            _this5.errors = errors;
+            _this5.disabled = false;
+            window.scrollTo(0, 0);
+          }
         });
       }
     },
@@ -86208,7 +86258,7 @@ var render = function() {
                         {
                           staticClass: "btn btn-success pl-1",
                           staticStyle: { margin: "1em" },
-                          attrs: { type: "submit" },
+                          attrs: { type: "submit", disabled: _vm.disabled },
                           on: {
                             click: function($event) {
                               $event.preventDefault()
@@ -86643,9 +86693,9 @@ var render = function() {
                                     }
                                   }),
                                   _vm._v(
-                                    "\n                                            " +
+                                    "\n                                                " +
                                       _vm._s(store.designation) +
-                                      "\n                                        "
+                                      "\n                                            "
                                   )
                                 ])
                               ])
@@ -86809,9 +86859,9 @@ var render = function() {
                                   }
                                 }),
                                 _vm._v(
-                                  "\n                                    " +
+                                  "\n                                        " +
                                     _vm._s(store.designation) +
-                                    "\n                                "
+                                    "\n                                    "
                                 )
                               ]
                             )
@@ -87049,7 +87099,7 @@ var render = function() {
                         {
                           staticClass: "btn btn-success pl-1",
                           staticStyle: { margin: "1em" },
-                          attrs: { type: "submit" },
+                          attrs: { type: "submit", disabled: _vm.disabled },
                           on: {
                             click: function($event) {
                               $event.preventDefault()
