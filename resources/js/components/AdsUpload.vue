@@ -16,9 +16,9 @@
                                     <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions">
                                     </vue-dropzone>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group text-center">
 
-                                    <button type="submit" id="button" class="btn btn-primary">Confirmer</button>
+                                    <button type="submit" id="button" class="btn btn-primary">Importer</button>
                                 </div>
 
 

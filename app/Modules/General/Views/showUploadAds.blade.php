@@ -1,5 +1,5 @@
 @extends('General.layout')
-@section('pageTitle', 'Acceuil')
+@section('pageTitle', 'Importer une régie publicitaire')
 @section('content')
 
 
@@ -7,7 +7,7 @@
 
     <section class="content-header">
 
-        {{ Breadcrumbs::render('home') }}
+        {{ Breadcrumbs::render('advertisements') }}
     </section>
 
     <section class="content">

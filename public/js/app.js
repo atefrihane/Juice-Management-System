@@ -85562,14 +85562,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
+    return _c("div", { staticClass: "form-group text-center" }, [
       _c(
         "button",
         {
           staticClass: "btn btn-primary",
           attrs: { type: "submit", id: "button" }
         },
-        [_vm._v("Confirmer")]
+        [_vm._v("Importer")]
       )
     ])
   }

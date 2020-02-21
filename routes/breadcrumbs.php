@@ -274,3 +274,8 @@ Breadcrumbs::for('showConversation', function ($trail, $conversation) {
     $trail->parent('conversations');
     $trail->push($conversation->subject);
 });
+
+// Advertisements
+Breadcrumbs::for('advertisements', function ($trail) {
+    $trail->push('Liste des  régies publicitaires', route('showHome'));
+});
