@@ -21,7 +21,7 @@ class UsersTableSeeder extends Seeder
             'prenom' => 'Guerrette',
             'civilite' => 'homme',
             'telephone' => '55612719',
-            'accessCode' => 'ji5848',
+            'accessCode' => 'admin',
             'password' => '123456',
             'child_type' => \App\Modules\Admin\Models\Admin::class,
             'child_id' => '1',

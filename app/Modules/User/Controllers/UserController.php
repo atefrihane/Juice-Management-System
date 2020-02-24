@@ -25,7 +25,7 @@ class UserController extends Controller
     {
 
         $user = User::where([
-            'email' => $request->email,
+            'accessCode' => $request->accessCode,
             'password' => $request->password,
         ])->first();
 
@@ -34,15 +34,8 @@ class UserController extends Controller
             return redirect()->route('showHome');
         }
 
-        alert()->error('Email ou Mot de passe incorrect !', 'Oups!')->persistent('Fermer');
+        alert()->error('Code d\'accés ou Mot de passe incorrect !', 'Oups!')->persistent('Fermer');
         return redirect()->back();
-        // if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-        //     Auth::user();
-        //     return redirect()->route('showHome');
-
-        // } else {
-
-        // }
 
     }
 
@@ -159,5 +152,4 @@ class UserController extends Controller
 
     }
 
-   
 }

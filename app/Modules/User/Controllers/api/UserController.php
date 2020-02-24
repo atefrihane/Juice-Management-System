@@ -18,16 +18,25 @@ class UserController extends Controller
     public static function login(Request $request)
     {
 
-        if (!$request->email || !$request->password) {
+        if (!$request->accessCode || !$request->password) {
             return response()->json(['status' => 404]);
 
         }
         $user = User::where([
-            'email' => $request->email,
+            'accessCode' => $request->accessCode,
             'password' => $request->password,
         ])->first();
 
-        if ($user && $user->child_type != Admin::class) {
+        if ($user) {
+            if ($user->child_type == Admin::class) {
+                $authorizedRoles = ['ADMIN', 'SUPERADMIN', 'DBO'];
+                $role = $user->child->role->role_name;
+
+                if (!in_array($role, $authorizedRoles)) {
+                    return response()->json(['error' => 'UnAuthorised'], 401);
+                }
+
+            }
             $token = $user->createToken('wize')->accessToken;
             return response()->json(['token' => $token], 200);
         } else {
