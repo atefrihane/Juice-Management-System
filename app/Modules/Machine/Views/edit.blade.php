@@ -90,7 +90,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nombre de bacs</label>
                                         @if($machine->rented)
-                                        <input class="form-control" value="{{$machine->number_bacs}}" name="number_bacs"
+                                        <input class="form-control" value="{{count($machine->bacs)}}" name="number_bacs"
                                             id="disabledInput" type="text" placeholder="Nombre de bacs" disabled>
                                             @else
                                             <select name="number_bacs" class="form-control">

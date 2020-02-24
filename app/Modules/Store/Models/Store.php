@@ -2,20 +2,19 @@
 
 namespace App\Modules\Store\Models;
 
-use App\Modules\CompanyPrice\Models\CompanyPrice;
 use App\Modules\Company\Models\Company;
 use App\Modules\General\Models\City;
 use App\Modules\General\Models\Country;
 use App\Modules\General\Models\Zipcode;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Machine\Models\Machine;
+use App\Modules\Order\Models\Order;
 use App\Modules\Product\Models\Product;
-use App\Modules\User\Models\Responsible;
-use App\Modules\User\Models\Director;
+use App\Modules\Store\Models\Price;
 use App\Modules\Store\Models\StoreHistory;
 use App\Modules\Store\Models\StoreSchedule;
-use App\Modules\Store\Models\Price;
-use App\Modules\Order\Models\Order;
+use App\Modules\User\Models\Director;
+use App\Modules\User\Models\Responsible;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -28,7 +27,7 @@ class Store extends Model
 
     public function director()
     {
-        return $this->belongsTo(Director::class,'director_id');
+        return $this->belongsTo(Director::class, 'director_id');
     }
     public function responsibles()
     {
@@ -43,7 +42,7 @@ class Store extends Model
     {
         return $this->hasMany(MachineRental::class);
     }
-
+ 
     public function machines()
     {
         $machines = [];
@@ -86,11 +85,9 @@ class Store extends Model
         return $this->belongsToMany(Product::class, 'store_products');
     }
 
-
-
     public function prices()
     {
-        return $this->belongsToMany(Price::class,'store_prices');
+        return $this->belongsToMany(Price::class, 'store_prices');
 
     }
     public function orders()

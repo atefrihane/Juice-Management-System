@@ -269,7 +269,7 @@ class MachineController extends Controller
                 'rental_id' => $rental ? $rental->id : null,
             ]);
 
-            alert()->success('Succès!', 'Le nouveau etat  de la machine est bien à jour !')->persistent("Fermer");
+            alert()->success('Le nouveau etat  de la machine est bien à jour', 'Succès!')->persistent("Fermer");
             return redirect()->route('showMachines');
 
         }

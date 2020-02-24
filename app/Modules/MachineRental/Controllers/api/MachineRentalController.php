@@ -4,6 +4,7 @@ namespace App\Modules\MachineRental\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Bac\Models\Bac;
+use App\Modules\Company\Models\Company;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\MachineRental\Models\MachineRentalHistory;
 use App\Modules\Machine\Models\Machine;
@@ -221,6 +222,42 @@ class MachineRentalController extends Controller
         if ($rental) {
             $bacs = Bac::where('machine_id', $rental->machine->id)->with('product', 'product.mixtures')->get();
             return response()->json(['status' => 200, 'bacs' => $bacs]);
+        }
+        return response()->json(['status' => 404]);
+
+    }
+
+    public function handleGetRentalDataByCompany($id)
+    {
+
+        $checkCompany = Company::find($id);
+        if ($checkCompany) {
+            $rentedMachines = MachineRental::whereIn('store_id', $checkCompany->stores->pluck('id'))
+                ->where('active', 1)
+                ->with('store.company')
+                ->with('machine.bacs.products')
+                ->get();
+
+            return response()->json(['status' => 200, 'rentedMachines' => $rentedMachines]);
+
+        }
+        return response()->json(['status' => 404]);
+
+    }
+
+    public function handleGetRentalDataByStore($id)
+    {
+
+        $checkStore = Store::find($id);
+        if ($checkStore) {
+            $rentedMachines = MachineRental::where('store_id', $checkStore->id)
+                ->where('active', 1)
+                ->with('store.company')
+                ->with('machine.bacs.products')
+                ->get();
+
+            return response()->json(['status' => 200, 'rentedMachines' => $rentedMachines]);
+
         }
         return response()->json(['status' => 404]);
 

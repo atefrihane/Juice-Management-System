@@ -4,6 +4,8 @@ namespace App\Modules\User\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Admin\Models\Admin;
+use App\Modules\Company\Models\Company;
+use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Store\Models\Store;
 use App\Modules\User\Models\ContactHistory;
 use App\Modules\User\Models\Director;
@@ -37,8 +39,46 @@ class UserController extends Controller
                 }
 
             }
+
             $token = $user->createToken('wize')->accessToken;
-            return response()->json(['token' => $token], 200);
+            if ($user->getType() != 'admin') {
+                switch ($user->getType()) {
+
+                    case 'Directeur':
+                        $rentedMachines = MachineRental::where('store_id', $user->child->store->id)
+                            ->where('active', 1)
+                            ->with('store.company')
+                            ->with('machine.bacs.products')
+                            ->get();
+
+                        return response()->json(['token' => $token, 'user' => $user, 'rentedMachines' => $rentedMachines], 200);
+                        break;
+                    case 'Autre':
+                        $rentedMachines = MachineRental::whereIn('store_id', $user->child->stores->pluck('id'))
+                            ->where('active', 1)
+                            ->with('store.company')
+                            ->with('machine.bacs.products')
+                            ->get();
+
+                        $relatedStores = Store::whereHas('responsibles', function ($q) use ($user) {
+                            $q->where('responsible_id', $user->child->id);
+                        })->get();
+
+                        return response()->json([
+                            'token' => $token,
+                            'user' => $user,
+                            'rentedMachines' => $rentedMachines,
+                            'relatedStores' => $relatedStores,
+                        ], 200);
+                        break;
+                }
+
+            } else {
+                //List all companies with stores for ADMINS
+                return response()->json(['token' => $token, 'user' => $user, 'allCompanies' => Company::with('stores')->get()], 200);
+
+            }
+
         } else {
             return response()->json(['error' => 'UnAuthorised'], 401);
 
@@ -70,7 +110,7 @@ class UserController extends Controller
                         return response()->json(['status' => 401]);
 
                     }
-                    dd($request->all());
+
                     $request->validate([
                         'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
                         'phone' => 'required|digits_between:1,12',
