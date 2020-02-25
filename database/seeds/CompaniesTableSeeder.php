@@ -250,7 +250,7 @@ class CompaniesTableSeeder extends Seeder
 
         $machineOne = Machine::create([
             'code' => 'MCH01457',
-            'status' => 'Fonctionnelle',
+            'status' => 1,
             'barcode' => '59972846385498',
             'designation' => 'Machine de jus frais BIRTOUTA M457',
             'type' => 'Jus-granité',
@@ -277,7 +277,7 @@ class CompaniesTableSeeder extends Seeder
 
         $machineTwo = Machine::create([
             'code' => 'MCH02589',
-            'status' => 'Fonctionnelle',
+            'status' => 1,
             'barcode' => '87964215387996',
             'designation' => 'Machine de jus de boisson commerciale 220 V',
             'type' => 'Jus-granité',

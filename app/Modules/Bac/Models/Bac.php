@@ -14,7 +14,7 @@ class Bac extends Model
     
     public function products()
     {
-        return $this->belongsToMany(Product::class,'bac_products');
+        return $this->belongsToMany(Product::class,'bac_products')->withPivot('id');
     }
 
 

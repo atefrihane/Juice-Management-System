@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class StoreProduct extends Model
 {
+  
     protected $guarded = ['id'];
     public function product()
     {

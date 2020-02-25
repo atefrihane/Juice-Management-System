@@ -15,14 +15,14 @@ class CreateBacsTable extends Migration
     {
         Schema::create('bacs', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('order');
+            $table->integer('order')->nullable();
             $table->double('final_amount')->nullable();
             $table->double('needed_weight')->nullable();
             $table->double('water_amount')->nullable();
             $table->double('sugar_amount')->nullable();
             $table->double('glass_size')->nullable();
             $table->double('number_of_glasses')->nullable();
-            $table->string('type')->nullable();
+            $table->integer('type')->nullable();
             $table->integer('status')->nullable();
             $table->dateTime('last_refill_time')->nullable();
             $table->integer('machine_id')->unsigned();

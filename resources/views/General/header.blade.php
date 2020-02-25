@@ -188,7 +188,6 @@
                             </span>
                         </a>
                     </li>
-                    @endif
 
                     <li class="{{ Route::is('showAddAdvertisement') ? 'active' : '' }}">
                         <a href={{route('showAddAdvertisement')}}>
@@ -196,6 +195,9 @@
                         
                         </a>
                     </li>
+                    @endif
+
+                 
 
                 </ul>
             </section>

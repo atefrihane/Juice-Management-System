@@ -16,7 +16,7 @@ class CreateMachinesTable extends Migration
         Schema::create('machines', function (Blueprint $table) {
             $table->increments('id');
             $table->string('code');
-            $table->string('status');
+            $table->integer('status');
             $table->string('barcode');
             $table->string('designation');
             $table->string('type');

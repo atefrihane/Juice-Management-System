@@ -43,14 +43,14 @@
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Etat</label>
                                             <select class="form-control" name="status">
-                                                @if($machine->status != 'Fonctionnelle')
-                                                <option value="Fonctionnelle">Fonctionnelle</option>
+                                                @if($machine->status != 1)
+                                                <option value="1">Fonctionnelle</option>
                                                 @endif
-                                                @if($machine->status != 'Non utilisé')
-                                                <option value="Non utilisé">Non utilisé</option>
+                                                @if($machine->status != 2)
+                                                <option value="2">Non utilisé</option>
                                                 @endif
-                                                @if($machine->status != 'En panne')
-                                                    <option value="En panne">En panne</option>
+                                                @if($machine->status != 0)
+                                                    <option value="0">En panne</option>
                                                 @endif
                                             </select>
                                         </div>

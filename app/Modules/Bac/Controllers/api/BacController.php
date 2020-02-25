@@ -5,6 +5,7 @@ namespace App\Modules\Bac\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Modules\BacHistory\Models\BacHistory;
 use App\Modules\Bac\Models\Bac;
+use App\Modules\Bac\Models\BacProductFilled;
 use App\Modules\Product\Models\Product;
 use App\Modules\User\Models\User;
 use Illuminate\Http\Request;
@@ -77,14 +78,14 @@ class BacController extends Controller
         if ($request->input('productId')) {
             $checkProduct = Product::find($request->input('productId'));
             if (!$checkProduct) {
-                return response()->json(['status' => 404,'product' => 'Product not found']);
+                return response()->json(['status' => 404, 'product' => 'Product not found']);
 
             }
         }
 
         $checkBac = Bac::find($id);
         if (!$checkBac) {
-            return response()->json(['status' => 404,'Bac' => 'Bac not found']);
+            return response()->json(['status' => 404, 'Bac' => 'Bac not found']);
 
         }
         if ($checkBac) {
@@ -102,6 +103,72 @@ class BacController extends Controller
 
         }
         return response()->json(['status' => 200]);
+
+    }
+    public function handleGetBacDetails($id)
+    {
+        $checkBac = Bac::find($id);
+
+        if ($checkBac) {
+            return response()->json(['status' => 200, 'bac' => $checkBac->with('products')->first(),
+            ]);
+
+        }
+        return response()->json(['status' => 404]);
+
+    }
+    public function handleFillBacWithProduct(Request $request, $id)
+    {
+
+        if (!$request->filled('productId') ||
+            !$request->filled('stockProducts')) {
+            return response()->json(['status' => 400]);
+
+        }
+
+        $checkProduct = Product::find($request->input('productId'));
+        if (!$checkProduct) {
+            return response()->json(['status' => 404, 'product' => 'Product Not Found']);
+
+        }
+
+        if (count($request->input('stockProducts')) <= 0) {
+            return response()->json(['status' => 404, 'Stock' => 'Stock products not found']);
+        }
+
+        $wrongKeys = false;
+        foreach ($request->input('stockProducts') as $stockProduct) {
+            if (!array_key_exists("quantity", $stockProduct) ||
+                !array_key_exists("store_products_id", $stockProduct)) {
+                $wrongKeys = true;
+            }
+        }
+        if ($wrongKeys) {
+            return response()->json(['status' => 404, 'Stock' => 'Wrong array keys']);
+        }
+
+        $checkBac = Bac::find($id);
+
+        if ($checkBac) {
+            $checkBac->products()->attach($request->input('productId'));
+            $bacProductId = $checkBac->products()->wherePivot('product_id', $request->input('productId'))->first()->pivot->id;
+            $productsFilled = [];
+            foreach ($request->input('stockProducts') as $stockProduct) {
+                $productFilled = [
+                    'quantity' => $stockProduct['quantity'],
+                    'bac_products_id' => $bacProductId,
+                    'store_products_id' => $stockProduct['store_products_id'],
+                ];
+                array_push($productsFilled, $productFilled);
+
+            }
+
+            BacProductFilled::insert($productsFilled);
+
+            return response()->json(['status' => 200]);
+
+        }
+        return response()->json(['status' => 404, 'Bac' => 'Bac not found']);
 
     }
 

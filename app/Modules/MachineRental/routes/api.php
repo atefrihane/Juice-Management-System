@@ -6,6 +6,6 @@ Route::group(['module' => 'MachineRental', 'middleware' => ['auth:api'], 'namesp
     Route::post('api/rentals', 'MachineRentalController@store');
     Route::post('api/rental/{id}', 'MachineRentalController@handleUpdateRental');
     Route::get('api/rental/{id}', 'MachineRentalController@handleGetRentalData');
-    Route::get('/api/rental/company/{company_id}', 'MachineRentalController@handleGetRentalDataByCompany');
-    Route::get('/api/rental/store/{store_id}', 'MachineRentalController@handleGetRentalDataByStore');
+    Route::get('/api/rental/company/{company_id}', 'MachineRentalController@handleGetRentalDataByCompany'); // Show rented machines based on company selected
+    Route::get('/api/rental/store/{store_id}', 'MachineRentalController@handleGetRentalDataByStore'); // Show rented machines based on store selected
 });

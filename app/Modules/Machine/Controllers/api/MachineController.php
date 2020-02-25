@@ -23,18 +23,15 @@ class MachineController extends Controller
 
     }
 
-    public function showMachineStates($id)
+    public function showMachineStates($id, $rental_id)
     {
 
-        $machineRental = MachineRental::where('machine_id', $id)
-            ->where('active', 1)
-            ->first();
-        if ($machineRental) {
+        $history = MachineHistory::where('machine_id', $id)
+            ->where('rental_id', $rental_id)
+            ->with('user')
+            ->get();
 
-            $history = MachineHistory::where('machine_id', $id)
-                ->where('rental_id', $machineRental->id)
-                ->with('user')
-                ->get();
+        if (count($history) > 0) {
 
             return response()->json(['status' => 200, 'machineHistory' => $history]);
 
@@ -45,30 +42,33 @@ class MachineController extends Controller
 
     public function handleMachineStatut($id, Request $request)
     {
-        if (!$request->input('status') || !$request->input('userId')) {
+
+        if (!$request->filled('status') ||
+            !$request->filled('userId') ||
+            !$request->filled('rentalId')) {
             return response()->json(['status' => 400]);
 
         }
         $checkMachine = Machine::find($id);
         if (!$checkMachine) {
-            return response()->json(['status' => 404, 'Machine' => 'Machine not found']);
+            return response()->json(['status' => 404, 'Machine not found']);
         }
-
+        $checkRental = MachineRental::find($request->input('rentalId'));
+        if (!$checkRental) {
+            return response()->json(['status' => 404, 'Rental not found']);
+        }
         $checkUser = User::find($request->input('userId'));
         if (!$checkUser) {
-            return response()->json(['status' => 404, 'User' => 'User not found']);
+            return response()->json(['status' => 404, 'User not found']);
         }
         $checkMachine->update(['status' => $request->input('status')]);
-        $rentalId = $checkMachine->machineRentals->where('active', 1)->first();
-
-        return response()->json(['status' => $rentalId]);
 
         MachineHistory::create([
             'event' => $request->input('status'),
             'comment' => $request->input('comment'),
             'user_id' => $request->input('userId'),
             'machine_id' => $id,
-            'rental_id' => $rentalId->id,
+            'rental_id' => $request->input('rentalId'),
 
         ]);
 
