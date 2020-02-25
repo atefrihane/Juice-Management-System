@@ -14,7 +14,7 @@ class BacProduct extends Model
 
     public function productsInStock()
     {
-        return $this->hasMany(BacProductFilled::class);
+        return $this->hasMany(BacProductFilled::class,'bac_products_id');
     }
 
     public function product()

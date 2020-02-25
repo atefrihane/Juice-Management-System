@@ -5,9 +5,11 @@ namespace App\Modules\Bac\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Modules\BacHistory\Models\BacHistory;
 use App\Modules\Bac\Models\Bac;
+use App\Modules\Bac\Models\BacProduct;
 use App\Modules\Bac\Models\BacProductFilled;
 use App\Modules\Product\Models\Product;
 use App\Modules\User\Models\User;
+use DB;
 use Illuminate\Http\Request;
 
 class BacController extends Controller
@@ -107,10 +109,16 @@ class BacController extends Controller
     }
     public function handleGetBacDetails($id)
     {
-        $checkBac = Bac::find($id);
 
-        if ($checkBac) {
-            return response()->json(['status' => 200, 'bac' => $checkBac->with('products')->first(),
+        $checkBacProducts = BacProduct::where('bac_id', $id)
+            ->with('product')
+            ->withCount(['productsInStock as countUnits' => function ($query) {
+                $query->select(DB::raw('sum(quantity)'));
+            }])
+            ->get();
+
+        if (count($checkBacProducts) > 0) {
+            return response()->json(['status' => 200, 'bacDetails' => $checkBacProducts,
             ]);
 
         }
