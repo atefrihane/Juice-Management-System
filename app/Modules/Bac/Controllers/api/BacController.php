@@ -109,7 +109,7 @@ class BacController extends Controller
     }
     public function handleGetBacDetails($id)
     {
-
+        $bac = Bac::find($id);
         $checkBacProducts = BacProduct::where('bac_id', $id)
             ->with('product')
             ->withCount(['productsInStock as countUnits' => function ($query) {
@@ -117,15 +117,15 @@ class BacController extends Controller
             }])
             ->get();
 
-        if (count($checkBacProducts) > 0) {
-            return response()->json(['status' => 200, 'bacDetails' => $checkBacProducts,
+        if ($bac) {
+            return response()->json(['status' => 200, 'bac' => $bac, 'bacDetails' => $checkBacProducts,
             ]);
 
         }
         return response()->json(['status' => 404]);
 
     }
-    public function handleFillBacWithProduct(Request $request, $id)
+    public function handleFillBacWithProducts(Request $request, $id)
     {
 
         if (!$request->filled('productId') ||
