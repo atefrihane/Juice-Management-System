@@ -15,6 +15,7 @@ class CreateBacProductsTable extends Migration
     {
         Schema::create('bac_products', function (Blueprint $table) {
             $table->increments('id');
+            $table->timestamp('expiration_date');
             $table->integer('bac_id')->unsigned();
             $table->foreign('bac_id')->references('id')->on('bacs')->onDelete('cascade');
             $table->integer('product_id')->unsigned();

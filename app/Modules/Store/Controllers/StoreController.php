@@ -559,7 +559,7 @@ class StoreController extends Controller
             ->first();
 
         if ($checkStock) {
-            alert()->error('Oups!', 'Stock déja existant !')->persistent('Femer');
+            alert()->error('Stock déja existant ', 'Oups!')->persistent('Femer');
             return redirect()->back()->withInput();
 
         }
@@ -583,7 +583,7 @@ class StoreController extends Controller
                     'productPacking'
 
                 ));
-            alert()->success('Succès', 'Stock ajouté !')->persistent('Femer');
+            alert()->success('Stock ajouté', 'Succès!')->persistent('Femer');
             return redirect()->route('showStoreStock', ['store_id' => $store->company->id, 'store' => $store->id]);
 
         }
