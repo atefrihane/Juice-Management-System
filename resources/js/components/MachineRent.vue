@@ -230,25 +230,7 @@
                 }
 
             },
-            getProductData(event, index) {
-                let id = event.target.value;
-
-                axios.get('/api/product/' + id)
-                    .then((response) => {
-                        Vue.set(this.bacs[0][index], 'mixtures', '')
-                        //Display mixtures of a product ( if has a one)
-                        console.log(response);
-                        if (response.data.product.length > 0) {
-                            Vue.set(this.bacs[0][index], 'mixtures', response.data.product)
-                            // this.bacs[0][index].push(response.data.product);
-                            // this.mixtureId = this.bacs[index]['mixtures'][0].id;
-                        }
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
-
-            },
+        
 
             cancelRental() {
                 window.location = axios.defaults.baseURL + '/machines';

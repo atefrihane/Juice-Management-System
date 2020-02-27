@@ -155,14 +155,22 @@ class ProductController extends Controller
         return Product::where('status', 'disponible')->get();
     }
 
-    public function handleGetProductById($id)
+    public function handleGetProductById($id, $store_id)
     {
 
         $checkProduct = Product::find($id);
 
         if ($checkProduct) {
+            $stockProducts = DB::table('store_products')
+                ->where('store_id', $store_id)
+                ->where('product_id', $id)
+                ->get();
 
-            return response()->json(['status' => 'status', 'product' => $checkProduct->mixtures]);
+            return response()->json(['status' => '200',
+                'product' => $checkProduct,
+                'stockProduct' => $stockProducts,
+
+            ]);
 
         } else {
             return response()->json(['status' => '404', 'product' => 'Product not found']);

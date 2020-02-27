@@ -97,7 +97,7 @@ class AdminController extends Controller
             'child_type' => Admin::class,
             'child_id' => $admin->id,
         ]);
-        alert()->success('Succès!', 'Admin ajouté avec succès')->persistent('Fermer');
+        alert()->success('Admin ajouté avec succès', 'Succès!')->persistent('Fermer');
         return redirect('/admin');
     }
 
@@ -235,7 +235,7 @@ class AdminController extends Controller
                 $user->delete();
 
             }
-            alert()->success('Succès!', 'Admin supprimé avec succès')->persistent('Fermer');
+            alert()->success('Admin supprimé avec succès', 'Succès!')->persistent('Fermer');
             return redirect('/admin');
 
         }

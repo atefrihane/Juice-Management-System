@@ -7,7 +7,7 @@ Route::group(['module' => 'Product', 'middleware' => ['auth:api'], 'namespace' =
     route::post('api/products', 'ProductController@store');
     route::post('api/product/update/{id}', 'ProductController@handleUpdateProduct');
     route::get('api/products', 'ProductController@index');
-    route::get('api/product/{id}', 'ProductController@handleGetProductById'); //returns mixtures
+    route::get('api/product/{id}/store/{store_id}', 'ProductController@handleGetProductById'); //returns mixtures
     route::post('api/product/prices/{id}', 'ProductController@handleGetProductPrices'); //returns product details with specific price
     route::get('api/product/name/{name}', 'ProductController@handleGetProductByName');
     route::get('api/product/barcode/{barcode}', 'ProductController@handleGetProductByBarcode');

@@ -33,7 +33,7 @@ Breadcrumbs::for('editCompany', function ($trail, $company) {
 });
 // Home
 Breadcrumbs::for('admin', function ($trail) {
-    $trail->push('Liste des admins', route('admin'));
+    $trail->push('Liste des comptes', route('admin'));
 });
 
 // Home > Societé

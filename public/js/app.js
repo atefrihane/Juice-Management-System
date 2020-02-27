@@ -4841,23 +4841,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
       }
     },
-    getProductData: function getProductData(event, index) {
-      var _this5 = this;
-
-      var id = event.target.value;
-      axios.get('/api/product/' + id).then(function (response) {
-        Vue.set(_this5.bacs[0][index], 'mixtures', ''); //Display mixtures of a product ( if has a one)
-
-        console.log(response);
-
-        if (response.data.product.length > 0) {
-          Vue.set(_this5.bacs[0][index], 'mixtures', response.data.product); // this.bacs[0][index].push(response.data.product);
-          // this.mixtureId = this.bacs[index]['mixtures'][0].id;
-        }
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
     cancelRental: function cancelRental() {
       window.location = axios.defaults.baseURL + '/machines';
     },
@@ -4903,7 +4886,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return true;
     },
     submitRental: function submitRental() {
-      var _this6 = this;
+      var _this5 = this;
 
       var x = this.validateForm();
       console.log(x);
@@ -4944,7 +4927,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
-            _this6.disabled = false;
+            _this5.disabled = false;
           }
 
           if (response.data.status == 403) {
@@ -4955,7 +4938,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
-            _this6.disabled = false;
+            _this5.disabled = false;
           }
 
           if (response.data.status == 404) {
@@ -4966,7 +4949,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
-            _this6.disabled = false;
+            _this5.disabled = false;
           }
 
           if (response.data.status == 405) {
@@ -4977,17 +4960,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
-            _this6.disabled = false;
+            _this5.disabled = false;
           }
         })["catch"](function (error) {
           console.log(error);
 
           if (error.response.status == 422) {
-            _this6.errors = [];
+            _this5.errors = [];
             var errors = Object.values(error.response.data.errors);
             errors = _.flatMap(errors);
-            _this6.errors = errors;
-            _this6.disabled = false;
+            _this5.errors = errors;
+            _this5.disabled = false;
             window.scrollTo(0, 0);
           }
         });
