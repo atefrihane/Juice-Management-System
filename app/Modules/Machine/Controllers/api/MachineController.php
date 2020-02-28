@@ -7,6 +7,7 @@ use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Machine\Models\Machine;
 use App\Modules\Machine\Models\MachineHistory;
 use App\Modules\User\Models\User;
+use DB;
 use Illuminate\Http\Request;
 
 class MachineController extends Controller
@@ -16,7 +17,14 @@ class MachineController extends Controller
     {
         $machine = Machine::find($id);
         if ($machine) {
-            return response()->json(['status' => 200, 'machine' => $machine]);
+            $latestExpirations = DB::table('bac_products')
+                ->selectRaw('bac_id, min(expiration_date) as expiration_date')
+                ->groupBy('bac_id')
+                ->get();
+
+            return response()->json(['status' => 200,
+                'machine' => $machine->with('bacs.products')->first(),
+                'latestExpirations' => $latestExpirations]);
 
         }
         return response()->json(['status' => 404]);

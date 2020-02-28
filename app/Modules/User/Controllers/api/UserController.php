@@ -48,7 +48,7 @@ class UserController extends Controller
                         $rentedMachines = MachineRental::where('store_id', $user->child->store->id)
                             ->where('active', 1)
                             ->with('store.company')
-                            ->with('machine.bacs.products')
+                            ->with('machine.bacs')
                             ->get();
 
                         return response()->json(['token' => $token, 'user' => $user, 'rentedMachines' => $rentedMachines], 200);
@@ -57,8 +57,11 @@ class UserController extends Controller
                         $rentedMachines = MachineRental::whereIn('store_id', $user->child->stores->pluck('id'))
                             ->where('active', 1)
                             ->with('store.company')
-                            ->with('machine.bacs.products')
+                            ->with('machine.bacs')
                             ->get();
+                        $company = Company::whereHas('stores', function ($q) use ($user) {
+                            $q->whereIn('id', $user->child->stores->pluck('id'));
+                        })->first();
 
                         $relatedStores = Store::whereHas('responsibles', function ($q) use ($user) {
                             $q->where('responsible_id', $user->child->id);
@@ -67,6 +70,7 @@ class UserController extends Controller
                         return response()->json([
                             'token' => $token,
                             'user' => $user,
+                            'company' => $company,
                             'rentedMachines' => $rentedMachines,
                             'relatedStores' => $relatedStores,
                         ], 200);

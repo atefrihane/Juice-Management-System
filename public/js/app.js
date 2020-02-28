@@ -2120,60 +2120,70 @@ __webpack_require__.r(__webpack_exports__);
       if (!this.code) {
         this.errors.push('Le code  est requis');
         window.scrollTo(0, 0);
+        this.disabled = false;
         return false;
       }
 
       if (!this.name) {
         this.errors.push('Le nom  est requis');
         window.scrollTo(0, 0);
+        this.disabled = false;
         return false;
       }
 
       if (!this.surname) {
         this.errors.push('Le prénom  est requis');
         window.scrollTo(0, 0);
+        this.disabled = false;
         return false;
       }
 
       if (!this.civility) {
         this.errors.push('Veuillez séléctionner une civilité');
         window.scrollTo(0, 0);
+        this.disabled = false;
         return false;
       }
 
       if (!this.email) {
         this.errors.push('L\'email est requis');
         window.scrollTo(0, 0);
+        this.disabled = false;
         return false;
       }
 
       if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)) {
         this.errors.push('L\'email n\'est pas valide');
         window.scrollTo(0, 0);
+        this.disabled = false;
         return false;
       }
 
       if (!this.phone) {
         this.errors.push('Le téléphone est requis');
         window.scrollTo(0, 0);
+        this.disabled = false;
         return false;
       }
 
       if (this.storesChosen.length == 0 && !this.storeChecked) {
         this.errors.push('Veuillez séléctionner au moins un magasin');
         window.scrollTo(0, 0);
+        this.disabled = false;
         return false;
       }
 
       if (!this.accessCode) {
         this.errors.push(' Le code d\'accés est requis');
         window.scrollTo(0, 0);
+        this.disabled = false;
         return false;
       }
 
       if (!this.passWord) {
         this.errors.push(' Le mot de passe est requis');
         window.scrollTo(0, 0);
+        this.disabled = false;
         return false;
       }
 
@@ -2263,15 +2273,14 @@ __webpack_require__.r(__webpack_exports__);
               break;
           }
         })["catch"](function (error) {
-          console.log(error);
-
           if (error.response.status == 422) {
             _this3.errors = [];
             var errors = Object.values(error.response.data.errors);
             errors = errors.flat();
             _this3.errors = errors;
-            _this3.disabled = false;
             window.scrollTo(0, 0);
+            console.log('lol');
+            _this3.disabled = false;
           }
         });
       }

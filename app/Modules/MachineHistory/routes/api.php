@@ -1,7 +1,7 @@
 <?php
 
-Route::group(['module' => 'MachineHistory', 'middleware' => ['api'], 'namespace' => 'App\Modules\MachineHistory\Controllers'], function() {
+Route::group(['module' => 'MachineHistory', 'middleware' => ['auth:api'], 'namespace' => 'App\Modules\MachineHistory\Controllers\api'], function() {
 
-    Route::resource('MachineHistory', 'MachineHistoryController');
+   route::get('/api/machine/{id}/history','MachineHistoryController@handleGetMachineHistory');
 
 });

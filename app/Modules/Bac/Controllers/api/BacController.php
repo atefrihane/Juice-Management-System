@@ -7,59 +7,34 @@ use App\Modules\BacHistory\Models\BacHistory;
 use App\Modules\Bac\Models\Bac;
 use App\Modules\Bac\Models\BacProduct;
 use App\Modules\Bac\Models\BacProductFilled;
+use App\Modules\Machine\Models\Machine;
 use App\Modules\Product\Models\Product;
 use App\Modules\Store\Models\StoreProduct;
 use App\Modules\User\Models\User;
 use DB;
+use function _\findIndex;
 use Illuminate\Http\Request;
 
 class BacController extends Controller
 {
 
-    public function storeAll(Request $request)
+    public function handleCleanBacs($id, Request $request)
     {
-        $bacs = $request->all();
-        $rbacs = [];
-        foreach ($bacs as $bac) {
-            unset($bac['product']);
-            $rbacs[] = Bac::create($bac);
+        $checkMachine = Machine::find($id);
+        if ($checkMachine) {
+            $cleanBacs = DB::table('bac_products')
+                ->whereIn('bac_id', $checkMachine->bacs->pluck('id'))
+                ->delete();
+            if ($cleanBacs) {
 
-        }
-        return $rbacs;
-    }
+                return response()->json(['status' => 200]);
 
-    public function handleCleanBac($id, Request $request)
-    {
-        if (!$request->input('status') || !$request->input('userId')) {
-            return response()->json(['status' => 400]);
-        }
-        $checkBac = Bac::find($id);
-        if (!$checkBac) {
-            return response()->json(['status' => 404, 'Bac not found']);
+            }
+            return response()->json(['status' => 404, 'Error' => 'Something went wrong']);
 
         }
 
-        $checkUser = User::find($request->input('userId'));
-        if (!$checkUser) {
-            return response()->json(['status' => 404, 'user' => 'User not found']);
-
-        }
-
-        if ($checkBac) {
-
-            $checkBac->update([
-                'status' => $request->input('status'),
-
-            ]);
-            BacHistory::create([
-                'action' => 'vidange',
-                'bac_id' => $id,
-                'user_id' => $request->input('userId'),
-            ]);
-
-        }
-        return response()->json(['status' => 200]);
-
+        return response()->json(['status' => 404, 'Machine' => 'Machine not found']);
     }
 
     public function handleRefillBac($id, Request $request)
@@ -103,7 +78,6 @@ class BacController extends Controller
                 return response()->json(['status' => 404, 'Product' => 'Product not found']);
 
             }
-         
 
             // check stock and update it
             $newUpdatedStock = [];
@@ -139,21 +113,30 @@ class BacController extends Controller
             $updatedProductInstances = [];
             $newProductInstances = [];
             $productInstancesIds = array_column($newFilledProducts, 'bac_products_id');
-            $allInstancesOfProducts = BacProductFilled::whereIn('bac_products_id', $productInstancesIds)->get();
+            $allInstancesOfProducts = BacProductFilled::whereIn('bac_products_id', $productInstancesIds)->get()->toArray();
 
             if (!empty($allInstancesOfProducts)) {
                 foreach ($allInstancesOfProducts as $productInstance) {
                     foreach ($newFilledProducts as $newFilled) {
-                        if ($newFilled['bac_products_id'] == $productInstance->bac_products_id) {
-                            array_push($updatedProductInstances, [
-                                'quantity' => $productInstance->quantity += $newFilled['quantity'],
-                                'id' => $productInstance->id,
-                            ]);
+                        $checkExistingStockInFilled = findIndex($allInstancesOfProducts,
+                            ['store_products_id' => $newFilled['store_products_id']]);
 
-                        } else {
+                        // Check existance of store_product in the local newProductInstances array
+                        $checkExistanceInNewProductInstances = findIndex($newProductInstances,
+                            ['store_products_id' => $newFilled['store_products_id']]);
+
+                        if ($newFilled['bac_products_id'] == $productInstance['bac_products_id'] &&
+                            $newFilled['store_products_id'] == $productInstance['store_products_id']) {
+                            array_push($updatedProductInstances, [
+                                'quantity' => $productInstance['quantity'] += $newFilled['quantity'],
+                                'id' => $productInstance['id'],
+                            ]);
+                            // if upcoming store_product is not existing in the filled_products
+                        } else if ($checkExistingStockInFilled == -1 && $checkExistanceInNewProductInstances == -1) {
+
                             array_push($newProductInstances, [
                                 'quantity' => $updatedStock['quantity'],
-                                'bac_products_id' => $productInstance->bac_products_id,
+                                'bac_products_id' => $productInstance['bac_products_id'],
                                 'store_products_id' => $updatedStock['id'],
                             ]);
 
@@ -170,7 +153,7 @@ class BacController extends Controller
             }
 
             if (!empty($updatedProductInstances)) {
-              
+
                 $stockProductInstance = new BacProductFilled;
 
                 $index = 'id';
@@ -191,7 +174,7 @@ class BacController extends Controller
             return response()->json(['status' => 200, 'unsufficientStock' => $unavailableStock]);
 
         }
-        return response()->json(['status' => 404]);
+        return response()->json(['status' => 404, 'bac' => 'Bac not found']);
 
     }
     public function handleGetBacDetails($id)
@@ -205,7 +188,12 @@ class BacController extends Controller
             ->get();
 
         if ($bac) {
-            return response()->json(['status' => 200, 'bac' => $bac, 'bacDetails' => $checkBacProducts,
+            $latestExpiration = DB::table('bac_products')
+                ->where('bac_id', $bac->id)
+                ->min('expiration_date');
+            return response()->json(['status' => 200, 'bac' => $bac,
+                'bacDetails' => $checkBacProducts,
+                'latestExpiration' => $latestExpiration,
             ]);
 
         }
@@ -378,6 +366,46 @@ class BacController extends Controller
 
         }
         return response()->json(['status' => 404, 'Bac' => 'Bac not found']);
+
+    }
+
+    public function handleUpdateBacStatut($id, Request $request)
+    {
+        if (!$request->filled('status') ||
+            !$request->filled('userId')
+
+        ) {
+            return response()->json(['status' => 400]);
+        }
+        if (!in_array($request->input('status'), [0, 1, 2])) {
+            return response()->json(['status' => 404, "error" => "Wrong state for bac"]);
+        }
+        $checkUser = User::find($request->userId);
+        if (!$checkUser) {
+            return response()->json(['status' => 404, "User" => "User not found"]);
+
+        }
+        $checkBac = Bac::find($id);
+
+        if ($checkBac) {
+            if (!$checkBac->machine->currentLocation()) {
+                return response()->json(['status' => 404, "Rental" => "Rental not found"]);
+            }
+            $checkBac->update([
+                'status' => $request->input('status'),
+            ]);
+           ;
+            BacHistory::create([
+                'user_id' => $request->userId,
+                'bac_id' => $checkBac->id,
+                'action' => $request->input('status') == 0 ? 'Etat vers En Panne' : $request->input('status') == 1 ? 'Etat vers En marche' : 'Etat vers Non utilisé',
+                'comment' => $request->filled('comment') ? $request->input('comment') : $checkBac->comment,
+                'machine_rental_id' => $checkBac->machine->currentLocation()->id,
+            ]);
+            return response()->json(['status' => 200]);
+
+        }
+        return response()->json(['status' => 404, "Bac" => "Bac not found"]);
 
     }
 
