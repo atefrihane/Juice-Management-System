@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Order extends Model
 {
     use SoftDeletes;
+    protected $appends = ['sumOrder'];
 
     protected $guarded = ['id'];
 
@@ -67,5 +68,12 @@ class Order extends Model
             ->first();
 
         return $sum;
+    }
+
+    public function getsumOrderAttribute()
+    {
+
+        return $this->totalOrdered();
+
     }
 }

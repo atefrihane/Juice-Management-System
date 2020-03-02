@@ -820,7 +820,8 @@
                             total_order: this.total_order,
                             user_id: this.user_id,
                             arrival_date_wished: this.arrival_date_wished,
-                            status: 0
+                            status: 0,
+                            admin : true
 
                         })
                         .then((response) => {
@@ -875,7 +876,8 @@
                             comment: this.comment,
                             total_order: this.total_order,
                             user_id: this.user_id,
-                            status: 2
+                            status: 2,
+                                 admin : true
 
                         })
                         .then((response) => {

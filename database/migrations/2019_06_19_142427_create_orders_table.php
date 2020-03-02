@@ -37,6 +37,7 @@ class CreateOrdersTable extends Migration
             $table->foreign('preparator_id')->references('id')->on('users')->onDelete('SET NULL');
             $table->integer('parent_id')->unsigned()->nullable();
             $table->foreign('parent_id')->references('id')->on('orders')->onDelete('SET NULL');
+            $table->boolean('delivered')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

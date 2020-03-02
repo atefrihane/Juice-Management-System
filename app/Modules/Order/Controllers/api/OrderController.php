@@ -5,8 +5,10 @@ namespace App\Modules\Order\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Modules\Order\Models\Order;
 use App\Modules\Order\Models\OrderHistory;
+use App\Modules\Order\Models\OrderPrepare;
 use App\Modules\Product\Models\ProductWarehouse;
 use App\Modules\Store\Models\Store;
+use App\Modules\User\Models\User;
 use DB;
 use function _\findIndex;
 use function _\remove;
@@ -16,7 +18,19 @@ class OrderController extends Controller
 {
     public function handleSaveOrder(Request $request)
     {
+        if (!$request->filled('code') ||
+            !$request->filled('status') ||
+            !$request->filled('ordered_products') ||
+            !$request->filled('user_id') ||
+            !$request->filled('store_id') ||
+            empty($request->input('ordered_products'))) {
+            return response()->json(['status' => 400]);
+        }
 
+        $request->has('admin') ? $statusList = [0, 1, 2] : $statusList = [0, 1];
+        if (!in_array($request->input('status'), $statusList)) {
+            return response()->json(['status' => 404, 'orderStatus' => 'Wrong status']);
+        }
         $checkCount = Order::count();
         if ($checkCount > 0) {
             $code = Order::all()->last()->id + 1;
@@ -24,6 +38,14 @@ class OrderController extends Controller
             $code = 1;
         }
         $orderCode = $request->code . '-' . $code;
+
+        $checkOrderCode = Order::where('code', $orderCode)->first();
+        if ($checkOrderCode) {
+            return response()->json([
+                'status' => 404,
+                'orderCode' => 'Dupplicated order code',
+            ]);
+        }
 
         $order = Order::create([
             'code' => $orderCode,
@@ -36,6 +58,14 @@ class OrderController extends Controller
         $customisedProduct = [];
         if ($request->input('ordered_products')) {
             foreach ($request->input('ordered_products') as $ordered) {
+                if (!array_key_exists('packing', $ordered) ||
+                    !array_key_exists('unit', $ordered) ||
+                    !array_key_exists('public_price', $ordered) ||
+                    !array_key_exists('tva', $ordered) ||
+                    !array_key_exists('product_id', $ordered)
+                ) {
+                    return response()->json(['status' => 404, 'ordered_products' => 'Wrong keys']);
+                }
                 $customisedProduct = [
                     'package' => (int) $ordered['packing'],
                     'unit' => (int) $ordered['unit'],
@@ -141,10 +171,24 @@ class OrderController extends Controller
     }
     public function handleUpdateProduct(Request $request, $id)
     {
+        if (!$request->filled('code') ||
+            !$request->filled('status') ||
+            !$request->filled('custom_ordered') ||
+            !$request->filled('user_id') ||
+            !$request->filled('store_id') ||
+            empty($request->input('custom_ordered'))) {
+            return response()->json(['status' => 400]);
+        }
+
+        $request->has('admin') ? $statusList = [0, 1, 2] : $statusList = [0, 1];
+        if (!in_array($request->input('status'), $statusList)) {
+            return response()->json(['status' => 404, 'orderStatus' => 'Wrong status']);
+        }
 
         $order = Order::find($id);
-        if ($order) {
 
+        if ($order) {
+            $request->has('admin') ? $statusList = [0, 1, 2] : $statusList = [0, 1];
             $order->update([
                 'store_id' => $request->store_id,
                 'status' => $request->status,
@@ -161,6 +205,15 @@ class OrderController extends Controller
             $customisedProduct = [];
 
             foreach ($request->custom_ordered as $custom) {
+
+                if (!array_key_exists('package', $custom) ||
+                    !array_key_exists('unit', $custom) ||
+                    !array_key_exists('public_price', $custom) ||
+                    !array_key_exists('tva', $custom) ||
+                    !array_key_exists('product_id', $custom)
+                ) {
+                    return response()->json(['status' => 404, 'ordered_products' => 'Wrong keys']);
+                }
 
                 $customisedProduct = [
                     'package' => (int) $custom['package'],
@@ -748,7 +801,6 @@ class OrderController extends Controller
 
                             ]);
 
-
                             $order->update([
                                 'status' => $request->new_status,
                                 'arrival_date' => $request->date,
@@ -817,7 +869,6 @@ class OrderController extends Controller
                                 'comment.max' => '  Commentaire n\'est pas valide',
 
                             ]);
-
 
                             $order->update([
                                 'status' => $request->new_status,
@@ -985,6 +1036,85 @@ class OrderController extends Controller
 
         }
         return response()->json(['status' => 404]);
+    }
+
+    public function showOrderByStore($id)
+    {
+        $checkStore = Store::find($id);
+        if ($checkStore) {
+            $orders = $checkStore->orders()
+                ->whereBetween('status', [0, 9])
+                ->with(['products', 'histories.user', 'store.company'])
+                ->get();
+
+            return response()->json(['status' => 200, 'orders' => $orders]);
+        }
+        return response()->json(['status' => 404, 'Store' => 'Store not found']);
+    }
+
+    public function handleConfirmOrder($id, Request $request)
+    {
+        if (!$request->filled('delivered') ||
+            !$request->filled('userId') ||
+            !$request->filled('store_id')) {
+            return response()->json(['status' => 400]);
+        }
+        $checkUser = User::find($request->input('userId'));
+        if (!$checkUser) {
+            return response()->json(['status' => 404, 'User' => 'User not found']);
+
+        }
+        if (!in_array($request->input('delivered'), [0, 1])) {
+            return response()->json(['status' => 404, 'Delivered' => ' Wrong value']);
+        }
+        $checkOrder = Order::find($id);
+        if ($checkOrder) {
+            $checkOrder->update(['delivered' => $request->delivered]);
+            if ($request->delivered == 1) {
+
+                // get prepared products
+                $preparedProducts = OrderPrepare::where('order_id', $checkOrder->id)
+                    ->pluck('product_warehouse_id')
+                    ->toArray();
+                // add them in store stock
+                if (!empty($preparedProducts)) {
+                    $productWarehouses = ProductWarehouse::whereIn('id', $preparedProducts)->get();
+                    $storeStock = [];
+                    if (!empty($productWarehouses)) {
+                        foreach ($productWarehouses as $productWarehouse) {
+                            array_push($storeStock, [
+                                'packing' => $productWarehouse->packing,
+                                'quantity' => $productWarehouse->quantity,
+                                'creation_date' => $productWarehouse->creation_date,
+                                'expiration_date' => $productWarehouse->expiration_date,
+                                'stock_display' => $productWarehouse->stock_display,
+                                'packing_display' => $productWarehouse->packing_display,
+                                'product_id' => $productWarehouse->product_id,
+                                'store_id' => $request->store_id,
+                            ]);
+
+                        }
+                        DB::table('store_products')->insert($storeStock);
+                        OrderHistory::create([
+                            'order_id' => $checkOrder->id,
+                            'action' => 'Confirmation de la commande',
+                            'user_id' => $request->input('userId'),
+                        ]);
+                        return response()->json(['status' => 200]);
+
+                    }
+                    return response()->json(['status' => 404, 'Products warehouse' => 'empty']);
+
+                }
+                return response()->json(['status' => 404, 'Prepared Products' => 'empty']);
+
+            }
+
+            return response()->json(['status' => 200]);
+
+        }
+        return response()->json(['status' => 404, 'Order' => 'Order not found']);
+
     }
 
 }

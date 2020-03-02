@@ -48,17 +48,26 @@ class UserController extends Controller
                         $rentedMachines = MachineRental::where('store_id', $user->child->store->id)
                             ->where('active', 1)
                             ->with('store.company')
-                            ->with('machine.bacs')
+                            ->with(['machine' => function ($query) {
+                                $query->withCount('bacs');
+                            }])
+
                             ->get();
 
-                        return response()->json(['token' => $token, 'user' => $user, 'rentedMachines' => $rentedMachines], 200);
+                        return response()->json(['token' => $token,
+                            'user' => $user,
+                            'rentedMachines' => $rentedMachines], 200);
                         break;
                     case 'Autre':
                         $rentedMachines = MachineRental::whereIn('store_id', $user->child->stores->pluck('id'))
                             ->where('active', 1)
                             ->with('store.company')
-                            ->with('machine.bacs')
+                            ->with(['machine' => function ($query) {
+                                $query->withCount('bacs');
+                            }])
+
                             ->get();
+
                         $company = Company::whereHas('stores', function ($q) use ($user) {
                             $q->whereIn('id', $user->child->stores->pluck('id'));
                         })->first();
@@ -476,5 +485,19 @@ class UserController extends Controller
         })->get();
 
         return response()->json(['status' => 200, 'deliveries' => $deliveries]);
+    }
+
+    public function showResponsibleStores($id)
+    {
+        $checkUser = User::find($id);
+        if ($checkUser) {
+            $relatedStores = Store::whereHas('responsibles', function ($q) use ($checkUser) {
+                $q->where('responsible_id', $checkUser->child->id);
+            })->get();
+            return response()->json(['status' => 200, 'relatedStores' => $relatedStores]);
+
+        }
+        return response()->json(['status' => 404, 'User' => 'User not found']);
+
     }
 }

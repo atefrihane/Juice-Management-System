@@ -154,6 +154,20 @@ class ProductController extends Controller
     {
         return Product::where('status', 'disponible')->get();
     }
+    public function showProductsCategorized()
+    {
+        $disposableProducts = Product::where('type', 'Jettable')
+            ->where('status', 'disponible')
+            ->get();
+        $alimentaryProducts = Product::where('type', 'alimentaire')
+            ->where('status', 'disponible')
+            ->get();
+        return response()->json([
+            'status' => 200,
+            'disposableProducts' => $disposableProducts,
+            'alimentaryProducts' => $alimentaryProducts,
+        ]);
+    }
 
     public function handleGetProductById($id, $store_id)
     {

@@ -6020,7 +6020,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           total_order: this.total_order,
           user_id: this.user_id,
           arrival_date_wished: this.arrival_date_wished,
-          status: 0
+          status: 0,
+          admin: true
         }).then(function (response) {
           if (response.data.status == 400) {
             swal.fire({
@@ -6065,7 +6066,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           comment: this.comment,
           total_order: this.total_order,
           user_id: this.user_id,
-          status: 2
+          status: 2,
+          admin: true
         }).then(function (response) {
           if (response.data.status == 400) {
             swal.fire({
@@ -9025,7 +9027,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           total_order: this.total_order,
           user_id: this.user_id,
           arrival_date_wished: this.arrival_date_wished,
-          status: 0
+          status: 0,
+          admin: true
         }).then(function (response) {
           if (response.data.status == 200) {
             swal.fire({
@@ -9057,7 +9060,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           total_order: this.total_order,
           user_id: this.user_id,
           status: 2,
-          arrival_date_wished: this.arrival_date_wished
+          arrival_date_wished: this.arrival_date_wished,
+          admin: true
         }).then(function (response) {
           if (response.data.status == 200) {
             var _swal$fire;
@@ -9107,6 +9111,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -95337,9 +95342,7 @@ var render = function() {
           [
             _c("option", { attrs: { selected: "" } }, [_vm._v("Alimentaire")]),
             _vm._v(" "),
-            _c("option", [_vm._v("Jettable")]),
-            _vm._v(" "),
-            _c("option", [_vm._v("Autre")])
+            _c("option", [_vm._v("Jettable")])
           ]
         )
       ]),

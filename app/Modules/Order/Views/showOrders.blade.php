@@ -96,6 +96,7 @@
                                                 @case(0)
             
                                                 <!--- En cours de saisie -->
+                                                
                                                 <td data-url="{{route('showOrder',$order->id)}}">En cours de saisie</td>
             
                                                 <td class="not-this text-center">

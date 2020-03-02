@@ -52,7 +52,8 @@
                 <select class="form-control" v-model="type">
                     <option selected>Alimentaire</option>
                     <option>Jettable</option>
-                    <option>Autre</option>
+                 
+                 
 
                 </select>
 
