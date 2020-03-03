@@ -8,7 +8,7 @@ Route::group(['module' => 'Product', 'middleware' => ['auth:api'], 'namespace' =
     route::post('api/product/update/{id}', 'ProductController@handleUpdateProduct');
     route::get('api/products', 'ProductController@index');
     route::get('api/products/categorized', 'ProductController@showProductsCategorized');
-    route::get('api/product/{id}/store/{store_id}', 'ProductController@handleGetProductById'); //returns mixtures
+    route::get('api/product/{id}/store/{store_id}', 'ProductController@handleGetProductById'); //
     route::post('api/product/prices/{id}', 'ProductController@handleGetProductPrices'); //returns product details with specific price
     route::get('api/product/name/{name}', 'ProductController@handleGetProductByName');
     route::get('api/product/barcode/{barcode}', 'ProductController@handleGetProductByBarcode');
@@ -19,6 +19,9 @@ Route::group(['module' => 'Product', 'middleware' => ['auth:api'], 'namespace' =
     route::get('api/product/details/{id}', 'ProductController@handleGetProductDetails'); //returns product details without specific price
     route::post('api/product/{id}/validity', 'ProductController@handleGetValidityAfterOpening'); //returns validity days
     route::get('api/product/{id}/before', 'ProductController@handleCheckProductBeforeUpdate'); //returns if product exists in orders ' en cours de saisie'
+    route::get('api/store/{id}/stock','ProductController@handleGetProductsByStore'); // show stock of products linked to a specific store
+    route::get('api/product/{id}/store/{store_id}','ProductController@handleGetProductInStores'); //returns occurence of a product in stock of a store
+    route::post('api/product/{id}/store/{store_id}','ProductController@handleStoreProductInStock'); //add a new product to a specific store stock 
 });
 
 

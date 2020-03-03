@@ -9579,6 +9579,19 @@ __webpack_require__.r(__webpack_exports__);
               allowOutsideClick: false,
               confirmButtonText: 'Fermer'
             });
+            window.scrollTo(0, 0);
+            _this2.disabled = false;
+          }
+
+          if (response.data.status == 401) {
+            swal.fire({
+              type: 'error',
+              title: 'Code à barres déja utilisé  !',
+              showConfirmButton: true,
+              allowOutsideClick: false,
+              confirmButtonText: 'Fermer'
+            });
+            window.scrollTo(0, 0);
             _this2.disabled = false;
           }
 
@@ -10004,6 +10017,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               showConfirmButton: true,
               confirmButtonText: 'Fermer'
             });
+            window.scrollTo(0, 0);
+            _this2.disabled = false;
+          }
+
+          if (response.data.status == 401) {
+            swal.fire({
+              type: 'error',
+              title: 'Code à barres déja utilisé  !',
+              showConfirmButton: true,
+              allowOutsideClick: false,
+              confirmButtonText: 'Fermer'
+            });
+            window.scrollTo(0, 0);
             _this2.disabled = false;
           }
         })["catch"](function (error) {

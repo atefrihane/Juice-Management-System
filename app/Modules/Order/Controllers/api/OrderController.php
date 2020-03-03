@@ -1056,7 +1056,7 @@ class OrderController extends Controller
     {
         if (!$request->filled('delivered') ||
             !$request->filled('userId') ||
-            !$request->filled('store_id')) {
+            !$request->filled('storeId')) {
             return response()->json(['status' => 400]);
         }
         $checkUser = User::find($request->input('userId'));
@@ -1090,14 +1090,14 @@ class OrderController extends Controller
                                 'stock_display' => $productWarehouse->stock_display,
                                 'packing_display' => $productWarehouse->packing_display,
                                 'product_id' => $productWarehouse->product_id,
-                                'store_id' => $request->store_id,
+                                'store_id' => $request->storeId,
                             ]);
 
                         }
                         DB::table('store_products')->insert($storeStock);
                         OrderHistory::create([
                             'order_id' => $checkOrder->id,
-                            'action' => 'Confirmation de la commande',
+                            'action' => 'Confirmation de la livraison',
                             'user_id' => $request->input('userId'),
                         ]);
                         return response()->json(['status' => 200]);
@@ -1110,11 +1110,19 @@ class OrderController extends Controller
 
             }
 
+            OrderHistory::create([
+                'order_id' => $checkOrder->id,
+                'action' => 'Rejet de la livraison',
+                'user_id' => $request->input('userId'),
+            ]);
+
             return response()->json(['status' => 200]);
 
         }
         return response()->json(['status' => 404, 'Order' => 'Order not found']);
 
     }
+
+  
 
 }

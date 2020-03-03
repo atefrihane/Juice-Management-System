@@ -19,6 +19,7 @@ class UserController extends Controller
 
     public static function login(Request $request)
     {
+      
 
         if (!$request->accessCode || !$request->password) {
             return response()->json(['status' => 404]);

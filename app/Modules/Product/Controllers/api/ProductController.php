@@ -111,6 +111,11 @@ class ProductController extends Controller
         if ($checkCode) {
             return response()->json(['status' => 400]);
         }
+
+        $checkBarcode = Product::where('barcode', $request->barcode)->first();
+        if ($checkBarcode) {
+            return response()->json(['status' => 401]);
+        }
         if ($request->photo) {
             $name = $this->image->handleUploadImage($request->photo);
 
@@ -316,6 +321,14 @@ class ProductController extends Controller
         if ($checkCode) {
             return response()->json(['status' => 400]);
         }
+
+        $checkbBarcode = Product::where('barcode', $request->barcode)
+            ->where('id', '!=', $product->id)
+            ->first();
+        if ($checkbBarcode) {
+            return response()->json(['status' => 401]);
+        }
+
         $currentPhoto = $product->photo_url;
         if ($product) {
 
@@ -451,6 +464,86 @@ class ProductController extends Controller
             return response()->json(['status' => 200, 'countOrders' => count($checkProductPrepared)]);
         }
         return response()->json(['status' => 404]);
+    }
+
+    public function handleGetProductsByStore($id)
+    {
+
+        $checkStore = Store::find($id);
+        if ($checkStore) {
+            $stockProducts = DB::table('store_products')
+                ->join('stores', 'stores.id', '=', 'store_products.store_id')
+                ->join('products', 'products.id', '=', 'store_products.product_id')
+                ->where('store_id', $checkStore->id)
+                ->select(DB::raw('products.id,products.nom as name,products.photo_url,sum(quantity) as unitQuantities'))
+                ->groupBy('product_id')
+                ->get();
+
+            return response()->json(['status' => 200, 'stockProducts' => $stockProducts]);
+
+        }
+        return response()->json(['status' => 404]);
+    }
+
+    public function handleGetProductInStores($id, $store_id)
+    {
+        $checkProduct = Product::find($id);
+        if (!$checkProduct) {
+            return response()->json(['status' => 404, 'Product' => 'Product not found']);
+
+        }
+
+        $checkStore = Store::find($store_id);
+        if (!$checkStore) {
+            return response()->json(['status' => 404, 'Store' => 'Store not found']);
+        }
+
+        $stockProduct = DB::table('store_products')
+            ->where('product_id', $id)
+            ->where('store_id', $store_id)
+            ->get();
+        return response()->json(['status' => 200,
+            'product' => $checkProduct,
+            'stockProducts' => $stockProduct]);
+
+    }
+
+    public function handleStoreProductInStock($id, $store_id, Request $request)
+    {
+  
+        if (!$request->filled('newStock')) {
+            return response()->json(['status' => 400]);
+
+        }
+        if (!array_key_exists('packing',$request->input('newStock')) ||
+            !array_key_exists('quantity',$request->input('newStock')) ||
+            !array_key_exists('creation_date',$request->input('newStock')) ||
+            !array_key_exists('expiration_date',$request->input('newStock')) ||
+            !array_key_exists('stock_display',$request->input('newStock')) ||
+            !array_key_exists('packing_display',$request->input('newStock')) ||
+            !array_key_exists('comment',$request->input('newStock')) ||
+            !array_key_exists('product_id',$request->input('newStock')) ||
+            !array_key_exists('store_id',$request->input('newStock'))
+
+        ) {
+            return response()->json(['status' => 404, 'newStock' => 'wrong keys']);
+
+        }
+
+   
+
+        $checkProduct = Product::find($id);
+        if (!$checkProduct) {
+            return response()->json(['status' => 404, 'Product' => 'Product not found']);
+
+        }
+
+        $checkStore = Store::find($store_id);
+        if (!$checkStore) {
+            return response()->json(['status' => 404, 'Store' => 'Store not found']);
+        }
+        DB::table('store_products')->insert($request->input('newStock'));
+        return response()->json(['status' => 200]);
     }
 
 }

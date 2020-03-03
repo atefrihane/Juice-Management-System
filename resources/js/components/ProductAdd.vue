@@ -516,6 +516,26 @@
 
                                 });
 
+                                         window.scrollTo(0, 0);
+                                this.disabled = false
+
+
+
+                            }
+
+
+                                   if (response.data.status == 401) {
+                                swal.fire({
+                                    type: 'error',
+                                    title: 'Code à barres déja utilisé  !',
+                                    showConfirmButton: true,
+                                    allowOutsideClick: false,
+                                    confirmButtonText: 'Fermer'
+
+
+                                });
+
+                          window.scrollTo(0, 0);
                                 this.disabled = false
 
 
