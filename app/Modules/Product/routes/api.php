@@ -22,6 +22,7 @@ Route::group(['module' => 'Product', 'middleware' => ['auth:api'], 'namespace' =
     route::get('api/store/{id}/stock','ProductController@handleGetProductsByStore'); // show stock of products linked to a specific store
     route::get('api/product/{id}/store/{store_id}','ProductController@handleGetProductInStores'); //returns occurence of a product in stock of a store
     route::post('api/product/{id}/store/{store_id}','ProductController@handleStoreProductInStock'); //add a new product to a specific store stock 
+    route::post('api/stock/{id}/update','ProductController@handleUpdateStoreProductStock'); //add a new product to a specific store stock 
 });
 
 

@@ -7,6 +7,7 @@ use App\Modules\Order\Models\Order;
 use App\Modules\Product\Models\Product;
 use App\Modules\Product\Models\ProductHistory;
 use App\Modules\Store\Models\Store;
+use App\Modules\Store\Models\StoreProduct;
 use App\Repositories\Image;
 use Carbon\Carbon;
 use DB;
@@ -510,27 +511,27 @@ class ProductController extends Controller
 
     public function handleStoreProductInStock($id, $store_id, Request $request)
     {
-  
-        if (!$request->filled('newStock')) {
+
+        if (!$request->filled('newStock') ||
+            empty($request->input('newStock')) ||
+            !$request->input('userId')) {
             return response()->json(['status' => 400]);
 
         }
-        if (!array_key_exists('packing',$request->input('newStock')) ||
-            !array_key_exists('quantity',$request->input('newStock')) ||
-            !array_key_exists('creation_date',$request->input('newStock')) ||
-            !array_key_exists('expiration_date',$request->input('newStock')) ||
-            !array_key_exists('stock_display',$request->input('newStock')) ||
-            !array_key_exists('packing_display',$request->input('newStock')) ||
-            !array_key_exists('comment',$request->input('newStock')) ||
-            !array_key_exists('product_id',$request->input('newStock')) ||
-            !array_key_exists('store_id',$request->input('newStock'))
+        if (!array_key_exists('packing', $request->input('newStock')) ||
+            !array_key_exists('quantity', $request->input('newStock')) ||
+            !array_key_exists('creation_date', $request->input('newStock')) ||
+            !array_key_exists('expiration_date', $request->input('newStock')) ||
+            !array_key_exists('stock_display', $request->input('newStock')) ||
+            !array_key_exists('packing_display', $request->input('newStock')) ||
+            !array_key_exists('comment', $request->input('newStock')) ||
+            !array_key_exists('product_id', $request->input('newStock')) ||
+            !array_key_exists('store_id', $request->input('newStock'))
 
         ) {
             return response()->json(['status' => 404, 'newStock' => 'wrong keys']);
 
         }
-
-   
 
         $checkProduct = Product::find($id);
         if (!$checkProduct) {
@@ -544,6 +545,41 @@ class ProductController extends Controller
         }
         DB::table('store_products')->insert($request->input('newStock'));
         return response()->json(['status' => 200]);
+    }
+
+    public function handleUpdateStoreProductStock($id)
+    {
+
+        if (!$request->filled('newStock') ||
+            empty($request->input('newStock') ||
+            !$request->input('userId')))  {
+            return response()->json(['status' => 400]);
+
+        }
+
+        if (!array_key_exists('packing', $request->input('newStock')) ||
+            !array_key_exists('quantity', $request->input('newStock')) ||
+            !array_key_exists('creation_date', $request->input('newStock')) ||
+            !array_key_exists('expiration_date', $request->input('newStock')) ||
+            !array_key_exists('stock_display', $request->input('newStock')) ||
+            !array_key_exists('packing_display', $request->input('newStock')) ||
+            !array_key_exists('comment', $request->input('newStock')) ||
+            !array_key_exists('product_id', $request->input('newStock')) ||
+            !array_key_exists('store_id', $request->input('newStock'))
+
+    ) {
+        return response()->json(['status' => 404, 'newStock' => 'wrong keys']);
+
+    }
+
+        $checkStock = StoreProduct::find($id);
+        $historyDetails = [];
+        // ($request->filled('packing') && $checkStock->packing != $request->input('packing')) ? 
+        // array_push($historyDetails , ['field' => 'Colisage'])
+       
+
+
+
     }
 
 }
