@@ -16,10 +16,11 @@ class CreateStoreProductsHistory extends Migration
         Schema::create('store_products_history', function (Blueprint $table) {
             $table->increments('id');
             $table->string('action');
+            $table->text('comment')->nullable();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('store_products_id')->unsigned();
-            $table->foreign('store_products_id')->references('id')->on('store_products');
+            $table->foreign('store_products_id')->references('id')->on('store_products')->onDelete('cascade');
             $table->timestamps();
         });
     }

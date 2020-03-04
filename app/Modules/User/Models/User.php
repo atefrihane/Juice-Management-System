@@ -2,14 +2,15 @@
 
 namespace App\Modules\User\Models;
 
+use Laravel\Passport\HasApiTokens;
 use App\Modules\Order\Models\Order;
-use App\Modules\User\Models\ContactHistory;
 use App\Modules\User\Models\Director;
 use App\Modules\User\Models\Responsible;
-use App\Modules\Warehouse\Models\Warehouse;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
+use App\Modules\User\Models\ContactHistory;
+use App\Modules\Warehouse\Models\Warehouse;
+use App\Modules\Store\Models\StoreProductHistory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
@@ -119,6 +120,12 @@ class User extends Authenticatable
     public function histories()
     {
         return $this->hasMany(ContactHistory::class, 'contact_id', 'id');
+
+    }
+
+    public function storeProductHistories()
+    {
+        return $this->hasMany(StoreProductHistory::class);
 
     }
 

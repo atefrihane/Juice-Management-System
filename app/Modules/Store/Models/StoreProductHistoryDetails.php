@@ -12,7 +12,7 @@ class StoreProductHistoryDetails extends Model
     protected $table = 'store_products_history_details';
     public function storeProductHistory()
     {
-        return $this->belongsTo(StoreProductHistory::class, 'store_products_history_id');
+        return $this->belongsTo(StoreProductHistory::class);
     }
 
 }

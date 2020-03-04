@@ -8,6 +8,9 @@ use App\Modules\Product\Models\Product;
 use App\Modules\Product\Models\ProductHistory;
 use App\Modules\Store\Models\Store;
 use App\Modules\Store\Models\StoreProduct;
+use App\Modules\Store\Models\StoreProductHistory;
+use App\Modules\Store\Models\StoreProductHistoryDetails;
+use App\Modules\User\Models\User;
 use App\Repositories\Image;
 use Carbon\Carbon;
 use DB;
@@ -175,28 +178,29 @@ class ProductController extends Controller
         ]);
     }
 
-    public function handleGetProductById($id, $store_id)
-    {
+    // public function handleGetProductById($id, $store_id)
+    // {
 
-        $checkProduct = Product::find($id);
+    //     $checkProduct = Product::find($id);
 
-        if ($checkProduct) {
-            $stockProducts = DB::table('store_products')
-                ->where('store_id', $store_id)
-                ->where('product_id', $id)
-                ->get();
+    //     if ($checkProduct) {
 
-            return response()->json(['status' => '200',
-                'product' => $checkProduct,
-                'stockProduct' => $stockProducts,
+    //         $stockProducts = DB::table('store_products')
+    //             ->where('store_id', $store_id)
+    //             ->where('product_id', $id)
+    //             ->get();
 
-            ]);
+    //         return response()->json(['status' => '200',
+    //             'product' => $checkProduct,
+    //             'stockProduct' => $stockProducts,
 
-        } else {
-            return response()->json(['status' => '404', 'product' => 'Product not found']);
-        }
+    //         ]);
 
-    }
+    //     } else {
+    //         return response()->json(['status' => '404', 'product' => 'Product not found']);
+    //     }
+
+    // }
 
     public function handleGetProductByName($name)
     {
@@ -503,9 +507,15 @@ class ProductController extends Controller
             ->where('product_id', $id)
             ->where('store_id', $store_id)
             ->get();
+        $stockProductHistory = StoreProductHistory::whereIn('store_products_id', $stockProduct->pluck('id'))
+            ->with(['user', 'histories'])
+            ->get();
+
         return response()->json(['status' => 200,
             'product' => $checkProduct,
-            'stockProducts' => $stockProduct]);
+            'stockProducts' => $stockProduct,
+            'history' => $stockProductHistory,
+        ]);
 
     }
 
@@ -518,19 +528,24 @@ class ProductController extends Controller
             return response()->json(['status' => 400]);
 
         }
-        if (!array_key_exists('packing', $request->input('newStock')) ||
-            !array_key_exists('quantity', $request->input('newStock')) ||
-            !array_key_exists('creation_date', $request->input('newStock')) ||
-            !array_key_exists('expiration_date', $request->input('newStock')) ||
-            !array_key_exists('stock_display', $request->input('newStock')) ||
-            !array_key_exists('packing_display', $request->input('newStock')) ||
-            !array_key_exists('comment', $request->input('newStock')) ||
-            !array_key_exists('product_id', $request->input('newStock')) ||
-            !array_key_exists('store_id', $request->input('newStock'))
 
-        ) {
-            return response()->json(['status' => 404, 'newStock' => 'wrong keys']);
-
+        //Disallow wrong keys
+        $filteredNewStockKeys = array_keys($request->input('newStock'));
+        $allowedKeys = [
+            'packing',
+            'quantity',
+            'creation_date',
+            'expiration_date',
+            'stock_display',
+            'packing_display',
+            'comment',
+            'product_id',
+            'store_id',
+        ];
+        foreach ($filteredNewStockKeys as $key) {
+            if (!in_array($key, $allowedKeys)) {
+                return response()->json(['status' => 404, 'newStock' => "Wrong keys"]);
+            }
         }
 
         $checkProduct = Product::find($id);
@@ -543,42 +558,156 @@ class ProductController extends Controller
         if (!$checkStore) {
             return response()->json(['status' => 404, 'Store' => 'Store not found']);
         }
-        DB::table('store_products')->insert($request->input('newStock'));
+        if ($store_id != $request->input('newStock')['store_id']) {
+            return response()->json(['status' => 404, 'Store' => 'Store not found']);
+
+        }
+
+        $newStoreProduct = StoreProduct::create($request->input('newStock'));
+
+        StoreProductHistory::create([
+            'action' => 'Ajout : ' . $checkProduct->nom,
+            'user_id' => $request->input('userId'),
+            'comment' => $request->filled('comment') ? $request->input('comment') : null,
+            'store_products_id' => $newStoreProduct->id,
+        ]);
         return response()->json(['status' => 200]);
     }
 
-    public function handleUpdateStoreProductStock($id)
+    public function handleUpdateStoreProductStock($id, Request $request)
     {
 
         if (!$request->filled('newStock') ||
-            empty($request->input('newStock') ||
-            !$request->input('userId')))  {
+            empty($request->input('newStock')) ||
+            !$request->filled('userId')) {
             return response()->json(['status' => 400]);
 
         }
 
-        if (!array_key_exists('packing', $request->input('newStock')) ||
-            !array_key_exists('quantity', $request->input('newStock')) ||
-            !array_key_exists('creation_date', $request->input('newStock')) ||
-            !array_key_exists('expiration_date', $request->input('newStock')) ||
-            !array_key_exists('stock_display', $request->input('newStock')) ||
-            !array_key_exists('packing_display', $request->input('newStock')) ||
-            !array_key_exists('comment', $request->input('newStock')) ||
-            !array_key_exists('product_id', $request->input('newStock')) ||
-            !array_key_exists('store_id', $request->input('newStock'))
+        //Disallow wrong keys
+        $filteredNewStockKeys = array_keys($request->input('newStock'));
+        $allowedKeys = [
+            'packing',
+            'quantity',
+            'creation_date',
+            'expiration_date',
+            'stock_display',
+            'packing_display',
+            'comment',
+        ];
+        foreach ($filteredNewStockKeys as $key) {
+            if (!in_array($key, $allowedKeys)) {
+                return response()->json(['status' => 404, 'newStock' => "Wrong keys"]);
+            }
+        }
 
-    ) {
-        return response()->json(['status' => 404, 'newStock' => 'wrong keys']);
+        $filteredNewStock = array_filter($request->input('newStock'), 'strlen');
+        if (empty($filteredNewStock)) {
+            return response()->json(['status' => 404, 'newStock' => "Wrong values"]);
+        }
+
+        $checkUser = User::find($request->input('userId'));
+        if (!$checkUser) {
+            return response()->json(['status' => 404, 'User' => "User not found"]);
+
+        }
+
+        $checkStock = StoreProduct::find($id);
+        if ($checkStock) {
+            $historyDetails = [];
+
+            $checkStockHistroy = StoreProductHistory::create([
+                'action' => 'Modfication',
+                'user_id' => $request->input('userId'),
+                'comment' => $request->filled('comment') ? $request->input('comment') : null,
+                'store_products_id' => $checkStock->id,
+            ]);
+
+            (array_key_exists('packing', $filteredNewStock) && $filteredNewStock['packing'] != $checkStock->packing) ? array_push($historyDetails, [
+                'field' => 'Colisage',
+                'changes' => $checkStock->packing . ' => ' . $filteredNewStock['packing'],
+                'store_products_history_id' => $checkStockHistroy->id,
+            ]) : '';
+
+            (array_key_exists('quantity', $filteredNewStock) && $filteredNewStock['quantity'] != $checkStock->quantity) ? array_push($historyDetails, [
+                'field' => 'Quantité',
+                'changes' => $checkStock->quantity . ' => ' . $filteredNewStock['quantity'],
+                'store_products_history_id' => $checkStockHistroy->id,
+            ]) : '';
+
+            (array_key_exists('creation_date', $filteredNewStock) && $filteredNewStock['creation_date'] != $checkStock->creation_date) ? array_push($historyDetails, [
+                'field' => 'Date de création',
+                'changes' => $checkStock->creation_date . ' => ' . $filteredNewStock['creation_date'],
+                'store_products_history_id' => $checkStockHistroy->id,
+            ]) : '';
+
+            (array_key_exists('expiration_date', $filteredNewStock) && $filteredNewStock['expiration_date'] != $checkStock->expiration_date) ? array_push($historyDetails, [
+                'field' => 'Date d\'expiration',
+                'changes' => $checkStock->expiration_date . ' => ' . $filteredNewStock['expiration_date'],
+                'store_products_history_id' => $checkStockHistroy->id,
+            ]) : '';
+
+            (array_key_exists('stock_display', $filteredNewStock) && $filteredNewStock['stock_display'] != $checkStock->stock_display) ? array_push($historyDetails, [
+                'field' => 'Nombre d\'unités par display',
+                'changes' => $checkStock->stock_display . ' => ' . $filteredNewStock['stock_display'],
+                'store_products_history_id' => $checkStockHistroy->id,
+            ]) : '';
+
+            (array_key_exists('packing_display', $filteredNewStock) && $filteredNewStock['packing_display'] != $checkStock->packing_display) ? array_push($historyDetails, [
+                'field' => 'Nombre de display par colis',
+                'changes' => $checkStock->packing_display . ' => ' . $filteredNewStock['packing_display'],
+                'store_products_history_id' => $checkStockHistroy->id,
+            ]) : '';
+
+            (array_key_exists('comment', $filteredNewStock) && $filteredNewStock['comment'] != $checkStock->comment) ? array_push($historyDetails, [
+                'field' => 'Commentaire',
+                'changes' => $checkStock->comment . ' => ' . $filteredNewStock['comment'],
+                'store_products_history_id' => $checkStockHistroy->id,
+            ]) : '';
+
+            // remove null // empty  values
+            if (!empty($historyDetails)) {
+                foreach ($historyDetails as $historyDetail) {
+                    array_filter($historyDetail, 'strlen');
+
+                }
+
+                if (!empty($historyDetails)) {
+                    StoreProductHistoryDetails::insert($historyDetails);
+                    $checkStock->update($filteredNewStock);
+                    return response()->json(['status' => 200]);
+                }
+
+            }
+
+            return response()->json(['status' => 200]);
+
+        }
+
+        return response()->json(['status' => 404, 'Stock' => 'Stock not found']);
 
     }
 
+    public function handleEmptyStoreProductStock($id, Request $request)
+    {
+        if (!$request->filled('userId')) {
+            return response()->json(['status' => 200]);
+
+        }
         $checkStock = StoreProduct::find($id);
-        $historyDetails = [];
-        // ($request->filled('packing') && $checkStock->packing != $request->input('packing')) ? 
-        // array_push($historyDetails , ['field' => 'Colisage'])
-       
 
+        if ($checkStock) {
+            $checkStock->update(['quantity' => 0]);
+            $checkStockHistroy = StoreProductHistory::create([
+                'action' => 'Suppréssion',
+                'user_id' => $request->input('userId'),
+                'comment' => $request->filled('comment') ? $request->input('comment') : null,
+                'store_products_id' => $checkStock->id,
+            ]);
+            return response()->json(['status' => 200]);
 
+        }
+        return response()->json(['status' => 404]);
 
     }
 

@@ -15,11 +15,10 @@ class CreateStoreProductsHistoryDetails extends Migration
     {
         Schema::create('store_products_history_details', function (Blueprint $table) {
             $table->increments('id');
-
             $table->string('field');
             $table->string('changes');
             $table->integer('store_products_history_id')->unsigned();
-            $table->foreign('store_products_history_id')->references('id')->on('store_products_history');
+            $table->foreign('store_products_history_id')->references('id')->on('store_products_history')->onDelete('cascade');
 
             $table->timestamps();
         });
