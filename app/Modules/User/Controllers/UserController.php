@@ -28,8 +28,9 @@ class UserController extends Controller
             'accessCode' => $request->accessCode,
             'password' => $request->password,
         ])->first();
-
-        if ($user) {
+       
+     
+        if ($user && $user->getType() == 'admin') {
             Auth::login($user);
             return redirect()->route('showHome');
         }

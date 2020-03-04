@@ -62,12 +62,12 @@ class ConversationController extends Controller
         $conversation = Conversation::has('messages')->where('id', $id)->with('messages', 'messages.user.child')->first();
 
         if ($conversation) {
-            $lastMessage = $conversation->messages->last();
-            $checkUser = User::find($lastMessage->user_id);
-            if ($lastMessage && $checkUser && $checkUser->child_type != Admin::class && $lastMessage->seen == 0) {
-                $lastMessage->update(['seen' => 1]);
 
-            }
+            $lastMessage = $conversation->messages()
+                ->where('seen', 0)
+                ->whereHas('user', function ($q) {
+                    $q->where('child_type', '<>', Admin::class);
+                })->update(['seen' => 1]);
 
             if (count($conversation->messages) > 0) {
                 foreach ($conversation->messages as $message) {

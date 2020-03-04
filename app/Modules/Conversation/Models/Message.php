@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
+    protected $appends = ['userCompany'];
 
     protected $guarded = ['id'];
 
@@ -17,10 +18,24 @@ class Message extends Model
 
     }
 
-    public function conversation_id()
+    public function conversation()
     {
-        return $this->hasMany(Conversation::class, 'conversation_id');
+        return $this->belongsTo(Conversation::class, 'conversation_id');
 
+    }
+
+    public function getuserCompanyAttribute()
+    {
+       
+        switch ($this->user->getType()) {
+
+            case 'Autre':return $this->user->child->stores->first()->company;
+                break;
+            case 'Directeur':return $this->user->child->store->company;
+            case 'admin':return 'admin';
+                break;
+
+        }
     }
 
 }
