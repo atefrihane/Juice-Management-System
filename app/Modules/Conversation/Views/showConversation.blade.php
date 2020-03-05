@@ -1,5 +1,5 @@
 @extends('General.layout')
-@section('pageTitle', 'Acceuil')
+@section('pageTitle', 'Conversation')
 @section('content')
 
 

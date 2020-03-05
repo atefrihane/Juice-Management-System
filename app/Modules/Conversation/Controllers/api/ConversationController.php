@@ -29,12 +29,39 @@ class ConversationController extends Controller
             $conversation->messages()->create([
                 'message' => $request->message,
                 'user_id' => Admin::first()->user->id,
-                'seen' => 1,
+                'seen' => 0,
                 'conversation_id' => $id,
             ]);
             return response()->json(['status' => 200]);
         }
         return response()->json(['status' => 404]);
+
+    }
+
+    public function handleAddConversation($id, Request $request)
+    {
+        if (!$request->filled('subject') ||
+            !$request->filled('message')) {
+            return response()->json(['status' => 400]);
+
+        }
+        $checkUser = User::find($id);
+        if (!$checkUser) {
+            return response()->json(['status' => 404, 'User' => 'User not found']);
+
+        }
+        $conversation = Conversation::create([
+            'subject' => $request->input('subject'),
+        ]);
+        $conversation->messages()->create([
+            'message' => $request->input('message'),
+            'user_id' => $id,
+            'seen' => 0,
+        ]);
+
+        $ids = [$id, Admin::first()->user->id];
+        $conversation->users()->attach($ids);
+        return response()->json(['status' => 200]);
 
     }
 
@@ -45,7 +72,6 @@ class ConversationController extends Controller
             $conversations = Conversation::whereHas('users', function ($q) use ($id) {
                 $q->where('conversation_users.user_id', $id);
             })
-                ->with('messages.user')
                 ->get();
 
             return response()->json(['status' => 200, 'conversations' => $conversations]);
@@ -93,6 +119,10 @@ class ConversationController extends Controller
     {
         $conversation = Conversation::find($id);
         if ($conversation) {
+
+            $conversation->messages()->whereHas('user', function ($q) {
+                $q->where('child_type', Admin::class);
+            })->update(['seen' => 1]);
 
             return response()->json([
                 'status' => 200,

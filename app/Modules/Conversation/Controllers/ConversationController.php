@@ -40,6 +40,8 @@ class ConversationController extends Controller
     {
         return view('Conversation::showAddConversation', ['companies' => Company::all()]);
     }
+
+    
     public function handleAddConversation(Request $request)
     {
         $conversation = Conversation::create([
