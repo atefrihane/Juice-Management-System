@@ -29,6 +29,7 @@ import ContactUpdate from './components/ContactUpdate.vue'
 import Conversation from './components/Conversation.vue'
 import ContentDisplay from './components/ContentDisplay.vue'
 import AdsUpload from './components/AdsUpload.vue'
+import TestEvent from './components/TestEvent.vue'
 import swal from 'sweetalert2'
 // import swal from 'sweetalert';
 window.swal = swal;
@@ -68,6 +69,7 @@ Vue.component('contact-update', require('./components/ContactUpdate.vue'));
 Vue.component('conversation', require('./components/Conversation.vue'));
 Vue.component('content-display', require('./components/ContentDisplay.vue').default);
 Vue.component('ads-upload', require('./components/AdsUpload.vue'));
+Vue.component('test-evebt', require('./components/TestEvent.vue'));
 axios.defaults.baseURL = ''
 const app = new Vue({
     el: '#app',
@@ -90,7 +92,8 @@ const app = new Vue({
         'contact-update': ContactUpdate,
         'show-conversation': Conversation,
         'content-display': ContentDisplay,
-        'ads-upload': AdsUpload
+        'ads-upload': AdsUpload,
+        'test-event': TestEvent
 
 
 

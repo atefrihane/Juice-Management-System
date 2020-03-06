@@ -5,6 +5,7 @@ Route::group(['module' => 'Company', 'middleware' => ['web', 'isAuth', 'primary.
     Route::get('/countries/add', 'GeneralController@showAddCountry')->name('showAddCountry');
     Route::get('/country/update/{id}', 'GeneralController@showUpdateCountry')->name('showUpdateCountry');
     Route::get('/advertisement/add', 'GeneralController@showAddAdvertisement')->name('showAddAdvertisement');
+    route::get('/tests','GeneralController@showTest');
 });
 
 Route::group(['module' => 'Company', 'middleware' => ['web', 'isAuth', 'preparator'], 'namespace' => 'App\Modules\General\Controllers'], function () {

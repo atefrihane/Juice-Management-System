@@ -89,6 +89,11 @@ class GeneralController extends Controller
         return view('General::showUploadAds');
 
     }
+
+    public function showTest()
+    {
+        return view('General::showTest');
+    }
    
 
 }
