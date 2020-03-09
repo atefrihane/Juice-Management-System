@@ -3,7 +3,7 @@
 Route::group(['module' => 'User', 'middleware' => ['auth:api'], 'namespace' => 'App\Modules\User\Controllers\api'], function() {
 
 
-    // route::get('users/all', "UserController@getUsers");
+    route::get('api/user/{id}', "UserController@handleFetchUser");
     route::get('/api/users/show', "UserController@showUsers");
     route::get('/api/preparators/show', "UserController@showPreparators");
     route::get('/api/deliveries/show', "UserController@showDeliveries");

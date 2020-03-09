@@ -5,6 +5,7 @@ namespace App\Modules\User\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Modules\Admin\Models\Admin;
 use App\Modules\Company\Models\Company;
+use App\Modules\General\Models\Advertisement;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Store\Models\Store;
 use App\Modules\User\Models\ContactHistory;
@@ -19,7 +20,6 @@ class UserController extends Controller
 
     public static function login(Request $request)
     {
-      
 
         if (!$request->accessCode || !$request->password) {
             return response()->json(['status' => 404]);
@@ -57,7 +57,9 @@ class UserController extends Controller
 
                         return response()->json(['token' => $token,
                             'user' => $user,
-                            'rentedMachines' => $rentedMachines], 200);
+                            'rentedMachines' => $rentedMachines,
+                            'ads' => Advertisement::all(),
+                        ], 200);
                         break;
                     case 'Autre':
                         $rentedMachines = MachineRental::whereIn('store_id', $user->child->stores->pluck('id'))
@@ -83,13 +85,21 @@ class UserController extends Controller
                             'company' => $company,
                             'rentedMachines' => $rentedMachines,
                             'relatedStores' => $relatedStores,
+                            'ads' => Advertisement::all(),
                         ], 200);
                         break;
                 }
 
             } else {
                 //List all companies with stores for ADMINS
-                return response()->json(['token' => $token, 'user' => $user, 'allCompanies' => Company::with('stores')->get()], 200);
+                return response()->json([
+                    'token' => $token,
+                    'user' => $user,
+                    'allCompanies' => Company::with('stores')->get(),
+                    'ads' => Advertisement::all(),
+
+                ]
+                    , 200);
 
             }
 
@@ -97,6 +107,17 @@ class UserController extends Controller
             return response()->json(['error' => 'UnAuthorised'], 401);
 
         }
+    }
+    public function handleFetchUser($id)
+    {
+        $checkUser = User::find($id);
+        if ($checkUser) {
+            return response()->json(['status' => 200, 'user' => $checkUser]);
+
+        }
+
+        return response()->json(['status' => 400]);
+
     }
 
     public function showUsers()
