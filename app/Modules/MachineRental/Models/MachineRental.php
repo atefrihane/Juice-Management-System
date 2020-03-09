@@ -33,14 +33,17 @@ class MachineRental extends Model
 
     public function getlatestExpirationAttribute()
     {
-
+      if($this->machine){
         return DB::table('bac_products')
-            ->join('bacs', 'bacs.id', '=', 'bac_products.bac_id')
-            ->join('machines', 'machines.id', '=', 'bacs.machine_id')
-            ->whereIn('bac_id', $this->machine->bacs()->pluck('id'))
-            ->orderByRaw('expiration_date ASC')
-            ->select(DB::raw('bac_id,expiration_date,machines.id as machine_id'))
-            ->first();
+        ->join('bacs', 'bacs.id', '=', 'bac_products.bac_id')
+        ->join('machines', 'machines.id', '=', 'bacs.machine_id')
+        ->whereIn('bac_id', $this->machine->bacs()->pluck('id'))
+        ->orderByRaw('expiration_date ASC')
+        ->select(DB::raw('bac_id,expiration_date,machines.id as machine_id'))
+        ->first();
+      }
+      return;
+       
 
     }
 
