@@ -2,25 +2,20 @@
 
 namespace App\Modules\User\Models;
 
-use Laravel\Passport\HasApiTokens;
 use App\Modules\Order\Models\Order;
+use App\Modules\Store\Models\StoreProductHistory;
+use App\Modules\User\Models\ContactHistory;
 use App\Modules\User\Models\Director;
 use App\Modules\User\Models\Responsible;
-use Illuminate\Notifications\Notifiable;
-use App\Modules\User\Models\ContactHistory;
 use App\Modules\Warehouse\Models\Warehouse;
-use App\Modules\Store\Models\StoreProductHistory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'email',
         'password',
@@ -38,8 +33,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-   
 
     public function child()
     {
@@ -129,10 +122,11 @@ class User extends Authenticatable
 
     }
 
-    public function receivesBroadcastNotificationsOn() {
-        
-        return 'user-'.$this->id;
-    
+    public function receivesBroadcastNotificationsOn()
+    {
+
+        return 'user-' . $this->id;
+
     }
 
 }

@@ -59,6 +59,7 @@ class UserController extends Controller
                             'user' => $user,
                             'rentedMachines' => $rentedMachines,
                             'ads' => Advertisement::all(),
+                            'userType' => $user->getType(),
                         ], 200);
                         break;
                     case 'Autre':
@@ -85,6 +86,7 @@ class UserController extends Controller
                             'company' => $company,
                             'rentedMachines' => $rentedMachines,
                             'relatedStores' => $relatedStores,
+                            'userType' => $user->getType(),
                             'ads' => Advertisement::all(),
                         ], 200);
                         break;
@@ -95,6 +97,7 @@ class UserController extends Controller
                 return response()->json([
                     'token' => $token,
                     'user' => $user,
+                    'userType' => $user->getType(),
                     'allCompanies' => Company::with('stores')->get(),
                     'ads' => Advertisement::all(),
 
