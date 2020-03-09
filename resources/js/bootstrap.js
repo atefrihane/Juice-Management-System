@@ -61,7 +61,7 @@ window.Pusher = require('pusher-js');
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: 'wizeKey',
-    wsHost: '127.0.0.1',
+    wsHost: window.location.hostname,
     wsPort: 6001,
     disableStats: true,
 
