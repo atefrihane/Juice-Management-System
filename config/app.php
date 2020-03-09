@@ -227,7 +227,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Batch' => Mavinoo\LaravelBatch\LaravelBatchFacade::class,
-        
+        'Pusher' => Pusher\Pusher::class,
 
     ],
 
