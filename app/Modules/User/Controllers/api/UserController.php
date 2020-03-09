@@ -63,14 +63,6 @@ class UserController extends Controller
                         ], 200);
                         break;
                     case 'Autre':
-                        $rentedMachines = MachineRental::whereIn('store_id', $user->child->stores->pluck('id'))
-                            ->where('active', 1)
-                            ->with('store.company')
-                            ->with(['machine' => function ($query) {
-                                $query->withCount('bacs');
-                            }])
-
-                            ->get();
 
                         $company = Company::whereHas('stores', function ($q) use ($user) {
                             $q->whereIn('id', $user->child->stores->pluck('id'));
@@ -84,7 +76,6 @@ class UserController extends Controller
                             'token' => $token,
                             'user' => $user,
                             'company' => $company,
-                            'rentedMachines' => $rentedMachines,
                             'relatedStores' => $relatedStores,
                             'userType' => $user->getType(),
                             'ads' => Advertisement::all(),

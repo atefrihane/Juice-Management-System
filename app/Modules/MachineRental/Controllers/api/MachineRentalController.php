@@ -8,6 +8,7 @@ use App\Modules\Company\Models\Company;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\MachineRental\Models\MachineRentalHistory;
 use App\Modules\Machine\Models\Machine;
+use App\Modules\Store\Models\Store;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -250,6 +251,7 @@ class MachineRentalController extends Controller
 
         $checkStore = Store::find($id);
         if ($checkStore) {
+
             $rentedMachines = MachineRental::where('store_id', $checkStore->id)
                 ->where('active', 1)
                 ->with('store.company')
