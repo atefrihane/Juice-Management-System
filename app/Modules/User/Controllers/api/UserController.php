@@ -72,11 +72,21 @@ class UserController extends Controller
                             $q->where('responsible_id', $user->child->id);
                         })->get();
 
+                        $activeRentals = [];
+                        if (!empty($relatedStores)) {
+                            $activeRentals = Store::whereIn('id', $relatedStores->pluck('id'))
+                                ->whereHas('rentals', function ($q) {
+                                    $q->where('active', 1);
+                                })->with('rentals.machine')
+                                ->get();
+                        }
+
                         return response()->json([
                             'token' => $token,
                             'user' => $user,
                             'company' => $company,
                             'relatedStores' => $relatedStores,
+                            'activeRentals' => $activeRentals,
                             'userType' => $user->getType(),
                             'ads' => Advertisement::all(),
                         ], 200);
