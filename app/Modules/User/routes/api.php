@@ -7,7 +7,7 @@ Route::group(['module' => 'User', 'middleware' => ['auth:api'], 'namespace' => '
     route::get('/api/users/show', "UserController@showUsers");
     route::get('/api/preparators/show', "UserController@showPreparators");
     route::get('/api/deliveries/show', "UserController@showDeliveries");
-    route::get('/api/stores/user/{user_id}', "UserController@showResponsibleStores"); // show stores for responsible
+    route::get('/api/stores/user/{user_id}', "UserController@showContactsStores"); // show stores for responsible
     Route::post('/api/contact/save/{id}', 'UserController@storeClient')->name('storeClient');
     Route::post('/api/contact/update/{cid}/{id}', 'UserController@updateClient')->name('updateClient');
 });

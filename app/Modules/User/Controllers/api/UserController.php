@@ -518,7 +518,7 @@ class UserController extends Controller
         return response()->json(['status' => 200, 'deliveries' => $deliveries]);
     }
 
-    public function showResponsibleStores($id)
+    public function showContactsStores($id)
     {
         $checkUser = User::find($id);
         if ($checkUser) {
