@@ -10,6 +10,6 @@
 Route::group(['module' => 'Store', 'middleware' => ['auth:api'], 'namespace' => 'App\Modules\Store\Controllers\api'], function() {
     Route::get('api/stores', 'StoreController@showStores');
     Route::get('api/store/{id}', 'StoreController@showStore');
-
+    Route::get('api/store/filter/user{id}', 'StoreController@showFilteredStoresByUser');
 });
 
