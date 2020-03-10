@@ -48,11 +48,14 @@ class UserController extends Controller
 
                     case 'Directeur':
                         if ($user->child->store()->exists()) {
-                            $activeRentals = Store::find($user->child->store->id)
-                                ->whereHas('rentals', function ($q) {
-                                    $q->where('active', 1);
-                                })->with('rentals.machine')
+          
+                            $activeRentals = Store::where('id',$user->child->store->id)
+                                ->with(['rentals' => function ($query) {
+                                    return $query->where('active', 1)->with('machine.bacs');
+
+                                }])
                                 ->get();
+
                             $company = Company::find($user->child->store->company->id)->with('city.country', 'zipcode')->first();
                         }
 
@@ -79,11 +82,13 @@ class UserController extends Controller
                             ->get();
 
                         if (!empty($relatedStores)) {
+
                             $activeRentals = Store::whereIn('id', $relatedStores->pluck('id'))
-                                ->whereHas('rentals', function ($q) {
-                                    $q->where('active', 1);
-                                })->with('rentals.machine')
-                                ->get();
+                                ->with(['rentals' => function ($query) {
+                                    return $query->where('active', 1)->with('machine.bacs');
+
+                                }])->get();
+
                         }
 
                         return response()->json([
