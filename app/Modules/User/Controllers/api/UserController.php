@@ -51,7 +51,7 @@ class UserController extends Controller
                             $activeRentals = Store::find($user->child->store->id)
                                 ->whereHas('rentals', function ($q) {
                                     $q->where('active', 1);
-                                })->with('rentals.machine', 'city.country', 'zipcode')
+                                })->with('rentals.machine')
                                 ->get();
                             $company = Company::find($user->child->store->company->id)->with('city.country', 'zipcode')->first();
                         }
@@ -75,14 +75,14 @@ class UserController extends Controller
                         $relatedStores = Store::whereHas('responsibles', function ($q) use ($user) {
                             $q->where('responsible_id', $user->child->id);
                         })
-                        ->with('city.country','zipcode')
-                        ->get();
+                            ->with('city.country', 'zipcode')
+                            ->get();
 
                         if (!empty($relatedStores)) {
                             $activeRentals = Store::whereIn('id', $relatedStores->pluck('id'))
                                 ->whereHas('rentals', function ($q) {
                                     $q->where('active', 1);
-                                })->with('rentals.machine', 'city.country', 'zipcode')
+                                })->with('rentals.machine')
                                 ->get();
                         }
 
@@ -522,11 +522,22 @@ class UserController extends Controller
     {
         $checkUser = User::find($id);
         if ($checkUser) {
-            $relatedStores = Store::whereHas('responsibles', function ($q) use ($checkUser) {
-                $q->where('responsible_id', $checkUser->child->id);
-            })
-            ->get();
-            return response()->json(['status' => 200, 'relatedStores' => $relatedStores]);
+            switch ($checkUser->getType()) {
+                case 'Autre':
+                    $relatedStores = Store::whereHas('responsibles', function ($q) use ($checkUser) {
+                        $q->where('responsible_id', $checkUser->child->id);
+                    })
+                        ->get();
+                    return response()->json(['status' => 200, 'relatedStores' => $relatedStores]);
+                    break;
+                case 'Directeur':
+                    $relatedStores = Store::find($checkUser->child->store->id);
+                    return response()->json(['status' => 200, 'relatedStores' => $relatedStores]);
+                    break;
+                default:
+                    return response()->json(['status' => 404]);
+
+            }
 
         }
         return response()->json(['status' => 404, 'User' => 'User not found']);
