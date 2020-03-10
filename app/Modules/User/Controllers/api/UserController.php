@@ -43,6 +43,7 @@ class UserController extends Controller
             $token = $user->createToken('wize')->accessToken;
             if ($user->getType() != 'admin') {
                 $activeRentals = [];
+                $company = null;
                 switch ($user->getType()) {
 
                     case 'Directeur':
@@ -50,13 +51,14 @@ class UserController extends Controller
                             $activeRentals = Store::find($user->child->store->id)
                                 ->whereHas('rentals', function ($q) {
                                     $q->where('active', 1);
-                                })->with('rentals.machine')
+                                })->with('rentals.machine', 'city.country', 'zipcode')
                                 ->get();
+                            $company = Company::find($user->child->store->company->id)->with('city.country', 'zipcode')->first();
                         }
 
                         return response()->json(['token' => $token,
                             'user' => $user,
-                            'company' => $user->child ? $user->child->store->company : NULL,
+                            'company' => $company,
                             'activeRentals' => $activeRentals,
                             'ads' => Advertisement::all(),
                             'userType' => $user->getType(),
@@ -66,7 +68,9 @@ class UserController extends Controller
 
                         $company = Company::whereHas('stores', function ($q) use ($user) {
                             $q->whereIn('id', $user->child->stores->pluck('id'));
-                        })->first();
+                        })
+                            ->with('city.country', 'zipcode')
+                            ->first();
 
                         $relatedStores = Store::whereHas('responsibles', function ($q) use ($user) {
                             $q->where('responsible_id', $user->child->id);
@@ -76,7 +80,7 @@ class UserController extends Controller
                             $activeRentals = Store::whereIn('id', $relatedStores->pluck('id'))
                                 ->whereHas('rentals', function ($q) {
                                     $q->where('active', 1);
-                                })->with('rentals.machine')
+                                })->with('rentals.machine', 'city.country', 'zipcode')
                                 ->get();
                         }
 
@@ -98,7 +102,7 @@ class UserController extends Controller
                     'token' => $token,
                     'user' => $user,
                     'userType' => $user->getType(),
-                    'allCompanies' => Company::with('stores')->get(),
+                    'allCompanies' => Company::with('stores', 'city.country', 'zipcode')->get(),
                     'ads' => Advertisement::all(),
 
                 ]
