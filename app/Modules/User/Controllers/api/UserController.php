@@ -524,7 +524,8 @@ class UserController extends Controller
         if ($checkUser) {
             $relatedStores = Store::whereHas('responsibles', function ($q) use ($checkUser) {
                 $q->where('responsible_id', $checkUser->child->id);
-            })->get();
+            })
+            ->get();
             return response()->json(['status' => 200, 'relatedStores' => $relatedStores]);
 
         }

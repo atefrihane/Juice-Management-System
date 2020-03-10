@@ -145,7 +145,7 @@
                                             value="{{old('country_id')}}">
                                             @forelse($countries as $country)
                                             <option value="{{$country->id}}"
-                                                {{$country->id == old('country_id') ? ' selected' : ''}}>
+                                                {{$country->id == old('country_id', $store->country_id) ? ' selected' : ''}}>
                                                 {{$country->name}}</option>
                                             @empty
                                             <option value=""> Aucun pays trouvé</option>
@@ -161,7 +161,7 @@
                                             @forelse($cities as $city)
 
                                             <option value="{{$city->id}}"
-                                                {{$city->id == old('city_id') ? 'selected' :  ''}}>
+                                                {{$city->id == old('city_id',$store->city_id) ? 'selected' :  ''}}>
                                                 {{$city->name}}
                                             </option>
                                             @empty
@@ -177,7 +177,7 @@
                                         <select class="form-control zipcodes" name="zipcode_id">
                                             @forelse($zipcodes as $zipcode)
                                             <option value="{{$zipcode->id}}"
-                                                {{$zipcode->id == old('zipcode_id') ? 'selected' :  ''}}>
+                                                {{$zipcode->id == old('zipcode_id',$store->zipcode_id) ? 'selected' :  ''}}>
                                                 {{$zipcode->code}}
                                             </option>
                                             @empty

@@ -93,8 +93,10 @@
                                             value="{{old('country_id')}}">
                                             @forelse($countries as $country)
                                             <option value="{{$country->id}}"
-                                             {{old( 'country_id', $country->id)? 'selected': ''}}>
-                                                {{$country->name}}</option>
+                                                {{$country->id == old('country_id',$company->country_id) ? 'selected' :  ''}}>
+                                                {{$country->name}}
+                                            </option>
+                                      
                                             @empty
                                             <option value=""> Aucun pays trouvé</option>
 
@@ -107,8 +109,11 @@
                                         <label>Ville</label>
                                         <select class="form-control cities" name="city_id">
                                             @forelse($cities as $city)
-                                            <option value="{{$city->id}}" {{old( 'city_id') == $city->id ? 'selected': ''}} >{{$city->name}}
+                                            <option value="{{$city->id}}"
+                                                {{$city->id == old('city_id',$company->city_id) ? 'selected' :  ''}}>
+                                                {{$city->name}}
                                             </option>
+                                      
                                             @empty
                                             <option value=""> Aucune ville trouvé</option>
 
@@ -121,10 +126,12 @@
                                         <label for="exampleInputPassword1">Code Postal</label>
                                         <select class="form-control zipcodes" name="zipcode_id">
                                             @forelse($zipcodes as $zipcode)
+
                                             <option value="{{$zipcode->id}}"
-                                        {{old( 'zipcode_id') == $zipcode->id  ? 'selected': ''}}>
+                                                {{$zipcode->id == old('zipcode_id',$company->zipcode_id) ? 'selected' :  ''}}>
                                                 {{$zipcode->code}}
                                             </option>
+                                       
                                             @empty
                                             <option value=""> Aucun code postal trouvé</option>
 
