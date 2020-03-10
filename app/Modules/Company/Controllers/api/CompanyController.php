@@ -11,7 +11,7 @@ class CompanyController extends Controller
 
     public function show($id)
     {
-        $company = Company::where('id', $id)->with('stores','city.country','zipcode')->first();
+        $company = Company::where('id', $id)->with('stores.city.country','stores.zipcode','city.country','zipcode')->first();
         return $company;
 
     }
