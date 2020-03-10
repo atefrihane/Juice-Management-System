@@ -233,7 +233,7 @@ class MachineController extends Controller
     }
     public function startRentalMachine($id)
     {
- 
+
         $machines = Machine::where('rented', false)->get();
 
         $machine = Machine::find($id);
@@ -245,14 +245,13 @@ class MachineController extends Controller
                 ->where('machine_id', $machine->id)
                 ->whereIn('active', [1, 2])
                 ->get();
-      
 
             return view('Machine::startRentalMachine', compact('machine',
-             'machines', 
-             'companies',
-              'products',
-             'occupiedDays',
-              'occupiedEndDays'));
+                'machines',
+                'companies',
+                'products',
+                'occupiedDays',
+                'occupiedEndDays'));
 
         }
         return view('General::notFound');
@@ -298,8 +297,7 @@ class MachineController extends Controller
 
     public function showStartRentalMachines()
     {
-        $machines = Machine::where('rented', 0)
-            ->where('status', 'Fonctionnelle')
+        $machines = Machine::where('status', 1)
             ->get();
 
         if (count($machines) == 0) {

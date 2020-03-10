@@ -360,6 +360,7 @@
                                     confirmButtonText: 'Fermer'
 
                                 });
+                                          this.disabled = false
                             }
                         
 
