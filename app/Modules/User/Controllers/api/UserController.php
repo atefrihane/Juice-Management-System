@@ -74,7 +74,9 @@ class UserController extends Controller
 
                         $relatedStores = Store::whereHas('responsibles', function ($q) use ($user) {
                             $q->where('responsible_id', $user->child->id);
-                        })->get();
+                        })
+                        ->with('city.country','zipcode')
+                        ->get();
 
                         if (!empty($relatedStores)) {
                             $activeRentals = Store::whereIn('id', $relatedStores->pluck('id'))
