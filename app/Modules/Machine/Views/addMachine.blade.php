@@ -46,10 +46,10 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Etat</label>
                                         <select class="form-control" name="status" required>
-                                            <option value="Fonctionnelle" {{ old('status') == 'Fonctionnelle' ? 'selected' : ''}}>Fonctionnelle</option>
-                                            <option value="Non utilisé" {{ old('status') == 'Non utilisé' ? 'selected' : ''}}>Non utilisé</option>
+                                            <option value="1" {{ old('status') == '1' ? 'selected' : ''}}>Fonctionnelle</option>
+                                            <option value="2" {{ old('status') == '2' ? 'selected' : ''}}>Non utilisé</option>
 
-                                            <option value="En panne" {{ old('status') == 'En panne' ? 'selected' : ''}} >En panne</option>
+                                            <option value="0" {{ old('status') == '0' ? 'selected' : ''}} >En panne</option>
                                         </select>
                                     </div>
                                 </div>
