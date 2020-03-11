@@ -38,7 +38,7 @@ class MachineController extends Controller
         $checkMachine = Machine::find($id);
         if ($checkMachine) {
 
-            $history = MachineHistory::where('machine_id', $id)
+            $machineHistory = MachineHistory::where('machine_id', $id)
                 ->where('rental_id', $rental_id)
                 ->get();
 
@@ -46,7 +46,7 @@ class MachineController extends Controller
                 ->where('machine_rental_id', $rental_id)
                 ->get();
 
-            $histories = $history->toBase()->merge($bacHistory);
+            $histories = $machineHistory->toBase()->merge($bacHistory);
             if (!empty($histories)) {
                 foreach ($histories as $history) {
 
@@ -55,9 +55,10 @@ class MachineController extends Controller
                 }
             }
 
+            return response()->json(['status' => 200, 'histories' => $histories]);
         }
 
-        return response()->json(['status' => 200, 'histories' => $histories]);
+        return response()->json(['status' => 404, 'machine' => 'machine not found']);
 
     }
 
