@@ -48,7 +48,14 @@ class StoreController extends Controller
 
         if ($checkUser) {
             switch ($checkUser->getType()) {
-                case 'Directeur':return response()->json(['status' => 404, "User" => "wrong user"]);
+                case 'Directeur':
+                    $activeRentals = Store::where('id', $checkUser->child->store->id)
+                        ->with(['rentals' => function ($query) {
+                            return $query->where('active', 1)->with('machine.bacs');
+
+                        }])->get();
+
+                    return response()->json(['status' => 404, 'activeRentals' => $activeRentals]);
                     break;
                 case 'Autre':
                     if ($request->filled('filteredData')) {
