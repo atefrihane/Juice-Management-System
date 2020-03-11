@@ -166,7 +166,7 @@ class BacController extends Controller
             BacHistory::create([
                 'user_id' => $request->input('userId'),
                 'bac_id' => $checkBac->id,
-                'action' => 'Modification quantité produit',
+                'action' => 3,
                 'machine_rental_id' => $currentLocation,
 
             ]);
@@ -354,7 +354,7 @@ class BacController extends Controller
             BacHistory::create([
                 'user_id' => $request->input('userId'),
                 'bac_id' => $checkBac->id,
-                'action' => 'Recharge',
+                'action' => 4,
                 'machine_rental_id' => $currentLocation,
 
             ]);
@@ -394,11 +394,11 @@ class BacController extends Controller
             $checkBac->update([
                 'status' => $request->input('status'),
             ]);
-           ;
+
             BacHistory::create([
                 'user_id' => $request->userId,
                 'bac_id' => $checkBac->id,
-                'action' => $request->input('status') == 0 ? 'Etat vers En Panne' : $request->input('status') == 1 ? 'Etat vers En marche' : 'Etat vers Non utilisé',
+                'action' => $request->input('status'),
                 'comment' => $request->filled('comment') ? $request->input('comment') : $checkBac->comment,
                 'machine_rental_id' => $checkBac->machine->currentLocation()->id,
             ]);

@@ -108,7 +108,7 @@ class MachineController extends Controller
         Bac::insert($bacs);
 
         MachineHistory::create([
-            'event' => 'Création',
+            'event' => 6,
             'comment' => $request->comment,
             'machine_id' => $machine->id,
             'user_id' => Auth::id(),
@@ -199,7 +199,7 @@ class MachineController extends Controller
             }
 
             MachineHistory::create([
-                'event' => 'Modification',
+                'event' => 7,
                 'comment' => $request->comment,
                 'machine_id' => $machine->id,
                 'user_id' => Auth::id(),
@@ -269,7 +269,7 @@ class MachineController extends Controller
             $rental = $checkMachine->machineRentals->where('active', 1)->first();
 
             MachineHistory::create([
-                'event' => 'Etat vers : ' . $request->status,
+                'event' => $request->status,
                 'comment' => $request->comment,
                 'machine_id' => $checkMachine->id,
                 'user_id' => Auth::id(),

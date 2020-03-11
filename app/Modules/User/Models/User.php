@@ -16,6 +16,8 @@ class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
 
+    protected $appends = ['userType'];
+
     protected $fillable = [
         'email',
         'password',
@@ -48,6 +50,12 @@ class User extends Authenticatable
                 break;
         }
         return 'admin';
+    }
+
+    public function getuserTypeAttribute()
+    {
+        return $this->getType();
+
     }
 
     public function DBO()

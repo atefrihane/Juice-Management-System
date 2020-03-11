@@ -9,8 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class MachineHistory extends Model
 {
-    protected $fillable = ['event', 'comment', 'machine_id','active','user_id','rental_id'];
- 
+    protected $fillable = ['event', 'comment', 'machine_id', 'active', 'user_id', 'rental_id'];
+    public $with = ['machine', 'user'];
+
     public function machine()
     {
         return $this->belongsTo(Machine::class, 'machine_id');

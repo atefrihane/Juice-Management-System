@@ -46,7 +46,8 @@
 
                                         <label for="exampleInputEmail1">Status</label>
                                         <input type="text" name="code" class="form-control" id="exampleInputEmail1"
-                                            placeholder="Code" value=" {{ $machine->rented == 1 ? 'En location' : 'Libre' }}" disabled>
+                                            placeholder="Code"
+                                            value=" {{ $machine->rented == 1 ? 'En location' : 'Libre' }}" disabled>
 
                                     </div>
 
@@ -120,7 +121,7 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Prix de location mensuelle ( en euros )</label>
                                 <p class="form-control" style="background:#eee;">@convert($machine->price_month) </p>
-                     
+
 
                             </div>
 
@@ -170,7 +171,34 @@
 
                                             <td>@formatDate($machine->created_at)</td>
                                             <td>{{$machineHistory->user->nom}}</td>
-                                            <td>{{$machineHistory->event}}</td>
+                                            <td>@switch($machineHistory->event)
+                                                @case(0)
+                                                Etat vers en panne
+                                                @break
+                                                @case(1)
+                                                Etat vers Fonctionnelle
+
+                                                @break
+
+                                                @case(2)
+                                                Etat vers non utilisé
+
+                                                @break
+                                                @case(6)
+                                                Création
+
+                                                @break
+                                                @case(7)
+                                                Modification
+
+                                                @break
+                                                @default
+
+                                                @endswitch
+
+
+
+                                            </td>
 
                                             <td style="width:50%">
                                                 @if($machineHistory->comment){{$machineHistory->comment}} @else Aucun
@@ -195,7 +223,7 @@
 
                                                         </h4>
                                                     </div>
-                                                    
+
                                                     <div class="modal-body">
                                                         <form method="post"
                                                             action="{{route('handleHistoryChange',$machineHistory->id)}}">

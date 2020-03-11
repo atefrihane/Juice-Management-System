@@ -8,6 +8,7 @@ class BacHistory extends Model
 {
 
     protected $fillable=['action','bac_id','user_id','machine_rental_id'];
+    public $with = ['bac','user'];
 
     public function bac()
     {

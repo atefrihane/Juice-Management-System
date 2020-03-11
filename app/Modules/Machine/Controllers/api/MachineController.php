@@ -3,6 +3,7 @@
 namespace App\Modules\Machine\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Modules\BacHistory\Models\BacHistory;
 use App\Modules\MachineRental\Models\MachineRental;
 use App\Modules\Machine\Models\Machine;
 use App\Modules\Machine\Models\MachineHistory;
@@ -33,18 +34,30 @@ class MachineController extends Controller
 
     public function showMachineStates($id, $rental_id)
     {
+        $histories = [];
+        $checkMachine = Machine::find($id);
+        if ($checkMachine) {
 
-        $history = MachineHistory::where('machine_id', $id)
-            ->where('rental_id', $rental_id)
-            ->with('user')
-            ->get();
+            $history = MachineHistory::where('machine_id', $id)
+                ->where('rental_id', $rental_id)
+                ->get();
 
-        if (count($history) > 0) {
+            $bacHistory = BacHistory::whereIn('bac_id', $checkMachine->bacs->pluck('id'))
+                ->where('machine_rental_id', $rental_id)
+                ->get();
 
-            return response()->json(['status' => 200, 'machineHistory' => $history]);
+            $histories = $history->toBase()->merge($bacHistory);
+            if (!empty($histories)) {
+                foreach ($histories as $history) {
+
+                    ($history->machine_id) ? $history->setAttribute('type', 'machine') : '';
+                    ($history->bac_id) ? $history->setAttribute('type', 'bac') : '';
+                }
+            }
 
         }
-        return response()->json(['status' => 404]);
+
+        return response()->json(['status' => 200, 'histories' => $histories]);
 
     }
 
