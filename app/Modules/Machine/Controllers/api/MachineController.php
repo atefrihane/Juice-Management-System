@@ -55,7 +55,7 @@ class MachineController extends Controller
                 }
             }
 
-            return response()->json(['status' => 200, 'histories' => $histories]);
+            return response()->json(['status' => 200, 'histories' => $histories->sortByDesc('created_at')->values()->all()]);
         }
 
         return response()->json(['status' => 404, 'machine' => 'machine not found']);
