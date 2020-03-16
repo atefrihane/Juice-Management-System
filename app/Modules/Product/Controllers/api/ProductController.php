@@ -216,6 +216,18 @@ class ProductController extends Controller
 
     }
 
+    public function handleFilterProductByBarcode($barcode)
+    {
+
+        $checkProduct = Product::where('barcode', 'like', "%{$barcode}%")->first();
+        if ($checkProduct) {
+            return response()->json(['status' => '200', 'product' => $checkProduct]);
+
+        }
+        return response()->json(['status' => '404', 'product' => ' Product not found']);
+
+    }
+
     public function handleGetAllProduct()
     {
         $products = Product::where('status', 'disponible')->get();

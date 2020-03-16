@@ -10,6 +10,7 @@ Route::group(['module' => 'Product', 'middleware' => ['auth:api'], 'namespace' =
     // route::get('api/product/{id}/store/{store_id}', 'ProductController@handleGetProductById'); //
     route::post('api/product/prices/{id}', 'ProductController@handleGetProductPrices'); //returns product details with specific price
     route::get('api/product/filter/{value}', 'ProductController@handleFilterProductByNameOrBarcode');
+    route::get('api/product/barcode/{barcode}', 'ProductController@handleFilterProductByBarcode');
     route::get('api/products/all', 'ProductController@handleGetAllProduct');
     route::post('api/image', 'ProductController@handleUploadImage');
     route::get('api/product/warehouses/{id}', 'ProductController@handleGetProductInWarehouses'); //returns occurence of product in all warehouses
