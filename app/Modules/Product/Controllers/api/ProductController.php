@@ -202,27 +202,34 @@ class ProductController extends Controller
 
     // }
 
-    public function handleGetProductByName($name)
+    public function handleFilterProduct(Request $request)
     {
-        $checkProduct = Product::where('nom', $name)->first();
-        if ($checkProduct) {
-            return response()->json(['status' => '200', 'product' => $checkProduct]);
-
-        } else {
-            return response()->json(['status' => '404', 'product' => ' Product not found']);
+        if (!$request->filled('filterKey') ||
+            !$request->filled('filterValue')) {
+            return response()->json([
+                'status' => 400]);
         }
 
-    }
+        if (!in_array($request->input('filterKey'), [1, 2])) {
 
-    public function handleGetProductByBarcode($barcode)
-    {
+            return response()->json(['status' => '404', 'filterKey' => ' Wrong values']);
+        }
+        switch ($request->input('filterKey')) {
+            case 1:
+                $checkProduct = Product::where('nom', $request->input('filterValue'))->first();
+                if ($checkProduct) {
+                    return response()->json(['status' => '200', 'product' => $checkProduct]);
 
-        $checkProduct = Product::where('barcode', $barcode)->first();
-        if ($checkProduct) {
-            return response()->json(['status' => '200', 'product' => $checkProduct]);
+                }
+                return response()->json(['status' => '404', 'product' => ' Product not found']);
+                break;
+            case 2:
+                $checkProduct = Product::where('barcode', $request->input('filterValue'))->first();
+                if ($checkProduct) {
+                    return response()->json(['status' => '200', 'product' => $checkProduct]);
 
-        } else {
-            return response()->json(['status' => '404', 'product' => ' Product not found']);
+                }
+                return response()->json(['status' => '404', 'product' => ' Product not found']);
         }
 
     }
