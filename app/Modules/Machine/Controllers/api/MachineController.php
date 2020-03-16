@@ -24,7 +24,7 @@ class MachineController extends Controller
                 ->get();
 
             return response()->json(['status' => 200,
-                'machine' => $machine->with('bacs.products')->first(),
+                'machine' => $machine,
                 'latestExpirations' => $latestExpirations]);
 
         }

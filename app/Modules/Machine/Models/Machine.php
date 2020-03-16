@@ -13,7 +13,7 @@ class Machine extends Model
 {
     use SoftDeletes;
 
-    //
+    public $with = ['bacs.products'];
     protected $guarded = ['id', 'created_at', 'updated_at'];
     public function machineRentals()
     {
