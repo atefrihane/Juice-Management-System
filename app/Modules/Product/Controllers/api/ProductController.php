@@ -202,35 +202,17 @@ class ProductController extends Controller
 
     // }
 
-    public function handleFilterProduct(Request $request)
+    public function handleFilterProductByNameOrBarcode($value, Request $request)
     {
-        if (!$request->filled('filterKey') ||
-            !$request->filled('filterValue')) {
-            return response()->json([
-                'status' => 400]);
+
+        $checkProducts = Product::where('nom', 'like', "%{$value}%")
+            ->orWhere('barcode', $value)
+            ->get();
+        if ($checkProducts) {
+            return response()->json(['status' => '200', 'products' => $checkProducts]);
+
         }
-
-        if (!in_array($request->input('filterKey'), [1, 2])) {
-
-            return response()->json(['status' => '404', 'filterKey' => ' Wrong values']);
-        }
-        switch ($request->input('filterKey')) {
-            case 1:
-                $checkProduct = Product::where('nom', $request->input('filterValue'))->first();
-                if ($checkProduct) {
-                    return response()->json(['status' => '200', 'product' => $checkProduct]);
-
-                }
-                return response()->json(['status' => '404', 'product' => ' Product not found']);
-                break;
-            case 2:
-                $checkProduct = Product::where('barcode', $request->input('filterValue'))->first();
-                if ($checkProduct) {
-                    return response()->json(['status' => '200', 'product' => $checkProduct]);
-
-                }
-                return response()->json(['status' => '404', 'product' => ' Product not found']);
-        }
+        return response()->json(['status' => '404', 'product' => ' Product not found']);
 
     }
 
