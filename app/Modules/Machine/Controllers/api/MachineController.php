@@ -18,7 +18,9 @@ class MachineController extends Controller
     {
         $machine = Machine::find($id);
         if ($machine) {
+
             $latestExpirations = DB::table('bac_products')
+                ->whereIn('bac_id', $machine->bacs->pluck('id'))
                 ->selectRaw('bac_id, min(expiration_date) as expiration_date')
                 ->groupBy('bac_id')
                 ->get();
