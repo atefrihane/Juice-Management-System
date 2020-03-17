@@ -20,12 +20,12 @@ class BacController extends Controller
 
     public function handleCleanBacs($id, Request $request)
     {
-        $checkMachine = Machine::find($id);
-        if ($checkMachine) {
-            $cleanBacs = DB::table('bac_products')
-                ->whereIn('bac_id', $checkMachine->bacs->pluck('id'))
+        $checkBac = Bac::find($id);
+        if ($checkBac) {
+            $cleanBac = DB::table('bac_products')
+                ->where('bac_id', $checkBac->id)
                 ->delete();
-            if ($cleanBacs) {
+            if ($cleanBac) {
 
                 return response()->json(['status' => 200]);
 
@@ -34,7 +34,7 @@ class BacController extends Controller
 
         }
 
-        return response()->json(['status' => 404, 'Machine' => 'Machine not found']);
+        return response()->json(['status' => 404, 'Bac' => 'Bac not found']);
     }
 
     public function handleRefillBac($id, Request $request)

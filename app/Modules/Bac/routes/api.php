@@ -5,7 +5,7 @@ Route::group(['module' => 'Bac', 'middleware' => ['auth:api'], 'namespace' => 'A
     //Route::resource('Bac', 'BacController');
     Route::get('api/bac/{id}', 'BacController@handleGetBacDetails');
     Route::post('api/bac/fill/{id}', 'BacController@handleFillBacWithProducts'); // Fill a bac with  new products
-    Route::post('api/machine/{id}/clean', 'BacController@handleCleanBacs');
+    Route::get('api/bac/{id}/clean', 'BacController@handleCleanBacs');
     Route::post('api/bac/refill/{id}', 'BacController@handleRefillBac');
     Route::post('api/bac/state/{id}', 'BacController@handleUpdateBacStatut');
 });
