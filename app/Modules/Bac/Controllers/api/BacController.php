@@ -20,12 +20,27 @@ class BacController extends Controller
 
     public function handleCleanBacs($id, Request $request)
     {
+        if (!$request->filled('userId')) {
+            return response()->json(['status' => 400]);
+        }
+        $checkUser = User::find($request->input('userId'));
+        if (!$checkUser) {
+            return response()->json(['status' => 404, 'User' => 'User not found']);
+
+        }
         $checkBac = Bac::find($id);
         if ($checkBac) {
             $cleanBac = DB::table('bac_products')
                 ->where('bac_id', $checkBac->id)
                 ->delete();
             if ($cleanBac) {
+                BacHistory::create([
+                    'user_id' => $request->input('userId'),
+                    'bac_id' => $checkBac->id,
+                    'action' => 5,
+                    'machine_rental_id' => $checkBac->machine->currentLocation()->id,
+
+                ]);
 
                 return response()->json(['status' => 200]);
 
