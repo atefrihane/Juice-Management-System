@@ -112,6 +112,11 @@ class BacController extends Controller
                     } else if ($stock->id == $updatedStock['id'] && $stock->quantity < $updatedStock['quantity']) {
 
                         array_push($unavailableStock, ['id' => $stock->id, 'stockQuantity' => $stock->quantity]);
+                        return response()->json(['status' => 404,
+                            'store_products_id' => $stock->id,
+                            'quantityError' => $updatedStock['quantity'],
+                            'maxStockQuantity' => $stock->quantity,
+                        ]);
 
                     }
                 }
@@ -344,7 +349,6 @@ class BacController extends Controller
                                 'quantityError' => $productFilled['quantity'],
                                 'maxStockQuantity' => $stock->quantity,
                             ]);
-                          
 
                         } else if ($stock->id == $productFilled['store_products_id'] && $productFilled['quantity'] <= $stock->quantity) {
                             array_push($updatedStock, [
