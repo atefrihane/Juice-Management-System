@@ -336,12 +336,15 @@ class BacController extends Controller
                 $updatedStock = [];
                 foreach ($allStock as $stock) {
                     foreach ($bacProductsFilled as $productFilled) {
+
                         if ($stock->id == $productFilled['store_products_id'] && $productFilled['quantity'] > $stock->quantity) {
+                            $checkBac->products()->detach();
                             return response()->json(['status' => 404,
                                 'store_products_id' => $productFilled['store_products_id'],
                                 'quantityError' => $productFilled['quantity'],
                                 'maxStockQuantity' => $stock->quantity,
                             ]);
+                          
 
                         } else if ($stock->id == $productFilled['store_products_id'] && $productFilled['quantity'] <= $stock->quantity) {
                             array_push($updatedStock, [
