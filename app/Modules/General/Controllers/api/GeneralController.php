@@ -301,7 +301,7 @@ class GeneralController extends Controller
     public function handleUploadAdvertisement(Request $request, Image $image)
     {
 
-        $path = $image->uploadBinaryImage($request->file);
+        $path = $image->uploadBinaryImageWithoutResize($request->file);
 
         Advertisement::create([
             'path' =>  $path,

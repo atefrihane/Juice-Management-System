@@ -22,4 +22,15 @@ class Image
         // $request->merge(['photo' => $name]);
         return $path;
     }
+
+    public function uploadBinaryImageWithoutResize($file)
+    {
+
+        $path = $file->getClientOriginalName();
+ 
+       
+        \Image::make($file)->save(public_path('img/') . $path);
+        // $request->merge(['photo' => $name]);
+        return $path;
+    }
 }
