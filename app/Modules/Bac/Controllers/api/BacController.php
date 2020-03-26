@@ -431,4 +431,32 @@ class BacController extends Controller
 
     }
 
+    public function handleGetQuantitiesFilledInBac($id, $productId)
+    {
+        $checkBac = Bac::find($id);
+        if (!$checkBac) {
+            return response()->json(['status' => 404, "Bac" => "Bac not found"]);
+
+        }
+
+        $checkProduct = Product::find($productId);
+        if (!$checkProduct) {
+            return response()->json(['status' => 404, "Product" => "Product not found"]);
+
+        }
+        $checkBacProduct = DB::table('bac_products')
+            ->where('bac_id', $id)
+            ->where('product_id', $productId)
+            ->first();
+
+        if ($checkBacProduct) {
+            $quantities = DB::table('bac_products_filled')
+                ->where('bac_products_id', $checkBacProduct->id)
+                ->select(DB::raw('id,store_products_id,quantity'))
+                ->get();
+            return response()->json(['status' => 200, "quantities" => $quantities]);
+        }
+        return response()->json(['status' => 404, "BacProduct" => "Product not found in Bac"]);
+    }
+
 }
