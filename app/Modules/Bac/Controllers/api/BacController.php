@@ -52,151 +52,151 @@ class BacController extends Controller
         return response()->json(['status' => 404, 'Bac' => 'Bac not found']);
     }
 
-    public function handleRefillBac($id, Request $request)
-    {
-        if (
-            !$request->filled('updatedStock') ||
-            empty($request->updatedStock) ||
-            !$request->filled('userId') ||
-            !$request->filled('storeId') ||
-            !$request->filled('productId')
-        ) {
-            return response()->json(['status' => 400]);
+    // public function handleRefillBac($id, Request $request)
+    // {
+    //     if (
+    //         !$request->filled('updatedStock') ||
+    //         empty($request->updatedStock) ||
+    //         !$request->filled('userId') ||
+    //         !$request->filled('storeId') ||
+    //         !$request->filled('productId')
+    //     ) {
+    //         return response()->json(['status' => 400]);
 
-        }
+    //     }
 
-        $wrongKeys = false;
-        foreach ($request->input('updatedStock') as $stockProduct) {
-            if (!array_key_exists("quantity", $stockProduct) ||
-                !array_key_exists("id", $stockProduct)
+    //     $wrongKeys = false;
+    //     foreach ($request->input('updatedStock') as $stockProduct) {
+    //         if (!array_key_exists("quantity", $stockProduct) ||
+    //             !array_key_exists("id", $stockProduct)
 
-            ) {
-                $wrongKeys = true;
-            }
-        }
-        if ($wrongKeys) {
-            return response()->json(['status' => 404, 'updatedStock' => 'updatedStock keys wrong']);
+    //         ) {
+    //             $wrongKeys = true;
+    //         }
+    //     }
+    //     if ($wrongKeys) {
+    //         return response()->json(['status' => 404, 'updatedStock' => 'updatedStock keys wrong']);
 
-        }
-        $checkBac = Bac::find($id);
-        if ($checkBac) {
-            $allStock = StoreProduct::where('store_id', $request->input('storeId'))->get();
-            if (empty($allStock)) {
-                return response()->json(['status' => 404, 'Stock' => 'Stock is empty']);
+    //     }
+    //     $checkBac = Bac::find($id);
+    //     if ($checkBac) {
+    //         $allStock = StoreProduct::where('store_id', $request->input('storeId'))->get();
+    //         if (empty($allStock)) {
+    //             return response()->json(['status' => 404, 'Stock' => 'Stock is empty']);
 
-            }
-            $productInBac = DB::table('bac_products')
-                ->where('product_id', $request->input('productId'))
-                ->where('bac_id', $checkBac->id)
-                ->first();
-            if (!$productInBac) {
-                return response()->json(['status' => 404, 'Product' => 'Product not found']);
+    //         }
+    //         $productInBac = DB::table('bac_products')
+    //             ->where('product_id', $request->input('productId'))
+    //             ->where('bac_id', $checkBac->id)
+    //             ->first();
+    //         if (!$productInBac) {
+    //             return response()->json(['status' => 404, 'Product' => 'Product not found']);
 
-            }
+    //         }
 
-            // check stock and update it
-            $newUpdatedStock = [];
-            $newFilledProducts = []; // new instances of product
-            $unavailableStock = []; // Unsufficient quantity of product
-            foreach ($allStock as $stock) {
-                foreach ($request->updatedStock as $updatedStock) {
+    //         // check stock and update it
+    //         $newUpdatedStock = [];
+    //         $newFilledProducts = []; // new instances of product
+    //         $unavailableStock = []; // Unsufficient quantity of product
+    //         foreach ($allStock as $stock) {
+    //             foreach ($request->updatedStock as $updatedStock) {
 
-                    if ($stock->id == $updatedStock['id'] && $stock->quantity >= $updatedStock['quantity']) {
+    //                 if ($stock->id == $updatedStock['id'] && $stock->quantity >= $updatedStock['quantity']) {
 
-                        array_push($newUpdatedStock, ['id' => $stock->id, 'quantity' => $stock->quantity - $updatedStock['quantity']]);
-                        array_push($newFilledProducts, [
-                            'quantity' => $updatedStock['quantity'],
-                            'bac_products_id' => $productInBac->id,
-                            'store_products_id' => $stock->id,
-                        ]);
-                    } else if ($stock->id == $updatedStock['id'] && $stock->quantity < $updatedStock['quantity']) {
+    //                     array_push($newUpdatedStock, ['id' => $stock->id, 'quantity' => $stock->quantity - $updatedStock['quantity']]);
+    //                     array_push($newFilledProducts, [
+    //                         'quantity' => $updatedStock['quantity'],
+    //                         'bac_products_id' => $productInBac->id,
+    //                         'store_products_id' => $stock->id,
+    //                     ]);
+    //                 } else if ($stock->id == $updatedStock['id'] && $stock->quantity < $updatedStock['quantity']) {
 
-                        array_push($unavailableStock, ['id' => $stock->id, 'stockQuantity' => $stock->quantity]);
-                        return response()->json(['status' => 404,
-                            'store_products_id' => $stock->id,
-                            'quantityError' => $updatedStock['quantity'],
-                            'maxStockQuantity' => $stock->quantity,
-                        ]);
+    //                     array_push($unavailableStock, ['id' => $stock->id, 'stockQuantity' => $stock->quantity]);
+    //                     return response()->json(['status' => 404,
+    //                         'store_products_id' => $stock->id,
+    //                         'quantityError' => $updatedStock['quantity'],
+    //                         'maxStockQuantity' => $stock->quantity,
+    //                     ]);
 
-                    }
-                }
-            }
+    //                 }
+    //             }
+    //         }
 
-            if (!empty($newUpdatedStock)) {
-                $stockInstance = new StoreProduct;
+    //         if (!empty($newUpdatedStock)) {
+    //             $stockInstance = new StoreProduct;
 
-                $index = 'id';
+    //             $index = 'id';
 
-                \Batch::update($stockInstance, $newUpdatedStock, $index);
+    //             \Batch::update($stockInstance, $newUpdatedStock, $index);
 
-            }
-            $updatedProductInstances = [];
-            $newProductInstances = [];
-            $productInstancesIds = array_column($newFilledProducts, 'bac_products_id');
-            $allInstancesOfProducts = BacProductFilled::whereIn('bac_products_id', $productInstancesIds)->get()->toArray();
+    //         }
+    //         $updatedProductInstances = [];
+    //         $newProductInstances = [];
+    //         $productInstancesIds = array_column($newFilledProducts, 'bac_products_id');
+    //         $allInstancesOfProducts = BacProductFilled::whereIn('bac_products_id', $productInstancesIds)->get()->toArray();
 
-            if (!empty($allInstancesOfProducts)) {
-                foreach ($allInstancesOfProducts as $productInstance) {
-                    foreach ($newFilledProducts as $newFilled) {
-                        $checkExistingStockInFilled = findIndex($allInstancesOfProducts,
-                            ['store_products_id' => $newFilled['store_products_id']]);
+    //         if (!empty($allInstancesOfProducts)) {
+    //             foreach ($allInstancesOfProducts as $productInstance) {
+    //                 foreach ($newFilledProducts as $newFilled) {
+    //                     $checkExistingStockInFilled = findIndex($allInstancesOfProducts,
+    //                         ['store_products_id' => $newFilled['store_products_id']]);
 
-                        // Check existance of store_product in the local newProductInstances array
-                        $checkExistanceInNewProductInstances = findIndex($newProductInstances,
-                            ['store_products_id' => $newFilled['store_products_id']]);
+    //                     // Check existance of store_product in the local newProductInstances array
+    //                     $checkExistanceInNewProductInstances = findIndex($newProductInstances,
+    //                         ['store_products_id' => $newFilled['store_products_id']]);
 
-                        if ($newFilled['bac_products_id'] == $productInstance['bac_products_id'] &&
-                            $newFilled['store_products_id'] == $productInstance['store_products_id']) {
-                            array_push($updatedProductInstances, [
-                                'quantity' => $productInstance['quantity'] += $newFilled['quantity'],
-                                'id' => $productInstance['id'],
-                            ]);
-                            // if upcoming store_product is not existing in the filled_products
-                        } else if ($checkExistingStockInFilled == -1 && $checkExistanceInNewProductInstances == -1) {
+    //                     if ($newFilled['bac_products_id'] == $productInstance['bac_products_id'] &&
+    //                         $newFilled['store_products_id'] == $productInstance['store_products_id']) {
+    //                         array_push($updatedProductInstances, [
+    //                             'quantity' => $productInstance['quantity'] += $newFilled['quantity'],
+    //                             'id' => $productInstance['id'],
+    //                         ]);
+    //                         // if upcoming store_product is not existing in the filled_products
+    //                     } else if ($checkExistingStockInFilled == -1 && $checkExistanceInNewProductInstances == -1) {
 
-                            array_push($newProductInstances, [
-                                'quantity' => $updatedStock['quantity'],
-                                'bac_products_id' => $productInstance['bac_products_id'],
-                                'store_products_id' => $updatedStock['id'],
-                            ]);
+    //                         array_push($newProductInstances, [
+    //                             'quantity' => $updatedStock['quantity'],
+    //                             'bac_products_id' => $productInstance['bac_products_id'],
+    //                             'store_products_id' => $updatedStock['id'],
+    //                         ]);
 
-                        }
+    //                     }
 
-                    }
-                }
+    //                 }
+    //             }
 
-            }
+    //         }
 
-            if (!empty($newProductInstances)) {
-                BacProductFilled::insert($newProductInstances);
+    //         if (!empty($newProductInstances)) {
+    //             BacProductFilled::insert($newProductInstances);
 
-            }
+    //         }
 
-            if (!empty($updatedProductInstances)) {
+    //         if (!empty($updatedProductInstances)) {
 
-                $stockProductInstance = new BacProductFilled;
+    //             $stockProductInstance = new BacProductFilled;
 
-                $index = 'id';
+    //             $index = 'id';
 
-                \Batch::update($stockProductInstance, $updatedProductInstances, $index);
+    //             \Batch::update($stockProductInstance, $updatedProductInstances, $index);
 
-            }
+    //         }
 
-            $currentLocation = $checkBac->machine->currentLocation()->id;
-            BacHistory::create([
-                'user_id' => $request->input('userId'),
-                'bac_id' => $checkBac->id,
-                'action' => 3,
-                'machine_rental_id' => $currentLocation,
+    //         $currentLocation = $checkBac->machine->currentLocation()->id;
+    //         BacHistory::create([
+    //             'user_id' => $request->input('userId'),
+    //             'bac_id' => $checkBac->id,
+    //             'action' => 3,
+    //             'machine_rental_id' => $currentLocation,
 
-            ]);
+    //         ]);
 
-            return response()->json(['status' => 200, 'unsufficientStock' => $unavailableStock]);
+    //         return response()->json(['status' => 200, 'unsufficientStock' => $unavailableStock]);
 
-        }
-        return response()->json(['status' => 404, 'bac' => 'Bac not found']);
+    //     }
+    //     return response()->json(['status' => 404, 'bac' => 'Bac not found']);
 
-    }
+    // }
     public function handleGetBacDetails($id)
     {
         $bac = Bac::find($id);
@@ -327,51 +327,55 @@ class BacController extends Controller
 
                 }
             }
-            //check stock to validate upcoming quantities
 
             $checkExistingProductsInstances = DB::table('bac_products_filled')
                 ->whereIn('bac_products_id', array_column($getProductsInBacs, 'id'))
-                ->get()->toArray();
+                ->get();
 
-            //Check is bac_products already has filled products
-            if (empty($checkExistingProductsInstances)) {
+            //delete filled products if existed
+            if ($checkExistingProductsInstances) {
 
-                $stockIds = array_column($bacProductsFilled, 'store_products_id');
-                $allStock = StoreProduct::whereIn('id', $stockIds)->get();
-                $updatedStock = [];
-                foreach ($allStock as $stock) {
-                    foreach ($bacProductsFilled as $productFilled) {
-
-                        if ($stock->id == $productFilled['store_products_id'] && $productFilled['quantity'] > $stock->quantity) {
-                            $checkBac->products()->detach();
-                            return response()->json(['status' => 404,
-                                'store_products_id' => $productFilled['store_products_id'],
-                                'quantityError' => $productFilled['quantity'],
-                                'maxStockQuantity' => $stock->quantity,
-                            ]);
-
-                        } else if ($stock->id == $productFilled['store_products_id'] && $productFilled['quantity'] <= $stock->quantity) {
-                            array_push($updatedStock, [
-                                'id' => $productFilled['store_products_id'],
-                                'quantity' => $stock->quantity - $productFilled['quantity'],
-                            ]);
-                        }
-
-                    }
-                }
-
-                BacProductFilled::insert($bacProductsFilled);
-                $stockInstance = new StoreProduct;
-
-                $index = 'id';
-
-                \Batch::update($stockInstance, $updatedStock, $index);
-                //Update Bac details
-                if ($request->filled('bacUpdates')) {
-                    $checkBac->update($request->input('bacUpdates'));
-                }
-
+                $checkExistingProductsInstances = DB::table('bac_products_filled')
+                    ->whereIn('bac_products_id', array_column($getProductsInBacs, 'id'))
+                    ->delete();
             }
+            //check stock to validate upcoming quantities
+            $stockIds = array_column($bacProductsFilled, 'store_products_id');
+            $allStock = StoreProduct::whereIn('id', $stockIds)->get();
+            $updatedStock = [];
+            foreach ($allStock as $stock) {
+                foreach ($bacProductsFilled as $productFilled) {
+
+                    if ($stock->id == $productFilled['store_products_id'] && $productFilled['quantity'] > $stock->quantity) {
+                        $checkBac->products()->detach();
+                        return response()->json(['status' => 404,
+                            'store_products_id' => $productFilled['store_products_id'],
+                            'quantityError' => $productFilled['quantity'],
+                            'maxStockQuantity' => $stock->quantity,
+                        ]);
+
+                    } else if ($stock->id == $productFilled['store_products_id'] && $productFilled['quantity'] <= $stock->quantity) {
+                        array_push($updatedStock, [
+                            'id' => $productFilled['store_products_id'],
+                            'quantity' => $stock->quantity - $productFilled['quantity'],
+                        ]);
+                    }
+
+                }
+            }
+            //
+
+            BacProductFilled::insert($bacProductsFilled);
+            $stockInstance = new StoreProduct;
+
+            $index = 'id';
+
+            \Batch::update($stockInstance, $updatedStock, $index);
+            //Update Bac details
+            if ($request->filled('bacUpdates')) {
+                $checkBac->update($request->input('bacUpdates'));
+            }
+
             $currentLocation = $checkBac->machine->currentLocation()->id;
             BacHistory::create([
                 'user_id' => $request->input('userId'),
