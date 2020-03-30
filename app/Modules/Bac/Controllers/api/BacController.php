@@ -12,7 +12,6 @@ use App\Modules\Product\Models\Product;
 use App\Modules\Store\Models\StoreProduct;
 use App\Modules\User\Models\User;
 use DB;
-use function _\findIndex;
 use Illuminate\Http\Request;
 
 class BacController extends Controller
@@ -305,9 +304,11 @@ class BacController extends Controller
 
         if ($checkBac) {
             //Check if bac has already products to avoid dupplication
-            if (!$checkBac->products()->exists()) {
-                $checkBac->products()->attach($request->products);
+            if ($checkBac->products()->exists()) {
+                $checkBac->products()->detach();
             }
+
+            $checkBac->products()->attach($request->products);
 
             $getProductsInBacs = DB::table('bac_products')->whereIn('product_id', $productIdsRequested)
                 ->where('bac_id', $checkBac->id)
