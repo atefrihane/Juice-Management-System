@@ -313,6 +313,7 @@ class BacController extends Controller
             $getProductsInBacs = DB::table('bac_products')->whereIn('product_id', $productIdsRequested)
                 ->where('bac_id', $checkBac->id)
                 ->get()->toArray();
+            $quantitiesCheck = [];
             $bacProductsFilled = [];
             foreach ($getProductsInBacs as $productInBac) {
                 foreach ($request->input('filledProducts') as $filled) {
@@ -323,42 +324,43 @@ class BacController extends Controller
                             'bac_products_id' => $productInBac->id,
                             'store_products_id' => $filled['store_products_id'],
                         ];
+
+                        $quantityCheck = [
+                            'quantity' => $filled['quantity'],
+                            'quantityEliminated' => $filled['quantityEliminated'],
+                            'bac_products_id' => $productInBac->id,
+                            'store_products_id' => $filled['store_products_id'],
+                        ];
+
+                       
+
                         array_push($bacProductsFilled, $bacProductFilled);
+                        array_push($quantitiesCheck, $quantityCheck);
+
                     }
 
                 }
             }
 
-            $checkExistingProductsInstances = DB::table('bac_products_filled')
-                ->whereIn('bac_products_id', array_column($getProductsInBacs, 'id'))
-                ->get();
-
-            //delete filled products if existed
-            if ($checkExistingProductsInstances) {
-
-                $checkExistingProductsInstances = DB::table('bac_products_filled')
-                    ->whereIn('bac_products_id', array_column($getProductsInBacs, 'id'))
-                    ->delete();
-            }
             //check stock to validate upcoming quantities
             $stockIds = array_column($bacProductsFilled, 'store_products_id');
             $allStock = StoreProduct::whereIn('id', $stockIds)->get();
             $updatedStock = [];
             foreach ($allStock as $stock) {
-                foreach ($bacProductsFilled as $productFilled) {
+                foreach ($quantitiesCheck as $quantityCheck) {
 
-                    if ($stock->id == $productFilled['store_products_id'] && $productFilled['quantity'] > $stock->quantity) {
+                    if ($stock->id == $quantityCheck['store_products_id'] && $quantityCheck['quantityEliminated'] > $stock->quantity) {
                         $checkBac->products()->detach();
                         return response()->json(['status' => 404,
-                            'store_products_id' => $productFilled['store_products_id'],
-                            'quantityError' => $productFilled['quantity'],
+                            'store_products_id' => $quantityCheck['store_products_id'],
+                            'quantityError' => $quantityCheck['quantityEliminated'],
                             'maxStockQuantity' => $stock->quantity,
                         ]);
 
-                    } else if ($stock->id == $productFilled['store_products_id'] && $productFilled['quantity'] <= $stock->quantity) {
+                    } else if ($stock->id == $quantityCheck['store_products_id'] && $quantityCheck['quantityEliminated'] <= $stock->quantity) {
                         array_push($updatedStock, [
-                            'id' => $productFilled['store_products_id'],
-                            'quantity' => $stock->quantity - $productFilled['quantity'],
+                            'id' => $quantityCheck['store_products_id'],
+                            'quantity' => $stock->quantity - $quantityCheck['quantityEliminated'],
                         ]);
                     }
 
