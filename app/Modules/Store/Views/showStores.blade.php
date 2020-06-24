@@ -88,10 +88,10 @@
                                                             détails</span></a></li>
                                                 @if(Auth::user()->primaryAdmin())
                                                 <li><a href="{{route('editStore', $store->id)}}"><span
-                                                            class="dropdown-font">Modifier</span></a></li>
+                                                            class="dropdown-font">Modifier magasin</span></a></li>
                                                 <li>
                                                     <a data-toggle="modal" data-target="#modal-default{{$store->id}}">
-                                                        <span class="dropdown-font">Supprimer</span></a>
+                                                        <span class="dropdown-font">Supprimer magasin</span></a>
                                                 </li>
                                                 @endif
                                             </ul>
