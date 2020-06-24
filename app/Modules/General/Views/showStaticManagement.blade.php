@@ -50,25 +50,30 @@
                                     <td>{{$country->zipcodes->count()}}</td>
 
                                     <td class="not-this text-center" data-url="javascript:void(0)">
-                                        <div class="btn-group">
-                                            <a class="dots" data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false"></a>
+                         
+                 
+                                                <button type="button"
+                                                class="btn btn-block btn-primary style-button-dropdown"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span class="style-dropdown">Plus</span></button>
                                                 @if(Auth::user()->primaryAdmin())
                                             <ul class="dropdown-menu edit" role="menu">
                                                 <!-- <li>
                                                     <a data-toggle="modal"
                                                         data-target="#modal-default-detail{{$country->id}}">Détail</a>
                                                 </li> -->
-                                                <li><a href="{{route('showUpdateCountry',$country->id)}}">Modifier</a>
+                                                <li><a href="{{route('showUpdateCountry',$country->id)}}"><span
+                                                    class="dropdown-font">Modifier</span></a>
                                                 </li>
                                                 <li>
                                                     <a data-toggle="modal"
-                                                        data-target="#modal-default{{$country->id}}">Supprimer</a>
+                                                        data-target="#modal-default{{$country->id}}"><span
+                                                        class="dropdown-font">Supprimer</span></a>
                                                 </li>
 
                                             </ul>
                                             @endif
-                                        </div>
+                                  
                                     </td>
 
                                 </tr>

@@ -32,14 +32,17 @@
 
                                 <blockquote style=" position: relative !important;top:2rem !important;">
                                     <div class="btn-group" style="float:right;">
-                                        <a class="dots" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false"></a>
+                                            <button type="button"
+                                            class="btn btn-block btn-primary style-button-dropdown"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="style-dropdown">Plus</span></button>
+
                                         <ul class="dropdown-menu edit" role="menu">
-                                            <li><a href="{{route('showConversation',$conversation->id)}}">Voir
-                                                    détails</a></li>
+                                            <li><a href="{{route('showConversation',$conversation->id)}}">             <span class="dropdown-font">Voir
+                                                    détails</span></a></li>
                                             <li>
                                                 <a data-toggle="modal"
-                                                    data-target="#modal-default{{$conversation->id}}">Supprimer</a>
+                                                    data-target="#modal-default{{$conversation->id}}"><span class="dropdown-font">Supprimer</span></a>
                                             </li>
                                         </ul>
                                     </div>

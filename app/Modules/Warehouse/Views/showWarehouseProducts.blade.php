@@ -53,19 +53,23 @@
                                     <td> {{ Carbon\Carbon::parse($warehouseProduct->creation_date)->format('d-m-Y') }}</td>
                                     <td> {{ Carbon\Carbon::parse($warehouseProduct->expiration_date)->format('d-m-Y') }}</td>
                                     <td class="not-this text-center">
-                                        <div class="btn-group">
-                                            <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false"></a>
+                                   
+                                            <button type="button"
+                                            class="btn btn-block btn-primary style-button-dropdown"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="style-dropdown">Plus</span></button>
                                                 @if(Auth::user()->primaryAdmin())
                                             <ul class="dropdown-menu edit" role="menu">
-                                                <li><a href="{{route('showEditProductQuantity',$warehouseProduct->id)}}">Modifier</a></li>
+                                                <li><a href="{{route('showEditProductQuantity',$warehouseProduct->id)}}"><span
+                                                    class="dropdown-font">Modifier</span></a></li>
                                                 <li><a href="#" data-toggle="modal"
-                                                        data-target="#modal-default{{$warehouseProduct->id}}">Supprimer</a>
+                                                        data-target="#modal-default{{$warehouseProduct->id}}"><span
+                                                        class="dropdown-font">Supprimer</span></a>
                                                 </li>
 
                                             </ul>
                                             @endif
-                                        </div>
+                                      
                                     </td>
 
 

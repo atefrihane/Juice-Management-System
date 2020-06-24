@@ -117,7 +117,7 @@ class WarehouseController extends Controller
             'comment' => $request->comment,
             'photo' => $path ? $path : null,
         ]);
-        alert()->success('Succés!', 'Entrepôt a été ajouté avec succés !')->persistent('Femer');
+        alert()->success('Entrepôt a été ajouté avec succés !', 'Succés!')->persistent('Femer');
         return redirect()->route('showWarehouses');
 
     }
@@ -156,7 +156,7 @@ class WarehouseController extends Controller
         if ($checkWarehouse) {
             if (!$checkWarehouse->products()->exists()) {
                 $checkWarehouse->delete();
-                alert()->success('Succés!', 'Entrepôt a été supprimé avec succés !')->persistent('Femer');
+                alert()->success('Entrepôt a été supprimé avec succés !', 'Succés!')->persistent('Femer');
                 return redirect()->route('showWarehouses');
 
             } else {

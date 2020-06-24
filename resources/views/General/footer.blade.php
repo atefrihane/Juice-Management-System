@@ -71,28 +71,28 @@
 @include('General.conversations')
 <script>
     $('document').ready(function () {
-        $('.not-this > .btn-group > .dots').click(function () {
+        // $('.not-this > .btn-group > .dots').click(function () {
 
-            if ($(this).parent().hasClass('open')) {
-                ($(this).parent().removeClass('open'));
-            } else {
-                ($(this).parent().addClass('open'));
+        //     if ($(this).parent().hasClass('open')) {
+        //         ($(this).parent().removeClass('open'));
+        //     } else {
+        //         ($(this).parent().addClass('open'));
 
-            }
+        //     }
 
-        });
+        // });
 
 
-        $('.dropdown-toggle').click(function () {
+        // $('.dropdown-toggle').click(function () {
 
-            if ($(this).parent().hasClass('open')) {
-                ($(this).parent().removeClass('open'));
-            } else {
-                ($(this).parent().addClass('open'));
+        //     if ($(this).parent().hasClass('open')) {
+        //         ($(this).parent().removeClass('open'));
+        //     } else {
+        //         ($(this).parent().addClass('open'));
 
-            }
+        //     }
 
-        });
+        // });
 
         $('.vdp-datepicker > div > input').addClass('form-control');
         $(".vdp-datepicker > div > input").attr("placeholder", "Sélectionner une date");

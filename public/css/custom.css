@@ -8,7 +8,7 @@
 .dots:after {
     content: '\f141' !important;
     font-family: FontAwesome !important;
-    font-size: 20px !important;
+    font-size: 30px !important;
     color: black !important;
 }
 
@@ -231,4 +231,8 @@ a.effect-shine:hover {
 
 .dropdown-font {
     font-size: 18px;
+}
+
+.width-td {
+    width: 12vw;
 }

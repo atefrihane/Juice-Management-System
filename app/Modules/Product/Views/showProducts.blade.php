@@ -64,10 +64,13 @@
                                                 <td data-url="{{route('showProduct',$product->id)}}">@convert($product->public_price)</td>
                                                 <td data-url="{{route('showProduct',$product->id)}}"> {{ucfirst($product->status)}}</td>
             
-                                                <td class="not-this text-center">
-                                                    <div class="btn-group">
-                                                        <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false"></a>
+                                                <td >
+                                                   
+                                                        <button type="button"
+                                                        class="btn btn-block btn-primary style-button-dropdown"
+                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <span class="style-dropdown">Plus</span></button>
+        
                                                         <ul class="dropdown-menu edit" role="menu">
                                                             <!-- @if($product->status == 'disponible')
                                                             <li><a data-toggle="modal"
@@ -80,17 +83,17 @@
                                                                     vers disponible</a></li>
             
                                                                     @endif -->
-                                                                    <li><a href="{{route('showProduct', $product->id)}}">Voir détails</a></li>
+                                                                    <li><a href="{{route('showProduct', $product->id)}}">  <span class="dropdown-font">Voir détails</span></a></li>
                                                             <li>
                                                                     @if(Auth::user()->primaryAdmin())
-                                                            <li><a href="{{route('editProduct', $product->id)}}">Modifier</a></li>
+                                                            <li><a href="{{route('editProduct', $product->id)}}">  <span class="dropdown-font">Modifier</span></a></li>
                                                             <li>
                                                                 <a data-toggle="modal"
-                                                                    data-target="#modal-default{{$product->id}}">Supprimer</a>
+                                                                    data-target="#modal-default{{$product->id}}">  <span class="dropdown-font">Supprimer</span></a>
                                                             </li>
                                                             @endif
                                                         </ul>
-                                                    </div>
+                                                   
                                                 </td>
                                             </tr>
                                             <div class="modal fade" id="modal-default{{$product->id}}" style="display: none;">

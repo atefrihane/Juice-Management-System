@@ -5,7 +5,7 @@
     .dots:after {
         content: '\f141';
         font-family: FontAwesome;
-        font-size: 20px;
+        font-size: 15px;
         color: black;
 
 

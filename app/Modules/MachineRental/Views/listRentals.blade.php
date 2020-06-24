@@ -92,25 +92,28 @@
 
 
                                         </td>
-                                        <td class="not-this text-center">
+                                        <td >
 
-                                            <div class="btn-group">
-                                                <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false"></a>
+                                    
+                                                <button type="button"
+                                                class="btn btn-block btn-primary style-button-dropdown"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span class="style-dropdown">Plus</span></button>
+
                                                 <ul class="dropdown-menu edit" role="menu">
-                                                    <li><a href="{{route('showRental',$rental->id)}}">Voir détails</a>
+                                                    <li><a href="{{route('showRental',$rental->id)}}">       <span class="dropdown-font">Voir détails</span></a>
                                                     </li>
                                                     @if(Auth::user()->primaryAdmin() && ($rental->active == 1 ||
                                                     $rental->active == 2 ))
-                                                    <li><a href="{{route('showEditRental',$rental->id)}}">Modifier
+                                                    <li><a href="{{route('showEditRental',$rental->id)}}"><span class="dropdown-font">Modifier</span>
                                                             location</a></li>
 
-                                                    <li><a href="{{route('showEndRental',$rental->id)}}">Arrêter
-                                                            location</a></li>
+                                                    <li><a href="{{route('showEndRental',$rental->id)}}"><span class="dropdown-font">Arrêter
+                                                            location</span></a></li>
 
                                                     @endif
                                                 </ul>
-                                            </div>
+                                           
                         </div>
                         </td>
 

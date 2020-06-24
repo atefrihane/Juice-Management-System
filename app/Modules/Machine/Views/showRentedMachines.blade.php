@@ -55,31 +55,33 @@
                                                 <td data-url="{{route('showRental', ['id' => $machine->id])}}"">{{$machine->store->designation}}</td>
                                                 <td data-url="{{route('showRental', ['id' => $machine->id])}}"">{{$machine->machine->status}}</td>
                                                 <td class="not-this text-center">
-                                                    <div class="btn-group">
-                                                        <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false"></a>
+                                       
+                                                            <button type="button"
+                                                            class="btn btn-block btn-primary style-button-dropdown"
+                                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <span class="style-dropdown">Plus</span></button>
                                                         <ul class="dropdown-menu" role="menu" style="margin-left-175px !important;">
                                                             <li><a
-                                                                    href="{{route('showRental', ['id' => $machine->id])}}">Voir
-                                                                    détails location</a></li>
+                                                                    href="{{route('showRental', ['id' => $machine->id])}}">       <span class="dropdown-font">Voir
+                                                                    détails location</span></a></li>
                                                                     @if(Auth::user()->primaryAdmin())
-                                                            <li><a href="{{route('showEndRental', ['id' =>$machine->id])}}">Arrêter
-                                                                    location</a></li>
+                                                            <li><a href="{{route('showEndRental', ['id' =>$machine->id])}}">       <span class="dropdown-font">Arrêter
+                                                                    location</span></a></li>
                                                                     @endif
-                                                            <li><a href="{{route('showListRental', $machine->machine->id).'?machine=true'}}">Voir
-                                                                    historique des locations</a></li>
-                                                            <li><a href="{{route('showHistoryMachine', $machine->machine->id).'?machine=true'}}">Voir
-                                                                    détail machine</a></li>
+                                                            <li><a href="{{route('showListRental', $machine->machine->id).'?machine=true'}}">       <span class="dropdown-font">Voir
+                                                                    historique des locations</span></a></li>
+                                                            <li><a href="{{route('showHistoryMachine', $machine->machine->id).'?machine=true'}}">       <span class="dropdown-font">Voir
+                                                                    détail machine</span></a></li>
                                                                     @if(Auth::user()->primaryAdmin())
-                                                            <li><a href="{{route('machineStatusEdit', $machine->machine->id)}}">Mettre à jour
-                                                                    état</a></li>
-                                                            <li><a href="{{route('editMachine', $machine->machine->id)}}">Modifier</a></li>
+                                                            <li><a href="{{route('machineStatusEdit', $machine->machine->id)}}">       <span class="dropdown-font">Mettre à jour
+                                                                    état</span></a></li>
+                                                            <li><a href="{{route('editMachine', $machine->machine->id)}}">       <span class="dropdown-font">Modifier</span></a></li>
                                                            <li><a data-toggle="modal"
-                                                                    data-target="#modal-default{{$machine->machine->id}}">Supprimer</a></li> 
+                                                                    data-target="#modal-default{{$machine->machine->id}}">       <span class="dropdown-font">Supprimer</span></a></li> 
                                                         
                                                                     @endif
                                                         </ul>
-                                                    </div>
+                                       
             
                                                 </td>
                                                 <div class="modal fade" id="modal-default{{$machine->machine->id}}">

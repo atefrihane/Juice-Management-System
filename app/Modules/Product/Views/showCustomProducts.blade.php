@@ -16,10 +16,10 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Tarif Societé - Liste des produits</h3>
+                        <h3 class="box-title">Remise Societé - Liste des produits</h3>
                         @if(Auth::user()->primaryAdmin())
                         <a href="{{route('showAddCustomProduct',$company->id)}}"
-                            class="btn btn-primary pull-right">Ajouter un produit au tarif</a>
+                            class="btn btn-primary pull-right">Ajouter un produit à la remise</a>
                         @endif
 
 
@@ -58,20 +58,23 @@
                                                 <td>@convert($price->price)</td>
                                                 <td>{{$price->stores()->count()}}</td>
                                                 <td>
-                                                    <div class="btn-group">
-                                                        <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false"></a>
+                                   
+                                                            <button type="button"
+                                                            class="btn btn-block btn-primary style-button-dropdown"
+                                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <span class="style-dropdown">Plus</span></button>
+            
                                                         @if(Auth::user()->primaryAdmin())
                                                         <ul class="dropdown-menu edit" role="menu">
                                                             <li><a
-                                                                    href="{{route('showUpdateCustomProducts',['company'=>$company->id,'price'=>$price->id])}}">Modifier</a>
+                                                                    href="{{route('showUpdateCustomProducts',['company'=>$company->id,'price'=>$price->id])}}"><span class="dropdown-font">Modifier</span></a>
                                                             </li>
                                                             <li><a href="" data-toggle="modal"
-                                                                    data-target="#modal-default{{$price->id}}">Supprimer</a>
+                                                                    data-target="#modal-default{{$price->id}}"><span class="dropdown-font">Supprimer</span></a>
                                                             </li>
                                                         </ul>
                                                         @endif
-                                                    </div>
+                                               
             
                                 </div>
                                 </td>

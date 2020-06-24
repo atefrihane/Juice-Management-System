@@ -49,26 +49,32 @@
                                                 @elseif($contact->user->getType() == 'Autre') 
                                                 <td data-url="{{route('showContact',['company_id'=>$company->id,'contact_id'=>$contact->user->id])}}">{{count($contact->stores)}}</td>
                                                 @endif
-                                                <td class="not-this text-center">
+                                                <td>
             
-                                                    <div class="btn-group">
-                                                        <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false"></a>
+                                                 
+                                                            <button type="button"
+                                                            class="btn btn-block btn-primary style-button-dropdown"
+                                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <span class="style-dropdown">Plus</span></button>
+            
                                                         <ul class="dropdown-menu edit" role="menu">
                                                         <li><a
-                                                                    href="{{route('showContact', [$company->id, $contact->user->id])}}">Voir détails</a>
+                                                                    href="{{route('showContact', [$company->id, $contact->user->id])}}"><span
+                                                                    class="dropdown-font">Voir détails</span></a>
                                                             </li>
                                                             @if(Auth::user()->primaryAdmin())
                                                             <li><a
-                                                                    href="{{route('editClient', [$company->id, $contact->user->id])}}">Modifier</a>
+                                                                    href="{{route('editClient', [$company->id, $contact->user->id])}}"><span
+                                                                    class="dropdown-font">Modifier</span></a>
                                                             </li>
                                                             <li><a data-toggle="modal"
-                                                                    data-target="#modal-default{{$contact->user->id}}">Supprimer</a>
+                                                                    data-target="#modal-default{{$contact->user->id}}"><span
+                                                                    class="dropdown-font">Supprimer</span></a>
                                                             </li>
                                                             @endif
             
                                                         </ul>
-                                                    </div>
+                                                  
                                                 </td>
                                             </tr>
             
