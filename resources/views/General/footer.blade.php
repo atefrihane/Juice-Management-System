@@ -15,11 +15,18 @@
 
 <script>
     $('.table-tr > td:not(:last-child').click(function () {
-        window.location = $(this).data("url");
+        if($(this).data("url"))
+        {
+            window.location = $(this).data("url");
+        }
+  
     });
 
     $('.table-t > td:not(:last-child').click(function () {
-        window.location = $(this).data("url");
+        if($(this).data("url"))
+        {
+            window.location = $(this).data("url");
+        }
     });
 
 </script>

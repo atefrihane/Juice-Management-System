@@ -39,26 +39,29 @@
                             <tbody>
                                 @forelse($companies as $company)
                                 <tr class="table-tr">
-                                    <td data-url="{{route('showCompany',$company->id)}}" style="width: 150px"><img
+                                    <td  style="width: 150px"><img
                                         src="{{ asset('img/'.$company->logo) }}" height="50" alt=""></td>
-                                    <td data-url="{{route('showStores',$company->id)}}">{{$company->name}}</td>
-                                    <td data-url="{{route('showStores',$company->id)}}">{{$company->code}}</td>
-                                    <td data-url="{{route('showStores',$company->id)}}">{{$company->zipcode->code}}</td>
-                                    <td data-url="{{route('showStores',$company->id)}}">{{$company->getNbrStores()}}
+                                    <td>{{$company->name}}</td>
+                                    <td>{{$company->code}}</td>
+                                    <td>{{$company->zipcode->code}}</td>
+                                    <td>{{$company->getNbrStores()}}
                                     </td>
-                                    <td data-url="{{route('showStores',$company->id)}}">{{$company->getStatus()}}</td>
+                                    <td>{{$company->getStatus()}}</td>
                                     <td class="not-this text-center" data-url="javascript:void(0)">
                                         <div class="btn-group">
                                             <a class="dots" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false"></a>
-                                            <ul class="dropdown-menu edit" role="menu">
-                                            <li><a href="{{route('showCompany', $company->id)}}">Voir détails</a></li>
+                                            <ul class="dropdown-menu" role="menu">
+                                            <li><a href="{{route('showCompany', $company->id)}}"> 
+                                            <span class="dropdown-font"> Voir détails</span>  </li>  
                                                 <li>
+                                                        <li><a href="{{route('showStores', $company->id)}}"> <span class="dropdown-font"> Liste des magasins</span></a></li>
+                                                        <li>
                                                         @if(Auth::user()->primaryAdmin())
-                                                <li><a href="{{route('editCompany', $company->id)}}">Modifier</a></li>
+                                                <li><a href="{{route('editCompany', $company->id)}}"><span class="dropdown-font"> Modifier societé</span></a></li>
                                                 <li>
                                                     <a data-toggle="modal"
-                                                        data-target="#modal-default{{$company->id}}">Supprimer</a>
+                                                        data-target="#modal-default{{$company->id}}"><span class="dropdown-font"> Supprimer societé</span></a>
                                                 </li>
                                                 @endif
                                             </ul>

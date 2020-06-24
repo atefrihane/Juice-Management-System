@@ -32,9 +32,12 @@
             @if(Auth::user()->primaryAdmin())
             <div class="btn-group breadcrumb1">
                 <a href="#" class="dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-                <ul class="dropdown-menu edit" role="menu">
-                    <li><a href="{{route('editCompany', $company->id)}}">Modifier</a></li>
-                    <li> <a data-toggle="modal" data-target="#modal-default{{$company->id}}">Supprimer</a></li>
+                <ul class="dropdown-menu " role="menu">
+                        <li><a href="{{route('editCompany', $company->id)}}"><span class="dropdown-font"> Modifier societé</span></a></li>
+                        <li>
+                            <a href="#" data-toggle="modal"
+                                data-target="#modal-default{{$company->id}}"><span class="dropdown-font"> Supprimer societé</span></a>
+                        </li>
                 </ul>
             </div>
             @endif
