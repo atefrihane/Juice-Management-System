@@ -60,9 +60,10 @@
     margin: 0 auto !important;
 }
 
-tr {
+
+/* tr {
     cursor: pointer !important;
-}
+} */
 
 .times-webkit-datetime-edit-ampm-field {
     display: none;
