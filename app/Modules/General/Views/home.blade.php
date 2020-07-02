@@ -11,136 +11,150 @@
     </section>
 
     <section class="content">
+
         <div class="row">
-            <div class="col-xs-12">
-                <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title">Liste des societés</h3>
-                        @if(Auth::user()->primaryAdmin())
-                        <a href="{{route('showAddCompany')}}" class="btn btn-primary pull-right">Ajouter une societé</a>
-                        @endif
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
 
-                        <div class="scrollable-table">
-                            <table class="table table-bordered table-hover example2">
-                                <thead>
-                                    <tr>
-                                        <th>Logo</th>
-                                        <th class="is-wrapped">Nom societé</th>
-                                        <th class="is-wrapped">Code</th>
-                                        <th class="is-wrapped">Code Postal</th>
-                                        <th class="is-wrapped">Nombre de Magasins</th>
-                                        <th class="is-wrapped">Statut</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse($companies as $company)
-                                    <tr class="table-tr">
-                                        <td style="width: 10vw"><img src="{{ asset('img/'.$company->logo) }}"
-                                        ></td>
-                                        <td class="width-td">{{$company->name}}</td>
-                                        <td class="width-td">{{$company->code}}</td>
-                                        <td class="width-td">{{$company->zipcode->code}}</td>
-                                        <td class="width-td">{{$company->getNbrStores()}}
-                                        </td>
-                                        <td class="width-td">{{$company->getStatus()}}</td>
-                                        <td>
+            <div class="col-md-6">
+                <a href="{{route('showCompanies')}}" style="color:white;">
 
-                                            <button type="button" class="btn btn-block btn-primary style-button-dropdown"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <span class="style-dropdown">Plus</span></button>
+                    <div class="info-box bg-aqua make-it-slow">
+                        <span class="info-box-icon"><i class="fa fa-building "></i></span>
 
-                                          
-
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li><a href="{{route('showCompany', $company->id)}}">
-                                                        <span class="dropdown-font"> Voir détails</span> </li>
-                                                <li>
-                                                <li><a href="{{route('showStores', $company->id)}}"> <span
-                                                            class="dropdown-font"> Liste des magasins</span></a></li>
-                                                <li>
-                                                    @if(Auth::user()->primaryAdmin())
-                                                <li><a href="{{route('editCompany', $company->id)}}"><span
-                                                            class="dropdown-font"> Modifier societé</span></a></li>
-                                                <li>
-                                                    <a data-toggle="modal"
-                                                        data-target="#modal-default{{$company->id}}"><span
-                                                            class="dropdown-font"> Supprimer societé</span></a>
-                                                </li>
-                                                @endif
-                                            </ul>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Liste des societés</span>
+                            <span class="info-box-number">{{$countCompanies}}</span>
 
 
-                                        </td>
-
-                                    </tr>
-                                    <div class="modal fade" id="modal-default{{$company->id}}">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">×</span></button>
-                                                    <h4 class="modal-title"> Voulez vous vraiment supprimer cette
-                                                        societé ?
-
-                                                </div>
-                                                <div class="modal-body">
-                                                    <h5 class="modal-title"> <b>Attention </b> : La suppression de cette
-                                                        entité est irreversible, procéder à la suppression?
-
-                                                    </h5>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <div class="text-center">
-                                                        <form action="{{ route('deleteCompany',$company->id) }}"
-                                                            method="post">
-                                                            {{csrf_field()}}
-                                                            <a href="#" class="btn btn-danger"
-                                                                data-dismiss="modal">Annuler</a>
-
-                                                            <button type="submit"
-                                                                class="btn btn-success">Confirmer</button>
-
-
-                                                        </form>
-
-                                                    </div>
-
-
-                                                </div>
-                                            </div>
-                                            <!-- /.modal-content -->
-                                        </div>
-
-                                        <!-- /.modal-dialog -->
-                                    </div>
-                                    @empty
-                                    <tr>
-                                        <td colspan="6" class="text-center">Aucune societé !</td>
-
-                                    </tr>
-                                    @endforelse
-
-
-
-                                </tbody>
-
-                            </table>
                         </div>
+                </a>
+
+                <!-- /.info-box-content -->
+            </div>
+
+
+
+        </div>
+        <div class="col-md-6">
+            <a href="{{route('showOrders')}}" style="color:white;">
+                <div class="info-box bg-green make-it-slow">
+                    <span class="info-box-icon"><i class="fa fa-shopping-bag"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Liste des commandes</span>
+                        <span class="info-box-number">{{$countOrders}}</span>
+
+
                     </div>
-                    <!-- /.box-body -->
+                    <!-- /.info-box-content -->
+                </div>
+            </a>
+
+
+        </div>
+</div>
+
+<div class="row">
+
+    <div class="col-md-6">
+        <a href="{{route('showMachines')}}" style="color:white;">
+            <div class="info-box bg-teal make-it-slow"">
+                                    <span class=" info-box-icon"><i class="fa fa-plug"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Liste des machines</span>
+                    <span class="info-box-number">{{$countMachines}}</span>
+
+
                 </div>
 
+            </div>
+        </a>
+        <!-- Info Boxes Style 2 -->
+
+
+
+
+    </div>
+    <div class="col-md-6">
+        <a href="{{route('showProducts')}}" style="color:white;">
+            <div class="info-box bg-blue make-it-slow">
+                <span class="info-box-icon"><i class="fa fa-cubes"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Liste des produits</span>
+                    <span class="info-box-number">{{$countProducts}}</span>
+
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+        </a>
+
+
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-md-6">
+        <a href="{{route('showWarehouses')}}" style="color:white;">
+            <div class="info-box bg-fuchsia make-it-slow">
+                <span class="info-box-icon"><i class="fa fa-tasks"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Liste des entrepôts</span>
+                    <span class="info-box-number">{{$countWarehouses}}</span>
+
+
+                </div>
 
             </div>
-            <!-- /.col -->
-        </div>
+        </a>
 
-    </section>
+
+
+
+    </div>
+    <div class="col-md-6">
+        <a href="{{route('showConversations')}}" style="color:white;">
+            <div class="info-box bg-orange make-it-slow">
+                <span class="info-box-icon"><i class="fa fa-envelope"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Liste des Messages</span>
+                    <span class="info-box-number">{{$countConversations}}</span>
+
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+
+    </div>
+    </a>
+
+</div>
+<div class="row">
+
+    <div class="col-md-6">
+        <a href="{{route('showAddAdvertisement')}}" style="color:white;">
+            <div class="info-box bg-olive make-it-slow">
+                <span class="info-box-icon"><i class="fa fa-camera"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Liste des régies publicitaires</span>
+                    <span class="info-box-number">{{$countAdvertisements}}</span>
+
+
+                </div>
+
+            </div>
+
+        </a>
+
+
+
+
+    </div>
+
+</div>
+</section>
 
 </div>
 

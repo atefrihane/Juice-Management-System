@@ -2,11 +2,16 @@
 
 namespace App\Modules\General\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Modules\Company\Models\Company;
-use App\Modules\General\Models\City;
-use App\Modules\General\Models\Country;
 use App\Modules\Order\Models\Order;
+use App\Http\Controllers\Controller;
+use App\Modules\General\Models\City;
+use App\Modules\Company\Models\Company;
+use App\Modules\General\Models\Country;
+use App\Modules\Machine\Models\Machine;
+use App\Modules\Product\Models\Product;
+use App\Modules\Warehouse\Models\Warehouse;
+use App\Modules\General\Models\Advertisement;
+use App\Modules\Conversation\Models\Conversation;
 
 class GeneralController extends Controller
 {
@@ -14,14 +19,17 @@ class GeneralController extends Controller
     public function showHome()
     {
 
-        $companies = Company::all();
-        // dd(Conversation::whereHas('messages', function ($queryMessage) {
-        //     $queryMessage->latest()->where('seen', 0);
-        //     $queryMessage->whereHas('user', function ($q1) {
-        //         $q1->where('child_type', '!=', Admin::class);
-        //     });
-        // })->get());
-        return view('General::home', compact('companies'))->withCookie(cookie('idtodelete', '', 120));
+        return view('General::home', [
+            'countCompanies' => Company::count() ,
+            'countOrders' => Order::count() , 
+            'countMachines' => Machine::count(),
+            'countProducts' => Product::count(),
+            'countWarehouses' => Warehouse::count(),
+            'countConversations' => Conversation::count(),
+            'countAdvertisements' => Advertisement::count()
+
+            
+        ]);
     }
     public function showArchives()
     {

@@ -1,8 +1,12 @@
 <?php
 
 // Home
+
 Breadcrumbs::for('home', function ($trail) {
-    $trail->push('Liste des societés', route('showHome'));
+    $trail->push('Page d\'acceuil', route('showHome'));
+});
+Breadcrumbs::for('showCompanies', function ($trail) {
+    $trail->push('Liste des societés', route('showCompanies'));
 });
 
 Breadcrumbs::for('static', function ($trail) {

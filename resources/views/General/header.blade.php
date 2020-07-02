@@ -151,8 +151,9 @@
                 <ul class="sidebar-menu" data-widget="tree">
 
 
-
-                    <li class="{{ Route::is('showHome') ? 'active' : '' }}"><a href="{{route('showHome')}}"><i
+                        <li class="{{ Route::is('showHome') ? 'active' : '' }}"><a href="{{route('showHome')}}"><i
+                            class="fa fa-home "></i> <span>Acceuil</span></a></li>
+                    <li class="{{ Route::is('showCompanies') ? 'active' : '' }}"><a href="{{route('showCompanies')}}"><i
                                 class="fa fa-building "></i> <span>Societés</span></a></li>
                     <li class="{{ Route::is('showOrders') ? 'active' : '' }}"><a href="{{route('showOrders')}}"><i
                                 class="fa fa-shopping-bag"></i> <span>Commandes</span></a></li>

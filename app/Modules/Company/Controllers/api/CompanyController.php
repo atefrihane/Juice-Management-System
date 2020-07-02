@@ -6,12 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Modules\Company\Models\Company;
 use App\Modules\User\Models\Director;
 use App\Modules\User\Models\Responsible;
+
 class CompanyController extends Controller
 {
 
+  
+
     public function show($id)
     {
-        $company = Company::where('id', $id)->with('stores.city.country','stores.zipcode','city.country','zipcode')->first();
+        $company = Company::where('id', $id)->with('stores.city.country', 'stores.zipcode', 'city.country', 'zipcode')->first();
         return $company;
 
     }
@@ -25,19 +28,18 @@ class CompanyController extends Controller
     {
         $company = Company::find($id);
         if ($company) {
-         
 
             if ($company->stores()->exists()) {
 
                 $directors = Director::with('user')
-                ->whereIn('id', $company->stores->pluck('director_id'))->get();
+                    ->whereIn('id', $company->stores->pluck('director_id'))->get();
                 $responsibles = Responsible::with('user')
-                ->whereHas('stores', function ($q) use ($company) {
-                    $q->whereIn('store_id', $company->stores->pluck('id'));
-                })->get();
+                    ->whereHas('stores', function ($q) use ($company) {
+                        $q->whereIn('store_id', $company->stores->pluck('id'));
+                    })->get();
 
                 $contacts = $directors->toBase()->merge($responsibles);
-          
+
                 return response()->json(['status' => 200, 'contacts' => $contacts]);
 
             }

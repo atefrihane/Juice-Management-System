@@ -20,6 +20,11 @@ class CompanyController extends Controller
     {
         $this->image = $image;
     }
+
+    public function showCompanies()
+    {
+        return view('Company::showCompanies', ['companies' => Company::all()]);
+    }
     public function showAddCompany()
     {
 
@@ -72,8 +77,6 @@ class CompanyController extends Controller
 
         ]);
 
-
-
         if ($request->logo) {
             $path = $this->image->uploadBinaryImage($request->logo);
 
@@ -122,7 +125,7 @@ class CompanyController extends Controller
 
     public function update(Request $request, $id)
     {
-  
+
         $request->validate([
             'code' => 'required|regex:/^[A-Z0-9]+$/|alpha_dash',
             'name' => 'required',
@@ -196,7 +199,7 @@ class CompanyController extends Controller
             ]);
 
             alert()->success('La societé a été modifiée avec succès', 'Succès!')->persistent("Fermer");
-            return redirect()->route('showHome');
+            return redirect()->route('showCompanies');
 
         }
         return view('General::notFound');
@@ -222,10 +225,10 @@ class CompanyController extends Controller
                 }
                 $company->delete();
                 alert()->success('Succès!', 'La societé a été supprimé avec succès ')->persistent("Fermer");
-                return redirect()->route('showHome');
+                return redirect()->route('showCompanies');
             } else {
                 alert()->error('Cette entité ne peut pas être supprimée, autres entités y sont liées', 'Oups! ')->persistent("Fermer");
-                return redirect()->route('showHome');
+                return redirect()->route('showCompanies');
 
             }
 
