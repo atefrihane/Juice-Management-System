@@ -502,11 +502,11 @@ class StoreController extends Controller
 
     public function showStoreStock($id, $idStore, Request $request)
     {
-        $store = Store::find($idStore);
-        $stocks = StoreProduct::all();
+        $store = Store::with('products')->find($idStore);
+       
 
         if ($store) {
-            return view('Store::showStoreStock', compact('store', 'stocks'));
+            return view('Store::showStoreStock', compact('store'));
         }
         return view('General::notFound');
 

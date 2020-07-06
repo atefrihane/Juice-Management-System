@@ -40,14 +40,15 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                @forelse($stocks as $stock)
-                                                <td>{{$stock->product->nom}}</td>
-                                                <td>{{$stock->quantity}}</td>
-                                                <td>{{$stock->stock_display}}</td>
-                                                <td>{{$stock->packing_display}}</td>
-                                                <td>{{$stock->packing}}</td>
-                                                <td>{{ Carbon\Carbon::parse($stock->creation_date)->format('d-m-Y') }}</td>
-                                                <td>{{ Carbon\Carbon::parse($stock->expiration_date)->format('d-m-Y') }}</td>
+                                                @forelse($store->products as $stock)
+                            
+                                                <td>{{$stock->nom}}</td>
+                                                <td>{{$stock->pivot->quantity}}</td>
+                                                <td>{{$stock->pivot->stock_display}}</td>
+                                                <td>{{$stock->pivot->packing_display}}</td>
+                                                <td>{{$stock->pivot->packing}}</td>
+                                                <td>{{ Carbon\Carbon::parse($stock->pivot->creation_date)->format('d-m-Y') }}</td>
+                                                <td>{{ Carbon\Carbon::parse($stock->pivot->expiration_date)->format('d-m-Y') }}</td>
             
                                                 <td class="not-this text-center">
             

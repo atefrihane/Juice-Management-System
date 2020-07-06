@@ -209,7 +209,7 @@ a.effect-shine:hover {
     border: 1px solid #d2d6de !important;
 }
 
-..direct-chat-text:after,
+.direct-chat-text:after,
 .direct-chat-text:before {
     border-right-color: transparent !important;
 }
