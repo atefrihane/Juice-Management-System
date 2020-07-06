@@ -105,8 +105,8 @@
                                                     </li>
                                                     @if(Auth::user()->primaryAdmin() && ($rental->active == 1 ||
                                                     $rental->active == 2 ))
-                                                    <li><a href="{{route('showEditRental',$rental->id)}}"><span class="dropdown-font">Modifier</span>
-                                                            location</a></li>
+                                                    <li><a href="{{route('showEditRental',$rental->id)}}"><span class="dropdown-font"> Modifier
+                                                            location</span></a></li>
 
                                                     <li><a href="{{route('showEndRental',$rental->id)}}"><span class="dropdown-font">Arrêter
                                                             location</span></a></li>
