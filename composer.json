@@ -15,7 +15,7 @@
         "davejamesmiller/laravel-breadcrumbs": "5.x",
         "fideloper/proxy": "^4.0",
         "intervention/image": "^2.5",
-        "laravel/framework": "5.7.*",
+        "laravel/framework": "6.18.*",
         "laravel/passport": "^7.4",
         "laravel/tinker": "^1.0",
         "lodash-php/lodash-php": "^0.0.6",
